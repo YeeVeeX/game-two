@@ -1,0 +1,40 @@
+# CHECKPOINT — game-two (Ruby rebuild of Kethral)
+
+## 2026-08-09 — project born; pre-compact checkpoint
+
+**State (measured, not recalled):**
+- Repo: `C:\Users\gabri\workspace\game-two`, `git init -b main` done, **0 commits** before this one.
+- Files: `drafts/_session-handoff-20260809.md` (full session rationale — READ IT FIRST),
+  this checkpoint. No code yet.
+- Old repo (reference, read-only): `C:\Users\gabri\Documents.stale-20260413\coding_projects_main\Game On(e)`
+  — 211 .py files under `kethral/`, Phases 1–17 done, its WORKSPACE_STATUS.md self-reports
+  1,364 passing tests (claim dated 2026-04-02, not re-verified).
+
+**Decisions locked this session (rationale in the handoff draft — don't relitigate):**
+1. **Ruby + Gosu**, CRuby 3.4 + YJIT. DragonRuby and Ruby2D rejected.
+2. **Audio = placeholder only.** Owner explicitly dropped the MIDI/procedural-SFX experiment.
+3. **Claude is the dev of record; owner is the tester.** Design calls are Claude's to make.
+4. **Better-this-time doctrine** (from Kethral post-mortem): scope enforced via project
+   CLAUDE.md + PARKING_LOT.md; orchestrator ≤ ~300 lines; Rule 2 verification harness is
+   Phase 0; depth-before-breadth — nothing new until the current loop is fun-verified.
+5. **Budget rule (owner, 2026-08-09):** zero paid purchases/subscriptions outside AWS —
+   free/OSS tooling only (seals Gosu-over-DragonRuby). Everything inside AWS is unlimited
+   (Bedrock image gen for sprites, vision critique, etc.).
+
+**Next sequence (in order):**
+1. Verify environment: `ruby -v` (need 3.1+; install via RubyInstaller+devkit if absent),
+   `gem install gosu`, smoke-test an empty Gosu window opens on this machine.
+2. Scaffold: project CLAUDE.md (scope contract + non-negotiables), Gemfile, rakefile,
+   `src/` skeleton (event bus, state machine, data-driven JSON loader — port the *pattern*
+   from kethral/core, not the code), minitest harness, PARKING_LOT.md, .gitignore.
+3. Phase 0 (blocking): deterministic replay + frame capture (`Gosu.render` → `Image#save`,
+   VERIFY API against current docs first) + vision critique loop, proven on a moving square.
+4. Distill `.kiro/specs/marrow/` + kethral phase docs into a 1-page vertical-slice spec
+   (Claude's own design — improve, don't transcribe).
+5. First playable loop: move → fight one enemy → die → respawn. Ship to owner to test.
+
+**Owner queue:**
+- Launch next session in `~/workspace/game-two` (this session's cwd was stuck in the old repo).
+- Playtest builds when Claude ships them; react + report. No design homework.
+
+**In flight when written:** nothing — no background agents pending.
