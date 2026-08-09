@@ -159,16 +159,46 @@ class WorldTest < Minitest::Test
     assert_operator ally_kills, :>=, 1, "unpossessed allies fight on their own (husk-grade AI)"
   end
 
+  # M2.1 fix 5: a projectile kit hugging its target was INERT (needs dist>=2).
+  # Husk-grade repair: step away to open range, then fire.
+  def test_adjacent_lobber_ally_opens_range_then_fires
+    enter_district(world)
+    lobber = world.pack.members.find { |m| m.kit_name == :lobber }
+    refute_equal lobber, world.possessed, "lobber runs on AI in this scenario"
+    target = world.humans.reject(&:dead?).first
+    lobber.walker.teleport(target.tile[0] - 1, target.tile[1]) # adjacent = inert before the fix
+    cheb = ->(a, b) { [(a[0] - b[0]).abs, (a[1] - b[1]).abs].max }
+    fired = false
+    opened = false
+    world.bus.subscribe(:attack_started) { |e| fired ||= e[:attacker].equal?(lobber) }
+    # The rusher counter-chases at similar footspeed, so distance at any fixed
+    # frame is racy - assert range EVER opened, then that the lobber fired.
+    900.times do
+      break if fired
+      drive(world, scripted({}), 1)
+      opened ||= cheb.call(lobber.tile, target.tile) >= 2
+    end
+    assert opened, "adjacent lobber steps AWAY to open firing range"
+    assert fired, "once range is open, the lobber fires"
+  end
+
   def test_hitstop_only_for_possessed_fights
     enter_district(world)
     # Swap away so the fighting happens between allies and rushers only.
     drive(world, scripted({ world.frame.to_s => ["swap"] }), 1)
     hits_seen = 0
     stops_during_ally_hits = 0
+    # A possessed death legitimately freezes (forced swap = on_kill); an ally
+    # hit delivered later in the SAME bus flush sees that freeze. Law 5 says
+    # ally fights never CAUSE a freeze - excuse the possessed-death frame.
+    pack_death_frame = -1
+    world.bus.subscribe(:actor_died) do |e|
+      pack_death_frame = world.frame if e[:faction] == :pack
+    end
     world.bus.subscribe(:attack_hit) do |e|
       unless [e[:attacker], e[:victim]].any? { |c| c.equal?(world.possessed) }
         hits_seen += 1
-        stops_during_ally_hits += 1 if world.feel.hitstop?
+        stops_during_ally_hits += 1 if world.feel.hitstop? && world.frame != pack_death_frame
       end
     end
     drive(world, scripted({}), 6000)

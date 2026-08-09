@@ -76,7 +76,26 @@ module Game
         face_toward(creature, target)
         creature.start_attack
       elsif !creature.moving?
-        chase_step(creature, target, view)
+        if projectile?(creature) && chebyshev(creature.tile, target.tile) < 2
+          retreat_step(creature, target, view) # husk-grade: open range, then fire (M2.1 fix 5)
+        else
+          chase_step(creature, target, view)
+        end
+      end
+    end
+
+    def projectile?(creature) = creature.kit[:attack][:arc] == "projectile"
+
+    # A projectile kit hugging its target is inert (needs dist >= 2). Step to
+    # the first free neighbor that INCREASES distance — fixed STEPS order =
+    # deterministic. Full kiting stays A1 gambit territory.
+    def retreat_step(creature, target, view)
+      blocked = view.blocked_for(creature)
+      dist = chebyshev(creature.tile, target.tile)
+      Game::FlowField::STEPS.each do |(dx, dy)|
+        to = [creature.tile[0] + dx, creature.tile[1] + dy]
+        next unless chebyshev(to, target.tile) > dist
+        break if creature.step(dx, dy, blocked:)
       end
     end
 
