@@ -34,11 +34,15 @@ module Game
       commit(dx, dy, 1, frames, blocked)
     end
 
-    # Burst move (dodge, knockback): travels up to max_tiles in a direction,
-    # stopping short at the first wall or blocked tile. Interrupts an
-    # in-flight step — the tween retargets from the current visual position.
-    def dash(dx, dy, max_tiles:, frames_per_tile:, blocked: [])
-      commit(dx, dy, max_tiles, frames_per_tile, blocked)
+    # Burst move (dodge, knockback): travels up to max_tiles in a direction.
+    # Default: stops short at the first wall or blocked tile (knockback).
+    # through: true (dodge): bodies may be CROSSED but not landed on — lands
+    # on the furthest free tile in range; walls still hard-stop the scan.
+    # Interrupts an in-flight step — the tween retargets from the current
+    # visual position.
+    def dash(dx, dy, max_tiles:, frames_per_tile:, blocked: [], through: false)
+      return commit(dx, dy, max_tiles, frames_per_tile, blocked) unless through
+      commit_through(dx, dy, max_tiles, frames_per_tile, blocked)
     end
 
     def tick
@@ -67,7 +71,29 @@ module Game
         tiles += 1
       end
       return false if tiles.zero?
+      start_tween(tx, ty, tiles, frames_per_tile, dx, dy)
+    end
 
+    # Pass-through scan: every reachable tile is inspected out to max_tiles
+    # or the first wall; occupied tiles can be crossed but not landed on.
+    # Refuses only when NO free tile exists in range (M2.1 fix 4 — a full
+    # surround ring stops being a coffin).
+    def commit_through(dx, dy, max_tiles, frames_per_tile, blocked)
+      return false if dx.zero? && dy.zero?
+      nx = @tile_x
+      ny = @tile_y
+      land = nil
+      1.upto(max_tiles) do |dist|
+        nx += dx
+        ny += dy
+        break unless @map.passable?(nx, ny)
+        land = [nx, ny, dist] unless blocked.include?([nx, ny])
+      end
+      return false unless land
+      start_tween(land[0], land[1], land[2], frames_per_tile, dx, dy)
+    end
+
+    def start_tween(tx, ty, tiles, frames_per_tile, dx, dy)
       cost = frames_per_tile * tiles
       cost = (cost * DIAGONAL).round if dx.abs + dy.abs == 2
       @from_x = @px

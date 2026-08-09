@@ -72,6 +72,34 @@ class CreatureTest < Minitest::Test
     refute_includes r.attack_tiles, [3, 2], "ring excludes own tile"
   end
 
+  # M2.1 fix 4: the pincer fills the adjacent ring; a dodge must pass THROUGH
+  # bodies and land on the first free tile in range, or it is a dead verb
+  # exactly when it matters.
+  def test_dodge_passes_through_adjacent_body
+    c = creature(tile: [3, 2])
+    # Body on [4,2] (first tile right), [5,2] free, dodge range 2.
+    assert c.dodge([1, 0], blocked: [[4, 2]])
+    assert_equal [5, 2], c.tile, "dodge crosses the body and lands beyond it"
+    assert c.iframes?, "escape grants i-frames"
+  end
+
+  def test_dodge_never_lands_on_a_body
+    c = creature(tile: [3, 2])
+    # Bodies on BOTH tiles in range: nowhere free -> refuse, no cooldown burn.
+    refute c.dodge([1, 0], blocked: [[4, 2], [5, 2]])
+    assert_equal [3, 2], c.tile
+    refute c.iframes?, "refused dodge grants nothing"
+    assert c.dodge([-1, 0], blocked: [[4, 2], [5, 2]]), "cooldown not burned by the refusal"
+  end
+
+  def test_dodge_still_stops_at_walls
+    c = creature(tile: [7, 2]) # wall at x=9; range-2 dodge right can only reach [8,2]
+    assert c.dodge([1, 0])
+    assert_equal [8, 2], c.tile, "wall clamps the dash"
+    d = creature(tile: [8, 2])
+    refute d.dodge([1, 0]), "dodging straight into a wall refuses"
+  end
+
   def test_stagger_blocks_verbs_until_expired
     c = creature
     c.stagger!(20)
