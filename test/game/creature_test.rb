@@ -4,12 +4,10 @@ require "core/tile_map"
 require "game/creature"
 
 class CreatureTest < Minitest::Test
-  # player_spawn is the pre-Task-8 schema; Task 8 migrates this fixture to
-  # pack_spawn: [[1, 1], [2, 1], [3, 1]] with the TileMap change.
   MAP = Core::TileMap.new(
     tile_size: 32, display_name: "test", palette: {},
     tiles: ["##########", "#........#", "#........#", "#........#", "##########"],
-    player_spawn: [1, 1]
+    pack_spawn: [[1, 1], [2, 1], [3, 1]]
   )
 
   KIT = {

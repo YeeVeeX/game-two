@@ -1,51 +1,60 @@
 require "core/event_bus"
 require "core/state_stack"
 require "core/tile_map"
-require "game/player"
-require "game/enemy"
+require "game/creature"
+require "game/pack"
+require "game/controllers"
 require "game/feel"
 require "game/camera"
 require "game/flow_field"
 
 module Game
-  # The whole sim: zones loaded from data/zones/*.json, a player walking the
-  # grid between them, husks per zone. Hub-and-spoke doctrine from kethral:
-  # town is safe, the dungeon is not, death sends you back to town. Pure and
-  # deterministic — same input script in, same state out; never touches Gosu.
+  # The sim: a pack of creatures (one possessed, the rest AI) hunting through
+  # zones against hostile humans (M1 stand-in kit: husk). Combat resolves
+  # from the ATTACKER's kit via factions — there is no player path. Pure and
+  # deterministic; never touches Gosu. Seed plumbs the sim PRNG (unused by
+  # M1 logic; the plumbing is determinism law 3).
   class World
     EVENTS = %i[
-      attack_started attack_hit damage_dealt entity_died
-      player_hit player_died player_respawned player_dodged
-      enemy_telegraph zone_entered
+      attack_started attack_hit damage_dealt actor_died dodged telegraph
+      zone_entered possession_changed pack_wiped pack_respawned
     ].freeze
 
-    TRANSITIONS = { world: %i[death], death: %i[world] }.freeze
+    TRANSITIONS = { world: %i[nest_respawn], nest_respawn: %i[world] }.freeze
 
-    HOME_ZONE = "town".freeze
+    HOME_ZONE = "town".freeze # fiction-pending: the nest
 
-    attr_reader :bus, :player, :feel, :states, :frame, :camera, :zone_name
+    attr_reader :bus, :pack, :feel, :states, :frame, :camera, :zone_name, :rng
 
-    def initialize(data)
+    def initialize(data, seed: 0)
       @data = data
       @display = data["display"]
+      @balance = data["balance/combat"]
+      @rng = Random.new(seed)
       @bus = Core::EventBus.new.register(*EVENTS)
       @states = Core::StateStack.new(initial: :world, transitions: TRANSITIONS)
-      @feel = Feel.new(@data["balance/combat"][:feel])
+      @feel = Feel.new(@balance[:feel])
       @frame = 0
       @respawn_timer = 0
       @banner_timer = 0
       @zones = {}
-      @husks = Hash.new { |h, k| h[k] = [] }
-      @husk_respawns = Hash.new { |h, k| h[k] = [] }
+      @humans = Hash.new { |h, k| h[k] = [] }
+      @human_respawns = Hash.new { |h, k| h[k] = [] }
+      @controller = PossessedController.new
+      @ai = AiController.new
+      @swap_was_down = false
+      @rearm_needed = false
       load_zones
-      spawn_player
+      spawn_pack
       wire_events
-      enter_zone(HOME_ZONE, map.player_spawn)
+      enter_zone(HOME_ZONE, map.pack_spawn)
     end
 
     def map = @zones.fetch(@zone_name)
-    def enemies = @husks[@zone_name]
+    def humans = @humans[@zone_name]
+    def possessed = @pack.possessed
     def banner? = @banner_timer.positive?
+    def actors = (@pack.members + humans).reject(&:dead?)
 
     def tick(input)
       if @feel.hitstop?
@@ -60,74 +69,143 @@ module Game
       case @states.current
       when :world
         tick_world(input)
-      when :death
+      when :nest_respawn
         @respawn_timer -= 1
         if @respawn_timer <= 0
           @states.transition_to(:world)
-          respawn_player
+          respawn_pack
         end
       end
 
-      @camera.tick(@player.x + Player::SIZE / 2.0, @player.y + Player::SIZE / 2.0)
+      c = possessed
+      @camera.tick(c.x + Creature::SIZE / 2.0, c.y + Creature::SIZE / 2.0)
       @feel.tick
       @bus.process
       @frame += 1
     end
 
+    # --- view API (AiController duck-type) ------------------------------
+
+    def hostiles_for(creature)
+      creature.faction == :pack ? humans.reject(&:dead?) : @pack.living
+    end
+
+    def blocked_for(creature)
+      actors.reject { |a| a.equal?(creature) }.map(&:tile)
+    end
+
+    # Flow fields anchor on ANY creature, cached per anchor, recomputed only
+    # when the anchor's tile changes. Cache clears on zone change.
+    def flow_to(anchor)
+      @flow_cache ||= {}
+      entry = (@flow_cache[anchor] ||= { field: FlowField.new(map), tile: nil })
+      if entry[:tile] != anchor.tile
+        entry[:field].recompute!(anchor.tile)
+        entry[:tile] = anchor.tile
+      end
+      entry[:field]
+    end
+
     private
 
     def tick_world(input)
-      @player.tick(input, blocked: occupied_tiles(except: @player))
+      handle_swap(input)
+      # Forced swap happens at bus-process time (no input in scope there), so
+      # the edge-trigger re-arm is deferred to the next tick — law 2 applies
+      # to BOTH swap kinds: no held key may leak into the new body.
+      if @rearm_needed
+        @controller.rearm!(input)
+        @rearm_needed = false
+      end
+      @pack.members.each(&:tick_body)
+      humans.each(&:tick_body)
+
+      @controller.blocked = blocked_for(possessed)
+      @controller.tick(possessed, input, self)
+      @pack.living.each { |m| @ai.tick(m, self) unless m.equal?(possessed) }
+      humans.each { |h| emit_telegraph_edge(h); @ai.tick(h, self) }
+
       check_transition
-      tick_enemies
-      resolve_player_attack
+      resolve_attacks
+      respawn_due_humans
+      prune_caches
     end
 
-    def tick_enemies
-      flow = flow_field
-      enemies.each do |husk|
-        husk.tick(player: @player, flow:, blocked: occupied_tiles(except: husk))
+    # Tab swap: rising edge only, world-level (the controller mask handles
+    # every OTHER action; swap itself must not autorepeat while held).
+    def handle_swap(input)
+      down = input.down?(:swap)
+      if down && !@swap_was_down && @pack.living.length > 1
+        from = possessed
+        @pack.swap_next!
+        @controller.rearm!(input)
+        @bus.emit(:possession_changed, from:, to: possessed, forced: false)
       end
-      respawn_due_husks
+      @swap_was_down = down
     end
 
-    # One BFS field per zone, recomputed only when the player's tile moves.
-    def flow_field
-      @flow ||= {}
-      field = (@flow[@zone_name] ||= FlowField.new(map))
-      if @flow_target != [@zone_name, @player.tile]
-        field.recompute!(@player.tile)
-        @flow_target = [@zone_name, @player.tile]
+    # Any active unlanded swing hits the FIRST living hostile on its tiles
+    # (attack_tiles order is deterministic: front-first for arcs, fixed ring
+    # order otherwise). Damage comes from the attacker's kit — the law.
+    def resolve_attacks
+      actors.each do |attacker|
+        next unless attacker.attack_can_hit?
+        foes = hostiles_for(attacker)
+        victim = attacker.attack_tiles.filter_map { |t| foes.find { |f| !f.dead? && f.tile == t } }.first
+        next unless victim
+        attacker.attack_landed!
+        victim.take_hit(damage: attacker.kit[:attack][:damage], attacker:,
+                        blocked: blocked_for(victim))
+        @bus.emit(:attack_hit, attacker:, victim:)
       end
-      field
     end
 
-    # Everybody body-blocks: no creature steps onto a tile something else
-    # logically occupies (Tibia doctrine — the grid is the collision).
-    def occupied_tiles(except:)
-      tiles = []
-      tiles << @player.tile unless except.equal?(@player) || @player.dead?
-      enemies.each { |h| tiles << h.tile unless except.equal?(h) || h.dead? }
-      tiles
+    # AiController drives the state machine; the telegraph event fires on the
+    # windup rising edge so feel/renderer/harness can aim at it.
+    def emit_telegraph_edge(human)
+      @telegraphing ||= {}
+      now = human.telegraphing?
+      @bus.emit(:telegraph, actor: human) if now && !@telegraphing[human]
+      @telegraphing[human] = now
     end
 
     def check_transition
-      return if @player.walker.moving? || @player.dead?
-      t = map.transition_at(*@player.tile)
+      c = possessed
+      return if c.walker.moving? || c.dead?
+      t = map.transition_at(*c.tile)
       return unless t
-      enter_zone(t[:to], t[:spawn])
+      enter_zone(t[:to], arrival_tiles(t[:to], t[:spawn]))
     end
 
-    def enter_zone(name, tile)
+    # The whole pack moves through a gate: possessed lands on the gate spawn,
+    # allies on the nearest passable neighbors (deterministic STEPS order).
+    def arrival_tiles(zone, spawn)
+      zmap = @zones.fetch(zone)
+      tiles = [spawn]
+      FlowField::STEPS.each do |(dx, dy)|
+        break if tiles.length >= @pack.living.length
+        cand = [spawn[0] + dx, spawn[1] + dy]
+        tiles << cand if zmap.passable?(*cand) && !tiles.include?(cand)
+      end
+      tiles
+    end
+
+    def enter_zone(name, tiles)
       raise ArgumentError, "unknown zone #{name}" unless @zones.key?(name)
       @zone_name = name
-      @player.rebind(map: map, tile: tile)
+      @flow_cache = {}
+      placed = 0
+      # Possessed gets the first tile; living allies the rest, in roster order.
+      ([possessed] + (@pack.living - [possessed])).each do |m|
+        m.rebind(map:, tile: tiles[placed] || tiles.first)
+        placed += 1
+      end
       @camera = Camera.new(
         view_w: @display[:view_width], view_h: @display[:view_height],
         world_w: map.pixel_width, world_h: map.pixel_height,
         lerp: @display[:camera_lerp]
       )
-      @camera.snap!(@player.x + Player::SIZE / 2.0, @player.y + Player::SIZE / 2.0)
+      @camera.snap!(possessed.x + Creature::SIZE / 2.0, possessed.y + Creature::SIZE / 2.0)
       @banner_timer = @display[:zone_banner_frames]
       @bus.emit(:zone_entered, zone: name)
     end
@@ -135,80 +213,97 @@ module Game
     def load_zones
       names = @data.keys.grep(%r{\Azones/}).map { |k| k.sub("zones/", "") }
       names.each { |n| @zones[n] = Core::TileMap.new(@data["zones/#{n}"]) }
-      seed_husks
+      seed_humans
     end
 
-    def seed_husks
+    def seed_humans
       @zones.each do |zone, zmap|
-        (zmap.enemy_spawns[:husk] || []).each { |tile| add_husk(zone, tile) }
+        zmap.enemy_spawns.each do |kit_name, spawns|
+          spawns.each { |tile| add_human(zone, kit_name, tile) }
+        end
       end
     end
 
-    def add_husk(zone, tile)
-      stats = @data["balance/combat"][:enemies][:husk]
-      @husks[zone] << Enemy.new(bus: @bus, stats:, map: @zones[zone], tile:)
+    def add_human(zone, kit_name, tile)
+      kit = @balance[:kits].fetch(kit_name.to_sym)
+      @humans[zone] << Creature.new(bus: @bus, kit:, kit_name: kit_name.to_sym,
+                                    map: @zones[zone], tile:, faction: :human,
+                                    name: "#{kit_name}#{@humans[zone].length}")
     end
 
-    def spawn_player
-      stats = @data["balance/combat"][:player]
+    def spawn_pack
+      cfg = @balance[:pack]
       town = @zones.fetch(HOME_ZONE)
       @zone_name = HOME_ZONE
-      @player = Player.new(bus: @bus, stats:, map: town, tile: town.player_spawn)
+      members = cfg[:members].each_with_index.map do |kit_name, i|
+        Creature.new(bus: @bus, kit: @balance[:kits].fetch(kit_name.to_sym),
+                     kit_name: kit_name.to_sym, map: town, tile: town.pack_spawn[i],
+                     faction: :pack, name: "pack#{i}")
+      end
+      @pack = Pack.new(members:, stagger_frames: cfg[:swap_stagger_frames])
     end
 
-    def respawn_player
+    def respawn_pack
       @zone_name = HOME_ZONE
-      @player.respawn(map: map, tile: map.player_spawn)
-      enter_zone(HOME_ZONE, map.player_spawn)
+      @pack.members.each_with_index { |m, i| m.revive!(map:, tile: map.pack_spawn[i]) }
+      enter_zone(HOME_ZONE, map.pack_spawn)
+      @bus.emit(:pack_respawned)
     end
 
-    def resolve_player_attack
-      return unless @player.attack_can_hit?
-      victim = @player.attack_tiles.filter_map { |t| enemies.find { |h| !h.dead? && h.tile == t } }.first
-      return unless victim
-
-      @player.attack_landed!
-      victim.take_hit(
-        damage: @data["balance/combat"][:player][:attack][:damage],
-        from_tile: @player.tile
-      )
-      @bus.emit(:attack_hit)
+    def respawn_due_humans
+      due, rest = @human_respawns[@zone_name].partition { |r| r[:at_frame] <= @frame }
+      @human_respawns[@zone_name] = rest
+      due.each { |r| add_human(@zone_name, r[:kit_name], r[:tile]) }
     end
 
-    def respawn_due_husks
-      due, rest = @husk_respawns[@zone_name].partition { |r| r[:at_frame] <= @frame }
-      @husk_respawns[@zone_name] = rest
-      due.each { |r| add_husk(@zone_name, r[:tile]) }
+    def prune_caches
+      @flow_cache&.select! { |anchor, _| !anchor.dead? }
+      @telegraphing&.select! { |actor, _| !actor.dead? }
     end
 
+    # Feel is scoped to the possessed body (law 5): its fights hitstop and
+    # shake; ally/AI-vs-AI hits emit events only — the world never freezes
+    # for a fight the player isn't in.
     def wire_events
-      @bus.subscribe(:attack_hit) { @feel.on_hit }
-      @bus.subscribe(:entity_died) do
-        @feel.on_kill
-        schedule_husk_respawns
+      @bus.subscribe(:attack_hit) do |e|
+        if e[:victim].equal?(possessed)
+          @feel.on_player_hit
+        elsif e[:attacker].equal?(possessed)
+          @feel.on_hit
+        end
       end
-      @bus.subscribe(:player_hit) { @feel.on_player_hit }
-      @bus.subscribe(:player_died) do
-        @feel.on_kill
-        @respawn_timer = @data["balance/combat"][:player][:respawn_frames]
-        @states.transition_to(:death)
+
+      @bus.subscribe(:actor_died) do |e|
+        if e[:faction] == :human
+          @feel.on_kill if e[:killer].equal?(possessed)
+          schedule_human_respawn(e[:actor])
+        elsif e[:actor].equal?(possessed)
+          handle_possessed_death
+        end
       end
     end
 
-    # A dead husk returns at its zone spawn point after the respawn delay.
-    def schedule_husk_respawns
-      delay = @data["balance/combat"][:enemies][:husk][:respawn_frames]
-      dead = enemies.select(&:dead?)
-      dead.each do |husk|
-        @husk_respawns[@zone_name] << { tile: home_spawn_for(husk), at_frame: @frame + delay }
+    def handle_possessed_death
+      from = possessed
+      survivor = @pack.forced_swap!
+      if survivor
+        @rearm_needed = true
+        @feel.on_kill # losing a body lands like a kill against you
+        @bus.emit(:possession_changed, from:, to: survivor, forced: true)
+      else
+        @bus.emit(:pack_wiped)
+        @respawn_timer = @balance[:respawn_frames]
+        @states.transition_to(:nest_respawn)
       end
-      enemies.reject!(&:dead?)
     end
 
-    # Respawn at the nearest configured spawn tile for this zone.
-    def home_spawn_for(husk)
-      spawns = map.enemy_spawns[:husk] || [husk.tile]
-      spawns.min_by { |(sx, sy)| (sx - husk.tile[0]).abs + (sy - husk.tile[1]).abs }
+    def schedule_human_respawn(human)
+      delay = human.kit[:respawn_frames]
+      return unless delay
+      spawns = map.enemy_spawns[human.kit_name] || [human.tile]
+      home = spawns.min_by { |(sx, sy)| (sx - human.tile[0]).abs + (sy - human.tile[1]).abs }
+      @human_respawns[@zone_name] << { kit_name: human.kit_name, tile: home, at_frame: @frame + delay }
+      humans.delete(human)
     end
   end
 end
