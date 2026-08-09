@@ -66,6 +66,9 @@ quests, shops, inventory, multiple weapons).
   works on this machine (produces real PNGs). `Gosu.render` needs a live GL context —
   run captures inside a real `Gosu::Window`, not headless.
 - Old repo (READ-ONLY reference): `C:\Users\gabri\Documents.stale-20260413\coding_projects_main\Game On(e)`
+- Gemfile.lock is committed; gosu pinned `= 1.4.6`. ⚠️ rubygems ships no prebuilt
+  x64-mingw-ucrt binary for gosu 1.4.6 — it compiled from source here via the RubyInstaller
+  devkit; a fresh machine needs MSYS2/devkit installed before `bundle install`.
 
 ## Layout
 
