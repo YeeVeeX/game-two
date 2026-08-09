@@ -7,8 +7,8 @@ require "game/world"
 # All assertions are on TILES, not pixels (grid movement doctrine).
 class WorldTest < Minitest::Test
   DATA = Core::DataStore.new(File.expand_path("../../data", __dir__))
-  STEP = DATA["balance/combat"][:kits][:prowler][:step_frames]
-  EXHAUST = DATA["balance/combat"][:kits][:prowler][:attack][:exhaust_frames]
+  STEP = DATA["balance/combat"][:kits][:striker][:step_frames]
+  EXHAUST = DATA["balance/combat"][:kits][:striker][:attack][:exhaust_frames]
   STAGGER = DATA["balance/combat"][:pack][:swap_stagger_frames]
 
   def world = @world ||= Game::World.new(DATA)
@@ -26,9 +26,9 @@ class WorldTest < Minitest::Test
     end
   end
 
-  def enter_dungeon(world)
+  def enter_district(world)
     drive(world, scripted(hold(:right, 0, STEP * 30 - 1)), STEP * 30)
-    assert_equal "threketh", world.zone_name
+    assert_equal "district", world.zone_name
   end
 
   def nearest_human(world)
@@ -40,9 +40,29 @@ class WorldTest < Minitest::Test
     creature.take_hit(damage: creature.hp, attacker: by) until creature.dead?
   end
 
+  # Tap-steps the possessed toward dest one tile at a time (waits out tweens
+  # and hitstop). Combat can shove it around; the loop just keeps correcting.
+  def navigate_to(world, dest, guard: 3000)
+    steps = 0
+    until world.possessed.tile == dest || steps >= guard
+      if world.possessed.walker.moving?
+        drive(world, scripted({}), 1)
+      else
+        dx = (dest[0] - world.possessed.tile[0]).clamp(-1, 1)
+        dy = (dest[1] - world.possessed.tile[1]).clamp(-1, 1)
+        keys = []
+        keys << (dx.positive? ? "right" : "left") unless dx.zero?
+        keys << (dy.positive? ? "down" : "up") unless dy.zero?
+        drive(world, scripted({ world.frame.to_s => keys }), 1)
+      end
+      steps += 1
+    end
+    assert_equal dest, world.possessed.tile, "navigation failed to reach #{dest}"
+  end
+
   # --- pack + possession -------------------------------------------------
 
-  def test_pack_of_three_spawns_in_town
+  def test_pack_of_three_spawns_in_nest
     assert_equal 3, world.pack.members.length
     assert_equal world.map.pack_spawn.take(3).sort, world.pack.members.map(&:tile).sort
     assert_equal world.pack.members.first, world.possessed
@@ -94,10 +114,10 @@ class WorldTest < Minitest::Test
     refute_equal staggered_body, world.possessed, "Tab works again once the stagger expires"
   end
 
-  def test_wipe_respawns_whole_pack_in_town
+  def test_wipe_respawns_whole_pack_in_nest
     wiped = false
     world.bus.subscribe(:pack_wiped) { wiped = true }
-    enter_dungeon(world)
+    enter_district(world)
     hunter = world.humans.first
     world.pack.members.each { |m| kill(m, by: hunter) }
     drive(world, scripted({}), 1)
@@ -105,7 +125,7 @@ class WorldTest < Minitest::Test
     assert_equal :nest_respawn, world.states.current
     drive(world, scripted({}), DATA["balance/combat"][:respawn_frames] + 5)
     assert_equal :world, world.states.current
-    assert_equal "town", world.zone_name, "wipe sends the pack home"
+    assert_equal "nest", world.zone_name, "wipe sends the pack home"
     assert world.pack.members.all? { |m| m.hp == m.max_hp }, "everyone revives full"
   end
 
@@ -129,19 +149,19 @@ class WorldTest < Minitest::Test
   end
 
   def test_ally_ai_fights_humans
-    enter_dungeon(world)
+    enter_district(world)
     ally_kills = 0
     world.bus.subscribe(:actor_died) do |e|
       ally_kills += 1 if e[:faction] == :human && e[:killer].faction == :pack && !e[:killer].equal?(world.possessed)
     end
-    # Possessed idles at the gate; allies must engage approaching husks alone.
+    # Possessed idles at the gate; allies must engage approaching rushers alone.
     drive(world, scripted({}), 9000)
     assert_operator ally_kills, :>=, 1, "unpossessed allies fight on their own (husk-grade AI)"
   end
 
   def test_hitstop_only_for_possessed_fights
-    enter_dungeon(world)
-    # Swap away so the fighting happens between allies and husks only.
+    enter_district(world)
+    # Swap away so the fighting happens between allies and rushers only.
     drive(world, scripted({ world.frame.to_s => ["swap"] }), 1)
     hits_seen = 0
     stops_during_ally_hits = 0
@@ -166,19 +186,36 @@ class WorldTest < Minitest::Test
   end
 
   def test_zone_transition_moves_whole_pack
-    enter_dungeon(world)
+    enter_district(world)
     tiles = world.pack.living.map(&:tile)
     assert_equal tiles.uniq.length, tiles.length, "no shared tiles on arrival"
     tiles.each { |t| assert world.map.passable?(*t) }
-    back = scripted(hold(:left, world.frame, world.frame + STEP * 10 - 1))
-    drive(world, back, STEP * 11)
-    assert_equal "town", world.zone_name
+    # This test isolates TRANSITIONS; clear the wave so the surround AI
+    # can't body-block the return. Combat may have knocked the possessed off
+    # the gate row, so NAVIGATE to the gate instead of assuming a straight walk.
+    world.humans.dup.each { |h| kill(h, by: world.possessed) }
+    gate = world.map.transitions.first[:at]
+    guard = 0
+    while world.zone_name == "district" && guard < 3000
+      if world.possessed.walker.moving?
+        drive(world, scripted({}), 1)
+      else
+        dx = (gate[0] - world.possessed.tile[0]).clamp(-1, 1)
+        dy = (gate[1] - world.possessed.tile[1]).clamp(-1, 1)
+        keys = []
+        keys << (dx.positive? ? "right" : "left") unless dx.zero?
+        keys << (dy.positive? ? "down" : "up") unless dy.zero?
+        drive(world, scripted({ world.frame.to_s => keys }), 1)
+      end
+      guard += 1
+    end
+    assert_equal "nest", world.zone_name
   end
 
-  def test_husks_hunt_the_nearest_pack_member_not_the_possessed
-    enter_dungeon(world)
+  def test_rushers_hunt_the_nearest_pack_member_not_the_possessed
+    enter_district(world)
     # The possessed walks north away from the gate; allies hold near it. The
-    # husks must engage whoever is nearest — assert SOME ally takes a hit
+    # rushers must engage whoever is nearest — assert SOME ally takes a hit
     # while the possessed keeps distance.
     ally_hit = false
     world.bus.subscribe(:attack_hit) do |e|
@@ -206,21 +243,108 @@ class WorldTest < Minitest::Test
   end
 
   def test_body_blocking_no_two_creatures_share_a_tile
-    enter_dungeon(world)
+    enter_district(world)
     drive(world, scripted({}), 4000)
     tiles = world.actors.map(&:tile)
     assert_equal tiles.uniq.length, tiles.length,
                  "no two living creatures may occupy one tile: #{tiles}"
   end
 
+  def test_rushers_surround_instead_of_queuing
+    enter_district(world)
+    # Sample DURING the assault (the wave wipes an idle pack, so a post-hoc
+    # check would see an empty street): record, each tick, the adjacency
+    # geometry around the most-pressured pack member.
+    best_sides = 0
+    queued = false
+    idle = scripted({})
+    2500.times do
+      idle.update(world.frame)
+      world.tick(idle)
+      break if world.states.current != :world
+      world.pack.living.each do |m|
+        dirs = adjacent_dirs(m)
+        next if dirs.length < 2
+        best_sides = [best_sides, dirs.uniq.length].max
+        queued ||= dirs.uniq.length < dirs.length
+      end
+      break if best_sides >= 3
+    end
+    assert_operator best_sides, :>=, 2,
+                    "converging rushers must pressure a body from >=2 distinct sides (pincer, not queue)"
+  end
+
+  def adjacent_dirs(member)
+    tx, ty = member.tile
+    world.humans.reject(&:dead?)
+         .select { |h| [(h.tile[0] - tx).abs, (h.tile[1] - ty).abs].max <= 1 }
+         .map { |h| [(h.tile[0] - tx).clamp(-1, 1), (h.tile[1] - ty).clamp(-1, 1)] }
+  end
+
+  def test_corpses_persist_then_fade
+    enter_district(world)
+    target = nearest_human(world)
+    at = target.tile
+    kill(target, by: world.possessed)
+    drive(world, scripted({}), 1)
+    corpse = world.corpses.find { |c| c[:tile] == at }
+    refute_nil corpse, "a kill leaves a corpse record where the body fell"
+    assert_equal :human, corpse[:faction]
+    drive(world, scripted({}), 700) # past the 600f fade
+    assert_nil world.corpses.find { |c| c[:tile] == at }, "corpses prune after the fade window"
+  end
+
   def test_human_respawns_after_kill
-    enter_dungeon(world)
+    enter_district(world)
     count = world.humans.length
     target = nearest_human(world)
     kill(target, by: world.possessed)
     drive(world, scripted({}), 1)
     assert_equal count - 1, world.humans.length
-    drive(world, scripted({}), DATA["balance/combat"][:kits][:husk][:respawn_frames] + 10)
+    drive(world, scripted({}), DATA["balance/combat"][:kits][:rusher][:respawn_frames] + 10)
     assert_equal count, world.humans.length
+  end
+
+  # M2 review finding 1: a respawn due while a body stands on its spawn tile
+  # must DEFER, not stack two creatures on one tile.
+  def test_respawn_defers_while_spawn_tile_occupied
+    enter_district(world)
+    world.humans.dup.each { |h| kill(h, by: world.possessed) }
+    death_frame = world.frame
+    drive(world, scripted({}), 1) # flush bus -> respawns scheduled
+    camped = [10, 12] # a rusher home spawn (data/zones/district.json)
+    navigate_to(world, camped)
+    due = death_frame + DATA["balance/combat"][:kits][:rusher][:respawn_frames]
+    drive(world, scripted({}), due + 5 - world.frame)
+    assert world.humans.none? { |h| h.tile == camped },
+           "respawn onto an occupied tile must defer, not stack"
+    tiles = world.actors.map(&:tile)
+    assert_equal tiles.uniq.length, tiles.length, "no stacking anywhere: #{tiles}"
+    # Step off the spawn: the deferred respawn lands as soon as the tile frees.
+    drive(world, scripted({ world.frame.to_s => ["right"] }), 3)
+    assert world.humans.any? { |h| h.tile == camped },
+           "deferred respawn lands once the spawn tile is free"
+  end
+
+  # M2 review finding 2: a kit WITHOUT respawn_frames must still leave the
+  # roster on death — otherwise the renderer draws its ghost forever.
+  def test_kit_without_respawn_frames_still_leaves_roster_on_death
+    data = DATA.keys.to_h { |k| [k, DATA[k]] }
+    balance = Marshal.load(Marshal.dump(data["balance/combat"]))
+    balance[:kits][:rusher].delete(:respawn_frames)
+    data = data.merge("balance/combat" => balance)
+    w = Game::World.new(data)
+    enter_district(w)
+    count = w.humans.length
+    target = nearest_human(w)
+    kill(target, by: w.possessed)
+    drive(w, scripted({}), 1)
+    assert_equal count - 1, w.humans.length, "no-respawn kits leave the roster on death"
+    refute_includes w.humans, target
+    # The world stays live (allies keep hunting), so assert no ADDITIONS —
+    # the roster may only shrink when nothing respawns.
+    roster_before = w.humans.dup
+    drive(w, scripted({}), 400)
+    assert w.humans.all? { |h| roster_before.include?(h) }, "nothing ever respawns"
   end
 end

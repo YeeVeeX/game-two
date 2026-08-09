@@ -15,14 +15,14 @@ class CreatureTest < Minitest::Test
     attack: { damage: 25, windup_frames: 6, active_frames: 4, recovery_frames: 10,
               exhaust_frames: 45, arc: "arc3", knockback_tiles: 1, knockback_frames_per_tile: 5 },
     dodge: { tiles: 2, frames_per_tile: 7, iframes: 18, cooldown_frames: 50 },
-    knockback_tiles_received: 1, knockback_frames_per_tile: 5
+    knockback_frames_per_tile: 5
   }.freeze
 
   RING_KIT = {
     max_hp: 60, step_frames: 17, aggro_tiles: 12,
     attack: { damage: 15, windup_frames: 30, active_frames: 6, recovery_frames: 0,
               exhaust_frames: 81, arc: "ring", knockback_tiles: 1, knockback_frames_per_tile: 5 },
-    knockback_tiles_received: 1, knockback_frames_per_tile: 5
+    knockback_frames_per_tile: 5
   }.freeze
 
   EVENTS = %i[attack_started attack_hit damage_dealt actor_died dodged].freeze
@@ -30,7 +30,7 @@ class CreatureTest < Minitest::Test
   def bus = @bus ||= Core::EventBus.new.register(*EVENTS)
 
   def creature(kit: KIT, tile: [3, 2], faction: :pack)
-    Game::Creature.new(bus:, kit:, kit_name: :prowler, map: MAP, tile:, faction:, name: "c1")
+    Game::Creature.new(bus:, kit:, kit_name: :striker, map: MAP, tile:, faction:, name: "c1")
   end
 
   def test_exhaust_gates_attack_cadence

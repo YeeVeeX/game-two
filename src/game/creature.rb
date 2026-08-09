@@ -87,6 +87,10 @@ module Game
       case @kit[:attack][:arc]
       when "ring"
         RING.map { |(dx, dy)| [tx + dx, ty + dy] }
+      when "front1" # striker: one precise tile, no flanks
+        [[tx + @facing[0], ty + @facing[1]]]
+      when "projectile" # lobber: the swing itself touches nothing — World spawns the shot
+        []
       else # "arc3": front + flanks (diagonal facing -> cardinal components)
         fx, fy = @facing
         front = [tx + fx, ty + fy]
@@ -118,12 +122,14 @@ module Game
     # pacing comes from each attacker's own exhaust cadence. Interrupt-on-hit
     # is a kit property (old game: the player was interrupted, husks were
     # NOT — an uninterruptible windup is what lets pressure through).
-    def take_hit(damage:, attacker:, blocked: [])
+    # Knockback is the ATTACKER's stat (kit identity: a blocker displaces,
+    # a striker doesn't) — the victim only supplies the tween speed.
+    def take_hit(damage:, attacker:, knockback_tiles: 0, blocked: [])
       return false if iframes? || dead?
       @hp = [@hp - damage, 0].max
       @hurt_frames = 8
       @attack_state = :idle if @kit[:interrupt_on_hit]
-      knock_away_from(attacker.tile, blocked)
+      knock_away_from(attacker.tile, knockback_tiles, blocked)
       if dead?
         @bus.emit(:actor_died, actor: self, killer: attacker, faction: @faction)
       else
@@ -153,11 +159,12 @@ module Game
 
     private
 
-    def knock_away_from(from_tile, blocked)
+    def knock_away_from(from_tile, tiles, blocked)
+      return if tiles.zero?
       dx = (@walker.tile_x - from_tile[0]).clamp(-1, 1)
       dy = (@walker.tile_y - from_tile[1]).clamp(-1, 1)
       dx = 1 if dx.zero? && dy.zero?
-      @walker.dash(dx, dy, max_tiles: @kit[:knockback_tiles_received],
+      @walker.dash(dx, dy, max_tiles: tiles,
                    frames_per_tile: @kit[:knockback_frames_per_tile], blocked:)
     end
 

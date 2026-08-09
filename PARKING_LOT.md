@@ -18,6 +18,17 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
 
 - YJIT via self-built Ruby (only if profiling ever shows frame drops)
 
+## World mythology (docs-only — no code until fun-verify, then only via scope-contract update)
+
+- `docs/lore/world-bible.md` — standalone Egyptian×Fantasy world bible (Tibia-method: original
+  pantheon, every creature family traced to the mythology, gods withdrawn but omnipresent).
+  Deliberately NOT bound to Kethral names (owner call 2026-08-09) — integration is a future
+  decision. Research canon behind it: 4 `game-research/` vault notes (egyptian-cosmology,
+  egyptian-death-afterlife, akhenaten-amarna, new-kingdom-power — query via
+  `hub kb query --domain game-research`). Its gameplay-hooks appendix maps lore → parked
+  systems (corpse-run, respawn, skill-through-use, factions, bestiary). Unblocks the
+  "fiction-bound audio/visual identity pass" below.
+
 ## Queued from the feature map (drafts/_kethral-feature-map.md) — next candidates post fun-verify
 
 - Corpse-run gear drop (kethral's signature death tension — top candidate)
@@ -28,6 +39,11 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
 ## A1+ queue (cut from Increment A by the 2026-08-09 dual review — each behind its own fun-verify)
 
 - A1: gambit engine (JSON IF/THEN ally rules) + dev hot-reload keybind for iteration
+  - Known husk-AI gap the gambits must close: an AI-driven lobber ADJACENT to a hostile is
+    inert (needs dist >= 2 to fire, surround slots only pull it closer; it un-sticks only
+    when knocked back or the target moves). Deterministic, low-impact while the lobber is
+    usually possessed-or-following — but "my lobber just stands there" is the expected
+    playtest symptom. A retreat-to-range gambit is the natural fix. (M2 review note.)
 - A1+: Shooters (ranged humans — needs per-attacker cadence proven first)
 - A2: pull economy with aggro soft-cap (8-12) + density costs (review: without the cap it is
   monotonically exploitable)

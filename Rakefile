@@ -19,6 +19,35 @@ task :capture do
   sh "ruby -Isrc harness/replay_runner.rb #{script}"
 end
 
+desc "Perf smoke (BLOCKING, machine-local): district scenario, abort if p95 tick >= 16.6ms"
+task :perf do
+  ruby_code = <<~'RUBY'
+    require "core/data_store"
+    require "core/input"
+    require "game/world"
+    require "benchmark"
+    data = Core::DataStore.new("data")
+    step = data["balance/combat"][:kits][:striker][:step_frames]
+    w = Game::World.new(data)
+    entry = (0...(step * 30)).to_h { |f| [f, [:right]] }
+    input = Core::ScriptedInput.new(frames: entry)
+    times = []
+    (step * 30 + 6600).times do
+      input.update(w.frame)
+      t = Benchmark.realtime { w.tick(input) }
+      times << t * 1000.0
+    end
+    sorted = times.sort
+    p50 = sorted[times.length / 2]
+    p95 = sorted[(times.length * 0.95).to_i]
+    puts format("PERF ticks=%d p50=%.3fms p95=%.3fms max=%.3fms zone=%s",
+                times.length, p50, p95, sorted.last, w.zone_name)
+    abort format("PERF FAIL: p95 %.3fms >= 16.6ms budget", p95) if p95 >= 16.6
+    puts "PERF PASS"
+  RUBY
+  sh "ruby", "-Isrc", "-e", ruby_code
+end
+
 desc "Rule 2 gate (BLOCKING): replay twice, byte-compare captures, vision verdict. SCRIPT=..."
 task :gate do
   require "digest"

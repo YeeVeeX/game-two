@@ -1,5 +1,55 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-09 (knowledge session) — world bible ON DISK, critique panel PENDING
+
+**Scope: the mythology pipeline only — does not touch M2 state below.** Bible at
+`docs/lore/world-bible.md`: 17,801 words, all 14 sections verified present. **UNGATED:
+the 3-critic panel (originality/IP, consistency+hooks, craft) + revision pass have NOT
+run** — treat names as provisional until then; file deliberately left uncommitted.
+Research canon behind it: 4 `game-research/` vault notes (17,876 words total), indexed +
+retrieval-smoke-tested via `hub kb reindex`; all four grep-clean of the corpus's
+poisoned files (adversarial capture sweep found 2 misattributed captures, an essay-mill
+pair, and a provenance-free AI synthesis — verdicts encoded in knowledge repo `5b3c206`).
+Full recovery map + critic-prompt invariants: `drafts/_egypt-mythology-pipeline-state.md`.
+
+## 2026-08-09 (latest) — M2 BUILT: kits + district + surround AI; review in flight
+
+**State (measured):** branch `a0-m2-kits-district`, 56 tests / 148 assertions green, both
+`rake gate` scripts PASS (district_hunt 10/10 byte-identical + 13/13 vision checks;
+world_loop 8/8 + 13/13), `rake perf` PASS (p50 0.007 / p95 0.035 / max 1.35 ms per tick).
+
+**What M2 adds:** three kits with real identity — Striker (fast, single-tile precision, no
+knockback), Blocker (160hp wall, arc3 + knockback, uninterruptible windup), Lobber (6-tile
+tile-stepped projectile, no friendly fire) vs Rushers in District One; nest = new hub;
+town/threketh retired to data/zones_retired/. Renderer v2 carries ALL the vision-critique
+fixes (facing notch, crimson-never-white pack flash, two-tone telegraph ≠ gate gold, attack
+lunge, persistent fading corpses) + 3-bar kit-colored HUD with exhaust pip + edge pips for
+off-screen kin. Knockback is now the ATTACKER's stat (kit identity).
+
+**Owner directive mid-build (verbatim): enemies "should try to trap/surround the players...
+right now enemies seem to be following each other, make them more aggressive."** Shipped as
+slot-claim pincer AI: converging attackers each claim a DISTINCT adjacent tile of their
+target (deterministic roster order, rebuilt per tick) and approach greedily with flow-field
+fallback; rusher step 16→14, windup 24→20. Asserted by test (≥2 distinct sides during the
+assault) and visible in gate frames.
+
+**In flight when written:** adversarial code-reviewer over the M2 diff — brief + already-done
+verification + fold-in procedure harvested to `drafts/_m2-review-inflight.md` (if the verdict
+is lost, RE-RUN the review; do NOT merge without it). After merge: owner feel-check (kit
+identities, Lobber possession, Rusher pincer pressure, district). NB `docs/lore/` is
+deliberately untracked (bible ungated — see the knowledge-session section above).
+
+## 2026-08-09 (later night) — M1 FUN-VERIFIED; M2 underway
+
+**Owner verdict on M1 (verbatim): "feels really good!"** — possession core validated: Tab swap,
+forced-swap sting, exhaust rhythm, wipe loop. No complaints logged; exhaust 45f stands until
+playtest says otherwise. M2 (rest of the approved A0 spec) started same session: three kits
+(Striker/Blocker/Lobber + projectile), Rushers, nest + district zones, 3-bar HUD + exhaust pip,
+edge pips, carried critique fixes, perf smoke, district_hunt.json.
+**Fiction note:** the world bible landed (`docs/lore/world-bible.md`, Egyptian×Fantasy,
+deliberately NOT integrated — owner call pending per PARKING_LOT). M2 ships spec-speak
+placeholders; no fake fiction names (de-slop rule).
+
 ## 2026-08-09 (night) — M1 POSSESSION CORE SHIPPED; owner feel-check queued
 
 **State (measured):** branch `a0-m1-possession`, 11 commits over main, 48 tests / 128

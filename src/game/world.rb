@@ -3,6 +3,7 @@ require "core/state_stack"
 require "core/tile_map"
 require "game/creature"
 require "game/pack"
+require "game/projectile"
 require "game/controllers"
 require "game/feel"
 require "game/camera"
@@ -17,12 +18,12 @@ module Game
   class World
     EVENTS = %i[
       attack_started attack_hit damage_dealt actor_died dodged telegraph
-      zone_entered possession_changed pack_wiped pack_respawned
+      zone_entered possession_changed pack_wiped pack_respawned projectile_fired
     ].freeze
 
     TRANSITIONS = { world: %i[nest_respawn], nest_respawn: %i[world] }.freeze
 
-    HOME_ZONE = "town".freeze # fiction-pending: the nest
+    HOME_ZONE = "nest".freeze # fiction-pending name (world bible integration = owner call)
 
     attr_reader :bus, :pack, :feel, :states, :frame, :camera, :zone_name, :rng
 
@@ -40,6 +41,8 @@ module Game
       @zones = {}
       @humans = Hash.new { |h, k| h[k] = [] }
       @human_respawns = Hash.new { |h, k| h[k] = [] }
+      @projectiles = []
+      @corpses = Hash.new { |h, k| h[k] = [] }
       @controller = PossessedController.new
       @ai = AiController.new
       @swap_was_down = false
@@ -55,6 +58,8 @@ module Game
     def possessed = @pack.possessed
     def banner? = @banner_timer.positive?
     def actors = (@pack.members + humans).reject(&:dead?)
+    def projectiles = @projectiles
+    def corpses = @corpses[@zone_name]
 
     def tick(input)
       if @feel.hitstop?
@@ -94,6 +99,35 @@ module Game
       actors.reject { |a| a.equal?(creature) }.map(&:tile)
     end
 
+    # Surround doctrine (owner directive 2026-08-09): attackers converging on
+    # one target each claim a DIFFERENT adjacent tile and approach it, so a
+    # group fans out into a pincer instead of a single-file queue. Claims are
+    # rebuilt every tick in AI iteration order (roster order — deterministic).
+    def surround_slot(attacker, target)
+      claims = (@slot_claims[target] ||= {})
+      already = claims.find { |_, who| who.equal?(attacker) }
+      return already[0] if already
+      tx, ty = target.tile
+      slot = Creature::RING.map { |(dx, dy)| [tx + dx, ty + dy] }
+                           .find { |t| map.passable?(*t) && !claims.key?(t) }
+      claims[slot] = attacker if slot
+      slot
+    end
+
+    # Straight walls-only ray check for ranged AI (occupancy is deliberately
+    # ignored — a shot over a friendly is legal, no friendly fire).
+    def line_clear?(from, to)
+      dx = (to[0] - from[0]).clamp(-1, 1)
+      dy = (to[1] - from[1]).clamp(-1, 1)
+      cx, cy = from
+      loop do
+        cx += dx
+        cy += dy
+        return true if [cx, cy] == to
+        return false unless map.passable?(cx, cy)
+      end
+    end
+
     # Flow fields anchor on ANY creature, cached per anchor, recomputed only
     # when the anchor's tile changes. Cache clears on zone change.
     def flow_to(anchor)
@@ -109,6 +143,7 @@ module Game
     private
 
     def tick_world(input)
+      @slot_claims = {}
       handle_swap(input)
       # Forced swap happens at bus-process time (no input in scope there), so
       # the edge-trigger re-arm is deferred to the next tick — law 2 applies
@@ -127,6 +162,7 @@ module Game
 
       check_transition
       resolve_attacks
+      tick_projectiles
       respawn_due_humans
       prune_caches
     end
@@ -158,14 +194,48 @@ module Game
     def resolve_attacks
       actors.each do |attacker|
         next unless attacker.attack_can_hit?
+        if attacker.kit[:attack][:arc] == "projectile"
+          launch_projectile(attacker)
+          next
+        end
         foes = hostiles_for(attacker)
         victim = attacker.attack_tiles.filter_map { |t| foes.find { |f| !f.dead? && f.tile == t } }.first
         next unless victim
         attacker.attack_landed!
         victim.take_hit(damage: attacker.kit[:attack][:damage], attacker:,
+                        knockback_tiles: attacker.kit[:attack][:knockback_tiles],
                         blocked: blocked_for(victim))
         @bus.emit(:attack_hit, attacker:, victim:)
       end
+    end
+
+    # A projectile swing "lands" the moment it fires — the shot itself is a
+    # new sim object that carries the hit forward. Diagonal facings fly
+    # diagonally (grid-faithful: one tile per window on both axes).
+    def launch_projectile(attacker)
+      attacker.attack_landed!
+      cfg = attacker.kit[:attack]
+      @projectiles << Projectile.new(
+        owner: attacker, map:, tile: attacker.tile, dir: attacker.facing,
+        damage: cfg[:damage], range_tiles: cfg[:range_tiles],
+        frames_per_tile: cfg[:projectile_frames_per_tile]
+      )
+      @bus.emit(:projectile_fired, attacker:)
+    end
+
+    # Creation order = resolution order (deterministic). The projectile only
+    # reports the victim; damage resolves here from the OWNER's kit, exactly
+    # like melee — one law for all combat.
+    def tick_projectiles
+      @projectiles.each do |p|
+        victim = p.tick(hostiles: hostiles_for(p.owner))
+        next unless victim
+        victim.take_hit(damage: p.damage, attacker: p.owner,
+                        knockback_tiles: p.owner.kit[:attack][:knockback_tiles],
+                        blocked: blocked_for(victim))
+        @bus.emit(:attack_hit, attacker: p.owner, victim:)
+      end
+      @projectiles.reject!(&:done?)
     end
 
     # AiController drives the state machine; the telegraph event fires on the
@@ -177,6 +247,11 @@ module Game
       @telegraphing[human] = now
     end
 
+    # Gates are physical terrain: ANY rest on the gate tile carries the pack
+    # through — including a knockback shove (dev-of-record call, M2 review
+    # finding 3). A blocker punching you through the gate mid-fight is a
+    # legal escape and a legal threat; "voluntary moves only" would add
+    # hidden state the player can't read.
     def check_transition
       c = possessed
       return if c.walker.moving? || c.dead?
@@ -202,6 +277,7 @@ module Game
       raise ArgumentError, "unknown zone #{name}" unless @zones.key?(name)
       @zone_name = name
       @flow_cache = {}
+      @projectiles = []
       placed = 0
       # Possessed gets the first tile; living allies the rest, in roster order.
       ([possessed] + (@pack.living - [possessed])).each do |m|
@@ -247,12 +323,12 @@ module Game
 
     def spawn_pack
       cfg = @balance[:pack]
-      town = @zones.fetch(HOME_ZONE)
+      home = @zones.fetch(HOME_ZONE)
       @zone_name = HOME_ZONE
       members = cfg[:members].each_with_index.map do |kit_name, i|
         Creature.new(bus: @bus, kit: @balance[:kits].fetch(kit_name.to_sym),
-                     kit_name: kit_name.to_sym, map: town, tile: town.pack_spawn[i],
-                     faction: :pack, name: "pack#{i}")
+                     kit_name: kit_name.to_sym, map: home, tile: home.pack_spawn[i],
+                     faction: :pack, name: kit_name)
       end
       @pack = Pack.new(members:, stagger_frames: cfg[:swap_stagger_frames])
     end
@@ -264,15 +340,42 @@ module Game
       @bus.emit(:pack_respawned)
     end
 
+    # A respawn DEFERS while its tile is occupied (retries next tick) — the
+    # body-blocking invariant holds for every path a creature enters the
+    # world by, teleports included (M2 review finding 1: a body parked on
+    # the spawn at the respawn frame stacked two creatures on one tile).
     def respawn_due_humans
-      due, rest = @human_respawns[@zone_name].partition { |r| r[:at_frame] <= @frame }
-      @human_respawns[@zone_name] = rest
-      due.each { |r| add_human(@zone_name, r[:kit_name], r[:tile]) }
+      occupied = actors.map(&:tile)
+      ready, waiting = @human_respawns[@zone_name].partition { |r| r[:at_frame] <= @frame }
+      deferred = []
+      ready.each do |r|
+        if occupied.include?(r[:tile])
+          deferred << r
+        else
+          add_human(@zone_name, r[:kit_name], r[:tile])
+          occupied << r[:tile]
+        end
+      end
+      @human_respawns[@zone_name] = waiting + deferred
     end
 
     def prune_caches
       @flow_cache&.select! { |anchor, _| !anchor.dead? }
       @telegraphing&.select! { |actor, _| !actor.dead? }
+      corpses.reject! { |c| @frame - c[:at_frame] > CORPSE_FADE_FRAMES }
+    end
+
+    # A body stays where it fell and fades (vision critique: kills that
+    # vanish erase the fight's history). Records, not creatures — the sim
+    # never reads them; only renderer/tests do. Cap guards the roster.
+    CORPSE_FADE_FRAMES = 600
+    CORPSE_CAP = 40
+
+    def leave_corpse(actor)
+      list = corpses
+      list << { tile: actor.tile, x: actor.x, y: actor.y,
+                faction: actor.faction, at_frame: @frame }
+      list.shift if list.length > CORPSE_CAP
     end
 
     # Feel is scoped to the possessed body (law 5): its fights hitstop and
@@ -288,6 +391,7 @@ module Game
       end
 
       @bus.subscribe(:actor_died) do |e|
+        leave_corpse(e[:actor])
         if e[:faction] == :human
           @feel.on_kill if e[:killer].equal?(possessed)
           schedule_human_respawn(e[:actor])
@@ -311,13 +415,16 @@ module Game
       end
     end
 
+    # The roster delete comes FIRST: a kit without respawn_frames must still
+    # leave the roster on death, or the renderer draws its ghost forever
+    # (M2 review finding 2 — latent until someone adds a no-respawn kit).
     def schedule_human_respawn(human)
+      humans.delete(human)
       delay = human.kit[:respawn_frames]
       return unless delay
       spawns = map.enemy_spawns[human.kit_name] || [human.tile]
       home = spawns.min_by { |(sx, sy)| (sx - human.tile[0]).abs + (sy - human.tile[1]).abs }
       @human_respawns[@zone_name] << { kit_name: human.kit_name, tile: home, at_frame: @frame + delay }
-      humans.delete(human)
     end
   end
 end

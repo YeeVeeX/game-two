@@ -17,14 +17,14 @@ class PackTest < Minitest::Test
     attack: { damage: 25, windup_frames: 6, active_frames: 4, recovery_frames: 10,
               exhaust_frames: 45, arc: "arc3", knockback_tiles: 1, knockback_frames_per_tile: 5 },
     dodge: { tiles: 2, frames_per_tile: 7, iframes: 18, cooldown_frames: 50 },
-    knockback_tiles_received: 1, knockback_frames_per_tile: 5
+    knockback_frames_per_tile: 5
   }.freeze
   EVENTS = %i[attack_started attack_hit damage_dealt actor_died dodged].freeze
 
   def bus = @bus ||= Core::EventBus.new.register(*EVENTS)
 
   def member(tile, name)
-    Game::Creature.new(bus:, kit: KIT, kit_name: :prowler, map: MAP, tile:, faction: :pack, name:)
+    Game::Creature.new(bus:, kit: KIT, kit_name: :striker, map: MAP, tile:, faction: :pack, name:)
   end
 
   def pack

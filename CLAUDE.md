@@ -90,6 +90,7 @@ quests, shops, inventory, multiple weapons).
 - `rake gate SCRIPT=harness/scripts/<name>.json` — the BLOCKING Rule 2 gate: double replay +
   md5 compare + structured vision verdict (exit nonzero on any failure). `SKIP_CRITIC=1` runs
   the determinism half only (iteration aid, not a shippable pass).
+- `rake perf` — perf smoke (machine-local): district scenario, aborts if p95 tick >= 16.6 ms.
 
 ## Controls
 
