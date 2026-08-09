@@ -20,8 +20,10 @@ module Game
       @shake_amp = [@shake_amp, @cfg[:shake_hit]].max
     end
 
+    # Receiving a hit shakes but never freezes: hitstop sells the possessed's
+    # OWN impact (on_hit/on_kill); freezing on incoming hits turns a pincer
+    # into a slideshow (M2.1 fix 2).
     def on_player_hit
-      @hitstop = [@hitstop, @cfg[:hitstop_frames_hit]].max
       @shake_amp = [@shake_amp, @cfg[:shake_player_hit]].max
     end
 
