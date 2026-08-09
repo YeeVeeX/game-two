@@ -87,16 +87,21 @@ module Game
     def projectile?(creature) = creature.kit[:attack][:arc] == "projectile"
 
     # A projectile kit hugging its target is inert (needs dist >= 2). Step to
-    # the first free neighbor that INCREASES distance — fixed STEPS order =
-    # deterministic. Full kiting stays A1 gambit territory.
+    # the first free neighbor that INCREASES distance; cornered (no such
+    # neighbor reachable), side-step along the wall at EQUAL distance instead
+    # of freezing in place — fixed STEPS order = deterministic. Full kiting
+    # stays A1 gambit territory.
     def retreat_step(creature, target, view)
       blocked = view.blocked_for(creature)
       dist = chebyshev(creature.tile, target.tile)
-      Game::FlowField::STEPS.each do |(dx, dy)|
-        to = [creature.tile[0] + dx, creature.tile[1] + dy]
-        next unless chebyshev(to, target.tile) > dist
-        break if creature.step(dx, dy, blocked:)
+      [dist + 1, dist].each do |want|
+        Game::FlowField::STEPS.each do |(dx, dy)|
+          to = [creature.tile[0] + dx, creature.tile[1] + dy]
+          next unless chebyshev(to, target.tile) >= want
+          return true if creature.step(dx, dy, blocked:)
+        end
       end
+      false
     end
 
     # Melee kits: Chebyshev adjacency. Projectile kits: 8-way aligned with a

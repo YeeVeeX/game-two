@@ -182,28 +182,49 @@ class WorldTest < Minitest::Test
     assert fired, "once range is open, the lobber fires"
   end
 
+  # Review finding (M2.1): a CORNERED projectile kit (no neighbor increases
+  # distance) must not freeze in place - it side-steps along the wall at
+  # equal distance instead of standing motionless while it dies.
+  def test_cornered_lobber_still_moves
+    enter_district(world)
+    lobber = world.pack.members.find { |m| m.kit_name == :lobber }
+    refute_equal lobber, world.possessed, "lobber runs on AI in this scenario"
+    hunter = world.humans.reject(&:dead?).first
+    lobber.walker.teleport(1, 1)      # district map corner (walls at x=0, y=0)
+    hunter.walker.teleport(2, 2)      # diagonal-adjacent: nothing increases distance
+    moved = false
+    40.times do
+      drive(world, scripted({}), 1)
+      moved ||= lobber.tile != [1, 1]
+    end
+    assert moved, "cornered lobber side-steps along the wall instead of deadlocking"
+  end
+
   def test_hitstop_only_for_possessed_fights
     enter_district(world)
     # Swap away so the fighting happens between allies and rushers only.
     drive(world, scripted({ world.frame.to_s => ["swap"] }), 1)
     hits_seen = 0
-    stops_during_ally_hits = 0
-    # A possessed death legitimately freezes (forced swap = on_kill); an ally
-    # hit delivered later in the SAME bus flush sees that freeze. Law 5 says
-    # ally fights never CAUSE a freeze - excuse the possessed-death frame.
-    pack_death_frame = -1
-    world.bus.subscribe(:actor_died) do |e|
-      pack_death_frame = world.frame if e[:faction] == :pack
+    suspect_frames = []
+    forced_frames = []
+    # A possessed death legitimately freezes (forced swap = on_kill); ally
+    # hits in the SAME bus flush see that freeze. Excuse exactly the
+    # forced-swap frames (an unpossessed ally's death must NOT be excused;
+    # review tightening). possession_changed is emitted mid-flush and
+    # processed AFTER same-frame hits, so reconcile post-hoc by frame.
+    world.bus.subscribe(:possession_changed) do |e|
+      forced_frames << world.frame if e[:forced]
     end
     world.bus.subscribe(:attack_hit) do |e|
       unless [e[:attacker], e[:victim]].any? { |c| c.equal?(world.possessed) }
         hits_seen += 1
-        stops_during_ally_hits += 1 if world.feel.hitstop? && world.frame != pack_death_frame
+        suspect_frames << world.frame if world.feel.hitstop?
       end
     end
     drive(world, scripted({}), 6000)
     assert_operator hits_seen, :>=, 1, "allies traded hits during the window"
-    assert_equal 0, stops_during_ally_hits, "ally fights never freeze the world (law 5)"
+    violations = suspect_frames - forced_frames
+    assert_empty violations, "ally fights never freeze the world (law 5)"
   end
 
   # --- carried grid invariants (rewritten from v2 suite) -------------------
