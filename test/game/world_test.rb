@@ -215,6 +215,19 @@ class WorldTest < Minitest::Test
                  "no two living creatures may occupy one tile: #{tiles}"
   end
 
+  def test_corpses_persist_then_fade
+    enter_district(world)
+    target = nearest_human(world)
+    at = target.tile
+    kill(target, by: world.possessed)
+    drive(world, scripted({}), 1)
+    corpse = world.corpses.find { |c| c[:tile] == at }
+    refute_nil corpse, "a kill leaves a corpse record where the body fell"
+    assert_equal :human, corpse[:faction]
+    drive(world, scripted({}), 700) # past the 600f fade
+    assert_nil world.corpses.find { |c| c[:tile] == at }, "corpses prune after the fade window"
+  end
+
   def test_human_respawns_after_kill
     enter_district(world)
     count = world.humans.length

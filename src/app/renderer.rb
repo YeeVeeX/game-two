@@ -1,20 +1,29 @@
 module App
-  # Draws the world sim with Gosu primitives. Flat-rect minimalism: the
-  # possessed body is the brightest thing on screen with a white possession
-  # ring; allies are dimmer kin; humans (husk kit, M1) pale bone. Palettes
-  # come from data/zones/*.json.
+  # Draws the world sim with Gosu primitives. Flat-rect minimalism: kit
+  # identity is COLOR + silhouette behavior; the possessed body is brightened
+  # and white-ringed. Carried vision-critique fixes live here: facing notch,
+  # crimson (never white) pack hurt-flash, two-tone telegraph distinct from
+  # gate gold, corpses persist, attack lunge. Palettes from data/zones/*.json.
   class Renderer
-    POSSESSED      = Gosu::Color.new(255, 235, 120, 40)
+    HUMAN_BODY = Gosu::Color.new(255, 205, 198, 180) # pale bone
+    KIT_BODY = Hash.new(HUMAN_BODY).merge(
+      striker: Gosu::Color.new(255, 235, 120, 40),
+      blocker: Gosu::Color.new(255, 190, 80, 35),
+      lobber:  Gosu::Color.new(255, 225, 170, 90)
+    ).freeze
+
     POSSESSED_RING = Gosu::Color.new(255, 255, 255, 255)
-    ALLY           = Gosu::Color.new(255, 165, 90, 40)
-    HURT_FLASH     = Gosu::Color.new(255, 255, 235, 235)
-    HUMAN          = Gosu::Color.new(255, 205, 198, 180)
-    TELEGRAPH      = Gosu::Color.new(255, 250, 210, 60)
+    ALLY_DIM       = Gosu::Color.new(120, 10, 8, 12)  # overlay that dims unpossessed kin
+    PACK_HURT      = Gosu::Color.new(255, 200, 30, 30) # crimson, never white (critique)
     HUMAN_HURT     = Gosu::Color.new(255, 255, 80, 80)
-    SLASH          = Gosu::Color.new(200, 255, 255, 255)
+    TELEGRAPH_EDGE = Gosu::Color.new(255, 235, 60, 40)  # hot red border...
+    TELEGRAPH_CORE = Gosu::Color.new(255, 250, 210, 60) # ...around the yellow core (≠ gate gold)
+    SLASH          = Gosu::Color.new(220, 255, 255, 255)
     WINDUP         = Gosu::Color.new(90, 255, 255, 255)
+    PROJECTILE     = Gosu::Color.new(255, 250, 235, 170)
+    NOTCH          = Gosu::Color.new(255, 20, 14, 12)
     HP_BACK        = Gosu::Color.new(255, 50, 20, 30)
-    HP_FILL        = Gosu::Color.new(255, 220, 60, 70)
+    HP_DEAD        = Gosu::Color.new(255, 35, 25, 30)
     WIPE_VEIL      = Gosu::Color.new(170, 8, 4, 10)
     BANNER         = Gosu::Color.new(255, 225, 215, 190)
     STAGGER_VEIL   = Gosu::Color.new(90, 20, 8, 8)
@@ -25,10 +34,13 @@ module App
       cam = world.camera
       Gosu.translate(world.feel.shake_x - cam.x, world.feel.shake_y - cam.y) do
         draw_map(world.map)
+        draw_corpses(world)
         world.humans.each { |h| draw_creature(h, world) }
         world.pack.living.each { |m| draw_creature(m, world) }
+        world.projectiles.each { |p| draw_projectile(p) }
       end
       draw_hud(world)
+      draw_edge_pips(world)
       draw_banner(world) if world.banner?
       draw_wipe_overlay(world) if world.states.current == :nest_respawn
       draw_stagger_veil(world) if world.possessed.staggered?
@@ -59,26 +71,76 @@ module App
       end
     end
 
+    # Bodies stay where they fell and fade out (critique: vanishing kills
+    # erase the fight's history).
+    def draw_corpses(world)
+      world.corpses.each do |c|
+        age = world.frame - c[:at_frame]
+        alpha = (140 * (1.0 - age.fdiv(Game::World::CORPSE_FADE_FRAMES))).clamp(0, 140).round
+        base = c[:faction] == :human ? [140, 135, 125] : [150, 80, 40]
+        Gosu.draw_rect(c[:x] + 4, c[:y] + 10, SIZE - 8, SIZE - 14,
+                       Gosu::Color.new(alpha, *base))
+      end
+    end
+
     def draw_creature(c, world)
-      return if c.dead?
+      lx, ly = lunge_offset(c)
+      x = c.x + lx
+      y = c.y + ly
       if c.equal?(world.possessed)
-        Gosu.draw_rect(c.x - 3, c.y - 3, SIZE + 6, SIZE + 6, POSSESSED_RING)
+        Gosu.draw_rect(x - 3, y - 3, SIZE + 6, SIZE + 6, POSSESSED_RING)
       end
       if c.faction == :human && c.telegraphing?
-        swell = 6
-        Gosu.draw_rect(c.x - swell / 2, c.y - swell / 2, SIZE + swell, SIZE + swell, TELEGRAPH)
+        swell = 8
+        Gosu.draw_rect(x - swell / 2, y - swell / 2, SIZE + swell, SIZE + swell, TELEGRAPH_EDGE)
+        Gosu.draw_rect(x - 2, y - 2, SIZE + 4, SIZE + 4, TELEGRAPH_CORE)
       else
-        Gosu.draw_rect(c.x, c.y, SIZE, SIZE, body_color(c, world))
+        Gosu.draw_rect(x, y, SIZE, SIZE, body_color(c, world))
+        Gosu.draw_rect(x, y, SIZE, SIZE, ALLY_DIM) if ally?(c, world)
       end
+      draw_facing_notch(c, x, y)
       draw_attack(c, world.map.tile_size) if c.faction == :pack
     end
 
+    def ally?(c, world) = c.faction == :pack && !c.equal?(world.possessed)
+
     def body_color(c, world)
-      if c.hurt? && c.faction == :human then HUMAN_HURT
-      elsif c.faction == :human then HUMAN
-      elsif c.iframes? && (world.frame / 3).even? then HURT_FLASH
-      elsif c.equal?(world.possessed) then POSSESSED
-      else ALLY
+      if c.faction == :pack && c.iframes? && (world.frame / 3).even?
+        PACK_HURT
+      elsif c.faction == :human && c.hurt?
+        HUMAN_HURT
+      elsif c.faction == :pack && c.hurt? && (world.frame / 3).even?
+        PACK_HURT
+      else
+        KIT_BODY[c.kit_name]
+      end
+    end
+
+    # Which way a body faces must be readable at a glance (critique fix):
+    # a dark notch on the facing edge.
+    def draw_facing_notch(c, x, y)
+      fx, fy = c.facing
+      n = 6
+      nx = fx.positive? ? x + SIZE - n : x
+      ny = fy.positive? ? y + SIZE - n : y
+      if fx.zero? # vertical facing: notch spans centered horizontally
+        Gosu.draw_rect(x + SIZE / 2 - n / 2, ny, n, n, NOTCH)
+      elsif fy.zero?
+        Gosu.draw_rect(nx, y + SIZE / 2 - n / 2, n, n, NOTCH)
+      else # diagonal: corner notch
+        Gosu.draw_rect(nx, ny, n, n, NOTCH)
+      end
+    end
+
+    # Weight shifts into the swing (critique fix): sink back on windup,
+    # lunge forward on active. Draw-only — tiles never move.
+    def lunge_offset(c)
+      return [0, 0] unless c.faction == :pack
+      fx, fy = c.facing
+      case c.attack_state
+      when :windup then [-3 * fx, -3 * fy]
+      when :active then [6 * fx, 6 * fy]
+      else [0, 0]
       end
     end
 
@@ -90,12 +152,45 @@ module App
       end
     end
 
+    def draw_projectile(p)
+      Gosu.draw_rect(p.x, p.y, Game::Projectile::SIZE, Game::Projectile::SIZE, PROJECTILE)
+    end
+
+    # Three kit-colored bars; the possessed one is wider, white-edged, and
+    # carries the exhaust-ready pip.
     def draw_hud(world)
-      w = 260
-      c = world.possessed
-      Gosu.draw_rect(32, 16, w, 14, HP_BACK)
-      frac = c.hp.fdiv(c.max_hp)
-      Gosu.draw_rect(32, 16, (w * frac).round, 14, HP_FILL) if frac.positive?
+      world.pack.members.each_with_index do |m, i|
+        y = 16 + i * 20
+        mine = m.equal?(world.possessed)
+        w = mine ? 260 : 200
+        x = 32
+        Gosu.draw_rect(x - 2, y - 2, w + 4, 18, POSSESSED_RING) if mine
+        Gosu.draw_rect(x, y, w, 14, m.dead? ? HP_DEAD : HP_BACK)
+        frac = m.hp.fdiv(m.max_hp)
+        if frac.positive?
+          Gosu.draw_rect(x, y, (w * frac).round, 14, KIT_BODY[m.kit_name])
+        end
+        if mine && !m.dead?
+          pip = m.exhaust_ready? ? POSSESSED_RING : HP_BACK
+          Gosu.draw_rect(x + w + 8, y + 2, 10, 10, pip)
+        end
+      end
+    end
+
+    # Living off-screen kin show as kit-colored pips clamped to the viewport
+    # edge toward their true position — ally state is never invisible.
+    def draw_edge_pips(world)
+      cam = world.camera
+      world.pack.living.each do |m|
+        next if m.equal?(world.possessed)
+        sx = m.x - cam.x
+        sy = m.y - cam.y
+        on_screen = sx > -SIZE && sx < cam.view_w && sy > -SIZE && sy < cam.view_h
+        next if on_screen
+        px = (sx + SIZE / 2).clamp(6, cam.view_w - 16)
+        py = (sy + SIZE / 2).clamp(6, cam.view_h - 16)
+        Gosu.draw_rect(px, py, 10, 10, KIT_BODY[m.kit_name])
+      end
     end
 
     def draw_banner(world)

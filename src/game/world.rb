@@ -42,6 +42,7 @@ module Game
       @humans = Hash.new { |h, k| h[k] = [] }
       @human_respawns = Hash.new { |h, k| h[k] = [] }
       @projectiles = []
+      @corpses = Hash.new { |h, k| h[k] = [] }
       @controller = PossessedController.new
       @ai = AiController.new
       @swap_was_down = false
@@ -58,6 +59,7 @@ module Game
     def banner? = @banner_timer.positive?
     def actors = (@pack.members + humans).reject(&:dead?)
     def projectiles = @projectiles
+    def corpses = @corpses[@zone_name]
 
     def tick(input)
       if @feel.hitstop?
@@ -326,6 +328,20 @@ module Game
     def prune_caches
       @flow_cache&.select! { |anchor, _| !anchor.dead? }
       @telegraphing&.select! { |actor, _| !actor.dead? }
+      corpses.reject! { |c| @frame - c[:at_frame] > CORPSE_FADE_FRAMES }
+    end
+
+    # A body stays where it fell and fades (vision critique: kills that
+    # vanish erase the fight's history). Records, not creatures — the sim
+    # never reads them; only renderer/tests do. Cap guards the roster.
+    CORPSE_FADE_FRAMES = 600
+    CORPSE_CAP = 40
+
+    def leave_corpse(actor)
+      list = corpses
+      list << { tile: actor.tile, x: actor.x, y: actor.y,
+                faction: actor.faction, at_frame: @frame }
+      list.shift if list.length > CORPSE_CAP
     end
 
     # Feel is scoped to the possessed body (law 5): its fights hitstop and
@@ -341,6 +357,7 @@ module Game
       end
 
       @bus.subscribe(:actor_died) do |e|
+        leave_corpse(e[:actor])
         if e[:faction] == :human
           @feel.on_kill if e[:killer].equal?(possessed)
           schedule_human_respawn(e[:actor])
