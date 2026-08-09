@@ -20,10 +20,12 @@ require "gosu"
 require "fileutils"
 require "core/input"
 require_relative "scenes/moving_square"
+require_relative "scenes/arena_scene"
 
 module Harness
   SCENES = {
-    "moving_square" => Scenes::MovingSquare
+    "moving_square" => Scenes::MovingSquare,
+    "arena" => Scenes::ArenaScene
   }.freeze
 
   def self.expand_script(raw)
@@ -61,7 +63,7 @@ module Harness
       @scene.tick(@input)
       if @captures.include?(@frame)
         path = File.join(@out_dir, format("frame_%04d.png", @frame))
-        Gosu.render(width, height) { @scene.draw }.save(path)
+        save_opaque(Gosu.render(width, height) { @scene.draw }, path)
         puts "captured #{path}"
       end
       @frame += 1
@@ -70,6 +72,18 @@ module Harness
 
     def draw
       @scene.draw
+    end
+
+    private
+
+    # The window's backbuffer is opaque, but Gosu.render keeps blended alpha
+    # (a translucent overlay leaves e.g. a=198 in the PNG), so viewers
+    # composite the capture against their own background and misrepresent the
+    # frame. Flatten alpha so captures match what the player sees.
+    def save_opaque(image, path)
+      blob = image.to_blob.dup
+      (3...blob.bytesize).step(4) { |i| blob.setbyte(i, 255) }
+      Gosu::Image.from_blob(image.width, image.height, blob).save(path)
     end
   end
 end

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Owner launcher: PATH-safe from any shell. Double-clickable via bin/play.cmd.
+cd "$(dirname "$0")/.." || exit 1
+export PATH="/c/Ruby34-x64/bin:$PATH"
+exec ruby -Isrc src/main.rb

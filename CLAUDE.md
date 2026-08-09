@@ -54,5 +54,10 @@ loop is fun-verified by the owner.**
 ## Commands
 
 - `rake` — run all tests
-- `rake run` — launch the game
+- `bin/play` (Git Bash) or `bin\play.cmd` (double-click / cmd) — launch the game
 - `rake capture SCRIPT=harness/scripts/<name>.json` — deterministic replay + frame capture
+  (arena_loop.json covers the full loop; captures verified byte-identical across runs)
+
+## Controls
+
+WASD / arrows = move · J / Space = attack · K / Shift = dodge · Esc = quit
