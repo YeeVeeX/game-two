@@ -1,0 +1,9 @@
+{
+  "scenario": "moving_square",
+  "width": 640,
+  "height": 360,
+  "hold": { "right": [[0, 59]] },
+  "captures": [0, 30, 60],
+  "run_until": 61,
+  "out_dir": "captures/moving_square"
+}

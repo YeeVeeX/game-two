@@ -1,0 +1,36 @@
+{
+  "player": {
+    "max_hp": 100,
+    "move_speed": 4.0,
+    "attack": {
+      "damage": 25,
+      "range": 48,
+      "windup_frames": 6,
+      "active_frames": 4,
+      "recovery_frames": 10,
+      "knockback": 12.0
+    },
+    "respawn_frames": 90
+  },
+  "enemies": {
+    "husk": {
+      "max_hp": 60,
+      "move_speed": 1.6,
+      "aggro_range": 220,
+      "attack": {
+        "damage": 10,
+        "range": 40,
+        "windup_frames": 30,
+        "active_frames": 6,
+        "cooldown_frames": 45,
+        "knockback": 8.0
+      }
+    }
+  },
+  "feel": {
+    "hitstop_frames": 4,
+    "shake_amplitude": 5.0,
+    "shake_decay": 0.85,
+    "invuln_frames_after_hit": 30
+  }
+}
