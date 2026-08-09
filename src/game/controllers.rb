@@ -68,8 +68,7 @@ module Game
     private
 
     def engage(creature, target, view)
-      dist = chebyshev(creature.tile, target.tile)
-      if in_attack_range?(creature, dist)
+      if in_attack_range?(creature, target, view)
         face_toward(creature, target)
         creature.start_attack
       elsif !creature.moving?
@@ -77,8 +76,19 @@ module Game
       end
     end
 
-    def in_attack_range?(creature, dist)
-      dist <= 1 # M1: both kits are melee (arc3 reaches Chebyshev-adjacent via facing)
+    # Melee kits: Chebyshev adjacency. Projectile kits: 8-way aligned with a
+    # wall-clear line inside range (fires down rows/columns/diagonals only —
+    # grid-faithful, and the shot itself flies that same lane).
+    def in_attack_range?(creature, target, view)
+      atk = creature.kit[:attack]
+      dist = chebyshev(creature.tile, target.tile)
+      return dist <= 1 unless atk[:arc] == "projectile"
+
+      dx = target.tile[0] - creature.tile[0]
+      dy = target.tile[1] - creature.tile[1]
+      aligned = dx.zero? || dy.zero? || dx.abs == dy.abs
+      aligned && dist <= atk[:range_tiles] && dist >= 2 &&
+        view.line_clear?(creature.tile, target.tile)
     end
 
     def follow(creature, possessed, view)

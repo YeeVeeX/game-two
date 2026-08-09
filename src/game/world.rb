@@ -3,6 +3,7 @@ require "core/state_stack"
 require "core/tile_map"
 require "game/creature"
 require "game/pack"
+require "game/projectile"
 require "game/controllers"
 require "game/feel"
 require "game/camera"
@@ -17,7 +18,7 @@ module Game
   class World
     EVENTS = %i[
       attack_started attack_hit damage_dealt actor_died dodged telegraph
-      zone_entered possession_changed pack_wiped pack_respawned
+      zone_entered possession_changed pack_wiped pack_respawned projectile_fired
     ].freeze
 
     TRANSITIONS = { world: %i[nest_respawn], nest_respawn: %i[world] }.freeze
@@ -40,6 +41,7 @@ module Game
       @zones = {}
       @humans = Hash.new { |h, k| h[k] = [] }
       @human_respawns = Hash.new { |h, k| h[k] = [] }
+      @projectiles = []
       @controller = PossessedController.new
       @ai = AiController.new
       @swap_was_down = false
@@ -55,6 +57,7 @@ module Game
     def possessed = @pack.possessed
     def banner? = @banner_timer.positive?
     def actors = (@pack.members + humans).reject(&:dead?)
+    def projectiles = @projectiles
 
     def tick(input)
       if @feel.hitstop?
@@ -94,6 +97,20 @@ module Game
       actors.reject { |a| a.equal?(creature) }.map(&:tile)
     end
 
+    # Straight walls-only ray check for ranged AI (occupancy is deliberately
+    # ignored — a shot over a friendly is legal, no friendly fire).
+    def line_clear?(from, to)
+      dx = (to[0] - from[0]).clamp(-1, 1)
+      dy = (to[1] - from[1]).clamp(-1, 1)
+      cx, cy = from
+      loop do
+        cx += dx
+        cy += dy
+        return true if [cx, cy] == to
+        return false unless map.passable?(cx, cy)
+      end
+    end
+
     # Flow fields anchor on ANY creature, cached per anchor, recomputed only
     # when the anchor's tile changes. Cache clears on zone change.
     def flow_to(anchor)
@@ -127,6 +144,7 @@ module Game
 
       check_transition
       resolve_attacks
+      tick_projectiles
       respawn_due_humans
       prune_caches
     end
@@ -158,6 +176,10 @@ module Game
     def resolve_attacks
       actors.each do |attacker|
         next unless attacker.attack_can_hit?
+        if attacker.kit[:attack][:arc] == "projectile"
+          launch_projectile(attacker)
+          next
+        end
         foes = hostiles_for(attacker)
         victim = attacker.attack_tiles.filter_map { |t| foes.find { |f| !f.dead? && f.tile == t } }.first
         next unless victim
@@ -167,6 +189,35 @@ module Game
                         blocked: blocked_for(victim))
         @bus.emit(:attack_hit, attacker:, victim:)
       end
+    end
+
+    # A projectile swing "lands" the moment it fires — the shot itself is a
+    # new sim object that carries the hit forward. Diagonal facings fly
+    # diagonally (grid-faithful: one tile per window on both axes).
+    def launch_projectile(attacker)
+      attacker.attack_landed!
+      cfg = attacker.kit[:attack]
+      @projectiles << Projectile.new(
+        owner: attacker, map:, tile: attacker.tile, dir: attacker.facing,
+        damage: cfg[:damage], range_tiles: cfg[:range_tiles],
+        frames_per_tile: cfg[:projectile_frames_per_tile]
+      )
+      @bus.emit(:projectile_fired, attacker:)
+    end
+
+    # Creation order = resolution order (deterministic). The projectile only
+    # reports the victim; damage resolves here from the OWNER's kit, exactly
+    # like melee — one law for all combat.
+    def tick_projectiles
+      @projectiles.each do |p|
+        victim = p.tick(hostiles: hostiles_for(p.owner))
+        next unless victim
+        victim.take_hit(damage: p.damage, attacker: p.owner,
+                        knockback_tiles: p.owner.kit[:attack][:knockback_tiles],
+                        blocked: blocked_for(victim))
+        @bus.emit(:attack_hit, attacker: p.owner, victim:)
+      end
+      @projectiles.reject!(&:done?)
     end
 
     # AiController drives the state machine; the telegraph event fires on the
@@ -203,6 +254,7 @@ module Game
       raise ArgumentError, "unknown zone #{name}" unless @zones.key?(name)
       @zone_name = name
       @flow_cache = {}
+      @projectiles = []
       placed = 0
       # Possessed gets the first tile; living allies the rest, in roster order.
       ([possessed] + (@pack.living - [possessed])).each do |m|
