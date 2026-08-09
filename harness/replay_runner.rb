@@ -20,12 +20,12 @@ require "gosu"
 require "fileutils"
 require "core/input"
 require_relative "scenes/moving_square"
-require_relative "scenes/arena_scene"
+require_relative "scenes/world_scene"
 
 module Harness
   SCENES = {
     "moving_square" => Scenes::MovingSquare,
-    "arena" => Scenes::ArenaScene
+    "world" => Scenes::WorldScene
   }.freeze
 
   def self.expand_script(raw)

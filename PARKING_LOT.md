@@ -17,3 +17,10 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
 ## New ideas (this project)
 
 - YJIT via self-built Ruby (only if profiling ever shows frame drops)
+
+## Queued from the feature map (drafts/_kethral-feature-map.md) — next candidates post fun-verify
+
+- Corpse-run gear drop (kethral's signature death tension — top candidate)
+- Third zone tier (Vonash) + BSP-generated dungeon layouts (fixed seed, learnable geography)
+- Room names on first visit ("The Entry Wound" style — cheap atmosphere)
+- Stamina economy, loot drops, skill-through-use progression

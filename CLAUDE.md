@@ -6,18 +6,22 @@ permission for design decisions.
 
 ## Scope contract (the #1 Kethral failure was ignoring this — it is enforced here)
 
+v2 after the 2026-08-09 playtest: arena duel retired; grid world is the slice.
+
 **IN scope until the slice is fun-verified:**
-- Move, fight ONE enemy type, die, respawn — in one arena room
-- One attack (+ feel: hitstop, screen shake, knockback)
-- Minimal HUD (health)
-- Rule 2 harness: deterministic replay + frame capture + vision critique
-- Placeholder audio hooks only (Gosu Sample stubs; NO MIDI, NO procedural SFX — owner order)
+- **Tibia-style grid movement**: 32px tiles, tile-stepped with visual tween, body-blocking
+- **Two hand-authored zones** (town = safe hub, Threketh = dungeon), gate-tile transitions,
+  camera follow + zone banners
+- Fight ONE enemy type (husk, flow-field chase), die, **respawn in town**
+- One attack (3-tile arc) + dodge + feel (hitstop, shake, telegraph — validated fun, keep)
+- Minimal HUD (health), Rule 2 harness
+- Placeholder audio hooks only (NO MIDI, NO procedural SFX — owner order)
 
 **OUT of scope — goes to PARKING_LOT.md, never to code:**
-procedural dungeons, dialogue, status effects, crafting, weather, time-of-day, codex,
-bestiary, charms, co-op, NPC schedules, quests, shops, inventory, multiple weapons,
-skill trees, second enemy type, second room. **Nothing new starts until the current
-loop is fun-verified by the owner.**
+procedural/BSP dungeons, corpse-run gear drop, stamina, loot, XP/skills, dialogue, status
+effects, crafting, weather, time-of-day, codex, bestiary, charms, co-op, NPC schedules,
+quests, shops, inventory, multiple weapons, second enemy type, third zone.
+**Nothing new starts until the current loop is fun-verified by the owner.**
 
 ## Non-negotiables (from the Kethral post-mortem)
 
@@ -44,9 +48,10 @@ loop is fun-verified by the owner.**
 
 ## Layout
 
-- `src/core/` — engine-agnostic: event bus, state stack, data store, input abstraction
+- `src/core/` — engine-agnostic: event bus, state stack, data store, input abstraction, tile map
+- `src/game/` — the sim: world (zones/transitions), player, enemy, grid walker, flow field, camera, feel
 - `src/app/` — Gosu-facing: window orchestrator (≤300 lines), rendering
-- `data/` — all JSON configs (balance, visuals)
+- `data/` — all JSON configs (`balance/`, `zones/`, `display.json`)
 - `harness/` — Rule 2 replay runner + input scripts
 - `captures/` — frame captures (gitignored)
 - `test/` — minitest; `rake` = run all
@@ -56,7 +61,7 @@ loop is fun-verified by the owner.**
 - `rake` — run all tests
 - `bin/play` (Git Bash) or `bin\play.cmd` (double-click / cmd) — launch the game
 - `rake capture SCRIPT=harness/scripts/<name>.json` — deterministic replay + frame capture
-  (arena_loop.json covers the full loop; captures verified byte-identical across runs)
+  (world_loop.json covers the full loop; captures verified byte-identical across runs)
 
 ## Controls
 

@@ -1,81 +1,87 @@
+require "game/grid_walker"
+
 module Game
-  # Player entity: 8-way movement, dodge (the defense verb), attack state
-  # machine (:idle, :windup, :active, :recovery). All numbers come from
-  # data/balance/combat.json (stats hash) — no balance constants here.
+  # Player entity on the tile grid. Logic reads tiles; GridWalker owns the
+  # smooth pixel tween between them. Attack state machine (:idle, :windup,
+  # :active, :recovery) is unchanged from slice v1 — the feel layer stays.
+  # All numbers come from data/balance/combat.json.
   class Player
     SIZE = 28
 
-    attr_reader :x, :y, :hp, :max_hp, :attack_state, :facing, :dodge_cooldown
+    attr_reader :hp, :max_hp, :attack_state, :facing, :dodge_cooldown, :walker
 
-    def initialize(bus:, stats:, x:, y:)
+    def initialize(bus:, stats:, map:, tile:)
       @bus = bus
       @stats = stats
-      @x = x
-      @y = y
+      @walker = GridWalker.new(map:, tile_x: tile[0], tile_y: tile[1], size: SIZE)
       @max_hp = stats[:max_hp]
       @hp = @max_hp
-      @facing = [1.0, 0.0]
+      @facing = [1, 0]
       @attack_state = :idle
       @state_frames = 0
       @invuln = 0
-      @dodge_frames = 0
       @dodge_cooldown = 0
-      @dodge_dir = [0.0, 0.0]
-      @knock = [0.0, 0.0]
       @attack_landed = false
     end
 
+    def tile = [@walker.tile_x, @walker.tile_y]
+    def x = @walker.px
+    def y = @walker.py
     def dead? = @hp <= 0
     def attacking_active? = @attack_state == :active
     def invulnerable? = @invuln.positive?
-    def dodging? = @dodge_frames.positive?
 
     # One swing hits at most once.
     def attack_landed! = @attack_landed = true
     def attack_can_hit? = attacking_active? && !@attack_landed
 
-    def tick(input, bounds:)
+    def rebind(map:, tile:)
+      @walker = GridWalker.new(map:, tile_x: tile[0], tile_y: tile[1], size: SIZE)
+    end
+
+    def tick(input, blocked: [])
+      @walker.tick
       return if dead?
 
       @invuln -= 1 if @invuln.positive?
       @dodge_cooldown -= 1 if @dodge_cooldown.positive?
       advance_attack_state
-      apply_knockback(bounds)
+      return if %i[windup active].include?(@attack_state)
 
-      if dodging?
-        dodge_step(bounds)
-      else
-        locked = %i[windup active].include?(@attack_state)
-        move(input, bounds) unless locked
-        start_attack if input.down?(:attack) && @attack_state == :idle
-        start_dodge(input) if input.down?(:dodge) && can_dodge?
+      dir = held_direction(input)
+      @facing = dir unless dir == [0, 0]
+      if input.down?(:dodge) && can_dodge?
+        start_dodge(dir, blocked) # dodge preempts the step — no 3-tile stack
+      elsif dir != [0, 0]
+        @walker.step(dir[0], dir[1], frames: @stats[:step_frames], blocked:)
       end
+      # Swings fire even mid-step (Tibia: attacking is independent of the
+      # walk); the windup/active lock above still plants the NEXT step.
+      start_attack if input.down?(:attack) && @attack_state == :idle
     end
 
-    # Reach box in front of the player while the attack is active.
-    def attack_hitbox
-      return nil unless attacking_active?
-      range = @stats[:attack][:range]
-      cx = @x + SIZE / 2 + @facing[0] * (SIZE / 2 + range / 2)
-      cy = @y + SIZE / 2 + @facing[1] * (SIZE / 2 + range / 2)
-      half = range / 2.0
-      [cx - half, cy - half, range, range]
+    # A swing is a 3-tile arc: the facing tile plus its two flanks. Husks
+    # melee at Chebyshev adjacency (diagonals hit), so the swing must reach
+    # diagonals too or a corner-parked husk would be unhittable. Front tile
+    # first — it wins when two husks are in the arc.
+    def attack_tiles
+      fx, fy = @facing
+      front = [@walker.tile_x + fx, @walker.tile_y + fy]
+      flanks =
+        if fx != 0 && fy != 0 # diagonal facing: the two cardinal components
+          [[@walker.tile_x + fx, @walker.tile_y], [@walker.tile_x, @walker.tile_y + fy]]
+        else # cardinal facing: the two diagonals beside the front tile
+          [[front[0] + fy, front[1] + fx], [front[0] - fy, front[1] - fx]]
+        end
+      [front, *flanks]
     end
 
-    def hitbox = [@x, @y, SIZE, SIZE]
-    def center = [@x + SIZE / 2, @y + SIZE / 2]
-    def attack_range = @stats[:attack][:range]
-
-    def take_hit(damage:, from_x:, from_y:)
-      return false if invulnerable? || dodging? || dead?
+    def take_hit(damage:, from_tile:, blocked: [])
+      return false if invulnerable? || dead?
       @hp = [@hp - damage, 0].max
       @invuln = @stats[:invuln_frames_after_hit]
-      dx = center[0] - from_x
-      dy = center[1] - from_y
-      len = Math.hypot(dx, dy)
-      kb = @stats[:knockback_received]
-      @knock = len.zero? ? [kb, 0.0] : [dx / len * kb, dy / len * kb]
       @attack_state = :idle
+      knock_away_from(from_tile, blocked)
       if dead?
         @bus.emit(:player_died)
       else
@@ -84,15 +90,12 @@ module Game
       true
     end
 
-    def respawn(x:, y:)
+    def respawn(map:, tile:)
       @hp = @max_hp
-      @x = x
-      @y = y
+      rebind(map:, tile:)
       @attack_state = :idle
       @invuln = 0
-      @dodge_frames = 0
       @dodge_cooldown = 0
-      @knock = [0.0, 0.0]
       @bus.emit(:player_respawned)
     end
 
@@ -100,37 +103,32 @@ module Game
 
     def can_dodge? = @dodge_cooldown.zero? && @attack_state == :idle
 
-    def start_dodge(input)
-      dir = held_direction(input)
-      @dodge_dir = dir == [0.0, 0.0] ? @facing.dup : dir
-      @dodge_frames = @stats[:dodge][:duration_frames]
+    def start_dodge(dir, blocked)
+      d = dir == [0, 0] ? @facing : dir
+      moved = @walker.dash(d[0], d[1],
+                           max_tiles: @stats[:dodge][:tiles],
+                           frames_per_tile: @stats[:dodge][:frames_per_tile],
+                           blocked:)
+      return unless moved
       @invuln = [@invuln, @stats[:dodge][:iframes]].max
       @dodge_cooldown = @stats[:dodge][:cooldown_frames]
       @bus.emit(:player_dodged)
     end
 
-    def dodge_step(bounds)
-      speed = @stats[:dodge][:distance] / @stats[:dodge][:duration_frames]
-      @x = (@x + @dodge_dir[0] * speed).clamp(bounds[0], bounds[2] - SIZE)
-      @y = (@y + @dodge_dir[1] * speed).clamp(bounds[1], bounds[3] - SIZE)
-      @dodge_frames -= 1
+    def knock_away_from(from_tile, blocked)
+      dx = (@walker.tile_x - from_tile[0]).clamp(-1, 1)
+      dy = (@walker.tile_y - from_tile[1]).clamp(-1, 1)
+      dx = 1 if dx.zero? && dy.zero?
+      @walker.dash(dx, dy,
+                   max_tiles: @stats[:knockback_tiles_received],
+                   frames_per_tile: @stats[:knockback_frames_per_tile],
+                   blocked:)
     end
 
     def held_direction(input)
       dx = (input.down?(:right) ? 1 : 0) - (input.down?(:left) ? 1 : 0)
       dy = (input.down?(:down) ? 1 : 0) - (input.down?(:up) ? 1 : 0)
-      return [0.0, 0.0] if dx.zero? && dy.zero?
-      len = Math.hypot(dx, dy)
-      [dx / len, dy / len]
-    end
-
-    def move(input, bounds)
-      dir = held_direction(input)
-      return if dir == [0.0, 0.0]
-      speed = @stats[:move_speed]
-      @x = (@x + dir[0] * speed).clamp(bounds[0], bounds[2] - SIZE)
-      @y = (@y + dir[1] * speed).clamp(bounds[1], bounds[3] - SIZE)
-      @facing = dir
+      [dx, dy]
     end
 
     def start_attack
@@ -155,13 +153,6 @@ module Game
       when :recovery
         @attack_state = :idle
       end
-    end
-
-    def apply_knockback(bounds)
-      return if @knock[0].abs < 0.1 && @knock[1].abs < 0.1
-      @x = (@x + @knock[0]).clamp(bounds[0], bounds[2] - SIZE)
-      @y = (@y + @knock[1]).clamp(bounds[1], bounds[3] - SIZE)
-      @knock = [@knock[0] * 0.8, @knock[1] * 0.8]
     end
   end
 end

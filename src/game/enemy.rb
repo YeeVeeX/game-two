@@ -1,49 +1,51 @@
+require "game/grid_walker"
+
 module Game
-  # The slice's one enemy: a husk. Behavior states :idle, :chase, :windup,
-  # :active, :cooldown, :dead. Telegraphs its attack by flashing during windup.
+  # The husk, now a tile creature. Chebyshev-adjacent melee (Tibia melee
+  # hits diagonals), chases downhill on the zone's flow field so walls are
+  # walked around, same telegraph feel as slice v1. States :idle, :chase,
+  # :windup, :active, :cooldown, :dead.
   class Enemy
-    SIZE = 32
+    SIZE = 28
 
-    attr_reader :x, :y, :hp, :state
+    attr_reader :hp, :state, :walker
 
-    def initialize(bus:, stats:, x:, y:)
+    def initialize(bus:, stats:, map:, tile:)
       @bus = bus
       @stats = stats
-      @x = x
-      @y = y
+      @walker = GridWalker.new(map:, tile_x: tile[0], tile_y: tile[1], size: SIZE)
       @hp = stats[:max_hp]
       @state = :idle
       @state_frames = 0
-      @knock = [0.0, 0.0]
       @hurt_frames = 0
     end
 
+    def tile = [@walker.tile_x, @walker.tile_y]
+    def x = @walker.px
+    def y = @walker.py
     def dead? = @state == :dead
     def telegraphing? = @state == :windup
-    def attacking_active? = @state == :active
     def hurt? = @hurt_frames.positive?
 
-    def tick(player:, bounds:)
+    def tick(player:, flow:, blocked: [])
       return if dead?
 
+      @walker.tick
       @hurt_frames -= 1 if @hurt_frames.positive?
-      apply_knockback(bounds)
-      px, py = player.center
-      cx, cy = center
-      dist = Math.hypot(px - cx, py - cy)
+      dist = chebyshev(player.tile)
 
       case @state
       when :idle
-        @state = :chase if dist <= @stats[:aggro_range] && !player.dead?
+        @state = :chase if dist <= @stats[:aggro_tiles] && !player.dead?
       when :chase
         if player.dead?
           @state = :idle
-        elsif dist <= @stats[:attack][:range]
+        elsif dist <= 1
           @state = :windup
           @state_frames = @stats[:attack][:windup_frames]
           @bus.emit(:enemy_telegraph)
         else
-          step_toward(px, py, bounds)
+          chase_step(flow, blocked)
         end
       when :windup
         @state_frames -= 1
@@ -52,7 +54,7 @@ module Game
           @state_frames = @stats[:attack][:active_frames]
         end
       when :active
-        strike(player) unless player.dead?
+        strike(player, blocked)
         @state_frames -= 1
         if @state_frames <= 0
           @state = :cooldown
@@ -64,14 +66,11 @@ module Game
       end
     end
 
-    def take_hit(damage:, knockback:, from_x:, from_y:)
+    def take_hit(damage:, from_tile:, blocked: [])
       return if dead?
       @hp = [@hp - damage, 0].max
       @hurt_frames = 8
-      dx = center[0] - from_x
-      dy = center[1] - from_y
-      len = Math.hypot(dx, dy)
-      @knock = len.zero? ? [knockback, 0.0] : [dx / len * knockback, dy / len * knockback]
+      knock_away_from(from_tile, blocked)
       if @hp.zero?
         @state = :dead
         @bus.emit(:entity_died, entity: :husk)
@@ -80,34 +79,32 @@ module Game
       end
     end
 
-    def hitbox = [@x, @y, SIZE, SIZE]
-    def center = [@x + SIZE / 2, @y + SIZE / 2]
-
     private
 
-    def strike(player)
-      px, py = player.center
-      cx, cy = center
-      return unless Math.hypot(px - cx, py - cy) <= @stats[:attack][:range] + Player::SIZE / 2
-      player.take_hit(damage: @stats[:attack][:damage], from_x: cx, from_y: cy)
+    def chebyshev((tx, ty))
+      [(tx - @walker.tile_x).abs, (ty - @walker.tile_y).abs].max
     end
 
-    def step_toward(px, py, bounds)
-      cx, cy = center
-      dx = px - cx
-      dy = py - cy
-      len = Math.hypot(dx, dy)
-      return if len.zero?
-      speed = @stats[:move_speed]
-      @x = (@x + dx / len * speed).clamp(bounds[0], bounds[2] - SIZE)
-      @y = (@y + dy / len * speed).clamp(bounds[1], bounds[3] - SIZE)
+    def strike(player, blocked)
+      return if player.dead? || chebyshev(player.tile) > 1
+      player.take_hit(damage: @stats[:attack][:damage], from_tile: tile, blocked:)
     end
 
-    def apply_knockback(bounds)
-      return if @knock[0].abs < 0.1 && @knock[1].abs < 0.1
-      @x = (@x + @knock[0]).clamp(bounds[0], bounds[2] - SIZE)
-      @y = (@y + @knock[1]).clamp(bounds[1], bounds[3] - SIZE)
-      @knock = [@knock[0] * 0.8, @knock[1] * 0.8]
+    def chase_step(flow, blocked)
+      return if @walker.moving?
+      dir = flow.downhill_from(@walker.tile_x, @walker.tile_y, blocked:)
+      return unless dir
+      @walker.step(dir[0], dir[1], frames: @stats[:step_frames], blocked:)
+    end
+
+    def knock_away_from(from_tile, blocked)
+      dx = (@walker.tile_x - from_tile[0]).clamp(-1, 1)
+      dy = (@walker.tile_y - from_tile[1]).clamp(-1, 1)
+      dx = 1 if dx.zero? && dy.zero?
+      @walker.dash(dx, dy,
+                   max_tiles: @stats[:knockback_tiles],
+                   frames_per_tile: @stats[:knockback_frames_per_tile],
+                   blocked:)
     end
   end
 end
