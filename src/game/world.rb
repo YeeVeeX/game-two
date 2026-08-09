@@ -163,6 +163,7 @@ module Game
         next unless victim
         attacker.attack_landed!
         victim.take_hit(damage: attacker.kit[:attack][:damage], attacker:,
+                        knockback_tiles: attacker.kit[:attack][:knockback_tiles],
                         blocked: blocked_for(victim))
         @bus.emit(:attack_hit, attacker:, victim:)
       end

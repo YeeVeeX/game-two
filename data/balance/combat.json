@@ -1,37 +1,98 @@
 {
   "pack": {
-    "members": [
-      "prowler",
-      "prowler",
-      "prowler"
-    ],
+    "members": ["striker", "blocker", "lobber"],
     "swap_stagger_frames": 20
   },
   "respawn_frames": 90,
   "kits": {
-    "prowler": {
-      "max_hp": 100,
-      "step_frames": 15,
+    "striker": {
+      "max_hp": 80,
+      "step_frames": 13,
       "aggro_tiles": 8,
       "attack": {
         "damage": 25,
-        "windup_frames": 6,
+        "windup_frames": 5,
         "active_frames": 4,
-        "recovery_frames": 10,
-        "exhaust_frames": 45,
+        "recovery_frames": 8,
+        "exhaust_frames": 35,
+        "arc": "front1",
+        "knockback_tiles": 0,
+        "knockback_frames_per_tile": 5
+      },
+      "dodge": {
+        "tiles": 2,
+        "frames_per_tile": 6,
+        "iframes": 18,
+        "cooldown_frames": 45
+      },
+      "knockback_frames_per_tile": 5,
+      "interrupt_on_hit": true
+    },
+    "blocker": {
+      "max_hp": 160,
+      "step_frames": 19,
+      "aggro_tiles": 8,
+      "attack": {
+        "damage": 20,
+        "windup_frames": 8,
+        "active_frames": 4,
+        "recovery_frames": 12,
+        "exhaust_frames": 60,
         "arc": "arc3",
         "knockback_tiles": 1,
         "knockback_frames_per_tile": 5
       },
       "dodge": {
-        "tiles": 2,
-        "frames_per_tile": 7,
-        "iframes": 18,
-        "cooldown_frames": 50
+        "tiles": 1,
+        "frames_per_tile": 9,
+        "iframes": 12,
+        "cooldown_frames": 70
       },
-      "knockback_tiles_received": 1,
+      "knockback_frames_per_tile": 5,
+      "interrupt_on_hit": false
+    },
+    "lobber": {
+      "max_hp": 60,
+      "step_frames": 16,
+      "aggro_tiles": 9,
+      "attack": {
+        "damage": 20,
+        "windup_frames": 10,
+        "active_frames": 2,
+        "recovery_frames": 10,
+        "exhaust_frames": 60,
+        "arc": "projectile",
+        "range_tiles": 6,
+        "projectile_frames_per_tile": 4,
+        "knockback_tiles": 0,
+        "knockback_frames_per_tile": 5
+      },
+      "dodge": {
+        "tiles": 2,
+        "frames_per_tile": 8,
+        "iframes": 15,
+        "cooldown_frames": 60
+      },
       "knockback_frames_per_tile": 5,
       "interrupt_on_hit": true
+    },
+    "rusher": {
+      "max_hp": 50,
+      "step_frames": 16,
+      "aggro_tiles": 12,
+      "respawn_frames": 300,
+      "attack": {
+        "damage": 12,
+        "windup_frames": 24,
+        "active_frames": 6,
+        "recovery_frames": 0,
+        "exhaust_frames": 66,
+        "arc": "ring",
+        "knockback_tiles": 1,
+        "knockback_frames_per_tile": 5
+      },
+      "knockback_frames_per_tile": 5,
+      "interrupt_on_hit": false
     },
     "husk": {
       "max_hp": 60,
@@ -48,7 +109,6 @@
         "knockback_tiles": 1,
         "knockback_frames_per_tile": 5
       },
-      "knockback_tiles_received": 1,
       "knockback_frames_per_tile": 5,
       "interrupt_on_hit": false
     }
