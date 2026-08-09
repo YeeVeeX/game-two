@@ -1,5 +1,16 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-09 (later) — vertical slice SHIPPED, awaiting owner playtest
+
+- Env: Ruby 3.4.10 (`C:\Ruby34-x64`, no YJIT — RubyInstaller builds without it; accepted),
+  Gosu 1.4.6. Capture API verified live: `Gosu.render` → `Image#save` works in-window.
+- Shipped (commits `8f787de`, `2efe4c6`): core skeleton (event bus/state stack/data store/
+  input seam), Rule 2 harness (replay + capture, byte-identical across runs, opaque-alpha
+  fix), slice spec (docs/SLICE_SPEC.md), full loop: move/attack/dodge/die/respawn vs one
+  husk with hitstop/shake/telegraph/hurt-flash. 26 tests green. Frames vision-checked.
+- **Owner queue: run `bin\play.cmd`, playtest the loop, report. DONE WHEN owner calls it fun.**
+- Balance deviation from spec: husk aggro 220→600 (one-room duel needs pressure).
+
 ## 2026-08-09 — project born; pre-compact checkpoint
 
 **State (measured, not recalled):**
