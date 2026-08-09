@@ -1,5 +1,62 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-09 (night) — M1 POSSESSION CORE SHIPPED; owner feel-check queued
+
+**State (measured):** branch `a0-m1-possession`, 11 commits over main, 48 tests / 128
+assertions green, BOTH `rake gate` scripts PASS (possession_core.json 10/10 captures
+byte-identical + 9/9 vision checks; world_loop.json 10/10 + 9/9). Player/Enemy classes
+DELETED; Creature/Pack/controllers replace them. Orchestrator: window.rb ~60 lines.
+
+**What M1 is:** the pack of 3 (shared prowler kit) in the existing two zones vs the existing
+husks. Tab = voluntary swap (no stagger, edge-triggered inputs — held keys never leak into
+the new body). Possessed death = forced swap to nearest survivor + 20f stagger + red veil
+beat. All three dead = wipe → "THE HUNT ENDS" veil → pack respawns in town. Exhaust (45f,
+data-driven) paces held-attack — the held-space barrier complaint is fixed by rhythm, not
+input denial. Blanket 30f invuln REMOVED (per-attacker cadence paces damage; dodge i-frames
+stay). Hitstop scoped to possessed fights only. Humans target the NEAREST pack creature,
+not the camera.
+
+**Deviations logged while implementing (all in committed messages):**
+- `interrupt_on_hit` is a kit flag (husk windup uninterruptible, like the old game's husk) —
+  without it 3-creature DPS stun-locked every husk and the loop never showed a telegraph.
+- Allies yield the possessed's front tile (found by the suite: an ally body-blocking your own
+  walk path broke zone transit).
+- Exhaust 45f baseline + husk exhaust 81f (= its old 30+6+45 cadence, so husk feel unchanged).
+
+**Phase 0 (review orders, all landed):** `rake gate` = double replay + md5 compare + Bedrock
+vision verdict, ALL blocking (exit nonzero; verified both directions incl. a corrupted-byte
+negative test). Gemfile.lock committed, gosu pinned = 1.4.6. Design corpus promoted to
+`docs/design-corpus/`. YJIT decision text corrected. Timebase documented tick-locked with an
+on-screen overrun counter.
+
+**Owner feel-check (the M1 gate):** run `bin\play.cmd` — (1) Tab-swap mid-fight: does
+relocating under pressure feel good? (2) forced swap when your body dies: does the sting +
+stagger read? (3) held-space attack: barrier gone, rhythm there? (4) wipe → town: does losing
+the whole pack land? React + report; M2's plan gets written from the reaction.
+
+**M2 queue (next plan, after feel-check):** three kits (Blocker/Striker/Lobber + projectile),
+Rushers, nest + district zones, 3-bar HUD + exhaust pip, edge pips, carried critique fixes,
+perf smoke p95 < 16.6 ms, district_hunt.json. Fiction binding when the Egypt-corpus bible
+lands (order form in the spec).
+
+**Adversarial review (landed + folded in):** 4 findings, all fixed pre-merge — (1) vision gate
+could false-PASS on partial/empty model output → checklist-coverage validation added (missing
+or unknown check ids = infra error, exit 2); (2) forced-swap stagger was bypassable by an
+instant Tab → Tab refused while possessed is staggered (+ regression test); (3) dead husks
+land same-frame posthumous hits → kept deliberately, documented as the simultaneous-trade
+call in resolve_attacks; (4) respawned humans reused live names, corrupting the harness event
+log → monotonic per-zone serials.
+
+**Known honest-signal flake:** the `telegraph_reads` vision check is borderline — telegraph
+yellow ≈ gate gold (identical frames flipped PASS/FAIL between gate runs). The check stays;
+the COLOR is the bug, and it's already in M2's carried critique fixes.
+
+**Perf (measured, informal):** 6,600-tick sim run incl. dungeon combat: p50 0.007 ms /
+p95 0.039 ms / max 2.63 ms per tick — ~2 orders of magnitude under the 16.6 ms budget.
+The formal p95 perf smoke still gates M2 (district + Rushers is the load case).
+
+**In flight when written:** nothing — review landed, fixes verified, both gates re-run green.
+
 ## 2026-08-09 (evening) — grid v2 fun-verified; monster-flip designed, reviewed, and CUT DOWN
 
 **State (measured):** 6 commits, 31 tests / 82 assertions green, grid world v2 SHIPPED and
@@ -21,16 +78,18 @@ One live complaint: held-space attack = impenetrable barrier (fix designed, see 
    not briefs. → fold into CLAUDE.md with the spec.
 
 **Dual adversarial review (Codex@high + Fable@max) both REJECTED Increment A as one increment.**
-Full reconciliation + binding design law: `drafts/_design-review-reconciliation.md` (READ IT —
+Full reconciliation + binding design law: `docs/design-corpus/design-review-reconciliation.md` (READ IT —
 it contains the A0 cut, the 5 design laws incl. per-attacker invuln replacing blanket 30f,
 determinism spec, swap-inert exhaust, forced-swap death, and the single-protagonist-stack risk).
 
-**Evidence corpus (all in drafts/, gitignored, do NOT re-generate):**
-`_tibia-research.md` (11 verified findings, 105 agents) · `_tibia-videos/*_analysis.md` (3 video
-briefs via adapted Foreman pipeline; harness/video_analyst.py + vision_critic.py are the tools) ·
-`_vision-critique-20260809-090905.md` (Tibia-veteran critique of our captures; top fixes: facing
-notch, hurt-flash never white, telegraph≠gate color, wall brightness, corpses persist, ease-out
-tween) · `_kethral-feature-map.md` · `_design-review-reconciliation.md`.
+**Evidence corpus (promoted to `docs/design-corpus/` 2026-08-09, tracked in git; bulky video
+dumps stay gitignored in drafts/, do NOT re-generate):**
+`tibia-research.md` (11 verified findings, 105 agents) · `drafts/_tibia-videos/*_analysis.md`
+(3 video briefs via adapted Foreman pipeline; harness/video_analyst.py + vision_critic.py are
+the tools) · `vision-critique-20260809.md` (Tibia-veteran critique of our captures; top fixes:
+facing notch, hurt-flash never white, telegraph≠gate color, wall brightness, corpses persist,
+ease-out tween) · `kethral-feature-map.md` · `design-review-reconciliation.md` ·
+`marrow-fact-sheet.md`.
 
 **Next sequence:**
 1. Owner call on fiction grounding (Kethral mythos vs new bible) — then write the ONE-PAGE spec
@@ -65,7 +124,7 @@ versions" most plausibly = `prototype/` and `kethral/`; **confirm by mining, not
 **Next sequence:**
 1. Mine `prototype/`, `kethral/`, `kethral_v2/` -> feature map of what "the whole features"
    means (movement model, world/zone structure, the game's actual shape). Write findings to
-   `drafts/_kethral-feature-map.md`.
+   `docs/design-corpus/kethral-feature-map.md` (originally drafts/, promoted 2026-08-09).
 2. Design + implement grid movement (tile stepping) behind the existing input seam; replay
    scripts/tests move to tile assertions. Feel layer stays.
 3. Rewrite SLICE_SPEC v2 around the real intent (world shape, not arena). Scope contract in
@@ -98,7 +157,10 @@ numbers — do not re-mine), `_session-handoff-20260809.md` (original rationale)
   1,364 passing tests (claim dated 2026-04-02, not re-verified).
 
 **Decisions locked this session (rationale in the handoff draft — don't relitigate):**
-1. **Ruby + Gosu**, CRuby 3.4 + YJIT. DragonRuby and Ruby2D rejected.
+1. **Ruby + Gosu**, CRuby 3.4. DragonRuby and Ruby2D rejected. [Corrected 2026-08-09: the
+   installed RubyInstaller 3.4.10 has NO YJIT (needs rustc at build time) — PRISM interpreter
+   only. Perf is asserted by measurement, not by this decision text: M2 gate carries a perf
+   smoke (p95 update < 16.6 ms) per the third review.]
 2. **Audio = placeholder only.** Owner explicitly dropped the MIDI/procedural-SFX experiment.
 3. **Claude is the dev of record; owner is the tester.** Design calls are Claude's to make.
 4. **Better-this-time doctrine** (from Kethral post-mortem): scope enforced via project

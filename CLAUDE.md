@@ -9,7 +9,7 @@ permission for design decisions.
 v3 (2026-08-09): grid world v2 fun-verified; direction locked = **monster flip** — play a pack
 of 3 creatures hunting humans in a collapsing modern city. Current increment = **A0 =
 possession core ONLY** (spec: `docs/superpowers/specs/2026-08-09-a0-possession-core-design.md`;
-binding review law: `drafts/_design-review-reconciliation.md`).
+binding review law: `docs/design-corpus/design-review-reconciliation.md`).
 
 **IN scope until A0 is fun-verified:**
 - **Actor/controller refactor** (kills the Player/Enemy dichotomy; factions; combat reads
@@ -66,6 +66,9 @@ quests, shops, inventory, multiple weapons).
   works on this machine (produces real PNGs). `Gosu.render` needs a live GL context —
   run captures inside a real `Gosu::Window`, not headless.
 - Old repo (READ-ONLY reference): `C:\Users\gabri\Documents.stale-20260413\coding_projects_main\Game On(e)`
+- Gemfile.lock is committed; gosu pinned `= 1.4.6`. ⚠️ rubygems ships no prebuilt
+  x64-mingw-ucrt binary for gosu 1.4.6 — it compiled from source here via the RubyInstaller
+  devkit; a fresh machine needs MSYS2/devkit installed before `bundle install`.
 
 ## Layout
 
@@ -82,8 +85,16 @@ quests, shops, inventory, multiple weapons).
 - `rake` — run all tests
 - `bin/play` (Git Bash) or `bin\play.cmd` (double-click / cmd) — launch the game
 - `rake capture SCRIPT=harness/scripts/<name>.json` — deterministic replay + frame capture
-  (world_loop.json covers the full loop; captures verified byte-identical across runs)
+  (world_loop.json = everyday regression loop; possession_core.json = full possession loop
+  incl. forced swap + wipe)
+- `rake gate SCRIPT=harness/scripts/<name>.json` — the BLOCKING Rule 2 gate: double replay +
+  md5 compare + structured vision verdict (exit nonzero on any failure). `SKIP_CRITIC=1` runs
+  the determinism half only (iteration aid, not a shippable pass).
 
 ## Controls
 
-WASD / arrows = move · J / Space = attack · K / Shift = dodge · Esc = quit
+WASD / arrows = move · J / Space = attack · K / Shift = dodge · Tab = swap possession · Esc = quit
+
+Timebase: `Window#update` = exactly one sim tick (tick-locked; replays deterministic by tick
+count). Under load the game slows rather than skips — the top-right overrun counter makes
+that visible, so a sluggish playtest is a perf signal, not a balance signal.

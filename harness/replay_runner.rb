@@ -42,18 +42,18 @@ module Harness
   end
 
   class ReplayWindow < Gosu::Window
-    def initialize(script_path)
+    def initialize(script_path, out_dir_override = nil)
       raw = JSON.parse(File.read(script_path), symbolize_names: true)
       w = raw.fetch(:width, 640)
       h = raw.fetch(:height, 360)
       super(w, h)
       self.caption = "game-two replay: #{raw[:scenario]}"
 
-      @scene = SCENES.fetch(raw.fetch(:scenario)).new(width: w, height: h)
+      @scene = SCENES.fetch(raw.fetch(:scenario)).new(width: w, height: h, seed: raw.fetch(:seed, 0))
       @input = Core::ScriptedInput.new(frames: Harness.expand_script(raw))
       @captures = raw.fetch(:captures, []).to_a
       @run_until = raw.fetch(:run_until)
-      @out_dir = raw.fetch(:out_dir)
+      @out_dir = out_dir_override || raw.fetch(:out_dir)
       FileUtils.mkdir_p(@out_dir)
       @frame = 0
     end
@@ -89,7 +89,7 @@ module Harness
 end
 
 if __FILE__ == $PROGRAM_NAME
-  script = ARGV[0] or abort "Usage: ruby -Isrc harness/replay_runner.rb <script.json>"
-  Harness::ReplayWindow.new(script).show
+  script = ARGV[0] or abort "Usage: ruby -Isrc harness/replay_runner.rb <script.json> [out_dir]"
+  Harness::ReplayWindow.new(script, ARGV[1]).show
   puts "REPLAY_DONE"
 end

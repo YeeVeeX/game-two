@@ -7,7 +7,9 @@ require "game/world"
 # All assertions are on TILES, not pixels (grid movement doctrine).
 class WorldTest < Minitest::Test
   DATA = Core::DataStore.new(File.expand_path("../../data", __dir__))
-  STEP = DATA["balance/combat"][:player][:step_frames]
+  STEP = DATA["balance/combat"][:kits][:prowler][:step_frames]
+  EXHAUST = DATA["balance/combat"][:kits][:prowler][:attack][:exhaust_frames]
+  STAGGER = DATA["balance/combat"][:pack][:swap_stagger_frames]
 
   def world = @world ||= Game::World.new(DATA)
 
@@ -17,7 +19,6 @@ class WorldTest < Minitest::Test
     (from..to).to_h { |f| [f.to_s, [action.to_s]] }
   end
 
-  # Drives input.update from the world's own frame counter.
   def drive(world, input, n)
     n.times do
       input.update(world.frame)
@@ -25,165 +26,201 @@ class WorldTest < Minitest::Test
     end
   end
 
-  def husk_tile_distance(world)
-    return Float::INFINITY if world.enemies.empty?
-    px, py = world.player.tile
-    world.enemies.map { |h| [(h.tile[0] - px).abs, (h.tile[1] - py).abs].max }.min
+  def enter_dungeon(world)
+    drive(world, scripted(hold(:right, 0, STEP * 30 - 1)), STEP * 30)
+    assert_equal "threketh", world.zone_name
   end
 
-  def nearest_husk(world)
-    px, py = world.player.tile
-    world.enemies.reject(&:dead?).min_by { |h| [(h.tile[0] - px).abs, (h.tile[1] - py).abs].max }
+  def nearest_human(world)
+    px, py = world.possessed.tile
+    world.humans.reject(&:dead?).min_by { |h| [(h.tile[0] - px).abs, (h.tile[1] - py).abs].max }
   end
 
-  def test_player_starts_in_town_with_no_enemies
-    assert_equal "town", world.zone_name
-    assert_empty world.enemies
-    assert_equal world.map.player_spawn, world.player.tile
+  def kill(creature, by:)
+    creature.take_hit(damage: creature.hp, attacker: by) until creature.dead?
   end
+
+  # --- pack + possession -------------------------------------------------
+
+  def test_pack_of_three_spawns_in_town
+    assert_equal 3, world.pack.members.length
+    assert_equal world.map.pack_spawn.take(3).sort, world.pack.members.map(&:tile).sort
+    assert_equal world.pack.members.first, world.possessed
+    assert_empty world.humans
+  end
+
+  def test_tab_swaps_to_next_living
+    a = world.possessed
+    drive(world, scripted({ "0" => ["swap"] }), 1)
+    refute_equal a, world.possessed, "Tab moves possession"
+    refute world.possessed.staggered?, "voluntary swap has no stagger"
+  end
+
+  def test_held_swap_does_not_autorepeat
+    swaps = 0
+    world.bus.subscribe(:possession_changed) { swaps += 1 }
+    drive(world, scripted(hold(:swap, 0, 29)), 30)
+    assert_equal 1, swaps, "30 held frames = exactly one swap (rising edge)"
+  end
+
+  def test_forced_swap_on_possessed_death_with_stagger
+    changes = []
+    world.bus.subscribe(:possession_changed) { |e| changes << e }
+    victim = world.possessed
+    hunter = world.pack.members[1] # any creature works as attacker identity
+    kill(victim, by: hunter)
+    drive(world, scripted({}), 1) # flush bus
+    assert_equal 1, changes.length
+    assert changes.first[:forced]
+    refute_equal victim, world.possessed
+    assert world.possessed.staggered?, "forced swap pays the stagger (law 2)"
+    assert_equal :world, world.states.current, "forced swap is NOT a state change"
+  end
+
+  def test_tab_refused_while_staggered_death_penalty_always_lands
+    victim = world.possessed
+    hunter = world.pack.members[1]
+    kill(victim, by: hunter)
+    drive(world, scripted({}), 1) # flush bus -> forced swap + stagger
+    staggered_body = world.possessed
+    assert staggered_body.staggered?
+    drive(world, scripted({ world.frame.to_s => ["swap"] }), 1)
+    assert_equal staggered_body, world.possessed,
+                 "Tab during forced-swap stagger must be refused (law 2: the beat lands)"
+    # +10 slack: the kill's hitstop freezes tick_body, so the stagger clock
+    # runs slower than wall ticks for its first ~8 frames.
+    drive(world, scripted({}), STAGGER + 10)
+    drive(world, scripted({ world.frame.to_s => ["swap"] }), 1)
+    refute_equal staggered_body, world.possessed, "Tab works again once the stagger expires"
+  end
+
+  def test_wipe_respawns_whole_pack_in_town
+    wiped = false
+    world.bus.subscribe(:pack_wiped) { wiped = true }
+    enter_dungeon(world)
+    hunter = world.humans.first
+    world.pack.members.each { |m| kill(m, by: hunter) }
+    drive(world, scripted({}), 1)
+    assert wiped
+    assert_equal :nest_respawn, world.states.current
+    drive(world, scripted({}), DATA["balance/combat"][:respawn_frames] + 5)
+    assert_equal :world, world.states.current
+    assert_equal "town", world.zone_name, "wipe sends the pack home"
+    assert world.pack.members.all? { |m| m.hp == m.max_hp }, "everyone revives full"
+  end
+
+  # --- combat laws ---------------------------------------------------------
+
+  def test_held_attack_swings_at_exhaust_pace
+    starts = 0
+    world.bus.subscribe(:attack_started) { starts += 1 }
+    drive(world, scripted(hold(:attack, 0, EXHAUST * 3 - 1)), EXHAUST * 3)
+    assert_equal 3, starts, "held attack = one swing per exhaust window, not per frame"
+  end
+
+  def test_swap_is_exhaust_inert
+    a = world.possessed
+    drive(world, scripted({ "0" => ["attack"] }), 1)
+    refute a.exhaust_ready?, "a just paid its exhaust"
+    drive(world, scripted({ world.frame.to_s => ["swap"] }), 1)
+    b = world.possessed
+    assert b.exhaust_ready?, "b's own clock governs — swap transfers nothing (law 4)"
+    refute a.exhaust_ready?, "a's clock keeps counting unpossessed"
+  end
+
+  def test_ally_ai_fights_humans
+    enter_dungeon(world)
+    ally_kills = 0
+    world.bus.subscribe(:actor_died) do |e|
+      ally_kills += 1 if e[:faction] == :human && e[:killer].faction == :pack && !e[:killer].equal?(world.possessed)
+    end
+    # Possessed idles at the gate; allies must engage approaching husks alone.
+    drive(world, scripted({}), 9000)
+    assert_operator ally_kills, :>=, 1, "unpossessed allies fight on their own (husk-grade AI)"
+  end
+
+  def test_hitstop_only_for_possessed_fights
+    enter_dungeon(world)
+    # Swap away so the fighting happens between allies and husks only.
+    drive(world, scripted({ world.frame.to_s => ["swap"] }), 1)
+    hits_seen = 0
+    stops_during_ally_hits = 0
+    world.bus.subscribe(:attack_hit) do |e|
+      unless [e[:attacker], e[:victim]].any? { |c| c.equal?(world.possessed) }
+        hits_seen += 1
+        stops_during_ally_hits += 1 if world.feel.hitstop?
+      end
+    end
+    drive(world, scripted({}), 6000)
+    assert_operator hits_seen, :>=, 1, "allies traded hits during the window"
+    assert_equal 0, stops_during_ally_hits, "ally fights never freeze the world (law 5)"
+  end
+
+  # --- carried grid invariants (rewritten from v2 suite) -------------------
 
   def test_held_key_walks_tile_by_tile
     input = scripted(hold(:right, 0, STEP * 3 - 1))
-    x0, y0 = world.player.tile
+    x0, y0 = world.possessed.tile
     drive(world, input, STEP * 3)
-    assert_equal [x0 + 3, y0], world.player.tile, "3 steps' worth of held input moves exactly 3 tiles"
+    assert_equal [x0 + 3, y0], world.possessed.tile
   end
 
-  def test_step_is_committed_at_start_and_visual_catches_up
-    input = scripted(hold(:right, 0, 1))
-    x0 = world.player.tile[0]
-    px0 = world.player.x
-    drive(world, input, 1)
-    assert_equal x0 + 1, world.player.tile[0], "logical tile commits immediately"
-    assert world.player.walker.moving?
-    assert_operator world.player.x, :<, (x0 + 1) * 32, "visual position still tweening"
-    assert_operator world.player.x, :>=, px0
-    drive(world, scripted({}), STEP)
-    refute world.player.walker.moving?
-  end
-
-  def test_walls_block_movement
-    input = scripted(hold(:up, 0, STEP * 30 - 1))
-    drive(world, input, STEP * 30)
-    ty = world.player.tile[1]
-    assert world.map.wall?(world.player.tile[0], ty - 1), "player should be stopped under a wall"
-    assert world.map.passable?(*world.player.tile)
-  end
-
-  def test_zone_transition_town_to_threketh_and_back
-    zones_seen = []
-    world.bus.subscribe(:zone_entered) { |e| zones_seen << e[:zone] }
-
-    # Walk right onto the town's east transition tile.
-    input = scripted(hold(:right, 0, STEP * 30 - 1))
-    drive(world, input, STEP * 30)
-    assert_equal "threketh", world.zone_name, "walking the east gate leads to the dungeon"
-    assert_equal world.map.transitions.first[:at], world.map.player_spawn.then { world.player.tile } if false
-    assert_includes zones_seen, "threketh"
-    refute_empty world.enemies, "the dungeon has husks"
-
-    # Walk back left through the return tile (+1 step of slack so the final
-    # tween completes — the transition fires when the step lands, not when
-    # the tile commits).
+  def test_zone_transition_moves_whole_pack
+    enter_dungeon(world)
+    tiles = world.pack.living.map(&:tile)
+    assert_equal tiles.uniq.length, tiles.length, "no shared tiles on arrival"
+    tiles.each { |t| assert world.map.passable?(*t) }
     back = scripted(hold(:left, world.frame, world.frame + STEP * 10 - 1))
     drive(world, back, STEP * 11)
-    assert_equal "town", world.zone_name, "the west mouth of Threketh returns to town"
+    assert_equal "town", world.zone_name
   end
 
-  def test_husk_aggros_chases_and_kills_idle_player_then_respawn_in_town
-    # Get into the dungeon.
-    drive(world, scripted(hold(:right, 0, STEP * 30 - 1)), STEP * 30)
-    assert_equal "threketh", world.zone_name
-
-    death_seen = false
-    hp_at_respawn = nil
-    world.bus.subscribe(:player_died) { death_seen = true }
-    world.bus.subscribe(:player_respawned) { hp_at_respawn ||= world.player.hp }
-
+  def test_husks_hunt_the_nearest_pack_member_not_the_possessed
+    enter_dungeon(world)
+    # The possessed walks north away from the gate; allies hold near it. The
+    # husks must engage whoever is nearest — assert SOME ally takes a hit
+    # while the possessed keeps distance.
+    ally_hit = false
+    world.bus.subscribe(:attack_hit) do |e|
+      ally_hit = true if e[:victim].faction == :pack && !e[:victim].equal?(world.possessed)
+    end
+    drive(world, scripted(hold(:up, world.frame, world.frame + STEP * 6 - 1)), STEP * 6)
     drive(world, scripted({}), 6000)
-    assert death_seen, "an idle player in the dungeon should die to husks"
-    refute_nil hp_at_respawn, "player should respawn after the death timer"
-    assert_equal world.player.max_hp, hp_at_respawn, "respawn restores full hp"
-    assert_equal "town", world.zone_name, "death sends you home (hub-and-spoke doctrine)"
-    assert_equal :world, world.states.current
+    assert ally_hit, "humans target nearest pack creature, not the camera"
   end
 
-  def test_attack_kills_adjacent_husk_in_three_hits
-    drive(world, scripted(hold(:right, 0, STEP * 30 - 1)), STEP * 30)
-    assert_equal "threketh", world.zone_name
-
-    hits = 0
-    world.bus.subscribe(:attack_hit) { hits += 1 }
-
-    # Wait for a husk to close to melee range, then face it and swing.
-    guard = 0
-    idle = scripted({})
-    target = nearest_husk(world)
-    until target&.dead? || guard > 6000
-      target = nearest_husk(world)
-      break if target.nil?
-      if husk_tile_distance(world) > 1 || world.player.walker.moving?
-        drive(world, idle, 1)
-        guard += 1
-      else
-        dx = (target.tile[0] - world.player.tile[0]).clamp(-1, 1)
-        dir = if dx.positive? then "right"
-              elsif dx.negative? then "left"
-              elsif (target.tile[1] - world.player.tile[1]).negative? then "up"
-              else "down"
-              end
-        # Face + swing: direction key sets facing even when body-blocked.
-        swing = scripted({ world.frame.to_s => [dir, "attack"] })
-        drive(world, swing, 25)
-        guard += 25
-      end
-    end
-    assert target&.dead?, "husk should die to melee (landed #{hits} hits)"
-    assert_operator hits, :>=, 3, "60hp / 25dmg needs 3 landed hits"
-  end
-
-  def test_dodge_bursts_two_tiles_and_grants_iframes
-    input = scripted({ "0" => %w[right dodge] })
-    x0 = world.player.tile[0]
-    drive(world, input, 1)
-    assert world.player.invulnerable?
-    assert_equal x0 + 2, world.player.tile[0], "dodge commits a 2-tile burst"
-    refute world.player.take_hit(damage: 10, from_tile: [0, 0])
-    assert_equal world.player.max_hp, world.player.hp
-  end
-
-  def test_determinism_same_script_same_state
-    a = Game::World.new(DATA)
-    b = Game::World.new(DATA)
-    script = hold(:right, 0, STEP * 40).merge((STEP * 41).to_s => %w[attack])
-    [a, b].each do |w|
+  def test_determinism_same_script_same_state_with_swaps
+    script = hold(:right, 0, STEP * 20).merge(
+      (STEP * 21).to_s => %w[swap],
+      (STEP * 25).to_s => %w[attack],
+      (STEP * 30).to_s => %w[swap]
+    )
+    states = [Game::World.new(DATA), Game::World.new(DATA)].map do |w|
       input = scripted(script)
-      drive(w, input, 3000)
+      drive(w, input, 4000)
+      [w.zone_name, w.frame,
+       w.pack.members.map { |m| [m.tile, m.hp, m.x, m.y] },
+       w.humans.map { |h| [h.tile, h.hp] }]
     end
-    assert_equal a.zone_name, b.zone_name
-    assert_equal [a.player.tile, a.player.hp, a.player.x, a.player.y],
-                 [b.player.tile, b.player.hp, b.player.x, b.player.y]
-    assert_equal a.enemies.map { |h| [h.tile, h.hp] }, b.enemies.map { |h| [h.tile, h.hp] }
-  end
-
-  def test_husk_respawns_after_kill
-    drive(world, scripted(hold(:right, 0, STEP * 30 - 1)), STEP * 30)
-    count_before = world.enemies.length
-    target = nearest_husk(world)
-    3.times { target.take_hit(damage: 25, from_tile: world.player.tile) }
-    assert target.dead?
-    drive(world, scripted({}), 1) # flush the bus so the respawn gets scheduled
-    assert_equal count_before - 1, world.enemies.length, "dead husk leaves the roster"
-    drive(world, scripted({}), DATA["balance/combat"][:enemies][:husk][:respawn_frames] + 10)
-    assert_equal count_before, world.enemies.length, "a fresh husk should have spawned"
+    assert_equal states[0], states[1]
   end
 
   def test_body_blocking_no_two_creatures_share_a_tile
-    drive(world, scripted(hold(:right, 0, STEP * 30 - 1)), STEP * 30)
+    enter_dungeon(world)
     drive(world, scripted({}), 4000)
-    all_tiles = world.enemies.reject(&:dead?).map(&:tile)
-    all_tiles << world.player.tile unless world.player.dead?
-    assert_equal all_tiles.uniq.length, all_tiles.length,
-                 "no two living creatures may logically occupy one tile: #{all_tiles}"
+    tiles = world.actors.map(&:tile)
+    assert_equal tiles.uniq.length, tiles.length,
+                 "no two living creatures may occupy one tile: #{tiles}"
+  end
+
+  def test_human_respawns_after_kill
+    enter_dungeon(world)
+    count = world.humans.length
+    target = nearest_human(world)
+    kill(target, by: world.possessed)
+    drive(world, scripted({}), 1)
+    assert_equal count - 1, world.humans.length
+    drive(world, scripted({}), DATA["balance/combat"][:kits][:husk][:respawn_frames] + 10)
+    assert_equal count, world.humans.length
   end
 end

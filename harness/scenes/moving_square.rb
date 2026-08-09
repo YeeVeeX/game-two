@@ -8,7 +8,7 @@ module Harness
 
       attr_reader :x, :y
 
-      def initialize(width:, height:)
+      def initialize(width:, height:, seed: 0) # seed unused; keeps the scene API uniform
         @width = width
         @height = height
         @x = 40

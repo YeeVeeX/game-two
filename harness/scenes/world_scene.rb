@@ -10,23 +10,25 @@ module Harness
       attr_reader :world
 
       # Logs key sim events with frame numbers so capture scripts can be
-      # aimed at exact moments (telegraph, death, respawn, zone change).
-      def initialize(width:, height:)
+      # aimed at exact moments (telegraph, swap, wipe, zone change).
+      def initialize(width:, height:, seed: 0)
         data = Core::DataStore.new(File.expand_path("../../data", __dir__))
-        @world = Game::World.new(data)
+        @world = Game::World.new(data, seed:)
         @renderer = App::Renderer.new
-        %i[enemy_telegraph attack_hit entity_died player_hit player_died
-           player_respawned zone_entered].each do |ev|
-          @world.bus.subscribe(ev) { |e| puts "EVENT #{ev} frame=#{@world.frame} #{e.payload}" }
+        %i[telegraph attack_hit actor_died dodged possession_changed
+           pack_wiped pack_respawned zone_entered].each do |ev|
+          @world.bus.subscribe(ev) { |e| puts "EVENT #{ev} frame=#{@world.frame} #{describe(e)}" }
         end
       end
 
-      def tick(input)
-        @world.tick(input)
-      end
+      def tick(input) = @world.tick(input)
+      def draw = @renderer.draw(@world)
 
-      def draw
-        @renderer.draw(@world)
+      private
+
+      # Payloads carry live Creature objects — log stable identifiers.
+      def describe(e)
+        e.payload.map { |k, v| "#{k}=#{v.respond_to?(:name) ? v.name : v.inspect}" }.join(" ")
       end
     end
   end
