@@ -113,9 +113,22 @@ module Game
       end
     end
 
+    # Approach the claimed SURROUND SLOT, not the target's own tile — a group
+    # fans into a pincer instead of queuing single-file. Greedy diagonal-first
+    # step toward the slot; the target's flow field is the fallback when the
+    # greedy step is refused (walls, bodies).
     def chase_step(creature, target, view)
       return if creature.moving?
       blocked = view.blocked_for(creature)
+      slot = view.respond_to?(:surround_slot) ? view.surround_slot(creature, target) : nil
+      if slot && slot != creature.tile
+        dx = (slot[0] - creature.tile[0]).clamp(-1, 1)
+        dy = (slot[1] - creature.tile[1]).clamp(-1, 1)
+        if creature.step(dx, dy, blocked:)
+          creature.face([dx, dy])
+          return
+        end
+      end
       dir = view.flow_to(target).downhill_from(*creature.tile, blocked:)
       return unless dir
       creature.face(dir)

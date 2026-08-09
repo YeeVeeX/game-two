@@ -170,10 +170,25 @@ class WorldTest < Minitest::Test
     tiles = world.pack.living.map(&:tile)
     assert_equal tiles.uniq.length, tiles.length, "no shared tiles on arrival"
     tiles.each { |t| assert world.map.passable?(*t) }
-    # The entry walk overshoots east past the arrival gate, so the return
-    # needs the full width back (+1 step slack for the landing tween).
-    back = scripted(hold(:left, world.frame, world.frame + STEP * 20 - 1))
-    drive(world, back, STEP * 21)
+    # This test isolates TRANSITIONS; clear the wave so the surround AI
+    # can't body-block the return. Combat may have knocked the possessed off
+    # the gate row, so NAVIGATE to the gate instead of assuming a straight walk.
+    world.humans.dup.each { |h| kill(h, by: world.possessed) }
+    gate = world.map.transitions.first[:at]
+    guard = 0
+    while world.zone_name == "district" && guard < 3000
+      if world.possessed.walker.moving?
+        drive(world, scripted({}), 1)
+      else
+        dx = (gate[0] - world.possessed.tile[0]).clamp(-1, 1)
+        dy = (gate[1] - world.possessed.tile[1]).clamp(-1, 1)
+        keys = []
+        keys << (dx.positive? ? "right" : "left") unless dx.zero?
+        keys << (dy.positive? ? "down" : "up") unless dy.zero?
+        drive(world, scripted({ world.frame.to_s => keys }), 1)
+      end
+      guard += 1
+    end
     assert_equal "nest", world.zone_name
   end
 
@@ -213,6 +228,37 @@ class WorldTest < Minitest::Test
     tiles = world.actors.map(&:tile)
     assert_equal tiles.uniq.length, tiles.length,
                  "no two living creatures may occupy one tile: #{tiles}"
+  end
+
+  def test_rushers_surround_instead_of_queuing
+    enter_district(world)
+    # Sample DURING the assault (the wave wipes an idle pack, so a post-hoc
+    # check would see an empty street): record, each tick, the adjacency
+    # geometry around the most-pressured pack member.
+    best_sides = 0
+    queued = false
+    idle = scripted({})
+    2500.times do
+      idle.update(world.frame)
+      world.tick(idle)
+      break if world.states.current != :world
+      world.pack.living.each do |m|
+        dirs = adjacent_dirs(m)
+        next if dirs.length < 2
+        best_sides = [best_sides, dirs.uniq.length].max
+        queued ||= dirs.uniq.length < dirs.length
+      end
+      break if best_sides >= 3
+    end
+    assert_operator best_sides, :>=, 2,
+                    "converging rushers must pressure a body from >=2 distinct sides (pincer, not queue)"
+  end
+
+  def adjacent_dirs(member)
+    tx, ty = member.tile
+    world.humans.reject(&:dead?)
+         .select { |h| [(h.tile[0] - tx).abs, (h.tile[1] - ty).abs].max <= 1 }
+         .map { |h| [(h.tile[0] - tx).clamp(-1, 1), (h.tile[1] - ty).clamp(-1, 1)] }
   end
 
   def test_corpses_persist_then_fade

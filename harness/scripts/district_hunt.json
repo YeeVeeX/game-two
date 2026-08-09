@@ -1,0 +1,46 @@
+{
+  "scenario": "world",
+  "width": 960,
+  "height": 540,
+  "seed": 20260810,
+  "hold": {
+    "right": [
+      [
+        0,
+        500
+      ],
+      [
+        560,
+        700
+      ]
+    ],
+    "attack": [
+      [
+        720,
+        1500
+      ]
+    ]
+  },
+  "frames": {
+    "520": [
+      "swap"
+    ],
+    "540": [
+      "swap"
+    ]
+  },
+  "captures": [
+    1,
+    240,
+    400,
+    521,
+    541,
+    805,
+    901,
+    1050,
+    1280,
+    1370
+  ],
+  "run_until": 1500,
+  "out_dir": "captures/district_hunt"
+}

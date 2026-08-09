@@ -1,13 +1,17 @@
 {
   "checks": [
-    { "id": "actors_distinct", "check": "Pack creatures (ember orange family) and husks (pale bone) are immediately distinguishable from each other and from the floor in every frame where both appear." },
-    { "id": "possessed_readable", "check": "In frames with multiple pack creatures, exactly one reads as 'the one I control' (brighter + outlined). If no frame shows more than one pack creature, mark pass=false with why='not exercised by this script'." },
-    { "id": "telegraph_reads", "check": "Enemy attack telegraph (yellow swell) reads as incoming danger, distinct from gate/transition gold tiles." },
-    { "id": "attack_visible", "check": "The player-side attack shows visibly on its tiles (white arc) in at least one frame." },
-    { "id": "hud_legible", "check": "The HP bar is legible and plausibly reflects the fight shown." },
-    { "id": "zones_distinct", "check": "Town frames (warm brown) and dungeon frames (cold blue) read as different places." },
-    { "id": "no_render_garbage", "check": "No frame shows tearing, missing map, entities outside walls, or obviously corrupted output." },
+    { "id": "actors_distinct", "check": "Pack creatures (warm orange family) and humans (pale bone) are immediately distinguishable from each other and from the floor in every frame where both appear." },
+    { "id": "kits_distinct", "check": "The three pack creatures read as three DIFFERENT kinds (bright ember orange / deep rust / pale amber), not three copies. If no frame shows all three, judge from the frames that show two." },
+    { "id": "possessed_readable", "check": "In frames with multiple pack creatures, exactly one reads as 'the one I control' (brighter + white outline). If no frame shows more than one pack creature, mark pass=false with why='not exercised by this script'." },
     { "id": "possession_ring_moves", "check": "Across the swap frames, the white possession ring appears on a DIFFERENT pack creature before vs after — possession visibly moved. If the script never shows a swap, mark pass=false with why='not exercised by this script'." },
+    { "id": "facing_readable", "check": "Creatures carry a small dark notch on the edge they face — you can tell which way a body points in a static frame." },
+    { "id": "projectile_visible", "check": "At least one frame shows a small pale shot in flight, clearly separate from any creature body. If the script never fires one, mark pass=false with why='not exercised by this script'." },
+    { "id": "telegraph_reads", "check": "Human attack telegraph (red edge + yellow core swell) reads as incoming danger and is clearly distinct from the gold gate/transition tiles." },
+    { "id": "hurt_flash_not_white", "check": "No pack creature's damage flash reads as WHITE (white reads as a spawn/holy effect); pack hurt-flash must read crimson/red. Judge only frames where a pack creature is mid-flash; if none, mark pass=true with why='not exercised'." },
+    { "id": "corpses_persist", "check": "In at least one frame after a kill, a faded remnant of the fallen body is visible where it fell (fights leave history). If no post-kill frame exists, mark pass=false with why='not exercised by this script'." },
+    { "id": "hud_three_bars", "check": "The HUD shows three stacked kit-colored bars; the possessed one is wider with a white edge. Bars plausibly track the fight shown." },
+    { "id": "zones_distinct", "check": "Nest frames (warm dark organic) and district frames (gray concrete city blocks) read as different places at a glance." },
+    { "id": "no_render_garbage", "check": "No frame shows tearing, missing map, entities outside walls, or obviously corrupted output." },
     { "id": "wipe_reads", "check": "If a wipe frame is present, it reads as a run-ending event (dark veil + large text), distinct from ordinary combat frames. If the script never wipes, mark pass=true with why='not exercised'." }
   ]
 }

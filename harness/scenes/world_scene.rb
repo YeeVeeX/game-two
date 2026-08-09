@@ -16,7 +16,7 @@ module Harness
         @world = Game::World.new(data, seed:)
         @renderer = App::Renderer.new
         %i[telegraph attack_hit actor_died dodged possession_changed
-           pack_wiped pack_respawned zone_entered].each do |ev|
+           pack_wiped pack_respawned zone_entered projectile_fired].each do |ev|
           @world.bus.subscribe(ev) { |e| puts "EVENT #{ev} frame=#{@world.frame} #{describe(e)}" }
         end
       end

@@ -1,6 +1,10 @@
 {
   "pack": {
-    "members": ["striker", "blocker", "lobber"],
+    "members": [
+      "striker",
+      "blocker",
+      "lobber"
+    ],
     "swap_stagger_frames": 20
   },
   "respawn_frames": 90,
@@ -78,12 +82,12 @@
     },
     "rusher": {
       "max_hp": 50,
-      "step_frames": 16,
+      "step_frames": 14,
       "aggro_tiles": 12,
       "respawn_frames": 300,
       "attack": {
         "damage": 12,
-        "windup_frames": 24,
+        "windup_frames": 20,
         "active_frames": 6,
         "recovery_frames": 0,
         "exhaust_frames": 66,

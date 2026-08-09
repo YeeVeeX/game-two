@@ -99,6 +99,21 @@ module Game
       actors.reject { |a| a.equal?(creature) }.map(&:tile)
     end
 
+    # Surround doctrine (owner directive 2026-08-09): attackers converging on
+    # one target each claim a DIFFERENT adjacent tile and approach it, so a
+    # group fans out into a pincer instead of a single-file queue. Claims are
+    # rebuilt every tick in AI iteration order (roster order — deterministic).
+    def surround_slot(attacker, target)
+      claims = (@slot_claims[target] ||= {})
+      already = claims.find { |_, who| who.equal?(attacker) }
+      return already[0] if already
+      tx, ty = target.tile
+      slot = Creature::RING.map { |(dx, dy)| [tx + dx, ty + dy] }
+                           .find { |t| map.passable?(*t) && !claims.key?(t) }
+      claims[slot] = attacker if slot
+      slot
+    end
+
     # Straight walls-only ray check for ranged AI (occupancy is deliberately
     # ignored — a shot over a friendly is legal, no friendly fire).
     def line_clear?(from, to)
@@ -128,6 +143,7 @@ module Game
     private
 
     def tick_world(input)
+      @slot_claims = {}
       handle_swap(input)
       # Forced swap happens at bus-process time (no input in scope there), so
       # the edge-trigger re-arm is deferred to the next tick — law 2 applies
