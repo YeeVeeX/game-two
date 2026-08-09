@@ -1,6 +1,10 @@
 {
   "pack": {
-    "members": ["prowler", "prowler", "prowler"],
+    "members": [
+      "prowler",
+      "prowler",
+      "prowler"
+    ],
     "swap_stagger_frames": 20
   },
   "respawn_frames": 90,
@@ -26,7 +30,8 @@
         "cooldown_frames": 50
       },
       "knockback_tiles_received": 1,
-      "knockback_frames_per_tile": 5
+      "knockback_frames_per_tile": 5,
+      "interrupt_on_hit": true
     },
     "husk": {
       "max_hp": 60,
@@ -44,7 +49,8 @@
         "knockback_frames_per_tile": 5
       },
       "knockback_tiles_received": 1,
-      "knockback_frames_per_tile": 5
+      "knockback_frames_per_tile": 5,
+      "interrupt_on_hit": false
     }
   },
   "feel": {

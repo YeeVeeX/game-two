@@ -85,8 +85,16 @@ quests, shops, inventory, multiple weapons).
 - `rake` — run all tests
 - `bin/play` (Git Bash) or `bin\play.cmd` (double-click / cmd) — launch the game
 - `rake capture SCRIPT=harness/scripts/<name>.json` — deterministic replay + frame capture
-  (world_loop.json covers the full loop; captures verified byte-identical across runs)
+  (world_loop.json = everyday regression loop; possession_core.json = full possession loop
+  incl. forced swap + wipe)
+- `rake gate SCRIPT=harness/scripts/<name>.json` — the BLOCKING Rule 2 gate: double replay +
+  md5 compare + structured vision verdict (exit nonzero on any failure). `SKIP_CRITIC=1` runs
+  the determinism half only (iteration aid, not a shippable pass).
 
 ## Controls
 
-WASD / arrows = move · J / Space = attack · K / Shift = dodge · Esc = quit
+WASD / arrows = move · J / Space = attack · K / Shift = dodge · Tab = swap possession · Esc = quit
+
+Timebase: `Window#update` = exactly one sim tick (tick-locked; replays deterministic by tick
+count). Under load the game slows rather than skips — the top-right overrun counter makes
+that visible, so a sluggish playtest is a perf signal, not a balance signal.

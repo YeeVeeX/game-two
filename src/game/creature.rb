@@ -115,12 +115,14 @@ module Game
     end
 
     # No blanket post-hit invuln (law 5): only dodge i-frames block. Damage
-    # pacing comes from each attacker's own exhaust cadence.
+    # pacing comes from each attacker's own exhaust cadence. Interrupt-on-hit
+    # is a kit property (old game: the player was interrupted, husks were
+    # NOT — an uninterruptible windup is what lets pressure through).
     def take_hit(damage:, attacker:, blocked: [])
       return false if iframes? || dead?
       @hp = [@hp - damage, 0].max
       @hurt_frames = 8
-      @attack_state = :idle
+      @attack_state = :idle if @kit[:interrupt_on_hit]
       knock_away_from(attacker.tile, blocked)
       if dead?
         @bus.emit(:actor_died, actor: self, killer: attacker, faction: @faction)

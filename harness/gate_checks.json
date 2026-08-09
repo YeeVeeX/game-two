@@ -6,6 +6,8 @@
     { "id": "attack_visible", "check": "The player-side attack shows visibly on its tiles (white arc) in at least one frame." },
     { "id": "hud_legible", "check": "The HP bar is legible and plausibly reflects the fight shown." },
     { "id": "zones_distinct", "check": "Town frames (warm brown) and dungeon frames (cold blue) read as different places." },
-    { "id": "no_render_garbage", "check": "No frame shows tearing, missing map, entities outside walls, or obviously corrupted output." }
+    { "id": "no_render_garbage", "check": "No frame shows tearing, missing map, entities outside walls, or obviously corrupted output." },
+    { "id": "possession_ring_moves", "check": "Across the swap frames, the white possession ring appears on a DIFFERENT pack creature before vs after — possession visibly moved. If the script never shows a swap, mark pass=false with why='not exercised by this script'." },
+    { "id": "wipe_reads", "check": "If a wipe frame is present, it reads as a run-ending event (dark veil + large text), distinct from ordinary combat frames. If the script never wipes, mark pass=true with why='not exercised'." }
   ]
 }
