@@ -26,9 +26,9 @@ class WorldTest < Minitest::Test
     end
   end
 
-  def enter_dungeon(world)
+  def enter_district(world)
     drive(world, scripted(hold(:right, 0, STEP * 30 - 1)), STEP * 30)
-    assert_equal "threketh", world.zone_name
+    assert_equal "district", world.zone_name
   end
 
   def nearest_human(world)
@@ -42,7 +42,7 @@ class WorldTest < Minitest::Test
 
   # --- pack + possession -------------------------------------------------
 
-  def test_pack_of_three_spawns_in_town
+  def test_pack_of_three_spawns_in_nest
     assert_equal 3, world.pack.members.length
     assert_equal world.map.pack_spawn.take(3).sort, world.pack.members.map(&:tile).sort
     assert_equal world.pack.members.first, world.possessed
@@ -94,10 +94,10 @@ class WorldTest < Minitest::Test
     refute_equal staggered_body, world.possessed, "Tab works again once the stagger expires"
   end
 
-  def test_wipe_respawns_whole_pack_in_town
+  def test_wipe_respawns_whole_pack_in_nest
     wiped = false
     world.bus.subscribe(:pack_wiped) { wiped = true }
-    enter_dungeon(world)
+    enter_district(world)
     hunter = world.humans.first
     world.pack.members.each { |m| kill(m, by: hunter) }
     drive(world, scripted({}), 1)
@@ -105,7 +105,7 @@ class WorldTest < Minitest::Test
     assert_equal :nest_respawn, world.states.current
     drive(world, scripted({}), DATA["balance/combat"][:respawn_frames] + 5)
     assert_equal :world, world.states.current
-    assert_equal "town", world.zone_name, "wipe sends the pack home"
+    assert_equal "nest", world.zone_name, "wipe sends the pack home"
     assert world.pack.members.all? { |m| m.hp == m.max_hp }, "everyone revives full"
   end
 
@@ -129,19 +129,19 @@ class WorldTest < Minitest::Test
   end
 
   def test_ally_ai_fights_humans
-    enter_dungeon(world)
+    enter_district(world)
     ally_kills = 0
     world.bus.subscribe(:actor_died) do |e|
       ally_kills += 1 if e[:faction] == :human && e[:killer].faction == :pack && !e[:killer].equal?(world.possessed)
     end
-    # Possessed idles at the gate; allies must engage approaching husks alone.
+    # Possessed idles at the gate; allies must engage approaching rushers alone.
     drive(world, scripted({}), 9000)
     assert_operator ally_kills, :>=, 1, "unpossessed allies fight on their own (husk-grade AI)"
   end
 
   def test_hitstop_only_for_possessed_fights
-    enter_dungeon(world)
-    # Swap away so the fighting happens between allies and husks only.
+    enter_district(world)
+    # Swap away so the fighting happens between allies and rushers only.
     drive(world, scripted({ world.frame.to_s => ["swap"] }), 1)
     hits_seen = 0
     stops_during_ally_hits = 0
@@ -166,19 +166,21 @@ class WorldTest < Minitest::Test
   end
 
   def test_zone_transition_moves_whole_pack
-    enter_dungeon(world)
+    enter_district(world)
     tiles = world.pack.living.map(&:tile)
     assert_equal tiles.uniq.length, tiles.length, "no shared tiles on arrival"
     tiles.each { |t| assert world.map.passable?(*t) }
-    back = scripted(hold(:left, world.frame, world.frame + STEP * 10 - 1))
-    drive(world, back, STEP * 11)
-    assert_equal "town", world.zone_name
+    # The entry walk overshoots east past the arrival gate, so the return
+    # needs the full width back (+1 step slack for the landing tween).
+    back = scripted(hold(:left, world.frame, world.frame + STEP * 20 - 1))
+    drive(world, back, STEP * 21)
+    assert_equal "nest", world.zone_name
   end
 
-  def test_husks_hunt_the_nearest_pack_member_not_the_possessed
-    enter_dungeon(world)
+  def test_rushers_hunt_the_nearest_pack_member_not_the_possessed
+    enter_district(world)
     # The possessed walks north away from the gate; allies hold near it. The
-    # husks must engage whoever is nearest — assert SOME ally takes a hit
+    # rushers must engage whoever is nearest — assert SOME ally takes a hit
     # while the possessed keeps distance.
     ally_hit = false
     world.bus.subscribe(:attack_hit) do |e|
@@ -206,7 +208,7 @@ class WorldTest < Minitest::Test
   end
 
   def test_body_blocking_no_two_creatures_share_a_tile
-    enter_dungeon(world)
+    enter_district(world)
     drive(world, scripted({}), 4000)
     tiles = world.actors.map(&:tile)
     assert_equal tiles.uniq.length, tiles.length,
@@ -214,13 +216,13 @@ class WorldTest < Minitest::Test
   end
 
   def test_human_respawns_after_kill
-    enter_dungeon(world)
+    enter_district(world)
     count = world.humans.length
     target = nearest_human(world)
     kill(target, by: world.possessed)
     drive(world, scripted({}), 1)
     assert_equal count - 1, world.humans.length
-    drive(world, scripted({}), DATA["balance/combat"][:kits][:husk][:respawn_frames] + 10)
+    drive(world, scripted({}), DATA["balance/combat"][:kits][:rusher][:respawn_frames] + 10)
     assert_equal count, world.humans.length
   end
 end

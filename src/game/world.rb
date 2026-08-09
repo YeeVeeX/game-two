@@ -23,7 +23,7 @@ module Game
 
     TRANSITIONS = { world: %i[nest_respawn], nest_respawn: %i[world] }.freeze
 
-    HOME_ZONE = "town".freeze # fiction-pending: the nest
+    HOME_ZONE = "nest".freeze # fiction-pending name (world bible integration = owner call)
 
     attr_reader :bus, :pack, :feel, :states, :frame, :camera, :zone_name, :rng
 
@@ -300,12 +300,12 @@ module Game
 
     def spawn_pack
       cfg = @balance[:pack]
-      town = @zones.fetch(HOME_ZONE)
+      home = @zones.fetch(HOME_ZONE)
       @zone_name = HOME_ZONE
       members = cfg[:members].each_with_index.map do |kit_name, i|
         Creature.new(bus: @bus, kit: @balance[:kits].fetch(kit_name.to_sym),
-                     kit_name: kit_name.to_sym, map: town, tile: town.pack_spawn[i],
-                     faction: :pack, name: "pack#{i}")
+                     kit_name: kit_name.to_sym, map: home, tile: home.pack_spawn[i],
+                     faction: :pack, name: kit_name)
       end
       @pack = Pack.new(members:, stagger_frames: cfg[:swap_stagger_frames])
     end
