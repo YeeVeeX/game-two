@@ -1,5 +1,30 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-09 (latest) — M2 BUILT: kits + district + surround AI; review in flight
+
+**State (measured):** branch `a0-m2-kits-district`, 56 tests / 148 assertions green, both
+`rake gate` scripts PASS (district_hunt 10/10 byte-identical + 13/13 vision checks;
+world_loop 8/8 + 13/13), `rake perf` PASS (p50 0.007 / p95 0.035 / max 1.35 ms per tick).
+
+**What M2 adds:** three kits with real identity — Striker (fast, single-tile precision, no
+knockback), Blocker (160hp wall, arc3 + knockback, uninterruptible windup), Lobber (6-tile
+tile-stepped projectile, no friendly fire) vs Rushers in District One; nest = new hub;
+town/threketh retired to data/zones_retired/. Renderer v2 carries ALL the vision-critique
+fixes (facing notch, crimson-never-white pack flash, two-tone telegraph ≠ gate gold, attack
+lunge, persistent fading corpses) + 3-bar kit-colored HUD with exhaust pip + edge pips for
+off-screen kin. Knockback is now the ATTACKER's stat (kit identity).
+
+**Owner directive mid-build (verbatim): enemies "should try to trap/surround the players...
+right now enemies seem to be following each other, make them more aggressive."** Shipped as
+slot-claim pincer AI: converging attackers each claim a DISTINCT adjacent tile of their
+target (deterministic roster order, rebuilt per tick) and approach greedily with flow-field
+fallback; rusher step 16→14, windup 24→20. Asserted by test (≥2 distinct sides during the
+assault) and visible in gate frames.
+
+**In flight when written:** adversarial code-reviewer over the M2 diff — findings fold in
+before merge to main. After merge: owner feel-check (kit identities, Lobber possession,
+Rusher pincer pressure, district).
+
 ## 2026-08-09 (later night) — M1 FUN-VERIFIED; M2 underway
 
 **Owner verdict on M1 (verbatim): "feels really good!"** — possession core validated: Tab swap,
