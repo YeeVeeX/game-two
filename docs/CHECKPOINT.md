@@ -33,9 +33,11 @@ target (deterministic roster order, rebuilt per tick) and approach greedily with
 fallback; rusher step 16→14, windup 24→20. Asserted by test (≥2 distinct sides during the
 assault) and visible in gate frames.
 
-**In flight when written:** adversarial code-reviewer over the M2 diff — findings fold in
-before merge to main. After merge: owner feel-check (kit identities, Lobber possession,
-Rusher pincer pressure, district).
+**In flight when written:** adversarial code-reviewer over the M2 diff — brief + already-done
+verification + fold-in procedure harvested to `drafts/_m2-review-inflight.md` (if the verdict
+is lost, RE-RUN the review; do NOT merge without it). After merge: owner feel-check (kit
+identities, Lobber possession, Rusher pincer pressure, district). NB `docs/lore/` is
+deliberately untracked (bible ungated — see the knowledge-session section above).
 
 ## 2026-08-09 (later night) — M1 FUN-VERIFIED; M2 underway
 
