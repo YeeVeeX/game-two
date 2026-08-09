@@ -7,7 +7,7 @@ require "game/world"
 # All assertions are on TILES, not pixels (grid movement doctrine).
 class WorldTest < Minitest::Test
   DATA = Core::DataStore.new(File.expand_path("../../data", __dir__))
-  STEP = DATA["balance/combat"][:player][:step_frames]
+  STEP = DATA["balance/combat"][:kits][:prowler][:step_frames]
 
   def world = @world ||= Game::World.new(DATA)
 

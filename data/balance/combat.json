@@ -1,40 +1,50 @@
 {
-  "player": {
-    "max_hp": 100,
-    "step_frames": 15,
-    "attack": {
-      "damage": 25,
-      "windup_frames": 6,
-      "active_frames": 4,
-      "recovery_frames": 10,
-      "knockback_tiles": 1,
+  "pack": {
+    "members": ["prowler", "prowler", "prowler"],
+    "swap_stagger_frames": 20
+  },
+  "respawn_frames": 90,
+  "kits": {
+    "prowler": {
+      "max_hp": 100,
+      "step_frames": 15,
+      "aggro_tiles": 8,
+      "attack": {
+        "damage": 25,
+        "windup_frames": 6,
+        "active_frames": 4,
+        "recovery_frames": 10,
+        "exhaust_frames": 45,
+        "arc": "arc3",
+        "knockback_tiles": 1,
+        "knockback_frames_per_tile": 5
+      },
+      "dodge": {
+        "tiles": 2,
+        "frames_per_tile": 7,
+        "iframes": 18,
+        "cooldown_frames": 50
+      },
+      "knockback_tiles_received": 1,
       "knockback_frames_per_tile": 5
     },
-    "dodge": {
-      "tiles": 2,
-      "frames_per_tile": 7,
-      "iframes": 18,
-      "cooldown_frames": 50
-    },
-    "invuln_frames_after_hit": 30,
-    "knockback_tiles_received": 1,
-    "knockback_frames_per_tile": 5,
-    "respawn_frames": 90
-  },
-  "enemies": {
     "husk": {
       "max_hp": 60,
       "step_frames": 17,
       "aggro_tiles": 12,
       "respawn_frames": 300,
-      "knockback_tiles": 1,
-      "knockback_frames_per_tile": 5,
       "attack": {
         "damage": 15,
         "windup_frames": 30,
         "active_frames": 6,
-        "cooldown_frames": 45
-      }
+        "recovery_frames": 0,
+        "exhaust_frames": 81,
+        "arc": "ring",
+        "knockback_tiles": 1,
+        "knockback_frames_per_tile": 5
+      },
+      "knockback_tiles_received": 1,
+      "knockback_frames_per_tile": 5
     }
   },
   "feel": {
