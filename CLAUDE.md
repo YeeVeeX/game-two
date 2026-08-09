@@ -1,4 +1,4 @@
-# game-two — Ruby+Gosu rebuild of Kethral (2D action RPG)
+# game-two — Ruby+Gosu grid ARPG (monster flip)
 
 Claude is the **dev of record** (design calls are Claude's to make and defend); owner is the
 **tester** (plays builds, reacts, reports). Log reasoning, ship testable builds, don't ask
@@ -6,22 +6,43 @@ permission for design decisions.
 
 ## Scope contract (the #1 Kethral failure was ignoring this — it is enforced here)
 
-v2 after the 2026-08-09 playtest: arena duel retired; grid world is the slice.
+v3 (2026-08-09): grid world v2 fun-verified; direction locked = **monster flip** — play a pack
+of 3 creatures hunting humans in a collapsing modern city. Current increment = **A0 =
+possession core ONLY** (spec: `docs/superpowers/specs/2026-08-09-a0-possession-core-design.md`;
+binding review law: `drafts/_design-review-reconciliation.md`).
 
-**IN scope until the slice is fun-verified:**
-- **Tibia-style grid movement**: 32px tiles, tile-stepped with visual tween, body-blocking
-- **Two hand-authored zones** (town = safe hub, Threketh = dungeon), gate-tile transitions,
-  camera follow + zone banners
-- Fight ONE enemy type (husk, flow-field chase), die, **respawn in town**
-- One attack (3-tile arc) + dodge + feel (hitstop, shake, telegraph — validated fun, keep)
-- Minimal HUD (health), Rule 2 harness
+**IN scope until A0 is fun-verified:**
+- **Actor/controller refactor** (kills the Player/Enemy dichotomy; factions; combat reads
+  the attacker's kit, never a `[:player]` path)
+- **3 hardcoded creature kits** (blocker / striker / lobber — spec-speak names) + Tab
+  possession swap + forced-swap on possessed death; wipe → nest respawn
+- **Exhaust** (per-creature, frame-quantized, swap-inert, data-driven) replacing free-swing;
+  **per-attacker hit cadence** replacing blanket 30f invuln; hitstop scoped to possessed body
+- **Husk-grade ally AI** (no gambits), **Rushers only** (melee humans, per-creature flow fields)
+- **Two zones**: nest (hub) + one city district; existing grid/tween/feel layer carried
+- **Determinism**: seeded PRNG in sim, swap lane + seed in harness schema, byte-identical
+  capture gate kept; carried vision-critique fixes (facing notch, hurt-flash, telegraph
+  color, wall brightness, corpses, lunge)
 - Placeholder audio hooks only (NO MIDI, NO procedural SFX — owner order)
 
 **OUT of scope — goes to PARKING_LOT.md, never to code:**
-procedural/BSP dungeons, corpse-run gear drop, stamina, loot, XP/skills, dialogue, status
-effects, crafting, weather, time-of-day, codex, bestiary, charms, co-op, NPC schedules,
-quests, shops, inventory, multiple weapons, second enemy type, third zone.
+gambit engine + hot-reload, Shooters (ranged humans), pull economy / aggro caps, nest
+advance / district progression, plus everything already parked (procedural dungeons,
+corpse-run, stamina, loot, XP/skills, dialogue, status effects, crafting, weather, co-op,
+quests, shops, inventory, multiple weapons).
 **Nothing new starts until the current loop is fun-verified by the owner.**
+
+## De-slop + comprobations (owner-set 2026-08-09)
+
+- **Names come from INSIDE the fiction.** Slop test: could the name ship in another game
+  unchanged? → then it is internal spec-speak only, never player-visible. The bible is being
+  authored in a parallel session (New Kingdom Egypt corpus); the spec's "fiction order form"
+  lists every handle awaiting a name. No fiction-flavored feature names in code or docs.
+- **Reference wall:** every design idea cites a touchstone (Tibia research/footage in
+  `drafts/`, the bible, Vlambeer juice). Serves none → PARKING_LOT.md.
+- **Every commit changes what the player sees, hears, or feels.** A system that can't be
+  felt in a capture doesn't merge.
+- **Judge builds, not briefs.** Everything converges to a playable build + captured frames.
 
 ## Non-negotiables (from the Kethral post-mortem)
 

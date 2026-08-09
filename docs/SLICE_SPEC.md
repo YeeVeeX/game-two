@@ -1,5 +1,9 @@
 # Slice spec v2 — the grid is the world
 
+> **STATUS: fun-verified 2026-08-09 and superseded.** The active spec is
+> `docs/superpowers/specs/2026-08-09-a0-possession-core-design.md` (monster flip, A0 =
+> possession core). This file stays as the record of the shipped grid slice.
+
 **Supersedes v1 (arena duel) after the 2026-08-09 playtest verdict:** feel layer validated,
 but the owner wants Tibia-style grid movement and the real Kethral shape — hub-and-spoke
 world, not a one-room duel. v2 rebuilds movement + world on the grid; the feel layer

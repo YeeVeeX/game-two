@@ -24,3 +24,12 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
 - Third zone tier (Vonash) + BSP-generated dungeon layouts (fixed seed, learnable geography)
 - Room names on first visit ("The Entry Wound" style — cheap atmosphere)
 - Stamina economy, loot drops, skill-through-use progression
+
+## A1+ queue (cut from Increment A by the 2026-08-09 dual review — each behind its own fun-verify)
+
+- A1: gambit engine (JSON IF/THEN ally rules) + dev hot-reload keybind for iteration
+- A1+: Shooters (ranged humans — needs per-attacker cadence proven first)
+- A2: pull economy with aggro soft-cap (8-12) + density costs (review: without the cap it is
+  monotonically exploitable)
+- A3: nest advance / district progression (break districts, re-home the nest)
+- Fiction-bound audio/visual identity pass (waits on the bible)
