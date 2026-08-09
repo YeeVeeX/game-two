@@ -1,5 +1,16 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-09 (later night) — M1 FUN-VERIFIED; M2 underway
+
+**Owner verdict on M1 (verbatim): "feels really good!"** — possession core validated: Tab swap,
+forced-swap sting, exhaust rhythm, wipe loop. No complaints logged; exhaust 45f stands until
+playtest says otherwise. M2 (rest of the approved A0 spec) started same session: three kits
+(Striker/Blocker/Lobber + projectile), Rushers, nest + district zones, 3-bar HUD + exhaust pip,
+edge pips, carried critique fixes, perf smoke, district_hunt.json.
+**Fiction note:** the world bible landed (`docs/lore/world-bible.md`, Egyptian×Fantasy,
+deliberately NOT integrated — owner call pending per PARKING_LOT). M2 ships spec-speak
+placeholders; no fake fiction names (de-slop rule).
+
 ## 2026-08-09 (night) — M1 POSSESSION CORE SHIPPED; owner feel-check queued
 
 **State (measured):** branch `a0-m1-possession`, 11 commits over main, 48 tests / 128
