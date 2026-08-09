@@ -247,6 +247,11 @@ module Game
       @telegraphing[human] = now
     end
 
+    # Gates are physical terrain: ANY rest on the gate tile carries the pack
+    # through — including a knockback shove (dev-of-record call, M2 review
+    # finding 3). A blocker punching you through the gate mid-fight is a
+    # legal escape and a legal threat; "voluntary moves only" would add
+    # hidden state the player can't read.
     def check_transition
       c = possessed
       return if c.walker.moving? || c.dead?
@@ -335,10 +340,23 @@ module Game
       @bus.emit(:pack_respawned)
     end
 
+    # A respawn DEFERS while its tile is occupied (retries next tick) — the
+    # body-blocking invariant holds for every path a creature enters the
+    # world by, teleports included (M2 review finding 1: a body parked on
+    # the spawn at the respawn frame stacked two creatures on one tile).
     def respawn_due_humans
-      due, rest = @human_respawns[@zone_name].partition { |r| r[:at_frame] <= @frame }
-      @human_respawns[@zone_name] = rest
-      due.each { |r| add_human(@zone_name, r[:kit_name], r[:tile]) }
+      occupied = actors.map(&:tile)
+      ready, waiting = @human_respawns[@zone_name].partition { |r| r[:at_frame] <= @frame }
+      deferred = []
+      ready.each do |r|
+        if occupied.include?(r[:tile])
+          deferred << r
+        else
+          add_human(@zone_name, r[:kit_name], r[:tile])
+          occupied << r[:tile]
+        end
+      end
+      @human_respawns[@zone_name] = waiting + deferred
     end
 
     def prune_caches
@@ -397,13 +415,16 @@ module Game
       end
     end
 
+    # The roster delete comes FIRST: a kit without respawn_frames must still
+    # leave the roster on death, or the renderer draws its ghost forever
+    # (M2 review finding 2 — latent until someone adds a no-respawn kit).
     def schedule_human_respawn(human)
+      humans.delete(human)
       delay = human.kit[:respawn_frames]
       return unless delay
       spawns = map.enemy_spawns[human.kit_name] || [human.tile]
       home = spawns.min_by { |(sx, sy)| (sx - human.tile[0]).abs + (sy - human.tile[1]).abs }
       @human_respawns[@zone_name] << { kit_name: human.kit_name, tile: home, at_frame: @frame + delay }
-      humans.delete(human)
     end
   end
 end

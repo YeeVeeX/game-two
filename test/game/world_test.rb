@@ -40,6 +40,26 @@ class WorldTest < Minitest::Test
     creature.take_hit(damage: creature.hp, attacker: by) until creature.dead?
   end
 
+  # Tap-steps the possessed toward dest one tile at a time (waits out tweens
+  # and hitstop). Combat can shove it around; the loop just keeps correcting.
+  def navigate_to(world, dest, guard: 3000)
+    steps = 0
+    until world.possessed.tile == dest || steps >= guard
+      if world.possessed.walker.moving?
+        drive(world, scripted({}), 1)
+      else
+        dx = (dest[0] - world.possessed.tile[0]).clamp(-1, 1)
+        dy = (dest[1] - world.possessed.tile[1]).clamp(-1, 1)
+        keys = []
+        keys << (dx.positive? ? "right" : "left") unless dx.zero?
+        keys << (dy.positive? ? "down" : "up") unless dy.zero?
+        drive(world, scripted({ world.frame.to_s => keys }), 1)
+      end
+      steps += 1
+    end
+    assert_equal dest, world.possessed.tile, "navigation failed to reach #{dest}"
+  end
+
   # --- pack + possession -------------------------------------------------
 
   def test_pack_of_three_spawns_in_nest
@@ -283,5 +303,48 @@ class WorldTest < Minitest::Test
     assert_equal count - 1, world.humans.length
     drive(world, scripted({}), DATA["balance/combat"][:kits][:rusher][:respawn_frames] + 10)
     assert_equal count, world.humans.length
+  end
+
+  # M2 review finding 1: a respawn due while a body stands on its spawn tile
+  # must DEFER, not stack two creatures on one tile.
+  def test_respawn_defers_while_spawn_tile_occupied
+    enter_district(world)
+    world.humans.dup.each { |h| kill(h, by: world.possessed) }
+    death_frame = world.frame
+    drive(world, scripted({}), 1) # flush bus -> respawns scheduled
+    camped = [10, 12] # a rusher home spawn (data/zones/district.json)
+    navigate_to(world, camped)
+    due = death_frame + DATA["balance/combat"][:kits][:rusher][:respawn_frames]
+    drive(world, scripted({}), due + 5 - world.frame)
+    assert world.humans.none? { |h| h.tile == camped },
+           "respawn onto an occupied tile must defer, not stack"
+    tiles = world.actors.map(&:tile)
+    assert_equal tiles.uniq.length, tiles.length, "no stacking anywhere: #{tiles}"
+    # Step off the spawn: the deferred respawn lands as soon as the tile frees.
+    drive(world, scripted({ world.frame.to_s => ["right"] }), 3)
+    assert world.humans.any? { |h| h.tile == camped },
+           "deferred respawn lands once the spawn tile is free"
+  end
+
+  # M2 review finding 2: a kit WITHOUT respawn_frames must still leave the
+  # roster on death — otherwise the renderer draws its ghost forever.
+  def test_kit_without_respawn_frames_still_leaves_roster_on_death
+    data = DATA.keys.to_h { |k| [k, DATA[k]] }
+    balance = Marshal.load(Marshal.dump(data["balance/combat"]))
+    balance[:kits][:rusher].delete(:respawn_frames)
+    data = data.merge("balance/combat" => balance)
+    w = Game::World.new(data)
+    enter_district(w)
+    count = w.humans.length
+    target = nearest_human(w)
+    kill(target, by: w.possessed)
+    drive(w, scripted({}), 1)
+    assert_equal count - 1, w.humans.length, "no-respawn kits leave the roster on death"
+    refute_includes w.humans, target
+    # The world stays live (allies keep hunting), so assert no ADDITIONS —
+    # the roster may only shrink when nothing respawns.
+    roster_before = w.humans.dup
+    drive(w, scripted({}), 400)
+    assert w.humans.all? { |h| roster_before.include?(h) }, "nothing ever respawns"
   end
 end
