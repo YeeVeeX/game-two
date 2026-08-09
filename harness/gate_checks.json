@@ -1,0 +1,11 @@
+{
+  "checks": [
+    { "id": "actors_distinct", "check": "Pack creatures (ember orange family) and husks (pale bone) are immediately distinguishable from each other and from the floor in every frame where both appear." },
+    { "id": "possessed_readable", "check": "In frames with multiple pack creatures, exactly one reads as 'the one I control' (brighter + outlined). If no frame shows more than one pack creature, mark pass=false with why='not exercised by this script'." },
+    { "id": "telegraph_reads", "check": "Enemy attack telegraph (yellow swell) reads as incoming danger, distinct from gate/transition gold tiles." },
+    { "id": "attack_visible", "check": "The player-side attack shows visibly on its tiles (white arc) in at least one frame." },
+    { "id": "hud_legible", "check": "The HP bar is legible and plausibly reflects the fight shown." },
+    { "id": "zones_distinct", "check": "Town frames (warm brown) and dungeon frames (cold blue) read as different places." },
+    { "id": "no_render_garbage", "check": "No frame shows tearing, missing map, entities outside walls, or obviously corrupted output." }
+  ]
+}

@@ -126,10 +126,66 @@ Critique the MOTION as JSON only:
 }"""
 
 
+VERDICT_PROMPT_TEMPLATE = """These frames are capture output from a deterministic replay.
+Evaluate ONLY the checklist below against what is actually visible. You are a gate,
+not an advisor: a check passes only if the frames clearly demonstrate it.
+
+Checklist:
+{checks}
+
+Respond with JSON only, no prose outside it:
+{{
+  "checks": [{{"id": "...", "pass": true, "why": "one sentence"}}],
+  "verdict": "PASS" or "FAIL"
+}}
+"verdict" MUST be "FAIL" if any check has "pass": false."""
+
+
+def extract_json(text: str) -> dict:
+    m = re.search(r"\{.*\}", text, re.DOTALL)
+    if not m:
+        raise ValueError(f"no JSON object in model output: {text[:200]!r}")
+    return json.loads(m.group(0))
+
+
+def run_verdict(captures_dir: Path, checks_path: Path) -> int:
+    checks = json.loads(checks_path.read_text(encoding="utf-8"))["checks"]
+    listing = "\n".join(f"- [{c['id']}] {c['check']}" for c in checks)
+    prompt = VERDICT_PROMPT_TEMPLATE.format(checks=listing)
+    client = _client()
+    frames = load_frames(captures_dir)
+    print(f"gate verdict on {len(frames)} frames from {captures_dir} ...")
+    for attempt in (1, 2):
+        text = converse(client, image_blocks(frames) + [{"text": prompt}])
+        try:
+            result = extract_json(text)
+            break
+        except (ValueError, json.JSONDecodeError) as exc:
+            if attempt == 2:
+                print(f"GATE INFRA ERROR: unparseable verdict: {exc}", file=sys.stderr)
+                return 2
+    log = Path("drafts") / "_gate-verdicts.log"
+    stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    with log.open("a", encoding="utf-8") as fh:
+        fh.write(f"\n=== {stamp} {captures_dir} ===\n{json.dumps(result, indent=2)}\n")
+    for c in result.get("checks", []):
+        mark = "PASS" if c.get("pass") else "FAIL"
+        print(f"  [{mark}] {c.get('id')}: {c.get('why', '')}")
+    if result.get("verdict") == "PASS" and all(c.get("pass") for c in result.get("checks", [])):
+        print("GATE vision: PASS")
+        return 0
+    print("GATE vision: FAIL (see above; full verdict in drafts/_gate-verdicts.log)", file=sys.stderr)
+    return 1
+
+
 def main() -> None:
     args = sys.argv[1:]
     if not args:
-        sys.exit("usage: python harness/vision_critic.py <captures_dir> [--reel <reel_dir>]")
+        sys.exit("usage: python harness/vision_critic.py <captures_dir> [--reel <dir>] | --verdict <dir> --checks <checks.json>")
+    if args[0] == "--verdict":
+        captures_dir = Path(args[1])
+        checks_path = Path(args[args.index("--checks") + 1]) if "--checks" in args else Path("harness/gate_checks.json")
+        sys.exit(run_verdict(captures_dir, checks_path))
     key_dir = Path(args[0])
     reel_dir = Path(args[args.index("--reel") + 1]) if "--reel" in args else None
 
