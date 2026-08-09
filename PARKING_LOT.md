@@ -18,6 +18,17 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
 
 - YJIT via self-built Ruby (only if profiling ever shows frame drops)
 
+## World mythology (docs-only — no code until fun-verify, then only via scope-contract update)
+
+- `docs/lore/world-bible.md` — standalone Egyptian×Fantasy world bible (Tibia-method: original
+  pantheon, every creature family traced to the mythology, gods withdrawn but omnipresent).
+  Deliberately NOT bound to Kethral names (owner call 2026-08-09) — integration is a future
+  decision. Research canon behind it: 4 `game-research/` vault notes (egyptian-cosmology,
+  egyptian-death-afterlife, akhenaten-amarna, new-kingdom-power — query via
+  `hub kb query --domain game-research`). Its gameplay-hooks appendix maps lore → parked
+  systems (corpse-run, respawn, skill-through-use, factions, bestiary). Unblocks the
+  "fiction-bound audio/visual identity pass" below.
+
 ## Queued from the feature map (drafts/_kethral-feature-map.md) — next candidates post fun-verify
 
 - Corpse-run gear drop (kethral's signature death tension — top candidate)

@@ -1,5 +1,17 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-09 (knowledge session) — world bible ON DISK, critique panel PENDING
+
+**Scope: the mythology pipeline only — does not touch M2 state below.** Bible at
+`docs/lore/world-bible.md`: 17,801 words, all 14 sections verified present. **UNGATED:
+the 3-critic panel (originality/IP, consistency+hooks, craft) + revision pass have NOT
+run** — treat names as provisional until then; file deliberately left uncommitted.
+Research canon behind it: 4 `game-research/` vault notes (17,876 words total), indexed +
+retrieval-smoke-tested via `hub kb reindex`; all four grep-clean of the corpus's
+poisoned files (adversarial capture sweep found 2 misattributed captures, an essay-mill
+pair, and a provenance-free AI synthesis — verdicts encoded in knowledge repo `5b3c206`).
+Full recovery map + critic-prompt invariants: `drafts/_egypt-mythology-pipeline-state.md`.
+
 ## 2026-08-09 (latest) — M2 BUILT: kits + district + surround AI; review in flight
 
 **State (measured):** branch `a0-m2-kits-district`, 56 tests / 148 assertions green, both
