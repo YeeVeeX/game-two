@@ -1,5 +1,47 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-09 (night) — M1 POSSESSION CORE SHIPPED; owner feel-check queued
+
+**State (measured):** branch `a0-m1-possession`, 11 commits over main, 48 tests / 128
+assertions green, BOTH `rake gate` scripts PASS (possession_core.json 10/10 captures
+byte-identical + 9/9 vision checks; world_loop.json 10/10 + 9/9). Player/Enemy classes
+DELETED; Creature/Pack/controllers replace them. Orchestrator: window.rb ~60 lines.
+
+**What M1 is:** the pack of 3 (shared prowler kit) in the existing two zones vs the existing
+husks. Tab = voluntary swap (no stagger, edge-triggered inputs — held keys never leak into
+the new body). Possessed death = forced swap to nearest survivor + 20f stagger + red veil
+beat. All three dead = wipe → "THE HUNT ENDS" veil → pack respawns in town. Exhaust (45f,
+data-driven) paces held-attack — the held-space barrier complaint is fixed by rhythm, not
+input denial. Blanket 30f invuln REMOVED (per-attacker cadence paces damage; dodge i-frames
+stay). Hitstop scoped to possessed fights only. Humans target the NEAREST pack creature,
+not the camera.
+
+**Deviations logged while implementing (all in committed messages):**
+- `interrupt_on_hit` is a kit flag (husk windup uninterruptible, like the old game's husk) —
+  without it 3-creature DPS stun-locked every husk and the loop never showed a telegraph.
+- Allies yield the possessed's front tile (found by the suite: an ally body-blocking your own
+  walk path broke zone transit).
+- Exhaust 45f baseline + husk exhaust 81f (= its old 30+6+45 cadence, so husk feel unchanged).
+
+**Phase 0 (review orders, all landed):** `rake gate` = double replay + md5 compare + Bedrock
+vision verdict, ALL blocking (exit nonzero; verified both directions incl. a corrupted-byte
+negative test). Gemfile.lock committed, gosu pinned = 1.4.6. Design corpus promoted to
+`docs/design-corpus/`. YJIT decision text corrected. Timebase documented tick-locked with an
+on-screen overrun counter.
+
+**Owner feel-check (the M1 gate):** run `bin\play.cmd` — (1) Tab-swap mid-fight: does
+relocating under pressure feel good? (2) forced swap when your body dies: does the sting +
+stagger read? (3) held-space attack: barrier gone, rhythm there? (4) wipe → town: does losing
+the whole pack land? React + report; M2's plan gets written from the reaction.
+
+**M2 queue (next plan, after feel-check):** three kits (Blocker/Striker/Lobber + projectile),
+Rushers, nest + district zones, 3-bar HUD + exhaust pip, edge pips, carried critique fixes,
+perf smoke p95 < 16.6 ms, district_hunt.json. Fiction binding when the Egypt-corpus bible
+lands (order form in the spec).
+
+**In flight when written:** adversarial code review of the M1 diff (code-reviewer agent) —
+findings fold in before merge to main.
+
 ## 2026-08-09 (evening) — grid v2 fun-verified; monster-flip designed, reviewed, and CUT DOWN
 
 **State (measured):** 6 commits, 31 tests / 82 assertions green, grid world v2 SHIPPED and
