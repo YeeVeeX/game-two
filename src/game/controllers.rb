@@ -1,19 +1,23 @@
 require "game/flow_field"
 
 module Game
-  # Drives the possessed creature from live/scripted input. Post-swap inputs
-  # are edge-triggered (law 2): every action held at rearm! time is masked
-  # until it is released once — a buffered attack can't ghost-fire from the
-  # new body, and a held dodge can't burn the new body's cooldown.
+  # Drives the possessed creature from live/scripted input. Post-swap COMBAT
+  # inputs are edge-triggered (law 2): attack/dodge held at rearm! time are
+  # masked until released once — a buffered attack can't ghost-fire from the
+  # new body, and a held dodge can't burn the new body's cooldown. Held
+  # MOVEMENT deliberately survives the swap: walking into the new body is
+  # what the hand expects; masking it made every Tab a micro-stall (M2.1
+  # fix 3).
   class PossessedController
     ACTIONS = %i[left right up down attack dodge].freeze
+    EDGE_TRIGGERED = %i[attack dodge].freeze
 
     def initialize
       @masked = []
     end
 
     def rearm!(input)
-      @masked = ACTIONS.select { |a| input.down?(a) }
+      @masked = EDGE_TRIGGERED.select { |a| input.down?(a) }
     end
 
     def tick(creature, input, _view)

@@ -72,7 +72,7 @@ class PackTest < Minitest::Test
     assert_nil pack.forced_swap!, "no survivor to swap to"
   end
 
-  def test_possessed_controller_edge_trigger_masks_held_keys
+  def test_possessed_controller_edge_trigger_masks_held_combat_keys
     input = Core::ScriptedInput.new(frames: { 0 => %i[attack right], 1 => %i[attack right], 2 => [], 3 => %i[attack] })
     ctl = Game::PossessedController.new
     c = pack.possessed
@@ -80,7 +80,7 @@ class PackTest < Minitest::Test
     ctl.rearm!(input)              # swap happened while attack+right held
     ctl.tick(c, input, nil)
     assert_equal :idle, c.attack_state, "held attack masked after swap"
-    assert_equal [1, 1], c.tile, "held right masked after swap"
+    assert_equal [2, 1], c.tile, "held movement SURVIVES a swap (M2.1 fix 3)"
     input.update(1)
     ctl.tick(c, input, nil)
     assert_equal :idle, c.attack_state, "still masked while still held"
@@ -89,5 +89,15 @@ class PackTest < Minitest::Test
     input.update(3)
     ctl.tick(c, input, nil)        # re-pressed -> fires
     assert_equal :windup, c.attack_state, "re-press after release fires (edge-trigger, law 2)"
+  end
+
+  def test_held_dodge_masked_after_swap
+    input = Core::ScriptedInput.new(frames: { 0 => %i[dodge right] })
+    ctl = Game::PossessedController.new
+    c = pack.possessed
+    input.update(0)
+    ctl.rearm!(input)              # swap happened while dodge held
+    ctl.tick(c, input, nil)
+    assert_equal [2, 1], c.tile, "held dodge masked -> falls through to a normal step"
   end
 end
