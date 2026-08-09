@@ -24,6 +24,14 @@ class FeelTest < Minitest::Test
     assert feel.hitstop?, "kill hitstop (8f) should still be running after 5 frames"
   end
 
+  def test_received_hit_shakes_but_never_freezes
+    feel = Game::Feel.new(CFG)
+    feel.on_player_hit
+    refute feel.hitstop?, "hitstop sells the player's OWN impact, never received hits"
+    feel.tick
+    refute_equal 0.0, feel.shake_x.abs + feel.shake_y.abs, "received hits still shake"
+  end
+
   def test_shake_decays_to_zero
     feel = Game::Feel.new(CFG)
     feel.on_kill

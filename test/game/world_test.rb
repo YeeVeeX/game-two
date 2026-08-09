@@ -159,21 +159,72 @@ class WorldTest < Minitest::Test
     assert_operator ally_kills, :>=, 1, "unpossessed allies fight on their own (husk-grade AI)"
   end
 
+  # M2.1 fix 5: a projectile kit hugging its target was INERT (needs dist>=2).
+  # Husk-grade repair: step away to open range, then fire.
+  def test_adjacent_lobber_ally_opens_range_then_fires
+    enter_district(world)
+    lobber = world.pack.members.find { |m| m.kit_name == :lobber }
+    refute_equal lobber, world.possessed, "lobber runs on AI in this scenario"
+    target = world.humans.reject(&:dead?).first
+    lobber.walker.teleport(target.tile[0] - 1, target.tile[1]) # adjacent = inert before the fix
+    cheb = ->(a, b) { [(a[0] - b[0]).abs, (a[1] - b[1]).abs].max }
+    fired = false
+    opened = false
+    world.bus.subscribe(:attack_started) { |e| fired ||= e[:attacker].equal?(lobber) }
+    # The rusher counter-chases at similar footspeed, so distance at any fixed
+    # frame is racy - assert range EVER opened, then that the lobber fired.
+    900.times do
+      break if fired
+      drive(world, scripted({}), 1)
+      opened ||= cheb.call(lobber.tile, target.tile) >= 2
+    end
+    assert opened, "adjacent lobber steps AWAY to open firing range"
+    assert fired, "once range is open, the lobber fires"
+  end
+
+  # Review finding (M2.1): a CORNERED projectile kit (no neighbor increases
+  # distance) must not freeze in place - it side-steps along the wall at
+  # equal distance instead of standing motionless while it dies.
+  def test_cornered_lobber_still_moves
+    enter_district(world)
+    lobber = world.pack.members.find { |m| m.kit_name == :lobber }
+    refute_equal lobber, world.possessed, "lobber runs on AI in this scenario"
+    hunter = world.humans.reject(&:dead?).first
+    lobber.walker.teleport(1, 1)      # district map corner (walls at x=0, y=0)
+    hunter.walker.teleport(2, 2)      # diagonal-adjacent: nothing increases distance
+    moved = false
+    40.times do
+      drive(world, scripted({}), 1)
+      moved ||= lobber.tile != [1, 1]
+    end
+    assert moved, "cornered lobber side-steps along the wall instead of deadlocking"
+  end
+
   def test_hitstop_only_for_possessed_fights
     enter_district(world)
     # Swap away so the fighting happens between allies and rushers only.
     drive(world, scripted({ world.frame.to_s => ["swap"] }), 1)
     hits_seen = 0
-    stops_during_ally_hits = 0
+    suspect_frames = []
+    forced_frames = []
+    # A possessed death legitimately freezes (forced swap = on_kill); ally
+    # hits in the SAME bus flush see that freeze. Excuse exactly the
+    # forced-swap frames (an unpossessed ally's death must NOT be excused;
+    # review tightening). possession_changed is emitted mid-flush and
+    # processed AFTER same-frame hits, so reconcile post-hoc by frame.
+    world.bus.subscribe(:possession_changed) do |e|
+      forced_frames << world.frame if e[:forced]
+    end
     world.bus.subscribe(:attack_hit) do |e|
       unless [e[:attacker], e[:victim]].any? { |c| c.equal?(world.possessed) }
         hits_seen += 1
-        stops_during_ally_hits += 1 if world.feel.hitstop?
+        suspect_frames << world.frame if world.feel.hitstop?
       end
     end
     drive(world, scripted({}), 6000)
     assert_operator hits_seen, :>=, 1, "allies traded hits during the window"
-    assert_equal 0, stops_during_ally_hits, "ally fights never freeze the world (law 5)"
+    violations = suspect_frames - forced_frames
+    assert_empty violations, "ally fights never freeze the world (law 5)"
   end
 
   # --- carried grid invariants (rewritten from v2 suite) -------------------
@@ -301,8 +352,16 @@ class WorldTest < Minitest::Test
     kill(target, by: world.possessed)
     drive(world, scripted({}), 1)
     assert_equal count - 1, world.humans.length
-    drive(world, scripted({}), DATA["balance/combat"][:kits][:rusher][:respawn_frames] + 10)
-    assert_equal count, world.humans.length
+    # Allies may kill more rushers during the wait (their respawns land later),
+    # so assert the killed human's respawn by fresh-body identity, not headcount.
+    roster_after_kill = world.humans.dup
+    due = DATA["balance/combat"][:kits][:rusher][:respawn_frames]
+    drive(world, scripted({}), due - 10)
+    assert world.humans.all? { |h| roster_after_kill.include?(h) },
+           "no respawn before the window elapses"
+    drive(world, scripted({}), 20)
+    assert world.humans.any? { |h| !roster_after_kill.include?(h) },
+           "the killed human respawns as a fresh body after respawn_frames"
   end
 
   # M2 review finding 1: a respawn due while a body stands on its spawn tile

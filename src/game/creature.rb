@@ -104,13 +104,16 @@ module Game
       end
     end
 
+    # Dodge passes THROUGH bodies (through: true) — the surround ring can be
+    # escaped but never landed on; walls still stop it. Knockback keeps the
+    # stop-short dash (being shoved through a body would be wrong).
     def dodge(dir, blocked: [])
       cfg = @kit[:dodge]
       return false if dead? || staggered? || cfg.nil?
       return false unless @dodge_cooldown.zero? && @attack_state == :idle
       d = dir == [0, 0] ? @facing : dir
       moved = @walker.dash(d[0], d[1], max_tiles: cfg[:tiles],
-                           frames_per_tile: cfg[:frames_per_tile], blocked:)
+                           frames_per_tile: cfg[:frames_per_tile], blocked:, through: true)
       return false unless moved
       @iframes = [@iframes, cfg[:iframes]].max
       @dodge_cooldown = cfg[:cooldown_frames]

@@ -1,19 +1,23 @@
 require "game/flow_field"
 
 module Game
-  # Drives the possessed creature from live/scripted input. Post-swap inputs
-  # are edge-triggered (law 2): every action held at rearm! time is masked
-  # until it is released once — a buffered attack can't ghost-fire from the
-  # new body, and a held dodge can't burn the new body's cooldown.
+  # Drives the possessed creature from live/scripted input. Post-swap COMBAT
+  # inputs are edge-triggered (law 2): attack/dodge held at rearm! time are
+  # masked until released once — a buffered attack can't ghost-fire from the
+  # new body, and a held dodge can't burn the new body's cooldown. Held
+  # MOVEMENT deliberately survives the swap: walking into the new body is
+  # what the hand expects; masking it made every Tab a micro-stall (M2.1
+  # fix 3).
   class PossessedController
     ACTIONS = %i[left right up down attack dodge].freeze
+    EDGE_TRIGGERED = %i[attack dodge].freeze
 
     def initialize
       @masked = []
     end
 
     def rearm!(input)
-      @masked = ACTIONS.select { |a| input.down?(a) }
+      @masked = EDGE_TRIGGERED.select { |a| input.down?(a) }
     end
 
     def tick(creature, input, _view)
@@ -72,8 +76,32 @@ module Game
         face_toward(creature, target)
         creature.start_attack
       elsif !creature.moving?
-        chase_step(creature, target, view)
+        if projectile?(creature) && chebyshev(creature.tile, target.tile) < 2
+          retreat_step(creature, target, view) # husk-grade: open range, then fire (M2.1 fix 5)
+        else
+          chase_step(creature, target, view)
+        end
       end
+    end
+
+    def projectile?(creature) = creature.kit[:attack][:arc] == "projectile"
+
+    # A projectile kit hugging its target is inert (needs dist >= 2). Step to
+    # the first free neighbor that INCREASES distance; cornered (no such
+    # neighbor reachable), side-step along the wall at EQUAL distance instead
+    # of freezing in place — fixed STEPS order = deterministic. Full kiting
+    # stays A1 gambit territory.
+    def retreat_step(creature, target, view)
+      blocked = view.blocked_for(creature)
+      dist = chebyshev(creature.tile, target.tile)
+      [dist + 1, dist].each do |want|
+        Game::FlowField::STEPS.each do |(dx, dy)|
+          to = [creature.tile[0] + dx, creature.tile[1] + dy]
+          next unless chebyshev(to, target.tile) >= want
+          return true if creature.step(dx, dy, blocked:)
+        end
+      end
+      false
     end
 
     # Melee kits: Chebyshev adjacency. Projectile kits: 8-way aligned with a

@@ -12,6 +12,12 @@ systems** (Kethral trap); diagnose → tune → re-verify. The pincer AI was own
 design, 58 tests / 158 assertions green. M2 IS merged — M2.1 fixes forward on a new branch
 (`a0-m2.1-feel-repair`), do not revert.
 
+> [knowledge-session note 2026-08-09 ~18:15: `docs/lore/` is no longer untracked — the
+> world bible passed its 5-input critic gate and is committed as `b027453` on
+> `a0-m2.1-feel-repair` (single-file commit, no M2.1 files touched). New mechanics-research
+> map at `drafts/_mechanics-research-map.md` (4 vault notes → parked systems). Docs-only;
+> no gameplay relevance to the feel-repair.]
+
 **Full diagnosis + work order: `drafts/_m2.1-feel-repair-plan.md`** (code-traced root causes,
 priority order, per-fix tests, verification invariants). One-line summary of the six calls:
 1. Dodge no-ops when first tile is occupied (grid_walker commit stops before blocked tiles;

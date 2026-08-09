@@ -12,7 +12,7 @@
     "930": ["swap"],
     "945": ["dodge", "left"]
   },
-  "captures": [1, 196, 288, 466, 550, 700, 909, 911],
+  "captures": [1, 196, 273, 466, 550, 672, 909, 911],
   "run_until": 1200,
   "out_dir": "captures/world_loop"
 }
