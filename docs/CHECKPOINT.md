@@ -1,5 +1,38 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-09 (playtest verdict) — slice is fun; direction pivot ordered
+
+**Owner playtested slice v1. Verbatim reaction:** *"simple, fun yeah, there is no grid-based
+movement yet like tibia and still misses the whole features of the first and second versions
+of Kethral pygames, kethral arena is not what I intend."*
+
+Parsed into direction (dev-of-record reading):
+1. **Feel layer validated** — hitstop/shake/telegraph/dodge loop reads as fun. Keep it.
+2. **Movement pivot: grid-based, Tibia-like tile stepping** — replaces free 8-way float.
+   (Consistent with marrow's own thesis: "Tibia-style freedom".)
+3. **The arena duel is NOT the game.** The intent is the fuller shape of the earlier
+   Kethral pygame versions — world/zones/features, not a one-room duel.
+
+**State (measured 2026-08-09):** 4 commits, 26 tests / 59 assertions green, 10 captures
+byte-identical across runs, orchestrator 42/300 lines. Old-repo version dirs (py counts):
+`prototype/` 57, `kethral/` 211, `kethral_v2/` 27, `project/` 2 — "first and second
+versions" most plausibly = `prototype/` and `kethral/`; **confirm by mining, not assuming**
+(`kethral_v2/` exists and was never mentioned in the handoff — check what it is).
+
+**Next sequence:**
+1. Mine `prototype/`, `kethral/`, `kethral_v2/` -> feature map of what "the whole features"
+   means (movement model, world/zone structure, the game's actual shape). Write findings to
+   `drafts/_kethral-feature-map.md`.
+2. Design + implement grid movement (tile stepping) behind the existing input seam; replay
+   scripts/tests move to tile assertions. Feel layer stays.
+3. Rewrite SLICE_SPEC v2 around the real intent (world shape, not arena). Scope contract in
+   CLAUDE.md updated to match — arena-only IN-list is now obsolete.
+4. Ship next playable increment, Rule 2-gated.
+
+**Harvested to drafts/ (gitignored, survive compact):** `_marrow-fact-sheet.md` (mined spec
+numbers — do not re-mine), `_session-handoff-20260809.md` (original rationale).
+**In flight when written:** nothing.
+
 ## 2026-08-09 (later) — vertical slice SHIPPED, awaiting owner playtest
 
 - Env: Ruby 3.4.10 (`C:\Ruby34-x64`, no YJIT — RubyInstaller builds without it; accepted),
