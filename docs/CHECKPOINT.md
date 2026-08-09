@@ -1,5 +1,40 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-09 (M2 feel-check FAILED) — M2.1 feel-repair is the active work
+
+**Owner verdict on M2 (verbatim): "game feels slugish now, dash/doge is not very useful and
+instead the character gets stuck and the teammates now feel dumb and weak, the enemies are too
+hard if the player doesn't have spells or more stronger combos to chain."** M1 was "feels
+really good" → this is a regression M2 introduced, NOT missing content. **No spells / no new
+systems** (Kethral trap); diagnose → tune → re-verify. The pincer AI was owner-ordered and stays.
+
+**State (measured):** `main` at `44c1cef` (37 commits), clean but `docs/lore/` untracked by
+design, 58 tests / 158 assertions green. M2 IS merged — M2.1 fixes forward on a new branch
+(`a0-m2.1-feel-repair`), do not revert.
+
+**Full diagnosis + work order: `drafts/_m2.1-feel-repair-plan.md`** (code-traced root causes,
+priority order, per-fix tests, verification invariants). One-line summary of the six calls:
+1. Dodge no-ops when first tile is occupied (grid_walker commit stops before blocked tiles;
+   the pincer fills exactly those tiles) → dodge dashes THROUGH bodies, lands on first free
+   tile in range; walls still stop; refuse if no free tile.
+2. Hitstop fires per RECEIVED hit — 5 pincering rushers freeze 15-25% of wall time
+   ("sluggish"; perf measured innocent) → hitstop only on possessed's DEALT hits/kills;
+   received keeps flash+shake.
+3. rearm! masks held MOVEMENT after every Tab (micro-stall per swap) → unmask movement,
+   keep attack/dodge edge-triggered (law 2 intent preserved).
+4. Rushers outrun 2/3 kits + out-aggro all (14f/12t vs 13-19f/8-9t) → rusher 16f/10t;
+   difficulty comes from surround geometry, not footspeed.
+5. Allies weak/passive: pack aggro → 10; blocker dmg 20→25 (2-shots a rusher); lobber
+   adjacent-inert fix PROMOTED from A1: step-away micro-rule (~6 lines) in AiController.
+6. "Spells/combos" → swap IS the combo system, currently masked by 1-5. Re-verify after
+   repair; more offensive depth = A1/A0.5 owner call, PARKING_LOT for now.
+
+**Next sequence:** branch `a0-m2.1-feel-repair` → execute plan order 1-5 (data tune, feel,
+controller, dodge-through, lobber step-away; test per fix) → `rake` + `rake perf` + BOTH
+gates (re-aim district_hunt capture frames from event log — rusher speed change shifts all
+timings; never weaken checks) → adversarial review over diff (NEVER merge unreviewed) →
+fold → merge --no-ff → owner re-check: same 4 axes + "does dodge feel like an escape now?"
+
 ## 2026-08-09 (M2 SHIPPED) — review folded, merged to main; owner feel-check is NEXT
 
 **State (measured):** `main` at merge `6e1d432`, 58 tests / 158 assertions green,
