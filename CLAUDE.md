@@ -9,7 +9,7 @@ permission for design decisions.
 v3 (2026-08-09): grid world v2 fun-verified; direction locked = **monster flip** — play a pack
 of 3 creatures hunting humans in a collapsing modern city. Current increment = **A0 =
 possession core ONLY** (spec: `docs/superpowers/specs/2026-08-09-a0-possession-core-design.md`;
-binding review law: `drafts/_design-review-reconciliation.md`).
+binding review law: `docs/design-corpus/design-review-reconciliation.md`).
 
 **IN scope until A0 is fun-verified:**
 - **Actor/controller refactor** (kills the Player/Enemy dichotomy; factions; combat reads

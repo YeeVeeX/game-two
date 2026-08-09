@@ -2,7 +2,7 @@
 
 **Date:** 2026-08-09 · **Status:** awaiting owner review · **Supersedes:** the Increment A design
 (docs/design-increment-a.html), cut down per the dual adversarial review
-(drafts/_design-review-reconciliation.md — the 5 design laws there are binding on this spec).
+(docs/design-corpus/design-review-reconciliation.md — the 5 design laws there are binding on this spec).
 
 ## Naming discipline (de-slop rule, owner-set)
 

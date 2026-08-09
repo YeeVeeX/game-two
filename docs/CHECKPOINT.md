@@ -21,16 +21,18 @@ One live complaint: held-space attack = impenetrable barrier (fix designed, see 
    not briefs. → fold into CLAUDE.md with the spec.
 
 **Dual adversarial review (Codex@high + Fable@max) both REJECTED Increment A as one increment.**
-Full reconciliation + binding design law: `drafts/_design-review-reconciliation.md` (READ IT —
+Full reconciliation + binding design law: `docs/design-corpus/design-review-reconciliation.md` (READ IT —
 it contains the A0 cut, the 5 design laws incl. per-attacker invuln replacing blanket 30f,
 determinism spec, swap-inert exhaust, forced-swap death, and the single-protagonist-stack risk).
 
-**Evidence corpus (all in drafts/, gitignored, do NOT re-generate):**
-`_tibia-research.md` (11 verified findings, 105 agents) · `_tibia-videos/*_analysis.md` (3 video
-briefs via adapted Foreman pipeline; harness/video_analyst.py + vision_critic.py are the tools) ·
-`_vision-critique-20260809-090905.md` (Tibia-veteran critique of our captures; top fixes: facing
-notch, hurt-flash never white, telegraph≠gate color, wall brightness, corpses persist, ease-out
-tween) · `_kethral-feature-map.md` · `_design-review-reconciliation.md`.
+**Evidence corpus (promoted to `docs/design-corpus/` 2026-08-09, tracked in git; bulky video
+dumps stay gitignored in drafts/, do NOT re-generate):**
+`tibia-research.md` (11 verified findings, 105 agents) · `drafts/_tibia-videos/*_analysis.md`
+(3 video briefs via adapted Foreman pipeline; harness/video_analyst.py + vision_critic.py are
+the tools) · `vision-critique-20260809.md` (Tibia-veteran critique of our captures; top fixes:
+facing notch, hurt-flash never white, telegraph≠gate color, wall brightness, corpses persist,
+ease-out tween) · `kethral-feature-map.md` · `design-review-reconciliation.md` ·
+`marrow-fact-sheet.md`.
 
 **Next sequence:**
 1. Owner call on fiction grounding (Kethral mythos vs new bible) — then write the ONE-PAGE spec
@@ -65,7 +67,7 @@ versions" most plausibly = `prototype/` and `kethral/`; **confirm by mining, not
 **Next sequence:**
 1. Mine `prototype/`, `kethral/`, `kethral_v2/` -> feature map of what "the whole features"
    means (movement model, world/zone structure, the game's actual shape). Write findings to
-   `drafts/_kethral-feature-map.md`.
+   `docs/design-corpus/kethral-feature-map.md` (originally drafts/, promoted 2026-08-09).
 2. Design + implement grid movement (tile stepping) behind the existing input seam; replay
    scripts/tests move to tile assertions. Feel layer stays.
 3. Rewrite SLICE_SPEC v2 around the real intent (world shape, not arena). Scope contract in
@@ -98,7 +100,10 @@ numbers — do not re-mine), `_session-handoff-20260809.md` (original rationale)
   1,364 passing tests (claim dated 2026-04-02, not re-verified).
 
 **Decisions locked this session (rationale in the handoff draft — don't relitigate):**
-1. **Ruby + Gosu**, CRuby 3.4 + YJIT. DragonRuby and Ruby2D rejected.
+1. **Ruby + Gosu**, CRuby 3.4. DragonRuby and Ruby2D rejected. [Corrected 2026-08-09: the
+   installed RubyInstaller 3.4.10 has NO YJIT (needs rustc at build time) — PRISM interpreter
+   only. Perf is asserted by measurement, not by this decision text: M2 gate carries a perf
+   smoke (p95 update < 16.6 ms) per the third review.]
 2. **Audio = placeholder only.** Owner explicitly dropped the MIDI/procedural-SFX experiment.
 3. **Claude is the dev of record; owner is the tester.** Design calls are Claude's to make.
 4. **Better-this-time doctrine** (from Kethral post-mortem): scope enforced via project
