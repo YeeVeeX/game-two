@@ -1,5 +1,28 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-09 (M2 SHIPPED) — review folded, merged to main; owner feel-check is NEXT
+
+**State (measured):** `main` at merge `6e1d432`, 58 tests / 158 assertions green,
+`rake perf` PASS on main (p50 0.007 / p95 0.039 / max 1.48 ms), both `rake gate` scripts
+PASS pre-merge on the identical tree (district_hunt 10/10 byte-identical + 13/13 vision;
+world_loop 8/8 + 13/13). Branch `a0-m2-kits-district` merged `--no-ff`, kept for reference.
+
+**Adversarial review verdict (landed + folded, commit `e76bb44`):** 3 findings.
+1. **MEDIUM, fixed:** human respawn ignored occupancy — body parked on the spawn tile at
+   the respawn frame stacked two creatures on one tile (probe-confirmed live). Respawns now
+   DEFER while the tile is occupied, retry each tick. Regression test camps the spawn.
+2. **LOW latent, fixed:** a kit without `respawn_frames` never left the humans roster on
+   death (renderer would draw its ghost forever). Roster delete now precedes the early
+   return. Regression test runs a mutated no-respawn kit through a real kill.
+3. **LOW, OWNED as design:** knockback through a gate transits the whole pack — gates are
+   physical terrain (Tibia-flavored); documented at `check_transition`, not special-cased.
+Reviewer's husk-AI note (adjacent AI lobber is inert, needs dist>=2) → PARKING_LOT under A1
+gambits with the expected playtest symptom ("my lobber just stands there").
+
+**NEXT: owner feel-check on main** — kit identities (Striker/Blocker/Lobber), possessing
+the Lobber, Rusher pincer pressure, District One. From the reaction → A1 planning
+(gambit engine + hot-reload is first candidate; A1–A3 queue in PARKING_LOT.md).
+
 ## 2026-08-09 (knowledge session) — world bible ON DISK, critique panel PENDING
 
 **Scope: the mythology pipeline only — does not touch M2 state below.** Bible at
