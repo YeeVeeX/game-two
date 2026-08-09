@@ -12,7 +12,7 @@
     "striker": {
       "max_hp": 80,
       "step_frames": 13,
-      "aggro_tiles": 8,
+      "aggro_tiles": 10,
       "attack": {
         "damage": 25,
         "windup_frames": 5,
@@ -35,9 +35,9 @@
     "blocker": {
       "max_hp": 160,
       "step_frames": 19,
-      "aggro_tiles": 8,
+      "aggro_tiles": 10,
       "attack": {
-        "damage": 20,
+        "damage": 25,
         "windup_frames": 8,
         "active_frames": 4,
         "recovery_frames": 12,
@@ -58,7 +58,7 @@
     "lobber": {
       "max_hp": 60,
       "step_frames": 16,
-      "aggro_tiles": 9,
+      "aggro_tiles": 10,
       "attack": {
         "damage": 20,
         "windup_frames": 10,
@@ -82,8 +82,8 @@
     },
     "rusher": {
       "max_hp": 50,
-      "step_frames": 14,
-      "aggro_tiles": 12,
+      "step_frames": 16,
+      "aggro_tiles": 10,
       "respawn_frames": 300,
       "attack": {
         "damage": 12,

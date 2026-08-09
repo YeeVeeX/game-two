@@ -301,8 +301,16 @@ class WorldTest < Minitest::Test
     kill(target, by: world.possessed)
     drive(world, scripted({}), 1)
     assert_equal count - 1, world.humans.length
-    drive(world, scripted({}), DATA["balance/combat"][:kits][:rusher][:respawn_frames] + 10)
-    assert_equal count, world.humans.length
+    # Allies may kill more rushers during the wait (their respawns land later),
+    # so assert the killed human's respawn by fresh-body identity, not headcount.
+    roster_after_kill = world.humans.dup
+    due = DATA["balance/combat"][:kits][:rusher][:respawn_frames]
+    drive(world, scripted({}), due - 10)
+    assert world.humans.all? { |h| roster_after_kill.include?(h) },
+           "no respawn before the window elapses"
+    drive(world, scripted({}), 20)
+    assert world.humans.any? { |h| !roster_after_kill.include?(h) },
+           "the killed human respawns as a fresh body after respawn_frames"
   end
 
   # M2 review finding 1: a respawn due while a body stands on its spawn tile
