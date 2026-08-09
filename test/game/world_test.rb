@@ -77,6 +77,23 @@ class WorldTest < Minitest::Test
     assert_equal :world, world.states.current, "forced swap is NOT a state change"
   end
 
+  def test_tab_refused_while_staggered_death_penalty_always_lands
+    victim = world.possessed
+    hunter = world.pack.members[1]
+    kill(victim, by: hunter)
+    drive(world, scripted({}), 1) # flush bus -> forced swap + stagger
+    staggered_body = world.possessed
+    assert staggered_body.staggered?
+    drive(world, scripted({ world.frame.to_s => ["swap"] }), 1)
+    assert_equal staggered_body, world.possessed,
+                 "Tab during forced-swap stagger must be refused (law 2: the beat lands)"
+    # +10 slack: the kill's hitstop freezes tick_body, so the stagger clock
+    # runs slower than wall ticks for its first ~8 frames.
+    drive(world, scripted({}), STAGGER + 10)
+    drive(world, scripted({ world.frame.to_s => ["swap"] }), 1)
+    refute_equal staggered_body, world.possessed, "Tab works again once the stagger expires"
+  end
+
   def test_wipe_respawns_whole_pack_in_town
     wiped = false
     world.bus.subscribe(:pack_wiped) { wiped = true }

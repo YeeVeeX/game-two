@@ -39,8 +39,23 @@ Rushers, nest + district zones, 3-bar HUD + exhaust pip, edge pips, carried crit
 perf smoke p95 < 16.6 ms, district_hunt.json. Fiction binding when the Egypt-corpus bible
 lands (order form in the spec).
 
-**In flight when written:** adversarial code review of the M1 diff (code-reviewer agent) —
-findings fold in before merge to main.
+**Adversarial review (landed + folded in):** 4 findings, all fixed pre-merge — (1) vision gate
+could false-PASS on partial/empty model output → checklist-coverage validation added (missing
+or unknown check ids = infra error, exit 2); (2) forced-swap stagger was bypassable by an
+instant Tab → Tab refused while possessed is staggered (+ regression test); (3) dead husks
+land same-frame posthumous hits → kept deliberately, documented as the simultaneous-trade
+call in resolve_attacks; (4) respawned humans reused live names, corrupting the harness event
+log → monotonic per-zone serials.
+
+**Known honest-signal flake:** the `telegraph_reads` vision check is borderline — telegraph
+yellow ≈ gate gold (identical frames flipped PASS/FAIL between gate runs). The check stays;
+the COLOR is the bug, and it's already in M2's carried critique fixes.
+
+**Perf (measured, informal):** 6,600-tick sim run incl. dungeon combat: p50 0.007 ms /
+p95 0.039 ms / max 2.63 ms per tick — ~2 orders of magnitude under the 16.6 ms budget.
+The formal p95 perf smoke still gates M2 (district + Rushers is the load case).
+
+**In flight when written:** nothing — review landed, fixes verified, both gates re-run green.
 
 ## 2026-08-09 (evening) — grid v2 fun-verified; monster-flip designed, reviewed, and CUT DOWN
 

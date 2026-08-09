@@ -46,8 +46,9 @@ task :gate do
 
   if ENV["SKIP_CRITIC"] == "1"
     puts "GATE vision: SKIPPED (SKIP_CRITIC=1 — determinism only, NOT a shippable pass)"
+    puts "GATE PASS (determinism only)"
   else
     sh "python harness/vision_critic.py --verdict #{a_dir} --checks harness/gate_checks.json"
+    puts "GATE PASS"
   end
-  puts "GATE PASS"
 end

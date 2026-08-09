@@ -133,9 +133,12 @@ module Game
 
     # Tab swap: rising edge only, world-level (the controller mask handles
     # every OTHER action; swap itself must not autorepeat while held).
+    # Refused while the possessed is staggered — otherwise an instant Tab
+    # after a forced swap hands you an unstaggered third body and the
+    # death penalty never lands (law 2).
     def handle_swap(input)
       down = input.down?(:swap)
-      if down && !@swap_was_down && @pack.living.length > 1
+      if down && !@swap_was_down && @pack.living.length > 1 && !possessed.staggered?
         from = possessed
         @pack.swap_next!
         @controller.rearm!(input)
@@ -147,6 +150,11 @@ module Game
     # Any active unlanded swing hits the FIRST living hostile on its tiles
     # (attack_tiles order is deterministic: front-first for arcs, fixed ring
     # order otherwise). Damage comes from the attacker's kit — the law.
+    #
+    # Dev-of-record call: a husk killed earlier in this same frame still
+    # lands its active swing (uninterruptible windup + iteration order =
+    # a deterministic simultaneous trade). Killing blows don't erase a blow
+    # already in flight — that's the pressure husks are for.
     def resolve_attacks
       actors.each do |attacker|
         next unless attacker.attack_can_hit?
@@ -224,11 +232,17 @@ module Game
       end
     end
 
+    # Names use a monotonic per-zone counter, never the roster length —
+    # respawns after a delete would otherwise collide with a live name and
+    # corrupt the harness event log (capture scripts aim by name).
     def add_human(zone, kit_name, tile)
       kit = @balance[:kits].fetch(kit_name.to_sym)
+      @human_serial ||= Hash.new(0)
+      serial = @human_serial[zone]
+      @human_serial[zone] += 1
       @humans[zone] << Creature.new(bus: @bus, kit:, kit_name: kit_name.to_sym,
                                     map: @zones[zone], tile:, faction: :human,
-                                    name: "#{kit_name}#{@humans[zone].length}")
+                                    name: "#{kit_name}#{serial}")
     end
 
     def spawn_pack

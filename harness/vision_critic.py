@@ -155,14 +155,24 @@ def run_verdict(captures_dir: Path, checks_path: Path) -> int:
     client = _client()
     frames = load_frames(captures_dir)
     print(f"gate verdict on {len(frames)} frames from {captures_dir} ...")
+    expected_ids = {c["id"] for c in checks}
     for attempt in (1, 2):
         text = converse(client, image_blocks(frames) + [{"text": prompt}])
         try:
             result = extract_json(text)
+            # The model's output is trusted only if it covers the checklist
+            # exactly — all([]) is True, so an empty/partial checks array
+            # would otherwise false-PASS the gate.
+            returned_ids = {c.get("id") for c in result.get("checks", [])}
+            if returned_ids != expected_ids:
+                raise ValueError(
+                    f"checklist coverage mismatch: missing={sorted(expected_ids - returned_ids)} "
+                    f"unknown={sorted(returned_ids - expected_ids)}"
+                )
             break
         except (ValueError, json.JSONDecodeError) as exc:
             if attempt == 2:
-                print(f"GATE INFRA ERROR: unparseable verdict: {exc}", file=sys.stderr)
+                print(f"GATE INFRA ERROR: unusable verdict: {exc}", file=sys.stderr)
                 return 2
     log = Path("drafts") / "_gate-verdicts.log"
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
