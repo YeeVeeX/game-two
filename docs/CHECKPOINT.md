@@ -1,5 +1,34 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-09 (M2.1 SHIPPED) — feel repair merged; owner replay is NEXT
+
+**State (measured):** `main` at merge `0c2f9ba`, 65 tests / 180 assertions green on main,
+`rake perf` PASS on main (p50 0.007 / p95 0.038 ms), both `rake gate` scripts PASS
+post-review-fold on the identical tree (world_loop 8/8 byte-identical + 13/13 vision;
+district_hunt 10/10 + 13/13 — dash-through stayed deterministic). Branch
+`a0-m2.1-feel-repair` merged `--no-ff`, kept for reference. The world bible (`b027453`,
+committed by the parallel knowledge session onto this branch) merged along with it —
+docs-only, per PARKING_LOT.
+
+**All five fixes shipped as planned** (one commit each, test per fix):
+rusher 16f/10t + pack aggro 10 + blocker dmg 25 (`6700e75`) · received hits shake-only
+(`f1391e7`) · held movement survives Tab (`6bc26dd`) · dodge passes through bodies
+(`1cb566c`) · adjacent lobber opens range (`8f1df1a`) · capture re-aims (`bcb1d86`).
+
+**Adversarial review verdict (landed + folded, commit `4f22ef6`):** 3 findings.
+1. **VERIFIED, fixed:** cornered AI lobber deadlocked (map corner: no neighbor increases
+   distance -> stood motionless and died, probe-confirmed). retreat_step now falls back to
+   an equal-distance side-step along the wall. Regression test corners it live.
+2. **VERIFIED, fixed:** law-5 test excused ANY pack-death frame, not just forced-swap
+   frames; now reconciles suspect frames against `possession_changed(forced)` post-hoc.
+3. **PREEXISTING, parked:** player step/dodge cut diagonal wall corners the AI's
+   FlowField#open? forbids — guaranteed-escape exploit, NOT introduced by M2.1. Parked in
+   PARKING_LOT (fix changes movement feel -> owner verdict first).
+
+**Owner replay axes:** kit identities / Lobber possession / pincer pressure / District One
++ explicitly: **"does dodge feel like an escape now?"** If more offensive depth is still
+wanted after this plays well -> A1/A0.5 conversation (spec first), not code.
+
 ## 2026-08-09 (M2 feel-check FAILED) — M2.1 feel-repair is the active work
 
 **Owner verdict on M2 (verbatim): "game feels slugish now, dash/doge is not very useful and
