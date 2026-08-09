@@ -1,3 +1,5 @@
+require "game/flow_field"
+
 module Game
   # Drives the possessed creature from live/scripted input. Post-swap inputs
   # are edge-triggered (law 2): every action held at rearm! time is masked
@@ -81,8 +83,24 @@ module Game
 
     def follow(creature, possessed, view)
       return if creature.moving?
-      return if chebyshev(creature.tile, possessed.tile) <= FOLLOW_DISTANCE
-      chase_step(creature, possessed, view)
+      if creature.tile == front_tile(possessed)
+        yield_aside(creature, view) # never body-block your own possessed
+      elsif chebyshev(creature.tile, possessed.tile) > FOLLOW_DISTANCE
+        chase_step(creature, possessed, view)
+      end
+    end
+
+    def front_tile(possessed)
+      [possessed.tile[0] + possessed.facing[0], possessed.tile[1] + possessed.facing[1]]
+    end
+
+    # Step to the first available neighbor (fixed STEPS order = deterministic).
+    # Follow logic pulls the ally back into formation afterward.
+    def yield_aside(creature, view)
+      blocked = view.blocked_for(creature)
+      Game::FlowField::STEPS.each do |(dx, dy)|
+        break if creature.step(dx, dy, blocked:)
+      end
     end
 
     def chase_step(creature, target, view)
