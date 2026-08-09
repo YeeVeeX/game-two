@@ -1,5 +1,48 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-09 (evening) — grid v2 fun-verified; monster-flip designed, reviewed, and CUT DOWN
+
+**State (measured):** 6 commits, 31 tests / 82 assertions green, grid world v2 SHIPPED and
+owner-verified: *"so much better now feels very good"* — grid movement + hub-and-spoke validated.
+One live complaint: held-space attack = impenetrable barrier (fix designed, see below).
+
+**Direction locked this session (owner + evidence):**
+1. **Monster flip:** play as a pack of 3 creatures hunting HUMANS in a collapsing modern city.
+   Owner locked: full flip · gambit rules (JSON IF/THEN) · pack of 3 (blocker/puller/ranged) ·
+   combat-core-first sequencing · world = hybrid "advance by breaking districts, re-home the nest".
+2. **DE-SLOP RULE (owner, verbatim-critical):** "The Pack"/"The Advancing Nest" framing rejected
+   as AI-slop. Names must come from INSIDE the fiction. Slop test: could the name ship in another
+   game unchanged? → then it's internal spec-speak only. Proposed grounding: owner's own Kethral
+   mythos (Sondrekh wound, Kurmasi conlang, Kelvor/Grashk/Ashvorgravi ecology) — same world,
+   other side of the wound; humans farm = the modern city it opens under. **OWNER CALL PENDING.**
+3. **Anti-rabbit-hole comprobations (standing):** reference wall (Tibia research+footage /
+   Kethral bible / Vlambeer juice — idea serves none → parking lot); "every commit must change
+   what the player sees, hears, or feels" (Kethral V2's own rule, now enforced); judge builds
+   not briefs. → fold into CLAUDE.md with the spec.
+
+**Dual adversarial review (Codex@high + Fable@max) both REJECTED Increment A as one increment.**
+Full reconciliation + binding design law: `drafts/_design-review-reconciliation.md` (READ IT —
+it contains the A0 cut, the 5 design laws incl. per-attacker invuln replacing blanket 30f,
+determinism spec, swap-inert exhaust, forced-swap death, and the single-protagonist-stack risk).
+
+**Evidence corpus (all in drafts/, gitignored, do NOT re-generate):**
+`_tibia-research.md` (11 verified findings, 105 agents) · `_tibia-videos/*_analysis.md` (3 video
+briefs via adapted Foreman pipeline; harness/video_analyst.py + vision_critic.py are the tools) ·
+`_vision-critique-20260809-090905.md` (Tibia-veteran critique of our captures; top fixes: facing
+notch, hurt-flash never white, telegraph≠gate color, wall brightness, corpses persist, ease-out
+tween) · `_kethral-feature-map.md` · `_design-review-reconciliation.md`.
+
+**Next sequence:**
+1. Owner call on fiction grounding (Kethral mythos vs new bible) — then write the ONE-PAGE spec
+   for **A0 = possession core only** (actor/controller refactor, 3 hardcoded kits, Tab swap,
+   husk-grade ally AI, Rushers only, one district, exhaust as 45f data-driven hypothesis,
+   per-attacker hit cooldowns, forced-swap death, determinism spec) in the chosen fiction.
+2. writing-plans → implement A0 → Rule 2 gate (incl. critique fixes) → ship to owner.
+3. A1+ (gambits w/ hot-reload, Shooters, pull economy w/ aggro cap, nest advance) each behind
+   its own fun-verify.
+
+**In flight when written:** nothing — all reviews landed and harvested.
+
 ## 2026-08-09 (playtest verdict) — slice is fun; direction pivot ordered
 
 **Owner playtested slice v1. Verbatim reaction:** *"simple, fun yeah, there is no grid-based

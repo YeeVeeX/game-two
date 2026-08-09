@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>game-two — Increment A: The Pack</title>
+<style>
+  :root {
+    --bg: #0f0f19;
+    --panel: #16162a;
+    --panel2: #1c1c33;
+    --ink: #d8d4c8;
+    --dim: #8a8778;
+    --ember: #eb7828;
+    --bone: #cdc6b4;
+    --gold: #ebbe5a;
+    --danger: #e0506e;
+    --teal: #5ac8b4;
+    --line: #2a2a44;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 17px/1.65 Georgia, 'Times New Roman', serif;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 48px 28px 120px; }
+  header { border-bottom: 2px solid var(--ember); padding-bottom: 28px; margin-bottom: 40px; }
+  .kicker { font: 700 13px/1 'Segoe UI', sans-serif; letter-spacing: .25em; text-transform: uppercase; color: var(--ember); margin-bottom: 14px; }
+  h1 { font: 700 44px/1.1 'Segoe UI', sans-serif; margin: 0 0 10px; color: #fff; }
+  .subtitle { font-size: 20px; color: var(--dim); font-style: italic; margin: 0; }
+  h2 {
+    font: 700 26px/1.2 'Segoe UI', sans-serif; color: var(--gold);
+    margin: 56px 0 6px; display: flex; align-items: baseline; gap: 12px;
+  }
+  h2 .num { color: var(--ember); font-size: 20px; }
+  h3 { font: 700 19px 'Segoe UI', sans-serif; color: var(--bone); margin: 28px 0 8px; }
+  .lede { color: var(--dim); font-style: italic; margin: 0 0 18px; }
+  p { margin: 14px 0; }
+  strong { color: #fff; }
+  em { color: var(--bone); }
+  .pill {
+    display: inline-block; font: 700 11px/1 'Segoe UI', sans-serif; letter-spacing: .12em;
+    text-transform: uppercase; padding: 5px 10px; border-radius: 3px; margin-right: 6px;
+  }
+  .pill.locked { background: #2a3d2a; color: #8fd48f; }
+  .pill.new { background: #3d2a2a; color: #e0a050; }
+  .pill.evidence { background: #24243d; color: #9a96e0; }
+  .card {
+    background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--ember);
+    border-radius: 6px; padding: 22px 26px; margin: 22px 0;
+  }
+  .card.gold { border-left-color: var(--gold); }
+  .card.teal { border-left-color: var(--teal); }
+  .card.danger { border-left-color: var(--danger); }
+  table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 15.5px; }
+  th {
+    font: 700 12px 'Segoe UI', sans-serif; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--dim); text-align: left; padding: 10px 14px; border-bottom: 2px solid var(--line);
+  }
+  td { padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  code {
+    font: 14px/1.5 Consolas, 'Courier New', monospace; background: var(--panel2);
+    color: var(--teal); padding: 2px 7px; border-radius: 3px;
+  }
+  pre {
+    background: var(--panel2); border: 1px solid var(--line); border-radius: 6px;
+    padding: 18px 22px; overflow-x: auto; font: 14px/1.6 Consolas, monospace; color: var(--ink);
+  }
+  pre code { background: none; padding: 0; }
+  ul, ol { padding-left: 26px; }
+  li { margin: 8px 0; }
+  .creature { display: grid; grid-template-columns: 120px 1fr; gap: 0 22px; align-items: start; }
+  .creature-swatch {
+    width: 100px; height: 100px; border-radius: 8px; margin-top: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font: 700 13px 'Segoe UI', sans-serif; letter-spacing: .08em; color: #0f0f19;
+  }
+  .verdict {
+    background: linear-gradient(135deg, #1c1428, #14141f); border: 1px solid #3a2a55;
+    border-radius: 8px; padding: 26px 30px; margin: 30px 0;
+  }
+  .verdict h3 { margin-top: 0; color: #c8a0f0; }
+  .flow { display: flex; gap: 10px; flex-wrap: wrap; margin: 18px 0; }
+  .flow .step {
+    background: var(--panel2); border: 1px solid var(--line); border-radius: 6px;
+    padding: 10px 16px; font: 600 14px 'Segoe UI', sans-serif; color: var(--bone);
+  }
+  .flow .arrow { align-self: center; color: var(--ember); font-weight: 700; }
+  .cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 700px) { .cols2 { grid-template-columns: 1fr; } .creature { grid-template-columns: 1fr; } }
+  .rejected li { color: var(--dim); }
+  .rejected li strong { color: var(--danger); }
+  .evidence-note { font: 13px 'Segoe UI', sans-serif; color: var(--dim); margin-top: 8px; }
+  .toc { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 18px 26px; }
+  .toc a { color: var(--gold); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .toc ol { margin: 8px 0; }
+  hr { border: none; border-top: 1px solid var(--line); margin: 48px 0; }
+  .beat-demo { display: flex; gap: 6px; align-items: center; margin: 14px 0; }
+  .beat { width: 26px; height: 26px; border-radius: 4px; background: var(--panel2); border: 1px solid var(--line); }
+  .beat.hit { background: var(--ember); border-color: var(--ember); }
+  .beat-label { font: 12px 'Segoe UI', sans-serif; color: var(--dim); margin-left: 10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">game-two &middot; design proposal &middot; 2026-08-09</div>
+  <h1>Increment A: The Pack</h1>
+  <p class="subtitle">You are the monsters. Humanity is the spawn. The city falls one district at a time.</p>
+</header>
+
+<div class="toc">
+  <strong style="font-family:'Segoe UI',sans-serif;font-size:13px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim)">Contents</strong>
+  <ol>
+    <li><a href="#frame">The world frame — The Advancing Nest</a></li>
+    <li><a href="#exhaust">Combat cadence — the exhaust metronome</a></li>
+    <li><a href="#pack">The pack — Brute / Stalker / Spitter</a></li>
+    <li><a href="#gambits">Gambits — programming your pack</a></li>
+    <li><a href="#humans">Humans — the farm that fights back</a></li>
+    <li><a href="#district">District One</a></li>
+    <li><a href="#critique">Vision-critique debts shipped with it</a></li>
+    <li><a href="#rejected">Deliberately rejected</a></li>
+    <li><a href="#gate">Ship gate</a></li>
+  </ol>
+</div>
+
+<div class="verdict">
+  <h3>Where this comes from</h3>
+  <p>Every mechanic below is grounded in evidence gathered today: a <strong>105-agent deep-research pass</strong> over Tibia's actual mechanics (11 verified findings, down to the server source code that implements attack exhaust), <strong>frame-by-frame vision analysis of three Tibia videos</strong> (solo hunt, team hunt, team-roles tutorial) through the adapted Foreman pipeline, and a <strong>human-biased vision critique</strong> of our own captures by a Tibia-veteran persona. Your locked calls: full monster flip &middot; gambit rules &middot; pack of 3 &middot; combat core first.</p>
+</div>
+
+<h2 id="frame"><span class="num">1</span> The world frame — The Advancing Nest</h2>
+<p class="lede">Your "between warband and siege" answer, resolved.</p>
+
+<p>One city, falling district by district. The city is a <strong>chain of hand-authored districts</strong> — our proven zone tech. Your nest is the hub, but the nest <em>moves</em>: when you break a district, you re-nest in its ruins and that becomes your new safe zone. The old districts stay conquered-dark behind you; the frontier ahead is alive with humans.</p>
+
+<div class="cols2">
+  <div class="card">
+    <h3>From the warband idea</h3>
+    <p>The <strong>arc of destruction</strong> — you advance, the world visibly falls behind you. Progress is territory, not numbers.</p>
+  </div>
+  <div class="card">
+    <h3>From the siege idea</h3>
+    <p><strong>One coherent city</strong>, escalating resistance the deeper you push: militia &rarr; police &rarr; army.</p>
+  </div>
+</div>
+
+<div class="card gold">
+  <h3>Why this wins on engineering</h3>
+  <p>At any moment it is still <strong>hub-and-spoke</strong>: one safe zone (current nest), one hunting zone (current frontier). The tech we fun-verified today carries over 1:1 — "advancing" is re-pointing which zone is home. No mega-map, no persistence system, no camera rework for slice one.</p>
+</div>
+
+<div class="flow">
+  <div class="step">Nest (hub)</div><div class="arrow">&rarr;</div>
+  <div class="step">Hunt District 1</div><div class="arrow">&rarr;</div>
+  <div class="step">Break it</div><div class="arrow">&rarr;</div>
+  <div class="step">Re-nest in ruins</div><div class="arrow">&rarr;</div>
+  <div class="step">District 2 is the new frontier</div>
+</div>
+<p class="evidence-note">Increment A ships the nest + District One as hunting ground. The break-and-advance flow is Increment B.</p>
+
+<h2 id="exhaust"><span class="num">2</span> Combat cadence — the exhaust metronome</h2>
+<p class="lede">Kills the held-space barrier exploit. Verified against Tibia's actual server source.</p>
+
+<p>The research settled how Tibia really does it: <strong>fixed-interval action windows on separate clocks</strong>. Melee is a wall-clock exhaust (<code>lastMeleeAttack</code> timestamp, ~2s beat); healing and attacking run on <em>separate</em> cooldown groups; one meaningful action per window. That scarcity — not APM — is the entire skill ceiling.</p>
+
+<div class="card">
+  <h3>Attack lane <span class="pill new">changed</span></h3>
+  <p>A swing costs an exhaust window (<strong>~45 frames / 0.75s</strong>, data-driven). Holding attack no longer spams — it <strong>auto-swings on the beat</strong>, exactly like Tibia's auto-attack. Between beats you are just a body standing there, and human Shooters punish statues.</p>
+  <div class="beat-demo">
+    <div class="beat hit"></div><div class="beat"></div><div class="beat"></div><div class="beat"></div><div class="beat hit"></div><div class="beat"></div><div class="beat"></div><div class="beat"></div><div class="beat hit"></div>
+    <span class="beat-label">swing &middot; exhaust &middot; swing &middot; exhaust &middot; swing — the rhythm you play</span>
+  </div>
+</div>
+
+<div class="cols2">
+  <div class="card teal">
+    <h3>Dodge lane <span class="pill locked">unchanged</span></h3>
+    <p>Separate clock (50f cooldown). <strong>Offense never gates survival</strong> — the two-lane structure is the deepest thing the team-hunt footage teaches.</p>
+  </div>
+  <div class="card teal">
+    <h3>Input buffering <span class="pill new">new</span></h3>
+    <p><strong>One buffered press per lane.</strong> Early input queues and fires on the first legal tick. No "you are exhausted" spam — the window renders as a <strong>filling pip on the creature</strong>.</p>
+  </div>
+</div>
+
+<p>The feel layer (hitstop, shake — the part you called fun) fires on the <em>successful</em> beat, making the metronome proprioceptive: you'll feel the window the way Tibia veterans feel exhaust.</p>
+
+<h2 id="pack"><span class="num">3</span> The pack — Brute / Stalker / Spitter</h2>
+<p class="lede">Tibia's cooperation trinity, monster-side. Locked at 3.</p>
+
+<p>The team-hunt breakdown proves Tibia builds four cooperative jobs out of three rules: bodies block tiles, AoE pays per body stacked, shared exhaust means nobody covers two jobs. Your pack IS that trinity — possessed one at a time, gambits driving the rest. <strong>Tab cycles possession</strong>; the input seam makes the swap nearly free.</p>
+
+<div class="card creature">
+  <div class="creature-swatch" style="background:#8a4a3a">BRUTE</div>
+  <div>
+    <h3 style="margin-top:6px">The Brute — blocker <span class="pill evidence">EK DNA</span></h3>
+    <p>Slow, high HP. <strong>His body is the wall</strong> — parked in a doorway he caps how many humans reach the pack. Cleave arc on the beat; <strong>taunt-roar</strong> (aggro override — the <code>exeta res</code> of monsters). Holding a choke is an active job: heal-gambit + taunt rotation, not a statue.</p>
+  </div>
+</div>
+
+<div class="card creature">
+  <div class="creature-swatch" style="background:#5a7a4a">STALKER</div>
+  <div>
+    <h3 style="margin-top:6px">The Stalker — puller <span class="pill evidence">RP DNA</span></h3>
+    <p>Fast, dodge-heavy, single-target pounce. Walking past humans aggros them — <strong>lure trains</strong>: sweep a street, snake a squad behind you, collapse them onto the Brute's choke. Owns the pace of the hunt, exactly like the paladin owns Tibia's.</p>
+  </div>
+</div>
+
+<div class="card creature">
+  <div class="creature-swatch" style="background:#6a5a9a">SPITTER</div>
+  <div>
+    <h3 style="margin-top:6px">The Spitter — shooter <span class="pill evidence">MS DNA</span></h3>
+    <p>Ranged spit on the attack lane, plus an <strong>arcing AoE glob on a long lane (~25s)</strong> — the payoff cast. Damage scales with bodies caught, so the pull-compress-detonate loop from the solo footage becomes the pack's signature play.</p>
+  </div>
+</div>
+
+<div class="card gold">
+  <h3>The loop this creates</h3>
+  <div class="flow">
+    <div class="step">Stalker lures a squad</div><div class="arrow">&rarr;</div>
+    <div class="step">Brute holds the choke</div><div class="arrow">&rarr;</div>
+    <div class="step">humans queue &amp; stack</div><div class="arrow">&rarr;</div>
+    <div class="step">Spitter detonates</div><div class="arrow">&rarr;</div>
+    <div class="step">loot sweep, re-lure</div>
+  </div>
+  <p>Gather ~15s &rarr; payoff ~2s &rarr; sweep. The exact rhythm both videos measured. You can possess any vertex of the triangle and the other two keep playing their roles.</p>
+</div>
+
+<h2 id="gambits"><span class="num">4</span> Gambits — programming your pack</h2>
+<p class="lede">FF12-style ordered IF/THEN rules. Locked.</p>
+
+<p>Each creature carries an ordered rule list in JSON. Conditions and actions come from a <strong>fixed, registered vocabulary</strong> (~10 each — unknown symbol raises, same doctrine as the event bus). First matching rule wins, evaluated on a 1s think tick (Tibia's monster pulse).</p>
+
+<pre><code>{
+  "brute": [
+    { "if": "hp_below_30",      "then": "retreat_to_nest_side" },
+    { "if": "ally_swarmed",     "then": "taunt_roar" },
+    { "if": "human_in_choke",   "then": "hold_position" },
+    { "if": "human_adjacent",   "then": "attack" },
+    { "if": "always",           "then": "guard_spitter" }
+  ]
+}</code></pre>
+
+<p>In Increment A you edit these as JSON files — you're the dev-tester, and hand-editing proves the vocabulary before we spend an increment on UI. The in-game gambit editor is <strong>Increment B, parked</strong>.</p>
+
+<h2 id="humans"><span class="num">5</span> Humans — the farm that fights back</h2>
+<p class="lede">Two archetypes doing all the encounter design. The Falcon lesson.</p>
+
+<table>
+  <tr><th style="width:130px">Archetype</th><th>Behavior</th><th>Why it exists</th></tr>
+  <tr>
+    <td><strong>Rusher</strong></td>
+    <td>Melee. Beelines to adjacency, body-blocks, queues at chokes (cardinal-preferring pathing so corridors matter).</td>
+    <td>Cooperation food — makes the Brute's choke and the Spitter's density payoff work.</td>
+  </tr>
+  <tr>
+    <td><strong>Shooter</strong></td>
+    <td>Holds a 3&ndash;5 tile standoff and fires on the beat. Won't enter the blob.</td>
+    <td>Formation breaker — the <em>only</em> thing forcing the pack to move. Punishes exhaust-statues.</td>
+  </tr>
+</table>
+
+<p>Squads spawn from doorway <strong>pull nodes</strong> — humanity keeps sending people. And the flavor-perfect mechanic the research handed us for free: humans <strong>flee below 25% HP</strong> (Tibia's own <code>runAwayHealth</code>, verified in source). A terrified human sprinting for a doorway is both theme and decision: chase the runner or hold formation?</p>
+
+<h2 id="district"><span class="num">6</span> District One</h2>
+<p class="lede">"Terraza Norte" (working name). One hand-authored zone.</p>
+
+<div class="cols2">
+  <div class="card">
+    <h3>The nest <span class="pill locked">hub re-theme</span></h3>
+    <p>Warm dark organic palette — the town reskinned. Safe. Where you swap gambit files and (later) spend biomass. Death sends the pack home here.</p>
+  </div>
+  <div class="card">
+    <h3>The frontier</h3>
+    <p>Streets + a plaza + interior chokes (a store, an alley). Authored as <strong>pathing tooling</strong>: corridor mouths, back-walls, lure loops — geometry is the encounter design language.</p>
+  </div>
+</div>
+
+<h2 id="critique"><span class="num">7</span> Vision-critique debts shipped with it</h2>
+<p class="lede">Every high-severity finding from the Tibia-veteran critique of our own captures.</p>
+
+<ul>
+  <li><strong>Facing notch</strong> on every creature — "the cheapest, highest-value pixel in the game"</li>
+  <li><strong>Hurt-flash never white</strong> (deep red) — player must never resemble the enemy</li>
+  <li><strong>Telegraph &rarr; magenta</strong>; gold means exits and nothing else</li>
+  <li><strong>Walls 2&ndash;3&times; floor brightness</strong> — chokepoints must read at a glance</li>
+  <li><strong>Corpses persist</strong> — human corpses become the loot channel later; a kill must change the world</li>
+  <li><strong>Attack lunge/recoil</strong> (2px) + swing arc that sweeps and fades — even a rect can throw a punch</li>
+  <li><strong>Ease-out step tween</strong> — kill the linear soap-bar glide; the grid should feel like a drumbeat</li>
+  <li><strong>Knockback tweened</strong>, never teleported; <strong>HP bars over engaged enemies</strong></li>
+</ul>
+
+<h2 id="rejected"><span class="num">8</span> Deliberately rejected</h2>
+<ul class="rejected">
+  <li><strong>Heal-tanking as survival</strong> — dodge stays the defensive verb; density is a priced bet</li>
+  <li><strong>Text-log combat feedback</strong> — feel carries state; rejection spam replaced by buffering + pips</li>
+  <li><strong>Full scripting language for gambits</strong> — tooling tax would eat increments before fun-verify</li>
+  <li><strong>4th pack member (healer)</strong> — folds into a Brute gambit for now</li>
+  <li><strong>In-game gambit editor UI</strong> — Increment B, after the vocabulary proves itself</li>
+  <li><strong>District progression / nest advance flow</strong> — Increment B; A proves the pack fight</li>
+  <li><strong>UI density arms race</strong> — HP, exhaust pip, long-CD arc. Everything else is a pause screen</li>
+</ul>
+
+<h2 id="gate"><span class="num">9</span> Ship gate</h2>
+<div class="card danger">
+  <p style="margin:0"><code>rake</code> green &middot; replay captures byte-identical across runs &middot; vision critique passes on captured frames &middot; <strong>you possess all three creatures in a real hunt and call the pack fight fun.</strong> Nothing new starts until then.</p>
+</div>
+
+<hr>
+<p style="color:var(--dim);font-style:italic">Evidence trail: <code>drafts/_tibia-research.md</code> (11 verified findings) &middot; <code>drafts/_tibia-videos/*_analysis.md</code> (3 video briefs) &middot; <code>drafts/_vision-critique-20260809-090905.md</code> &middot; <code>drafts/_kethral-feature-map.md</code></p>
+
+</div>
+</body>
+</html>
