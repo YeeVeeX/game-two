@@ -1,5 +1,37 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-09 (late — A0.5 SPEC REVIEW-FOLDED) — implementation plan is NEXT
+
+**M2.1 fun-verified by owner ("feels better now, yeah")** → new directive: "add some spells
+and methods of teamwork." Brainstormed (direction Qs answered by owner: kit specials + one
+pack command · big-moment ~10s cadence · focus-target mark), specced, and dual-reviewed.
+
+**State (measured):** `main` at `85accc8` (54 commits), tree has only `docs/lore/` +
+`drafts/` untracked (by design), 65 tests / 180 assertions green.
+
+**Spec (REVISED, review folded): `docs/superpowers/specs/2026-08-09-a0.5-kit-specials-pack-mark-design.md`.**
+Slam (blocker: ring control, interrupt override) / Volley (lobber: 3 delayed impact tiles) /
+Lunge (striker: damaging dash-through) on a SECOND swap-inert per-creature exhaust —
+STAGGERED 600/720/480f. Pack mark: one key, allies converge, leash 14t bounds it.
+PROVENANCE LAW: voluntary Tab refused mid-special windup/active. Build order: action
+spine + Slam (probe) → provenance → Lunge (plan_dash) → Volley (owner+frames_left) →
+mark → harness/HUD close.
+
+**Review record:** Codex REJECT on draft (8 findings) + Fable-lane review (agent stalled
+2x at stream level; lanes driven by dev-of-record, all findings code-verified). 14 total
+findings folded; reconciliation lives at `drafts/_a05-review-reconciliation.md`.
+
+**Also this cycle:** `grok-voice-consult` skill (workspace scope, mmh gateway route
+grok-4.3, reasoning=high temp=1.0, ledgered) — use for ALL player-facing text/names/lore
+consults. Death-economy pointer folded into PARKING_LOT (`1874304`). Parallel knowledge
+session shipped death-economy design (`c293420`) + world bible (`b027453`, merged).
+
+**Next sequence:** writing-plans skill over the revised spec → implementation plan →
+branch `a0.5-specials-mark` → execute per build order (test-per-fix, commit-per-task) →
+rake+perf+3 gates (new `specials_chain.json`) → impl-diff adversarial review → fold →
+merge --no-ff → owner fun-verify: "cast→swap→cast: situational or rote? allies a weapon
+you aim?"
+
 ## 2026-08-09 (M2.1 SHIPPED) — feel repair merged; owner replay is NEXT
 
 **State (measured):** `main` at merge `0c2f9ba`, 65 tests / 180 assertions green on main,
