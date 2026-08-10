@@ -19,7 +19,7 @@ module Game
     EVENTS = %i[
       attack_started special_started attack_hit damage_dealt actor_died dodged telegraph
       zone_entered possession_changed pack_wiped pack_respawned projectile_fired pack_mark_set
-      drop_spawned drop_picked_up drop_decayed banked carried_lost
+      drop_spawned drop_picked_up drop_decayed banked carried_lost taunted
     ].freeze
 
     TRANSITIONS = { world: %i[nest_respawn], nest_respawn: %i[world] }.freeze
@@ -47,6 +47,7 @@ module Game
       @last_damaged_target = nil
       @corpses = Hash.new { |h, k| h[k] = [] }
       @drops = Hash.new { |h, k| h[k] = [] }
+      @taunt_pulses = []
       @controller = PossessedController.new
       @ai = AiController.new
       @swap_was_down = false
@@ -67,6 +68,7 @@ module Game
     def corpses = @corpses[@zone_name]
     def drops = @drops[@zone_name]
     def marked_target = @pack.mark
+    def taunt_pulses = @taunt_pulses
 
     def tick(input)
       if @feel.hitstop?
@@ -215,6 +217,7 @@ module Game
 
       check_transition
       tick_impacts
+      tick_taunt_pulses
       resolve_attacks
       tick_projectiles
       tick_drops
@@ -266,12 +269,38 @@ module Game
     end
 
     def resolve_tile_action(attacker, cfg)
+      resolve_taunt_pulse(attacker, cfg) if cfg[:taunt] && attacker.action_can_trigger?
       foes = hostiles_for(attacker)
       attacker.action_tiles.each do |tile|
         victim = foes.find { |foe| !foe.dead? && foe.tile == tile }
         next unless victim && attacker.action_can_hit?(victim)
         apply_action_hit(attacker, victim, cfg)
       end
+    end
+
+    # Taunt (A0.6): a ring-arc special carrying a taunt block pulses ONCE at
+    # active entry — the one-shot flag is unused by ring damage (per-victim
+    # dedup), so consuming it here cannot affect the hits. Wider than the
+    # ring: every living hostile within range_tiles is re-targeted, aggro
+    # gate bypassed while locked. The pulse fires whether or not the ring
+    # connects — a whiffed cast still burns the full exhaust (the cost model).
+    def resolve_taunt_pulse(attacker, cfg)
+      attacker.action_triggered!
+      t = cfg[:taunt]
+      victims = hostiles_for(attacker).select do |foe|
+        !foe.dead? && tile_distance(attacker.tile, foe.tile) <= t[:range_tiles]
+      end
+      victims.each { |v| v.taunt!(attacker, t[:duration_frames]) }
+      @taunt_pulses << { tile: attacker.tile, frames_left: t[:pulse_frames],
+                         pulse_frames: t[:pulse_frames], range_tiles: t[:range_tiles] }
+      @bus.emit(:taunted, actor: attacker, victims: victims.length)
+    end
+
+    # Cosmetic only — the sim never reads these. Counted in tick_world so
+    # hitstop and the wipe veil pause them like impacts.
+    def tick_taunt_pulses
+      @taunt_pulses.each { |p| p[:frames_left] -= 1 }
+      @taunt_pulses.reject! { |p| p[:frames_left] <= 0 }
     end
 
     def resolve_dash_action(attacker, cfg)
@@ -442,6 +471,7 @@ module Game
       @flow_cache = {}
       @projectiles = []
       @impacts = []
+      @taunt_pulses = []
       @pack.clear_mark!
       @last_damaged_target = nil
       placed = 0

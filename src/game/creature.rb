@@ -12,7 +12,7 @@ module Game
 
     attr_reader :hp, :max_hp, :kit, :kit_name, :faction, :name, :walker,
                 :facing, :attack_state, :stagger, :dodge_cooldown, :current_action,
-                :carried
+                :carried, :taunt_frames
 
     def initialize(bus:, kit:, kit_name:, map:, tile:, faction:, name:)
       @bus = bus
@@ -38,6 +38,8 @@ module Game
       @dodge_cooldown = 0
       @hurt_frames = 0
       @carried = 0
+      @taunted_by = nil
+      @taunt_frames = 0
     end
 
     def tile = [@walker.tile_x, @walker.tile_y]
@@ -76,6 +78,10 @@ module Game
       @stagger -= 1 if @stagger.positive?
       @dodge_cooldown -= 1 if @dodge_cooldown.positive?
       @hurt_frames -= 1 if @hurt_frames.positive?
+      if @taunt_frames.positive?
+        @taunt_frames -= 1
+        clear_taunt! if @taunt_frames.zero?
+      end
       advance_attack_state
     end
 
@@ -180,6 +186,26 @@ module Game
       @stagger = [@stagger, frames].max
     end
 
+    # Taunt lock (A0.6): victim-owned, swap-inert — bound to the taunter's
+    # BODY, never the possession pointer. A fresh taunt overwrites.
+    def taunt!(taunter, frames)
+      @taunted_by = taunter
+      @taunt_frames = frames
+    end
+
+    # Death is a RELEASE, not a suspension: clear lazily on observing a dead
+    # taunter, or a pack-wipe revival would resurrect locks it never re-cast.
+    # (Victims frozen in abandoned zones don't tick — the read is the only
+    # place the clear can live.)
+    def taunted_target
+      return nil unless @taunted_by && @taunt_frames.positive?
+      if @taunted_by.dead?
+        clear_taunt!
+        return nil
+      end
+      @taunted_by
+    end
+
     # Carried value is creature-owned and swap-inert (law 4): it rides the
     # body, not the possession pointer. Drained by banking and by death.
     def pick_up(amount) = @carried += amount
@@ -214,10 +240,16 @@ module Game
       @dodge_cooldown = 0
       @hurt_frames = 0
       @carried = 0
+      clear_taunt!
       rebind(map:, tile:)
     end
 
     private
+
+    def clear_taunt!
+      @taunted_by = nil
+      @taunt_frames = 0
+    end
 
     def begin_action(kind, active_frames: nil)
       cfg = @kit.fetch(kind)

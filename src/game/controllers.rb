@@ -77,9 +77,13 @@ module Game
     def tick(creature, view)
       return if creature.dead?
 
+      # Taunt symmetry (A0.6): a taunted victim is bound to the taunter, and
+      # an anchor with living victims is bound to THEM — above mark, no aggro
+      # gate on either side ("your own taunt binds you").
+      bound = creature.taunted_target || anchor_victim_for(creature, view)
       marked = marked_target_for(creature, view)
-      target = marked || nearest(creature, view.hostiles_for(creature))
-      if target && (marked || chebyshev(creature.tile, target.tile) <= creature.kit[:aggro_tiles])
+      target = bound || marked || nearest(creature, view.hostiles_for(creature))
+      if target && (bound || marked || chebyshev(creature.tile, target.tile) <= creature.kit[:aggro_tiles])
         engage(creature, target, view)
       elsif creature.faction == :pack && !view.possessed.equal?(creature)
         follow(creature, view.possessed, view)
@@ -87,6 +91,15 @@ module Game
     end
 
     private
+
+    # The anchor holds: a husk that taunted the room must not walk off after
+    # a mark press or trail the possessed — it targets its nearest living
+    # victim until every lock expires or breaks (spec design decision 5).
+    def anchor_victim_for(creature, view)
+      victims = view.hostiles_for(creature)
+                    .select { |h| !h.dead? && h.taunted_target&.equal?(creature) }
+      nearest(creature, victims)
+    end
 
     def marked_target_for(creature, view)
       return nil unless creature.faction == :pack

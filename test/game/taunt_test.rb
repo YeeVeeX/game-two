@@ -215,7 +215,7 @@ class TauntTest < Minitest::Test
     striker = world.possessed # stays possessed; blocker is a husk
     blocker = world.pack.members.find { |m| m.kit_name == :blocker }
     striker.walker.teleport(8, 12)
-    blocker.walker.teleport(12, 12)
+    blocker.revive!(map: world.map, tile: [12, 12]) # clears walk-in combat exhaust
     (world.pack.living - [striker, blocker]).each { |m| m.walker.teleport(2, 13) }
     victim, marked = world.humans.first(2)
     world.humans.replace([victim, marked])
