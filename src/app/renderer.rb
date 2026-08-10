@@ -195,6 +195,10 @@ module App
         swell = 8
         Gosu.draw_rect(x - swell / 2, y - swell / 2, SIZE + swell, SIZE + swell, TELEGRAPH_EDGE)
         Gosu.draw_rect(x - 2, y - 2, SIZE + 4, SIZE + 4, TELEGRAPH_CORE)
+        # The body stays visible INSIDE the flare: two adjacent telegraphing
+        # humans otherwise read as an ownerless ground-tile pattern,
+        # indistinguishable from Volley target tiles (gate critique finding).
+        Gosu.draw_rect(x + 5, y + 5, SIZE - 10, SIZE - 10, HUMAN_BODY)
       else
         Gosu.draw_rect(x, y, SIZE, SIZE, body_color(c, world))
         Gosu.draw_rect(x, y, SIZE, SIZE, ALLY_DIM) if ally?(c, world)
