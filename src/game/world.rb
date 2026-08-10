@@ -17,8 +17,8 @@ module Game
   # M1 logic; the plumbing is determinism law 3).
   class World
     EVENTS = %i[
-      attack_started attack_hit damage_dealt actor_died dodged telegraph
-      zone_entered possession_changed pack_wiped pack_respawned projectile_fired
+      attack_started special_started attack_hit damage_dealt actor_died dodged telegraph
+      zone_entered possession_changed pack_wiped pack_respawned projectile_fired pack_mark_set
     ].freeze
 
     TRANSITIONS = { world: %i[nest_respawn], nest_respawn: %i[world] }.freeze
@@ -42,6 +42,8 @@ module Game
       @humans = Hash.new { |h, k| h[k] = [] }
       @human_respawns = Hash.new { |h, k| h[k] = [] }
       @projectiles = []
+      @impacts = []
+      @last_damaged_target = nil
       @corpses = Hash.new { |h, k| h[k] = [] }
       @controller = PossessedController.new
       @ai = AiController.new
@@ -59,7 +61,9 @@ module Game
     def banner? = @banner_timer.positive?
     def actors = (@pack.members + humans).reject(&:dead?)
     def projectiles = @projectiles
+    def impacts = @impacts
     def corpses = @corpses[@zone_name]
+    def marked_target = @pack.mark
 
     def tick(input)
       if @feel.hitstop?
@@ -96,7 +100,10 @@ module Game
     end
 
     def blocked_for(creature)
-      actors.reject { |a| a.equal?(creature) }.map(&:tile)
+      actors.reject { |actor| actor.equal?(creature) }
+            .flat_map { |actor| [actor.tile, actor.reserved_tile] }
+            .compact
+            .uniq
     end
 
     # Surround doctrine (owner directive 2026-08-09): attackers converging on
@@ -140,6 +147,27 @@ module Game
       entry[:field]
     end
 
+    def set_mark(source)
+      return false unless source.equal?(possessed)
+      range = @balance[:pack][:mark_range_tiles]
+      foes = hostiles_for(source)
+      preferred = @last_damaged_target
+      target =
+        if preferred && foes.include?(preferred) &&
+           tile_distance(source.tile, preferred.tile) <= range
+          preferred
+        else
+          foes.each_with_index
+              .select { |foe, _| tile_distance(source.tile, foe.tile) <= range }
+              .min_by { |foe, index| [tile_distance(source.tile, foe.tile), index] }
+              &.first
+        end
+      return false unless target
+      @pack.mark!(target)
+      @bus.emit(:pack_mark_set, target:)
+      true
+    end
+
     private
 
     def tick_world(input)
@@ -157,10 +185,12 @@ module Game
 
       @controller.blocked = blocked_for(possessed)
       @controller.tick(possessed, input, self)
+      validate_mark
       @pack.living.each { |m| @ai.tick(m, self) unless m.equal?(possessed) }
       humans.each { |h| emit_telegraph_edge(h); @ai.tick(h, self) }
 
       check_transition
+      tick_impacts
       resolve_attacks
       tick_projectiles
       respawn_due_humans
@@ -174,7 +204,10 @@ module Game
     # death penalty never lands (law 2).
     def handle_swap(input)
       down = input.down?(:swap)
-      if down && !@swap_was_down && @pack.living.length > 1 && !possessed.staggered?
+      can_swap = @pack.living.length > 1 &&
+                 !possessed.staggered? &&
+                 !possessed.special_committed?
+      if down && !@swap_was_down && can_swap
         from = possessed
         @pack.swap_next!
         @controller.rearm!(input)
@@ -183,9 +216,8 @@ module Game
       @swap_was_down = down
     end
 
-    # Any active unlanded swing hits the FIRST living hostile on its tiles
-    # (attack_tiles order is deterministic: front-first for arcs, fixed ring
-    # order otherwise). Damage comes from the attacker's kit — the law.
+    # Active actions resolve from their own config. Tile order is fixed and
+    # every victim may be hit once per action.
     #
     # Dev-of-record call: a husk killed earlier in this same frame still
     # lands its active swing (uninterruptible windup + iteration order =
@@ -193,34 +225,105 @@ module Game
     # already in flight — that's the pressure husks are for.
     def resolve_attacks
       actors.each do |attacker|
-        next unless attacker.attack_can_hit?
-        if attacker.kit[:attack][:arc] == "projectile"
-          launch_projectile(attacker)
-          next
+        next unless attacker.action_active?
+        cfg = attacker.action_config
+        case cfg[:arc]
+        when "projectile"
+          launch_projectile(attacker, cfg) if attacker.action_can_trigger?
+        when "dash"
+          resolve_dash_action(attacker, cfg)
+        when "volley"
+          launch_volley(attacker, cfg) if attacker.action_can_trigger?
+        else
+          resolve_tile_action(attacker, cfg)
         end
-        foes = hostiles_for(attacker)
-        victim = attacker.attack_tiles.filter_map { |t| foes.find { |f| !f.dead? && f.tile == t } }.first
-        next unless victim
-        attacker.attack_landed!
-        victim.take_hit(damage: attacker.kit[:attack][:damage], attacker:,
-                        knockback_tiles: attacker.kit[:attack][:knockback_tiles],
-                        blocked: blocked_for(victim))
-        @bus.emit(:attack_hit, attacker:, victim:)
       end
+    end
+
+    def resolve_tile_action(attacker, cfg)
+      foes = hostiles_for(attacker)
+      attacker.action_tiles.each do |tile|
+        victim = foes.find { |foe| !foe.dead? && foe.tile == tile }
+        next unless victim && attacker.action_can_hit?(victim)
+        apply_action_hit(attacker, victim, cfg)
+      end
+    end
+
+    def resolve_dash_action(attacker, cfg)
+      return unless attacker.action_can_trigger?
+      attacker.action_triggered!
+      foes = hostiles_for(attacker)
+      attacker.action_tiles.each do |tile|
+        victim = foes.find { |foe| !foe.dead? && foe.tile == tile }
+        next unless victim && attacker.action_can_hit?(victim)
+        apply_action_hit(attacker, victim, cfg)
+      end
+    end
+
+    def apply_action_hit(attacker, victim, cfg)
+      attacker.action_hit!(victim)
+      landed = victim.take_hit(damage: cfg[:damage], attacker:,
+                               knockback_tiles: cfg[:knockback_tiles],
+                               blocked: blocked_for(victim))
+      if landed
+        victim.stagger!(cfg[:stagger_frames]) if cfg[:stagger_frames]
+        victim.interrupt_action! if cfg[:interrupt_windup]
+      end
+      emit_attack_hit(attacker, victim, landed)
     end
 
     # A projectile swing "lands" the moment it fires — the shot itself is a
     # new sim object that carries the hit forward. Diagonal facings fly
     # diagonally (grid-faithful: one tile per window on both axes).
-    def launch_projectile(attacker)
-      attacker.attack_landed!
-      cfg = attacker.kit[:attack]
+    def launch_projectile(attacker, cfg)
+      attacker.action_triggered!
       @projectiles << Projectile.new(
         owner: attacker, map:, tile: attacker.tile, dir: attacker.facing,
         damage: cfg[:damage], range_tiles: cfg[:range_tiles],
-        frames_per_tile: cfg[:projectile_frames_per_tile]
+        frames_per_tile: cfg[:projectile_frames_per_tile],
+        knockback_tiles: cfg[:knockback_tiles]
       )
       @bus.emit(:projectile_fired, attacker:)
+    end
+
+    def launch_volley(attacker, cfg)
+      attacker.action_triggered!
+      @impacts << {
+        owner: attacker,
+        tiles: volley_tiles(attacker.tile, attacker.facing, cfg[:impact_distances]),
+        frames_left: cfg[:delay_frames],
+        damage: cfg[:damage]
+      }
+    end
+
+    def volley_tiles(origin, dir, distances)
+      tiles = []
+      tx, ty = origin
+      1.upto(distances.max) do |distance|
+        tx += dir[0]
+        ty += dir[1]
+        break unless map.passable?(tx, ty)
+        tiles << [tx, ty] if distances.include?(distance)
+      end
+      tiles
+    end
+
+    # Counted only in tick_world, so hitstop pauses delayed impacts while
+    # @frame continues advancing. Creation order and tile order are fixed.
+    def tick_impacts
+      @impacts.each do |impact|
+        impact[:frames_left] -= 1
+        next if impact[:frames_left].positive?
+        foes = hostiles_for(impact[:owner])
+        impact[:tiles].each do |tile|
+          victim = foes.find { |foe| !foe.dead? && foe.tile == tile }
+          next unless victim
+          landed = victim.take_hit(damage: impact[:damage], attacker: impact[:owner],
+                                   knockback_tiles: 0, blocked: blocked_for(victim))
+          emit_attack_hit(impact[:owner], victim, landed)
+        end
+      end
+      @impacts.reject! { |impact| impact[:frames_left] <= 0 }
     end
 
     # Creation order = resolution order (deterministic). The projectile only
@@ -230,10 +333,10 @@ module Game
       @projectiles.each do |p|
         victim = p.tick(hostiles: hostiles_for(p.owner))
         next unless victim
-        victim.take_hit(damage: p.damage, attacker: p.owner,
-                        knockback_tiles: p.owner.kit[:attack][:knockback_tiles],
-                        blocked: blocked_for(victim))
-        @bus.emit(:attack_hit, attacker: p.owner, victim:)
+        landed = victim.take_hit(damage: p.damage, attacker: p.owner,
+                                 knockback_tiles: p.knockback_tiles,
+                                 blocked: blocked_for(victim))
+        emit_attack_hit(p.owner, victim, landed)
       end
       @projectiles.reject!(&:done?)
     end
@@ -278,6 +381,9 @@ module Game
       @zone_name = name
       @flow_cache = {}
       @projectiles = []
+      @impacts = []
+      @pack.clear_mark!
+      @last_damaged_target = nil
       placed = 0
       # Possessed gets the first tile; living allies the rest, in roster order.
       ([possessed] + (@pack.living - [possessed])).each do |m|
@@ -365,6 +471,22 @@ module Game
       corpses.reject! { |c| @frame - c[:at_frame] > CORPSE_FADE_FRAMES }
     end
 
+    def emit_attack_hit(attacker, victim, landed)
+      @last_damaged_target = victim if landed && attacker.equal?(possessed)
+      @bus.emit(:attack_hit, attacker:, victim:)
+    end
+
+    def validate_mark
+      target = marked_target
+      return unless target
+      leash = @balance[:pack][:mark_leash_tiles]
+      @pack.clear_mark! if target.dead? || tile_distance(possessed.tile, target.tile) > leash
+    end
+
+    def tile_distance((ax, ay), (bx, by))
+      [(bx - ax).abs, (by - ay).abs].max
+    end
+
     # A body stays where it fell and fades (vision critique: kills that
     # vanish erase the fight's history). Records, not creatures — the sim
     # never reads them; only renderer/tests do. Cap guards the roster.
@@ -392,6 +514,7 @@ module Game
 
       @bus.subscribe(:actor_died) do |e|
         leave_corpse(e[:actor])
+        @pack.clear_mark! if e[:actor].equal?(marked_target)
         if e[:faction] == :human
           @feel.on_kill if e[:killer].equal?(possessed)
           schedule_human_respawn(e[:actor])

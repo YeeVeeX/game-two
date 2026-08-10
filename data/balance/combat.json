@@ -5,7 +5,9 @@
       "blocker",
       "lobber"
     ],
-    "swap_stagger_frames": 20
+    "swap_stagger_frames": 20,
+    "mark_range_tiles": 6,
+    "mark_leash_tiles": 14
   },
   "respawn_frames": 90,
   "kits": {
@@ -22,6 +24,16 @@
         "arc": "front1",
         "knockback_tiles": 0,
         "knockback_frames_per_tile": 5
+      },
+      "special": {
+        "damage": 50,
+        "windup_frames": 6,
+        "recovery_frames": 0,
+        "exhaust_frames": 480,
+        "arc": "dash",
+        "max_tiles": 4,
+        "frames_per_tile": 4,
+        "knockback_tiles": 0
       },
       "dodge": {
         "tiles": 2,
@@ -45,6 +57,17 @@
         "arc": "arc3",
         "knockback_tiles": 1,
         "knockback_frames_per_tile": 5
+      },
+      "special": {
+        "damage": 30,
+        "windup_frames": 12,
+        "active_frames": 4,
+        "recovery_frames": 12,
+        "exhaust_frames": 600,
+        "arc": "ring",
+        "knockback_tiles": 2,
+        "stagger_frames": 45,
+        "interrupt_windup": true
       },
       "dodge": {
         "tiles": 1,
@@ -70,6 +93,17 @@
         "projectile_frames_per_tile": 4,
         "knockback_tiles": 0,
         "knockback_frames_per_tile": 5
+      },
+      "special": {
+        "damage": 35,
+        "windup_frames": 10,
+        "active_frames": 1,
+        "recovery_frames": 12,
+        "exhaust_frames": 720,
+        "arc": "volley",
+        "impact_distances": [2, 3, 4],
+        "delay_frames": 40,
+        "knockback_tiles": 0
       },
       "dodge": {
         "tiles": 2,

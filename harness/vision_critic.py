@@ -28,6 +28,14 @@ from botocore.config import Config as BotoConfig
 from botocore.exceptions import ConnectionError as BotoConnectionError
 from botocore.exceptions import ReadTimeoutError
 
+# Windows may expose a legacy CP1252 console even though verdict/log data is
+# UTF-8. Model prose can contain arrows or other glyphs; printing must never
+# turn a valid verdict into a gate infrastructure failure.
+for stream in (sys.stdout, sys.stderr):
+    reconfigure = getattr(stream, "reconfigure", None)
+    if reconfigure:
+        reconfigure(encoding="utf-8", errors="replace")
+
 PROFILE = "voice-dev"
 REGION = "us-east-1"
 MODEL = "us.anthropic.claude-fable-5"

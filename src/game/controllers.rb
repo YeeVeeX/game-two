@@ -2,26 +2,29 @@ require "game/flow_field"
 
 module Game
   # Drives the possessed creature from live/scripted input. Post-swap COMBAT
-  # inputs are edge-triggered (law 2): attack/dodge held at rearm! time are
-  # masked until released once — a buffered attack can't ghost-fire from the
-  # new body, and a held dodge can't burn the new body's cooldown. Held
+  # inputs are edge-triggered (law 2): combat/command keys held at rearm!
+  # time are masked until released once — buffered verbs cannot ghost-fire
+  # from the new body or burn its clocks. Held
   # MOVEMENT deliberately survives the swap: walking into the new body is
   # what the hand expects; masking it made every Tab a micro-stall (M2.1
   # fix 3).
   class PossessedController
-    ACTIONS = %i[left right up down attack dodge].freeze
-    EDGE_TRIGGERED = %i[attack dodge].freeze
+    ACTIONS = %i[left right up down attack dodge special mark].freeze
+    EDGE_TRIGGERED = %i[attack dodge special mark].freeze
 
     def initialize
       @masked = []
+      @edge_was_down = {}
     end
 
     def rearm!(input)
       @masked = EDGE_TRIGGERED.select { |a| input.down?(a) }
     end
 
-    def tick(creature, input, _view)
+    def tick(creature, input, view)
       @masked.reject! { |a| !input.down?(a) }
+      special_pressed = pressed?(input, :special)
+      mark_pressed = pressed?(input, :mark)
       return if creature.dead?
 
       dir = held_direction(input)
@@ -31,7 +34,9 @@ module Game
       elsif dir != [0, 0]
         creature.step(dir[0], dir[1], blocked: @blocked || [])
       end
+      creature.start_special(blocked: @blocked || []) if special_pressed
       creature.start_attack if down?(input, :attack)
+      view.set_mark(creature) if mark_pressed && view&.respond_to?(:set_mark)
     end
 
     # World supplies body-blocking per frame (it knows all occupied tiles).
@@ -43,6 +48,13 @@ module Game
     private
 
     def down?(input, action) = input.down?(action) && !@masked.include?(action)
+
+    def pressed?(input, action)
+      now = down?(input, action)
+      pressed = now && !@edge_was_down.fetch(action, false)
+      @edge_was_down[action] = now
+      pressed
+    end
 
     def held_direction(input)
       dx = (down?(input, :right) ? 1 : 0) - (down?(input, :left) ? 1 : 0)
@@ -61,8 +73,9 @@ module Game
     def tick(creature, view)
       return if creature.dead?
 
-      target = nearest(creature, view.hostiles_for(creature))
-      if target && chebyshev(creature.tile, target.tile) <= creature.kit[:aggro_tiles]
+      marked = marked_target_for(creature, view)
+      target = marked || nearest(creature, view.hostiles_for(creature))
+      if target && (marked || chebyshev(creature.tile, target.tile) <= creature.kit[:aggro_tiles])
         engage(creature, target, view)
       elsif creature.faction == :pack && !view.possessed.equal?(creature)
         follow(creature, view.possessed, view)
@@ -70,6 +83,12 @@ module Game
     end
 
     private
+
+    def marked_target_for(creature, view)
+      return nil unless creature.faction == :pack
+      return nil if view.possessed.equal?(creature)
+      view.respond_to?(:marked_target) ? view.marked_target : nil
+    end
 
     def engage(creature, target, view)
       if in_attack_range?(creature, target, view)

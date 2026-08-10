@@ -20,7 +20,14 @@ module App
     TELEGRAPH_CORE = Gosu::Color.new(255, 250, 210, 60) # ...around the yellow core (≠ gate gold)
     SLASH          = Gosu::Color.new(220, 255, 255, 255)
     WINDUP         = Gosu::Color.new(90, 255, 255, 255)
+    SPECIAL_WINDUP = Gosu::Color.new(120, 255, 190, 90)
+    SPECIAL_ACTIVE = Gosu::Color.new(235, 255, 225, 150)
+    LUNGE_WINDUP   = Gosu::Color.new(110, 255, 125, 45)
+    LUNGE_ACTIVE   = Gosu::Color.new(245, 255, 245, 210)
     PROJECTILE     = Gosu::Color.new(255, 250, 235, 170)
+    VOLLEY_EDGE    = Gosu::Color.new(220, 245, 125, 35)
+    VOLLEY_CORE    = Gosu::Color.new(235, 255, 220, 150)
+    MARK_GLYPH     = Gosu::Color.new(255, 75, 235, 205)
     NOTCH          = Gosu::Color.new(255, 20, 14, 12)
     HP_BACK        = Gosu::Color.new(255, 50, 20, 30)
     HP_DEAD        = Gosu::Color.new(255, 35, 25, 30)
@@ -34,16 +41,55 @@ module App
       cam = world.camera
       Gosu.translate(world.feel.shake_x - cam.x, world.feel.shake_y - cam.y) do
         draw_map(world.map)
+        draw_impacts(world)
         draw_corpses(world)
         world.humans.each { |h| draw_creature(h, world) }
         world.pack.living.each { |m| draw_creature(m, world) }
         world.projectiles.each { |p| draw_projectile(p) }
+        draw_mark(world)
       end
       draw_hud(world)
       draw_edge_pips(world)
       draw_banner(world) if world.banner?
       draw_wipe_overlay(world) if world.states.current == :nest_respawn
       draw_stagger_veil(world) if world.possessed.staggered?
+    end
+
+    def draw_impacts(world)
+      ts = world.map.tile_size
+      world.impacts.each do |impact|
+        delay = impact[:owner].kit[:special][:delay_frames]
+        size = 6 + (impact[:frames_left].fdiv(delay) * 10).round
+        impact[:tiles].each do |(tx, ty)|
+          x = tx * ts
+          y = ty * ts
+          Gosu.draw_rect(x + 4, y + 4, ts - 8, 3, VOLLEY_EDGE)
+          Gosu.draw_rect(x + 4, y + ts - 7, ts - 8, 3, VOLLEY_EDGE)
+          Gosu.draw_rect(x + 4, y + 7, 3, ts - 14, VOLLEY_EDGE)
+          Gosu.draw_rect(x + ts - 7, y + 7, 3, ts - 14, VOLLEY_EDGE)
+          inset = (ts - size) / 2.0
+          Gosu.draw_rect(x + inset, y + inset, size, size, VOLLEY_CORE)
+        end
+      end
+    end
+
+    def draw_mark(world)
+      target = world.marked_target
+      return unless target && !target.dead?
+      x = target.x - 5
+      y = target.y - 5
+      span = SIZE + 10
+      arm = 8
+      thick = 3
+      [[x, y], [x + span - arm, y], [x, y + span - thick],
+       [x + span - arm, y + span - thick]].each do |(cx, cy)|
+        Gosu.draw_rect(cx, cy, arm, thick, MARK_GLYPH)
+      end
+      [[x, y], [x + span - thick, y], [x, y + span - arm],
+       [x + span - thick, y + span - arm]].each do |(cx, cy)|
+        Gosu.draw_rect(cx, cy, thick, arm, MARK_GLYPH)
+      end
+      Gosu.draw_rect(target.x + SIZE / 2 - 2, target.y - 9, 4, 4, MARK_GLYPH)
     end
 
     private
@@ -136,6 +182,7 @@ module App
     # lunge forward on active. Draw-only — tiles never move.
     def lunge_offset(c)
       return [0, 0] unless c.faction == :pack
+      return [0, 0] if c.current_action == :special
       fx, fy = c.facing
       case c.attack_state
       when :windup then [-3 * fx, -3 * fy]
@@ -146,8 +193,22 @@ module App
 
     def draw_attack(c, ts)
       return unless %i[windup active].include?(c.attack_state)
-      col = c.attack_state == :windup ? WINDUP : SLASH
-      c.attack_tiles.each do |(tx, ty)|
+      if c.current_action == :special && c.action_config[:arc] == "dash"
+        col = c.attack_state == :windup ? LUNGE_WINDUP : LUNGE_ACTIVE
+        inset = c.attack_state == :windup ? 10 : 6
+        c.action_tiles.each do |(tx, ty)|
+          Gosu.draw_rect(tx * ts + inset, ty * ts + inset,
+                         ts - inset * 2, ts - inset * 2, col)
+        end
+        return
+      end
+      col =
+        if c.current_action == :special
+          c.attack_state == :windup ? SPECIAL_WINDUP : SPECIAL_ACTIVE
+        else
+          c.attack_state == :windup ? WINDUP : SLASH
+        end
+      c.action_tiles.each do |(tx, ty)|
         Gosu.draw_rect(tx * ts + 4, ty * ts + 4, ts - 8, ts - 8, col)
       end
     end
@@ -170,10 +231,12 @@ module App
         if frac.positive?
           Gosu.draw_rect(x, y, (w * frac).round, 14, KIT_BODY[m.kit_name])
         end
-        if mine && !m.dead?
-          pip = m.exhaust_ready? ? POSSESSED_RING : HP_BACK
-          Gosu.draw_rect(x + w + 8, y + 2, 10, 10, pip)
-        end
+        attack_pip = !m.dead? && m.exhaust_ready? ? POSSESSED_RING : HP_BACK
+        special_ready = !m.dead? && m.kit[:special] && m.special_ready?
+        special_pip = special_ready ? KIT_BODY[m.kit_name] : HP_BACK
+        Gosu.draw_rect(300, y + 2, 10, 10, attack_pip)
+        Gosu.draw_rect(314, y + 2, 10, 10, special_pip)
+        Gosu.draw_rect(317, y + 5, 4, 4, POSSESSED_RING) if special_ready
       end
     end
 

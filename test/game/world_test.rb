@@ -40,6 +40,55 @@ class WorldTest < Minitest::Test
     creature.take_hit(damage: creature.hp, attacker: by) until creature.dead?
   end
 
+  def possess_kit(world, kit_name)
+    world.pack.members.length.times do
+      return world.possessed if world.possessed.kit_name == kit_name
+      world.pack.swap_next!
+    end
+    flunk "could not possess #{kit_name}"
+  end
+
+  def stage_volley(world)
+    enter_district(world)
+    lobber = possess_kit(world, :lobber)
+    lobber.interrupt_action!
+    lobber.walker.teleport(12, 12)
+    lobber.face([1, 0])
+    (world.pack.living - [lobber]).each_with_index do |member, i|
+      member.walker.teleport(2, 12 + i)
+    end
+    targets = world.humans.first(3)
+    world.humans.replace(targets)
+    targets.each_with_index do |human, i|
+      human.walker.teleport(14 + i, 12)
+      human.stagger!(200)
+    end
+    [lobber, targets]
+  end
+
+  def launch_volley(world, lobber)
+    assert lobber.start_special(blocked: world.blocked_for(lobber))
+    lobber.kit[:special][:windup_frames].times { drive(world, scripted({}), 1) }
+    refute_empty world.impacts
+    world.impacts.first
+  end
+
+  def stage_mark(world)
+    enter_district(world)
+    source = possess_kit(world, :striker)
+    source.revive!(map: world.map, tile: [12, 12])
+    source.face([1, 0])
+    (world.pack.living - [source]).each_with_index do |member, i|
+      member.revive!(map: world.map, tile: [2, 12 + i])
+    end
+    near, far = world.humans.first(2)
+    world.humans.replace([near, far])
+    near.walker.teleport(13, 12)
+    far.walker.teleport(16, 12)
+    [near, far].each { |human| human.stagger!(300) }
+    [source, near, far]
+  end
+
   # Tap-steps the possessed toward dest one tile at a time (waits out tweens
   # and hitstop). Combat can shove it around; the loop just keeps correcting.
   def navigate_to(world, dest, guard: 3000)
@@ -114,6 +163,44 @@ class WorldTest < Minitest::Test
     refute_equal staggered_body, world.possessed, "Tab works again once the stagger expires"
   end
 
+  def test_tab_refused_during_special_windup
+    blocker = possess_kit(world, :blocker)
+    assert blocker.start_special(blocked: world.blocked_for(blocker))
+    drive(world, scripted({ world.frame.to_s => ["swap"] }), 1)
+    assert_same blocker, world.possessed
+    assert_equal :windup, blocker.attack_state
+  end
+
+  def test_tab_refused_during_special_active
+    blocker = possess_kit(world, :blocker)
+    assert blocker.start_special(blocked: world.blocked_for(blocker))
+    blocker.kit[:special][:windup_frames].times { drive(world, scripted({}), 1) }
+    assert_equal :active, blocker.attack_state
+    drive(world, scripted({ world.frame.to_s => ["swap"] }), 1)
+    assert_same blocker, world.possessed
+  end
+
+  def test_tab_allowed_during_special_recovery
+    blocker = possess_kit(world, :blocker)
+    assert blocker.start_special(blocked: world.blocked_for(blocker))
+    frames = blocker.kit[:special][:windup_frames] + blocker.kit[:special][:active_frames]
+    frames.times { drive(world, scripted({}), 1) }
+    assert_equal :recovery, blocker.attack_state
+    drive(world, scripted({ world.frame.to_s => ["swap"] }), 1)
+    refute_same blocker, world.possessed
+  end
+
+  def test_forced_swap_mid_special_cancels_without_refund
+    blocker = possess_kit(world, :blocker)
+    hunter = world.pack.members.find { |member| !member.equal?(blocker) }
+    assert blocker.start_special(blocked: world.blocked_for(blocker))
+    kill(blocker, by: hunter)
+    drive(world, scripted({}), 1)
+    refute_same blocker, world.possessed
+    assert_nil blocker.current_action
+    refute blocker.special_ready?, "death cancels the cast but does not refund its clock"
+  end
+
   def test_wipe_respawns_whole_pack_in_nest
     wiped = false
     world.bus.subscribe(:pack_wiped) { wiped = true }
@@ -146,6 +233,309 @@ class WorldTest < Minitest::Test
     b = world.possessed
     assert b.exhaust_ready?, "b's own clock governs — swap transfers nothing (law 4)"
     refute a.exhaust_ready?, "a's clock keeps counting unpossessed"
+  end
+
+  def test_active_uninterruptible_rusher_still_lands_if_killed_earlier_in_resolution
+    enter_district(world)
+    striker = possess_kit(world, :striker)
+    striker.revive!(map: world.map, tile: [12, 12])
+    striker.face([1, 0])
+    (world.pack.living - [striker]).each_with_index do |member, i|
+      member.revive!(map: world.map, tile: [2, 12 + i])
+    end
+
+    rusher = world.humans.first
+    world.humans.replace([rusher])
+    rusher.revive!(map: world.map, tile: [13, 12])
+    rusher.face([-1, 0])
+    assert rusher.take_hit(damage: 25, attacker: striker)
+    assert_equal 25, rusher.hp
+
+    assert striker.start_attack
+    assert rusher.start_attack
+    striker.kit[:attack][:windup_frames].times { striker.tick_body }
+    rusher.kit[:attack][:windup_frames].times { rusher.tick_body }
+    before = striker.hp
+
+    world.send(:resolve_attacks)
+
+    assert rusher.dead?
+    assert_equal :active, rusher.attack_state,
+                 "interrupt_on_hit=false keeps an already-active blow in the resolution snapshot"
+    assert_equal before - rusher.kit[:attack][:damage], striker.hp,
+                 "killing an active rusher does not erase its deterministic simultaneous trade"
+  end
+
+  def test_blocker_slam_hits_ring_and_interrupts_in_flight_rusher_windups
+    enter_district(world)
+    blocker = possess_kit(world, :blocker)
+    blocker.interrupt_action!
+    blocker.walker.teleport(12, 12)
+    (world.pack.living - [blocker]).each_with_index do |member, i|
+      member.walker.teleport(2, 12 + i)
+    end
+    a, b = world.humans.first(2)
+    world.humans.replace([a, b])
+    a.walker.teleport(11, 12)
+    b.walker.teleport(13, 12)
+    a.face([1, 0])
+    b.face([-1, 0])
+    assert a.start_attack
+    assert b.start_attack
+    assert_equal :windup, a.attack_state
+    assert_equal :windup, b.attack_state
+
+    assert blocker.start_special(blocked: world.blocked_for(blocker))
+    blocker.kit[:special][:windup_frames].times { drive(world, scripted({}), 1) }
+
+    assert_equal 20, a.hp
+    assert_equal 20, b.hp
+    assert a.staggered?
+    assert b.staggered?
+    assert_equal :idle, a.attack_state, "Slam overrides rusher interrupt_on_hit=false"
+    assert_equal :idle, b.attack_state, "every ring victim has its windup canceled"
+    assert_equal [9, 12], a.tile
+    assert_equal [15, 12], b.tile
+  end
+
+  def test_striker_lunge_damages_every_human_on_crossed_tiles_once
+    enter_district(world)
+    striker = possess_kit(world, :striker)
+    striker.interrupt_action!
+    striker.walker.teleport(12, 12)
+    striker.face([1, 0])
+    (world.pack.living - [striker]).each_with_index do |member, i|
+      member.walker.teleport(2, 12 + i)
+    end
+    a, b, outside = world.humans.first(3)
+    world.humans.replace([a, b, outside])
+    a.walker.teleport(13, 12)
+    b.walker.teleport(15, 12)
+    outside.walker.teleport(12, 14)
+    [a, b, outside].each { |human| human.stagger!(30) }
+    outside_hp = outside.hp
+
+    assert striker.start_special(blocked: world.blocked_for(striker))
+    assert_equal [16, 12], striker.reserved_tile
+    striker.kit[:special][:windup_frames].times { drive(world, scripted({}), 1) }
+
+    assert a.dead?
+    assert b.dead?
+    assert_equal outside_hp, outside.hp
+    assert_equal [16, 12], striker.tile
+    assert striker.iframes?
+    assert_equal 0, striker.dodge_cooldown
+  end
+
+  def test_lobber_volley_counts_sim_frames_and_hits_each_impact_tile
+    lobber, targets = stage_volley(world)
+    before = targets.map(&:hp)
+    impact = launch_volley(world, lobber)
+
+    assert_same lobber, impact[:owner]
+    assert_equal [[14, 12], [15, 12], [16, 12]], impact[:tiles]
+    assert_equal 40, impact[:frames_left]
+    assert_equal 35, impact[:damage]
+
+    drive(world, scripted({}), 39)
+    assert_equal before, targets.map(&:hp)
+    assert_equal 1, impact[:frames_left]
+    drive(world, scripted({}), 1)
+
+    assert_equal before.map { |hp| [hp - 35, 0].max }, targets.map(&:hp)
+    assert_empty world.impacts
+  end
+
+  def test_volley_countdown_pauses_during_hitstop_while_world_frame_advances
+    lobber, = stage_volley(world)
+    impact = launch_volley(world, lobber)
+    frames_left = impact[:frames_left]
+    frame = world.frame
+
+    world.feel.on_hit
+    hitstop = DATA["balance/combat"][:feel][:hitstop_frames_hit]
+    drive(world, scripted({}), hitstop)
+
+    assert_equal frame + hitstop, world.frame
+    assert_equal frames_left, impact[:frames_left]
+    drive(world, scripted({}), 1)
+    assert_equal frames_left - 1, impact[:frames_left]
+  end
+
+  def test_volley_tiles_stop_at_the_first_wall
+    lobber, = stage_volley(world)
+    lobber.walker.teleport(39, 1)
+    lobber.face([1, 0])
+    impact = launch_volley(world, lobber)
+
+    assert_equal [[41, 1], [42, 1]], impact[:tiles]
+  end
+
+  def test_volley_survives_caster_death_with_live_owner_reference
+    lobber, targets = stage_volley(world)
+    before = targets.map(&:hp)
+    impact = launch_volley(world, lobber)
+    world.pack.swap_next!
+    kill(lobber, by: world.possessed)
+    drive(world, scripted({}), 1)
+
+    assert lobber.dead?
+    assert_same lobber, impact[:owner]
+    drive(world, scripted({}), impact[:frames_left])
+    assert_equal before.map { |hp| [hp - 35, 0].max }, targets.map(&:hp)
+  end
+
+  def test_volley_impacts_clear_on_zone_entry_and_wipe_respawn
+    lobber, = stage_volley(world)
+    launch_volley(world, lobber)
+    gate = world.map.transitions.first[:at]
+    world.possessed.walker.teleport(*gate)
+    drive(world, scripted({}), 1)
+    assert_equal "nest", world.zone_name
+    assert_empty world.impacts
+
+    w = Game::World.new(DATA)
+    lobber, = stage_volley(w)
+    lobber.interrupt_action!
+    impact = launch_volley(w, lobber)
+    hunter = w.humans.first
+    w.pack.members.each { |member| kill(member, by: hunter) }
+    drive(w, scripted({}), 1)
+    assert_equal :nest_respawn, w.states.current
+    assert_includes w.impacts, impact
+    drive(w, scripted({}), DATA["balance/combat"][:respawn_frames] + 5)
+    assert_equal "nest", w.zone_name
+    assert_empty w.impacts
+  end
+
+  def test_mark_prefers_possessed_last_damage_and_ignores_ally_damage
+    source, near, preferred = stage_mark(world)
+    near.walker.teleport(12, 14)
+    preferred.walker.teleport(13, 12)
+    before = preferred.hp
+    assert source.start_attack
+    source.kit[:attack][:windup_frames].times { drive(world, scripted({}), 1) }
+    assert_operator preferred.hp, :<, before
+
+    near.walker.teleport(13, 12)
+    preferred.walker.teleport(16, 12)
+    assert world.set_mark(source)
+    assert_same preferred, world.marked_target
+
+    ally = world.pack.members.find { |member| !member.equal?(source) }
+    world.send(:emit_attack_hit, ally, near, true)
+    assert world.set_mark(source)
+    assert_same preferred, world.marked_target
+  end
+
+  def test_mark_falls_back_to_nearest_with_roster_tiebreak_and_preserves_on_refusal
+    source, first, second = stage_mark(world)
+    first.walker.teleport(13, 11)
+    second.walker.teleport(13, 13)
+
+    assert world.set_mark(source)
+    assert_same first, world.marked_target, "equal distance uses human roster order"
+
+    first.walker.teleport(30, 12)
+    second.walker.teleport(31, 12)
+    refute world.set_mark(source)
+    assert_same first, world.marked_target, "refusal leaves the existing order unchanged"
+  end
+
+  def test_mark_survives_swaps_then_clears_on_target_death
+    source, target, = stage_mark(world)
+    assert world.set_mark(source)
+    world.pack.swap_next!
+    assert_same target, world.marked_target
+
+    killed_body = world.possessed
+    kill(killed_body, by: source)
+    drive(world, scripted({}), 1)
+    refute_same killed_body, world.possessed
+    assert_same target, world.marked_target
+
+    kill(target, by: world.possessed)
+    drive(world, scripted({}), 1)
+    assert_nil world.marked_target
+  end
+
+  def test_mark_clears_on_leash_break_zone_entry_and_wipe_respawn
+    source, target, = stage_mark(world)
+    assert world.set_mark(source)
+    target.walker.teleport(30, 12)
+    drive(world, scripted({}), 1)
+    assert_nil world.marked_target
+
+    target.walker.teleport(13, 12)
+    assert world.set_mark(world.possessed)
+    gate = world.map.transitions.first[:at]
+    world.possessed.walker.teleport(*gate)
+    drive(world, scripted({}), 1)
+    assert_equal "nest", world.zone_name
+    assert_nil world.marked_target
+
+    w = Game::World.new(DATA)
+    source, target, = stage_mark(w)
+    assert w.set_mark(source)
+    hunter = target
+    w.pack.members.each { |member| kill(member, by: hunter) }
+    drive(w, scripted({}), 1)
+    assert_equal :nest_respawn, w.states.current
+    drive(w, scripted({}), DATA["balance/combat"][:respawn_frames] + 5)
+    assert_equal "nest", w.zone_name
+    assert_nil w.marked_target
+  end
+
+  def test_mark_overrides_ally_target_selection_and_aggro_gate
+    source, marked, unmarked = stage_mark(world)
+    blocker = world.pack.members.find { |member| member.kit_name == :blocker }
+    blocker.revive!(map: world.map, tile: [1, 12])
+    marked.walker.teleport(15, 12)
+    unmarked.walker.teleport(1, 14)
+    assert world.set_mark(source)
+
+    marked_before = chebyshev(blocker.tile, marked.tile)
+    unmarked_before = chebyshev(blocker.tile, unmarked.tile)
+    drive(world, scripted({}), 1)
+    assert_operator chebyshev(blocker.tile, marked.tile), :<, marked_before
+    assert_operator chebyshev(blocker.tile, unmarked.tile), :>, unmarked_before
+
+    world.pack.clear_mark!
+    blocker.revive!(map: world.map, tile: [1, 12])
+    unmarked_before = chebyshev(blocker.tile, unmarked.tile)
+    drive(world, scripted({}), 1)
+    assert_operator chebyshev(blocker.tile, unmarked.tile), :<, unmarked_before
+  end
+
+  def test_mark_input_masks_across_swap_and_is_true_rising_edge
+    source, target, = stage_mark(world)
+    blocker = world.pack.members.find { |member| member.kit_name == :blocker }
+    blocker.revive!(map: world.map, tile: [11, 11])
+    events = 0
+    world.bus.subscribe(:pack_mark_set) { events += 1 }
+    frame = world.frame
+    input = scripted(
+      frame.to_s => %w[swap mark],
+      (frame + 1).to_s => %w[mark],
+      (frame + 2).to_s => [],
+      (frame + 3).to_s => %w[mark],
+      (frame + 4).to_s => %w[mark],
+      (frame + 5).to_s => [],
+      (frame + 6).to_s => %w[mark]
+    )
+
+    drive(world, input, 2)
+    assert_nil world.marked_target, "mark held through Tab is masked on the new body"
+    drive(world, input, 3)
+    assert_same target, world.marked_target
+    assert_equal 1, events, "holding mark emits once"
+    drive(world, input, 2)
+    assert_equal 2, events, "release and re-press emits exactly one replacement"
+    refute_same source, world.possessed
+  end
+
+  def chebyshev(a, b)
+    [(a[0] - b[0]).abs, (a[1] - b[1]).abs].max
   end
 
   def test_ally_ai_fights_humans
@@ -342,7 +732,7 @@ class WorldTest < Minitest::Test
     refute_nil corpse, "a kill leaves a corpse record where the body fell"
     assert_equal :human, corpse[:faction]
     drive(world, scripted({}), 700) # past the 600f fade
-    assert_nil world.corpses.find { |c| c[:tile] == at }, "corpses prune after the fade window"
+    refute_includes world.corpses, corpse, "the original corpse prunes after the fade window"
   end
 
   def test_human_respawns_after_kill
