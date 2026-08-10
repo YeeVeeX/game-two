@@ -1,6 +1,45 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-10 (latest) — PILOT MODE SHIPPED; owner queue: D0 fun-verify + taunt call
+## 2026-08-10 (latest) — A0.6 TAUNT PROMOTED, SPEC DRAFTED; spec review is NEXT
+
+**State (measured):** `main` at `fc11e9c` (90 commits), 158 tests / 632 assertions
+green. One uncommitted edit: touchstone-tension note folded into the taunt spec
+(commit it first thing). Pilot mode SHIPPED (entry below). Owner answered the
+fun-verify Q&A: **D0 "bank or push deeper" = "No, just a chore"**; progression/
+variety = "Not sure"; **A0.6 blocker taunt PROMOTED** (scope contract v5, commit
+`230de6e`). Decision recorded in PARKING_LOT.md: NO blind D0 tuning — taunt first
+(sticky fights are upstream of carry risk), re-run the D0 fun-verify after A0.6.
+
+**Spec state:** draft committed at
+`docs/superpowers/specs/2026-08-10-a0.6-blocker-taunt.md` (`fc11e9c`). Core calls:
+taunt rides Slam's active entry via the action_can_trigger? one-shot (no new key,
+one-special rail intact); victim-owned 300f lock (`taunt!`/`taunted_target` on
+Creature, decays in tick_body); taunted humans bypass the aggro_tiles gate (mark
+precedent); rust underline + expanding cast ring tells; `taunt_anchor.json` gate
+script to be authored VIA PILOT MODE (first real dogfood); 3 appended vision checks
+(20 never weaken); data block `blocker.special.taunt {range_tiles: 6,
+duration_frames: 300}`. ⚠️ Known tension folded into the spec: real exeta res is
+spammable, our coupled version is ~1/10s — ship coupled first, decouple onto its own
+clock ONLY if fun-verify says starved.
+
+**Spec review status:** a 3-lens adversarial critique workflow was started then
+KILLED mid-run (owner interrupt; no usable output — journal shows agents started,
+none returned text). **Re-run as a direct Agent fan-out** (workflow-failure fallback
+ladder), lenses: code-fit/determinism (attack the ring-arc trigger path — ring does
+NOT use action_can_trigger? today, verify adding it is safe; cross-zone
+taunted_target landmines in flow_to/blocked_for), design (Slam-coupling cadence,
+does husk-AI blocker WALK OUT of the pincer post-swap), fun (does taunt just make
+the 160HP blocker die faster? cheapest falsifying playtest). Fold → commit spec
+REVISED → then implement.
+
+**New research asset:** `drafts/_gamesmith-touchstone-digest.md` — distilled
+gamesmith corpus (Tibia FULL extract + 4 notes-depth games). Load-bearing: Tibia's
+bank loop works because supplies make sessions run NEGATIVE and death has teeth —
+D0's chore verdict is missing pressure, not missing UI. Cite extracts, don't recall.
+
+**Owner queue:** none blocking. (D0 re-verify happens after A0.6 ships.)
+
+## 2026-08-10 (earlier) — PILOT MODE SHIPPED; owner queue: D0 fun-verify + taunt call
 
 **State (measured):** `main` clean at merge `ccfa6e1` (87 commits), 158 tests / 632
 assertions green post-merge. All FOUR gate scripts vision+determinism PASS on the
