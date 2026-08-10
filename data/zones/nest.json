@@ -6,7 +6,8 @@
     "floor": [30, 22, 26],
     "grid": [40, 30, 34],
     "wall": [150, 96, 84],
-    "transition": [235, 190, 90]
+    "transition": [235, 190, 90],
+    "station": [185, 75, 205]
   },
   "tiles": [
     "##############################",
@@ -29,6 +30,9 @@
   ],
   "pack_spawn": [[14, 8], [13, 8], [15, 8]],
   "enemy_spawns": {},
+  "stations": [
+    { "type": "bank", "at": [12, 8] }
+  ],
   "transitions": [
     { "at": [29, 8], "to": "district", "spawn": [1, 13] }
   ]

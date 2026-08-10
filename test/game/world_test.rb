@@ -1056,4 +1056,68 @@ class WorldTest < Minitest::Test
     assert_equal 0, carrier.carried
     assert_equal 1, lost.length
   end
+
+  # --- bank station + banked (D0) ----------------------------------------
+
+  BANK_TILE = DATA["zones/nest"][:stations].first[:at]
+
+  def carry_home(world)
+    stage_drop_under_possessed(world)
+    press_interact(world)
+    world.possessed.walker.teleport(1, 13)
+    drive(world, scripted(hold(:left, world.frame, world.frame + STEP * 4)), STEP * 4)
+    assert_equal "nest", world.zone_name
+    world.possessed.walker.teleport(*BANK_TILE)
+    drive(world, scripted({}), 1)
+  end
+
+  def test_bank_moves_carried_to_pack_banked
+    carry_home(world)
+    amount = world.possessed.carried
+    assert_operator amount, :>, 0, "carried rides the creature through the gate"
+    events = []
+    world.bus.subscribe(:banked) { |e| events << e }
+    press_interact(world)
+    assert_equal 0, world.possessed.carried
+    assert_equal amount, world.pack.banked
+    assert_equal [amount], events.map { |e| e[:amount] }
+    assert_equal [amount], events.map { |e| e[:banked] }
+  end
+
+  def test_bank_with_zero_carried_is_silent_noop
+    world.possessed.walker.teleport(*BANK_TILE)
+    events = []
+    world.bus.subscribe(:banked) { |e| events << e }
+    refute world.interact(world.possessed)
+    drive(world, scripted({}), 1)
+    assert_empty events
+    assert_equal 0, world.pack.banked
+  end
+
+  def test_banked_survives_the_wipe
+    carry_home(world)
+    press_interact(world)
+    banked = world.pack.banked
+    assert_operator banked, :>, 0
+    killer = world.pack.members.first # any creature works as attacker
+    world.pack.living.each { |m| kill(m, by: killer) }
+    drive(world, scripted({}), 1)
+    assert_equal :nest_respawn, world.states.current
+    drive(world, scripted({}), DATA["balance/combat"][:respawn_frames] + 2)
+    assert_equal :world, world.states.current
+    assert_equal banked, world.pack.banked, "banked is wipe-safe — the whole point of D0"
+    assert world.pack.living.all? { |m| m.carried.zero? }
+  end
+
+  def test_drop_on_station_tile_pickup_wins_then_bank
+    world.possessed.walker.teleport(*BANK_TILE)
+    world.drops << { tile: BANK_TILE.dup, amount: 2, frames_left: 1800, decay_frames: 1800 }
+    world.possessed.pick_up(1)
+    press_interact(world)
+    assert_equal 3, world.possessed.carried, "pickup first"
+    assert_equal 0, world.pack.banked
+    press_interact(world)
+    assert_equal 0, world.possessed.carried, "bank on the next press"
+    assert_equal 3, world.pack.banked
+  end
 end

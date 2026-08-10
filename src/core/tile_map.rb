@@ -8,7 +8,7 @@ module Core
     WALL_CHAR = "#".freeze
 
     attr_reader :cols, :rows, :tile_size, :pack_spawn, :enemy_spawns,
-                :display_name, :palette, :transitions
+                :display_name, :palette, :transitions, :stations
 
     def initialize(cfg)
       @tile_size = cfg.fetch(:tile_size)
@@ -20,6 +20,7 @@ module Core
       @pack_spawn = cfg.fetch(:pack_spawn)
       @enemy_spawns = cfg.fetch(:enemy_spawns, {})
       @transitions = cfg.fetch(:transitions, [])
+      @stations = cfg.fetch(:stations, [])
       validate!
     end
 
@@ -32,6 +33,10 @@ module Core
 
     def transition_at(tx, ty)
       @transitions.find { |t| t[:at] == [tx, ty] }
+    end
+
+    def station_at(tx, ty)
+      @stations.find { |s| s[:at] == [tx, ty] }
     end
 
     def pixel_width = @cols * @tile_size
@@ -49,6 +54,7 @@ module Core
       @pack_spawn.each { |s| check_passable!("pack_spawn", s) }
       @enemy_spawns.each_value { |spawns| spawns.each { |s| check_passable!("enemy spawn", s) } }
       @transitions.each { |t| check_passable!("transition", t[:at]) }
+      @stations.each { |s| check_passable!("station", s[:at]) }
     end
 
     def check_passable!(label, (tx, ty))

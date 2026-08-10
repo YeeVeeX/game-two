@@ -171,16 +171,24 @@ module Game
       true
     end
 
-    # One shared interaction path (D0): pickup first, bank second.
+    # One shared interaction path (D0): pickup first, bank second — decided
+    # so a drop ON the station tile takes two presses, deterministically.
     # Possessed-only — which body holds the value is a player decision.
     def interact(source)
       return false unless source.equal?(possessed)
       return false if source.dead? || source.staggered? || source.attack_state != :idle
       drop = drops.find { |d| d[:tile] == source.tile }
-      return false unless drop
-      drops.delete(drop)
-      source.pick_up(drop[:amount])
-      @bus.emit(:drop_picked_up, actor: source, amount: drop[:amount], carried: source.carried)
+      if drop
+        drops.delete(drop)
+        source.pick_up(drop[:amount])
+        @bus.emit(:drop_picked_up, actor: source, amount: drop[:amount], carried: source.carried)
+        return true
+      end
+      station = map.station_at(*source.tile)
+      return false unless station && station[:type] == "bank" && source.carried.positive?
+      amount = source.drain_carried!
+      @pack.bank!(amount)
+      @bus.emit(:banked, actor: source, amount:, banked: @pack.banked)
       true
     end
 

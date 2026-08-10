@@ -2,12 +2,13 @@ module Game
   # The three creatures + the possession pointer. Possession is a pointer
   # move, never a state copy — exhaust/buffers stay creature-owned (law 4).
   class Pack
-    attr_reader :members, :possessed, :mark
+    attr_reader :members, :possessed, :mark, :banked
 
     def initialize(members:, stagger_frames:)
       @members = members
       @possessed = members.first
       @stagger_frames = stagger_frames
+      @banked = 0
     end
 
     def living = @members.reject(&:dead?)
@@ -15,6 +16,13 @@ module Game
 
     def mark!(target)
       @mark = target
+    end
+
+    # Pack-owned and wipe-safe by construction: the Pack object is created
+    # once (spawn_pack) and respawn_pack only revives members (law: banked
+    # is NEVER taxed; in D0 it is not spent either — D1 adds the sinks).
+    def bank!(amount)
+      @banked += amount
     end
 
     def clear_mark!
