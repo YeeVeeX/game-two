@@ -80,6 +80,16 @@ class CreatureTest < Minitest::Test
     assert c.action_can_hit?(b), "one victim must not close a multi-target cast"
   end
 
+  def test_volley_has_no_caster_local_action_tiles
+    volley_kit = BLOCKER_KIT.merge(
+      special: BLOCKER_KIT[:special].merge(arc: "volley")
+    )
+    c = creature(kit: volley_kit, kit_name: :lobber)
+
+    assert c.start_special(blocked: [])
+    assert_empty c.action_tiles, "Volley's only target tiles belong to its delayed impact"
+  end
+
   def test_special_exhaust_is_independent_and_revive_resets_it_ready
     c = creature(kit: BLOCKER_KIT, kit_name: :blocker)
     assert c.start_special(blocked: [])

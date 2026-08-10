@@ -235,6 +235,37 @@ class WorldTest < Minitest::Test
     refute a.exhaust_ready?, "a's clock keeps counting unpossessed"
   end
 
+  def test_active_uninterruptible_rusher_still_lands_if_killed_earlier_in_resolution
+    enter_district(world)
+    striker = possess_kit(world, :striker)
+    striker.revive!(map: world.map, tile: [12, 12])
+    striker.face([1, 0])
+    (world.pack.living - [striker]).each_with_index do |member, i|
+      member.revive!(map: world.map, tile: [2, 12 + i])
+    end
+
+    rusher = world.humans.first
+    world.humans.replace([rusher])
+    rusher.revive!(map: world.map, tile: [13, 12])
+    rusher.face([-1, 0])
+    assert rusher.take_hit(damage: 25, attacker: striker)
+    assert_equal 25, rusher.hp
+
+    assert striker.start_attack
+    assert rusher.start_attack
+    striker.kit[:attack][:windup_frames].times { striker.tick_body }
+    rusher.kit[:attack][:windup_frames].times { rusher.tick_body }
+    before = striker.hp
+
+    world.send(:resolve_attacks)
+
+    assert rusher.dead?
+    assert_equal :active, rusher.attack_state,
+                 "interrupt_on_hit=false keeps an already-active blow in the resolution snapshot"
+    assert_equal before - rusher.kit[:attack][:damage], striker.hp,
+                 "killing an active rusher does not erase its deterministic simultaneous trade"
+  end
+
   def test_blocker_slam_hits_ring_and_interrupts_in_flight_rusher_windups
     enter_district(world)
     blocker = possess_kit(world, :blocker)

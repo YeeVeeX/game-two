@@ -122,7 +122,7 @@ module Game
         RING.map { |(dx, dy)| [tx + dx, ty + dy] }
       when "front1" # striker: one precise tile, no flanks
         [[tx + @facing[0], ty + @facing[1]]]
-      when "projectile" # lobber: the swing itself touches nothing — World spawns the shot
+      when "projectile", "volley" # World owns the shot / delayed target tiles
         []
       else # "arc3": front + flanks (diagonal facing -> cardinal components)
         fx, fy = @facing
@@ -164,7 +164,7 @@ module Game
       return false if iframes? || dead?
       @hp = [@hp - damage, 0].max
       @hurt_frames = 8
-      interrupt_action! if dead? || @kit[:interrupt_on_hit]
+      interrupt_action! if @kit[:interrupt_on_hit] || (dead? && @current_action == :special)
       knock_away_from(attacker.tile, knockback_tiles, blocked)
       if dead?
         @bus.emit(:actor_died, actor: self, killer: attacker, faction: @faction)

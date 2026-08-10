@@ -232,9 +232,11 @@ module App
           Gosu.draw_rect(x, y, (w * frac).round, 14, KIT_BODY[m.kit_name])
         end
         attack_pip = !m.dead? && m.exhaust_ready? ? POSSESSED_RING : HP_BACK
-        special_pip = !m.dead? && m.kit[:special] && m.special_ready? ? KIT_BODY[m.kit_name] : HP_BACK
+        special_ready = !m.dead? && m.kit[:special] && m.special_ready?
+        special_pip = special_ready ? KIT_BODY[m.kit_name] : HP_BACK
         Gosu.draw_rect(300, y + 2, 10, 10, attack_pip)
         Gosu.draw_rect(314, y + 2, 10, 10, special_pip)
+        Gosu.draw_rect(317, y + 5, 4, 4, POSSESSED_RING) if special_ready
       end
     end
 
