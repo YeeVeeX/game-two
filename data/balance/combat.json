@@ -23,6 +23,16 @@
         "knockback_tiles": 0,
         "knockback_frames_per_tile": 5
       },
+      "special": {
+        "damage": 50,
+        "windup_frames": 6,
+        "recovery_frames": 0,
+        "exhaust_frames": 480,
+        "arc": "dash",
+        "max_tiles": 4,
+        "frames_per_tile": 4,
+        "knockback_tiles": 0
+      },
       "dodge": {
         "tiles": 2,
         "frames_per_tile": 6,

@@ -6,6 +6,7 @@ module Game
   # only so walking looks smooth.
   class GridWalker
     DIAGONAL = Math.sqrt(2)
+    DashPlan = Data.define(:landing, :crossed, :duration, :dx, :dy)
 
     attr_reader :tile_x, :tile_y, :px, :py
 
@@ -31,7 +32,8 @@ module Game
     # One step to an adjacent tile; refused while a step is in flight.
     def step(dx, dy, frames:, blocked: [])
       return false if moving?
-      commit(dx, dy, 1, frames, blocked)
+      plan = plan_dash(dx, dy, max_tiles: 1, frames_per_tile: frames, blocked:)
+      plan ? commit_dash(plan) : false
     end
 
     # Burst move (dodge, knockback): travels up to max_tiles in a direction.
@@ -41,8 +43,46 @@ module Game
     # Interrupts an in-flight step — the tween retargets from the current
     # visual position.
     def dash(dx, dy, max_tiles:, frames_per_tile:, blocked: [], through: false)
-      return commit(dx, dy, max_tiles, frames_per_tile, blocked) unless through
-      commit_through(dx, dy, max_tiles, frames_per_tile, blocked)
+      plan = plan_dash(dx, dy, max_tiles:, frames_per_tile:, blocked:, through:)
+      plan ? commit_dash(plan) : false
+    end
+
+    # The one authoritative scan for every burst move. The returned plan is
+    # immutable and can be committed later without re-reading map/occupancy.
+    def plan_dash(dx, dy, max_tiles:, frames_per_tile:, blocked: [], through: false)
+      return nil if dx.zero? && dy.zero?
+      tx = @tile_x
+      ty = @tile_y
+      path = []
+      landing_index = nil
+
+      max_tiles.times do
+        nx = tx + dx
+        ny = ty + dy
+        break unless @map.passable?(nx, ny)
+        occupied = blocked.include?([nx, ny])
+        break if occupied && !through
+        tx = nx
+        ty = ny
+        path << [tx, ty]
+        landing_index = path.length - 1 unless occupied
+      end
+
+      return nil unless landing_index
+      crossed = path.take(landing_index + 1)
+      duration = frames_per_tile * crossed.length
+      duration = (duration * DIAGONAL).round if dx.abs + dy.abs == 2
+      DashPlan.new(landing: crossed.last, crossed:, duration:, dx:, dy:)
+    end
+
+    def commit_dash(plan)
+      return false unless plan
+      @from_x = @px
+      @from_y = @py
+      @tile_x, @tile_y = plan.landing
+      @tween_total = plan.duration
+      @tween_left = plan.duration
+      true
     end
 
     def tick
@@ -55,55 +95,6 @@ module Game
     end
 
     private
-
-    def commit(dx, dy, max_tiles, frames_per_tile, blocked)
-      return false if dx.zero? && dy.zero?
-      tx = @tile_x
-      ty = @tile_y
-      tiles = 0
-      max_tiles.times do
-        nx = tx + dx
-        ny = ty + dy
-        break unless @map.passable?(nx, ny)
-        break if blocked.include?([nx, ny])
-        tx = nx
-        ty = ny
-        tiles += 1
-      end
-      return false if tiles.zero?
-      start_tween(tx, ty, tiles, frames_per_tile, dx, dy)
-    end
-
-    # Pass-through scan: every reachable tile is inspected out to max_tiles
-    # or the first wall; occupied tiles can be crossed but not landed on.
-    # Refuses only when NO free tile exists in range (M2.1 fix 4 — a full
-    # surround ring stops being a coffin).
-    def commit_through(dx, dy, max_tiles, frames_per_tile, blocked)
-      return false if dx.zero? && dy.zero?
-      nx = @tile_x
-      ny = @tile_y
-      land = nil
-      1.upto(max_tiles) do |dist|
-        nx += dx
-        ny += dy
-        break unless @map.passable?(nx, ny)
-        land = [nx, ny, dist] unless blocked.include?([nx, ny])
-      end
-      return false unless land
-      start_tween(land[0], land[1], land[2], frames_per_tile, dx, dy)
-    end
-
-    def start_tween(tx, ty, tiles, frames_per_tile, dx, dy)
-      cost = frames_per_tile * tiles
-      cost = (cost * DIAGONAL).round if dx.abs + dy.abs == 2
-      @from_x = @px
-      @from_y = @py
-      @tile_x = tx
-      @tile_y = ty
-      @tween_total = cost
-      @tween_left = cost
-      true
-    end
 
     # Entities smaller than a tile sit centered in it.
     def tile_px(tx) = tx * @map.tile_size + (@map.tile_size - @size) / 2.0

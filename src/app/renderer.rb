@@ -22,6 +22,8 @@ module App
     WINDUP         = Gosu::Color.new(90, 255, 255, 255)
     SPECIAL_WINDUP = Gosu::Color.new(120, 255, 190, 90)
     SPECIAL_ACTIVE = Gosu::Color.new(235, 255, 225, 150)
+    LUNGE_WINDUP   = Gosu::Color.new(110, 255, 125, 45)
+    LUNGE_ACTIVE   = Gosu::Color.new(245, 255, 245, 210)
     PROJECTILE     = Gosu::Color.new(255, 250, 235, 170)
     NOTCH          = Gosu::Color.new(255, 20, 14, 12)
     HP_BACK        = Gosu::Color.new(255, 50, 20, 30)
@@ -138,6 +140,7 @@ module App
     # lunge forward on active. Draw-only — tiles never move.
     def lunge_offset(c)
       return [0, 0] unless c.faction == :pack
+      return [0, 0] if c.current_action == :special
       fx, fy = c.facing
       case c.attack_state
       when :windup then [-3 * fx, -3 * fy]
@@ -148,6 +151,15 @@ module App
 
     def draw_attack(c, ts)
       return unless %i[windup active].include?(c.attack_state)
+      if c.current_action == :special && c.action_config[:arc] == "dash"
+        col = c.attack_state == :windup ? LUNGE_WINDUP : LUNGE_ACTIVE
+        inset = c.attack_state == :windup ? 10 : 6
+        c.action_tiles.each do |(tx, ty)|
+          Gosu.draw_rect(tx * ts + inset, ty * ts + inset,
+                         ts - inset * 2, ts - inset * 2, col)
+        end
+        return
+      end
       col =
         if c.current_action == :special
           c.attack_state == :windup ? SPECIAL_WINDUP : SPECIAL_ACTIVE

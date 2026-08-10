@@ -226,6 +226,35 @@ class WorldTest < Minitest::Test
     assert_equal [15, 12], b.tile
   end
 
+  def test_striker_lunge_damages_every_human_on_crossed_tiles_once
+    enter_district(world)
+    striker = possess_kit(world, :striker)
+    striker.interrupt_action!
+    striker.walker.teleport(12, 12)
+    striker.face([1, 0])
+    (world.pack.living - [striker]).each_with_index do |member, i|
+      member.walker.teleport(2, 12 + i)
+    end
+    a, b, outside = world.humans.first(3)
+    world.humans.replace([a, b, outside])
+    a.walker.teleport(13, 12)
+    b.walker.teleport(15, 12)
+    outside.walker.teleport(12, 14)
+    [a, b, outside].each { |human| human.stagger!(30) }
+    outside_hp = outside.hp
+
+    assert striker.start_special(blocked: world.blocked_for(striker))
+    assert_equal [16, 12], striker.reserved_tile
+    striker.kit[:special][:windup_frames].times { drive(world, scripted({}), 1) }
+
+    assert a.dead?
+    assert b.dead?
+    assert_equal outside_hp, outside.hp
+    assert_equal [16, 12], striker.tile
+    assert striker.iframes?
+    assert_equal 0, striker.dodge_cooldown
+  end
+
   def test_ally_ai_fights_humans
     enter_district(world)
     ally_kills = 0

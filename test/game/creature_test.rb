@@ -14,6 +14,9 @@ class CreatureTest < Minitest::Test
     max_hp: 100, step_frames: 15, aggro_tiles: 8,
     attack: { damage: 25, windup_frames: 6, active_frames: 4, recovery_frames: 10,
               exhaust_frames: 45, arc: "arc3", knockback_tiles: 1, knockback_frames_per_tile: 5 },
+    special: { damage: 50, windup_frames: 6, recovery_frames: 0,
+               exhaust_frames: 480, arc: "dash", max_tiles: 4,
+               frames_per_tile: 4, knockback_tiles: 0 },
     dodge: { tiles: 2, frames_per_tile: 7, iframes: 18, cooldown_frames: 50 },
     knockback_frames_per_tile: 5
   }.freeze
@@ -92,6 +95,31 @@ class CreatureTest < Minitest::Test
     assert c.special_ready?, "wipe revive resets the special ready"
     assert_nil c.current_action
     assert_equal :idle, c.attack_state
+  end
+
+  def test_lunge_refuses_without_a_free_landing_and_spends_nothing
+    c = creature
+    blocked = [[4, 2], [5, 2], [6, 2], [7, 2]]
+    refute c.start_special(blocked:)
+    assert c.special_ready?
+    assert_nil c.current_action
+    assert_equal [3, 2], c.tile
+  end
+
+  def test_lunge_commits_stored_plan_and_grants_dash_iframes_only
+    c = creature
+    assert c.start_special(blocked: [[4, 2], [6, 2]])
+    assert_equal [7, 2], c.reserved_tile
+    assert_equal [[4, 2], [5, 2], [6, 2], [7, 2]], c.action_tiles
+    assert_equal 0, c.dodge_cooldown
+
+    KIT[:special][:windup_frames].times { c.tick_body }
+
+    assert_equal :active, c.attack_state
+    assert_equal [7, 2], c.tile
+    assert c.iframes?
+    assert_equal 0, c.dodge_cooldown, "Lunge never spends the dodge clock"
+    assert_nil c.reserved_tile, "logical landing is committed at active entry"
   end
 
   def test_no_blanket_invuln_two_attackers_both_land

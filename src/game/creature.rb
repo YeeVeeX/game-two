@@ -29,6 +29,7 @@ module Game
       @action_frames = {}
       @hit_victims = []
       @action_triggered = false
+      @dash_plan = nil
       @exhaust = 0
       @special_exhaust = 0
       @iframes = 0
@@ -51,6 +52,10 @@ module Game
     def telegraphing? = @attack_state == :windup
     def action_config = @current_action && @kit[@current_action]
     def special_committed? = @current_action == :special && %i[windup active].include?(@attack_state)
+
+    def reserved_tile
+      @dash_plan&.landing if @attack_state == :windup
+    end
 
     def action_can_hit?(victim) = action_active? && !@hit_victims.include?(victim)
     def action_hit!(victim)
@@ -93,13 +98,24 @@ module Game
       cfg = @kit[:special]
       return false unless cfg
       return false if dead? || staggered? || @attack_state != :idle || !special_ready?
+      active_frames = nil
+      if cfg[:arc] == "dash"
+        @dash_plan = @walker.plan_dash(
+          @facing[0], @facing[1],
+          max_tiles: cfg[:max_tiles], frames_per_tile: cfg[:frames_per_tile],
+          blocked:, through: true
+        )
+        return false unless @dash_plan
+        active_frames = @dash_plan.duration
+      end
       @special_exhaust = cfg[:exhaust_frames]
-      begin_action(:special)
+      begin_action(:special, active_frames:)
     end
 
     def action_tiles
       cfg = action_config
       return [] unless cfg
+      return @dash_plan.crossed if cfg[:arc] == "dash" && @dash_plan
       tx, ty = tile
       case cfg[:arc]
       when "ring"
@@ -169,6 +185,7 @@ module Game
       @action_frames = {}
       @hit_victims = []
       @action_triggered = false
+      @dash_plan = nil
     end
 
     def rebind(map:, tile:)
@@ -197,6 +214,7 @@ module Game
         active: active_frames || cfg[:active_frames],
         recovery: cfg[:recovery_frames]
       }
+      @dash_plan = nil unless cfg[:arc] == "dash"
       @hit_victims = []
       @action_triggered = false
       @attack_state = :windup
@@ -223,6 +241,7 @@ module Game
       when :windup
         @attack_state = :active
         @state_frames = @action_frames[:active]
+        activate_action
       when :active
         @attack_state = :recovery
         @state_frames = @action_frames[:recovery]
@@ -230,6 +249,12 @@ module Game
       when :recovery
         interrupt_action!
       end
+    end
+
+    def activate_action
+      return unless action_config[:arc] == "dash"
+      @walker.commit_dash(@dash_plan)
+      @iframes = [@iframes, @dash_plan.duration].max
     end
   end
 end

@@ -96,7 +96,10 @@ module Game
     end
 
     def blocked_for(creature)
-      actors.reject { |a| a.equal?(creature) }.map(&:tile)
+      actors.reject { |actor| actor.equal?(creature) }
+            .flat_map { |actor| [actor.tile, actor.reserved_tile] }
+            .compact
+            .uniq
     end
 
     # Surround doctrine (owner directive 2026-08-09): attackers converging on
@@ -200,6 +203,8 @@ module Game
         case cfg[:arc]
         when "projectile"
           launch_projectile(attacker, cfg) if attacker.action_can_trigger?
+        when "dash"
+          resolve_dash_action(attacker, cfg)
         else
           resolve_tile_action(attacker, cfg)
         end
@@ -211,16 +216,31 @@ module Game
       attacker.action_tiles.each do |tile|
         victim = foes.find { |foe| !foe.dead? && foe.tile == tile }
         next unless victim && attacker.action_can_hit?(victim)
-        attacker.action_hit!(victim)
-        landed = victim.take_hit(damage: cfg[:damage], attacker:,
-                                 knockback_tiles: cfg[:knockback_tiles],
-                                 blocked: blocked_for(victim))
-        if landed
-          victim.stagger!(cfg[:stagger_frames]) if cfg[:stagger_frames]
-          victim.interrupt_action! if cfg[:interrupt_windup]
-        end
-        @bus.emit(:attack_hit, attacker:, victim:)
+        apply_action_hit(attacker, victim, cfg)
       end
+    end
+
+    def resolve_dash_action(attacker, cfg)
+      return unless attacker.action_can_trigger?
+      attacker.action_triggered!
+      foes = hostiles_for(attacker)
+      attacker.action_tiles.each do |tile|
+        victim = foes.find { |foe| !foe.dead? && foe.tile == tile }
+        next unless victim && attacker.action_can_hit?(victim)
+        apply_action_hit(attacker, victim, cfg)
+      end
+    end
+
+    def apply_action_hit(attacker, victim, cfg)
+      attacker.action_hit!(victim)
+      landed = victim.take_hit(damage: cfg[:damage], attacker:,
+                               knockback_tiles: cfg[:knockback_tiles],
+                               blocked: blocked_for(victim))
+      if landed
+        victim.stagger!(cfg[:stagger_frames]) if cfg[:stagger_frames]
+        victim.interrupt_action! if cfg[:interrupt_windup]
+      end
+      @bus.emit(:attack_hit, attacker:, victim:)
     end
 
     # A projectile swing "lands" the moment it fires — the shot itself is a
