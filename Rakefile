@@ -19,6 +19,13 @@ task :capture do
   sh "ruby -Isrc harness/replay_runner.rb #{script}"
 end
 
+desc "Interactive pilot session (file-driven). NAME=session SEED=0; see harness/pilot.rb header"
+task :pilot do
+  ENV["NAME"] ||= "session"
+  ENV["SEED"] ||= "0"
+  sh "ruby -Isrc harness/pilot.rb"
+end
+
 desc "Perf smoke (BLOCKING, machine-local): district scenario, abort if p95 tick >= 16.6ms"
 task :perf do
   ruby_code = <<~'RUBY'

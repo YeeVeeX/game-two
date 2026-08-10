@@ -93,6 +93,9 @@ crafting, weather, co-op, quests, shops, multiple weapons).
   md5 compare + structured vision verdict (exit nonzero on any failure). `SKIP_CRITIC=1` runs
   the determinism half only (iteration aid, not a shippable pass).
 - `rake perf` — perf smoke (machine-local): district scenario, aborts if p95 tick >= 16.6 ms.
+- `rake pilot NAME=<n> SEED=<s>` — interactive pilot session: append commands
+  (`printf 'cmd\n' >>`, NEVER Write) to `tmp/pilot/<n>/inbox.txt`, read `log.txt`; idle =
+  frozen sim; `export` emits a standard replay script. Full protocol: harness/pilot.rb header.
 
 ## Controls
 
