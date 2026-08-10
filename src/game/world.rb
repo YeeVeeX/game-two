@@ -171,6 +171,19 @@ module Game
       true
     end
 
+    # One shared interaction path (D0): pickup first, bank second.
+    # Possessed-only — which body holds the value is a player decision.
+    def interact(source)
+      return false unless source.equal?(possessed)
+      return false if source.dead? || source.staggered? || source.attack_state != :idle
+      drop = drops.find { |d| d[:tile] == source.tile }
+      return false unless drop
+      drops.delete(drop)
+      source.pick_up(drop[:amount])
+      @bus.emit(:drop_picked_up, actor: source, amount: drop[:amount], carried: source.carried)
+      true
+    end
+
     private
 
     def tick_world(input)

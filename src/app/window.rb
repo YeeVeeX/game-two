@@ -23,6 +23,7 @@ module App
       dodge:  [Gosu::KB_K, Gosu::KB_LEFT_SHIFT],
       special: [Gosu::KB_L, Gosu::KB_E],
       mark: [Gosu::KB_SEMICOLON, Gosu::KB_Q],
+      interact: [Gosu::KB_H, Gosu::KB_F],
       swap:   [Gosu::KB_TAB]
     }.freeze
 

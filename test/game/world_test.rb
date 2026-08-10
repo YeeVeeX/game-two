@@ -915,4 +915,113 @@ class WorldTest < Minitest::Test
     assert_equal 1, decayed.length, "district drop rots while the pack idles in the nest"
     assert_equal [8, 13], decayed.first[:tile]
   end
+
+  # --- interact + carried (D0) -------------------------------------------
+
+  # Kill the nearest human where it stands, then teleport the possessed onto
+  # the resulting drop tile — the simplest deterministic pickup stage.
+  def stage_drop_under_possessed(world)
+    enter_district(world)
+    kill(nearest_human(world), by: world.possessed)
+    drive(world, scripted({}), 1)
+    tile = world.drops.first[:tile]
+    world.possessed.walker.teleport(*tile)
+    tile
+  end
+
+  # A press that survives hitstop (a frozen tick never runs the controller,
+  # and staged kills by the possessed leave 8 frames of kill-hitstop pending):
+  # drain the freeze, then press one clean frame, then release so the next
+  # press is a fresh rising edge.
+  def press_interact(world)
+    drive(world, scripted({}), 1) while world.feel.hitstop?
+    drive(world, scripted({ world.frame.to_s => ["interact"] }), 1)
+    drive(world, scripted({}), 1)
+  end
+
+  def test_interact_picks_up_whole_pile_onto_possessed
+    stage_drop_under_possessed(world)
+    events = []
+    world.bus.subscribe(:drop_picked_up) { |e| events << e }
+    amount = world.drops.first[:amount]
+    press_interact(world)
+    assert_empty world.drops, "pickup takes the whole pile"
+    assert_equal amount, world.possessed.carried
+    assert_equal 1, events.length
+    assert_equal amount, events.first[:carried]
+  end
+
+  def test_interact_is_possessed_only
+    stage_drop_under_possessed(world)
+    ally = (world.pack.living - [world.possessed]).first
+    refute world.interact(ally), "allies never pick up"
+    refute_empty world.drops
+  end
+
+  def test_interact_refused_while_staggered_or_mid_action
+    stage_drop_under_possessed(world)
+    world.possessed.stagger!(30)
+    refute world.interact(world.possessed)
+    drive(world, scripted({}), 31)
+    world.possessed.start_attack
+    refute world.interact(world.possessed), "no pickup mid-swing"
+  end
+
+  def test_interact_on_empty_tile_is_silent_noop
+    enter_district(world)
+    events = []
+    %i[drop_picked_up banked].each { |ev| world.bus.subscribe(ev) { |e| events << e } }
+    refute world.interact(world.possessed)
+    drive(world, scripted({}), 1)
+    assert_empty events
+  end
+
+  def test_held_interact_masks_across_voluntary_swap
+    tile = stage_drop_under_possessed(world)
+    drive(world, scripted({}), 1) while world.feel.hitstop?
+    # Start the hold OFF the drop tile (the first rising edge is a legal
+    # no-op there), Tab mid-hold, land the NEW body on the drop tile: the
+    # still-held key must not ghost-fire from it (law 4 edge semantics).
+    world.possessed.walker.teleport(tile[0] - 1, tile[1])
+    f = world.frame
+    script = hold(:interact, f, f + 12)
+    script[(f + 4).to_s] = %w[interact swap]
+    drive(world, scripted(script), 6) # edge consumed on empty tile; swap masks the hold
+    world.possessed.walker.teleport(*tile)
+    drive(world, scripted(script), 7)
+    refute_empty world.drops, "held interact may not ghost-pick after swap; re-press required"
+    drive(world, scripted({}), 2) # release
+    press_interact(world)
+    assert_empty world.drops, "fresh rising edge picks up"
+  end
+
+  def test_held_interact_masks_across_forced_swap
+    tile = stage_drop_under_possessed(world)
+    drive(world, scripted({}), 1) while world.feel.hitstop?
+    dying = world.possessed
+    killer = world.humans.reject(&:dead?).first
+    # Kill the possessed BEFORE the held-interact ticks start: on the death
+    # tick the controller early-returns (dead), the forced swap lands at
+    # bus-process time, and the deferred rearm! must mask the held key.
+    kill(dying, by: killer)
+    f = world.frame
+    script = hold(:interact, f, f + 40)
+    drive(world, scripted(script), 3) # flush death -> forced swap -> deferred rearm
+    survivor = world.possessed
+    refute_equal dying, survivor
+    survivor.walker.teleport(*tile)
+    drive(world, scripted(script), 10)
+    refute_empty world.drops, "held interact may not ghost-pick across a forced swap"
+  end
+
+  def test_carried_is_swap_inert
+    stage_drop_under_possessed(world)
+    press_interact(world)
+    carrier = world.possessed
+    amount = carrier.carried
+    drive(world, scripted({ world.frame.to_s => ["swap"] }), 2)
+    refute_equal carrier, world.possessed
+    assert_equal amount, carrier.carried, "carried stays on the body that picked it up"
+    assert_equal 0, world.possessed.carried
+  end
 end

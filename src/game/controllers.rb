@@ -9,8 +9,8 @@ module Game
   # what the hand expects; masking it made every Tab a micro-stall (M2.1
   # fix 3).
   class PossessedController
-    ACTIONS = %i[left right up down attack dodge special mark].freeze
-    EDGE_TRIGGERED = %i[attack dodge special mark].freeze
+    ACTIONS = %i[left right up down attack dodge special mark interact].freeze
+    EDGE_TRIGGERED = %i[attack dodge special mark interact].freeze
 
     def initialize
       @masked = []
@@ -25,6 +25,7 @@ module Game
       @masked.reject! { |a| !input.down?(a) }
       special_pressed = pressed?(input, :special)
       mark_pressed = pressed?(input, :mark)
+      interact_pressed = pressed?(input, :interact)
       return if creature.dead?
 
       dir = held_direction(input)
@@ -34,6 +35,9 @@ module Game
       elsif dir != [0, 0]
         creature.step(dir[0], dir[1], blocked: @blocked || [])
       end
+      # Interact resolves before attack/special: a same-frame pickup or bank
+      # must not lose the tie to a held attack starting a swing.
+      view.interact(creature) if interact_pressed && view&.respond_to?(:interact)
       creature.start_special(blocked: @blocked || []) if special_pressed
       creature.start_attack if down?(input, :attack)
       view.set_mark(creature) if mark_pressed && view&.respond_to?(:set_mark)
