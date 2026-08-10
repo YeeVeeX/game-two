@@ -19,6 +19,7 @@ require "json"
 require "gosu"
 require "fileutils"
 require "core/input"
+require_relative "support"
 require_relative "scenes/moving_square"
 require_relative "scenes/world_scene"
 
@@ -27,19 +28,6 @@ module Harness
     "moving_square" => Scenes::MovingSquare,
     "world" => Scenes::WorldScene
   }.freeze
-
-  def self.expand_script(raw)
-    frames = Hash.new { |h, k| h[k] = [] }
-    raw.fetch(:hold, {}).each do |action, ranges|
-      ranges.each do |(from, to)|
-        (from..to).each { |f| frames[f] << action.to_s }
-      end
-    end
-    raw.fetch(:frames, {}).each do |frame, actions|
-      frames[Integer(frame.to_s)].concat(actions)
-    end
-    frames
-  end
 
   class ReplayWindow < Gosu::Window
     def initialize(script_path, out_dir_override = nil)
@@ -63,7 +51,7 @@ module Harness
       @scene.tick(@input)
       if @captures.include?(@frame)
         path = File.join(@out_dir, format("frame_%04d.png", @frame))
-        save_opaque(Gosu.render(width, height) { @scene.draw }, path)
+        Harness.save_opaque(Gosu.render(width, height) { @scene.draw }, path)
         puts "captured #{path}"
       end
       @frame += 1
@@ -72,18 +60,6 @@ module Harness
 
     def draw
       @scene.draw
-    end
-
-    private
-
-    # The window's backbuffer is opaque, but Gosu.render keeps blended alpha
-    # (a translucent overlay leaves e.g. a=198 in the PNG), so viewers
-    # composite the capture against their own background and misrepresent the
-    # frame. Flatten alpha so captures match what the player sees.
-    def save_opaque(image, path)
-      blob = image.to_blob.dup
-      (3...blob.bytesize).step(4) { |i| blob.setbyte(i, 255) }
-      Gosu::Image.from_blob(image.width, image.height, blob).save(path)
     end
   end
 end
