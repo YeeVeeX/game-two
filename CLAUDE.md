@@ -6,30 +6,32 @@ permission for design decisions.
 
 ## Scope contract (the #1 Kethral failure was ignoring this — it is enforced here)
 
-v3 (2026-08-09): grid world v2 fun-verified; direction locked = **monster flip** — play a pack
-of 3 creatures hunting humans in a collapsing modern city. Current increment = **A0 =
-possession core ONLY** (spec: `docs/superpowers/specs/2026-08-09-a0-possession-core-design.md`;
-binding review law: `docs/design-corpus/design-review-reconciliation.md`).
+v4 (2026-08-10): A0 + A0.5 fun-verified (owner: "feels good, needs more variety and
+progression sense"). Current increment = **D0 = thin loot loop ONLY**, owner-promoted —
+explicitly NOT bundled with A1 gambits (spec:
+`docs/superpowers/specs/2026-08-10-d0-loot-loop-design.md`; staging law:
+`docs/design-corpus/death-economy-design.md`; binding review law:
+`docs/design-corpus/design-review-reconciliation.md`).
 
-**IN scope until A0 is fun-verified:**
-- **Actor/controller refactor** (kills the Player/Enemy dichotomy; factions; combat reads
-  the attacker's kit, never a `[:player]` path)
-- **3 hardcoded creature kits** (blocker / striker / lobber — spec-speak names) + Tab
-  possession swap + forced-swap on possessed death; wipe → nest respawn
-- **Exhaust** (per-creature, frame-quantized, swap-inert, data-driven) replacing free-swing;
-  **per-attacker hit cadence** replacing blanket 30f invuln; hitstop scoped to possessed body
-- **Husk-grade ally AI** (no gambits), **Rushers only** (melee humans, per-creature flow fields)
-- **Two zones**: nest (hub) + one city district; existing grid/tween/feel layer carried
-- **Determinism**: seeded PRNG in sim, swap lane + seed in harness schema, byte-identical
-  capture gate kept; carried vision-critique fixes (facing notch, hurt-flash, telegraph
-  color, wall brightness, corpses, lunge)
-- Placeholder audio hooks only (NO MIDI, NO procedural SFX — owner order)
+**IN scope until D0 is fun-verified — D0 promotes exactly THREE things:**
+- **The interact verb**: one key, one harness lane, edge-triggered across voluntary AND
+  forced swaps (law-4 semantics verbatim); one shared `World#interact` path for pickup
+  and banking
+- **The currency/loot substrate**: one fungible drop type from Rushers (data-driven
+  `drop_table`, seeded sim PRNG — its first consumer), tile-anchored drops with
+  frame-quantized decay, per-creature `carried` (swap-inert, VANISHES on that body's
+  death), pack-owned `banked` (wipe-safe, session-only), data-defined nest bank station
+- **The carry HUD**: carried numeral on the possessed bar only; banked numeral visible
+  only at the station; stable dimensions across swap/death
+- New `loot_loop.json` gate script + 3 APPENDED vision checks (existing 17 never weaken)
 
 **OUT of scope — goes to PARKING_LOT.md, never to code:**
-gambit engine + hot-reload, Shooters (ranged humans), pull economy / aggro caps, nest
-advance / district progression, plus everything already parked (procedural dungeons,
-corpse-run, stamina, loot, XP/skills, dialogue, status effects, crafting, weather, co-op,
-quests, shops, inventory, multiple weapons).
+corpse containers / own-corpse looting, body fees, wipe fines, insurance (D1/D2);
+gambit engine + hot-reload (A1), Shooters (ranged humans), pull economy / aggro caps,
+nest advance / district progression (A3); inventory grids, carry weight, rarity, drop
+types beyond one, spending banked on anything, restart persistence; plus everything
+already parked (procedural dungeons, stamina, XP/skills, dialogue, status effects,
+crafting, weather, co-op, quests, shops, multiple weapons).
 **Nothing new starts until the current loop is fun-verified by the owner.**
 
 ## De-slop + comprobations (owner-set 2026-08-09)

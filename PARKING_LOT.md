@@ -39,6 +39,18 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
 - Corpse-run gear drop (kethral's signature death tension — top candidate) — **now fully
   designed**: `docs/design-corpus/death-economy-design.md` (3-critic panel gated, D0-D3
   staging, soul model). D-track is PARALLEL to A1-A3; ordering = owner call at promotion.
+  **D0 PROMOTED 2026-08-10** (owner call; scope contract v4) — D1 corpse containers /
+  body fees, D2 wipe fine + insurance, D3 extras remain parked behind D0's fun-verify.
+
+## Parked by the D0 spec (2026-08-10 — decided against, not deferred by accident)
+
+- Carry friction (slowdown while carrying, bank fees, drop weight) — cadence was MEASURED
+  non-trivial (`drafts/_d0-cadence-measurements.md`); artificial friction only returns if
+  telemetry proves cadence collapsed, and A3 (bigger districts) outranks it even then.
+- Ally auto-pickup / drop magnetism — kills the "which body holds the value" decision.
+- Sub-pile pickup / stack limits — inventory-grid territory.
+- Restart persistence for the banked total — a save system with no fun-thesis need;
+  banked is session-only by decision (D0 spec challenge 5).
 - Third zone tier (Vonash) + BSP-generated dungeon layouts (fixed seed, learnable geography)
 - Room names on first visit ("The Entry Wound" style — cheap atmosphere)
 - Stamina economy, loot drops, skill-through-use progression
