@@ -1014,6 +1014,27 @@ class WorldTest < Minitest::Test
     refute_empty world.drops, "held interact may not ghost-pick across a forced swap"
   end
 
+  # Impl-review finding 1: a key HELD across a swap is already stopped by the
+  # controller's shared edge detector — the rearm! mask's one load-bearing
+  # scenario for an edge verb is a key pressed on the EXACT swap tick
+  # (handle_swap runs before controller.tick, so without the mask the press
+  # reads as a fresh rising edge on the NEW body). This pins the mechanism.
+  def test_interact_pressed_on_swap_tick_is_masked
+    enter_district(world)
+    isolate_humans(world, 0)
+    world.drops << { tile: [8, 13], amount: 2, frames_left: 1800, decay_frames: 1800 }
+    incoming = world.pack.members[1] # swap_next! target in roster order
+    incoming.walker.teleport(8, 13)
+    drive(world, scripted({ world.frame.to_s => %w[interact swap] }), 1)
+    assert_equal incoming, world.possessed, "swap landed on the parked body"
+    refute_empty world.drops,
+                 "interact pressed on the swap tick must be masked by rearm! " \
+                 "— firing here would be a ghost pickup from the new body"
+    drive(world, scripted({}), 2) # release
+    press_interact(world)
+    assert_empty world.drops, "a deliberate re-press picks up"
+  end
+
   def test_carried_is_swap_inert
     stage_drop_under_possessed(world)
     press_interact(world)

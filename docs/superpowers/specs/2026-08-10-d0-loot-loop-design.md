@@ -217,8 +217,11 @@ non-negotiable #3).
   `station_at(tx, ty)`. World reads it through the map — zero station knowledge outside
   data.
 - Render: a distinct fixture rectangle (palette-driven) + the **banked total as a
-  numeral floating above the station, drawn only while the possessed is within 2 tiles**.
-  Quiet-HUD law: banked is visible at the station, nowhere else.
+  numeral floating above the station, drawn only while the possessed is within 3
+  tiles** (3, not 2 — the walker commits the tile at step START while the pixel tween
+  trails, so a body that LOOKS adjacent can already read as 3 tiles away; impl-review
+  finding 2 synced this number). Quiet-HUD law: banked is visible at the station,
+  nowhere else.
 
 ### Carry HUD (the third promoted thing)
 
