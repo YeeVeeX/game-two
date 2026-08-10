@@ -1,5 +1,46 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-10 — A0.5 SHIPPED + FUN-VERIFIED; D0 (loot loop) PROMOTED — spec is NEXT
+
+**State (measured):** `main` clean at merge `157af7b` (65 commits), 96 tests / 372
+assertions green, `rake perf` PASS (p50 0.009 / p95 0.038 ms). All three gate scripts
+last measured deterministic with 17/17 vision checks (`world_loop`, `district_hunt`,
+`specials_chain`). A0.5 implementation review: `drafts/_a05-implementation-review.md`
+(ACCEPT, 3 findings folded).
+
+**Owner verdict on A0.5 (verbatim): "yeah it feels good, now needs more variety and
+progression sense."** → Owner promoted **D0 — the thin loot loop** from
+`docs/design-corpus/death-economy-design.md` (D0 staging section is the binding fuel).
+A1 gambits explicitly NOT bundled — parked behind D0's own fun-verify.
+
+**D0 loop:** kill Rusher → deterministic tile drop → pick up (new interact verb,
+edge-triggered across swaps) → carry on one body (per-creature, swap-inert) → bank at a
+data-defined Nest station → banked total permanently safe. D0 death rule: carried value
+on a dying body VANISHES (corpse containers are D1). Quiet HUD: carried on possessed
+bar; banked visible only at the station.
+
+**Cadence measured (challenge 2 resolved — see `drafts/_d0-cadence-measurements.md`):**
+bank round trips 10.4s (nearest spawn, striker) to 32.9s (deepest, blocker) vs 5s rusher
+respawn — banking is NOT trivial at current map scale; D0 proceeds without A3. Fun-verify
+telemetry (frames between bank events) re-adjudicates.
+
+**Next sequence:** D0 spec (resolve 6 design challenges: progression-signal honesty,
+cadence [done], one-increment-vs-split, seeded determinism, ownership/zone lifecycle,
+scope-contract v4 + this checkpoint) → adversarial spec review → fold →
+writing-plans → commit plan → branch `d0-loot-loop` → test-first build order (drops →
+interact → carried ledger → bank station → HUD/telemetry → `loot_loop.json` + appended
+vision checks; never weaken the 17) → rake + perf + FOUR gates → impl-diff adversarial
+review (`drafts/_d0-implementation-review.md`) → fold → re-gate → merge `--no-ff`, no
+push → owner fun-verify: "bank-now-or-push-deeper a real decision? banked total
+progression or bookkeeping? drops change your route?"
+
+**Standing rails:** grok-voice-consult for EVERY player-facing name/label (bible
+adjudicates; `loot`/`glean`/`bank`/`interact` stay spec-speak unless fiction-binding
+approves); no gear/XP/inventory/corpse-recovery/fees/insurance/shops/districts; zero
+balance constants in Ruby; window.rb ≤300; `core/input.rb` untouched unless live code
+proves otherwise; events registered on first use; session-persistence decision must be
+explicit in the spec (no smuggled save system).
+
 ## 2026-08-09 (late — A0.5 SPEC REVIEW-FOLDED) — implementation plan is NEXT
 
 **M2.1 fun-verified by owner ("feels better now, yeah")** → new directive: "add some spells
