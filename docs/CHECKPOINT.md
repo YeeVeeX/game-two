@@ -1,6 +1,39 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-10 (latest) — PILOT MODE APPROVED + PLANNED; implementation is NEXT
+## 2026-08-10 (latest) — PILOT MODE SHIPPED; owner queue: D0 fun-verify + taunt call
+
+**State (measured):** `main` clean at merge `ccfa6e1` (87 commits), 158 tests / 632
+assertions green post-merge. All FOUR gate scripts vision+determinism PASS on the
+pilot-mode branch (replay path verified untouched between the gate run and merge).
+Zero `src/` changes (`git diff main -- src/` was empty at merge — TOOLING scope held).
+
+**What shipped:** `harness/support.rb` (expand_script + save_opaque extracted,
+gosu-free), `harness/pilot_session.rb` (pure core: Parser whitelisting controller
+ACTIONS + swap, Inbox via binary size+pread with truncation tripwire, Recorder
+exporting hold-ranges-only with capture K→K−1 indexing, PilotInput, state/dump
+serializers, GotoEngine with unreachable/zone_changed/possession_changed/pack_wiped/
+guard aborts), `harness/pilot.rb` (thin window host: assigned-$stdout log — IO#reopen
+takes an EXCLUSIVE handle on mingw, found live —, FIFO one-in-flight, speed cap 60,
+quit preempts in-flight commands and always exports last.json, reset generation-tags
+capture dirs, draw+update both under the FATAL/crash.json contract), 59 new tests
+(29 pure + 7 integration + folds). `rake pilot NAME=<n> SEED=<s>`; commands doc in
+CLAUDE.md + pilot.rb header.
+
+**Acceptance proof (live, no mocks):** session `first-flight` flew the full D0 loop
+via inbox appends (goto rusher → kill → drop → pickup → gate → bank, STATE banked=1);
+window minimized during `wait 600` still advanced exactly 600 frames; both gate
+crossings aborted goto with `zone_changed`; exported script replayed via rake capture
+reproduced `banked frame=723 amount=1` and **both capture PNGs MD5 byte-identical**
+(b60c33ba…, e4d2cc81…). Transcript: `drafts/_pilot-first-flight.md`.
+
+**Adversarial review:** 7 findings, 0 HIGH (core determinism claim verified sound);
+all folded or documented — ledger in `drafts/_pilot-review.md`.
+
+**Owner queue (unchanged, now unblocked):** (1) D0 fun-verify — play the loot loop,
+answer the 3 questions in the D0 entry below; (2) A0.6 blocker-taunt promotion
+decision (PARKING_LOT.md — recommended next track, NOT started).
+
+## 2026-08-10 (earlier) — PILOT MODE APPROVED + PLANNED; implementation is NEXT
 
 **State (measured):** `main` clean at `1216d14` (78 commits), 122 tests / 475
 assertions green. D0 merged and awaiting owner fun-verify (entry below). Owner
