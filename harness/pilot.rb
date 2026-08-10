@@ -35,11 +35,13 @@ module Harness
         FileUtils.mkdir_p(capture_dir)
 
         # Own the log: everything any layer puts/warns lands in log.txt,
-        # flushed per line — shell-agnostic, no redirect needed.
-        log_path = File.join(@dir, "log.txt")
-        $stdout.reopen(log_path, "a")
-        $stdout.sync = true
-        $stderr.reopen($stdout)
+        # flushed per line — shell-agnostic, no redirect needed. Assign the
+        # globals rather than reopen: IO#reopen takes an EXCLUSIVE handle on
+        # mingw Ruby, making the log unreadable while the window lives.
+        log = File.open(File.join(@dir, "log.txt"), "a")
+        log.sync = true
+        $stdout = log
+        $stderr = log
 
         display = JSON.parse(File.read("data/display.json"), symbolize_names: true)
         @width = display[:view_width]
