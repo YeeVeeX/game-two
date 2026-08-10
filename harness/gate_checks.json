@@ -12,6 +12,10 @@
     { "id": "hud_three_bars", "check": "The HUD shows three stacked kit-colored bars; the possessed one is wider with a white edge. Bars plausibly track the fight shown." },
     { "id": "zones_distinct", "check": "Nest frames (warm dark organic) and district frames (gray concrete city blocks) read as different places at a glance." },
     { "id": "no_render_garbage", "check": "No frame shows tearing, missing map, entities outside walls, or obviously corrupted output." },
-    { "id": "wipe_reads", "check": "If a wipe frame is present, it reads as a run-ending event (dark veil + large text), distinct from ordinary combat frames. If the script never wipes, mark pass=true with why='not exercised'." }
+    { "id": "wipe_reads", "check": "If a wipe frame is present, it reads as a run-ending event (dark veil + large text), distinct from ordinary combat frames. If the script never wipes, mark pass=true with why='not exercised'." },
+    { "id": "specials_distinct", "check": "When special frames are present, Blocker reads as a heavy ring shock, Lobber as delayed targeted tiles, and Striker as a bright through-lane. The three effects must not look like one reused attack effect. If this replay has no special frames, pass with why='not exercised by this script'." },
+    { "id": "volley_telegraph_distinct", "check": "When Volley target tiles are present, their pack-orange outlined countdown is clearly different from both the human red-edge/yellow-core danger telegraph and the solid gold zone gate. If absent, pass with why='not exercised by this script'." },
+    { "id": "mark_glyph_readable", "check": "When a pack mark is present, one human has a clear reticle glyph that does not resemble the possession ring or attack tiles. If absent, pass with why='not exercised by this script'." },
+    { "id": "special_pips_track", "check": "All three HUD bars have a stable special pip. When special casts are present, the relevant body's pip visibly changes from ready to spent while the other bodies retain their own state; if no special is cast in this replay, pass based on all three pips being present and note that tracking was not exercised." }
   ]
 }

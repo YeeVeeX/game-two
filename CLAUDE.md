@@ -94,7 +94,8 @@ quests, shops, inventory, multiple weapons).
 
 ## Controls
 
-WASD / arrows = move · J / Space = attack · K / Shift = dodge · Tab = swap possession · Esc = quit
+WASD / arrows = move · J / Space = attack · K / Shift = dodge · L / E = special ·
+; / Q = mark · Tab = swap possession · Esc = quit
 
 Timebase: `Window#update` = exactly one sim tick (tick-locked; replays deterministic by tick
 count). Under load the game slows rather than skips — the top-right overrun counter makes
