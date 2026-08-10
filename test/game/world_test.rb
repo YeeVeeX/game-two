@@ -1024,4 +1024,36 @@ class WorldTest < Minitest::Test
     assert_equal amount, carrier.carried, "carried stays on the body that picked it up"
     assert_equal 0, world.possessed.carried
   end
+
+  # --- carried vanishes on death (D0 rule; corpse containers are D1) ------
+
+  def test_carried_vanishes_when_the_body_dies
+    stage_drop_under_possessed(world)
+    press_interact(world)
+    carrier = world.possessed
+    amount = carrier.carried
+    assert_operator amount, :>, 0
+    lost = []
+    world.bus.subscribe(:carried_lost) { |e| lost << e }
+    kill(carrier, by: world.humans.reject(&:dead?).first)
+    drive(world, scripted({}), 2)
+    assert_equal 0, carrier.carried, "death takes the take (D0 rule; corpses are D1)"
+    assert_equal [amount], lost.map { |e| e[:amount] }
+    assert_equal 0, world.possessed.carried, "the new body inherits nothing"
+    assert_nil drop_at(world, carrier.tile), "no corpse container in D0 — value is GONE"
+  end
+
+  def test_ally_death_also_vanishes_its_carried
+    stage_drop_under_possessed(world)
+    press_interact(world)
+    carrier = world.possessed
+    drive(world, scripted({ world.frame.to_s => ["swap"] }), 2)
+    refute_equal carrier, world.possessed
+    lost = []
+    world.bus.subscribe(:carried_lost) { |e| lost << e }
+    kill(carrier, by: world.humans.reject(&:dead?).first)
+    drive(world, scripted({}), 2)
+    assert_equal 0, carrier.carried
+    assert_equal 1, lost.length
+  end
 end

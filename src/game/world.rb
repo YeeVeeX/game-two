@@ -567,6 +567,12 @@ module Game
       @bus.subscribe(:actor_died) do |e|
         leave_corpse(e[:actor])
         spawn_drop(e[:actor])
+        # D0 death rule: a dying body's carried value VANISHES — no corpse
+        # container (that is D1's whole point). Emitted so telemetry sees
+        # the loss; the vanish itself IS the carry risk.
+        if e[:actor].faction == :pack && e[:actor].carried.positive?
+          @bus.emit(:carried_lost, actor: e[:actor], amount: e[:actor].drain_carried!)
+        end
         @pack.clear_mark! if e[:actor].equal?(marked_target)
         if e[:faction] == :human
           @feel.on_kill if e[:killer].equal?(possessed)
