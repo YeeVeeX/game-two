@@ -7,14 +7,16 @@ module Game
   class Projectile
     SIZE = 10
 
-    attr_reader :owner, :dir
+    attr_reader :owner, :dir, :knockback_tiles
 
-    def initialize(owner:, map:, tile:, dir:, damage:, range_tiles:, frames_per_tile:)
+    def initialize(owner:, map:, tile:, dir:, damage:, range_tiles:, frames_per_tile:,
+                   knockback_tiles: 0)
       @owner = owner
       @map = map
       @tile_x, @tile_y = tile
       @dir = dir
       @damage = damage
+      @knockback_tiles = knockback_tiles
       @range_left = range_tiles
       @frames_per_tile = frames_per_tile
       @countdown = frames_per_tile

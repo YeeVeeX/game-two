@@ -18,7 +18,7 @@ class ProjectileTest < Minitest::Test
     knockback_frames_per_tile: 5, interrupt_on_hit: false
   }.freeze
 
-  EVENTS = %i[attack_started attack_hit damage_dealt actor_died dodged].freeze
+  EVENTS = %i[attack_started special_started attack_hit damage_dealt actor_died dodged].freeze
 
   def bus = @bus ||= Core::EventBus.new.register(*EVENTS)
 

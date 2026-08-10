@@ -40,6 +40,14 @@ class WorldTest < Minitest::Test
     creature.take_hit(damage: creature.hp, attacker: by) until creature.dead?
   end
 
+  def possess_kit(world, kit_name)
+    world.pack.members.length.times do
+      return world.possessed if world.possessed.kit_name == kit_name
+      world.pack.swap_next!
+    end
+    flunk "could not possess #{kit_name}"
+  end
+
   # Tap-steps the possessed toward dest one tile at a time (waits out tweens
   # and hitstop). Combat can shove it around; the loop just keeps correcting.
   def navigate_to(world, dest, guard: 3000)
@@ -146,6 +154,38 @@ class WorldTest < Minitest::Test
     b = world.possessed
     assert b.exhaust_ready?, "b's own clock governs — swap transfers nothing (law 4)"
     refute a.exhaust_ready?, "a's clock keeps counting unpossessed"
+  end
+
+  def test_blocker_slam_hits_ring_and_interrupts_in_flight_rusher_windups
+    enter_district(world)
+    blocker = possess_kit(world, :blocker)
+    blocker.interrupt_action!
+    blocker.walker.teleport(12, 12)
+    (world.pack.living - [blocker]).each_with_index do |member, i|
+      member.walker.teleport(2, 12 + i)
+    end
+    a, b = world.humans.first(2)
+    world.humans.replace([a, b])
+    a.walker.teleport(11, 12)
+    b.walker.teleport(13, 12)
+    a.face([1, 0])
+    b.face([-1, 0])
+    assert a.start_attack
+    assert b.start_attack
+    assert_equal :windup, a.attack_state
+    assert_equal :windup, b.attack_state
+
+    assert blocker.start_special(blocked: world.blocked_for(blocker))
+    blocker.kit[:special][:windup_frames].times { drive(world, scripted({}), 1) }
+
+    assert_equal 20, a.hp
+    assert_equal 20, b.hp
+    assert a.staggered?
+    assert b.staggered?
+    assert_equal :idle, a.attack_state, "Slam overrides rusher interrupt_on_hit=false"
+    assert_equal :idle, b.attack_state, "every ring victim has its windup canceled"
+    assert_equal [9, 12], a.tile
+    assert_equal [15, 12], b.tile
   end
 
   def test_ally_ai_fights_humans
@@ -342,7 +382,7 @@ class WorldTest < Minitest::Test
     refute_nil corpse, "a kill leaves a corpse record where the body fell"
     assert_equal :human, corpse[:faction]
     drive(world, scripted({}), 700) # past the 600f fade
-    assert_nil world.corpses.find { |c| c[:tile] == at }, "corpses prune after the fade window"
+    refute_includes world.corpses, corpse, "the original corpse prunes after the fade window"
   end
 
   def test_human_respawns_after_kill

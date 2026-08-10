@@ -25,23 +25,73 @@ class CreatureTest < Minitest::Test
     knockback_frames_per_tile: 5
   }.freeze
 
-  EVENTS = %i[attack_started attack_hit damage_dealt actor_died dodged].freeze
+  BLOCKER_KIT = {
+    max_hp: 160, step_frames: 19, aggro_tiles: 10,
+    attack: { damage: 25, windup_frames: 8, active_frames: 4, recovery_frames: 12,
+              exhaust_frames: 60, arc: "arc3", knockback_tiles: 1, knockback_frames_per_tile: 5 },
+    special: { damage: 30, windup_frames: 12, active_frames: 4, recovery_frames: 12,
+               exhaust_frames: 600, arc: "ring", knockback_tiles: 2,
+               stagger_frames: 45, interrupt_windup: true },
+    dodge: { tiles: 1, frames_per_tile: 9, iframes: 12, cooldown_frames: 70 },
+    knockback_frames_per_tile: 5,
+    interrupt_on_hit: false
+  }.freeze
+
+  EVENTS = %i[attack_started special_started attack_hit damage_dealt actor_died dodged].freeze
 
   def bus = @bus ||= Core::EventBus.new.register(*EVENTS)
 
-  def creature(kit: KIT, tile: [3, 2], faction: :pack)
-    Game::Creature.new(bus:, kit:, kit_name: :striker, map: MAP, tile:, faction:, name: "c1")
+  def creature(kit: KIT, kit_name: :striker, tile: [3, 2], faction: :pack)
+    Game::Creature.new(bus:, kit:, kit_name:, map: MAP, tile:, faction:, name: "c1")
   end
 
   def test_exhaust_gates_attack_cadence
     c = creature
     assert c.start_attack, "first swing starts"
+    assert_equal :attack, c.current_action
     refute c.start_attack, "second swing refused while exhausted"
     44.times { c.tick_body }
     refute c.exhaust_ready?, "still exhausted at 44f"
     c.tick_body
     assert c.exhaust_ready?, "exhaust clears at 45f"
     assert c.start_attack, "swing available again at exhaust pace"
+  end
+
+  def test_special_uses_action_data_and_per_victim_registry
+    c = creature(kit: BLOCKER_KIT, kit_name: :blocker)
+    a = creature(kit: RING_KIT, tile: [2, 1], faction: :human)
+    b = creature(kit: RING_KIT, tile: [4, 1], faction: :human)
+
+    assert c.start_special(blocked: [])
+    assert_equal :special, c.current_action
+    assert_equal BLOCKER_KIT[:special], c.action_config
+    refute c.special_ready?
+    refute c.start_attack, "basic attack cannot start inside a special"
+
+    BLOCKER_KIT[:special][:windup_frames].times { c.tick_body }
+    assert_equal :active, c.attack_state
+    assert_equal 8, c.action_tiles.length
+    assert c.action_can_hit?(a)
+    c.action_hit!(a)
+    refute c.action_can_hit?(a)
+    assert c.action_can_hit?(b), "one victim must not close a multi-target cast"
+  end
+
+  def test_special_exhaust_is_independent_and_revive_resets_it_ready
+    c = creature(kit: BLOCKER_KIT, kit_name: :blocker)
+    assert c.start_special(blocked: [])
+    assert c.exhaust_ready?, "special never spends the basic-attack clock"
+    599.times { c.tick_body }
+    refute c.special_ready?
+    c.tick_body
+    assert c.special_ready?
+
+    assert c.start_special(blocked: [])
+    refute c.special_ready?
+    c.revive!(map: MAP, tile: [3, 2])
+    assert c.special_ready?, "wipe revive resets the special ready"
+    assert_nil c.current_action
+    assert_equal :idle, c.attack_state
   end
 
   def test_no_blanket_invuln_two_attackers_both_land
@@ -65,11 +115,13 @@ class CreatureTest < Minitest::Test
   def test_arc3_and_ring_attack_tiles
     c = creature(tile: [3, 2])
     c.face([1, 0])
-    assert_equal [[4, 2], [4, 3], [4, 1]], c.attack_tiles, "cardinal facing: front + diagonals"
+    assert c.start_attack
+    assert_equal [[4, 2], [4, 3], [4, 1]], c.action_tiles, "cardinal facing: front + diagonals"
     r = creature(kit: RING_KIT, tile: [3, 2])
-    assert_equal 8, r.attack_tiles.length, "ring hits all Chebyshev neighbors"
-    assert_includes r.attack_tiles, [2, 1]
-    refute_includes r.attack_tiles, [3, 2], "ring excludes own tile"
+    assert r.start_attack
+    assert_equal 8, r.action_tiles.length, "ring hits all Chebyshev neighbors"
+    assert_includes r.action_tiles, [2, 1]
+    refute_includes r.action_tiles, [3, 2], "ring excludes own tile"
   end
 
   # M2.1 fix 4: the pincer fills the adjacent ring; a dodge must pass THROUGH

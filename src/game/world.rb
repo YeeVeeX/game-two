@@ -17,7 +17,7 @@ module Game
   # M1 logic; the plumbing is determinism law 3).
   class World
     EVENTS = %i[
-      attack_started attack_hit damage_dealt actor_died dodged telegraph
+      attack_started special_started attack_hit damage_dealt actor_died dodged telegraph
       zone_entered possession_changed pack_wiped pack_respawned projectile_fired
     ].freeze
 
@@ -183,9 +183,8 @@ module Game
       @swap_was_down = down
     end
 
-    # Any active unlanded swing hits the FIRST living hostile on its tiles
-    # (attack_tiles order is deterministic: front-first for arcs, fixed ring
-    # order otherwise). Damage comes from the attacker's kit — the law.
+    # Active actions resolve from their own config. Tile order is fixed and
+    # every victim may be hit once per action.
     #
     # Dev-of-record call: a husk killed earlier in this same frame still
     # lands its active swing (uninterruptible windup + iteration order =
@@ -193,18 +192,30 @@ module Game
     # already in flight — that's the pressure husks are for.
     def resolve_attacks
       actors.each do |attacker|
-        next unless attacker.attack_can_hit?
-        if attacker.kit[:attack][:arc] == "projectile"
-          launch_projectile(attacker)
-          next
+        next unless attacker.action_active?
+        cfg = attacker.action_config
+        case cfg[:arc]
+        when "projectile"
+          launch_projectile(attacker, cfg) if attacker.action_can_trigger?
+        else
+          resolve_tile_action(attacker, cfg)
         end
-        foes = hostiles_for(attacker)
-        victim = attacker.attack_tiles.filter_map { |t| foes.find { |f| !f.dead? && f.tile == t } }.first
-        next unless victim
-        attacker.attack_landed!
-        victim.take_hit(damage: attacker.kit[:attack][:damage], attacker:,
-                        knockback_tiles: attacker.kit[:attack][:knockback_tiles],
-                        blocked: blocked_for(victim))
+      end
+    end
+
+    def resolve_tile_action(attacker, cfg)
+      foes = hostiles_for(attacker)
+      attacker.action_tiles.each do |tile|
+        victim = foes.find { |foe| !foe.dead? && foe.tile == tile }
+        next unless victim && attacker.action_can_hit?(victim)
+        attacker.action_hit!(victim)
+        landed = victim.take_hit(damage: cfg[:damage], attacker:,
+                                 knockback_tiles: cfg[:knockback_tiles],
+                                 blocked: blocked_for(victim))
+        if landed
+          victim.stagger!(cfg[:stagger_frames]) if cfg[:stagger_frames]
+          victim.interrupt_action! if cfg[:interrupt_windup]
+        end
         @bus.emit(:attack_hit, attacker:, victim:)
       end
     end
@@ -212,13 +223,13 @@ module Game
     # A projectile swing "lands" the moment it fires — the shot itself is a
     # new sim object that carries the hit forward. Diagonal facings fly
     # diagonally (grid-faithful: one tile per window on both axes).
-    def launch_projectile(attacker)
-      attacker.attack_landed!
-      cfg = attacker.kit[:attack]
+    def launch_projectile(attacker, cfg)
+      attacker.action_triggered!
       @projectiles << Projectile.new(
         owner: attacker, map:, tile: attacker.tile, dir: attacker.facing,
         damage: cfg[:damage], range_tiles: cfg[:range_tiles],
-        frames_per_tile: cfg[:projectile_frames_per_tile]
+        frames_per_tile: cfg[:projectile_frames_per_tile],
+        knockback_tiles: cfg[:knockback_tiles]
       )
       @bus.emit(:projectile_fired, attacker:)
     end
@@ -231,7 +242,7 @@ module Game
         victim = p.tick(hostiles: hostiles_for(p.owner))
         next unless victim
         victim.take_hit(damage: p.damage, attacker: p.owner,
-                        knockback_tiles: p.owner.kit[:attack][:knockback_tiles],
+                        knockback_tiles: p.knockback_tiles,
                         blocked: blocked_for(victim))
         @bus.emit(:attack_hit, attacker: p.owner, victim:)
       end

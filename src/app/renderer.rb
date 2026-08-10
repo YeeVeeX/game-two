@@ -20,6 +20,8 @@ module App
     TELEGRAPH_CORE = Gosu::Color.new(255, 250, 210, 60) # ...around the yellow core (≠ gate gold)
     SLASH          = Gosu::Color.new(220, 255, 255, 255)
     WINDUP         = Gosu::Color.new(90, 255, 255, 255)
+    SPECIAL_WINDUP = Gosu::Color.new(120, 255, 190, 90)
+    SPECIAL_ACTIVE = Gosu::Color.new(235, 255, 225, 150)
     PROJECTILE     = Gosu::Color.new(255, 250, 235, 170)
     NOTCH          = Gosu::Color.new(255, 20, 14, 12)
     HP_BACK        = Gosu::Color.new(255, 50, 20, 30)
@@ -146,8 +148,13 @@ module App
 
     def draw_attack(c, ts)
       return unless %i[windup active].include?(c.attack_state)
-      col = c.attack_state == :windup ? WINDUP : SLASH
-      c.attack_tiles.each do |(tx, ty)|
+      col =
+        if c.current_action == :special
+          c.attack_state == :windup ? SPECIAL_WINDUP : SPECIAL_ACTIVE
+        else
+          c.attack_state == :windup ? WINDUP : SLASH
+        end
+      c.action_tiles.each do |(tx, ty)|
         Gosu.draw_rect(tx * ts + 4, ty * ts + 4, ts - 8, ts - 8, col)
       end
     end
@@ -170,10 +177,10 @@ module App
         if frac.positive?
           Gosu.draw_rect(x, y, (w * frac).round, 14, KIT_BODY[m.kit_name])
         end
-        if mine && !m.dead?
-          pip = m.exhaust_ready? ? POSSESSED_RING : HP_BACK
-          Gosu.draw_rect(x + w + 8, y + 2, 10, 10, pip)
-        end
+        attack_pip = !m.dead? && m.exhaust_ready? ? POSSESSED_RING : HP_BACK
+        special_pip = !m.dead? && m.kit[:special] && m.special_ready? ? KIT_BODY[m.kit_name] : HP_BACK
+        Gosu.draw_rect(300, y + 2, 10, 10, attack_pip)
+        Gosu.draw_rect(314, y + 2, 10, 10, special_pip)
       end
     end
 

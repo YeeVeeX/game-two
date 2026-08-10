@@ -16,10 +16,13 @@ class PackTest < Minitest::Test
     max_hp: 100, step_frames: 15, aggro_tiles: 8,
     attack: { damage: 25, windup_frames: 6, active_frames: 4, recovery_frames: 10,
               exhaust_frames: 45, arc: "arc3", knockback_tiles: 1, knockback_frames_per_tile: 5 },
+    special: { damage: 30, windup_frames: 12, active_frames: 4, recovery_frames: 12,
+               exhaust_frames: 600, arc: "ring", knockback_tiles: 2,
+               stagger_frames: 45, interrupt_windup: true },
     dodge: { tiles: 2, frames_per_tile: 7, iframes: 18, cooldown_frames: 50 },
     knockback_frames_per_tile: 5
   }.freeze
-  EVENTS = %i[attack_started attack_hit damage_dealt actor_died dodged].freeze
+  EVENTS = %i[attack_started special_started attack_hit damage_dealt actor_died dodged].freeze
 
   def bus = @bus ||= Core::EventBus.new.register(*EVENTS)
 
@@ -99,5 +102,37 @@ class PackTest < Minitest::Test
     ctl.rearm!(input)              # swap happened while dodge held
     ctl.tick(c, input, nil)
     assert_equal [2, 1], c.tile, "held dodge masked -> falls through to a normal step"
+  end
+
+  def test_special_is_rising_edge_and_masks_across_swap
+    frames = (0..605).to_h { |frame| [frame, [:special]] }
+    frames[606] = []
+    frames[607] = [:special]
+    input = Core::ScriptedInput.new(frames:)
+    ctl = Game::PossessedController.new
+    c = pack.possessed
+    starts = 0
+    bus.subscribe(:special_started) { starts += 1 }
+
+    608.times do |frame|
+      input.update(frame)
+      ctl.tick(c, input, nil)
+      c.tick_body
+      bus.process
+    end
+
+    assert_equal 2, starts, "held key casts once; release/re-press casts again after recharge"
+
+    fresh = pack.members[1]
+    masked = Core::ScriptedInput.new(frames: { 0 => [:special], 1 => [], 2 => [:special] })
+    masked.update(0)
+    ctl.rearm!(masked)
+    ctl.tick(fresh, masked, nil)
+    assert_nil fresh.current_action, "held special cannot ghost-cast into a swapped body"
+    masked.update(1)
+    ctl.tick(fresh, masked, nil)
+    masked.update(2)
+    ctl.tick(fresh, masked, nil)
+    assert_equal :special, fresh.current_action
   end
 end

@@ -9,11 +9,12 @@ module Game
   # what the hand expects; masking it made every Tab a micro-stall (M2.1
   # fix 3).
   class PossessedController
-    ACTIONS = %i[left right up down attack dodge].freeze
-    EDGE_TRIGGERED = %i[attack dodge].freeze
+    ACTIONS = %i[left right up down attack dodge special].freeze
+    EDGE_TRIGGERED = %i[attack dodge special].freeze
 
     def initialize
       @masked = []
+      @edge_was_down = {}
     end
 
     def rearm!(input)
@@ -22,6 +23,7 @@ module Game
 
     def tick(creature, input, _view)
       @masked.reject! { |a| !input.down?(a) }
+      special_pressed = pressed?(input, :special)
       return if creature.dead?
 
       dir = held_direction(input)
@@ -31,6 +33,7 @@ module Game
       elsif dir != [0, 0]
         creature.step(dir[0], dir[1], blocked: @blocked || [])
       end
+      creature.start_special(blocked: @blocked || []) if special_pressed
       creature.start_attack if down?(input, :attack)
     end
 
@@ -43,6 +46,13 @@ module Game
     private
 
     def down?(input, action) = input.down?(action) && !@masked.include?(action)
+
+    def pressed?(input, action)
+      now = down?(input, action)
+      pressed = now && !@edge_was_down.fetch(action, false)
+      @edge_was_down[action] = now
+      pressed
+    end
 
     def held_direction(input)
       dx = (down?(input, :right) ? 1 : 0) - (down?(input, :left) ? 1 : 0)
