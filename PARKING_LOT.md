@@ -57,18 +57,26 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
 
 ## Owner playtest feedback awaiting promotion (recorded 2026-08-10, mid-D0)
 
-- **Blocker taunt ("exeta res" analog — owner ask, verbatim: "the tank is too weak, and
-  should get more aggro from the enemies or have an exeta res-like spell to pull aggro").**
-  Dev-of-record analysis: the sim has NO aggro system — humans target the nearest hostile
-  (`AiController#nearest`), so "more aggro" would mean inventing invisible threat
-  weighting. The readable, Tibia-faithful fix is a TAUNT VERB: press it, humans within
-  range re-target the blocker for N frames. Symmetry with the shipped mark (mark orders
-  allies onto one target; taunt orders enemies onto one body) — it is the blocker's
-  missing pack identity. Design questions for its spec: second special vs replacing
-  Slam vs a shared pack-command slot (rails currently say ONE special per kit); duration
-  vs the 45f stagger; whether taunted humans ignore the leash. Touchstones: Tibia
-  `exeta res` (knight challenge), the A0.5 mark. **Top candidate for the post-D0
-  next-track recommendation.**
+- **Blocker taunt — PROMOTED 2026-08-10 (owner call via structured Q&A; scope contract
+  v5).** Original ask verbatim: "the tank is too weak, and should get more aggro from
+  the enemies or have an exeta res-like spell to pull aggro." Dev-of-record analysis
+  that carried into the spec: the sim has NO aggro system — humans target the nearest
+  hostile (`AiController#nearest`), so "more aggro" would mean inventing invisible
+  threat weighting; the readable, Tibia-faithful fix is a TAUNT VERB (symmetry with the
+  shipped mark: mark orders allies onto one target, taunt orders enemies onto one
+  body). Spec: `docs/superpowers/specs/2026-08-10-a0.6-blocker-taunt.md`.
+
+## D0 fun-verify verdict (owner, 2026-08-10 — recorded, NOT yet acted on)
+
+- **"Bank now or push deeper" = "No, just a chore."** Progression/variety question:
+  "Not sure" (inconclusive). D0's substrate works (all mechanics verified); the FUN
+  failed. Dev-of-record read: stakes are too low because combat itself carries no
+  threat texture — rushers die trivially, nothing endangers the carry, so banking is
+  errand-running. Taunt (A0.6) is upstream of this: sticky, controllable fights are
+  what make a carried pile feel at risk. **Decision: do NOT tune D0 blind now**
+  (drop amounts / decay pressure / station placement wait); re-run the D0 fun-verify
+  AFTER A0.6 ships and only then tune with fresh signal. D1 (corpse containers)
+  remains parked behind that re-verify.
 
 ## A1+ queue (cut from Increment A by the 2026-08-09 dual review — each behind its own fun-verify)
 

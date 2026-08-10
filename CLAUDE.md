@@ -6,32 +6,30 @@ permission for design decisions.
 
 ## Scope contract (the #1 Kethral failure was ignoring this — it is enforced here)
 
-v4 (2026-08-10): A0 + A0.5 fun-verified (owner: "feels good, needs more variety and
-progression sense"). Current increment = **D0 = thin loot loop ONLY**, owner-promoted —
-explicitly NOT bundled with A1 gambits (spec:
-`docs/superpowers/specs/2026-08-10-d0-loot-loop-design.md`; staging law:
-`docs/design-corpus/death-economy-design.md`; binding review law:
-`docs/design-corpus/design-review-reconciliation.md`).
+v5 (2026-08-10): A0 + A0.5 fun-verified. D0 loot loop SHIPPED (merge `386d1e4`);
+owner fun-verify verdict: **"bank or push deeper" = a chore** — D0's substrate stays,
+its FUN is unproven, and it is NOT tuned blind (re-verify + tune AFTER A0.6; verdict
+detail in PARKING_LOT.md). Current increment = **A0.6 = blocker taunt ONLY**,
+owner-promoted (his ask: "the tank is too weak… an 'exeta res'-like spell to pull
+aggro"). Spec: `docs/superpowers/specs/2026-08-10-a0.6-blocker-taunt.md`.
 
-**IN scope until D0 is fun-verified — D0 promotes exactly THREE things:**
-- **The interact verb**: one key, one harness lane, edge-triggered across voluntary AND
-  forced swaps (law-4 semantics verbatim); one shared `World#interact` path for pickup
-  and banking
-- **The currency/loot substrate**: one fungible drop type from Rushers (data-driven
-  `drop_table`, seeded sim PRNG — its first consumer), tile-anchored drops with
-  frame-quantized decay, per-creature `carried` (swap-inert, VANISHES on that body's
-  death), pack-owned `banked` (wipe-safe, session-only), data-defined nest bank station
-- **The carry HUD**: carried numeral on the possessed bar only; banked numeral visible
-  only at the station; stable dimensions across swap/death
-- New `loot_loop.json` gate script + 3 APPENDED vision checks (existing 17 never weaken)
+**IN scope until A0.6 is fun-verified — A0.6 promotes exactly TWO things:**
+- **The taunt verb**: a blocker-only pressable that forces humans within range to
+  target the blocker's BODY for a data-defined duration (readable aggro, no invisible
+  threat math). Symmetry law: mark orders allies onto one target; taunt orders enemies
+  onto one body. All numbers in `data/balance/combat.json`.
+- **Taunt readability**: the taunted state must be visible on both ends (blocker
+  flare + retarget behavior) and covered by a gate script + APPENDED vision checks
+  (existing 20 never weaken).
 
 **OUT of scope — goes to PARKING_LOT.md, never to code:**
-corpse containers / own-corpse looting, body fees, wipe fines, insurance (D1/D2);
-gambit engine + hot-reload (A1), Shooters (ranged humans), pull economy / aggro caps,
-nest advance / district progression (A3); inventory grids, carry weight, rarity, drop
-types beyond one, spending banked on anything, restart persistence; plus everything
-already parked (procedural dungeons, stamina, XP/skills, dialogue, status effects,
-crafting, weather, co-op, quests, shops, multiple weapons).
+D0 tuning (drop amounts, decay, station placement — waits for the post-A0.6
+re-verify); corpse containers / own-corpse looting, body fees, wipe fines, insurance
+(D1/D2); gambit engine + hot-reload (A1), Shooters, pull economy / aggro soft-caps
+(A2 — taunt is a VERB, not a threat system), nest advance (A3); inventory grids,
+carry weight, rarity, new drop types, spending banked, restart persistence; plus
+everything already parked (procedural dungeons, stamina, XP/skills, dialogue, status
+effects, crafting, weather, co-op, quests, shops, multiple weapons).
 **Nothing new starts until the current loop is fun-verified by the owner.**
 
 ## De-slop + comprobations (owner-set 2026-08-09)
