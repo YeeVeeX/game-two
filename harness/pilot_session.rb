@@ -240,9 +240,18 @@ module Harness
       def down?(action) = @current.include?(action)
     end
 
-    # --- state serializers (world -> plain JSON-able hashes) ---------------
-
     module_function
+
+    # The ONE way a pilot tick happens — tests and the window shell share it,
+    # so the recorded stream is exactly what the sim consumed.
+    def advance(world, input, recorder, actions)
+      input.set(actions)
+      recorder.record_frame(actions)
+      input.update(world.frame)
+      world.tick(input)
+    end
+
+    # --- state serializers (world -> plain JSON-able hashes) ---------------
 
     def state_hash(world)
       p = world.possessed
