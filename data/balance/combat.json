@@ -10,6 +10,9 @@
     "mark_leash_tiles": 14
   },
   "respawn_frames": 90,
+  "drops": {
+    "decay_frames": 1800
+  },
   "kits": {
     "striker": {
       "max_hp": 80,
@@ -119,6 +122,7 @@
       "step_frames": 16,
       "aggro_tiles": 10,
       "respawn_frames": 300,
+      "drop_table": [1, 1, 2],
       "attack": {
         "damage": 12,
         "windup_frames": 20,

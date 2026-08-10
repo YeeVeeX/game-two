@@ -796,4 +796,123 @@ class WorldTest < Minitest::Test
     drive(w, scripted({}), 400)
     assert w.humans.all? { |h| roster_before.include?(h) }, "nothing ever respawns"
   end
+
+  # --- drops (D0) --------------------------------------------------------
+
+  def drop_at(world, tile) = world.drops.find { |d| d[:tile] == tile }
+
+  # Park the district down to N humans in the far corner, staggered long —
+  # combat noise cannot touch a drops assertion. Kills happen by direct
+  # take_hit wherever the victim stands (the stage_volley/stage_mark
+  # doctrine: teleport + stagger, deterministic by construction). [40,23+i]
+  # is open corridor 25+ tiles from the pack's walk-in position — outside
+  # every aggro radius, and a scheduled respawn re-homes to [30,18], which
+  # still can't reach the pack.
+  def isolate_humans(world, count = 2)
+    kept = world.humans.first(count)
+    world.humans.replace(kept)
+    kept.each_with_index do |h, i|
+      h.walker.teleport(40, 23 + i)
+      h.stagger!(30_000)
+    end
+    drive(world, scripted({}), 60) # settle walk-in combat (tweens, knockback)
+    kept
+  end
+
+  def test_rusher_death_spawns_drop_on_corpse_tile
+    enter_district(world)
+    victim = isolate_humans(world).first
+    events = []
+    world.bus.subscribe(:drop_spawned) { |e| events << e }
+    kill(victim, by: world.possessed)
+    drive(world, scripted({}), 1) # flush bus
+    drop = drop_at(world, victim.tile)
+    refute_nil drop, "rusher death must leave a drop on its tile"
+    assert_includes [1, 2], drop[:amount], "amount comes from drop_table [1,1,2]"
+    assert_equal DATA["balance/combat"][:drops][:decay_frames], drop[:frames_left],
+                 "decay clock starts from data"
+    assert_equal 1, events.length
+    assert_equal drop[:amount], events.first[:amount]
+  end
+
+  def test_drop_amounts_are_seed_deterministic
+    amounts = 2.times.map do
+      w = Game::World.new(DATA, seed: 7)
+      drive(w, scripted(hold(:right, 0, STEP * 30 - 1)), STEP * 30)
+      w.humans.first(3).each { |h| kill(h, by: w.possessed) }
+      drive(w, scripted({}), 1)
+      w.drops.map { |d| d[:amount] }
+    end
+    assert_equal amounts[0], amounts[1], "same seed + same kills = same rolls"
+  end
+
+  def test_pack_kit_death_drops_nothing
+    enter_district(world)
+    victims = isolate_humans(world)
+    ally = (world.pack.living - [world.possessed]).first
+    kill(ally, by: victims.first)
+    drive(world, scripted({}), 1)
+    assert_nil drop_at(world, ally.tile), "pack kits have no drop_table"
+  end
+
+  def test_same_tile_kills_merge_without_resetting_decay
+    enter_district(world)
+    a, b = isolate_humans(world)
+    b.walker.teleport(*a.tile) # stack the pair: both die on one tile
+    tile = a.tile
+    kill(a, by: world.possessed)
+    drive(world, scripted({}), 1)
+    first_amount = drop_at(world, tile)[:amount]
+    drive(world, scripted({}), 100) # age the pile
+    aged = drop_at(world, tile)[:frames_left]
+    kill(b, by: world.possessed)
+    drive(world, scripted({}), 1)
+    assert_equal 1, world.drops.count { |d| d[:tile] == tile }, "one drop per tile, always"
+    drop = drop_at(world, tile)
+    assert_operator drop[:amount], :>, first_amount, "amounts sum"
+    assert_operator drop[:frames_left], :<=, aged,
+                    "merge keeps the FIRST kill's clock — a resetting clock is an " \
+                    "immortal floor stash (spec review finding 3)"
+  end
+
+  # Injected short-lived drops keep decay tests to a handful of frames —
+  # waiting out the real 1800f clock amid live respawns would be flaky.
+  def test_drop_decays_to_zero_with_event
+    enter_district(world)
+    isolate_humans(world, 0)
+    world.drops << { tile: [8, 13], amount: 2, frames_left: 5, decay_frames: 1800 }
+    decayed = []
+    world.bus.subscribe(:drop_decayed) { |e| decayed << e }
+    drive(world, scripted({}), 6)
+    assert_nil drop_at(world, [8, 13]), "expired drop is removed"
+    assert_equal 1, decayed.length
+    assert_equal [8, 13], decayed.first[:tile]
+    assert_equal 2, decayed.first[:amount]
+  end
+
+  def test_drop_decay_pauses_during_hitstop
+    enter_district(world)
+    isolate_humans(world, 0)
+    world.drops << { tile: [8, 13], amount: 1, frames_left: 500, decay_frames: 1800 }
+    world.feel.on_kill # kill hitstop: sim frozen while @frame advances
+    hitstop = DATA["balance/combat"][:feel][:hitstop_frames_kill]
+    drive(world, scripted({}), hitstop)
+    assert_equal 500, drop_at(world, [8, 13])[:frames_left],
+                 "decay must not tick during hitstop (frames_left pattern)"
+  end
+
+  def test_drops_decay_across_zones
+    enter_district(world)
+    isolate_humans(world, 0)
+    world.possessed.walker.teleport(1, 13)
+    decay_in = STEP * 4 + 40
+    world.drops << { tile: [8, 13], amount: 1, frames_left: decay_in, decay_frames: 1800 }
+    decayed = []
+    world.bus.subscribe(:drop_decayed) { |e| decayed << e }
+    drive(world, scripted(hold(:left, world.frame, world.frame + STEP * 4)), STEP * 4)
+    assert_equal "nest", world.zone_name
+    drive(world, scripted({}), 60)
+    assert_equal 1, decayed.length, "district drop rots while the pack idles in the nest"
+    assert_equal [8, 13], decayed.first[:tile]
+  end
 end
