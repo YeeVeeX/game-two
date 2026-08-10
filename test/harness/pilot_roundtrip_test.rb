@@ -87,15 +87,33 @@ class PilotRoundtripTest < Minitest::Test
     # [29,8] is the district gate — arriving there flips zones mid-goto.
     assert_equal :zone_changed, result[:status] if result[:status] != :arrived
 
-    # In the district: walk at the nearest rusher and swing while moving so
-    # hitstop from the hit lands INSIDE the recorded hold.
+    # In the district: goto walks around the building blocks to the tile
+    # left of the nearest rusher, THEN a greedy input chase brawls until
+    # hitstop actually lands inside the recorded stream. The oracle counts
+    # hitstop ticks — merely taking damage doesn't set hitstop
+    # (on_player_hit deliberately skips it), so a weaker check could pass
+    # with the named invariant unexercised (review finding 3).
     engine_target = live.humans.min_by { |h| (h.tile[0] - live.possessed.tile[0]).abs }
     goto_result = goto!(live, input, recorder,
                         [engine_target.tile[0] - 1, engine_target.tile[1]], guard: 3000)
     assert_equal :arrived, goto_result[:status]
-    120.times { Harness::Pilot.advance(live, input, recorder, %i[right attack]) }
-    assert live.feel.hitstop? || live.humans.any? { |h| h.hp < h.max_hp } || live.possessed.hp < live.possessed.max_hp,
-           "the brawl must have actually engaged for this test to bite"
+    hitstop_ticks = 0
+    400.times do
+      hitstop_ticks += 1 if live.feel.hitstop?
+      break if hitstop_ticks > 12 # a hit landed AND its stop spanned ticks
+      target = live.humans.reject(&:dead?)
+                   .min_by { |h| (h.tile[0] - live.possessed.tile[0]).abs +
+                                 (h.tile[1] - live.possessed.tile[1]).abs }
+      break unless target
+      dx = target.tile[0] - live.possessed.tile[0]
+      dy = target.tile[1] - live.possessed.tile[1]
+      actions = [:attack]
+      actions << (dx.positive? ? :right : :left) unless dx.zero?
+      actions << (dy.positive? ? :down : :up) unless dy.zero?
+      Harness::Pilot.advance(live, input, recorder, actions)
+    end
+    assert hitstop_ticks.positive?,
+           "hitstop must land inside the recorded stream for this test to bite"
 
     script = recorder.to_script(seed: SEED, width: 960, height: 540, out_dir: "captures/rt")
     assert_equal signature(live), signature(replay(script))

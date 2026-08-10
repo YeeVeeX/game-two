@@ -14,6 +14,15 @@
 #   [guard=N] · capture [label] · state · dump <name> · speed <1..60> ·
 #   export [name] · reset [seed] · quit
 #
+# Notes (review-folded):
+# - `quit` in a batch runs FIFO like anything else; appended while a
+#   command is IN FLIGHT it preempts (drops the queue + the running
+#   command) — a fat-fingered `wait 100000` can always be escaped. Both
+#   paths export last.json before closing: history is never lost.
+# - Two labeled captures on the same frame write two PNGs (identical
+#   pixels — idle draw is stateless) but the export lists the frame once;
+#   replay produces one file for it.
+#
 # This file is a THIN interpreter: every decision beyond Gosu calls lives
 # in harness/pilot_session.rb, under tests.
 require "json"
@@ -32,7 +41,6 @@ module Harness
         @seed = seed
         @dir = File.join("tmp", "pilot", name)
         FileUtils.mkdir_p(@dir)
-        FileUtils.mkdir_p(capture_dir)
 
         # Own the log: everything any layer puts/warns lands in log.txt,
         # flushed per line — shell-agnostic, no redirect needed. Assign the
@@ -65,21 +73,31 @@ module Harness
         handle_fatal(e)
       end
 
+      # Same crash contract as update: idle mode draws every vsync, so a
+      # renderer raise without the export would lose the session exactly
+      # when its history matters most (review finding 1).
       def draw
         @scene.draw
+      rescue StandardError => e
+        handle_fatal(e)
       end
 
       private
 
-      def capture_dir = File.join("captures", "pilot", @name)
+      # Generation-suffixed so `reset` can never overwrite an earlier
+      # generation's PNG at the same frame index (review finding 2).
+      def session_tag = "#{@name}_r#{@generation}"
+      def capture_dir = File.join("captures", "pilot", session_tag)
       def world = @scene.world
 
       def boot_session(seed: nil)
+        @generation = (@generation || 0) + 1
         @seed = seed if seed
         @scene = Scenes::WorldScene.new(width: @width, height: @height, seed: @seed)
         @input = PilotInput.new
         @recorder = Recorder.new
         @current = nil
+        FileUtils.mkdir_p(capture_dir)
       end
 
       def poll_inbox
@@ -90,10 +108,31 @@ module Harness
           next unless parsed # blank line
           if parsed[:err]
             puts "ERR #{parsed[:err]} (line: #{line.inspect})"
+          elsif parsed[:cmd] == :quit && @current
+            preempt_quit(parsed.merge(line:))
+            return
           else
             @queue << parsed.merge(line:)
           end
         end
+      end
+
+      # Quit is FIFO like any command in a batch, but PREEMPTS when a
+      # command is in flight (review finding 5): a fat-fingered
+      # `wait 100000` must always be escapable without losing the
+      # recorder. Batch appends ending in quit keep running their earlier
+      # lines — nothing was in flight when they were polled.
+      def preempt_quit(cmd)
+        puts "ERR quit preempted #{@queue.length + 1} pending command(s)"
+        @queue.clear
+        @current = nil
+        finish_quit(cmd)
+      end
+
+      def finish_quit(cmd)
+        export_script(File.join(@dir, "last.json"))
+        ack(cmd)
+        close!
       end
 
       # ONE command in flight; sim-consuming commands advance <= @speed
@@ -117,7 +156,7 @@ module Harness
         when :speed then @speed = cmd[:value]; ack(cmd); true
         when :export then run_export(cmd)
         when :reset then run_reset(cmd)
-        when :quit then ack(cmd); close!; true
+        when :quit then finish_quit(cmd); true
         end
       end
 
@@ -173,13 +212,16 @@ module Harness
       end
 
       def run_export(cmd)
-        name = cmd[:name] || "session"
-        path = File.join(@dir, "#{name}.json")
+        export_script(File.join(@dir, "#{cmd[:name] || 'session'}.json"))
+        true
+      end
+
+      def export_script(path, dir_suffix: "replay")
         script = @recorder.to_script(seed: @seed, width: @width, height: @height,
-                                     out_dir: File.join("captures", "pilot", "#{@name}_replay"))
+                                     out_dir: File.join("captures", "pilot",
+                                                        "#{session_tag}_#{dir_suffix}"))
         File.write(path, JSON.pretty_generate(script))
         puts "EXPORTED #{path} run_until=#{script[:run_until]}"
-        true
       end
 
       def run_reset(cmd)
@@ -197,10 +239,7 @@ module Harness
       def handle_fatal(error)
         puts "FATAL #{error.class}: #{error.message}"
         error.backtrace.first(15).each { |l| puts "  #{l}" }
-        crash = @recorder.to_script(seed: @seed, width: @width, height: @height,
-                                    out_dir: File.join("captures", "pilot", "#{@name}_crash"))
-        File.write(File.join(@dir, "crash.json"), JSON.pretty_generate(crash))
-        puts "EXPORTED #{File.join(@dir, 'crash.json')} run_until=#{crash[:run_until]}"
+        export_script(File.join(@dir, "crash.json"), dir_suffix: "crash")
         close!
       end
     end

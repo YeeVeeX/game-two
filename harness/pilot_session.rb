@@ -147,6 +147,9 @@ module Harness
     # ever moving the writer's append position; only complete \n-terminated
     # lines are consumed (a partial write waits for its newline). A file
     # that SHRANK was rewritten, not appended — reset and tell the caller.
+    # NB an EQUAL-OR-LONGER rewrite is undetectable (the offset splices into
+    # the new bytes): truncation detection is an accident tripwire, the
+    # append-only contract is the actual rule.
     class Inbox
       def initialize(path)
         @path = path
