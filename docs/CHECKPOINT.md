@@ -1,5 +1,36 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-10 (latest) — PILOT MODE APPROVED + PLANNED; implementation is NEXT
+
+**State (measured):** `main` clean at `1216d14` (78 commits), 122 tests / 475
+assertions green. D0 merged and awaiting owner fun-verify (entry below). Owner
+approved **pilot mode** ("yes I approve the upgrade, proceed as you consider best")
+— a file-driven interactive harness so the dev of record can play/inspect/capture the
+real game. Plan mode was used; the plan is **approved and committed** at
+`docs/superpowers/plans/2026-08-10-pilot-mode.md` (copied from the approved plan file;
+a Plan agent pressure-tested the design — 11 findings, 2 HIGH: goto zone-safety,
+capture frame off-by-one — ALL folded into the committed plan).
+
+**Pilot mode in one line:** commands appended to `tmp/pilot/<NAME>/inbox.txt` drive
+the REAL sim+renderer in a real Gosu window (`hold/press/wait/goto/capture/state/dump/
+speed/export/reset/quit`); output streams to `log.txt`; idle = frozen sim; every
+session exports to the standard replay-script format, replayable via rake capture/gate.
+Scope class: TOOLING (zero src/ changes; game scope contract untouched). Branch
+`pilot-mode`, adversarial review, merge --no-ff, NO push.
+
+**Task sequence (from the committed plan, execute in order):** (1) extract
+`harness/support.rb` (expand_script + save_opaque; gate byte-identity proof) → (2)
+pure tests first for parser/inbox/recorder/capture-indexing → (3) implement
+`pilot_session.rb` → (4) headless round-trip + goto tests against the REAL World
+(incl. hitstop-spanning hold; goto aborts) → (5) `pilot.rb` window host + rake pilot
+task → (6) live verification: fly the D0 loop via inbox, export, MD5 pilot-PNG vs
+replay-PNG byte-identical (THE acceptance bar), bank transcript to
+`drafts/_pilot-first-flight.md` → (7) adversarial review → fold → 4 gates green →
+merge. All invariants and folded findings are IN the plan file — read it first.
+
+**Also pending from this session:** owner fun-verify of D0 (3 questions in the entry
+below); blocker-taunt candidate parked in PARKING_LOT.md.
+
 ## 2026-08-10 (later) — D0 SHIPPED; AWAITING OWNER FUN-VERIFY
 
 **State (measured):** `main` clean at merge `386d1e4` (75 commits), 122 tests / 475
