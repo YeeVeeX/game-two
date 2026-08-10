@@ -122,6 +122,44 @@ class WorldTest < Minitest::Test
     refute_equal staggered_body, world.possessed, "Tab works again once the stagger expires"
   end
 
+  def test_tab_refused_during_special_windup
+    blocker = possess_kit(world, :blocker)
+    assert blocker.start_special(blocked: world.blocked_for(blocker))
+    drive(world, scripted({ world.frame.to_s => ["swap"] }), 1)
+    assert_same blocker, world.possessed
+    assert_equal :windup, blocker.attack_state
+  end
+
+  def test_tab_refused_during_special_active
+    blocker = possess_kit(world, :blocker)
+    assert blocker.start_special(blocked: world.blocked_for(blocker))
+    blocker.kit[:special][:windup_frames].times { drive(world, scripted({}), 1) }
+    assert_equal :active, blocker.attack_state
+    drive(world, scripted({ world.frame.to_s => ["swap"] }), 1)
+    assert_same blocker, world.possessed
+  end
+
+  def test_tab_allowed_during_special_recovery
+    blocker = possess_kit(world, :blocker)
+    assert blocker.start_special(blocked: world.blocked_for(blocker))
+    frames = blocker.kit[:special][:windup_frames] + blocker.kit[:special][:active_frames]
+    frames.times { drive(world, scripted({}), 1) }
+    assert_equal :recovery, blocker.attack_state
+    drive(world, scripted({ world.frame.to_s => ["swap"] }), 1)
+    refute_same blocker, world.possessed
+  end
+
+  def test_forced_swap_mid_special_cancels_without_refund
+    blocker = possess_kit(world, :blocker)
+    hunter = world.pack.members.find { |member| !member.equal?(blocker) }
+    assert blocker.start_special(blocked: world.blocked_for(blocker))
+    kill(blocker, by: hunter)
+    drive(world, scripted({}), 1)
+    refute_same blocker, world.possessed
+    assert_nil blocker.current_action
+    refute blocker.special_ready?, "death cancels the cast but does not refund its clock"
+  end
+
   def test_wipe_respawns_whole_pack_in_nest
     wiped = false
     world.bus.subscribe(:pack_wiped) { wiped = true }

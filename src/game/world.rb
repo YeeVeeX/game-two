@@ -174,7 +174,10 @@ module Game
     # death penalty never lands (law 2).
     def handle_swap(input)
       down = input.down?(:swap)
-      if down && !@swap_was_down && @pack.living.length > 1 && !possessed.staggered?
+      can_swap = @pack.living.length > 1 &&
+                 !possessed.staggered? &&
+                 !possessed.special_committed?
+      if down && !@swap_was_down && can_swap
         from = possessed
         @pack.swap_next!
         @controller.rearm!(input)
