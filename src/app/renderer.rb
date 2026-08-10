@@ -154,12 +154,17 @@ module App
     end
 
     # Banked total shows ONLY at the station, only when the possessed is
-    # near (quiet-HUD law: the world HUD never carries the score).
+    # near (quiet-HUD law: the world HUD never carries the score). Radius 3,
+    # not 2: GridWalker commits the tile at step START while the pixel tween
+    # trails, so a body that LOOKS adjacent can already be 3 tiles away —
+    # the numeral must read whenever the player would say "I'm at it".
+    LEDGER_RADIUS_TILES = 3
+
     def draw_station_ledger(world)
       world.map.stations.each do |s|
         tx, ty = s[:at]
         px, py = world.possessed.tile
-        next unless [(tx - px).abs, (ty - py).abs].max <= 2
+        next unless [(tx - px).abs, (ty - py).abs].max <= LEDGER_RADIUS_TILES
         ts = world.map.tile_size
         text = world.pack.banked.to_s
         hud_font.draw_text(text, tx * ts + (ts - hud_font.text_width(text)) / 2,
