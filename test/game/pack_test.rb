@@ -75,6 +75,24 @@ class PackTest < Minitest::Test
     assert_nil pack.forced_swap!, "no survivor to swap to"
   end
 
+  def test_mark_is_pack_owned_and_survives_possession_changes
+    first = Object.new
+    second = Object.new
+    pack.mark!(first)
+    pack.swap_next!
+    assert_same first, pack.mark
+
+    killer = member([2, 2], "k")
+    4.times { pack.possessed.take_hit(damage: 25, attacker: killer) }
+    pack.forced_swap!
+    assert_same first, pack.mark
+
+    pack.mark!(second)
+    assert_same second, pack.mark
+    pack.clear_mark!
+    assert_nil pack.mark
+  end
+
   def test_possessed_controller_edge_trigger_masks_held_combat_keys
     input = Core::ScriptedInput.new(frames: { 0 => %i[attack right], 1 => %i[attack right], 2 => [], 3 => %i[attack] })
     ctl = Game::PossessedController.new
@@ -134,5 +152,13 @@ class PackTest < Minitest::Test
     masked.update(2)
     ctl.tick(fresh, masked, nil)
     assert_equal :special, fresh.current_action
+  end
+
+  def test_mark_input_is_safe_with_nil_controller_view
+    input = Core::ScriptedInput.new(frames: { 0 => [:mark] })
+    ctl = Game::PossessedController.new
+    input.update(0)
+    ctl.tick(pack.possessed, input, nil)
+    assert_nil pack.possessed.current_action
   end
 end

@@ -73,6 +73,22 @@ class WorldTest < Minitest::Test
     world.impacts.first
   end
 
+  def stage_mark(world)
+    enter_district(world)
+    source = possess_kit(world, :striker)
+    source.revive!(map: world.map, tile: [12, 12])
+    source.face([1, 0])
+    (world.pack.living - [source]).each_with_index do |member, i|
+      member.revive!(map: world.map, tile: [2, 12 + i])
+    end
+    near, far = world.humans.first(2)
+    world.humans.replace([near, far])
+    near.walker.teleport(13, 12)
+    far.walker.teleport(16, 12)
+    [near, far].each { |human| human.stagger!(300) }
+    [source, near, far]
+  end
+
   # Tap-steps the possessed toward dest one tile at a time (waits out tweens
   # and hitstop). Combat can shove it around; the loop just keeps correcting.
   def navigate_to(world, dest, guard: 3000)
@@ -359,6 +375,136 @@ class WorldTest < Minitest::Test
     drive(w, scripted({}), DATA["balance/combat"][:respawn_frames] + 5)
     assert_equal "nest", w.zone_name
     assert_empty w.impacts
+  end
+
+  def test_mark_prefers_possessed_last_damage_and_ignores_ally_damage
+    source, near, preferred = stage_mark(world)
+    near.walker.teleport(12, 14)
+    preferred.walker.teleport(13, 12)
+    before = preferred.hp
+    assert source.start_attack
+    source.kit[:attack][:windup_frames].times { drive(world, scripted({}), 1) }
+    assert_operator preferred.hp, :<, before
+
+    near.walker.teleport(13, 12)
+    preferred.walker.teleport(16, 12)
+    assert world.set_mark(source)
+    assert_same preferred, world.marked_target
+
+    ally = world.pack.members.find { |member| !member.equal?(source) }
+    world.send(:emit_attack_hit, ally, near, true)
+    assert world.set_mark(source)
+    assert_same preferred, world.marked_target
+  end
+
+  def test_mark_falls_back_to_nearest_with_roster_tiebreak_and_preserves_on_refusal
+    source, first, second = stage_mark(world)
+    first.walker.teleport(13, 11)
+    second.walker.teleport(13, 13)
+
+    assert world.set_mark(source)
+    assert_same first, world.marked_target, "equal distance uses human roster order"
+
+    first.walker.teleport(30, 12)
+    second.walker.teleport(31, 12)
+    refute world.set_mark(source)
+    assert_same first, world.marked_target, "refusal leaves the existing order unchanged"
+  end
+
+  def test_mark_survives_swaps_then_clears_on_target_death
+    source, target, = stage_mark(world)
+    assert world.set_mark(source)
+    world.pack.swap_next!
+    assert_same target, world.marked_target
+
+    killed_body = world.possessed
+    kill(killed_body, by: source)
+    drive(world, scripted({}), 1)
+    refute_same killed_body, world.possessed
+    assert_same target, world.marked_target
+
+    kill(target, by: world.possessed)
+    drive(world, scripted({}), 1)
+    assert_nil world.marked_target
+  end
+
+  def test_mark_clears_on_leash_break_zone_entry_and_wipe_respawn
+    source, target, = stage_mark(world)
+    assert world.set_mark(source)
+    target.walker.teleport(30, 12)
+    drive(world, scripted({}), 1)
+    assert_nil world.marked_target
+
+    target.walker.teleport(13, 12)
+    assert world.set_mark(world.possessed)
+    gate = world.map.transitions.first[:at]
+    world.possessed.walker.teleport(*gate)
+    drive(world, scripted({}), 1)
+    assert_equal "nest", world.zone_name
+    assert_nil world.marked_target
+
+    w = Game::World.new(DATA)
+    source, target, = stage_mark(w)
+    assert w.set_mark(source)
+    hunter = target
+    w.pack.members.each { |member| kill(member, by: hunter) }
+    drive(w, scripted({}), 1)
+    assert_equal :nest_respawn, w.states.current
+    drive(w, scripted({}), DATA["balance/combat"][:respawn_frames] + 5)
+    assert_equal "nest", w.zone_name
+    assert_nil w.marked_target
+  end
+
+  def test_mark_overrides_ally_target_selection_and_aggro_gate
+    source, marked, unmarked = stage_mark(world)
+    blocker = world.pack.members.find { |member| member.kit_name == :blocker }
+    blocker.revive!(map: world.map, tile: [1, 12])
+    marked.walker.teleport(15, 12)
+    unmarked.walker.teleport(1, 14)
+    assert world.set_mark(source)
+
+    marked_before = chebyshev(blocker.tile, marked.tile)
+    unmarked_before = chebyshev(blocker.tile, unmarked.tile)
+    drive(world, scripted({}), 1)
+    assert_operator chebyshev(blocker.tile, marked.tile), :<, marked_before
+    assert_operator chebyshev(blocker.tile, unmarked.tile), :>, unmarked_before
+
+    world.pack.clear_mark!
+    blocker.revive!(map: world.map, tile: [1, 12])
+    unmarked_before = chebyshev(blocker.tile, unmarked.tile)
+    drive(world, scripted({}), 1)
+    assert_operator chebyshev(blocker.tile, unmarked.tile), :<, unmarked_before
+  end
+
+  def test_mark_input_masks_across_swap_and_is_true_rising_edge
+    source, target, = stage_mark(world)
+    blocker = world.pack.members.find { |member| member.kit_name == :blocker }
+    blocker.revive!(map: world.map, tile: [11, 11])
+    events = 0
+    world.bus.subscribe(:pack_mark_set) { events += 1 }
+    frame = world.frame
+    input = scripted(
+      frame.to_s => %w[swap mark],
+      (frame + 1).to_s => %w[mark],
+      (frame + 2).to_s => [],
+      (frame + 3).to_s => %w[mark],
+      (frame + 4).to_s => %w[mark],
+      (frame + 5).to_s => [],
+      (frame + 6).to_s => %w[mark]
+    )
+
+    drive(world, input, 2)
+    assert_nil world.marked_target, "mark held through Tab is masked on the new body"
+    drive(world, input, 3)
+    assert_same target, world.marked_target
+    assert_equal 1, events, "holding mark emits once"
+    drive(world, input, 2)
+    assert_equal 2, events, "release and re-press emits exactly one replacement"
+    refute_same source, world.possessed
+  end
+
+  def chebyshev(a, b)
+    [(a[0] - b[0]).abs, (a[1] - b[1]).abs].max
   end
 
   def test_ally_ai_fights_humans

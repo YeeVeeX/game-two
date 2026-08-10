@@ -2,7 +2,7 @@ module Game
   # The three creatures + the possession pointer. Possession is a pointer
   # move, never a state copy — exhaust/buffers stay creature-owned (law 4).
   class Pack
-    attr_reader :members, :possessed
+    attr_reader :members, :possessed, :mark
 
     def initialize(members:, stagger_frames:)
       @members = members
@@ -12,6 +12,14 @@ module Game
 
     def living = @members.reject(&:dead?)
     def wipe? = living.empty?
+
+    def mark!(target)
+      @mark = target
+    end
+
+    def clear_mark!
+      @mark = nil
+    end
 
     # Voluntary Tab swap: next living member in roster order, no stagger.
     def swap_next!

@@ -27,6 +27,7 @@ module App
     PROJECTILE     = Gosu::Color.new(255, 250, 235, 170)
     VOLLEY_EDGE    = Gosu::Color.new(220, 245, 125, 35)
     VOLLEY_CORE    = Gosu::Color.new(235, 255, 220, 150)
+    MARK_GLYPH     = Gosu::Color.new(255, 75, 235, 205)
     NOTCH          = Gosu::Color.new(255, 20, 14, 12)
     HP_BACK        = Gosu::Color.new(255, 50, 20, 30)
     HP_DEAD        = Gosu::Color.new(255, 35, 25, 30)
@@ -45,6 +46,7 @@ module App
         world.humans.each { |h| draw_creature(h, world) }
         world.pack.living.each { |m| draw_creature(m, world) }
         world.projectiles.each { |p| draw_projectile(p) }
+        draw_mark(world)
       end
       draw_hud(world)
       draw_edge_pips(world)
@@ -69,6 +71,25 @@ module App
           Gosu.draw_rect(x + inset, y + inset, size, size, VOLLEY_CORE)
         end
       end
+    end
+
+    def draw_mark(world)
+      target = world.marked_target
+      return unless target && !target.dead?
+      x = target.x - 5
+      y = target.y - 5
+      span = SIZE + 10
+      arm = 8
+      thick = 3
+      [[x, y], [x + span - arm, y], [x, y + span - thick],
+       [x + span - arm, y + span - thick]].each do |(cx, cy)|
+        Gosu.draw_rect(cx, cy, arm, thick, MARK_GLYPH)
+      end
+      [[x, y], [x + span - thick, y], [x, y + span - arm],
+       [x + span - thick, y + span - arm]].each do |(cx, cy)|
+        Gosu.draw_rect(cx, cy, thick, arm, MARK_GLYPH)
+      end
+      Gosu.draw_rect(target.x + SIZE / 2 - 2, target.y - 9, 4, 4, MARK_GLYPH)
     end
 
     private

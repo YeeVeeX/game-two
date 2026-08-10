@@ -5,7 +5,9 @@
       "blocker",
       "lobber"
     ],
-    "swap_stagger_frames": 20
+    "swap_stagger_frames": 20,
+    "mark_range_tiles": 6,
+    "mark_leash_tiles": 14
   },
   "respawn_frames": 90,
   "kits": {

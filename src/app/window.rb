@@ -22,6 +22,7 @@ module App
       attack: [Gosu::KB_J, Gosu::KB_SPACE],
       dodge:  [Gosu::KB_K, Gosu::KB_LEFT_SHIFT],
       special: [Gosu::KB_L, Gosu::KB_E],
+      mark: [Gosu::KB_SEMICOLON, Gosu::KB_Q],
       swap:   [Gosu::KB_TAB]
     }.freeze
 

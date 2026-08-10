@@ -18,7 +18,7 @@ module Game
   class World
     EVENTS = %i[
       attack_started special_started attack_hit damage_dealt actor_died dodged telegraph
-      zone_entered possession_changed pack_wiped pack_respawned projectile_fired
+      zone_entered possession_changed pack_wiped pack_respawned projectile_fired pack_mark_set
     ].freeze
 
     TRANSITIONS = { world: %i[nest_respawn], nest_respawn: %i[world] }.freeze
@@ -43,6 +43,7 @@ module Game
       @human_respawns = Hash.new { |h, k| h[k] = [] }
       @projectiles = []
       @impacts = []
+      @last_damaged_target = nil
       @corpses = Hash.new { |h, k| h[k] = [] }
       @controller = PossessedController.new
       @ai = AiController.new
@@ -62,6 +63,7 @@ module Game
     def projectiles = @projectiles
     def impacts = @impacts
     def corpses = @corpses[@zone_name]
+    def marked_target = @pack.mark
 
     def tick(input)
       if @feel.hitstop?
@@ -145,6 +147,27 @@ module Game
       entry[:field]
     end
 
+    def set_mark(source)
+      return false unless source.equal?(possessed)
+      range = @balance[:pack][:mark_range_tiles]
+      foes = hostiles_for(source)
+      preferred = @last_damaged_target
+      target =
+        if preferred && foes.include?(preferred) &&
+           tile_distance(source.tile, preferred.tile) <= range
+          preferred
+        else
+          foes.each_with_index
+              .select { |foe, _| tile_distance(source.tile, foe.tile) <= range }
+              .min_by { |foe, index| [tile_distance(source.tile, foe.tile), index] }
+              &.first
+        end
+      return false unless target
+      @pack.mark!(target)
+      @bus.emit(:pack_mark_set, target:)
+      true
+    end
+
     private
 
     def tick_world(input)
@@ -162,6 +185,7 @@ module Game
 
       @controller.blocked = blocked_for(possessed)
       @controller.tick(possessed, input, self)
+      validate_mark
       @pack.living.each { |m| @ai.tick(m, self) unless m.equal?(possessed) }
       humans.each { |h| emit_telegraph_edge(h); @ai.tick(h, self) }
 
@@ -245,7 +269,7 @@ module Game
         victim.stagger!(cfg[:stagger_frames]) if cfg[:stagger_frames]
         victim.interrupt_action! if cfg[:interrupt_windup]
       end
-      @bus.emit(:attack_hit, attacker:, victim:)
+      emit_attack_hit(attacker, victim, landed)
     end
 
     # A projectile swing "lands" the moment it fires — the shot itself is a
@@ -294,9 +318,9 @@ module Game
         impact[:tiles].each do |tile|
           victim = foes.find { |foe| !foe.dead? && foe.tile == tile }
           next unless victim
-          victim.take_hit(damage: impact[:damage], attacker: impact[:owner],
-                          knockback_tiles: 0, blocked: blocked_for(victim))
-          @bus.emit(:attack_hit, attacker: impact[:owner], victim:)
+          landed = victim.take_hit(damage: impact[:damage], attacker: impact[:owner],
+                                   knockback_tiles: 0, blocked: blocked_for(victim))
+          emit_attack_hit(impact[:owner], victim, landed)
         end
       end
       @impacts.reject! { |impact| impact[:frames_left] <= 0 }
@@ -309,10 +333,10 @@ module Game
       @projectiles.each do |p|
         victim = p.tick(hostiles: hostiles_for(p.owner))
         next unless victim
-        victim.take_hit(damage: p.damage, attacker: p.owner,
-                        knockback_tiles: p.knockback_tiles,
-                        blocked: blocked_for(victim))
-        @bus.emit(:attack_hit, attacker: p.owner, victim:)
+        landed = victim.take_hit(damage: p.damage, attacker: p.owner,
+                                 knockback_tiles: p.knockback_tiles,
+                                 blocked: blocked_for(victim))
+        emit_attack_hit(p.owner, victim, landed)
       end
       @projectiles.reject!(&:done?)
     end
@@ -358,6 +382,8 @@ module Game
       @flow_cache = {}
       @projectiles = []
       @impacts = []
+      @pack.clear_mark!
+      @last_damaged_target = nil
       placed = 0
       # Possessed gets the first tile; living allies the rest, in roster order.
       ([possessed] + (@pack.living - [possessed])).each do |m|
@@ -445,6 +471,22 @@ module Game
       corpses.reject! { |c| @frame - c[:at_frame] > CORPSE_FADE_FRAMES }
     end
 
+    def emit_attack_hit(attacker, victim, landed)
+      @last_damaged_target = victim if landed && attacker.equal?(possessed)
+      @bus.emit(:attack_hit, attacker:, victim:)
+    end
+
+    def validate_mark
+      target = marked_target
+      return unless target
+      leash = @balance[:pack][:mark_leash_tiles]
+      @pack.clear_mark! if target.dead? || tile_distance(possessed.tile, target.tile) > leash
+    end
+
+    def tile_distance((ax, ay), (bx, by))
+      [(bx - ax).abs, (by - ay).abs].max
+    end
+
     # A body stays where it fell and fades (vision critique: kills that
     # vanish erase the fight's history). Records, not creatures — the sim
     # never reads them; only renderer/tests do. Cap guards the roster.
@@ -472,6 +514,7 @@ module Game
 
       @bus.subscribe(:actor_died) do |e|
         leave_corpse(e[:actor])
+        @pack.clear_mark! if e[:actor].equal?(marked_target)
         if e[:faction] == :human
           @feel.on_kill if e[:killer].equal?(possessed)
           schedule_human_respawn(e[:actor])
