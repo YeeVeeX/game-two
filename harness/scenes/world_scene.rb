@@ -17,7 +17,8 @@ module Harness
         @renderer = App::Renderer.new
         %i[telegraph attack_hit actor_died dodged possession_changed
            pack_wiped pack_respawned zone_entered projectile_fired
-           special_started pack_mark_set].each do |ev|
+           special_started pack_mark_set drop_spawned drop_picked_up
+           drop_decayed banked carried_lost].each do |ev|
           @world.bus.subscribe(ev) { |e| puts "EVENT #{ev} frame=#{@world.frame} #{describe(e)}" }
         end
       end

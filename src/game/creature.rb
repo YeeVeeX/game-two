@@ -11,7 +11,8 @@ module Game
     RING = [[0, -1], [1, 0], [0, 1], [-1, 0], [1, -1], [1, 1], [-1, 1], [-1, -1]].freeze
 
     attr_reader :hp, :max_hp, :kit, :kit_name, :faction, :name, :walker,
-                :facing, :attack_state, :stagger, :dodge_cooldown, :current_action
+                :facing, :attack_state, :stagger, :dodge_cooldown, :current_action,
+                :carried
 
     def initialize(bus:, kit:, kit_name:, map:, tile:, faction:, name:)
       @bus = bus
@@ -36,6 +37,7 @@ module Game
       @stagger = 0
       @dodge_cooldown = 0
       @hurt_frames = 0
+      @carried = 0
     end
 
     def tile = [@walker.tile_x, @walker.tile_y]
@@ -178,6 +180,16 @@ module Game
       @stagger = [@stagger, frames].max
     end
 
+    # Carried value is creature-owned and swap-inert (law 4): it rides the
+    # body, not the possession pointer. Drained by banking and by death.
+    def pick_up(amount) = @carried += amount
+
+    def drain_carried!
+      amount = @carried
+      @carried = 0
+      amount
+    end
+
     def interrupt_action!
       @attack_state = :idle
       @state_frames = 0
@@ -201,6 +213,7 @@ module Game
       @stagger = 0
       @dodge_cooldown = 0
       @hurt_frames = 0
+      @carried = 0
       rebind(map:, tile:)
     end
 

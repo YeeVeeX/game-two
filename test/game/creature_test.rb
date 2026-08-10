@@ -218,4 +218,21 @@ class CreatureTest < Minitest::Test
     4.times { c.take_hit(damage: 25, attacker: killer) }
     refute c.take_hit(damage: 25, attacker: killer), "dead creatures take no hits"
   end
+
+  def test_carried_starts_zero_accumulates_and_drains
+    c = creature
+    assert_equal 0, c.carried
+    c.pick_up(2)
+    c.pick_up(1)
+    assert_equal 3, c.carried
+    assert_equal 3, c.drain_carried!
+    assert_equal 0, c.carried
+  end
+
+  def test_revive_zeroes_carried
+    c = creature
+    c.pick_up(5)
+    c.revive!(map: MAP, tile: [3, 2])
+    assert_equal 0, c.carried, "a revived body starts empty-handed"
+  end
 end

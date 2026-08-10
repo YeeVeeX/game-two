@@ -28,6 +28,7 @@ module App
     VOLLEY_EDGE    = Gosu::Color.new(220, 245, 125, 35)
     VOLLEY_CORE    = Gosu::Color.new(235, 255, 220, 150)
     MARK_GLYPH     = Gosu::Color.new(255, 75, 235, 205)
+    DROP_CORE      = Gosu::Color.new(255, 205, 70, 225) # glean drops — magenta/violet, owned by no other element
     NOTCH          = Gosu::Color.new(255, 20, 14, 12)
     HP_BACK        = Gosu::Color.new(255, 50, 20, 30)
     HP_DEAD        = Gosu::Color.new(255, 35, 25, 30)
@@ -43,10 +44,13 @@ module App
         draw_map(world.map)
         draw_impacts(world)
         draw_corpses(world)
+        draw_stations(world)
+        draw_drops(world)
         world.humans.each { |h| draw_creature(h, world) }
         world.pack.living.each { |m| draw_creature(m, world) }
         world.projectiles.each { |p| draw_projectile(p) }
         draw_mark(world)
+        draw_station_ledger(world)
       end
       draw_hud(world)
       draw_edge_pips(world)
@@ -117,6 +121,57 @@ module App
       end
     end
 
+    # Drops: small magenta squares; size steps with amount (1 vs 2+), alpha
+    # fades over the final third of the decay clock (visible rot, like
+    # corpse fade). decay_frames rides each drop — no balance read here.
+    def draw_drops(world)
+      ts = world.map.tile_size
+      world.drops.each do |d|
+        size = d[:amount] >= 2 ? 14 : 10
+        frac = d[:frames_left].fdiv(d[:decay_frames])
+        alpha = frac < (1 / 3.0) ? (255 * frac * 3).clamp(60, 255).round : 255
+        tx, ty = d[:tile]
+        inset = (ts - size) / 2.0
+        col = Gosu::Color.new(alpha, DROP_CORE.red, DROP_CORE.green, DROP_CORE.blue)
+        Gosu.draw_rect(tx * ts + inset, ty * ts + inset, size, size, col)
+        Gosu.draw_rect(tx * ts + inset + 3, ty * ts + inset + 3, size - 6, size - 6,
+                       Gosu::Color.new(alpha, 250, 225, 255)) # pale violet-white core
+      end
+    end
+
+    # Station fixture: palette-driven block with a hollow center — reads as
+    # a PLACE, not a wall (walls are solid) and not a gate (gates are gold).
+    def draw_stations(world)
+      ts = world.map.tile_size
+      world.map.stations.each do |s|
+        tx, ty = s[:at]
+        x = tx * ts
+        y = ty * ts
+        Gosu.draw_rect(x + 2, y + 2, ts - 4, ts - 4,
+                       color(world.map.palette[:station] || world.map.palette[:wall]))
+        Gosu.draw_rect(x + 8, y + 8, ts - 16, ts - 16, color(world.map.palette[:floor]))
+      end
+    end
+
+    # Banked total shows ONLY at the station, only when the possessed is
+    # near (quiet-HUD law: the world HUD never carries the score). Radius 3,
+    # not 2: GridWalker commits the tile at step START while the pixel tween
+    # trails, so a body that LOOKS adjacent can already be 3 tiles away —
+    # the numeral must read whenever the player would say "I'm at it".
+    LEDGER_RADIUS_TILES = 3
+
+    def draw_station_ledger(world)
+      world.map.stations.each do |s|
+        tx, ty = s[:at]
+        px, py = world.possessed.tile
+        next unless [(tx - px).abs, (ty - py).abs].max <= LEDGER_RADIUS_TILES
+        ts = world.map.tile_size
+        text = world.pack.banked.to_s
+        hud_font.draw_text(text, tx * ts + (ts - hud_font.text_width(text)) / 2,
+                           ty * ts - 18, 10, 1, 1, DROP_CORE)
+      end
+    end
+
     # Bodies stay where they fell and fade out (critique: vanishing kills
     # erase the fight's history).
     def draw_corpses(world)
@@ -140,6 +195,10 @@ module App
         swell = 8
         Gosu.draw_rect(x - swell / 2, y - swell / 2, SIZE + swell, SIZE + swell, TELEGRAPH_EDGE)
         Gosu.draw_rect(x - 2, y - 2, SIZE + 4, SIZE + 4, TELEGRAPH_CORE)
+        # The body stays visible INSIDE the flare: two adjacent telegraphing
+        # humans otherwise read as an ownerless ground-tile pattern,
+        # indistinguishable from Volley target tiles (gate critique finding).
+        Gosu.draw_rect(x + 5, y + 5, SIZE - 10, SIZE - 10, HUMAN_BODY)
       else
         Gosu.draw_rect(x, y, SIZE, SIZE, body_color(c, world))
         Gosu.draw_rect(x, y, SIZE, SIZE, ALLY_DIM) if ally?(c, world)
@@ -237,6 +296,11 @@ module App
         Gosu.draw_rect(300, y + 2, 10, 10, attack_pip)
         Gosu.draw_rect(314, y + 2, 10, 10, special_pip)
         Gosu.draw_rect(317, y + 5, 4, 4, POSSESSED_RING) if special_ready
+        # Carried numeral: possessed bar only, reserved slot right of the
+        # pips — layout never shifts (quiet-HUD law).
+        if mine && m.carried.positive?
+          hud_font.draw_text(m.carried.to_s, 332, y, 20, 1, 1, DROP_CORE)
+        end
       end
     end
 
@@ -281,5 +345,6 @@ module App
 
     def banner_font = @banner_font ||= Gosu::Font.new(28, bold: true)
     def wipe_font = @wipe_font ||= Gosu::Font.new(64, bold: true)
+    def hud_font = @hud_font ||= Gosu::Font.new(14)
   end
 end

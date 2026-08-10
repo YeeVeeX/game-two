@@ -796,4 +796,349 @@ class WorldTest < Minitest::Test
     drive(w, scripted({}), 400)
     assert w.humans.all? { |h| roster_before.include?(h) }, "nothing ever respawns"
   end
+
+  # --- drops (D0) --------------------------------------------------------
+
+  def drop_at(world, tile) = world.drops.find { |d| d[:tile] == tile }
+
+  # Park the district down to N humans in the far corner, staggered long —
+  # combat noise cannot touch a drops assertion. Kills happen by direct
+  # take_hit wherever the victim stands (the stage_volley/stage_mark
+  # doctrine: teleport + stagger, deterministic by construction). [40,23+i]
+  # is open corridor 25+ tiles from the pack's walk-in position — outside
+  # every aggro radius, and a scheduled respawn re-homes to [30,18], which
+  # still can't reach the pack.
+  def isolate_humans(world, count = 2)
+    kept = world.humans.first(count)
+    world.humans.replace(kept)
+    kept.each_with_index do |h, i|
+      h.walker.teleport(40, 23 + i)
+      h.stagger!(30_000)
+    end
+    drive(world, scripted({}), 60) # settle walk-in combat (tweens, knockback)
+    kept
+  end
+
+  def test_rusher_death_spawns_drop_on_corpse_tile
+    enter_district(world)
+    victim = isolate_humans(world).first
+    events = []
+    world.bus.subscribe(:drop_spawned) { |e| events << e }
+    kill(victim, by: world.possessed)
+    drive(world, scripted({}), 1) # flush bus
+    drop = drop_at(world, victim.tile)
+    refute_nil drop, "rusher death must leave a drop on its tile"
+    assert_includes [1, 2], drop[:amount], "amount comes from drop_table [1,1,2]"
+    assert_equal DATA["balance/combat"][:drops][:decay_frames], drop[:frames_left],
+                 "decay clock starts from data"
+    assert_equal 1, events.length
+    assert_equal drop[:amount], events.first[:amount]
+  end
+
+  def test_drop_amounts_are_seed_deterministic
+    amounts = 2.times.map do
+      w = Game::World.new(DATA, seed: 7)
+      drive(w, scripted(hold(:right, 0, STEP * 30 - 1)), STEP * 30)
+      w.humans.first(3).each { |h| kill(h, by: w.possessed) }
+      drive(w, scripted({}), 1)
+      w.drops.map { |d| d[:amount] }
+    end
+    assert_equal amounts[0], amounts[1], "same seed + same kills = same rolls"
+  end
+
+  def test_pack_kit_death_drops_nothing
+    enter_district(world)
+    victims = isolate_humans(world)
+    ally = (world.pack.living - [world.possessed]).first
+    kill(ally, by: victims.first)
+    drive(world, scripted({}), 1)
+    assert_nil drop_at(world, ally.tile), "pack kits have no drop_table"
+  end
+
+  def test_same_tile_kills_merge_without_resetting_decay
+    enter_district(world)
+    a, b = isolate_humans(world)
+    b.walker.teleport(*a.tile) # stack the pair: both die on one tile
+    tile = a.tile
+    kill(a, by: world.possessed)
+    drive(world, scripted({}), 1)
+    first_amount = drop_at(world, tile)[:amount]
+    drive(world, scripted({}), 100) # age the pile
+    aged = drop_at(world, tile)[:frames_left]
+    kill(b, by: world.possessed)
+    drive(world, scripted({}), 1)
+    assert_equal 1, world.drops.count { |d| d[:tile] == tile }, "one drop per tile, always"
+    drop = drop_at(world, tile)
+    assert_operator drop[:amount], :>, first_amount, "amounts sum"
+    assert_operator drop[:frames_left], :<=, aged,
+                    "merge keeps the FIRST kill's clock — a resetting clock is an " \
+                    "immortal floor stash (spec review finding 3)"
+  end
+
+  # Injected short-lived drops keep decay tests to a handful of frames —
+  # waiting out the real 1800f clock amid live respawns would be flaky.
+  def test_drop_decays_to_zero_with_event
+    enter_district(world)
+    isolate_humans(world, 0)
+    world.drops << { tile: [8, 13], amount: 2, frames_left: 5, decay_frames: 1800 }
+    decayed = []
+    world.bus.subscribe(:drop_decayed) { |e| decayed << e }
+    drive(world, scripted({}), 6)
+    assert_nil drop_at(world, [8, 13]), "expired drop is removed"
+    assert_equal 1, decayed.length
+    assert_equal [8, 13], decayed.first[:tile]
+    assert_equal 2, decayed.first[:amount]
+  end
+
+  def test_drop_decay_pauses_during_hitstop
+    enter_district(world)
+    isolate_humans(world, 0)
+    world.drops << { tile: [8, 13], amount: 1, frames_left: 500, decay_frames: 1800 }
+    world.feel.on_kill # kill hitstop: sim frozen while @frame advances
+    hitstop = DATA["balance/combat"][:feel][:hitstop_frames_kill]
+    drive(world, scripted({}), hitstop)
+    assert_equal 500, drop_at(world, [8, 13])[:frames_left],
+                 "decay must not tick during hitstop (frames_left pattern)"
+  end
+
+  def test_drops_decay_across_zones
+    enter_district(world)
+    isolate_humans(world, 0)
+    world.possessed.walker.teleport(1, 13)
+    decay_in = STEP * 4 + 40
+    world.drops << { tile: [8, 13], amount: 1, frames_left: decay_in, decay_frames: 1800 }
+    decayed = []
+    world.bus.subscribe(:drop_decayed) { |e| decayed << e }
+    drive(world, scripted(hold(:left, world.frame, world.frame + STEP * 4)), STEP * 4)
+    assert_equal "nest", world.zone_name
+    drive(world, scripted({}), 60)
+    assert_equal 1, decayed.length, "district drop rots while the pack idles in the nest"
+    assert_equal [8, 13], decayed.first[:tile]
+  end
+
+  # --- interact + carried (D0) -------------------------------------------
+
+  # Kill the nearest human where it stands, then teleport the possessed onto
+  # the resulting drop tile — the simplest deterministic pickup stage.
+  def stage_drop_under_possessed(world)
+    enter_district(world)
+    kill(nearest_human(world), by: world.possessed)
+    drive(world, scripted({}), 1)
+    tile = world.drops.first[:tile]
+    world.possessed.walker.teleport(*tile)
+    tile
+  end
+
+  # A press that survives hitstop (a frozen tick never runs the controller,
+  # and staged kills by the possessed leave 8 frames of kill-hitstop pending):
+  # drain the freeze, then press one clean frame, then release so the next
+  # press is a fresh rising edge.
+  def press_interact(world)
+    drive(world, scripted({}), 1) while world.feel.hitstop?
+    drive(world, scripted({ world.frame.to_s => ["interact"] }), 1)
+    drive(world, scripted({}), 1)
+  end
+
+  def test_interact_picks_up_whole_pile_onto_possessed
+    stage_drop_under_possessed(world)
+    events = []
+    world.bus.subscribe(:drop_picked_up) { |e| events << e }
+    amount = world.drops.first[:amount]
+    press_interact(world)
+    assert_empty world.drops, "pickup takes the whole pile"
+    assert_equal amount, world.possessed.carried
+    assert_equal 1, events.length
+    assert_equal amount, events.first[:carried]
+  end
+
+  def test_interact_is_possessed_only
+    stage_drop_under_possessed(world)
+    ally = (world.pack.living - [world.possessed]).first
+    refute world.interact(ally), "allies never pick up"
+    refute_empty world.drops
+  end
+
+  def test_interact_refused_while_staggered_or_mid_action
+    stage_drop_under_possessed(world)
+    world.possessed.stagger!(30)
+    refute world.interact(world.possessed)
+    drive(world, scripted({}), 31)
+    world.possessed.start_attack
+    refute world.interact(world.possessed), "no pickup mid-swing"
+  end
+
+  def test_interact_on_empty_tile_is_silent_noop
+    enter_district(world)
+    events = []
+    %i[drop_picked_up banked].each { |ev| world.bus.subscribe(ev) { |e| events << e } }
+    refute world.interact(world.possessed)
+    drive(world, scripted({}), 1)
+    assert_empty events
+  end
+
+  def test_held_interact_masks_across_voluntary_swap
+    tile = stage_drop_under_possessed(world)
+    drive(world, scripted({}), 1) while world.feel.hitstop?
+    # Start the hold OFF the drop tile (the first rising edge is a legal
+    # no-op there), Tab mid-hold, land the NEW body on the drop tile: the
+    # still-held key must not ghost-fire from it (law 4 edge semantics).
+    world.possessed.walker.teleport(tile[0] - 1, tile[1])
+    f = world.frame
+    script = hold(:interact, f, f + 12)
+    script[(f + 4).to_s] = %w[interact swap]
+    drive(world, scripted(script), 6) # edge consumed on empty tile; swap masks the hold
+    world.possessed.walker.teleport(*tile)
+    drive(world, scripted(script), 7)
+    refute_empty world.drops, "held interact may not ghost-pick after swap; re-press required"
+    drive(world, scripted({}), 2) # release
+    press_interact(world)
+    assert_empty world.drops, "fresh rising edge picks up"
+  end
+
+  def test_held_interact_masks_across_forced_swap
+    tile = stage_drop_under_possessed(world)
+    drive(world, scripted({}), 1) while world.feel.hitstop?
+    dying = world.possessed
+    killer = world.humans.reject(&:dead?).first
+    # Kill the possessed BEFORE the held-interact ticks start: on the death
+    # tick the controller early-returns (dead), the forced swap lands at
+    # bus-process time, and the deferred rearm! must mask the held key.
+    kill(dying, by: killer)
+    f = world.frame
+    script = hold(:interact, f, f + 40)
+    drive(world, scripted(script), 3) # flush death -> forced swap -> deferred rearm
+    survivor = world.possessed
+    refute_equal dying, survivor
+    survivor.walker.teleport(*tile)
+    drive(world, scripted(script), 10)
+    refute_empty world.drops, "held interact may not ghost-pick across a forced swap"
+  end
+
+  # Impl-review finding 1: a key HELD across a swap is already stopped by the
+  # controller's shared edge detector — the rearm! mask's one load-bearing
+  # scenario for an edge verb is a key pressed on the EXACT swap tick
+  # (handle_swap runs before controller.tick, so without the mask the press
+  # reads as a fresh rising edge on the NEW body). This pins the mechanism.
+  def test_interact_pressed_on_swap_tick_is_masked
+    enter_district(world)
+    isolate_humans(world, 0)
+    world.drops << { tile: [8, 13], amount: 2, frames_left: 1800, decay_frames: 1800 }
+    incoming = world.pack.members[1] # swap_next! target in roster order
+    incoming.walker.teleport(8, 13)
+    drive(world, scripted({ world.frame.to_s => %w[interact swap] }), 1)
+    assert_equal incoming, world.possessed, "swap landed on the parked body"
+    refute_empty world.drops,
+                 "interact pressed on the swap tick must be masked by rearm! " \
+                 "— firing here would be a ghost pickup from the new body"
+    drive(world, scripted({}), 2) # release
+    press_interact(world)
+    assert_empty world.drops, "a deliberate re-press picks up"
+  end
+
+  def test_carried_is_swap_inert
+    stage_drop_under_possessed(world)
+    press_interact(world)
+    carrier = world.possessed
+    amount = carrier.carried
+    drive(world, scripted({ world.frame.to_s => ["swap"] }), 2)
+    refute_equal carrier, world.possessed
+    assert_equal amount, carrier.carried, "carried stays on the body that picked it up"
+    assert_equal 0, world.possessed.carried
+  end
+
+  # --- carried vanishes on death (D0 rule; corpse containers are D1) ------
+
+  def test_carried_vanishes_when_the_body_dies
+    stage_drop_under_possessed(world)
+    press_interact(world)
+    carrier = world.possessed
+    amount = carrier.carried
+    assert_operator amount, :>, 0
+    lost = []
+    world.bus.subscribe(:carried_lost) { |e| lost << e }
+    kill(carrier, by: world.humans.reject(&:dead?).first)
+    drive(world, scripted({}), 2)
+    assert_equal 0, carrier.carried, "death takes the take (D0 rule; corpses are D1)"
+    assert_equal [amount], lost.map { |e| e[:amount] }
+    assert_equal 0, world.possessed.carried, "the new body inherits nothing"
+    assert_nil drop_at(world, carrier.tile), "no corpse container in D0 — value is GONE"
+  end
+
+  def test_ally_death_also_vanishes_its_carried
+    stage_drop_under_possessed(world)
+    press_interact(world)
+    carrier = world.possessed
+    drive(world, scripted({ world.frame.to_s => ["swap"] }), 2)
+    refute_equal carrier, world.possessed
+    lost = []
+    world.bus.subscribe(:carried_lost) { |e| lost << e }
+    kill(carrier, by: world.humans.reject(&:dead?).first)
+    drive(world, scripted({}), 2)
+    assert_equal 0, carrier.carried
+    assert_equal 1, lost.length
+  end
+
+  # --- bank station + banked (D0) ----------------------------------------
+
+  BANK_TILE = DATA["zones/nest"][:stations].first[:at]
+
+  def carry_home(world)
+    stage_drop_under_possessed(world)
+    press_interact(world)
+    world.possessed.walker.teleport(1, 13)
+    drive(world, scripted(hold(:left, world.frame, world.frame + STEP * 4)), STEP * 4)
+    assert_equal "nest", world.zone_name
+    world.possessed.walker.teleport(*BANK_TILE)
+    drive(world, scripted({}), 1)
+  end
+
+  def test_bank_moves_carried_to_pack_banked
+    carry_home(world)
+    amount = world.possessed.carried
+    assert_operator amount, :>, 0, "carried rides the creature through the gate"
+    events = []
+    world.bus.subscribe(:banked) { |e| events << e }
+    press_interact(world)
+    assert_equal 0, world.possessed.carried
+    assert_equal amount, world.pack.banked
+    assert_equal [amount], events.map { |e| e[:amount] }
+    assert_equal [amount], events.map { |e| e[:banked] }
+  end
+
+  def test_bank_with_zero_carried_is_silent_noop
+    world.possessed.walker.teleport(*BANK_TILE)
+    events = []
+    world.bus.subscribe(:banked) { |e| events << e }
+    refute world.interact(world.possessed)
+    drive(world, scripted({}), 1)
+    assert_empty events
+    assert_equal 0, world.pack.banked
+  end
+
+  def test_banked_survives_the_wipe
+    carry_home(world)
+    press_interact(world)
+    banked = world.pack.banked
+    assert_operator banked, :>, 0
+    killer = world.pack.members.first # any creature works as attacker
+    world.pack.living.each { |m| kill(m, by: killer) }
+    drive(world, scripted({}), 1)
+    assert_equal :nest_respawn, world.states.current
+    drive(world, scripted({}), DATA["balance/combat"][:respawn_frames] + 2)
+    assert_equal :world, world.states.current
+    assert_equal banked, world.pack.banked, "banked is wipe-safe — the whole point of D0"
+    assert world.pack.living.all? { |m| m.carried.zero? }
+  end
+
+  def test_drop_on_station_tile_pickup_wins_then_bank
+    world.possessed.walker.teleport(*BANK_TILE)
+    world.drops << { tile: BANK_TILE.dup, amount: 2, frames_left: 1800, decay_frames: 1800 }
+    world.possessed.pick_up(1)
+    press_interact(world)
+    assert_equal 3, world.possessed.carried, "pickup first"
+    assert_equal 0, world.pack.banked
+    press_interact(world)
+    assert_equal 0, world.possessed.carried, "bank on the next press"
+    assert_equal 3, world.pack.banked
+  end
 end

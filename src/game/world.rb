@@ -19,6 +19,7 @@ module Game
     EVENTS = %i[
       attack_started special_started attack_hit damage_dealt actor_died dodged telegraph
       zone_entered possession_changed pack_wiped pack_respawned projectile_fired pack_mark_set
+      drop_spawned drop_picked_up drop_decayed banked carried_lost
     ].freeze
 
     TRANSITIONS = { world: %i[nest_respawn], nest_respawn: %i[world] }.freeze
@@ -45,6 +46,7 @@ module Game
       @impacts = []
       @last_damaged_target = nil
       @corpses = Hash.new { |h, k| h[k] = [] }
+      @drops = Hash.new { |h, k| h[k] = [] }
       @controller = PossessedController.new
       @ai = AiController.new
       @swap_was_down = false
@@ -63,6 +65,7 @@ module Game
     def projectiles = @projectiles
     def impacts = @impacts
     def corpses = @corpses[@zone_name]
+    def drops = @drops[@zone_name]
     def marked_target = @pack.mark
 
     def tick(input)
@@ -168,6 +171,27 @@ module Game
       true
     end
 
+    # One shared interaction path (D0): pickup first, bank second — decided
+    # so a drop ON the station tile takes two presses, deterministically.
+    # Possessed-only — which body holds the value is a player decision.
+    def interact(source)
+      return false unless source.equal?(possessed)
+      return false if source.dead? || source.staggered? || source.attack_state != :idle
+      drop = drops.find { |d| d[:tile] == source.tile }
+      if drop
+        drops.delete(drop)
+        source.pick_up(drop[:amount])
+        @bus.emit(:drop_picked_up, actor: source, amount: drop[:amount], carried: source.carried)
+        return true
+      end
+      station = map.station_at(*source.tile)
+      return false unless station && station[:type] == "bank" && source.carried.positive?
+      amount = source.drain_carried!
+      @pack.bank!(amount)
+      @bus.emit(:banked, actor: source, amount:, banked: @pack.banked)
+      true
+    end
+
     private
 
     def tick_world(input)
@@ -193,6 +217,7 @@ module Game
       tick_impacts
       resolve_attacks
       tick_projectiles
+      tick_drops
       respawn_due_humans
       prune_caches
     end
@@ -324,6 +349,41 @@ module Game
         end
       end
       @impacts.reject! { |impact| impact[:frames_left] <= 0 }
+    end
+
+    # Decay ticks in EVERY zone each sim tick (nest time is real time — the
+    # death-economy doc's corpse-term decision, applied to drops): leaving a
+    # pile behind to bank is a real cost. Counted only in tick_world, so
+    # hitstop and the wipe veil pause decay deterministically.
+    def tick_drops
+      @drops.each do |zone, list|
+        list.each { |d| d[:frames_left] -= 1 }
+        list.reject! do |d|
+          next false if d[:frames_left].positive?
+          @bus.emit(:drop_decayed, zone:, tile: d[:tile], amount: d[:amount])
+          true
+        end
+      end
+    end
+
+    # Seeded roll (the sim PRNG's first consumer — rolls happen at bus-process
+    # time in emit order, so consumption order is replay-deterministic). One
+    # drop per tile, always: a kill on an occupied tile merges amounts but
+    # KEEPS the first kill's clock — a resetting clock + the 5s rusher
+    # respawn would make any camped tile an immortal zero-risk stash.
+    def spawn_drop(victim)
+      table = victim.kit[:drop_table]
+      return unless table
+      amount = table[@rng.rand(table.length)]
+      decay = @balance[:drops][:decay_frames]
+      list = @drops[@zone_name]
+      drop = list.find { |d| d[:tile] == victim.tile }
+      if drop
+        drop[:amount] += amount
+      else
+        list << { tile: victim.tile, amount:, frames_left: decay, decay_frames: decay }
+      end
+      @bus.emit(:drop_spawned, tile: victim.tile, amount:)
     end
 
     # Creation order = resolution order (deterministic). The projectile only
@@ -514,6 +574,13 @@ module Game
 
       @bus.subscribe(:actor_died) do |e|
         leave_corpse(e[:actor])
+        spawn_drop(e[:actor])
+        # D0 death rule: a dying body's carried value VANISHES — no corpse
+        # container (that is D1's whole point). Emitted so telemetry sees
+        # the loss; the vanish itself IS the carry risk.
+        if e[:actor].faction == :pack && e[:actor].carried.positive?
+          @bus.emit(:carried_lost, actor: e[:actor], amount: e[:actor].drain_carried!)
+        end
         @pack.clear_mark! if e[:actor].equal?(marked_target)
         if e[:faction] == :human
           @feel.on_kill if e[:killer].equal?(possessed)
