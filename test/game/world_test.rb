@@ -48,6 +48,31 @@ class WorldTest < Minitest::Test
     flunk "could not possess #{kit_name}"
   end
 
+  def stage_volley(world)
+    enter_district(world)
+    lobber = possess_kit(world, :lobber)
+    lobber.interrupt_action!
+    lobber.walker.teleport(12, 12)
+    lobber.face([1, 0])
+    (world.pack.living - [lobber]).each_with_index do |member, i|
+      member.walker.teleport(2, 12 + i)
+    end
+    targets = world.humans.first(3)
+    world.humans.replace(targets)
+    targets.each_with_index do |human, i|
+      human.walker.teleport(14 + i, 12)
+      human.stagger!(200)
+    end
+    [lobber, targets]
+  end
+
+  def launch_volley(world, lobber)
+    assert lobber.start_special(blocked: world.blocked_for(lobber))
+    lobber.kit[:special][:windup_frames].times { drive(world, scripted({}), 1) }
+    refute_empty world.impacts
+    world.impacts.first
+  end
+
   # Tap-steps the possessed toward dest one tile at a time (waits out tweens
   # and hitstop). Combat can shove it around; the loop just keeps correcting.
   def navigate_to(world, dest, guard: 3000)
@@ -253,6 +278,87 @@ class WorldTest < Minitest::Test
     assert_equal [16, 12], striker.tile
     assert striker.iframes?
     assert_equal 0, striker.dodge_cooldown
+  end
+
+  def test_lobber_volley_counts_sim_frames_and_hits_each_impact_tile
+    lobber, targets = stage_volley(world)
+    before = targets.map(&:hp)
+    impact = launch_volley(world, lobber)
+
+    assert_same lobber, impact[:owner]
+    assert_equal [[14, 12], [15, 12], [16, 12]], impact[:tiles]
+    assert_equal 40, impact[:frames_left]
+    assert_equal 35, impact[:damage]
+
+    drive(world, scripted({}), 39)
+    assert_equal before, targets.map(&:hp)
+    assert_equal 1, impact[:frames_left]
+    drive(world, scripted({}), 1)
+
+    assert_equal before.map { |hp| [hp - 35, 0].max }, targets.map(&:hp)
+    assert_empty world.impacts
+  end
+
+  def test_volley_countdown_pauses_during_hitstop_while_world_frame_advances
+    lobber, = stage_volley(world)
+    impact = launch_volley(world, lobber)
+    frames_left = impact[:frames_left]
+    frame = world.frame
+
+    world.feel.on_hit
+    hitstop = DATA["balance/combat"][:feel][:hitstop_frames_hit]
+    drive(world, scripted({}), hitstop)
+
+    assert_equal frame + hitstop, world.frame
+    assert_equal frames_left, impact[:frames_left]
+    drive(world, scripted({}), 1)
+    assert_equal frames_left - 1, impact[:frames_left]
+  end
+
+  def test_volley_tiles_stop_at_the_first_wall
+    lobber, = stage_volley(world)
+    lobber.walker.teleport(39, 1)
+    lobber.face([1, 0])
+    impact = launch_volley(world, lobber)
+
+    assert_equal [[41, 1], [42, 1]], impact[:tiles]
+  end
+
+  def test_volley_survives_caster_death_with_live_owner_reference
+    lobber, targets = stage_volley(world)
+    before = targets.map(&:hp)
+    impact = launch_volley(world, lobber)
+    world.pack.swap_next!
+    kill(lobber, by: world.possessed)
+    drive(world, scripted({}), 1)
+
+    assert lobber.dead?
+    assert_same lobber, impact[:owner]
+    drive(world, scripted({}), impact[:frames_left])
+    assert_equal before.map { |hp| [hp - 35, 0].max }, targets.map(&:hp)
+  end
+
+  def test_volley_impacts_clear_on_zone_entry_and_wipe_respawn
+    lobber, = stage_volley(world)
+    launch_volley(world, lobber)
+    gate = world.map.transitions.first[:at]
+    world.possessed.walker.teleport(*gate)
+    drive(world, scripted({}), 1)
+    assert_equal "nest", world.zone_name
+    assert_empty world.impacts
+
+    w = Game::World.new(DATA)
+    lobber, = stage_volley(w)
+    lobber.interrupt_action!
+    impact = launch_volley(w, lobber)
+    hunter = w.humans.first
+    w.pack.members.each { |member| kill(member, by: hunter) }
+    drive(w, scripted({}), 1)
+    assert_equal :nest_respawn, w.states.current
+    assert_includes w.impacts, impact
+    drive(w, scripted({}), DATA["balance/combat"][:respawn_frames] + 5)
+    assert_equal "nest", w.zone_name
+    assert_empty w.impacts
   end
 
   def test_ally_ai_fights_humans

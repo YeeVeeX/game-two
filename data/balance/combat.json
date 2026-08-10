@@ -92,6 +92,17 @@
         "knockback_tiles": 0,
         "knockback_frames_per_tile": 5
       },
+      "special": {
+        "damage": 35,
+        "windup_frames": 10,
+        "active_frames": 1,
+        "recovery_frames": 12,
+        "exhaust_frames": 720,
+        "arc": "volley",
+        "impact_distances": [2, 3, 4],
+        "delay_frames": 40,
+        "knockback_tiles": 0
+      },
       "dodge": {
         "tiles": 2,
         "frames_per_tile": 8,

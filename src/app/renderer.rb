@@ -25,6 +25,8 @@ module App
     LUNGE_WINDUP   = Gosu::Color.new(110, 255, 125, 45)
     LUNGE_ACTIVE   = Gosu::Color.new(245, 255, 245, 210)
     PROJECTILE     = Gosu::Color.new(255, 250, 235, 170)
+    VOLLEY_EDGE    = Gosu::Color.new(220, 245, 125, 35)
+    VOLLEY_CORE    = Gosu::Color.new(235, 255, 220, 150)
     NOTCH          = Gosu::Color.new(255, 20, 14, 12)
     HP_BACK        = Gosu::Color.new(255, 50, 20, 30)
     HP_DEAD        = Gosu::Color.new(255, 35, 25, 30)
@@ -38,6 +40,7 @@ module App
       cam = world.camera
       Gosu.translate(world.feel.shake_x - cam.x, world.feel.shake_y - cam.y) do
         draw_map(world.map)
+        draw_impacts(world)
         draw_corpses(world)
         world.humans.each { |h| draw_creature(h, world) }
         world.pack.living.each { |m| draw_creature(m, world) }
@@ -48,6 +51,24 @@ module App
       draw_banner(world) if world.banner?
       draw_wipe_overlay(world) if world.states.current == :nest_respawn
       draw_stagger_veil(world) if world.possessed.staggered?
+    end
+
+    def draw_impacts(world)
+      ts = world.map.tile_size
+      world.impacts.each do |impact|
+        delay = impact[:owner].kit[:special][:delay_frames]
+        size = 6 + (impact[:frames_left].fdiv(delay) * 10).round
+        impact[:tiles].each do |(tx, ty)|
+          x = tx * ts
+          y = ty * ts
+          Gosu.draw_rect(x + 4, y + 4, ts - 8, 3, VOLLEY_EDGE)
+          Gosu.draw_rect(x + 4, y + ts - 7, ts - 8, 3, VOLLEY_EDGE)
+          Gosu.draw_rect(x + 4, y + 7, 3, ts - 14, VOLLEY_EDGE)
+          Gosu.draw_rect(x + ts - 7, y + 7, 3, ts - 14, VOLLEY_EDGE)
+          inset = (ts - size) / 2.0
+          Gosu.draw_rect(x + inset, y + inset, size, size, VOLLEY_CORE)
+        end
+      end
     end
 
     private

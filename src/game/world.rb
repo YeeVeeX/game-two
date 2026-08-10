@@ -42,6 +42,7 @@ module Game
       @humans = Hash.new { |h, k| h[k] = [] }
       @human_respawns = Hash.new { |h, k| h[k] = [] }
       @projectiles = []
+      @impacts = []
       @corpses = Hash.new { |h, k| h[k] = [] }
       @controller = PossessedController.new
       @ai = AiController.new
@@ -59,6 +60,7 @@ module Game
     def banner? = @banner_timer.positive?
     def actors = (@pack.members + humans).reject(&:dead?)
     def projectiles = @projectiles
+    def impacts = @impacts
     def corpses = @corpses[@zone_name]
 
     def tick(input)
@@ -164,6 +166,7 @@ module Game
       humans.each { |h| emit_telegraph_edge(h); @ai.tick(h, self) }
 
       check_transition
+      tick_impacts
       resolve_attacks
       tick_projectiles
       respawn_due_humans
@@ -205,6 +208,8 @@ module Game
           launch_projectile(attacker, cfg) if attacker.action_can_trigger?
         when "dash"
           resolve_dash_action(attacker, cfg)
+        when "volley"
+          launch_volley(attacker, cfg) if attacker.action_can_trigger?
         else
           resolve_tile_action(attacker, cfg)
         end
@@ -255,6 +260,46 @@ module Game
         knockback_tiles: cfg[:knockback_tiles]
       )
       @bus.emit(:projectile_fired, attacker:)
+    end
+
+    def launch_volley(attacker, cfg)
+      attacker.action_triggered!
+      @impacts << {
+        owner: attacker,
+        tiles: volley_tiles(attacker.tile, attacker.facing, cfg[:impact_distances]),
+        frames_left: cfg[:delay_frames],
+        damage: cfg[:damage]
+      }
+    end
+
+    def volley_tiles(origin, dir, distances)
+      tiles = []
+      tx, ty = origin
+      1.upto(distances.max) do |distance|
+        tx += dir[0]
+        ty += dir[1]
+        break unless map.passable?(tx, ty)
+        tiles << [tx, ty] if distances.include?(distance)
+      end
+      tiles
+    end
+
+    # Counted only in tick_world, so hitstop pauses delayed impacts while
+    # @frame continues advancing. Creation order and tile order are fixed.
+    def tick_impacts
+      @impacts.each do |impact|
+        impact[:frames_left] -= 1
+        next if impact[:frames_left].positive?
+        foes = hostiles_for(impact[:owner])
+        impact[:tiles].each do |tile|
+          victim = foes.find { |foe| !foe.dead? && foe.tile == tile }
+          next unless victim
+          victim.take_hit(damage: impact[:damage], attacker: impact[:owner],
+                          knockback_tiles: 0, blocked: blocked_for(victim))
+          @bus.emit(:attack_hit, attacker: impact[:owner], victim:)
+        end
+      end
+      @impacts.reject! { |impact| impact[:frames_left] <= 0 }
     end
 
     # Creation order = resolution order (deterministic). The projectile only
@@ -312,6 +357,7 @@ module Game
       @zone_name = name
       @flow_cache = {}
       @projectiles = []
+      @impacts = []
       placed = 0
       # Possessed gets the first tile; living allies the rest, in roster order.
       ([possessed] + (@pack.living - [possessed])).each do |m|
