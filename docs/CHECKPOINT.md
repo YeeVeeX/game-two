@@ -1,5 +1,43 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-10 (later) — D0 SHIPPED; AWAITING OWNER FUN-VERIFY
+
+**State (measured):** `main` clean at merge `386d1e4` (75 commits), 122 tests / 475
+assertions green, `rake perf` PASS (p95 0.039–0.040 ms across runs). All FOUR gate
+scripts (`loot_loop` NEW, `world_loop`, `specials_chain`, `district_hunt`) byte-identical
+across double replays + vision-pass against the grown 20-check list (3 appended,
+pass-true hatches; existing 17 untouched). `src/core/input.rb` byte-identical to
+pre-D0; window.rb 62 lines.
+
+**What shipped (D0 = three promoted things):** interact verb (H/F, edge-triggered
+across BOTH swap kinds incl. the swap-tick press, one shared `World#interact` path,
+pickup-before-bank); currency substrate (rusher `drop_table [1,1,2]` rolled from the
+seeded sim PRNG — its first consumer; tile drops with 1800f all-zone decay pausing
+under hitstop/veil; **no-reset merge clock** — spec-review finding 3 killed the
+immortal-floor-stash exploit; per-creature swap-inert `carried` that VANISHES on death;
+pack-owned `banked` wipe-safe by construction, session-only); carry HUD (magenta
+numeral on possessed bar only — teal was TAKEN by the mark glyph, docs had it wrong;
+banked numeral only within 3 tiles of the data-defined nest bank station [12,8]).
+
+**Reviews (both banked, both folded):** spec review
+`drafts/_d0-spec-review-reconciliation.md` (REJECT→folded: hatch polarity, hue
+collision, merge clock, gate-tile drops, decay_frames field); impl review
+`drafts/_d0-implementation-review.md` (ACCEPT + 2 low: swap-tick mask test added —
+sabotage-verified to fail without the mask — and ledger-radius doc sync). Two mid-gate
+render fixes from the vision critic: ledger radius 2→3 (tween-vs-tile-commit), and
+telegraphing humans keep a body inlay (two adjacent flares read as Volley tiles).
+
+**Owner queue (in order):**
+1. **Fun-verify D0** — `bin/play`, hunt, pick up (H/F), carry, bank at the hollow
+   magenta fixture west of spawn. The three questions are in the session report.
+2. Owner asked mid-session for a blocker taunt ("exeta res") — recorded in
+   PARKING_LOT.md as top next-track candidate; needs promotion via scope contract
+   before any code.
+
+**Next after fun-verify:** owner picks ONE track — recommendation banked in the session
+report (A0.6 blocker taunt micro-increment), alternatives D1 corpse-run / A1 gambits /
+A3 only if cadence collapsed.
+
 ## 2026-08-10 — A0.5 SHIPPED + FUN-VERIFIED; D0 (loot loop) PROMOTED — spec is NEXT
 
 **State (measured):** `main` clean at merge `157af7b` (65 commits), 96 tests / 372
