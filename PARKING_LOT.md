@@ -36,7 +36,9 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
 
 ## Queued from the feature map (drafts/_kethral-feature-map.md) — next candidates post fun-verify
 
-- Corpse-run gear drop (kethral's signature death tension — top candidate)
+- Corpse-run gear drop (kethral's signature death tension — top candidate) — **now fully
+  designed**: `docs/design-corpus/death-economy-design.md` (3-critic panel gated, D0-D3
+  staging, soul model). D-track is PARALLEL to A1-A3; ordering = owner call at promotion.
 - Third zone tier (Vonash) + BSP-generated dungeon layouts (fixed seed, learnable geography)
 - Room names on first visit ("The Entry Wound" style — cheap atmosphere)
 - Stamina economy, loot drops, skill-through-use progression
