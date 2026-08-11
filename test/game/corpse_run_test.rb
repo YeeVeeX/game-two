@@ -74,6 +74,17 @@ class CorpseRunTest < Minitest::Test
     list.find { |c| c[:tile] == tile }
   end
 
+  # world_test idiom: keep `count` humans, parked far away and staggered —
+  # long waits must not get the survivor killed mid-test.
+  def isolate_humans(world, count = 2)
+    kept = world.humans.first(count)
+    world.humans.replace(kept)
+    kept.each_with_index do |h, i|
+      h.walker.teleport(40, 23 + i)
+      h.stagger!(30_000)
+    end
+  end
+
   # --- data invariants (review FN-3: grace <= term or the top-up truncates) --
 
   def test_death_balance_invariants
@@ -232,5 +243,54 @@ class CorpseRunTest < Minitest::Test
     drive(world, scripted({}), Game::World::CORPSE_FADE_FRAMES + 5)
     assert_nil world.corpses.find { |r| r[:tile] == carrier.tile && r[:faction] == :pack },
                "after release the normal fade + prune lifecycle resumes"
+  end
+
+  # --- recovery: settle gates, then full transfer, creation order ----------
+
+  def test_settle_blocks_then_admits_the_loot
+    looted = []
+    world.bus.subscribe(:corpse_looted) { |e| looted << e }
+    carrier, amount = stage_loaded_death(world)
+    world.possessed.walker.teleport(*carrier.tile)
+    press_interact(world)
+    assert_equal 0, world.possessed.carried, "settling corpse refuses the press"
+    assert_empty looted
+    drive(world, scripted({}), DEATH[:loot_settle_frames])
+    press_interact(world)
+    assert_equal amount, world.possessed.carried, "full amount, no partials"
+    assert_nil load_at(world, carrier.tile), "container consumed"
+    assert_equal [{ amount:, carried: amount, tile: carrier.tile }],
+                 looted.map { |e| { amount: e[:amount], carried: e[:carried], tile: e[:tile] } }
+    rec = world.corpses.find { |r| r[:tile] == carrier.tile && r[:faction] == :pack }
+    assert_nil rec[:container_id], "loot releases the corpse link"
+  end
+
+  def test_interact_priority_drop_then_corpse
+    carrier, amount = stage_loaded_death(world)
+    drive(world, scripted({}), DEATH[:loot_settle_frames])
+    world.drops << { tile: carrier.tile.dup, amount: 5, frames_left: 1800, decay_frames: 1800 }
+    world.possessed.walker.teleport(*carrier.tile)
+    press_interact(world)
+    assert_equal 5, world.possessed.carried, "drop wins the first press (two-press rule)"
+    press_interact(world)
+    assert_equal 5 + amount, world.possessed.carried, "corpse loots on the second"
+  end
+
+  def test_stacked_containers_loot_in_death_order
+    carrier, amount = stage_loaded_death(world)
+    second = world.possessed
+    second.pick_up(2)
+    drive(world, scripted({ world.frame.to_s => ["swap"] }), 2)
+    # teleport AFTER the swap drive: the freed body is AI-driven and would
+    # walk off the stack tile during those frames
+    second.walker.teleport(*carrier.tile)
+    kill(second, by: world.humans.reject(&:dead?).first)
+    isolate_humans(world, 0) # the survivor must outlive the settle wait
+    drive(world, scripted({}), DEATH[:loot_settle_frames] + 5)
+    world.possessed.walker.teleport(*carrier.tile)
+    press_interact(world)
+    assert_equal amount, world.possessed.carried, "oldest container first"
+    press_interact(world)
+    assert_equal amount + 2, world.possessed.carried
   end
 end

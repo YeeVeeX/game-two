@@ -193,6 +193,18 @@ module Game
         @bus.emit(:drop_picked_up, actor: source, amount: drop[:amount], carried: source.carried)
         return true
       end
+      # D1 recovery: settle-gated, full transfer, creation order on stacked
+      # tiles (a settling container falls through — deterministic skip). A
+      # drop on the tile won the press above: the D0 two-press rule extended.
+      load = corpse_loads.find { |c| c[:tile] == source.tile && c[:settle_left] <= 0 }
+      if load
+        corpse_loads.delete(load)
+        release_corpse_record(@zone_name, load[:id])
+        source.pick_up(load[:amount])
+        @bus.emit(:corpse_looted, actor: source, tile: load[:tile],
+                  amount: load[:amount], carried: source.carried)
+        return true
+      end
       station = map.station_at(*source.tile)
       return false unless station && station[:type] == "bank" && source.carried.positive?
       amount = source.drain_carried!
