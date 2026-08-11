@@ -146,7 +146,10 @@ Respond with JSON only, no prose outside it:
   "checks": [{{"id": "...", "pass": true, "why": "one sentence"}}],
   "verdict": "PASS" or "FAIL"
 }}
-"verdict" MUST be "FAIL" if any check has "pass": false."""
+"verdict" MUST be "FAIL" if any check has "pass": false.
+STRICT OUTPUT RULES (malformed JSON voids the verdict): each "why" is ONE short
+sentence, maximum 20 words, containing NO double quotes, NO apostrophes, and NO
+frame-name lists longer than two frames. Each check id appears EXACTLY once."""
 
 
 def extract_json(text: str) -> dict:
