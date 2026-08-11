@@ -105,6 +105,17 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
   sessions, zero banks, zero corpse recoveries. Next: make the beat
   impossible to miss, re-run the same 8 questions (FIFTH chore ask). Full
   verdict + diagnosis: `drafts/_ledger-fun-verify-20260811.md`.
+  **FIFTH fun-verify LANDED 2026-08-11 (loud presentation, merge `42b54d6`):
+  VALID — Q1 "landed as a payoff" (first positive in five verifies) proves
+  visibility fixed; Q3 "still a chore" (FIFTH ask) on a VISIBLE ledger →
+  the v8 pre-queue FIRED: A2 PROMOTES AUTOMATICALLY.** LB-1 refuted:
+  legibility alone does not price the pile (Q4 same walk, Q5 tally meant
+  little, Q7 wouldn't notice, Q8 wouldn't care). Ledger disposition:
+  **STAYS through A2** (Q1 positive, per the disposition clause). Q6 "some
+  couldn't read" = polish signal only (loss line n=1 / bank lines),
+  quarantines nothing. Behavioral first: banked_events=5 (0 in all prior
+  sessions). Economy still parked. Full verdict + routing:
+  `drafts/_ledger-fun-verify2-20260811.md`.
 
 ## Owner playtest feedback (recorded 2026-08-11, mid-ledger-fun-verify — parked, NOT promoted)
 
@@ -172,9 +183,14 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
   (b) gamesmith corpus has ZERO touchstone evidence for threat/aggro systems in any of the
   5 games (Tibia's only "pull" concept is over-pull as route-risk) — A2 must be defended
   from game-two's own diagnosed problems (the taunt-fuse finding, spec decision 6), not
-  cited evidence. **PRE-QUEUED 2026-08-11 (scope v8 owner lock): if the post-fight
-  ledger's fun-verify does not move the chore, A2 promotes AUTOMATICALLY — no new scope
-  debate. Three converging signals on file (D0 dev-read, taunt not moving the chore,
-  D1's 2/2 uncontested recoveries).**
+  cited evidence. ~~PRE-QUEUED 2026-08-11 (scope v8 owner lock)~~ → **PROMOTED
+  2026-08-11: the pre-queue FIRED on the fifth fun-verify (Q3 "still a chore" on a
+  VISIBLE ledger — Q1 "landed as a payoff" proves visibility). LEAVES THE LOT; scope
+  v9 rewrite is the next session's first act, then the A2 brainstorm (fold in the
+  shape notes above + tank-first possession + gate-camping notes; reconcile
+  threat-accumulator vs pull-density). Four converging signals now on file (D0
+  dev-read, taunt not moving the chore, D1's 2/2 uncontested recoveries, ledger
+  legibility refuted as the meaning lever).** Verdict:
+  `drafts/_ledger-fun-verify2-20260811.md`.
 - A3: nest advance / district progression (break districts, re-home the nest)
 - Fiction-bound audio/visual identity pass (waits on the bible)

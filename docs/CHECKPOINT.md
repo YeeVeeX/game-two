@@ -1,6 +1,40 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-11 (latest) — LEDGER PRESENTATION SHIPPED (merge `42b54d6`); FIFTH fun-verify is the ONLY remaining step
+## 2026-08-11 (latest) — FIFTH FUN-VERIFY LANDED: VALID, LB-1 REFUTED — **A2 PROMOTED (the v8 pre-queue fired)**; scope v9 + A2 brainstorm are NEXT
+
+**The verify (full doc: `drafts/_ledger-fun-verify2-20260811.md`):** owner
+played one fuller session on merge `42b54d6` (telemetry: 15 fights, 6 wipes,
+**5 banks — the first voluntary banks in any verify session**, 1 negative
+fight) and answered all 8 spec questions via AskUserQuestion (two batches).
+**Q1 "landed as a payoff"** — first positive signal in five verifies; the
+presentation iteration fixed visibility, so the verify is VALID as a meaning
+test. **Q3 "still a chore" (FIFTH ask) on a VISIBLE ledger → the v8 owner
+lock fired: A2 threat/pull economy PROMOTES AUTOMATICALLY** (supersedes the
+2026-08-10 demotion; no new scope debate). LB-1 refuted cleanly: the tally
+lands as a moment-payoff but creates zero meaning (Q4 same walk, Q5 "banked
+anyway — tally meant little", Q7 "wouldn't notice", Q8 "wouldn't care").
+Drama (D1) → no; legibility (ledger) → no; the remaining lever is
+consequence. **Ledger disposition: STAYS through A2** (Q1 positive, per the
+pre-registered disposition clause). Q6 "some I couldn't read" = polish signal
+only (likely the n=1 loss line and/or bank reconciliation lines) — quarantines
+nothing; recorded for a later pass, NOT a presentation re-route.
+
+**Owner vision check (same session, answered in conversation + verdict doc):**
+"is the bank/point system arcade drift?" — the verify then MEASURED the
+intuition: a well-presented number with no world-consequence is score. The
+roadmap answer is A2 (threat) + D1b (banked feeds the vat), never more juice.
+
+**NEXT SESSION (in order, none of it done yet):** (1) **scope contract → v9
+in CLAUDE.md FIRST** — A2 threat/pull economy IN, everything else stays
+parked, ledger recorded as STAYS; (2) A2 brainstorm folding PARKING_LOT's A2
+shape notes (owner threat-accumulator vs original pull-density — reconcile;
+leash-with-no-heal, gate beachhead, chaser cap; aggro soft-cap 8-12 + density
+costs; corpus caveat: zero touchstone evidence for aggro systems — defend A2
+from game-two's own diagnosed problems) + tank-first possession feedback;
+(3) spec → plan → implement → 7-gate wall → SIXTH fun-verify. Economy (D1b,
+spending banked) stays parked in all branches.
+
+## 2026-08-11 — LEDGER PRESENTATION SHIPPED (merge `42b54d6`); FIFTH fun-verify is the ONLY remaining step
 
 **State (measured):** `main` at merge `42b54d6` (149 commits; branch
 `ledger-presentation`, 6 commits, merged `--no-ff`, NOT pushed — no remote).
