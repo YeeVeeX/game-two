@@ -157,6 +157,13 @@ module Game
       end
     end
 
+    def arrival_tiles_for(zone) = @arrivals.fetch(zone) { [] }
+
+    def gate_distance(tile)
+      field = @gate_fields[@zone_name]
+      field ? field.distance(*tile) : Float::INFINITY
+    end
+
     # Flow fields anchor on ANY creature, cached per anchor, recomputed only
     # when the anchor's tile changes. Cache clears on zone change.
     def flow_to(anchor)
@@ -566,6 +573,17 @@ module Game
     def load_zones
       names = @data.keys.grep(%r{\Azones/}).map { |k| k.sub("zones/", "") }
       names.each { |n| @zones[n] = Core::TileMap.new(@data["zones/#{n}"]) }
+      @arrivals = Hash.new { |h, k| h[k] = [] }
+      @zones.each_value do |zmap|
+        zmap.transitions.each { |t| @arrivals[t[:to]] << t[:spawn] }
+      end
+      @gate_fields = {}
+      @arrivals.each do |zone, tiles|
+        next if tiles.empty?
+        f = FlowField.new(@zones.fetch(zone))
+        f.recompute!(tiles.first)
+        @gate_fields[zone] = f
+      end
       seed_humans
     end
 

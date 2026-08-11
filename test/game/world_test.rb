@@ -1141,4 +1141,26 @@ class WorldTest < Minitest::Test
     assert_equal 0, world.possessed.carried, "bank on the next press"
     assert_equal 3, world.pack.banked
   end
+
+  # --- arrival tiles + gate-distance fields (A2 Task 2) --------------------
+
+  def test_district_arrival_tile_comes_from_nest_transition
+    assert_equal [[1, 13]], world.arrival_tiles_for("district")
+    assert_equal [[28, 8]], world.arrival_tiles_for("nest")
+  end
+
+  def test_gate_distance_is_bfs_from_the_arrival_tile
+    enter_district(world)
+    assert_equal 0, world.gate_distance([1, 13])
+    assert_operator world.gate_distance([35, 5]), :>=, 30
+  end
+
+  def test_district_drop_gradient_loaded
+    enter_district(world)
+    assert_equal [[0, 1.0], [14, 1.5], [28, 2.0]], world.map.drop_gradient
+  end
+
+  def test_nest_has_no_drop_gradient
+    assert_nil world.map.drop_gradient
+  end
 end
