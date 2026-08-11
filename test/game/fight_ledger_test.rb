@@ -191,4 +191,164 @@ class FightLedgerTest < Minitest::Test
     assert_operator e[:span_frames], :>=, QUIET
     assert_operator e[:span_frames], :<=, QUIET + 8
   end
+
+  # --- accrual correctness (Task 3) ---
+
+  def test_pickup_refreshes_an_open_window_and_counts
+    events = resolved_events(world)
+    enter_district(world)
+    isolate_humans(world)
+    quiesce_ledger(world, events)
+    kill(world.humans.reject(&:dead?).first, by: world.possessed) # opens + drop
+    drain_hitstop(world)
+    drive(world, scripted({}), QUIET - 30)           # near deadline...
+    tile = world.drops.first[:tile]
+    amount = world.drops.first[:amount]
+    world.possessed.walker.teleport(*tile)
+    press_interact(world)                            # ...sweep refreshes
+    drive(world, scripted({}), QUIET - 30)
+    assert_empty events, "pickup must refresh the quiet clock (spec H3)"
+    drive(world, scripted({}), 40)
+    assert_equal 1, events.length
+    assert_equal amount, events.first[:gained], "the sweep is the fight's take"
+  end
+
+  def test_pickup_outside_any_window_opens_nothing
+    events = resolved_events(world)
+    enter_district(world)
+    isolate_humans(world)
+    quiesce_ledger(world, events)
+    kill(world.humans.reject(&:dead?).first, by: world.possessed)
+    drain_hitstop(world)
+    drive(world, scripted({}), QUIET + 2)            # fight resolves, +0
+    assert_equal 1, events.length
+    tile = world.drops.first[:tile]
+    world.possessed.walker.teleport(*tile)
+    press_interact(world)                            # ambient glean
+    drive(world, scripted({}), QUIET + 2)
+    assert_equal 1, events.length, "ambient gleaning must not open a window"
+  end
+
+  def test_recovery_opens_a_window_and_marks_the_beat
+    events = resolved_events(world)
+    enter_district(world)
+    isolate_humans(world, 2)   # stage_pickup kills one; the carrier needs a killer
+    quiesce_ledger(world, events)
+    # Quiesce BETWEEN pickup and death: pickup-and-death in one window is
+    # the churn case (next test); the clean NEGATIVE fight needs the pickup
+    # fight closed first.
+    stage_pickup(world)
+    quiesce_ledger(world, events)
+    carrier = world.possessed
+    amount = carrier.carried
+    assert_operator amount, :>, 0
+    drive(world, scripted({ world.frame.to_s => ["swap"] }), 2)
+    refute_equal carrier, world.possessed
+    kill(carrier, by: world.humans.reject(&:dead?).first)
+    drive(world, scripted({}), 2)
+    # the pickup rusher's respawn wanders into ally aggro and refreshes the
+    # window (probe: damage at deadline-28) — drive bounded until it resolves
+    120.times do
+      break if events.length >= 1
+      drive(world, scripted({}), 10)
+    end
+    assert_equal 1, events.length
+    assert_equal amount, events.first[:stranded]
+    assert_equal 0, events.first[:gained]
+    assert_equal(-amount, events.first[:net], "stranded fight is negative")
+    assert_equal amount, world.ledger_beat[:pip_amount]
+    # bloodless recovery: skip the settle by mutation (the D1 clock idiom —
+    # outwaiting 300f collides with the rusher respawn cycle)
+    load = world.corpse_loads.first
+    load[:settle_left] = 0
+    world.possessed.walker.teleport(*load[:tile])
+    press_interact(world)
+    # the respawned rusher may wander in and refresh the recovery window —
+    # drive bounded until it resolves (deterministic; same script each run)
+    120.times do
+      break if events.length >= 2
+      drive(world, scripted({}), 10)
+    end
+    assert_equal 2, events.length
+    e = events.last
+    assert_equal :recovery, e[:opened_by]
+    assert_equal amount, e[:gained]
+    assert world.ledger_beat[:recovery], "redemption beat carries the pip prefix"
+  end
+
+  def test_stranded_then_recovered_same_window_nets_zero
+    events = resolved_events(world)
+    enter_district(world)
+    isolate_humans(world, 2)   # stage_pickup kills one; the carrier needs a killer
+    quiesce_ledger(world, events)
+    _carrier, amount = stage_loaded_death(world)
+    load = world.corpse_loads.first
+    # loot inside the SAME window: skip the settle by mutation (D1 clock
+    # idiom) — the whole kill-pickup-death-loot sequence is one engagement
+    load[:settle_left] = 0
+    world.possessed.walker.teleport(*load[:tile])
+    press_interact(world)                            # loot IN-window
+    drive(world, scripted({}), QUIET + 2)
+    assert_equal 1, events.length
+    e = events.first
+    assert_equal amount, e[:stranded]
+    assert_operator e[:gained], :>=, amount          # recovery + the pickup
+    assert_equal e[:gained] - e[:stranded], e[:net], "churn nets honestly"
+  end
+
+  def test_carried_lost_is_zone_filtered_for_the_window_but_not_the_leg
+    events = resolved_events(world)
+    # Make a container IN THE NEST (carrier killed at home by direct hits).
+    enter_district(world)
+    isolate_humans(world, 2)   # #2 must survive the nest trip for the poke
+    stage_pickup(world)
+    # stage_pickup teleported the possessed to the isolated human's drop at
+    # (40,23) — 40 tiles from the west gate. Teleport gate-adjacent and take
+    # the short walk (deterministic staging, not player-plausible movement).
+    world.possessed.walker.teleport(2, 13)
+    drive(world, scripted({}), 1)
+    drive(world, scripted(hold(:left, world.frame, world.frame + STEP * 4 - 1)), STEP * 4)
+    assert_equal "nest", world.zone_name
+    carrier = world.possessed
+    drive(world, scripted({ world.frame.to_s => ["swap"] }), 2)
+    kill(carrier, by: world.possessed)               # attacker identity irrelevant
+    drive(world, scripted({}), 2)
+    nest_load = world.corpse_loads("nest").first
+    refute_nil nest_load
+    # Back to the district. The post-swap possessed may sit OFF row 8 (the
+    # only row with the east gate) — teleport onto the gate row first.
+    world.possessed.walker.teleport(27, 8)
+    drive(world, scripted({}), 1)
+    drive(world, scripted(hold(:right, world.frame, world.frame + STEP * 4 - 1)), STEP * 4)
+    assert_equal "district", world.zone_name
+    world.possessed.walker.teleport(2, 13)
+    drive(world, scripted({}), 1)
+    events.clear
+    poke(world)
+    nest_load[:term_left] = 5
+    drive(world, scripted({}), 10)                   # expiry fires off-zone
+    kill(world.humans.reject(&:dead?).first, by: world.possessed)
+    drain_hitstop(world)
+    drive(world, scripted({}), QUIET + 2)
+    e = events.last
+    assert_equal 0, e[:destroyed], "off-zone expiry must not enter the window"
+  end
+
+  def test_zone_transition_force_resolves_with_the_origin_zone
+    events = resolved_events(world)
+    enter_district(world)
+    isolate_humans(world)
+    quiesce_ledger(world, events)
+    # Stage NEXT TO the gate so the retreat fits inside the quiet window —
+    # a 30-tile walk would let the window quiet-resolve mid-walk and the
+    # test would pass without exercising the force-resolve at all.
+    world.possessed.walker.teleport(3, 13)
+    drive(world, scripted({}), 1)
+    kill(world.humans.reject(&:dead?).first, by: world.possessed)
+    drain_hitstop(world)
+    drive(world, scripted(hold(:left, world.frame, world.frame + STEP * 6 - 1)), STEP * 6)
+    assert_equal "nest", world.zone_name
+    assert_equal 1, events.length
+    assert_equal "district", events.first[:zone], "zone captured at OPEN (review M2)"
+  end
 end
