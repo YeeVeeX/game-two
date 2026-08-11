@@ -4,3 +4,4 @@ tmp/
 *.gem
 .bundle/
 vendor/bundle/
+.playwright-mcp/
