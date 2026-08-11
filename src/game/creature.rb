@@ -12,7 +12,8 @@ module Game
 
     attr_reader :hp, :max_hp, :kit, :kit_name, :faction, :name, :walker,
                 :facing, :attack_state, :stagger, :dodge_cooldown, :current_action,
-                :carried, :taunt_frames
+                :carried, :taunt_frames, :home_tile, :leash_frames
+    attr_accessor :focus
 
     def initialize(bus:, kit:, kit_name:, map:, tile:, faction:, name:)
       @bus = bus
@@ -40,6 +41,10 @@ module Game
       @carried = 0
       @taunted_by = nil
       @taunt_frames = 0
+      @home_tile = tile.dup.freeze # threat home: where this body belongs (A2 leash)
+      @focus = nil
+      @leash_frames = 0
+      @beachhead_waived = false
     end
 
     def tile = [@walker.tile_x, @walker.tile_y]
@@ -170,6 +175,7 @@ module Game
     # a striker doesn't) — the victim only supplies the tween speed.
     def take_hit(damage:, attacker:, knockback_tiles: 0, blocked: [])
       return false if iframes? || dead?
+      waive_beachhead! if @faction == :human && attacker.faction == :pack
       @hp = [@hp - damage, 0].max
       @hurt_frames = 8
       interrupt_action! if @kit[:interrupt_on_hit] || (dead? && @current_action == :special)
@@ -186,11 +192,17 @@ module Game
       @stagger = [@stagger, frames].max
     end
 
+    def tick_leash = @leash_frames += 1
+    def reset_leash! = @leash_frames = 0
+    def beachhead_waived? = @beachhead_waived
+    def waive_beachhead! = @beachhead_waived = true
+
     # Taunt lock (A0.6): victim-owned, swap-inert — bound to the taunter's
     # BODY, never the possession pointer. A fresh taunt overwrites.
     def taunt!(taunter, frames)
       @taunted_by = taunter
       @taunt_frames = frames
+      waive_beachhead!
     end
 
     # PURE reader — never mutates (the renderer calls it from draw, and a

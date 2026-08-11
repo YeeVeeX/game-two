@@ -235,4 +235,36 @@ class CreatureTest < Minitest::Test
     c.revive!(map: MAP, tile: [3, 2])
     assert_equal 0, c.carried, "a revived body starts empty-handed"
   end
+
+  # --- A2: Threat state ---
+
+  def test_home_tile_is_stamped_at_construction
+    c = creature(tile: [5, 2], faction: :human)
+    c.step(1, 0, blocked: [])
+    60.times { c.tick_body }
+    assert_equal [5, 2], c.home_tile
+  end
+
+  def test_leash_counter_ticks_and_resets
+    c = creature(faction: :human)
+    3.times { c.tick_leash }
+    assert_equal 3, c.leash_frames
+    c.reset_leash!
+    assert_equal 0, c.leash_frames
+  end
+
+  def test_landed_pack_hit_waives_beachhead
+    h = creature(faction: :human)
+    p = creature(faction: :pack, tile: [4, 2])
+    refute h.beachhead_waived?
+    h.take_hit(damage: 1, attacker: p)
+    assert h.beachhead_waived?
+  end
+
+  def test_taunt_waives_beachhead
+    h = creature(faction: :human)
+    p = creature(faction: :pack, tile: [4, 2])
+    h.taunt!(p, 300)
+    assert h.beachhead_waived?
+  end
 end
