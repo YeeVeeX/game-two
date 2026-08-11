@@ -76,8 +76,16 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
   errand-running. Taunt (A0.6) is upstream of this: sticky, controllable fights are
   what make a carried pile feel at risk. **Decision: do NOT tune D0 blind now**
   (drop amounts / decay pressure / station placement wait); re-run the D0 fun-verify
-  AFTER A0.6 ships and only then tune with fresh signal. D1 (corpse containers)
-  remains parked behind that re-verify.
+  AFTER A0.6 ships and only then tune with fresh signal.
+  **RE-VERIFY LANDED 2026-08-10 (post-taunt): "still a chore."** Taunt fixed combat
+  feel, not carry stakes — as its own spec predicted. Revised diagnosis: D0's loss
+  moment is a SILENT NOTHING (harshest possible rule — vanish — yet unfelt: no drama,
+  no decision, no recovery). Fix promoted: **D1 corpse run** (scope contract v7,
+  spec `2026-08-10-d1-corpse-run-design.md`). **D1b (body fees + vat re-growth) split
+  out and PARKED** — the tension slice ships alone, one variable at a time; fees
+  return with the economy/ledger increment. The post-fight ledger (Tibia Hunt
+  Analyser beat, gamesmith FR-024) is the NEXT candidate after D1's fun-verify —
+  it is the stakes' readout, so it waits for stakes to exist.
 
 ## A1+ queue (cut from Increment A by the 2026-08-09 dual review — each behind its own fun-verify)
 
@@ -88,6 +96,14 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
     (hold range while repositioning, flee at low HP) remains gambit territory here.
 - A1+: Shooters (ranged humans — needs per-attacker cadence proven first)
 - A2: pull economy with aggro soft-cap (8-12) + density costs (review: without the cap it is
-  monotonically exploitable)
+  monotonically exploitable). **Promoted v6 then DEMOTED same day (2026-08-10), zero code
+  written** — owner pullback: "more complex aggro system is nice to have but seems more like
+  an extra for later." Shape notes banked for whenever it returns: (a) owner picked a
+  per-human threat-accumulator shape (taunt as threat CEILING, preserving the fun-verified
+  hard lock) over this entry's original pull-density shape — reconcile the two at promotion;
+  (b) gamesmith corpus has ZERO touchstone evidence for threat/aggro systems in any of the
+  5 games (Tibia's only "pull" concept is over-pull as route-risk) — A2 must be defended
+  from game-two's own diagnosed problems (the taunt-fuse finding, spec decision 6), not
+  cited evidence.
 - A3: nest advance / district progression (break districts, re-home the nest)
 - Fiction-bound audio/visual identity pass (waits on the bible)

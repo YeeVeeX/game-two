@@ -6,41 +6,36 @@ permission for design decisions.
 
 ## Scope contract (the #1 Kethral failure was ignoring this — it is enforced here)
 
-v6 (2026-08-10): A0.6 blocker taunt SHIPPED (merge `38064ac`); owner fun-verify:
-tank fantasy **"yes, it clicked"**, rhythm **"right as-is"** (no decouple needed —
-ship-coupled was correct). D0 re-verify (same question, post-taunt): **"still a
-chore"** — taunt did not fix it (expected: taunt is a combat-feel fix, D0's gap is
-economic pressure on the carry; re-verify stays in PARKING_LOT.md, still NOT tuned
-blind). Owner picked the next track over the D0 ledger fix: **A2 = aggro
-soft-cap / threat system ONLY**. Spec:
-`docs/superpowers/specs/2026-08-10-a2-threat-soft-cap.md`.
+v7 (2026-08-10): A0.6 taunt SHIPPED + fun-verified ("clicked" / rhythm
+"right as-is"). D0 re-verify post-taunt: **"still a chore"** — the carry lacks
+felt stakes; NOT tuned blind. **A2 (threat system): promoted in v6, DEMOTED the
+same day unbuilt** — owner pullback verbatim: *"more complex aggro system is
+nice to have but seems more like an extra for later"*; zero A2 code exists;
+entry + shape notes returned to PARKING_LOT.md. Current increment =
+**D1 = the corpse run ONLY** (owner delegated the pick; dev-of-record call,
+defended in the spec). Spec:
+`docs/superpowers/specs/2026-08-10-d1-corpse-run-design.md` — implements the
+3-critic-gated `docs/design-corpus/death-economy-design.md` D1 staging.
 
-⚠️ Correction from v5: A2 was described there as "taunt is a VERB, not a threat
-system" — that boundary held for A0.6 (taunt shipped with zero threat math, per
-that rule) and is now superseded: A2 IS the threat system, promoted next as the
-fuse-fix taunt's own spec flagged (an unpeeled blocker can die inside its own
-taunt lock against 4+ attackers — decision 6 of the taunt spec). Gamesmith corpus
-checked for touchstone evidence first: zero threat/aggro-management mechanics in
-any of the 5 games (Tibia's only "pull" concept is over-pull as a route-risk
-decision, not a targeting system) — A2 has no touchstone and is defended from
-game-two's own diagnosed problem, not cited evidence.
-
-**IN scope until A2 is fun-verified — A2 promotes exactly ONE thing:**
-- **A per-human threat accumulator** (Hash keyed by pack member, small — humans
-  only ever hostile against ≤3 pack members) that replaces plain `nearest`
-  targeting: gains from being attacked, decays without a source. Taunt becomes a
-  **threat ceiling** set on cast (preserves the exact hard-lock feel just
-  fun-verified — nothing accrued in-window can outbid it), not an instant
-  override. All numbers in `data/balance/combat.json`.
+**IN scope until D1 is fun-verified — D1 promotes exactly ONE thing, the
+corpse-run tension slice:**
+- **Corpse containers**: a pack body that dies carrying leaves its load ON its
+  corpse (sim-owned, per-zone, term-limited — global clock like drops) instead
+  of vanishing; survivors recover it via the existing interact verb after a
+  settle delay; term expiry is the permanent loss; pack wipe tops every term up
+  to a grace floor so the run back is always possible. Three readable corpse
+  states (loaded / looted / expired). All numbers in `data/balance/death.json`.
 
 **OUT of scope — goes to PARKING_LOT.md, never to code:**
-D0 tuning (the ledger/pressure fix — waits for its own promotion, not bundled
-into A2); corpse containers / own-corpse looting, body fees, wipe fines, insurance
-(D1/D2); gambit engine + hot-reload (A1), Shooters, nest advance (A3); inventory
-grids, carry weight, rarity, new drop types, spending banked, restart persistence;
-any THIRD kit special or new binding; plus everything already parked (procedural
-dungeons, stamina, XP/skills, dialogue, status effects, crafting, weather, co-op,
-quests, shops, multiple weapons).
+Body fees + vat re-growth (D1b — split from the gated D1 staging, one variable
+at a time); practice fine + insurance (D2, blocked on skill-through-use);
+scavengers + term-extension marks (D3); the post-fight ledger (own increment,
+next candidate after D1); A2 threat/pull economy (demoted); A1 gambits,
+Shooters, A3 nest advance; inventory grids, carry weight, rarity, new drop
+types, spending banked, restart persistence; any THIRD kit special or new
+binding; plus everything already parked (procedural dungeons, stamina,
+XP/skills, dialogue, status effects, crafting, weather, co-op, quests, shops,
+multiple weapons).
 **Nothing new starts until the current loop is fun-verified by the owner.**
 
 ## De-slop + comprobations (owner-set 2026-08-09)
