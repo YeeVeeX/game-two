@@ -20,11 +20,14 @@ counterplay NONE in A2 (Challenger beat pre-registered).
 — REVISED after a 15-agent 3-lens adversarial workflow (12 findings: 11
 refuted, 1 confirmed-low folded; `drafts/_a2-spec-review.md`). **Plan:**
 `docs/superpowers/plans/2026-08-11-a2-threat-pull-economy.md` (13 tasks,
-TDD, code-fact-bound via exploration brief; branch `a2-threat`). Owner has
-NOT yet skimmed either — offer that before executing.
+1,057 lines, TDD, code-fact-bound via exploration brief; branch `a2-threat`).
+**OWNER APPROVED spec + plan + execution 2026-08-11 ("approved proceed")** —
+the review gate is CLEARED; measured state at approval: 158 commits, HEAD
+`0bf6912`, tree clean, 31 checks, 47 drafts.
 
-**NEXT SESSION:** execute the plan (owner picks subagent-driven vs inline per
-writing-plans handoff), 8-script wall, merge --no-ff NO push, SIXTH fun-verify
+**NEXT SESSION (greenlit):** execute the plan task-by-task (subagent-driven
+per the accepted recommendation; inline executing-plans as fallback),
+8-script wall, merge --no-ff NO push, checkpoint, then the SIXTH fun-verify
 per spec §Fun-verify (telemetry line first, 8 questions verbatim in two
 batches + entrainment probe; routing pre-registered incl. D1b auto-promotion
 as the inscription economy on "chore unmoved + threat felt").
