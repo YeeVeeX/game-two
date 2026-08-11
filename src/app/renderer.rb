@@ -552,9 +552,12 @@ module App
       Gosu.draw_rect(cx - pw / 2, cy - ph / 2, pw, ph, col, 29)
     end
 
+    # Peak alpha 120, not higher: at ~200 the flash whites the magenta glyph
+    # out entirely at age 0 — an arrival punch must never erase the gain/loss
+    # color identity the grammar teaches.
     def draw_beat_flash(cx, cy, w, h, scale, age)
       return unless age < ledger_flash_frames
-      fa = (200 * (1.0 - age.fdiv(ledger_flash_frames))).round
+      fa = (ledger_flash_alpha * (1.0 - age.fdiv(ledger_flash_frames))).round
       pw = (w + BEAT_PAD_X * 2) * scale
       ph = (h + BEAT_PAD_Y * 2) * scale
       Gosu.draw_rect(cx - pw / 2, cy - ph / 2, pw, ph,
@@ -606,6 +609,7 @@ module App
 
     def ledger_pop_frames = @display.fetch(:ledger_pop_frames, 10)
     def ledger_flash_frames = @display.fetch(:ledger_flash_frames, 6)
+    def ledger_flash_alpha = @display.fetch(:ledger_flash_alpha, 120)
     def ledger_panel_alpha = @display.fetch(:ledger_panel_alpha, 160)
     def ledger_block_y = @display.fetch(:ledger_block_y, 160)
     def ledger_wipe_y = @display.fetch(:ledger_wipe_y, 340)

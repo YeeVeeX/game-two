@@ -132,6 +132,9 @@ class FightLedgerTest < Minitest::Test
                     "flash rides the pop; a flash outliving it reads as a stuck highlight"
     assert_operator display[:ledger_panel_alpha], :>, 0
     assert_operator display[:ledger_panel_alpha], :<=, 255
+    assert_operator display[:ledger_flash_alpha], :>, 0
+    assert_operator display[:ledger_flash_alpha], :<, 200,
+                    "a flash peak near 255 whites out the glyph color identity at age 0"
     assert_operator display[:ledger_block_y], :>, 80,
                     "block must clear the HUD bars (three rows end ~y=76)"
     assert_operator display[:ledger_wipe_y], :>, 294,
