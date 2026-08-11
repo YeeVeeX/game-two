@@ -132,6 +132,7 @@ module Harness
       def finish_quit(cmd)
         export_script(File.join(@dir, "last.json"))
         ack(cmd)
+        puts @scene.summary if @scene.respond_to?(:summary)
         close!
       end
 

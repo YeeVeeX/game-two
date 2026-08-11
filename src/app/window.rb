@@ -2,6 +2,7 @@ require "gosu"
 require "core/data_store"
 require "core/input"
 require "game/world"
+require "game/telemetry"
 require "app/renderer"
 
 module App
@@ -35,6 +36,7 @@ module App
       super display[:view_width], display[:view_height]
       self.caption = "game-two"
       @world = Game::World.new(data)
+      @telemetry = Game::Telemetry.new(@world.bus)
       @input = Core::KeyboardInput.new(bindings: BINDINGS)
       @renderer = Renderer.new
       @overruns = 0
@@ -57,6 +59,13 @@ module App
 
     def button_down(id)
       id == Gosu::KB_ESCAPE ? close : super
+    end
+
+    # The owner's play session prints the fun-verify line to the launching
+    # shell on Esc/close — the one session the verdict actually needs.
+    def close
+      puts @telemetry.summary
+      super
     end
   end
 end
