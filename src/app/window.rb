@@ -38,7 +38,7 @@ module App
       @world = Game::World.new(data)
       @telemetry = Game::Telemetry.new(@world.bus)
       @input = Core::KeyboardInput.new(bindings: BINDINGS)
-      @renderer = Renderer.new
+      @renderer = Renderer.new(display: display)
       @overruns = 0
       @overrun_font = Gosu::Font.new(14)
     end

@@ -15,7 +15,7 @@ module Harness
       def initialize(width:, height:, seed: 0)
         data = Core::DataStore.new(File.expand_path("../../data", __dir__))
         @world = Game::World.new(data, seed:)
-        @renderer = App::Renderer.new
+        @renderer = App::Renderer.new(display: data["display"])
         %i[telegraph attack_hit actor_died dodged possession_changed
            pack_wiped pack_respawned zone_entered projectile_fired
            special_started pack_mark_set drop_spawned drop_picked_up
