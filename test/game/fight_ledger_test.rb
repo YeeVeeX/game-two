@@ -471,4 +471,91 @@ class FightLedgerTest < Minitest::Test
     drive(world, scripted({}), 3)
     assert_equal 1, events.length
   end
+
+  # --- bank-leg tally (Task 5) ---
+
+  # Walk home through the west gate (gate-adjacent teleport — the Task 3
+  # staging lesson: long row walks never reach the gate row), then bank.
+  def walk_home_and_bank(world)
+    world.possessed.walker.teleport(2, 13)
+    drive(world, scripted({}), 1)
+    drive(world, scripted(hold(:left, world.frame, world.frame + STEP * 4 - 1)), STEP * 4)
+    assert_equal "nest", world.zone_name
+    station = world.map.stations.find { |s| s[:type] == "bank" }
+    world.possessed.walker.teleport(*station[:at])
+    press_interact(world)
+  end
+
+  # Back into the district after a bank (nest east gate is on row 8 only).
+  def walk_to_district(world)
+    world.possessed.walker.teleport(27, 8)
+    drive(world, scripted({}), 1)
+    drive(world, scripted(hold(:right, world.frame, world.frame + STEP * 4 - 1)), STEP * 4)
+    assert_equal "district", world.zone_name
+  end
+
+  def test_bank_tally_reconciles_the_leg_and_resets
+    enter_district(world)
+    isolate_humans(world)
+    kill(nearest_human(world), by: world.possessed)
+    drain_hitstop(world)
+    tile = world.drops.first[:tile]
+    amount = world.drops.first[:amount]
+    world.possessed.walker.teleport(*tile)
+    press_interact(world)
+    walk_home_and_bank(world)
+    beat = world.ledger_beat
+    assert_equal :bank, beat[:kind]
+    assert_equal amount, beat[:gained], "leg gained = first-acquisition pickups"
+    assert_equal 0, beat[:pip_amount]
+    assert_equal 0, beat[:dark_amount]
+    assert_equal amount, beat[:net]
+    # a second immediate bank has nothing to bank (carried is 0), so stage
+    # another pickup round-trip and verify the accumulator was RESET
+    walk_to_district(world)
+    kill(world.humans.reject(&:dead?).first, by: world.possessed)
+    drain_hitstop(world)
+    tile2 = world.drops.first[:tile]
+    amount2 = world.drops.first[:amount]
+    world.possessed.walker.teleport(*tile2)
+    press_interact(world)
+    walk_home_and_bank(world)
+    assert_equal amount2, world.ledger_beat[:gained], "leg reset on bank"
+  end
+
+  def test_recovery_does_not_double_count_into_the_leg
+    enter_district(world)
+    isolate_humans(world, 2)   # stage_pickup kills one; the carrier needs a killer
+    _carrier, amount = stage_loaded_death(world)
+    load = world.corpse_loads.first
+    load[:settle_left] = 0     # skip the settle by mutation (D1 clock idiom)
+    world.possessed.walker.teleport(*load[:tile])
+    press_interact(world)                            # recovery re-acquires
+    walk_home_and_bank(world)
+    assert_equal amount, world.ledger_beat[:gained],
+                 "corpse_looted must NOT feed leg_gained (first-acquisition convention)"
+  end
+
+  def test_bank_tally_shows_outstanding_stranded_excluded_from_net
+    enter_district(world)
+    isolate_humans(world, 2)                         # TWO kills staged below
+    stage_pickup(world)                              # possessed carries A
+    kill(world.humans.reject(&:dead?).first, by: world.possessed) # drop B
+    drain_hitstop(world)
+    b_tile = world.drops.first[:tile]
+    b_amount = world.drops.first[:amount]
+    carrier = world.possessed
+    a_amount = carrier.carried
+    drive(world, scripted({ world.frame.to_s => ["swap"] }), 2)
+    kill(carrier, by: world.possessed)               # A stranded (ally death)
+    drive(world, scripted({}), 2)
+    world.possessed.walker.teleport(*b_tile)
+    press_interact(world)                            # B picked up
+    walk_home_and_bank(world)
+    beat = world.ledger_beat
+    assert_equal :bank, beat[:kind]
+    assert_equal a_amount + b_amount, beat[:gained]
+    assert_equal a_amount, beat[:pip_amount], "outstanding stranded on the pip line"
+    assert_equal a_amount + b_amount, beat[:net], "outstanding EXCLUDED from leg net"
+  end
 end
