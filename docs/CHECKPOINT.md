@@ -1,6 +1,70 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-11 (latest) — D1 SPEC REVISED + PLAN WRITTEN; next: implement on branch
+## 2026-08-11 (latest) — D1 CORPSE RUN SHIPPED; awaiting owner fun-verify
+
+**State (measured):** `main` at merge `95ae894` (119 commits; branch `d1-corpse-run`,
+10 commits, merged `--no-ff`, NOT pushed). **194 tests / 811 assertions green.**
+Perf smoke: p50 0.019 ms / p95 0.101 ms / max 4.4 ms (budget 16.6). **ALL SIX gates
+green** — determinism + vision — twice: once pre-fold, once after the impl-review
+folds (corpse_run: 17 captures byte-identical, 26/26 vision checks).
+
+**Shipped (plan tasks 1-10, TDD, one commit each):** `data/balance/death.json`
+(term 5400 / settle 300 / grace 2700 / flash 45 / pip alpha 0.4 — margin-anchored
+hypotheses, NOT the death-doc's 10-min floor; spec records the conflict); corpse
+containers on carrying pack deaths (serial-linked to cosmetic corpses, prune/cap
+exempt while loaded — CF-1); per-zone term/settle clocks (veil-frozen, tick
+everywhere); expiry → `carried_lost` (amount, tile, zone) + per-zone dark flash;
+interact priority drop→corpse→bank (settle-gated, full transfer, death order on
+stacks); wipe grace tops terms to the floor; renderer pip (hollow magenta outline,
+tile-anchored, dim-while-settling, snap-on-lootable) + held corpses + expiry flash;
+`Game::Telemetry` d1_fired line wired into play/replay/pilot.
+
+**corpse_run.json (6th gate): pilot-authored, seed 0, run_until 9924, 17 captures.**
+The flight's own telemetry: carrying_deaths=6 wipes=3 corpse_looted=5 carried_lost=1
+banked_events=1 — every D1 beat fired live, incl. a drop-on-loaded-corpse concentric
+frame (a rusher died ON the corpse tile), a genuine dim-pip frame, a graced container
+(640f left → 2700 at wipe #3), and an off-camera expiry in an abandoned zone. Best
+unscripted beat: at frame 7028 the recoverer looted a container and died the same
+tick — the dying-breath loot merged the pile into a fresh container on the same tile
+(now a recorded watch-list item: dying-breath term refresh).
+
+**Deviations from the plan, owned:**
+1. The plan's verbatim check wording (`pass=false` when not exercised) would have
+   failed the five existing gates — the checks file is SHARED and the critic fails
+   the gate on any false. Spec's own "pass-true hatches" line wins; discriminative
+   content kept. `corpse_load_reads` also encodes CF-3's pip-beside-corpse offset
+   after the critic (correctly) saw the knockback displacement and (wrongly) called
+   it a defect.
+2. **Stacked-tile case is NOT on camera** — the dying-breath loot consumed the first
+   container in the same frame its looter died. Unit tests pin stacking + death-order
+   loot; the vision checks don't require a stacked frame. Accepted trim.
+3. Five plan-test staging bugs fixed (recorded in commits): AI walks a freed body off
+   the stack tile during the swap drive; the flash-window arithmetic ate the per-zone
+   flash assert; wipe drive ticks the term once; `revive!` moves a dead carrier's
+   tile; long settle waits need `isolate_humans`.
+4. Vision critic: 5 malformed-JSON verdicts (26 prose whys broke JSON) → verdict
+   prompt hardened (short quote-free whys, exactly-once ids). Two hallucinated FAILs
+   pixel-verified before dismissal (specials LUNGE_ACTIVE wash misread as white hurt
+   flash; pip offset = CF-3 design).
+
+**Impl review (drafts/_d1-impl-review.md, gitignored):** 5 findings — folded:
+`corpse_looted` now carries term_left/term (the spec's margin oracle was otherwise
+unmeasurable — frame math lies across hitstop/veil/grace); `leave_corpse` returns
+the record it kept and the stamp uses that identity (cap-flood clobber, latent);
+non-autovivifying public readers (draw-path pure-reader law). Spec notes: exact-
+wipe-tick expiry legally dodges grace; dying-breath term refresh on the watch list.
+8 seed suspicions traced clean.
+
+**Owner queue (DONE WHEN answered):** run `bin\play.cmd`, play until you die
+carrying at least once, then close (Esc) and read the `TELEMETRY d1_fired` line off
+the shell. Answer the spec's 6 fun-verify questions (spec §Fun-verify) — if you
+never died carrying, answer "N/A — never fired" (that N/A indicts combat threat,
+not the corpse system; the telemetry line will say the same). The fun-verify verdict
+decides what's next (post-fight ledger is the queued candidate).
+
+**In flight when written:** nothing.
+
+## 2026-08-11 — D1 SPEC REVISED + PLAN WRITTEN; next: implement on branch
 
 **State (measured):** `main` clean at `1725d2a` (107 commits), 173 tests / 689
 assertions green (5.1s), no branch open. Five world gate scripts on disk
