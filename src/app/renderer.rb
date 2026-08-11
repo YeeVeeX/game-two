@@ -281,14 +281,18 @@ module App
 
     # Taunt victim tell (A0.6): rust underline pinned BELOW the telegraph
     # swell (which floods to y+SIZE+4 in near-identical hot red — the offset
-    # is what keeps the tell alive in the mid-attack frame). Alpha fades over
-    # the lock's final third: the snap back to free targeting is telegraphed
+    # is what keeps the tell alive in the mid-attack frame). Also clear of
+    # the mark reticle's bottom corner brackets (draw_mark, which extend to
+    # y+SIZE+5 when a human is BOTH marked and taunted — a real combo, focus
+    # the taunted target — the two persistent tells crowded into one 8px band
+    # and neither read; +9 leaves a clean 4px gap). Alpha fades over the
+    # lock's final third: the snap back to free targeting is telegraphed
     # with the same grammar drop decay taught.
     def draw_taunt_underline(c, x, y)
       duration = c.taunted_target.kit[:special][:taunt][:duration_frames]
       frac = c.taunt_frames.fdiv(duration)
       alpha = frac < (1 / 3.0) ? (255 * frac * 3).clamp(60, 255).round : 255
-      Gosu.draw_rect(x - 2, y + SIZE + 5, SIZE + 4, 3,
+      Gosu.draw_rect(x - 2, y + SIZE + 9, SIZE + 4, 3,
                      Gosu::Color.new(alpha, TAUNT_RUST.red, TAUNT_RUST.green, TAUNT_RUST.blue))
     end
 
