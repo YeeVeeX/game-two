@@ -351,4 +351,124 @@ class FightLedgerTest < Minitest::Test
     assert_equal 1, events.length
     assert_equal "district", events.first[:zone], "zone captured at OPEN (review M2)"
   end
+
+  # --- wipe recap + replacement (Task 4) ---
+
+  # Kill every living ally first, then the possessed — all deaths flush in
+  # ONE bus process, so the possessed death's corpse_loaded lands in the
+  # same flush as pack_wiped (the ordering pin under test).
+  def wipe_pack(world)
+    (world.pack.living - [world.possessed]).each do |ally|
+      kill(ally, by: world.humans.reject(&:dead?).first || world.possessed)
+    end
+    kill(world.possessed, by: world.humans.reject(&:dead?).first || world.pack.members.first)
+    drive(world, scripted({}), 1)
+  end
+
+  # Respawn-skirmish-tolerant resolve wait (the Task 3 bounded-drive idiom).
+  def drive_until_resolved(world, events, count)
+    120.times do
+      break if events.length >= count
+      drive(world, scripted({}), 10)
+    end
+    assert_equal count, events.length
+  end
+
+  def test_wipe_resolves_immediately_with_field_truth_snapshot
+    events = resolved_events(world)
+    enter_district(world)
+    isolate_humans(world, 2)   # stage_pickup kills one; the carrier needs a killer
+    quiesce_ledger(world, events)
+    _carrier, amount = stage_loaded_death(world)     # container 1 (pre-wipe)
+    drive_until_resolved(world, events, 1)           # that fight resolves
+    events.clear
+    stage_pickup(world)                              # possessed carries again
+    carrying = world.possessed.carried
+    assert_operator carrying, :>, 0
+    wipe_pack(world)                                 # dying possessed strands #2
+    e = events.last
+    refute_nil e
+    assert e[:wiped]
+    assert_equal carrying, e[:stranded],
+                 "wipe-tick corpse_loaded accrued BEFORE the resolve (ordering pin, spec M6)"
+    beat = world.ledger_beat
+    assert_equal :wipe, beat[:kind]
+    assert_equal amount + carrying, beat[:pip_amount],
+                 "recap pip = ALL live containers (field truth, review M4)"
+    assert_equal world.total_stranded, beat[:pip_amount]
+  end
+
+  def test_wipe_recap_survives_the_veil_frozen
+    enter_district(world)
+    isolate_humans(world, 1)
+    stage_pickup(world)
+    wipe_pack(world)
+    beat_left_at_wipe = world.ledger_beat[:beat_left]
+    drive(world, scripted({}), 40)                   # deep inside the veil
+    assert_equal :nest_respawn, world.states.current
+    assert_equal beat_left_at_wipe, world.ledger_beat[:beat_left],
+                 "beat_left must freeze during nest_respawn (tick_world never runs)"
+  end
+
+  def test_dissolve_never_stomps_a_live_beat
+    events = resolved_events(world)
+    enter_district(world)
+    isolate_humans(world)
+    quiesce_ledger(world, events)
+    kill(world.humans.reject(&:dead?).first, by: world.possessed)
+    drain_hitstop(world)
+    drive_until_resolved(world, events, 1)           # beat is live (150f budget)
+    live_beat = world.ledger_beat
+    refute_nil live_beat
+    # Gate-adjacent staging: the whole poke-and-exit must finish well inside
+    # the beat's 150-frame display budget or the assert races the clear.
+    world.possessed.walker.teleport(2, 13)
+    drive(world, scripted({}), 1)
+    poke(world)                                      # graze-only window...
+    drive(world, scripted(hold(:left, world.frame, world.frame + STEP * 5 - 1)), STEP * 5)
+    assert_equal "nest", world.zone_name             # ...force-resolved: dissolves
+    assert_equal 1, events.length
+    assert_same live_beat, world.ledger_beat,
+                 "a dissolve must never replace a live beat (review M4)"
+  end
+
+  # QUIET (180) > BEAT (150), so a quiet resolve can never catch a live
+  # beat — only a FORCE resolve (gate, wipe, bank) can exercise the replace
+  # rule. Stage the second qualifying fight through the gate.
+  def test_qualifying_resolve_replaces_a_live_beat
+    events = resolved_events(world)
+    enter_district(world)
+    isolate_humans(world, 2)
+    quiesce_ledger(world, events)
+    kill(world.humans.reject(&:dead?).first, by: world.possessed)
+    drain_hitstop(world)
+    drive_until_resolved(world, events, 1)
+    first_beat = world.ledger_beat
+    refute_nil first_beat
+    world.possessed.walker.teleport(3, 13)
+    drive(world, scripted({}), 1)
+    kill(world.humans.reject(&:dead?).first, by: world.possessed) # qualifying window
+    drain_hitstop(world)
+    drive(world, scripted(hold(:left, world.frame, world.frame + STEP * 6 - 1)), STEP * 6)
+    assert_equal "nest", world.zone_name
+    assert_equal 2, events.length
+    refute_nil world.ledger_beat
+    refute_same first_beat, world.ledger_beat,
+                "a qualifying force-resolve replaces the live beat (screen budget)"
+  end
+
+  def test_quiet_clock_freezes_under_hitstop
+    events = resolved_events(world)
+    enter_district(world)
+    isolate_humans(world)
+    quiesce_ledger(world, events)
+    poke(world)
+    # a possessed kill triggers hitstop (feel.on_kill) while also refreshing
+    kill(world.humans.reject(&:dead?).first, by: world.possessed)
+    drain_hitstop(world)                 # frozen frames: clock must not move
+    drive(world, scripted({}), QUIET - 1)
+    assert_empty events, "hitstop frames must not count against the quiet clock"
+    drive(world, scripted({}), 3)
+    assert_equal 1, events.length
+  end
 end
