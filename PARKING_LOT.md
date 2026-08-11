@@ -86,6 +86,15 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
   return with the economy/ledger increment. The post-fight ledger (Tibia Hunt
   Analyser beat, gamesmith FR-024) is the NEXT candidate after D1's fun-verify —
   it is the stakes' readout, so it waits for stakes to exist.
+  **D1 fun-verify LANDED 2026-08-11: "still a chore" (THIRD ask).** The corpse
+  run fired (owner session: 2 carrying deaths, 2 wipes, 2 recoveries, 0 losses)
+  and read cleanly, but drama alone did not move the verdict. Pre-registered
+  routing: primary = the pile lacks meaning (Q4 "banked, wouldn't care" = the
+  spec's D1b/ledger clause verbatim); secondary = threat never contests the
+  corpse. **Post-fight ledger PROMOTED (scope v8, owner lock via
+  AskUserQuestion); A2 threat PRE-QUEUED** — promotes automatically if the
+  ledger's fun-verify does not move the chore. Full verdict + routing:
+  `drafts/_d1-fun-verify-20260811.md`.
 
 ## A1+ queue (cut from Increment A by the 2026-08-09 dual review — each behind its own fun-verify)
 
@@ -104,6 +113,9 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
   (b) gamesmith corpus has ZERO touchstone evidence for threat/aggro systems in any of the
   5 games (Tibia's only "pull" concept is over-pull as route-risk) — A2 must be defended
   from game-two's own diagnosed problems (the taunt-fuse finding, spec decision 6), not
-  cited evidence.
+  cited evidence. **PRE-QUEUED 2026-08-11 (scope v8 owner lock): if the post-fight
+  ledger's fun-verify does not move the chore, A2 promotes AUTOMATICALLY — no new scope
+  debate. Three converging signals on file (D0 dev-read, taunt not moving the chore,
+  D1's 2/2 uncontested recoveries).**
 - A3: nest advance / district progression (break districts, re-home the nest)
 - Fiction-bound audio/visual identity pass (waits on the bible)

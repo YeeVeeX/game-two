@@ -6,36 +6,39 @@ permission for design decisions.
 
 ## Scope contract (the #1 Kethral failure was ignoring this — it is enforced here)
 
-v7 (2026-08-10): A0.6 taunt SHIPPED + fun-verified ("clicked" / rhythm
-"right as-is"). D0 re-verify post-taunt: **"still a chore"** — the carry lacks
-felt stakes; NOT tuned blind. **A2 (threat system): promoted in v6, DEMOTED the
-same day unbuilt** — owner pullback verbatim: *"more complex aggro system is
-nice to have but seems more like an extra for later"*; zero A2 code exists;
-entry + shape notes returned to PARKING_LOT.md. Current increment =
-**D1 = the corpse run ONLY** (owner delegated the pick; dev-of-record call,
-defended in the spec). Spec:
-`docs/superpowers/specs/2026-08-10-d1-corpse-run-design.md` — implements the
-3-critic-gated `docs/design-corpus/death-economy-design.md` D1 staging.
+v8 (2026-08-11): D1 corpse run SHIPPED (merge `95ae894`, all six gates green)
+and fun-verified same day — the drama-alone experiment returned **NO**: settle
+= "standing in line", run back = "in between" danger + "too long/tedious",
+**"bank or push deeper" = "still a chore" (third ask)**, "banked, wouldn't
+care", corpse clock never noticed, no convenience deaths. Telemetry: the system
+FIRED (2 carrying deaths, 2 wipes, 2 recoveries, 0 losses). Routing
+(pre-registered in the D1 spec): primary = **the pile lacks meaning** (Q4 is
+the spec's D1b/ledger clause verbatim); secondary = **threat never contests the
+corpse** (2/2 recoveries). Full verdict: `drafts/_d1-fun-verify-20260811.md`.
+**Owner locked v8 (AskUserQuestion 2026-08-11): post-fight ledger now, A2
+threat PRE-QUEUED** — if the ledger's fun-verify does not move the chore, A2
+promotes AUTOMATICALLY (owner pre-authorized; no new scope debate — that
+promotion supersedes the 2026-08-10 demotion when triggered).
 
-**IN scope until D1 is fun-verified — D1 promotes exactly ONE thing, the
-corpse-run tension slice:**
-- **Corpse containers**: a pack body that dies carrying leaves its load ON its
-  corpse (sim-owned, per-zone, term-limited — global clock like drops) instead
-  of vanishing; survivors recover it via the existing interact verb after a
-  settle delay; term expiry is the permanent loss; pack wipe tops every term up
-  to a grace floor so the run back is always possible. Three readable corpse
-  states (loaded / looted / expired). All numbers in `data/balance/death.json`.
+**IN scope until the ledger is fun-verified — v8 promotes exactly ONE thing,
+the post-fight ledger:**
+- **Post-fight ledger**: make each fight's gains and losses legible and FELT at
+  the moment they resolve (Tibia Hunt Analyser beat; gamesmith FR-024). The
+  cheapest probe of "the pile lacks meaning." Shape, trigger moment, and
+  presentation are spec decisions (dev of record); all numbers in `data/`.
 
 **OUT of scope — goes to PARKING_LOT.md, never to code:**
-Body fees + vat re-growth (D1b — split from the gated D1 staging, one variable
-at a time); practice fine + insurance (D2, blocked on skill-through-use);
-scavengers + term-extension marks (D3); the post-fight ledger (own increment,
-next candidate after D1); A2 threat/pull economy (demoted); A1 gambits,
-Shooters, A3 nest advance; inventory grids, carry weight, rarity, new drop
-types, spending banked, restart persistence; any THIRD kit special or new
-binding; plus everything already parked (procedural dungeons, stamina,
-XP/skills, dialogue, status effects, crafting, weather, co-op, quests, shops,
-multiple weapons).
+A2 threat/pull economy (**PRE-QUEUED — promotes automatically on a failed
+ledger fun-verify**; shape notes in PARKING_LOT.md); body fees + vat re-growth
+(D1b — its trigger did NOT fire: no banking collapse, no convenience deaths);
+practice fine + insurance (D2, blocked on skill-through-use); scavengers +
+term-extension marks (D3); D1 term/grace retuning (margin-anchored 5400/2700
+stand until measured `term_left/term` margins exist — Q5 "never noticed" is a
+recorded signal, not a license); A1 gambits, Shooters, A3 nest advance;
+inventory grids, carry weight, rarity, new drop types, spending banked, restart
+persistence; any THIRD kit special or new binding; plus everything already
+parked (procedural dungeons, stamina, XP/skills, dialogue, status effects,
+crafting, weather, co-op, quests, shops, multiple weapons).
 **Nothing new starts until the current loop is fun-verified by the owner.**
 
 ## De-slop + comprobations (owner-set 2026-08-09)
