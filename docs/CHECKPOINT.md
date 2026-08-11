@@ -1,6 +1,51 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-11 (latest) — FIFTH FUN-VERIFY LANDED: VALID, LB-1 REFUTED — **A2 PROMOTED (the v8 pre-queue fired)**; scope v9 + A2 brainstorm are NEXT
+## 2026-08-11 (latest, evening) — EVIDENCE-GATHERING SESSION: Tibia corpus deep-read banked; A2 brainstorm is NEXT (v9 scope rewrite first)
+
+Same-day follow-on to the fifth verify (below). Owner chose (AskUserQuestion):
+**talk design first** + **fold "what does the pile buy, and when" into the A2
+brainstorm as an explicit section** (A2 stays first, as locked). Owner also
+rejected my 20-question sweep counter-offer implicitly by approving the plan:
+the fork set will be ~8-12 GENUINE owner-level forks, batched, evidence-cited,
+presented BEFORE the A2 spec.
+
+**Evidence banked this session (all in `drafts/`, gitignored; index in
+PARKING_LOT §"A2 brainstorm evidence inputs"):**
+- `_gudii-backup-probe.md` — deep-probe of the 98-transcript Gudii corpus
+  (aggro fragility f21, laps/respawn/overkill f83, supply finances f38,
+  environment pressure f15/f79; top-5 reads; explicit absence list). The
+  owner's NotebookLM notebook = the SAME 98 sources (overview banked; read via
+  CDP on the real Chrome — see memory `browser-automation-google-auth-trap`).
+  Owner then directed ACTIVE chat mining of the notebook → subagent driving
+  the chat over CDP with 8 gap-targeted questions, harvest to
+  `drafts/_notebooklm-harvest.md` (**IN FLIGHT when written** — if missing
+  post-compact, re-run: recipe + questions are in the harvest file header or
+  re-derive from the probe's absence list).
+- `_gudii-ruins-transcript.md` + `_gudii-monk-transcript.md` — two
+  owner-picked videos, transcripts verbatim (team-hunt pull choreography;
+  solo progression economics).
+- `_gamesmith-consequence-synthesis.md` — 12-agent workflow re-read of the
+  5-game corpus with the consequence-economics lens. **IN FLIGHT when
+  written** (run `wf_de8ce8ad-579`: 7/7 extractions + synthesis DONE, critics
+  running) — if the draft is missing post-compact, the synthesis JSON is in
+  the run's journal.jsonl; resume via scriptPath+resumeFromRunId.
+
+**IN FLIGHT (background, survives this session):** gamesmith ingestion of
+`tibia/gudii-ruins` (623.95s, downloaded; mechanics stage FAILED on the 8000
+output cap — known failure mode; cap raised to 16000, gamesmith commit
+`8ab67c3`, pipeline resumed from cache) then `tibia/gudii-monk` (queued) —
+bash task b2gr5flwf; verify per-recording manifest.json stages done. ⚠️
+gamesmith `extract --force`/`synthesize --force` regen DEFERRED deliberately
+(rewrites docs game-two FRs cite; GATE-4 owner flow) — an explicit reviewed
+step later, not silent absorption.
+
+**NEXT SESSION (order locked):** (1) scope contract → v9 in CLAUDE.md (A2 in,
+ledger STAYS, economy parked except the pile-buys brainstorm section); (2) A2
+brainstorm (superpowers:brainstorming) consuming the PARKING_LOT evidence
+index; (3) owner forks via batched AskUserQuestion BEFORE the spec; (4) spec →
+plan per project convention. No A2 code before an approved spec+plan.
+
+## 2026-08-11 — FIFTH FUN-VERIFY LANDED: VALID, LB-1 REFUTED — **A2 PROMOTED (the v8 pre-queue fired)**; scope v9 + A2 brainstorm are NEXT
 
 **The verify (full doc: `drafts/_ledger-fun-verify2-20260811.md`):** owner
 played one fuller session on merge `42b54d6` (telemetry: 15 fights, 6 wipes,

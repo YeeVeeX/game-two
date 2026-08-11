@@ -194,3 +194,29 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
   `drafts/_ledger-fun-verify2-20260811.md`.
 - A3: nest advance / district progression (break districts, re-home the nest)
 - Fiction-bound audio/visual identity pass (waits on the bible)
+
+## A2 brainstorm evidence inputs (banked 2026-08-11, evidence-gathering session — consume, don't re-derive)
+
+- **Gudii transcript corpus**: `C:/Users/gabri/knowledge/sources/Tibia Videos by
+  Gudii-backup-2026-08-11` — 98 full transcripts. Deep-probe report:
+  `drafts/_gudii-backup-probe.md`. Top-5 designer reads: f21 (aggro/exeta res —
+  THE A2 doc), f83 (laps/respawn/overkill), f38 (30-day supply finances), f15
+  (environment-as-pressure), f79 (cascading-failure feel). The owner's
+  NotebookLM notebook `540b80c7-...` = the SAME 98 sources (ask satisfied;
+  no saved notes; overview banked in the probe draft).
+- **Two owner-picked Gudii videos**, transcripts banked verbatim
+  (`drafts/_gudii-ruins-transcript.md`, `drafts/_gudii-monk-transcript.md`),
+  gamesmith ingestion as `tibia/gudii-ruins` + `tibia/gudii-monk` (per-recording
+  artifacts under `workspace/gamesmith/artifacts/games/tibia/recordings/`).
+  ⚠️ gamesmith `extract tibia --force` + `synthesize --force` regeneration is
+  DEFERRED (it rewrites the docs game-two FRs cite; gamesmith GATE-4 owner flow
+  applies) — queued as an explicit reviewed step, not silent absorption.
+- **Cross-corpus consequence-economics synthesis** (12-agent workflow
+  `wf_de8ce8ad-579`): harvest at `drafts/_gamesmith-consequence-synthesis.md`
+  (or resume from the run id if it died mid-flight).
+- **Standing observations to fold in**: wipe cadence (6 wipes/session, free
+  respawn = arcade "lives" feel — threat should make death rarer but heavier);
+  the pure-A2 vs minimal-D1b-hook fork ("what does the pile buy, and when" is
+  an explicit brainstorm section per owner choice); owner fork set presented
+  via batched AskUserQuestion BEFORE the spec (curated from the workflow's
+  fork_candidates, ~8-12 genuine owner-level forks, not 20 generic).
