@@ -72,8 +72,10 @@ module Game
     def impacts = @impacts
     def corpses = @corpses[@zone_name]
     def drops = @drops[@zone_name]
-    def corpse_loads(zone = @zone_name) = @corpse_loads[zone]
-    def expiry_flashes(zone = @zone_name) = @expiry_flashes[zone]
+    # Non-autovivifying: the renderer reads these every draw and a default-proc
+    # index would insert keys into sim state from the draw path (pure-reader law).
+    def corpse_loads(zone = @zone_name) = @corpse_loads.fetch(zone) { [] }
+    def expiry_flashes(zone = @zone_name) = @expiry_flashes.fetch(zone) { [] }
     def marked_target = @pack.mark
     def taunt_pulses = @taunt_pulses
 
@@ -202,7 +204,8 @@ module Game
         release_corpse_record(@zone_name, load[:id])
         source.pick_up(load[:amount])
         @bus.emit(:corpse_looted, actor: source, tile: load[:tile],
-                  amount: load[:amount], carried: source.carried)
+                  amount: load[:amount], carried: source.carried,
+                  term_left: load[:term_left], term: load[:term])
         return true
       end
       station = map.station_at(*source.tile)
@@ -648,13 +651,20 @@ module Game
     CORPSE_FADE_FRAMES = 600
     CORPSE_CAP = 40
 
+    # Returns the record it appended, or nil when that record was itself the
+    # cap-eviction victim (every other record linked) — the caller must stamp
+    # THIS identity, never corpses.last, or a foreign container's link gets
+    # clobbered (impl review fold 3).
     def leave_corpse(actor)
       list = corpses
-      list << { tile: actor.tile, x: actor.x, y: actor.y,
-                faction: actor.faction, at_frame: @frame }
-      return if list.length <= CORPSE_CAP
-      evict = list.index { |c| !c[:container_id] }
-      list.delete_at(evict) if evict
+      record = { tile: actor.tile, x: actor.x, y: actor.y,
+                 faction: actor.faction, at_frame: @frame }
+      list << record
+      if list.length > CORPSE_CAP
+        evict = list.index { |c| !c[:container_id] }
+        list.delete_at(evict) if evict
+      end
+      list.any? { |c| c.equal?(record) } ? record : nil
     end
 
     # The container is sim truth; the serial links it to the cosmetic corpse
@@ -662,14 +672,14 @@ module Game
     # loaded (tile+frame is not a key — two same-frame knockback deaths can
     # share a tile). settle_alpha rides the record like decay_frames rides
     # drops: the renderer reads no balance.
-    def spawn_corpse_load(actor)
+    def spawn_corpse_load(actor, corpse_record)
       @corpse_serial += 1
       term = @death[:corpse_term_frames]
       record = { id: @corpse_serial, tile: actor.tile, amount: actor.drain_carried!,
                  term_left: term, term:, settle_left: @death[:loot_settle_frames],
                  settle_alpha: @death[:settle_pip_alpha] }
       @corpse_loads[@zone_name] << record
-      corpses.last[:container_id] = @corpse_serial
+      corpse_record[:container_id] = @corpse_serial if corpse_record
       @bus.emit(:corpse_loaded, actor:, tile: record[:tile], amount: record[:amount])
     end
 
@@ -686,11 +696,13 @@ module Game
       end
 
       @bus.subscribe(:actor_died) do |e|
-        leave_corpse(e[:actor])
+        corpse_record = leave_corpse(e[:actor])
         spawn_drop(e[:actor])
         # D1: a dying pack body's carried value transfers to a container on
         # its corpse. Term expiry is the permanent-loss tier now.
-        spawn_corpse_load(e[:actor]) if e[:actor].faction == :pack && e[:actor].carried.positive?
+        if e[:actor].faction == :pack && e[:actor].carried.positive?
+          spawn_corpse_load(e[:actor], corpse_record)
+        end
         @pack.clear_mark! if e[:actor].equal?(marked_target)
         if e[:faction] == :human
           @feel.on_kill if e[:killer].equal?(possessed)

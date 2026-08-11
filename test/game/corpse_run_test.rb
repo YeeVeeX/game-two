@@ -235,6 +235,23 @@ class CorpseRunTest < Minitest::Test
            "cap eviction skips linked records (review CF-1)"
   end
 
+  def test_cap_flood_of_linked_records_never_clobbers_a_foreign_link
+    enter_district(world)
+    world.corpses.replace((1..45).map do |i|
+      { tile: [1, 1], x: 32, y: 32, faction: :pack, at_frame: world.frame,
+        container_id: 1000 + i }
+    end)
+    victim = world.pack.living.reject { |m| m.equal?(world.possessed) }.first
+    victim.pick_up(3)
+    kill(victim, by: world.humans.reject(&:dead?).first)
+    drive(world, scripted({}), 2)
+    container = world.corpse_loads.find { |c| c[:tile] == victim.tile }
+    refute_nil container, "container spawns even when its cosmetic record was evicted"
+    refute world.corpses.any? { |r| r[:container_id] == container[:id] },
+           "the fresh record was the eviction victim - no stamp, no foreign clobber (review fold 3)"
+    assert_equal 45, world.corpses.count { |r| r[:container_id] }, "foreign links untouched"
+  end
+
   def test_released_corpse_fades_then_prunes_normally
     carrier, _ = stage_loaded_death(world)
     c = load_at(world, carrier.tile)
@@ -261,6 +278,11 @@ class CorpseRunTest < Minitest::Test
     assert_nil load_at(world, carrier.tile), "container consumed"
     assert_equal [{ amount:, carried: amount, tile: carrier.tile }],
                  looted.map { |e| { amount: e[:amount], carried: e[:carried], tile: e[:tile] } }
+    # margin oracle (impl review fold 2): term_left/term ride the event so the
+    # spec's recovery margin is computable offline - frame math lies whenever
+    # hitstop, the veil freeze, or a wipe-grace rewrite intervened
+    assert_operator looted.first[:term_left], :>, 0
+    assert_equal DEATH[:corpse_term_frames], looted.first[:term]
     rec = world.corpses.find { |r| r[:tile] == carrier.tile && r[:faction] == :pack }
     assert_nil rec[:container_id], "loot releases the corpse link"
   end
