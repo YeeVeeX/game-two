@@ -121,6 +121,26 @@ class FightLedgerTest < Minitest::Test
     end
   end
 
+  # Presentation-iteration display keys (spec 2026-08-11-ledger-presentation).
+  def test_ledger_display_invariants
+    display = DATA["display"]
+    assert_operator display[:ledger_pop_frames], :>, 0
+    assert_operator display[:ledger_pop_frames], :<, LEDGER[:ledger_beat_frames],
+                    "pop must finish inside the beat's display budget"
+    assert_operator display[:ledger_flash_frames], :>, 0
+    assert_operator display[:ledger_flash_frames], :<=, display[:ledger_pop_frames],
+                    "flash rides the pop; a flash outliving it reads as a stuck highlight"
+    assert_operator display[:ledger_panel_alpha], :>, 0
+    assert_operator display[:ledger_panel_alpha], :<=, 255
+    assert_operator display[:ledger_flash_alpha], :>, 0
+    assert_operator display[:ledger_flash_alpha], :<, 200,
+                    "a flash peak near 255 whites out the glyph color identity at age 0"
+    assert_operator display[:ledger_block_y], :>, 80,
+                    "block must clear the HUD bars (three rows end ~y=76)"
+    assert_operator display[:ledger_wipe_y], :>, 294,
+                    "wipe recap must sit below THE HUNT ENDS (y=230 + 64pt em box)"
+  end
+
   # --- window lifecycle (Task 2) ---
 
   def test_window_opens_on_damage_and_resolves_after_quiet

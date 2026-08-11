@@ -38,9 +38,21 @@ module App
     STAGGER_VEIL   = Gosu::Color.new(90, 20, 8, 8)
     LEDGER_NEG     = Gosu::Color.new(255, 200, 40, 40) # wipe-red family
     LEDGER_DARK    = Gosu::Color.new(255, 26, 13, 30)  # expiry-flash family
-    LEDGER_BEAT_Y  = 96                                # below the banner line
+    BEAT_PANEL     = [10, 6, 12].freeze                 # near-black panel RGB
+    BEAT_FLASH     = [255, 240, 220].freeze             # warm-white arrival flash RGB
+    BEAT_GLYPH     = 20                                 # tally glyph square, px
+    BEAT_GLYPH_BIG = 32                                 # solo-line glyph, matches 42pt type
+    BEAT_LINE_GAP  = 6
+    BEAT_PAD_X     = 24                                 # panel padding around the block
+    BEAT_PAD_Y     = 14
 
     SIZE = Game::Creature::SIZE
+
+    # Presentation timing/placement rides data/display.json (zone_banner_frames
+    # precedent) — the fetch defaults only keep a bare Renderer.new drawable.
+    def initialize(display: {})
+      @display = display
+    end
 
     def draw(world)
       cam = world.camera
@@ -430,69 +442,153 @@ module App
       Gosu.draw_rect(0, 0, view_width(world), view_height(world), STAGGER_VEIL)
     end
 
-    # Registration beat (fight-ledger spec): 1-3 glyph+number lines, timed,
-    # top-center. Glyph grammar is the game's own: filled square = acquired
-    # value, hollow pip = pile-on-a-corpse (recoverable, calm), dark square
-    # = destroyed (gone). No words — nothing blocks on the bible. Alpha
-    # fades over the final third of beat_left (the drop-decay grammar).
-    # Pure reader: everything needed rides the beat record.
+    # Registration beat (fight-ledger spec; presentation iteration 2026-08-11):
+    # 1-3 glyph+number lines on a dark contrast panel, centered just above the
+    # avatar (the camera keeps the possessed body at screen center — this IS
+    # player-anchored). Glyph grammar is the game's own: filled square =
+    # acquired value, hollow pip = pile-on-a-corpse (recoverable, calm), dark
+    # square = destroyed (gone). No words — nothing blocks on the bible.
+    # Entrance: scale pop 1.35→1.0 + additive flash; exit: alpha fade over the
+    # final third of beat_left (the drop-decay grammar). Wipe recaps sit lower
+    # (ledger_wipe_y), clear of the 64pt wipe line. RENDER-ONLY: everything is
+    # a pure function of the beat record — replay determinism holds.
+    # Z within the block: panel 29, glyphs+text 30, flash 31.
     def draw_ledger_beat(world)
       beat = world.ledger_beat
       return unless beat
       frac = beat[:beat_left].fdiv(beat[:beat_frames])
       a = frac < (1 / 3.0) ? (255 * frac * 3).clamp(60, 255).round : 255
+      age = beat[:beat_frames] - beat[:beat_left]
+      scale = age < ledger_pop_frames ? 1.35 - 0.35 * (age.fdiv(ledger_pop_frames)**0.5) : 1.0
       cx = view_width(world) / 2
-      y = LEDGER_BEAT_Y
-      y = draw_beat_take(beat, cx, y, a)
-      return unless (beat[:pip_amount] + beat[:dark_amount]).positive?
-      y = draw_beat_losses(beat, cx, y, a)
-      draw_beat_net(beat, cx, y, a)
-    end
-
-    def draw_beat_take(beat, cx, y, a)
-      col = fade(DROP_CORE, a)
-      text = "+#{beat[:gained]}"
-      w = 16 + hud_font.text_width(text) + (beat[:recovery] ? 16 : 0)
-      x = cx - w / 2
-      x = draw_hollow_pip(x, y + 2, 10, col) + 6 if beat[:recovery]
-      Gosu.draw_rect(x, y + 2, 10, 10, col)
-      hud_font.draw_text(text, x + 16, y, 30, 1, 1, col)
-      y + 18
-    end
-
-    def draw_beat_losses(beat, cx, y, a)
-      parts = []
-      parts << [:pip, "-#{beat[:pip_amount]}"] if beat[:pip_amount].positive?
-      parts << [:dark, "-#{beat[:dark_amount]}"] if beat[:dark_amount].positive?
-      w = parts.sum { |(_, t)| 16 + hud_font.text_width(t) + 10 } - 10
-      x = cx - w / 2
-      parts.each do |(kind, text)|
-        if kind == :pip
-          draw_hollow_pip(x, y + 2, 10, fade(DROP_CORE, a))
-          hud_font.draw_text(text, x + 16, y, 30, 1, 1, fade(BANNER, a))
-        else
-          Gosu.draw_rect(x - 1, y + 1, 12, 12, fade(LEDGER_NEG, a))
-          Gosu.draw_rect(x, y + 2, 10, 10, fade(LEDGER_DARK, a))
-          hud_font.draw_text(text, x + 16, y, 30, 1, 1, fade(LEDGER_NEG, a))
-        end
-        x += 16 + hud_font.text_width(text) + 10
+      top = beat[:kind] == :wipe ? ledger_wipe_y : ledger_block_y
+      lines = beat_lines(beat, a)
+      h = lines.sum { |l| l[:height] } + BEAT_LINE_GAP * (lines.length - 1)
+      w = lines.map { |l| l[:width] }.max
+      cy = top + h / 2.0
+      draw_beat_panel(cx, cy, w, h, scale, a)
+      # No arrival flash on wipe recaps: beat_left freezes for the whole veil
+      # (age pinned at 0), so an age-driven flash would sit at full additive
+      # alpha over the text for ~90 frames and wash the recap out — the exact
+      # legibility wipe_recap_reads gates on. The veil IS the wipe's punch.
+      draw_beat_flash(cx, cy, w, h, scale, age) unless beat[:kind] == :wipe
+      y_off = -h / 2.0
+      lines.each do |line|
+        draw_beat_line(line, cx, cy, y_off, scale)
+        y_off += line[:height] + BEAT_LINE_GAP
       end
-      y + 18
     end
 
-    def draw_beat_net(beat, cx, y, a)
+    # Line specs carry block-local coords (x from line center, dy from line
+    # top) so the pop can scale the whole block around its center point.
+    # The summary line is always the loud one: net when losses exist, the
+    # take itself when it stands alone (the most common beat — a lone +N —
+    # must not be the quietest).
+    def beat_lines(beat, a)
+      solo = (beat[:pip_amount] + beat[:dark_amount]).zero?
+      lines = [beat_take_line(beat, a, solo: solo)]
+      unless solo
+        lines << beat_losses_line(beat, a)
+        lines << beat_net_line(beat, a)
+      end
+      lines
+    end
+
+    def beat_take_line(beat, a, solo:)
+      col = fade(DROP_CORE, a)
+      font = solo ? ledger_net_font : ledger_line_font
+      glyph = solo ? BEAT_GLYPH_BIG : BEAT_GLYPH
+      h = solo ? 42 : 26
+      text = "+#{beat[:gained]}"
+      w = glyph + 8 + font.text_width(text)
+      w += glyph + 8 if beat[:recovery]
+      x = -w / 2.0
+      dy = (h - glyph) / 2.0
+      parts = []
+      if beat[:recovery]
+        parts << { type: :pip, x: x, dy: dy, size: glyph, col: col }
+        x += glyph + 8
+      end
+      parts << { type: :square, x: x, dy: dy, size: glyph, col: col }
+      parts << { type: :text, x: x + glyph + 8, dy: 0, text: text,
+                 font: font, col: col }
+      { width: w, height: h, parts: parts }
+    end
+
+    def beat_losses_line(beat, a)
+      specs = []
+      specs << [:pip, "-#{beat[:pip_amount]}", fade(BANNER, a)] if beat[:pip_amount].positive?
+      specs << [:dark, "-#{beat[:dark_amount]}", fade(LEDGER_NEG, a)] if beat[:dark_amount].positive?
+      w = specs.sum { |(_, t, _)| BEAT_GLYPH + 8 + ledger_line_font.text_width(t) + 14 } - 14
+      x = -w / 2.0
+      parts = []
+      specs.each do |(kind, text, text_col)|
+        parts <<
+          if kind == :pip
+            { type: :pip, x: x, dy: 3, size: BEAT_GLYPH, col: fade(DROP_CORE, a) }
+          else
+            { type: :dark, x: x, dy: 3, size: BEAT_GLYPH,
+              edge: fade(LEDGER_NEG, a), core: fade(LEDGER_DARK, a) }
+          end
+        parts << { type: :text, x: x + BEAT_GLYPH + 8, dy: 0, text: text,
+                   font: ledger_line_font, col: text_col }
+        x += BEAT_GLYPH + 8 + ledger_line_font.text_width(text) + 14
+      end
+      { width: w, height: 26, parts: parts }
+    end
+
+    def beat_net_line(beat, a)
       col = beat[:net].negative? ? fade(LEDGER_NEG, a) : fade(DROP_CORE, a)
       text = "= #{beat[:net].negative? ? '' : '+'}#{beat[:net]}"
-      ledger_font.draw_text(text, cx - ledger_font.text_width(text) / 2, y, 30, 1, 1, col)
+      w = ledger_net_font.text_width(text)
+      { width: w, height: 42,
+        parts: [{ type: :text, x: -w / 2.0, dy: 0, text: text, font: ledger_net_font, col: col }] }
+    end
+
+    def draw_beat_panel(cx, cy, w, h, scale, a)
+      pw = (w + BEAT_PAD_X * 2) * scale
+      ph = (h + BEAT_PAD_Y * 2) * scale
+      col = Gosu::Color.new((ledger_panel_alpha * a / 255.0).round, *BEAT_PANEL)
+      Gosu.draw_rect(cx - pw / 2, cy - ph / 2, pw, ph, col, 29)
+    end
+
+    # Peak alpha 120, not higher: at ~200 the flash whites the magenta glyph
+    # out entirely at age 0 — an arrival punch must never erase the gain/loss
+    # color identity the grammar teaches.
+    def draw_beat_flash(cx, cy, w, h, scale, age)
+      return unless age < ledger_flash_frames
+      fa = (ledger_flash_alpha * (1.0 - age.fdiv(ledger_flash_frames))).round
+      pw = (w + BEAT_PAD_X * 2) * scale
+      ph = (h + BEAT_PAD_Y * 2) * scale
+      Gosu.draw_rect(cx - pw / 2, cy - ph / 2, pw, ph,
+                     Gosu::Color.new(fa, *BEAT_FLASH), 31, :additive)
+    end
+
+    def draw_beat_line(line, cx, cy, y_off, scale)
+      line[:parts].each do |p|
+        x = cx + p[:x] * scale
+        y = cy + (y_off + p[:dy]) * scale
+        case p[:type]
+        when :text
+          p[:font].draw_text(p[:text], x, y, 30, scale, scale, p[:col])
+        when :square
+          Gosu.draw_rect(x, y, p[:size] * scale, p[:size] * scale, p[:col], 30)
+        when :pip
+          draw_hollow_pip(x, y, p[:size] * scale, p[:col])
+        when :dark
+          s = p[:size] * scale
+          Gosu.draw_rect(x - 2 * scale, y - 2 * scale, s + 4 * scale, s + 4 * scale, p[:edge], 30)
+          Gosu.draw_rect(x, y, s, s, p[:core], 30)
+        end
+      end
     end
 
     def draw_hollow_pip(x, y, size, col)
-      t = 2
-      Gosu.draw_rect(x, y, size, t, col)
-      Gosu.draw_rect(x, y + size - t, size, t, col)
-      Gosu.draw_rect(x, y, t, size, col)
-      Gosu.draw_rect(x + size - t, y, t, size, col)
-      x + size
+      t = [3, (size * 0.15).round].max
+      Gosu.draw_rect(x, y, size, t, col, 30)
+      Gosu.draw_rect(x, y + size - t, size, t, col, 30)
+      Gosu.draw_rect(x, y, t, size, col, 30)
+      Gosu.draw_rect(x + size - t, y, t, size, col, 30)
     end
 
     def fade(color, a)
@@ -506,5 +602,16 @@ module App
     def wipe_font = @wipe_font ||= Gosu::Font.new(64, bold: true)
     def hud_font = @hud_font ||= Gosu::Font.new(14)
     def ledger_font = @ledger_font ||= Gosu::Font.new(16, bold: true)
+    # Beat tally fonts, created at target size — glyphs only blur during the
+    # brief >1.0 pop overshoot (intentional punch).
+    def ledger_line_font = @ledger_line_font ||= Gosu::Font.new(26, bold: true)
+    def ledger_net_font = @ledger_net_font ||= Gosu::Font.new(42, bold: true)
+
+    def ledger_pop_frames = @display.fetch(:ledger_pop_frames, 10)
+    def ledger_flash_frames = @display.fetch(:ledger_flash_frames, 6)
+    def ledger_flash_alpha = @display.fetch(:ledger_flash_alpha, 120)
+    def ledger_panel_alpha = @display.fetch(:ledger_panel_alpha, 160)
+    def ledger_block_y = @display.fetch(:ledger_block_y, 160)
+    def ledger_wipe_y = @display.fetch(:ledger_wipe_y, 340)
   end
 end
