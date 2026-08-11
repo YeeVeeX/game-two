@@ -48,13 +48,18 @@ like the corpse_run gate-loot trick breaks). Therefore:
   (160) — just above the avatar. The camera lerps the possessed body to screen
   center (~480,270), so screen-center IS player-anchored. Quiet resolves fire
   after 3 s of no combat by definition, so occlusion of live fights is rare.
-  Wipe recaps (`kind: :wipe`) draw at `ledger_wipe_y` (310) — BELOW
-  "THE HUNT ENDS" (y=230 + 64pt ends ~294). After the veil lifts the recap
-  stays mid-screen through the run-back start: mission number front and
-  center — intended.
+  Wipe recaps (`kind: :wipe`) draw at `ledger_wipe_y` (340; the plan's 310
+  was amended at implementation: `beat_left` freezes for the whole veil, so
+  the recap holds full 1.35 pop scale for ~90 frames and its panel top would
+  persistently overlap "THE HUNT ENDS" — 340 clears the 64pt em box even at
+  full pop). After the veil lifts the recap stays mid-screen through the
+  run-back start: mission number front and center — intended.
 - **Type:** new fonts `ledger_net_font` 42 bold (net line), `ledger_line_font`
-  26 bold (take/loss lines); glyphs scale to ~20px squares. Colors and glyph
-  grammar unchanged.
+  26 bold (take/loss lines); glyphs scale to ~20px squares. **Summary-line
+  rule (implementation amendment):** the block's summary line is always the
+  loud one — net at 42 when losses exist, the take itself at 42 (glyph 32)
+  when it stands alone. Without this the most common beat (a lone +N) is the
+  QUIETEST, inverting err-loud. Colors and glyph grammar unchanged.
 - **Contrast panel:** dark rect (`ledger_panel_alpha` 160) at z=29 behind the
   text (z=30), sized to the widest line + padding, scales with the pop.
   Carries readability over the busy field AND over the alpha-170 wipe veil.
@@ -62,8 +67,13 @@ like the corpse_run gate-loot trick breaks). Therefore:
   1.35 → 1.0 (sqrt ease-out) around the block center; brief upscale blur is
   intentional Vlambeer punch. **Arrival flash:** first `ledger_flash_frames`
   (6) frames an additive bright rect over the panel decays to 0. Both driven
-  by `age = beat_frames - beat_left`. Exit keeps the repo-standard final-third
-  alpha fade.
+  by `age = beat_frames - beat_left`. **Wipe beats get NO flash
+  (implementation amendment):** `beat_left` freezes during the veil, so an
+  age-driven flash would sit at full additive alpha over the recap text for
+  ~90 frames and wash it out — the exact legibility `wipe_recap_reads` gates
+  on. The veil is the wipe's punch; the frozen 1.35 scale keeps the recap the
+  star of the pause, and the pop animates as the veil lifts. Exit keeps the
+  repo-standard final-third alpha fade.
 - **No per-kind pop variants:** wipe/bank differentiate by position + context,
   negative by color — per-kind scale keys are unverifiable-by-critic
   complexity. Tune later via data if wanted.
@@ -81,9 +91,11 @@ Zero balance constants in Ruby.
   `bank_tally_reads` gain center-screen + prominence language; NEW
   `ledger_prominence` check ("one of the two-three most visually prominent
   elements; a player watching screen center cannot fail to notice").
-- `ledger_loop.json` captures += 594, 2020, 11146 (3 frames after known beat
-  starts — catches the pop mid-overshoot). 18 captures, under the critic's
-  20-image cap.
+- `ledger_loop.json` captures += 579, 2110, 11131 (the plan's 594/2020/11146
+  assumed beats start AT the old capture frames; a headless sim probe showed
+  the real resolves fire at 576/2017+veil/11128 — the retargets catch a solo
+  take mid-pop, the post-veil recap settling, and a 3-line negative beat
+  mid-pop). 18 captures, under the critic's 20-image cap.
 - Data sanity asserts in `fight_ledger_test` (pop < beat_frames,
   flash <= pop, block_y clears the HUD, wipe_y clears the wipe line).
 - Full 7-script wall with critic (rendering change re-runs everything), then

@@ -41,6 +41,7 @@ module App
     BEAT_PANEL     = [10, 6, 12].freeze                 # near-black panel RGB
     BEAT_FLASH     = [255, 240, 220].freeze             # warm-white arrival flash RGB
     BEAT_GLYPH     = 20                                 # tally glyph square, px
+    BEAT_GLYPH_BIG = 32                                 # solo-line glyph, matches 42pt type
     BEAT_LINE_GAP  = 6
     BEAT_PAD_X     = 24                                 # panel padding around the block
     BEAT_PAD_Y     = 14
@@ -466,7 +467,11 @@ module App
       w = lines.map { |l| l[:width] }.max
       cy = top + h / 2.0
       draw_beat_panel(cx, cy, w, h, scale, a)
-      draw_beat_flash(cx, cy, w, h, scale, age)
+      # No arrival flash on wipe recaps: beat_left freezes for the whole veil
+      # (age pinned at 0), so an age-driven flash would sit at full additive
+      # alpha over the text for ~90 frames and wash the recap out — the exact
+      # legibility wipe_recap_reads gates on. The veil IS the wipe's punch.
+      draw_beat_flash(cx, cy, w, h, scale, age) unless beat[:kind] == :wipe
       y_off = -h / 2.0
       lines.each do |line|
         draw_beat_line(line, cx, cy, y_off, scale)
@@ -476,30 +481,38 @@ module App
 
     # Line specs carry block-local coords (x from line center, dy from line
     # top) so the pop can scale the whole block around its center point.
+    # The summary line is always the loud one: net when losses exist, the
+    # take itself when it stands alone (the most common beat — a lone +N —
+    # must not be the quietest).
     def beat_lines(beat, a)
-      lines = [beat_take_line(beat, a)]
-      if (beat[:pip_amount] + beat[:dark_amount]).positive?
+      solo = (beat[:pip_amount] + beat[:dark_amount]).zero?
+      lines = [beat_take_line(beat, a, solo: solo)]
+      unless solo
         lines << beat_losses_line(beat, a)
         lines << beat_net_line(beat, a)
       end
       lines
     end
 
-    def beat_take_line(beat, a)
+    def beat_take_line(beat, a, solo:)
       col = fade(DROP_CORE, a)
+      font = solo ? ledger_net_font : ledger_line_font
+      glyph = solo ? BEAT_GLYPH_BIG : BEAT_GLYPH
+      h = solo ? 42 : 26
       text = "+#{beat[:gained]}"
-      w = BEAT_GLYPH + 8 + ledger_line_font.text_width(text)
-      w += BEAT_GLYPH + 8 if beat[:recovery]
+      w = glyph + 8 + font.text_width(text)
+      w += glyph + 8 if beat[:recovery]
       x = -w / 2.0
+      dy = (h - glyph) / 2.0
       parts = []
       if beat[:recovery]
-        parts << { type: :pip, x: x, dy: 3, size: BEAT_GLYPH, col: col }
-        x += BEAT_GLYPH + 8
+        parts << { type: :pip, x: x, dy: dy, size: glyph, col: col }
+        x += glyph + 8
       end
-      parts << { type: :square, x: x, dy: 3, size: BEAT_GLYPH, col: col }
-      parts << { type: :text, x: x + BEAT_GLYPH + 8, dy: 0, text: text,
-                 font: ledger_line_font, col: col }
-      { width: w, height: 26, parts: parts }
+      parts << { type: :square, x: x, dy: dy, size: glyph, col: col }
+      parts << { type: :text, x: x + glyph + 8, dy: 0, text: text,
+                 font: font, col: col }
+      { width: w, height: h, parts: parts }
     end
 
     def beat_losses_line(beat, a)
@@ -595,6 +608,6 @@ module App
     def ledger_flash_frames = @display.fetch(:ledger_flash_frames, 6)
     def ledger_panel_alpha = @display.fetch(:ledger_panel_alpha, 160)
     def ledger_block_y = @display.fetch(:ledger_block_y, 160)
-    def ledger_wipe_y = @display.fetch(:ledger_wipe_y, 310)
+    def ledger_wipe_y = @display.fetch(:ledger_wipe_y, 340)
   end
 end
