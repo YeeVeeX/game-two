@@ -1,6 +1,62 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-11 (latest) — LEDGER FUN-VERIFY LANDED: INVALID AS MEANING TEST — total visibility failure; presentation iteration is NEXT
+## 2026-08-11 (latest) — LEDGER PRESENTATION SHIPPED (merge `42b54d6`); FIFTH fun-verify is the ONLY remaining step
+
+**State (measured):** `main` at merge `42b54d6` (149 commits; branch
+`ledger-presentation`, 6 commits, merged `--no-ff`, NOT pushed — no remote).
+**215 tests / 935 assertions green.** Perf p50 0.019 / p95 0.100 / max 4.386 ms
+(budget 16.6). **ALL SEVEN gates green with the critic** (31 vision checks —
+count reconciled: the harvest's "32 measured" was wrong, the file had 30, now
+31 with `ledger_prominence` added). Determinism 7/7 first try (99 captures
+byte-identical). Critic wall 7/7; one INFRA flake (corpse_run, empty model
+output — not a check FAIL) passed on plain retry. Ledger verdicts substantive:
+prominence = "large bold type on contrast panels, dominating center screen";
+pop frame 579, negative grammar 11131, veil recap 2017 all PASS with reasons.
+
+**What shipped (render-only; sim untouched, all 7 replay streams valid):**
+beat tally rebuilt — centered dark panel block above the avatar
+(`ledger_block_y` 160), 42pt net / 26pt lines / 20-32px glyphs, entrance pop
+1.35→1.0 (sqrt ease, 10f) + additive arrival flash (6f), exit keeps the
+final-third fade; wipe recaps at `ledger_wipe_y` 340 below THE HUNT ENDS. Six
+data keys in `data/display.json`; zero constants in Ruby. Spec + plan:
+`docs/superpowers/{specs,plans}/2026-08-11-ledger-presentation*`.
+
+**Three evidence-driven amendments to the approved plan (all capture-proven,
+recorded in the spec):** (1) wipe beats get NO flash — `beat_left` freezes all
+veil long, so the age-driven flash sat at full alpha ~90 frames and washed the
+recap to an unreadable beige blob (frame 2017 pre/post proof); (2) solo take
+lines promote to the 42pt font — a lone +N (the most common beat) was the
+quietest, inverting err-loud; (3) flash peak is a data key
+(`ledger_flash_alpha` 120) — at 200 the age-0 flash whited out the magenta
+glyph identity (frame 3995 proof). Plus: `ledger_wipe_y` 310→340 (frozen full
+pop overlapped the wipe title persistently), and the three added captures
+re-aimed 594/2020/11146 → 579/2110/11131 (headless probe: resolves fire at
+576/2017+veil/11128 — the plan's "beats start at old capture frames"
+assumption was false).
+
+**Owner vision check (mid-session, answered in conversation):** asked whether
+the bank/ledger work is drifting arcade. Position taken (dev of record):
+mechanically the game is consequence-RPG (world-anchored value, corpse debt);
+the real arcade-by-omission hole is that BANKED value does nothing — which is
+the known pile-lacks-meaning finding, roadmapped as D1b (banked feeds the vat)
+and A2 (threat economy), both correctly parked behind triggers. Drift guard on
+record: if a VISIBLE ledger still reads as a chore, the answer is A2
+(world-consequence), never more juice.
+
+**NEXT: the FIFTH fun-verify is the ONLY remaining step.** Owner plays
+(`bin/play`), capture the TELEMETRY line, then the spec's 8 questions VERBATIM
+via AskUserQuestion in TWO batches (Q1-Q4, Q5-Q8), verdict + LOCKED v8 routing
+banked in `drafts/_ledger-fun-verify2-20260811.md`, checkpoint updated, STOP.
+Routing (locked, owner 2026-08-11): Q3 "still a chore" on a VISIBLE ledger →
+A2 promotes AUTOMATICALLY (scope contract to v9 FIRST; fold PARKING_LOT A2
+notes + tank-first + hub rename into its brainstorm; ledger disposition per
+Q1/Q2/Q5/Q7 BEFORE the A2 spec; no A2 implementation in the verdict session).
+Q6 couldn't-read AGAIN → presentation is not the layer; reward-salience
+research is the pre-authorized contingency. Q1/Q2/Q5/Q7 any real signal →
+ledger STAYS through A2; wallpaper + wouldn't-miss → REMOVED before A2.
+Economy parked in ALL branches.
+
+## 2026-08-11 — LEDGER FUN-VERIFY LANDED: INVALID AS MEANING TEST — total visibility failure; presentation iteration is NEXT
 
 **PLAN APPROVED (2026-08-11, plan mode; zero code written yet — main clean at
 `1de852d`, 141 commits):** "louder, closer, animated — render-only". Full plan:
