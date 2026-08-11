@@ -1,0 +1,7 @@
+{
+  "corpse_term_frames": 5400,
+  "loot_settle_frames": 300,
+  "wipe_grace_frames": 2700,
+  "expiry_flash_frames": 45,
+  "settle_pip_alpha": 0.4
+}

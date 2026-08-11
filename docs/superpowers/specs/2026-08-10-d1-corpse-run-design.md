@@ -62,7 +62,11 @@ accepted because the variable under test is drama, not price.
   fast-travel** (wipe-as-teleport — priced only by a 90f veil + walking back
   empty), **grace-refresh** (spec-new: a deliberate wipe tops every container back
   to the grace floor — real only because grace is now a meaningful fraction of
-  term; watch it next to the grace constant). Pack-parking and
+  term; watch it next to the grace constant), **dying-breath term refresh**
+  (impl-review addition: loot a near-expired container with a body about to die
+  and the merged pile respawns as a fresh-term container — the loot lands
+  synchronously in the controller tick, the death at the end-of-tick bus flush;
+  happened live in the pilot flight at frame 7028). Pack-parking and
   die-to-teleport-HOME are structurally dead in this sim: `enter_zone` moves the
   whole living pack through every gate — no mules can exist.
 - No practice fine, no insurance (D2 — blocked on skill-through-use, unchanged).
@@ -134,9 +138,16 @@ accepted because the variable under test is drama, not price.
   `:nest_respawn` (tick_world never runs) and the veil is only 90 frames.
   Invariant: `grace <= term`, pinned by a data-load assertion test. Containers
   survive the respawn sweep (they are the POINT of the run back).
+  **Boundary, recorded (impl review finding 4):** a container whose term hits
+  zero on the exact wipe tick expires BEFORE the grace runs (tick_corpse_loads
+  precedes the bus flush that lands the wipe) — deterministic, one frame,
+  read as "it expired before the wipe landed". Accepted; no code.
 - **Events** (registered on first use), payloads pinned (review CF-5):
   `:corpse_loaded` (actor, tile, amount) · `:corpse_looted` (actor, tile, amount,
-  carried) · `carried_lost` re-pointed to term expiry with payload (amount, tile,
+  carried, term_left, term — the last two added by impl-review fold 2: the
+  recovery-margin oracle is not reconstructible from frame math once hitstop,
+  the veil freeze, or a grace rewrite intervened, so the event carries it) ·
+  `carried_lost` re-pointed to term expiry with payload (amount, tile,
   zone) — `actor` deliberately dropped: the body may have been revived by expiry
   time. Gate scripts aim at all three.
 - **Expiry flash storage (review CF-4):** per-zone (`@drops`/`@corpses` Hash.new

@@ -93,7 +93,7 @@ multiple weapons).
 - `rake capture SCRIPT=harness/scripts/<name>.json` — deterministic replay + frame capture
   (world_loop.json = everyday regression loop; district_hunt.json = hunt regression;
   specials_chain.json = A0.5 specials chain; loot_loop.json = D0 loot loop;
-  taunt_anchor.json = A0.6 taunt anchor)
+  taunt_anchor.json = A0.6 taunt anchor; corpse_run.json = D1 corpse run)
 - `rake gate SCRIPT=harness/scripts/<name>.json` — the BLOCKING Rule 2 gate: double replay +
   md5 compare + structured vision verdict (exit nonzero on any failure). `SKIP_CRITIC=1` runs
   the determinism half only (iteration aid, not a shippable pass).

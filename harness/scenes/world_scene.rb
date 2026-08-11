@@ -1,5 +1,6 @@
 require "core/data_store"
 require "game/world"
+require "game/telemetry"
 require "app/renderer"
 
 # Replay adapter: the REAL world sim + REAL renderer under scripted input.
@@ -18,13 +19,16 @@ module Harness
         %i[telegraph attack_hit actor_died dodged possession_changed
            pack_wiped pack_respawned zone_entered projectile_fired
            special_started pack_mark_set drop_spawned drop_picked_up
-           drop_decayed banked carried_lost taunted].each do |ev|
+           drop_decayed banked carried_lost taunted
+           corpse_loaded corpse_looted].each do |ev|
           @world.bus.subscribe(ev) { |e| puts "EVENT #{ev} frame=#{@world.frame} #{describe(e)}" }
         end
+        @telemetry = Game::Telemetry.new(@world.bus)
       end
 
       def tick(input) = @world.tick(input)
       def draw = @renderer.draw(@world)
+      def summary = @telemetry.summary
 
       private
 

@@ -55,7 +55,10 @@ module Harness
         puts "captured #{path}"
       end
       @frame += 1
-      close if @frame >= @run_until
+      if @frame >= @run_until
+        puts @scene.summary if @scene.respond_to?(:summary)
+        close
+      end
     end
 
     def draw
