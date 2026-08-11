@@ -6,30 +6,41 @@ permission for design decisions.
 
 ## Scope contract (the #1 Kethral failure was ignoring this — it is enforced here)
 
-v5 (2026-08-10): A0 + A0.5 fun-verified. D0 loot loop SHIPPED (merge `386d1e4`);
-owner fun-verify verdict: **"bank or push deeper" = a chore** — D0's substrate stays,
-its FUN is unproven, and it is NOT tuned blind (re-verify + tune AFTER A0.6; verdict
-detail in PARKING_LOT.md). Current increment = **A0.6 = blocker taunt ONLY**,
-owner-promoted (his ask: "the tank is too weak… an 'exeta res'-like spell to pull
-aggro"). Spec: `docs/superpowers/specs/2026-08-10-a0.6-blocker-taunt.md`.
+v6 (2026-08-10): A0.6 blocker taunt SHIPPED (merge `38064ac`); owner fun-verify:
+tank fantasy **"yes, it clicked"**, rhythm **"right as-is"** (no decouple needed —
+ship-coupled was correct). D0 re-verify (same question, post-taunt): **"still a
+chore"** — taunt did not fix it (expected: taunt is a combat-feel fix, D0's gap is
+economic pressure on the carry; re-verify stays in PARKING_LOT.md, still NOT tuned
+blind). Owner picked the next track over the D0 ledger fix: **A2 = aggro
+soft-cap / threat system ONLY**. Spec:
+`docs/superpowers/specs/2026-08-10-a2-threat-soft-cap.md`.
 
-**IN scope until A0.6 is fun-verified — A0.6 promotes exactly TWO things:**
-- **The taunt verb**: a blocker-only pressable that forces humans within range to
-  target the blocker's BODY for a data-defined duration (readable aggro, no invisible
-  threat math). Symmetry law: mark orders allies onto one target; taunt orders enemies
-  onto one body. All numbers in `data/balance/combat.json`.
-- **Taunt readability**: the taunted state must be visible on both ends (blocker
-  flare + retarget behavior) and covered by a gate script + APPENDED vision checks
-  (existing 20 never weaken).
+⚠️ Correction from v5: A2 was described there as "taunt is a VERB, not a threat
+system" — that boundary held for A0.6 (taunt shipped with zero threat math, per
+that rule) and is now superseded: A2 IS the threat system, promoted next as the
+fuse-fix taunt's own spec flagged (an unpeeled blocker can die inside its own
+taunt lock against 4+ attackers — decision 6 of the taunt spec). Gamesmith corpus
+checked for touchstone evidence first: zero threat/aggro-management mechanics in
+any of the 5 games (Tibia's only "pull" concept is over-pull as a route-risk
+decision, not a targeting system) — A2 has no touchstone and is defended from
+game-two's own diagnosed problem, not cited evidence.
+
+**IN scope until A2 is fun-verified — A2 promotes exactly ONE thing:**
+- **A per-human threat accumulator** (Hash keyed by pack member, small — humans
+  only ever hostile against ≤3 pack members) that replaces plain `nearest`
+  targeting: gains from being attacked, decays without a source. Taunt becomes a
+  **threat ceiling** set on cast (preserves the exact hard-lock feel just
+  fun-verified — nothing accrued in-window can outbid it), not an instant
+  override. All numbers in `data/balance/combat.json`.
 
 **OUT of scope — goes to PARKING_LOT.md, never to code:**
-D0 tuning (drop amounts, decay, station placement — waits for the post-A0.6
-re-verify); corpse containers / own-corpse looting, body fees, wipe fines, insurance
-(D1/D2); gambit engine + hot-reload (A1), Shooters, pull economy / aggro soft-caps
-(A2 — taunt is a VERB, not a threat system), nest advance (A3); inventory grids,
-carry weight, rarity, new drop types, spending banked, restart persistence; plus
-everything already parked (procedural dungeons, stamina, XP/skills, dialogue, status
-effects, crafting, weather, co-op, quests, shops, multiple weapons).
+D0 tuning (the ledger/pressure fix — waits for its own promotion, not bundled
+into A2); corpse containers / own-corpse looting, body fees, wipe fines, insurance
+(D1/D2); gambit engine + hot-reload (A1), Shooters, nest advance (A3); inventory
+grids, carry weight, rarity, new drop types, spending banked, restart persistence;
+any THIRD kit special or new binding; plus everything already parked (procedural
+dungeons, stamina, XP/skills, dialogue, status effects, crafting, weather, co-op,
+quests, shops, multiple weapons).
 **Nothing new starts until the current loop is fun-verified by the owner.**
 
 ## De-slop + comprobations (owner-set 2026-08-09)
