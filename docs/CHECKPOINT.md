@@ -2,6 +2,20 @@
 
 ## 2026-08-11 (latest) — LEDGER FUN-VERIFY LANDED: INVALID AS MEANING TEST — total visibility failure; presentation iteration is NEXT
 
+**PLAN APPROVED (2026-08-11, plan mode; zero code written yet — main clean at
+`1de852d`, 141 commits):** "louder, closer, animated — render-only". Full plan:
+`C:\Users\gabri\.claude\plans\happy-exploring-hinton.md` (tasks 0-10); context
+harvest (verbatim check drafts + renderer code sketches + pinned exploration
+facts): `drafts/_ledger-presentation-harvest.md`. Load-bearing constraints
+discovered in exploration: RENDER-ONLY (a resolve-punch hitstop is a SIM change
+that desyncs the 7 replay streams — rejected); screen-center IS player-anchored
+(camera); FR-025 bans saturation not prominence; capture indices are
+determinism-neutral. Next session: execute tasks 0-10 (branch
+`ledger-presentation` → spec/plan docs → display.json keys → renderer rewrite →
+checks retarget+add → captures +3 → data asserts → visual iteration → 7-gate
+wall → merge --no-ff NO push → checkpoint → FIFTH fun-verify, same 8 questions
+verbatim, unprimed).
+
 **The verdict (full doc: `drafts/_ledger-fun-verify-20260811.md`):** owner played
 two sessions (telemetry: 4 fights, 1 negative fight, 2 wipes — the system FIRED,
 no threshold bug) and answered all 8 spec questions via AskUserQuestion (two
