@@ -56,10 +56,12 @@ class FightLedgerTest < Minitest::Test
     end
   end
 
-  # Kills BY the possessed trigger hitstop at the next flush, and hitstop
-  # freezes the quiet clock — drain it before counting drive frames (D1
-  # lesson: frozen clocks silently eat drive budgets).
+  # Kills BY the possessed trigger hitstop at the NEXT flush — so flush one
+  # tick first, THEN drain, or the check runs before hitstop even starts and
+  # the frozen frames silently eat the drive budget (D1 lesson, one level
+  # deeper).
   def drain_hitstop(world)
+    drive(world, scripted({}), 1)
     drive(world, scripted({}), 1) while world.feel.hitstop?
   end
 
@@ -68,6 +70,15 @@ class FightLedgerTest < Minitest::Test
     @resolved ||= [].tap do |list|
       world.bus.subscribe(:fight_resolved) { |e| list << e.payload.dup }
     end
+  end
+
+  # enter_district's walk can aggro a rusher into an ally skirmish, leaving
+  # a combat window OPEN when a test starts staging. Tests that assert exact
+  # spans or counts quiesce first: let the leftover window resolve/dissolve,
+  # then forget it.
+  def quiesce_ledger(world, events)
+    drive(world, scripted({}), QUIET + 2)
+    events.clear
   end
 
   # Open a combat window without hitstop: hurt (never kill) a parked human.
@@ -108,5 +119,76 @@ class FightLedgerTest < Minitest::Test
     %i[ledger_quiet_frames ledger_beat_frames].each do |k|
       assert_operator LEDGER[k], :>, 0, "#{k} must be a positive frame count"
     end
+  end
+
+  # --- window lifecycle (Task 2) ---
+
+  def test_window_opens_on_damage_and_resolves_after_quiet
+    events = resolved_events(world)
+    enter_district(world)
+    isolate_humans(world)
+    poke(world)                          # damage_dealt opens (flush this frame)
+    drive(world, scripted({}), QUIET - 30)
+    assert_empty events
+    kill(world.humans.reject(&:dead?).first, by: world.possessed) # refresh + qualify
+    drain_hitstop(world)
+    drive(world, scripted({}), QUIET + 2)
+    assert_equal 1, events.length
+    e = events.first
+    assert_equal "district", e[:zone]
+    assert_equal :combat, e[:opened_by]
+    assert_equal 1, e[:kills]
+    refute e[:wiped]
+    assert_equal :fight, world.ledger_beat[:kind]
+  end
+  # (The kill at QUIET-30 also PROVES refresh: the window outlived its
+  # original deadline.)
+
+  def test_kill_without_pickup_prints_honest_zero
+    events = resolved_events(world)
+    enter_district(world)
+    isolate_humans(world)
+    kill(world.humans.reject(&:dead?).first, by: world.possessed)
+    drain_hitstop(world)
+    drive(world, scripted({}), QUIET + 2)
+    assert_equal 1, events.length
+    assert_equal 1, events.first[:kills]
+    assert_equal 0, events.first[:gained], "abandonment prints +0 (spec H3 trade)"
+  end
+
+  def test_graze_only_window_dissolves_silently
+    events = resolved_events(world)
+    enter_district(world)
+    isolate_humans(world)
+    poke(world)                          # damage, but no kill and no loot
+    drive(world, scripted({}), QUIET + 2)
+    assert_empty events, "a pure graze exchange must dissolve, not print"
+    assert_nil world.ledger_beat
+  end
+
+  def test_beat_clears_after_beat_frames
+    enter_district(world)
+    isolate_humans(world)
+    kill(world.humans.reject(&:dead?).first, by: world.possessed)
+    drain_hitstop(world)
+    drive(world, scripted({}), QUIET + 2)
+    refute_nil world.ledger_beat
+    drive(world, scripted({}), BEAT + 1)
+    assert_nil world.ledger_beat
+  end
+
+  def test_span_frames_counts_ticked_frames_not_at_frame
+    events = resolved_events(world)
+    enter_district(world)
+    isolate_humans(world)
+    quiesce_ledger(world, events)        # en-route skirmish window must not pollute the span
+    kill(world.humans.reject(&:dead?).first, by: world.possessed)
+    drain_hitstop(world)
+    drive(world, scripted({}), QUIET + 2)
+    e = events.first
+    # window opened at the kill's flush; span counts TICKED frames only —
+    # the drained hitstop frames advanced @frame but not the span.
+    assert_operator e[:span_frames], :>=, QUIET
+    assert_operator e[:span_frames], :<=, QUIET + 8
   end
 end

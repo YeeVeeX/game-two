@@ -8,6 +8,7 @@ require "game/controllers"
 require "game/feel"
 require "game/camera"
 require "game/flow_field"
+require "game/fight_ledger"
 
 module Game
   # The sim: a pack of creatures (one possessed, the rest AI) hunting through
@@ -20,7 +21,7 @@ module Game
       attack_started special_started attack_hit damage_dealt actor_died dodged telegraph
       zone_entered possession_changed pack_wiped pack_respawned projectile_fired pack_mark_set
       drop_spawned drop_picked_up drop_decayed banked carried_lost taunted
-      corpse_loaded corpse_looted
+      corpse_loaded corpse_looted fight_resolved
     ].freeze
 
     TRANSITIONS = { world: %i[nest_respawn], nest_respawn: %i[world] }.freeze
@@ -60,6 +61,11 @@ module Game
       load_zones
       spawn_pack
       wire_events
+      # Constructed after wire_events ON PURPOSE: World's actor_died handler
+      # must queue corpse_loaded/pack_wiped ahead of the ledger's handlers in
+      # the same flush (the wipe-ordering pin, spec M6).
+      @fight_ledger = FightLedger.new(@bus, world: self,
+                                      config: data["balance/ledger"])
       enter_zone(HOME_ZONE, map.pack_spawn)
     end
 
@@ -76,6 +82,8 @@ module Game
     # index would insert keys into sim state from the draw path (pure-reader law).
     def corpse_loads(zone = @zone_name) = @corpse_loads.fetch(zone) { [] }
     def expiry_flashes(zone = @zone_name) = @expiry_flashes.fetch(zone) { [] }
+    def ledger_beat = @fight_ledger.beat
+    def total_stranded = @corpse_loads.values.sum { |list| list.sum { |c| c[:amount] } }
     def marked_target = @pack.mark
     def taunt_pulses = @taunt_pulses
 
@@ -245,6 +253,7 @@ module Game
       tick_drops
       tick_corpse_loads
       tick_expiry_flashes
+      @fight_ledger.tick
       respawn_due_humans
       prune_caches
     end
