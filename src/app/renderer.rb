@@ -47,6 +47,8 @@ module App
         draw_corpses(world)
         draw_stations(world)
         draw_drops(world)
+        draw_corpse_loads(world)
+        draw_expiry_flashes(world)
         world.humans.each { |h| draw_creature(h, world) }
         world.pack.living.each { |m| draw_creature(m, world) }
         world.projectiles.each { |p| draw_projectile(p) }
@@ -141,6 +143,42 @@ module App
       end
     end
 
+    # Glean pip (D1): hollow magenta OUTLINE on the CONTAINER's tile —
+    # outline because a free drop is a filled square and the two render
+    # concentric when a drop sits on a loaded corpse (review DS-4);
+    # tile-anchored because a knockback kill can leave the corpse rect a
+    # tile away from the interact tile (review CF-3). Dim while settling,
+    # snapping to full on lootable (the ready tell, review FN-5); fades
+    # over the term's final third like drops and the taunt underline.
+    def draw_corpse_loads(world)
+      ts = world.map.tile_size
+      world.corpse_loads.each do |c|
+        frac = c[:term_left].fdiv(c[:term])
+        alpha = frac < (1 / 3.0) ? (255 * frac * 3).clamp(60, 255).round : 255
+        alpha = (alpha * c[:settle_alpha]).round if c[:settle_left].positive?
+        col = Gosu::Color.new(alpha, DROP_CORE.red, DROP_CORE.green, DROP_CORE.blue)
+        size = 16
+        t = 3
+        x = c[:tile][0] * ts + (ts - size) / 2.0
+        y = c[:tile][1] * ts + (ts - size) / 2.0
+        Gosu.draw_rect(x, y, size, t, col)
+        Gosu.draw_rect(x, y + size - t, size, t, col)
+        Gosu.draw_rect(x, y, t, size, col)
+        Gosu.draw_rect(x + size - t, y, t, size, col)
+      end
+    end
+
+    # Term expiry read as an EVENT, not a disappearance: one brief dark
+    # flash on the tile (per-zone records; only the current zone draws).
+    def draw_expiry_flashes(world)
+      ts = world.map.tile_size
+      world.expiry_flashes.each do |f|
+        a = (200 * f[:frames_left].fdiv(f[:frames])).round
+        tx, ty = f[:tile]
+        Gosu.draw_rect(tx * ts, ty * ts, ts, ts, Gosu::Color.new(a, 12, 6, 14))
+      end
+    end
+
     # Station fixture: palette-driven block with a hollow center — reads as
     # a PLACE, not a wall (walls are solid) and not a gate (gates are gold).
     def draw_stations(world)
@@ -178,8 +216,13 @@ module App
     # erase the fight's history).
     def draw_corpses(world)
       world.corpses.each do |c|
-        age = world.frame - c[:at_frame]
-        alpha = (140 * (1.0 - age.fdiv(Game::World::CORPSE_FADE_FRAMES))).clamp(0, 140).round
+        alpha =
+          if c[:container_id]
+            140 # loaded: held at full strength while the container lives
+          else
+            age = world.frame - c[:at_frame]
+            (140 * (1.0 - age.fdiv(Game::World::CORPSE_FADE_FRAMES))).clamp(0, 140).round
+          end
         base = c[:faction] == :human ? [140, 135, 125] : [150, 80, 40]
         Gosu.draw_rect(c[:x] + 4, c[:y] + 10, SIZE - 8, SIZE - 14,
                        Gosu::Color.new(alpha, *base))
