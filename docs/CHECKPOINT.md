@@ -55,12 +55,18 @@ non-autovivifying public readers (draw-path pure-reader law). Spec notes: exact-
 wipe-tick expiry legally dodges grace; dying-breath term refresh on the watch list.
 8 seed suspicions traced clean.
 
-**Owner queue (DONE WHEN answered):** run `bin\play.cmd`, play until you die
-carrying at least once, then close (Esc) and read the `TELEMETRY d1_fired` line off
-the shell. Answer the spec's 6 fun-verify questions (spec §Fun-verify) — if you
-never died carrying, answer "N/A — never fired" (that N/A indicts combat threat,
-not the corpse system; the telemetry line will say the same). The fun-verify verdict
-decides what's next (post-fight ledger is the queued candidate).
+**FUN-VERIFY VERDICT (2026-08-11, same day — full answers + routing in
+`drafts/_d1-fun-verify-20260811.md`):** system FIRED (owner session:
+carrying_deaths=2 wipes=2 corpse_looted=2 carried_lost=0 banked=1) and the
+drama-alone experiment came back **NO**: settle = "standing in line", run back =
+"in between" danger + "too long/tedious", Q3 = **"still a chore" (third ask)**,
+Q4 = "banked, wouldn't care" (the spec's own D1b/ledger routing clause verbatim),
+Q5 = clock never noticed (term-tuning signal, NOT actioned — no measured margins),
+Q6 = no convenience deaths. Primary route: **the pile lacks meaning → ledger/D1b.**
+Secondary: **threat never contests the corpse** (2/2 recoveries, 0 losses) — second
+fun-verify pointing at threat since the owner demoted A2. Dev-of-record
+recommendation: post-fight ledger next (pre-queued candidate); A2 re-promotion is
+the owner's call with the evidence now on file; D1b's trigger did NOT fire.
 
 **In flight when written:** nothing.
 
