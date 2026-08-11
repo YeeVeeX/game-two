@@ -1,6 +1,37 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-11 (latest) — FIGHT LEDGER SHIPPED (merge `677b2ac`); awaiting owner fun-verify
+## 2026-08-11 (latest) — LEDGER FUN-VERIFY LANDED: INVALID AS MEANING TEST — total visibility failure; presentation iteration is NEXT
+
+**The verdict (full doc: `drafts/_ledger-fun-verify-20260811.md`):** owner played
+two sessions (telemetry: 4 fights, 1 negative fight, 2 wipes — the system FIRED,
+no threshold bug) and answered all 8 spec questions via AskUserQuestion (two
+batches). Result: **Q6 escape-valve at maximum — "never saw any of it."** Q1/Q2/Q4
+all "never noticed"; Q5 zero-exposure (banked_events=0 both sessions); Q7
+"wouldn't notice" (quarantined — can't miss the unseen); Q8 control "wouldn't
+care" (unchanged from D1; control did its job). Per the LOCKED v8 routing:
+(1) Q6 quarantines all meaning answers → **presentation iteration FIRST, meaning
+verdict WAITS**; (2) Q3 = "not sure / didn't register", NOT "still a chore" →
+**A2 did NOT auto-promote; it stays PRE-QUEUED** behind the next VALID fun-verify
+(v8 owner lock binds that one: visible ledger + unmoved chore → A2 promotes
+automatically); (3) ledger disposition (stays/removed) NOT decidable this round;
+(4) D1b trigger did not fire (zero banking = disengagement, not exploit).
+
+**Behavioral evidence (recorded):** two sessions, ZERO voluntary banks, ZERO
+corpse recoveries (wiped twice, never ran back). Consistent with pile-lacks-
+meaning + threat-never-contests, but quarantined as verdict input.
+
+**NEXT INCREMENT (defined, not started): ledger presentation iteration.** Make
+the beat impossible to miss — candidate levers in the verdict doc (player-anchored
+/ center toast, scale-in + flash, bigger net line, recap contrast; no audio exists
+in the build, visual juice is the lever). Diagnosis hypotheses H-vis1/2/3 in the
+doc; the strongest: even the veil recap (forced 90-frame pause) went unnoticed
+twice — size/placement/contrast, not timing. Then RE-RUN the exact 8-question
+verify (FIFTH chore ask). Vision checks may be ADDED, never weakened; rendering
+changes re-run the full 7-script wall. Scope: this is iteration on the SHIPPED v8
+increment (spec §fun-verify pre-registers it), not new scope — the scope contract
+stays v8 until that verify lands.
+
+## 2026-08-11 — FIGHT LEDGER SHIPPED (merge `677b2ac`); awaiting owner fun-verify
 
 **State (measured):** `main` at merge `677b2ac` (138 commits; branch `fight-ledger`,
 10 commits, merged `--no-ff`, NOT pushed — no remote). **214 tests / 925 assertions

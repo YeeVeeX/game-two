@@ -95,6 +95,16 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
   AskUserQuestion); A2 threat PRE-QUEUED** — promotes automatically if the
   ledger's fun-verify does not move the chore. Full verdict + routing:
   `drafts/_d1-fun-verify-20260811.md`.
+  **LEDGER fun-verify LANDED 2026-08-11: INVALID as a meaning test — Q6
+  escape-valve at maximum ("never saw any of it"; Q1/Q2/Q4 "never noticed",
+  while telemetry proves the system fired: 4 fights, 1 loss beat, 2 wipe
+  recaps).** Per the locked routing: presentation iteration FIRST, meaning
+  verdict WAITS; Q3 was "not sure", NOT "still a chore" → **A2 did NOT
+  auto-promote, stays pre-queued behind the next VALID verify** (visible
+  ledger + unmoved chore → promotes automatically). Behavioral note: two
+  sessions, zero banks, zero corpse recoveries. Next: make the beat
+  impossible to miss, re-run the same 8 questions (FIFTH chore ask). Full
+  verdict + diagnosis: `drafts/_ledger-fun-verify-20260811.md`.
 
 ## Owner playtest feedback (recorded 2026-08-11, mid-ledger-fun-verify — parked, NOT promoted)
 
