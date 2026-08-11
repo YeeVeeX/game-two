@@ -96,6 +96,42 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
   ledger's fun-verify does not move the chore. Full verdict + routing:
   `drafts/_d1-fun-verify-20260811.md`.
 
+## Owner design questions (recorded 2026-08-11, mid-ledger-ship — answered, parked, NOT promoted)
+
+- **Sustain (potions / healer / heals): route through D1b as the SPEND side of the
+  ledger, never as a free cooldown.** Owner observation (correct, and measured: the
+  ledger pilot flight logged 8 wipes in 5.5 sim-minutes; bodies only refresh via
+  wipes, so hunts bleed out monotonically): hunts can't hold longer periods without
+  sustain. The touchstone agrees — the EK-1037 Hunt Analyser's 59-minute hunt exists
+  BECAUSE of its 311k supply burn; sustain and cost are the same mechanic. Dev-of-record
+  shape when D1b promotes: healing/re-growth PRICED in banked value (the vat), so the
+  banked pile buys hunt length — this is what finally makes the pile mean something,
+  closing the loop the ledger instruments. Owner's healer-fairy/Navi kernel (invokable
+  periodic AoE heal) folds in as a PRICED invocation (a portable bank-sink), not a free
+  cooldown — free sustain lengthens hunts by weakening death (D1) and deleting the
+  P&L's cost column (FR-024). No healer kit (4th body), no inventory potions (grids
+  parked), no battle-rez.
+- **Reviving teammates: mid-hunt re-crew AT THE HUB for a fee (D1b vat re-growth),
+  not in the field.** Wipes already revive (the vat); the gap is dead-ally attrition
+  mid-hunt (flight evidence: long last-body death-spirals). A paid hub re-crew gives
+  the walk back a purpose beyond banking (Q2 "in between" gets a decision), keeps
+  death meaningful, costs banked value. Field revival stays out.
+- **Gate-camping / entrance-stacking: real, measured, and A2's problem.** Flight
+  evidence: aggroed rushers never leash — chasers that lose the player IDLE at the
+  gate; respawns walk back toward the last fight; the west gate re-formed a meat
+  grinder every life, and re-entry at the arrival tile was spawn-adjacent ambush.
+  Shape notes for A2 (this is pull-economy/aggro territory): (a) leash-with-no-heal —
+  rushers that lose contact for N seconds walk home; they KEEP current HP, so
+  zone-flipping is a breather, never a reset (the owner's named exploit); leash timer
+  >> gate round-trip; (b) gate beachhead — small no-camp radius around arrival tiles
+  unless attacked; (c) chaser cap ties into A2's aggro soft-cap. Do NOT ship as a
+  standalone fix — it reshapes threat, which is exactly the variable A2 owns.
+- **"The Nest" rename — SECOND owner complaint on record (2026-08-11; first was
+  earlier).** The name is fiction-pending spec-speak that leaked player-visible (zone
+  banner draws display_name). PRIORITY item on the fiction order form for the bible
+  session; renaming now would invalidate every gate capture (banner text renders in
+  frames), so it lands as its own post-bible increment: rename + one full wall re-run.
+
 ## A1+ queue (cut from Increment A by the 2026-08-09 dual review — each behind its own fun-verify)
 
 - A1: gambit engine (JSON IF/THEN ally rules) + dev hot-reload keybind for iteration

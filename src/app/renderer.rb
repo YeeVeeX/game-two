@@ -36,6 +36,9 @@ module App
     WIPE_VEIL      = Gosu::Color.new(170, 8, 4, 10)
     BANNER         = Gosu::Color.new(255, 225, 215, 190)
     STAGGER_VEIL   = Gosu::Color.new(90, 20, 8, 8)
+    LEDGER_NEG     = Gosu::Color.new(255, 200, 40, 40) # wipe-red family
+    LEDGER_DARK    = Gosu::Color.new(255, 26, 13, 30)  # expiry-flash family
+    LEDGER_BEAT_Y  = 96                                # below the banner line
 
     SIZE = Game::Creature::SIZE
 
@@ -60,6 +63,10 @@ module App
       draw_edge_pips(world)
       draw_banner(world) if world.banner?
       draw_wipe_overlay(world) if world.states.current == :nest_respawn
+      # AFTER the wipe overlay BY DESIGN: the alpha-170 veil would bury the
+      # recap, and the recap legible through the veil is the point (spec:
+      # one owned draw-order decision; review M1-codefit).
+      draw_ledger_beat(world)
       draw_stagger_veil(world) if world.possessed.staggered?
     end
 
@@ -423,11 +430,81 @@ module App
       Gosu.draw_rect(0, 0, view_width(world), view_height(world), STAGGER_VEIL)
     end
 
+    # Registration beat (fight-ledger spec): 1-3 glyph+number lines, timed,
+    # top-center. Glyph grammar is the game's own: filled square = acquired
+    # value, hollow pip = pile-on-a-corpse (recoverable, calm), dark square
+    # = destroyed (gone). No words — nothing blocks on the bible. Alpha
+    # fades over the final third of beat_left (the drop-decay grammar).
+    # Pure reader: everything needed rides the beat record.
+    def draw_ledger_beat(world)
+      beat = world.ledger_beat
+      return unless beat
+      frac = beat[:beat_left].fdiv(beat[:beat_frames])
+      a = frac < (1 / 3.0) ? (255 * frac * 3).clamp(60, 255).round : 255
+      cx = view_width(world) / 2
+      y = LEDGER_BEAT_Y
+      y = draw_beat_take(beat, cx, y, a)
+      return unless (beat[:pip_amount] + beat[:dark_amount]).positive?
+      y = draw_beat_losses(beat, cx, y, a)
+      draw_beat_net(beat, cx, y, a)
+    end
+
+    def draw_beat_take(beat, cx, y, a)
+      col = fade(DROP_CORE, a)
+      text = "+#{beat[:gained]}"
+      w = 16 + hud_font.text_width(text) + (beat[:recovery] ? 16 : 0)
+      x = cx - w / 2
+      x = draw_hollow_pip(x, y + 2, 10, col) + 6 if beat[:recovery]
+      Gosu.draw_rect(x, y + 2, 10, 10, col)
+      hud_font.draw_text(text, x + 16, y, 30, 1, 1, col)
+      y + 18
+    end
+
+    def draw_beat_losses(beat, cx, y, a)
+      parts = []
+      parts << [:pip, "-#{beat[:pip_amount]}"] if beat[:pip_amount].positive?
+      parts << [:dark, "-#{beat[:dark_amount]}"] if beat[:dark_amount].positive?
+      w = parts.sum { |(_, t)| 16 + hud_font.text_width(t) + 10 } - 10
+      x = cx - w / 2
+      parts.each do |(kind, text)|
+        if kind == :pip
+          draw_hollow_pip(x, y + 2, 10, fade(DROP_CORE, a))
+          hud_font.draw_text(text, x + 16, y, 30, 1, 1, fade(BANNER, a))
+        else
+          Gosu.draw_rect(x - 1, y + 1, 12, 12, fade(LEDGER_NEG, a))
+          Gosu.draw_rect(x, y + 2, 10, 10, fade(LEDGER_DARK, a))
+          hud_font.draw_text(text, x + 16, y, 30, 1, 1, fade(LEDGER_NEG, a))
+        end
+        x += 16 + hud_font.text_width(text) + 10
+      end
+      y + 18
+    end
+
+    def draw_beat_net(beat, cx, y, a)
+      col = beat[:net].negative? ? fade(LEDGER_NEG, a) : fade(DROP_CORE, a)
+      text = "= #{beat[:net].negative? ? '' : '+'}#{beat[:net]}"
+      ledger_font.draw_text(text, cx - ledger_font.text_width(text) / 2, y, 30, 1, 1, col)
+    end
+
+    def draw_hollow_pip(x, y, size, col)
+      t = 2
+      Gosu.draw_rect(x, y, size, t, col)
+      Gosu.draw_rect(x, y + size - t, size, t, col)
+      Gosu.draw_rect(x, y, t, size, col)
+      Gosu.draw_rect(x + size - t, y, t, size, col)
+      x + size
+    end
+
+    def fade(color, a)
+      Gosu::Color.new((color.alpha * a / 255.0).round, color.red, color.green, color.blue)
+    end
+
     def view_width(world) = world.camera.view_w
     def view_height(world) = world.camera.view_h
 
     def banner_font = @banner_font ||= Gosu::Font.new(28, bold: true)
     def wipe_font = @wipe_font ||= Gosu::Font.new(64, bold: true)
     def hud_font = @hud_font ||= Gosu::Font.new(14)
+    def ledger_font = @ledger_font ||= Gosu::Font.new(16, bold: true)
   end
 end
