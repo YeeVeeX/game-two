@@ -530,6 +530,10 @@ module Game
     end
 
     def respawn_pack
+      # Release EVERY zone's taunt locks before reviving: a frozen victim in
+      # an abandoned zone would otherwise re-lock onto the revived taunter —
+      # a lock that "ended" at the taunter's death un-ending (impl review 1).
+      @humans.each_value { |list| list.each(&:release_taunt!) }
       @zone_name = HOME_ZONE
       @pack.members.each_with_index { |m, i| m.revive!(map:, tile: map.pack_spawn[i]) }
       enter_zone(HOME_ZONE, map.pack_spawn)

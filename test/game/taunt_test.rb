@@ -276,4 +276,44 @@ class TauntTest < Minitest::Test
     assert_nil victim.taunted_target, "revival must not resurrect a lock the blocker never re-cast"
     assert_equal 0, victim.taunt_frames, "state cleared, not merely gated"
   end
+
+  # The organic case the impl review live-reproduced: the victim is FROZEN in
+  # an abandoned zone (never ticks), the wipe happens elsewhere, and no reader
+  # touches the victim between the taunter's death and its revival. Only the
+  # respawn sweep can release this lock.
+  def test_abandoned_zone_victim_does_not_relock_after_wipe
+    blocker, humans = stage(world, blocker_at: [12, 12], keep: 1)
+    victim = humans.first
+    victim.walker.teleport(20, 12)
+    victim.taunt!(blocker, 30_000)
+
+    # Whole pack transits home; the district victim freezes with its lock.
+    ([blocker] + (world.pack.living - [blocker])).each_with_index do |m, i|
+      m.walker.teleport(0 + (i.zero? ? 0 : 1), 13 - i)
+    end
+    blocker.walker.teleport(0, 13)
+    drive(world, 1)
+    assert_equal "nest", world.zone_name
+
+    # Wipe in the nest — no district reader runs from here to revival.
+    world.pack.living.each { |m| kill(m, by: victim) }
+    drive(world, DATA["balance/combat"][:respawn_frames] + 2)
+    assert_equal :world, world.states.current
+    refute blocker.dead?
+
+    assert_nil victim.taunted_target, "frozen victim must not re-lock the revived taunter"
+    assert_equal 0, victim.taunt_frames, "respawn sweep released the abandoned-zone lock"
+  end
+
+  # The reader is PURE (impl review 2): calling taunted_target on a victim of
+  # a dead taunter must not mutate — the renderer calls it from draw, and a
+  # mutating reader would let wall-clock draw timing change sim state.
+  def test_taunted_target_reader_is_pure
+    victim = pure_creature
+    taunter = pure_creature(tile: [5, 2], faction: :pack, name: "t")
+    victim.taunt!(taunter, 300)
+    kill(taunter, by: victim)
+    assert_nil victim.taunted_target
+    assert_equal 300, victim.taunt_frames, "reader must not clear state (sim owns clearing)"
+  end
 end

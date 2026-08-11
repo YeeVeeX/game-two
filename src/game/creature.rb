@@ -80,7 +80,7 @@ module Game
       @hurt_frames -= 1 if @hurt_frames.positive?
       if @taunt_frames.positive?
         @taunt_frames -= 1
-        clear_taunt! if @taunt_frames.zero?
+        clear_taunt! if @taunt_frames.zero? || @taunted_by&.dead?
       end
       advance_attack_state
     end
@@ -193,18 +193,18 @@ module Game
       @taunt_frames = frames
     end
 
-    # Death is a RELEASE, not a suspension: clear lazily on observing a dead
-    # taunter, or a pack-wipe revival would resurrect locks it never re-cast.
-    # (Victims frozen in abandoned zones don't tick — the read is the only
-    # place the clear can live.)
+    # PURE reader — never mutates (the renderer calls it from draw, and a
+    # mutating reader would let wall-clock draw timing change sim state).
+    # Clearing is sim-owned: tick_body for ticking victims, and the World's
+    # respawn sweep for victims frozen in abandoned zones (impl review 1+2:
+    # a lazy clear here is unreachable between wipe and revival, so revival
+    # would resurrect locks the blocker never re-cast).
     def taunted_target
       return nil unless @taunted_by && @taunt_frames.positive?
-      if @taunted_by.dead?
-        clear_taunt!
-        return nil
-      end
-      @taunted_by
+      @taunted_by.dead? ? nil : @taunted_by
     end
+
+    def release_taunt! = clear_taunt!
 
     # Carried value is creature-owned and swap-inert (law 4): it rides the
     # body, not the possession pointer. Drained by banking and by death.
