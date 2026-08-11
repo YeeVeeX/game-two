@@ -57,14 +57,15 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
 
 ## Owner playtest feedback awaiting promotion (recorded 2026-08-10, mid-D0)
 
-- **Blocker taunt — PROMOTED 2026-08-10 (owner call via structured Q&A; scope contract
-  v5).** Original ask verbatim: "the tank is too weak, and should get more aggro from
-  the enemies or have an exeta res-like spell to pull aggro." Dev-of-record analysis
-  that carried into the spec: the sim has NO aggro system — humans target the nearest
-  hostile (`AiController#nearest`), so "more aggro" would mean inventing invisible
-  threat weighting; the readable, Tibia-faithful fix is a TAUNT VERB (symmetry with the
-  shipped mark: mark orders allies onto one target, taunt orders enemies onto one
-  body). Spec: `docs/superpowers/specs/2026-08-10-a0.6-blocker-taunt.md`.
+- **Blocker taunt — SHIPPED 2026-08-10 (merge `38064ac`; owner call via structured
+  Q&A; scope contract v5).** Original ask verbatim: "the tank is too weak, and should
+  get more aggro from the enemies or have an exeta res-like spell to pull aggro."
+  Dev-of-record analysis that carried into the spec: the sim has NO aggro system —
+  humans target the nearest hostile (`AiController#nearest`), so "more aggro" would
+  mean inventing invisible threat weighting; the readable, Tibia-faithful fix is a
+  TAUNT VERB (symmetry with the shipped mark: mark orders allies onto one target,
+  taunt orders enemies onto one body). Spec: `docs/superpowers/specs/2026-08-10-a0.6-blocker-taunt.md`
+  (REVISED). Fun-verify questions pending owner in CHECKPOINT.md.
 
 ## D0 fun-verify verdict (owner, 2026-08-10 — recorded, NOT yet acted on)
 

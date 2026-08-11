@@ -1,6 +1,72 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-10 (latest) — A0.6 TAUNT PROMOTED, SPEC DRAFTED; spec review is NEXT
+## 2026-08-10 (latest) — A0.6 TAUNT SHIPPED; owner queue: taunt + D0 fun-verify
+
+**State (measured):** `main` clean at merge `38064ac` (102 commits), 173 tests /
+689 assertions green post-merge. `rake perf`: PASS (p95 0.057ms). All FIVE gate
+scripts vision+determinism PASS on the branch pre-merge (world_loop,
+specials_chain, taunt_anchor NEW, district_hunt, loot_loop) — determinism halves
+byte-identical on every one.
+
+**What shipped:** blocker's Slam now taunts — every living human within 6 tiles
+gets a victim-owned 300f lock (`Creature#taunt!`/`taunted_target`, decays in
+`tick_body`) forcing them onto the blocker's body, bypassing the aggro gate.
+Pack-side anchor rule: a husk holding live taunt victims targets them above mark
+(spec review B1 HIGH — the intended play hands the anchor to AI, and AI walks).
+Presentation: rust underline (offset y+SIZE+9, clear of both the telegraph swell
+AND the mark reticle) + one expanding hollow rust square pulse (Chebyshev-honest,
+not a circle). District gained a 3-rusher cluster at [30,18]/[32,18]/[32,17] —
+spec review C1 HIGH: the old map had no two spawns within one taunt radius, so
+the median cast could never showcase the verb. `taunt_anchor.json` gate script,
+authored via pilot mode's first real dogfood; 3 appended vision checks (20→23,
+never weakened).
+
+**Review chain (both folded, both banked):**
+`drafts/_a06-spec-review.md` — 3-lens adversarial spec review (code-fit, design,
+fun), 18 findings, 0 fatal. Load-bearing: death is a RELEASE not a suspension
+(revival was resurrecting locks); the ring arc's one-shot flag was unused and
+safe to consume; the anchor-walks HIGH; the map-can't-stage-the-fantasy HIGH.
+**Baseline falsifier ran BEFORE any taunt code**: a pilot flight measured
+retarget latency at 14-17f (bound was ≤90f to confirm) — the nearest-tie-break
+flips onto the striker essentially on contact, quantifying "tank too weak" as a
+number before writing a line of sim code.
+`drafts/_a06-impl-review.md` — adversarial code-reviewer pass on the diff, one
+CONFIRMED bug live-reproduced: the lazy taunt-clear lived only inside a reader
+that organic play never calls between a wipe and a revival, so revived taunters
+resurrected old locks; worse, the renderer's draw-path read could fire that
+clear at wall-clock rate (nondeterministic sim mutation). Fixed: the reader is
+now pure, clearing is sim-owned (tick_body dead-check + an all-zones respawn
+sweep). Separately, the GATE (not code review) caught a real presentation bug:
+a human that is both marked and taunted crowded the mark reticle and the taunt
+underline into one 8px band — pixel-verified before fixing, offset moved to
+y+SIZE+9.
+
+**Owner queue — TWO fun-verify tracks, ask both:**
+
+*A0.6 taunt (new):*
+1. Does possessing the blocker now feel like playing a TANK — did Slam-then-swap
+   become a move you *wanted* to make?
+2. Did fights get stickier in a good way (enemies committed to the anchor) or an
+   annoying way (too locked, no counterplay)?
+3. How did the RHYTHM feel — 5 seconds of lock, then ~5 seconds where the room
+   unlocks before Slam is back: is the gap between taunts too long, too short,
+   or the interesting part?
+4. Did the blocker die while taunting — and did that feel like your mistake or
+   the game's?
+
+*D0 loot loop (re-verify, now unblocked — same 3 questions as before the taunt
+detour):* does banking now feel like it's defending something, or still a
+chore? Per `drafts/_gamesmith-touchstone-digest.md`, the working hypothesis is
+that D0 lacks PRESSURE on the carry (no supply burn, cheap death) — taunt was
+shipped first specifically so sticky fights could be evaluated before any D0
+number changes. **NO blind D0 tuning** — the decision (PARKING_LOT.md) is that a
+tuning pass waits until this re-verify lands.
+
+**Next candidate track (owner call, not pre-decided):** A2 pull economy / aggro
+soft-caps is the design successor to taunt's raw lock (per spec's out-of-scope
+list) — but nothing starts until BOTH fun-verifies above are in.
+
+## 2026-08-10 (earlier) — A0.6 TAUNT PROMOTED, SPEC DRAFTED; spec review is NEXT
 
 **State (measured):** `main` at `fc11e9c` (90 commits), 158 tests / 632 assertions
 green. One uncommitted edit: touchstone-tension note folded into the taunt spec
