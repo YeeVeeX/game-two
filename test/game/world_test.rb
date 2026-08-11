@@ -653,18 +653,34 @@ class WorldTest < Minitest::Test
     assert_equal "nest", world.zone_name
   end
 
-  def test_rushers_hunt_the_nearest_pack_member_not_the_possessed
+  def test_rushers_keep_their_first_seen_target_inside_the_margin
     enter_district(world)
-    # The possessed walks north away from the gate; allies hold near it. The
-    # rushers must engage whoever is nearest — assert SOME ally takes a hit
-    # while the possessed keeps distance.
-    ally_hit = false
-    world.bus.subscribe(:attack_hit) do |e|
-      ally_hit = true if e[:victim].faction == :pack && !e[:victim].equal?(world.possessed)
-    end
-    drive(world, scripted(hold(:up, world.frame, world.frame + STEP * 6 - 1)), STEP * 6)
-    drive(world, scripted({}), 6000)
-    assert ally_hit, "humans target nearest pack creature, not the camera"
+    # rusher acquires the striker (nearest at acquisition); the blocker then
+    # closes to 1 tile nearer (inside proximity_switch_margin_tiles): the
+    # rusher stays on the striker — targets no longer flap by distance.
+    striker = world.pack.members.find { |m| m.kit_name == :striker }
+    blocker = world.pack.members.find { |m| m.kit_name == :blocker }
+    lobber = world.pack.members.find { |m| m.kit_name == :lobber }
+
+    # Park pack near the rushers so they acquire targets
+    striker.walker.teleport(12, 8)
+    blocker.walker.teleport(14, 8)
+    lobber.walker.teleport(2, 12) # far away, irrelevant
+
+    # Find a rusher and position it so striker is nearest
+    rusher = world.humans.find { |h| h.kit_name == :rusher }
+    skip "no rusher in district" unless rusher
+    rusher.walker.teleport(10, 8) # d=2 to striker, d=4 to blocker
+
+    # Tick once to let assign_human_focus set the rusher's focus
+    drive(world, scripted({}), 1)
+    assert_equal striker, rusher.focus, "rusher acquires nearest (striker)"
+
+    # Move blocker closer (d=1) — closer by 1, but margin is 3: diff < margin
+    blocker.walker.teleport(11, 8) # d=1 to rusher vs d=2 (striker). diff=2-1=1 < 3
+    drive(world, scripted({}), 1)
+    assert_equal striker, rusher.focus,
+                 "focus holds when rival is closer by less than proximity_switch_margin_tiles"
   end
 
   def test_determinism_same_script_same_state_with_swaps
@@ -737,6 +753,9 @@ class WorldTest < Minitest::Test
 
   def test_human_respawns_after_kill
     enter_district(world)
+    # Clear pending respawns from enter_district combat (A2 stickiness makes
+    # humans more flankable → ally kills can schedule respawns that land mid-test).
+    world.instance_variable_get(:@human_respawns).clear
     count = world.humans.length
     target = nearest_human(world)
     kill(target, by: world.possessed)
@@ -815,6 +834,11 @@ class WorldTest < Minitest::Test
       h.walker.teleport(40, 23 + i)
       h.stagger!(30_000)
     end
+    # Clear pending respawns and stray drops from enter_district combat (A2
+    # stickiness makes humans more flankable → ally kills produce respawns
+    # and drops that interfere with isolated-world assertions).
+    world.instance_variable_get(:@human_respawns).clear
+    world.drops.clear
     drive(world, scripted({}), 60) # settle walk-in combat (tweens, knockback)
     kept
   end
@@ -920,8 +944,12 @@ class WorldTest < Minitest::Test
 
   # Kill the nearest human where it stands, then teleport the possessed onto
   # the resulting drop tile — the simplest deterministic pickup stage.
+  # Clears pre-existing drops from enter_district combat so only the staged
+  # kill's drop remains (A2 stickiness makes humans more flankable → extra
+  # drops can appear during the walk-in).
   def stage_drop_under_possessed(world)
     enter_district(world)
+    world.drops.clear
     kill(nearest_human(world), by: world.possessed)
     drive(world, scripted({}), 1)
     tile = world.drops.first[:tile]

@@ -141,6 +141,26 @@
       "knockback_frames_per_tile": 5,
       "interrupt_on_hit": false
     },
+    "rusher_hater": {
+      "max_hp": 50,
+      "step_frames": 16,
+      "aggro_tiles": 10,
+      "respawn_frames": 300,
+      "drop_table": [1, 1, 2],
+      "hate": "lobber",
+      "attack": {
+        "damage": 12,
+        "windup_frames": 20,
+        "active_frames": 6,
+        "recovery_frames": 0,
+        "exhaust_frames": 66,
+        "arc": "ring",
+        "knockback_tiles": 1,
+        "knockback_frames_per_tile": 5
+      },
+      "knockback_frames_per_tile": 5,
+      "interrupt_on_hit": false
+    },
     "husk": {
       "max_hp": 60,
       "step_frames": 17,

@@ -46,6 +46,7 @@ class CorpseRunTest < Minitest::Test
 
   def stage_drop_under_possessed(world)
     enter_district(world)
+    world.drops.clear # clear pre-existing drops from enter_district combat
     kill(nearest_human(world), by: world.possessed)
     drive(world, scripted({}), 1)
     tile = world.drops.first[:tile]
@@ -83,6 +84,7 @@ class CorpseRunTest < Minitest::Test
       h.walker.teleport(40, 23 + i)
       h.stagger!(30_000)
     end
+    world.instance_variable_get(:@human_respawns).clear
   end
 
   # --- data invariants (review FN-3: grace <= term or the top-up truncates) --
@@ -268,6 +270,7 @@ class CorpseRunTest < Minitest::Test
     looted = []
     world.bus.subscribe(:corpse_looted) { |e| looted << e }
     carrier, amount = stage_loaded_death(world)
+    isolate_humans(world, 0) # A2 stickier humans would kill the pack during settle
     world.possessed.walker.teleport(*carrier.tile)
     press_interact(world)
     assert_equal 0, world.possessed.carried, "settling corpse refuses the press"

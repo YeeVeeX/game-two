@@ -22,6 +22,7 @@ module Game
       zone_entered possession_changed pack_wiped pack_respawned projectile_fired pack_mark_set
       drop_spawned drop_picked_up drop_decayed banked carried_lost taunted
       corpse_loaded corpse_looted fight_resolved
+      human_retargeted human_leashed
     ].freeze
 
     TRANSITIONS = { world: %i[nest_respawn], nest_respawn: %i[world] }.freeze
@@ -35,6 +36,7 @@ module Game
       @display = data["display"]
       @balance = data["balance/combat"]
       @death = data["balance/death"]
+      @threat = data["balance/threat"]
       @rng = Random.new(seed)
       @bus = Core::EventBus.new.register(*EVENTS)
       @states = Core::StateStack.new(initial: :world, transitions: TRANSITIONS)
@@ -157,6 +159,10 @@ module Game
       end
     end
 
+    def threat_config = @threat
+
+    def beachhead_shields?(_h, _t) = false
+
     def arrival_tiles_for(zone) = @arrivals.fetch(zone) { [] }
 
     def gate_distance(tile)
@@ -250,6 +256,7 @@ module Game
       @controller.tick(possessed, input, self)
       validate_mark
       @pack.living.each { |m| @ai.tick(m, self) unless m.equal?(possessed) }
+      assign_human_focus
       humans.each { |h| emit_telegraph_edge(h); @ai.tick(h, self) }
 
       check_transition
@@ -263,6 +270,17 @@ module Game
       @fight_ledger.tick
       respawn_due_humans
       prune_caches
+    end
+
+    def assign_human_focus
+      humans.each do |h|
+        next if h.dead?
+        target, cause = @ai.select_target(h, self)
+        if target && !target.equal?(h.focus)
+          @bus.emit(:human_retargeted, actor: h, from: h.focus, to: target, cause:)
+        end
+        h.focus = target
+      end
     end
 
     # Tab swap: rising edge only, world-level (the controller mask handles

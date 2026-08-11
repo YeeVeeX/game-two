@@ -54,6 +54,9 @@ class FightLedgerTest < Minitest::Test
       h.walker.teleport(40, 23 + i)
       h.stagger!(30_000)
     end
+    # Clear pending respawns from enter_district combat: A2 stickiness makes
+    # humans more flankable → kills can spawn respawns that re-enter mid-test.
+    world.instance_variable_get(:@human_respawns).clear
   end
 
   # Kills BY the possessed trigger hitstop at the NEXT flush — so flush one
@@ -147,6 +150,7 @@ class FightLedgerTest < Minitest::Test
     events = resolved_events(world)
     enter_district(world)
     isolate_humans(world)
+    quiesce_ledger(world, events)
     poke(world)                          # damage_dealt opens (flush this frame)
     drive(world, scripted({}), QUIET - 30)
     assert_empty events
@@ -168,6 +172,7 @@ class FightLedgerTest < Minitest::Test
     events = resolved_events(world)
     enter_district(world)
     isolate_humans(world)
+    quiesce_ledger(world, events)
     kill(world.humans.reject(&:dead?).first, by: world.possessed)
     drain_hitstop(world)
     drive(world, scripted({}), QUIET + 2)
@@ -180,6 +185,7 @@ class FightLedgerTest < Minitest::Test
     events = resolved_events(world)
     enter_district(world)
     isolate_humans(world)
+    quiesce_ledger(world, events)
     poke(world)                          # damage, but no kill and no loot
     drive(world, scripted({}), QUIET + 2)
     assert_empty events, "a pure graze exchange must dissolve, not print"
