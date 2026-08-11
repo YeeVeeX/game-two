@@ -20,6 +20,7 @@ module Game
       attack_started special_started attack_hit damage_dealt actor_died dodged telegraph
       zone_entered possession_changed pack_wiped pack_respawned projectile_fired pack_mark_set
       drop_spawned drop_picked_up drop_decayed banked carried_lost taunted
+      corpse_loaded corpse_looted
     ].freeze
 
     TRANSITIONS = { world: %i[nest_respawn], nest_respawn: %i[world] }.freeze
@@ -32,6 +33,7 @@ module Game
       @data = data
       @display = data["display"]
       @balance = data["balance/combat"]
+      @death = data["balance/death"]
       @rng = Random.new(seed)
       @bus = Core::EventBus.new.register(*EVENTS)
       @states = Core::StateStack.new(initial: :world, transitions: TRANSITIONS)
@@ -47,6 +49,9 @@ module Game
       @last_damaged_target = nil
       @corpses = Hash.new { |h, k| h[k] = [] }
       @drops = Hash.new { |h, k| h[k] = [] }
+      @corpse_loads = Hash.new { |h, k| h[k] = [] }
+      @expiry_flashes = Hash.new { |h, k| h[k] = [] }
+      @corpse_serial = 0
       @taunt_pulses = []
       @controller = PossessedController.new
       @ai = AiController.new
@@ -67,6 +72,8 @@ module Game
     def impacts = @impacts
     def corpses = @corpses[@zone_name]
     def drops = @drops[@zone_name]
+    def corpse_loads(zone = @zone_name) = @corpse_loads[zone]
+    def expiry_flashes(zone = @zone_name) = @expiry_flashes[zone]
     def marked_target = @pack.mark
     def taunt_pulses = @taunt_pulses
 
@@ -594,6 +601,22 @@ module Game
       list.shift if list.length > CORPSE_CAP
     end
 
+    # The container is sim truth; the serial links it to the cosmetic corpse
+    # record so the renderer/prune can hold the body at full strength while
+    # loaded (tile+frame is not a key — two same-frame knockback deaths can
+    # share a tile). settle_alpha rides the record like decay_frames rides
+    # drops: the renderer reads no balance.
+    def spawn_corpse_load(actor)
+      @corpse_serial += 1
+      term = @death[:corpse_term_frames]
+      record = { id: @corpse_serial, tile: actor.tile, amount: actor.drain_carried!,
+                 term_left: term, term:, settle_left: @death[:loot_settle_frames],
+                 settle_alpha: @death[:settle_pip_alpha] }
+      @corpse_loads[@zone_name] << record
+      corpses.last[:container_id] = @corpse_serial
+      @bus.emit(:corpse_loaded, actor:, tile: record[:tile], amount: record[:amount])
+    end
+
     # Feel is scoped to the possessed body (law 5): its fights hitstop and
     # shake; ally/AI-vs-AI hits emit events only — the world never freezes
     # for a fight the player isn't in.
@@ -609,12 +632,9 @@ module Game
       @bus.subscribe(:actor_died) do |e|
         leave_corpse(e[:actor])
         spawn_drop(e[:actor])
-        # D0 death rule: a dying body's carried value VANISHES — no corpse
-        # container (that is D1's whole point). Emitted so telemetry sees
-        # the loss; the vanish itself IS the carry risk.
-        if e[:actor].faction == :pack && e[:actor].carried.positive?
-          @bus.emit(:carried_lost, actor: e[:actor], amount: e[:actor].drain_carried!)
-        end
+        # D1: a dying pack body's carried value transfers to a container on
+        # its corpse. Term expiry is the permanent-loss tier now.
+        spawn_corpse_load(e[:actor]) if e[:actor].faction == :pack && e[:actor].carried.positive?
         @pack.clear_mark! if e[:actor].equal?(marked_target)
         if e[:faction] == :human
           @feel.on_kill if e[:killer].equal?(possessed)

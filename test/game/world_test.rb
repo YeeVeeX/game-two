@@ -1046,9 +1046,9 @@ class WorldTest < Minitest::Test
     assert_equal 0, world.possessed.carried
   end
 
-  # --- carried vanishes on death (D0 rule; corpse containers are D1) ------
+  # --- carried transfers to a corpse container on death (D1) ---
 
-  def test_carried_vanishes_when_the_body_dies
+  def test_death_with_carry_leaves_a_container_d1
     stage_drop_under_possessed(world)
     press_interact(world)
     carrier = world.possessed
@@ -1058,24 +1058,24 @@ class WorldTest < Minitest::Test
     world.bus.subscribe(:carried_lost) { |e| lost << e }
     kill(carrier, by: world.humans.reject(&:dead?).first)
     drive(world, scripted({}), 2)
-    assert_equal 0, carrier.carried, "death takes the take (D0 rule; corpses are D1)"
-    assert_equal [amount], lost.map { |e| e[:amount] }
+    assert_equal 0, carrier.carried, "carried drains into the container (D1)"
+    assert_empty lost, "carried_lost moved to term expiry"
+    container = world.corpse_loads.find { |c| c[:tile] == carrier.tile }
+    refute_nil container, "the pile is ON the corpse now — D1's whole point"
+    assert_equal amount, container[:amount]
     assert_equal 0, world.possessed.carried, "the new body inherits nothing"
-    assert_nil drop_at(world, carrier.tile), "no corpse container in D0 — value is GONE"
   end
 
-  def test_ally_death_also_vanishes_its_carried
+  def test_ally_death_also_leaves_its_container
     stage_drop_under_possessed(world)
     press_interact(world)
     carrier = world.possessed
     drive(world, scripted({ world.frame.to_s => ["swap"] }), 2)
     refute_equal carrier, world.possessed
-    lost = []
-    world.bus.subscribe(:carried_lost) { |e| lost << e }
     kill(carrier, by: world.humans.reject(&:dead?).first)
     drive(world, scripted({}), 2)
     assert_equal 0, carrier.carried
-    assert_equal 1, lost.length
+    assert_equal 1, world.corpse_loads.count { |c| c[:tile] == carrier.tile }
   end
 
   # --- bank station + banked (D0) ----------------------------------------

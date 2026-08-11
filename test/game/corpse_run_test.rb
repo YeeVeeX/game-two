@@ -85,4 +85,61 @@ class CorpseRunTest < Minitest::Test
     assert_operator DEATH[:settle_pip_alpha], :>, 0
     assert_operator DEATH[:settle_pip_alpha], :<=, 1
   end
+
+  # --- container creation (D1 replaces the D0 vanish) ----------------------
+
+  def test_death_with_carry_creates_container_not_vanish
+    lost = []
+    loaded = []
+    world.bus.subscribe(:carried_lost) { |e| lost << e }
+    world.bus.subscribe(:corpse_loaded) { |e| loaded << e }
+    carrier, amount = stage_loaded_death(world)
+    assert_equal 0, carrier.carried, "carried drains into the container"
+    assert_empty lost, "no carried_lost on death — that is expiry's event now"
+    c = load_at(world, carrier.tile)
+    refute_nil c, "container sits on the death tile"
+    assert_equal amount, c[:amount]
+    assert_equal DEATH[:corpse_term_frames], c[:term]
+    assert_equal [amount], loaded.map { |e| e[:amount] }
+    assert_equal [carrier.tile], loaded.map { |e| e[:tile] }
+  end
+
+  def test_death_without_carry_creates_no_container
+    enter_district(world)
+    victim = world.pack.living.reject { |m| m.equal?(world.possessed) }.first
+    assert_equal 0, victim.carried
+    kill(victim, by: world.humans.reject(&:dead?).first)
+    drive(world, scripted({}), 2)
+    assert_empty world.corpse_loads
+  end
+
+  def test_humans_never_create_containers
+    enter_district(world)
+    kill(nearest_human(world), by: world.possessed)
+    drive(world, scripted({}), 2)
+    assert_empty world.corpse_loads
+  end
+
+  def test_corpse_record_is_linked_to_its_container
+    carrier, _amount = stage_loaded_death(world)
+    c = load_at(world, carrier.tile)
+    rec = world.corpses.find { |r| r[:container_id] == c[:id] }
+    refute_nil rec, "the cosmetic corpse carries the container's serial"
+  end
+
+  def test_stacked_deaths_make_two_containers_with_distinct_ids
+    carrier, amount = stage_loaded_death(world)
+    second = world.possessed
+    second.pick_up(2)
+    drive(world, scripted({ world.frame.to_s => ["swap"] }), 2)
+    # teleport AFTER the swap drive: the freed body is AI-driven and would
+    # walk off the stack tile during those frames
+    second.walker.teleport(*carrier.tile)
+    kill(second, by: world.humans.reject(&:dead?).first)
+    drive(world, scripted({}), 2)
+    loads = world.corpse_loads.select { |c| c[:tile] == carrier.tile }
+    assert_equal 2, loads.length, "no merging — one container per body"
+    assert_equal [amount, 2], loads.map { |c| c[:amount] }, "creation order kept"
+    refute_equal loads[0][:id], loads[1][:id]
+  end
 end
