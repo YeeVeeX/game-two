@@ -1,6 +1,9 @@
 # A2 — Threat/pull economy (priority targeting + position pressure + leash + gradient)
 
-Status: DRAFT for owner review (2026-08-11, brainstorm output). All nine design
+Status: REVISED (2026-08-11, post 3-lens adversarial review — code-fit /
+design / fun workflow, 12 findings each adversarially verified: 11 REFUTED,
+1 confirmed-low folded [the touchstone-coverage qualification below]; ledger:
+`drafts/_a2-spec-review.md`). All nine design
 forks closed by the owner via three AskUserQuestion rounds + one council debate
 (kimi/glm, 2 rounds — `drafts/_council-economy-verdict.md`); fork ledger in
 PARKING_LOT §"A2 brainstorm OUTCOMES". Promoted by the FIFTH fun-verify (Q3
@@ -14,9 +17,14 @@ Binding upstream: scope v9 (CLAUDE.md); `drafts/_ledger-fun-verify2-20260811.md`
 evidence index in PARKING_LOT §"A2 brainstorm evidence inputs". Touchstone
 grounding: the 98-transcript Gudii corpus documents Tibia's full aggro layer
 (f21 + NotebookLM harvest Q1: first-seen, proximity resets, lowest-HP priority,
-vocation-hate, challenge, 8-box, poof-leash, screen-block respawn) — this
-increment is touchstone-BACKED, superseding the 12-agent synthesis's "zero
-aggro evidence" caveat (true only of its 8-video base). Learnability law
+vocation-hate, challenge, 8-box, poof-leash, screen-block respawn) — grounding
+that covers the targeting chain (§1), the leash (§3), the respawn discipline
+(§4), and the engaged-cap DERIVATION of §2 (the 8-box), superseding the
+12-agent synthesis's "zero aggro evidence" caveat (true only of its 8-video
+base). **The pressuring ring's non-attacking spatial containment (§2) is NOVEL
+design with no corpus precedent** (the synthesis's own critic flagged this) —
+it is defended from game-two's measured problems (2/2 uncontested recoveries,
+the gate-camp corridor, Q1 "standing in line"), not citations. Learnability law
 (Darklight Core finding, `drafts/_gudii-studio-digest.md`): predictable threat
 invites denser play; chaos caps it — every behavior below is rule-driven and
 tell-visible, no randomness.
