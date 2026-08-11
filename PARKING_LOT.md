@@ -220,3 +220,37 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
   an explicit brainstorm section per owner choice); owner fork set presented
   via batched AskUserQuestion BEFORE the spec (curated from the workflow's
   fork_candidates, ~8-12 genuine owner-level forks, not 20 generic).
+
+## A2 brainstorm OUTCOMES (2026-08-11 — all nine forks closed; consume, don't re-open)
+
+Fork verdicts (owner via AskUserQuestion unless noted): **threat model** =
+priority targeting rules (stateless, Tibia-faithful: first-seen + proximity /
+lowest-HP / kit-hate overrides; taunt hard lock untouched); **death cadence** =
+wipes rare+heavy, body attrition stays frequent (the 3->2->1 spiral is the
+tension ramp); **corpse contest** = live corridor (no corpse-specific
+mechanic); **depth** = minimal in-map gradient (data-level); **lethality** =
+position pressure (engaged cap ~8-12 + uncapped pressuring followers);
+**pull verb** = movement-based (no new binding); **attribution** = A2 ships
+ALONE (dev call after owner "not sure"; D1b trigger pre-registered in the
+spec); **economy vision** = **INSCRIPTION WITHIN RITUAL** (owner-locked from
+the council synthesis: banked value buys persistence-through-judgment — spend
+to inscribe a body with a god-mark; inscribed bodies survive the vat on a
+wipe; unmarked dissolve; devotional framing, gods as creditors. The
+nest-growth BIOLOGY thesis was REJECTED — council diagnosis: chthonic/immanent
+vs the fiction's solar/transcendent sacred logic. D1b's design space now aims
+at inscription; session-only persistence first, restart persistence stays
+parked); **human counterplay** = NONE in A2 (owner + unanimous council).
+
+- **Human counterplay tools — PARKED with a named trigger**: the "Challenger"
+  (a NAMED human who force-taunts the player's possessed body — "humans never
+  fought back, until one did") ships in its own post-A2 increment with a
+  mandatory fairness ladder (visible tell + counters); fear-like scatter
+  recorded as the alternative shape (council preferred it IF forced: herd
+  management, environmental). Trigger: sixth verify says threat is felt but
+  fights lack scary peaks.
+- Evidence artifacts this decides from: `drafts/_council-economy-verdict.md`
+  (debate transcript + dev synthesis), `drafts/_economy-vision-nest-growth.md`
+  (REJECTED thesis, kept for the three-loops analysis),
+  `drafts/_a2-design-summary.md` (consolidated design),
+  `drafts/_gudii-studio-digest.md` (retention/aggro deltas),
+  `drafts/_notebooklm-harvest.md` incl. owner-run chat extension.
