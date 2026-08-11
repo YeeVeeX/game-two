@@ -70,7 +70,12 @@
         "arc": "ring",
         "knockback_tiles": 2,
         "stagger_frames": 45,
-        "interrupt_windup": true
+        "interrupt_windup": true,
+        "taunt": {
+          "range_tiles": 6,
+          "duration_frames": 300,
+          "pulse_frames": 20
+        }
       },
       "dodge": {
         "tiles": 1,

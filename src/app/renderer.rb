@@ -28,6 +28,7 @@ module App
     VOLLEY_EDGE    = Gosu::Color.new(220, 245, 125, 35)
     VOLLEY_CORE    = Gosu::Color.new(235, 255, 220, 150)
     MARK_GLYPH     = Gosu::Color.new(255, 75, 235, 205)
+    TAUNT_RUST     = Gosu::Color.new(255, 190, 80, 35) # blocker body color — ownership
     DROP_CORE      = Gosu::Color.new(255, 205, 70, 225) # glean drops — magenta/violet, owned by no other element
     NOTCH          = Gosu::Color.new(255, 20, 14, 12)
     HP_BACK        = Gosu::Color.new(255, 50, 20, 30)
@@ -49,6 +50,7 @@ module App
         world.humans.each { |h| draw_creature(h, world) }
         world.pack.living.each { |m| draw_creature(m, world) }
         world.projectiles.each { |p| draw_projectile(p) }
+        draw_taunt_pulses(world)
         draw_mark(world)
         draw_station_ledger(world)
       end
@@ -191,6 +193,7 @@ module App
       if c.equal?(world.possessed)
         Gosu.draw_rect(x - 3, y - 3, SIZE + 6, SIZE + 6, POSSESSED_RING)
       end
+      draw_taunt_underline(c, x, y) if c.faction == :human && c.taunted_target
       if c.faction == :human && c.telegraphing?
         swell = 8
         Gosu.draw_rect(x - swell / 2, y - swell / 2, SIZE + swell, SIZE + swell, TELEGRAPH_EDGE)
@@ -274,6 +277,43 @@ module App
 
     def draw_projectile(p)
       Gosu.draw_rect(p.x, p.y, Game::Projectile::SIZE, Game::Projectile::SIZE, PROJECTILE)
+    end
+
+    # Taunt victim tell (A0.6): rust underline pinned BELOW the telegraph
+    # swell (which floods to y+SIZE+4 in near-identical hot red — the offset
+    # is what keeps the tell alive in the mid-attack frame). Also clear of
+    # the mark reticle's bottom corner brackets (draw_mark, which extend to
+    # y+SIZE+5 when a human is BOTH marked and taunted — a real combo, focus
+    # the taunted target — the two persistent tells crowded into one 8px band
+    # and neither read; +9 leaves a clean 4px gap). Alpha fades over the
+    # lock's final third: the snap back to free targeting is telegraphed
+    # with the same grammar drop decay taught.
+    def draw_taunt_underline(c, x, y)
+      duration = c.taunted_target.kit[:special][:taunt][:duration_frames]
+      frac = c.taunt_frames.fdiv(duration)
+      alpha = frac < (1 / 3.0) ? (255 * frac * 3).clamp(60, 255).round : 255
+      Gosu.draw_rect(x - 2, y + SIZE + 9, SIZE + 4, 3,
+                     Gosu::Color.new(alpha, TAUNT_RUST.red, TAUNT_RUST.green, TAUNT_RUST.blue))
+    end
+
+    # Taunt cast tell (A0.6): one continuous expanding hollow SQUARE outline —
+    # square because range is Chebyshev (a circle under-reads the corners),
+    # continuous because per-tile marks would read as volley brackets.
+    def draw_taunt_pulses(world)
+      ts = world.map.tile_size
+      world.taunt_pulses.each do |p|
+        progress = 1.0 - p[:frames_left].fdiv(p[:pulse_frames])
+        reach = (p[:range_tiles] * ts * progress).round
+        cx = p[:tile][0] * ts + ts / 2
+        cy = p[:tile][1] * ts + ts / 2
+        alpha = (220 * (1.0 - progress * 0.6)).round
+        col = Gosu::Color.new(alpha, TAUNT_RUST.red, TAUNT_RUST.green, TAUNT_RUST.blue)
+        thick = 3
+        Gosu.draw_rect(cx - reach, cy - reach, reach * 2, thick, col)
+        Gosu.draw_rect(cx - reach, cy + reach - thick, reach * 2, thick, col)
+        Gosu.draw_rect(cx - reach, cy - reach, thick, reach * 2, col)
+        Gosu.draw_rect(cx + reach - thick, cy - reach, thick, reach * 2, col)
+      end
     end
 
     # Three kit-colored bars; the possessed one is wider, white-edged, and
