@@ -293,4 +293,45 @@ class CorpseRunTest < Minitest::Test
     press_interact(world)
     assert_equal amount + 2, world.possessed.carried
   end
+
+  # --- wipe: grace top-up, containers survive the run back -----------------
+
+  def wipe_pack(world)
+    killer = world.humans.reject(&:dead?).first
+    world.pack.living.each { |m| kill(m, by: killer) }
+    drive(world, scripted({}), 1)
+    assert_equal :nest_respawn, world.states.current
+  end
+
+  def test_wipe_grace_tops_up_short_terms_only
+    carrier, _ = stage_loaded_death(world)
+    short = load_at(world, carrier.tile)
+    short[:term_left] = 100
+    wipe_pack(world)
+    assert_equal DEATH[:wipe_grace_frames], short[:term_left],
+                 "short term topped to the grace floor"
+  end
+
+  def test_wipe_grace_leaves_long_terms_alone
+    carrier, _ = stage_loaded_death(world)
+    long = load_at(world, carrier.tile)
+    before = long[:term_left]
+    assert_operator before, :>, DEATH[:wipe_grace_frames]
+    wipe_pack(world)
+    # -1: wipe_pack's single drive frame ticks the clock once before the
+    # state flips — the grace itself must not touch a long term
+    assert_equal before - 1, long[:term_left]
+  end
+
+  def test_containers_survive_the_pack_respawn
+    carrier, amount = stage_loaded_death(world)
+    death_tile = carrier.tile # revive! moves the creature — capture pre-wipe
+    wipe_pack(world)
+    drive(world, scripted({}), DATA["balance/combat"][:respawn_frames] + 2)
+    assert_equal :world, world.states.current
+    assert_equal "nest", world.zone_name
+    c = load_at(world, death_tile, zone: "district")
+    refute_nil c, "the container IS the point of the run back"
+    assert_equal amount, c[:amount]
+  end
 end

@@ -710,6 +710,14 @@ module Game
         @bus.emit(:possession_changed, from:, to: survivor, forced: true)
       else
         @bus.emit(:pack_wiped)
+        # D1 wipe grace: the run back must always be possible — every
+        # container's remaining term rises to at least the grace floor.
+        # (The grace covers the RUN BACK, not the veil: terms are frozen
+        # during nest_respawn and the veil is only 90 frames — review CF-6.)
+        grace = @death[:wipe_grace_frames]
+        @corpse_loads.each_value do |list|
+          list.each { |c| c[:term_left] = [c[:term_left], grace].max }
+        end
         @respawn_timer = @balance[:respawn_frames]
         @states.transition_to(:nest_respawn)
       end
