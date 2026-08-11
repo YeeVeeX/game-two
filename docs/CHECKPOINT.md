@@ -1,6 +1,58 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-11 (latest) — FIGHT LEDGER: v8 locked, spec REVISED, plan tasks 1-3/10 done
+## 2026-08-11 (latest) — FIGHT LEDGER: tasks 4-9 done, wall re-running, merge + fun-verify pending
+
+**State (measured):** branch `fight-ledger` at `de75291` + working-tree task-9 edits
+being committed with this checkpoint (134 commits; main at `8fe83b1`). **214 tests /
+925 assertions green** (this session's wall run). Perf: p50 0.019 / p95 0.096 /
+max 4.288 ms (budget 16.6).
+
+**Done this session (plan tasks 4-9):** Task 4 wipe-recap tests (`96610ab` — ordering
+pin, field-truth snapshot pip, veil freeze, dissolve-never-stomps, gate-staged
+qualifying replace, hitstop freeze; the plan's replace test was strengthened: QUIET
+180 > BEAT 150 means only FORCE resolves can catch a live beat). Task 5 bank-tally
+tests (`6177496`). Task 6 telemetry fights/recovery/negative + byte-exact test rewrite
++ world_scene log line (`bafb7e5`). Task 7 renderer beat over the veil (`b39a824`),
+all 6 old scripts SKIP_CRITIC byte-deterministic with beats rendering. Task 8 pilot
+flight (`de75291`): ledger_loop.json = 19,818 frames seed 0, 11 captures, all five
+beat kinds on camera; **CADENCE SHIP GATE PASS — hunt stretch 2.64 beats/min, session
+3.63, band 1-4; quiet=180 stands, no retune.** Flight telemetry: fights=20
+recovery_fights=1 negative_fights=4 wipes=8 carried_lost=2 banked=3. **Owned trim:**
+act 2's separate non-wipe negative-beat capture (attrition denied a 2-body survivor
+3x); grammar on camera via recaps + dark-loss beat, mechanics unit-pinned. Task 9
+checks 26→30 appended + CLAUDE.md bullet (this commit).
+
+**Impl review DONE (harvested: `drafts/_ledger-impl-review.md`):** 2 LOW findings,
+both RECORDED not folded — (1) deadline-tick boundary: same-tick events flush after
+the ledger ticks, so a pickup on the exact quiet-expiry frame misses its window
+(fix would break the hitstop/veil freeze doctrine; watch item); (2) cross-leg bank
+beats can misstate the felt bank moment (spec-faithful; read Q5 answers against it).
+Big traced-clean list in the draft.
+
+**Vision-critic incidents (full detail in the draft):** loot_loop `specials_distinct`
+FAIL = one-off hatch inversion, passed on plain retry; taunt_anchor
+`taunt_convergence_reads` FAILED TWICE consistently on byte-identical frames → check
+text REPAIRED (self-anchor cast explicitly legal; failure case sharpened to
+swarm-on-NON-blocker; discriminative content kept — the D1 corpse_load_reads
+precedent). First wall run: rake + perf + world_loop/district_hunt/loot_loop/
+specials_chain green WITH critic; ledger_loop byte-deterministic (2x 19,818-frame
+replays identical).
+
+**IN FLIGHT when written:** wall resume `taunt_anchor → corpse_run → ledger_loop`
+with the repaired check, log `/tmp/full_wall4.log` (bg task; if dead after compact,
+re-run those three `rake gate SCRIPT=harness/scripts/<s>.json` — critic flake rules:
+pixel-verify FAILs, retry INFRA).
+
+**Next sequence:** (1) confirm the 3 in-flight gates green — that completes Task 9's
+wall (rake/perf/4 gates already green this session); (2) Task 10: findings already
+reviewed + recorded (no folds → no re-gate needed beyond the running wall), merge
+`--no-ff` to main, NO push; (3) checkpoint the merge hash; (4) fun-verify: offer
+bin/play, capture the TELEMETRY line (fights= fields), ask the spec's 8 questions
+via AskUserQuestion in TWO batches, bank verdict + PRE-REGISTERED routing (spec
+§fun-verify; Q3 alone promotes A2 — owner pre-authorized) in drafts/, update
+checkpoint, STOP.
+
+## 2026-08-11 — FIGHT LEDGER: v8 locked, spec REVISED, plan tasks 1-3/10 done
 
 **State (measured):** branch `fight-ledger` at `a09a466` (128 commits; main at
 `8fe83b1`). **206 tests / 873 assertions green.** Working tree clean.
