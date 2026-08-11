@@ -1,6 +1,44 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-11 (latest, evening) — EVIDENCE-GATHERING SESSION: Tibia corpus deep-read banked; A2 brainstorm is NEXT (v9 scope rewrite first)
+## 2026-08-11 (latest, night) — A2 BRAINSTORM CLOSED + SPEC (REVISED) + PLAN SHIPPED; next session EXECUTES the plan
+
+**Docs-only session — zero src/data changes; tests still 215/935, checks 31,
+main at the plan commit** (`85de477` v9 scope → `2465902` brainstorm outcomes
+→ `2ff9fbb` spec → `51ae93c` spec REVISED → plan commit, this delta same
+commit). Tree otherwise clean; drafts (gitignored) carry the evidence.
+
+**All NINE forks closed** (three AskUserQuestion rounds + council debate;
+ledger: PARKING_LOT §"A2 brainstorm OUTCOMES"): priority targeting · wipes
+rare+heavy w/ attrition · live corridor · minimal in-map gradient · position
+pressure · movement pulls · A2 ships ALONE (dev call; D1b trigger
+pre-registered) · **economy vision = INSCRIPTION WITHIN RITUAL** (owner-locked
+from the kimi/glm council synthesis after REJECTING the nest-biology thesis —
+solar-vs-chthonic diagnosis; `drafts/_council-economy-verdict.md`) · human
+counterplay NONE in A2 (Challenger beat pre-registered).
+
+**Spec:** `docs/superpowers/specs/2026-08-11-a2-threat-pull-economy-design.md`
+— REVISED after a 15-agent 3-lens adversarial workflow (12 findings: 11
+refuted, 1 confirmed-low folded; `drafts/_a2-spec-review.md`). **Plan:**
+`docs/superpowers/plans/2026-08-11-a2-threat-pull-economy.md` (13 tasks,
+TDD, code-fact-bound via exploration brief; branch `a2-threat`). Owner has
+NOT yet skimmed either — offer that before executing.
+
+**NEXT SESSION:** execute the plan (owner picks subagent-driven vs inline per
+writing-plans handoff), 8-script wall, merge --no-ff NO push, SIXTH fun-verify
+per spec §Fun-verify (telemetry line first, 8 questions verbatim in two
+batches + entrainment probe; routing pre-registered incl. D1b auto-promotion
+as the inscription economy on "chore unmoved + threat felt").
+
+**Gamesmith (background, verified):** `tibia/gudii-ruins` + `tibia/gudii-monk`
+COMPLETE (notes-en.md on disk; mechanics cap fix `8ab67c3` + ~5 Bedrock
+ServiceUnavailable retries). `tibia/psykik-starter` (owner-pasted beginner
+guide, transcript banked `drafts/_psykik-newplayer-transcript.md`) ingesting
+in background — verify its manifest next session. extract/synthesize regen
+still DEFERRED (GATE-4 owner flow). Owner queue (from this session): council
+MCP deepseek-r1 id needs `us.` prefix; council-through-mmh-gateway upgrade
+(seats grok-4.3) + when-to-council skill update — own session.
+
+## 2026-08-11 (evening) — EVIDENCE-GATHERING SESSION: Tibia corpus deep-read banked; A2 brainstorm is NEXT (v9 scope rewrite first)
 
 Same-day follow-on to the fifth verify (below). Owner chose (AskUserQuestion):
 **talk design first** + **fold "what does the pile buy, and when" into the A2
