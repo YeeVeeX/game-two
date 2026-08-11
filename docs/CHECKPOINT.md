@@ -1,6 +1,61 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-10 (latest) — A0.6 TAUNT SHIPPED; owner queue: taunt + D0 fun-verify
+## 2026-08-11 (latest) — D1 SPEC REVISED + PLAN WRITTEN; next: implement on branch
+
+**State (measured):** `main` clean at `1725d2a` (107 commits), 173 tests / 689
+assertions green (5.1s), no branch open. Five world gate scripts on disk
+(world_loop, district_hunt, loot_loop, specials_chain, taunt_anchor);
+corpse_run.json will be the sixth, authored via pilot in plan task 9.
+
+**What happened:** the D1 spec review Workflow DIED (3 lens agents stalled on
+all 6 attempts each, 1.49M subagent tokens, zero results — journal had 18
+starts / 0 results). Fell back per the user-scope ladder to a direct 3-agent
+fan-out (code-fit, design, fun), verify stage done inline by the dev of record.
+**21 findings, all folded** into the spec (now REVISED, 257 lines, `5f18e96`);
+verbatim reports + fold ledger banked in `drafts/_d1-spec-review.md` (246
+lines). Implementation plan written via writing-plans: 10 TDD tasks, 972 lines,
+`docs/superpowers/plans/2026-08-11-d1-corpse-run.md` (`1725d2a`).
+
+**The three load-bearing folds:**
+1. **CF-1 (HIGH, confirmed by direct read):** the DRAFT's presentation was
+   impossible — cosmetic corpses are pruned at 600f / cap-evicted / fade-anchored,
+   all long before a container's term. Fix: monotonic serial links container to
+   corpse record; linked records exempt from prune+cap; sim re-anchors at_frame
+   at loot/expiry (renderer stays a pure reader).
+2. **Term adjudication (FN-3/FN-6 vs DS-2):** the death-economy doc
+   SELF-CONTRADICTS (its 3x-recovery rule fixes margin at 0.67; its 10-min floor
+   at measured scale forces ~0.95; its own set-dressing line is >0.7). Spec now
+   binds to the doc's measurable MARGIN TARGET (0.3-0.5): term 36000->5400 (90s),
+   grace 18000->2700 (45s) — hypotheses, reset from measured wipe_to_last_loot_s.
+3. **FN-1 (attribution):** at owner-verified-trivial threat, D1 may fire 0-2x
+   per session — so fun-verify gets an "N/A never fired" branch + a TELEMETRY
+   d1_fired line printed by bin/play on close (new Game::Telemetry, plan task 8),
+   so a third "still a chore" cannot be misbooked against the wrong system.
+
+**Also folded:** pip = hollow magenta outline (drops are filled — concentric
+collision case), tile-anchored (knockback kills offset the corpse rect), dim
+while settling, snaps on lootable; per-zone expiry flashes (taunt-pulse flat
+array is zone-unsafe); pinned event payloads; grace rationale corrected (veil
+freezes terms — it covers the RUN BACK); settle deviation from doc law 3 owned
+(flat clock PERMITS mid-melee looting — Q1 needs it; 300f == rusher respawn is
+a designed alignment); watch list completed (suicide fast-travel, grace-refresh);
+fun-verify restructured to 6 questions.
+
+**Next sequence (all greenlit — owner said "approved proceed"):** branch
+`d1-corpse-run` -> execute plan tasks 1-10 in order (data -> sim -> renderer ->
+telemetry -> pilot-authored corpse_run.json + 3 appended checks (23->26) ->
+impl review -> merge --no-ff, NO push) -> deliver the 6-question fun-verify +
+the owner's TELEMETRY line.
+
+**In flight when written:** nothing. All three review agents landed and are
+banked; no background tasks running.
+
+**Owner queue:** none until the build ships — then the D1 fun-verify (the
+spec's 6 questions; Q3 is the chore question, third ask).
+
+---
+
+## 2026-08-10 — A0.6 TAUNT SHIPPED; owner queue: taunt + D0 fun-verify
 
 **State (measured):** `main` clean at merge `38064ac` (102 commits), 173 tests /
 689 assertions green post-merge. `rake perf`: PASS (p95 0.057ms). All FIVE gate
