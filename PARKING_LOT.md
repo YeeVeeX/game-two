@@ -96,6 +96,19 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
   ledger's fun-verify does not move the chore. Full verdict + routing:
   `drafts/_d1-fun-verify-20260811.md`.
 
+## Owner playtest feedback (recorded 2026-08-11, mid-ledger-fun-verify — parked, NOT promoted)
+
+- **"The tank should be the main character to be selected in the party, so he can
+  drive the hunt; the rest feels good for now."** Dev-of-record read: initial
+  possession should start on the BLOCKER, not the striker (pack member order in
+  `data/balance/combat.json`). Independent corroboration: the ledger pilot flight
+  organically converged on blocker-as-driver (it survived every stretch and landed
+  repeated double-kills; the striker died first in nearly every life). Likely a
+  one-line data change BUT it invalidates every recorded gate script (the initial
+  possessed body is baked into all 7 replay input streams — flipping it desyncs
+  corpse_run + ledger_loop, both pilot-authored). SHIP WITH A2 (or whichever next
+  increment re-pilots anyway); do not ship standalone.
+
 ## Owner design questions (recorded 2026-08-11, mid-ledger-ship — answered, parked, NOT promoted)
 
 - **Sustain (potions / healer / heals): route through D1b as the SPEND side of the
