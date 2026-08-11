@@ -1,11 +1,30 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-11 (latest) — FIGHT LEDGER: tasks 4-9 done, wall re-running, merge + fun-verify pending
+## 2026-08-11 (latest) — FIGHT LEDGER SHIPPED (merge `677b2ac`); awaiting owner fun-verify
 
-**State (measured):** branch `fight-ledger` at `de75291` + working-tree task-9 edits
-being committed with this checkpoint (134 commits; main at `8fe83b1`). **214 tests /
-925 assertions green** (this session's wall run). Perf: p50 0.019 / p95 0.096 /
-max 4.288 ms (budget 16.6).
+**State (measured):** `main` at merge `677b2ac` (138 commits; branch `fight-ledger`,
+10 commits, merged `--no-ff`, NOT pushed — no remote). **214 tests / 925 assertions
+green.** Perf: p50 0.019 / p95 0.096 / max 4.288 ms (budget 16.6). **ALL SEVEN gates
+green with the critic** (30 vision checks): world_loop, district_hunt, loot_loop,
+specials_chain, taunt_anchor, corpse_run, ledger_loop (15 captures byte-identical;
+final run all-PASS incl. the 4 new ledger checks). Wall history: loot_loop
+specials_distinct FAIL = hatch-inversion flake (passed on retry); taunt_convergence
+FAILED 2x consistently → check REPAIRED (self-anchor legal — D1 corpse_load_reads
+precedent); two Bedrock internalServerException INFRA deaths retried; ledger_loop
+needed 4 added event-proven captures (257/283/1076/13036) because the SHARED checks
+file demands ring-swap/projectile/telegraph on camera in every script (pass=false
+hatches).
+
+**NEXT: the fun-verify is the ONLY remaining step.** Owner plays (`bin/play`),
+capture the TELEMETRY line (fights= recovery_fights= negative_fights= distinguish
+threshold-bug from no-combat), then the spec's 8 questions via AskUserQuestion in
+TWO batches (Q1-Q4, Q5-Q8), verdict + PRE-REGISTERED routing banked in
+`drafts/_ledger-fun-verify-20260811.md`, checkpoint updated, STOP. Routing (locked,
+spec §fun-verify): Q3 (chore, FOURTH ask) alone promotes A2 (owner pre-authorized);
+Q6 can't-read → presentation iteration first; Q1/Q2/Q5/Q7 decide ledger disposition
+(any signal = stays through A2; wallpaper + wouldn't-miss = removed before A2);
+Q4 same-walk consistent with LB-1; Q8 = labeled control. Read Q5 answers against
+impl-review finding 2 (cross-leg bank beats — drafts/_ledger-impl-review.md).
 
 **Done this session (plan tasks 4-9):** Task 4 wipe-recap tests (`96610ab` — ordering
 pin, field-truth snapshot pip, veil freeze, dissolve-never-stomps, gate-staged
