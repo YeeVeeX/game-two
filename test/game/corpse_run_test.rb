@@ -200,4 +200,37 @@ class CorpseRunTest < Minitest::Test
     assert_empty world.expiry_flashes, "the nest floor never flashes for a district expiry (review CF-4)"
     refute_empty world.expiry_flashes("district")
   end
+
+  # --- linked corpses outlive the cosmetic lifecycle (review CF-1) ---------
+
+  def test_linked_corpse_survives_the_fade_prune
+    carrier, _ = stage_loaded_death(world)
+    drive(world, scripted({}), Game::World::CORPSE_FADE_FRAMES + 20)
+    rec = world.corpses.find { |r| r[:container_id] }
+    refute_nil rec, "a loaded corpse is exempt from prune_caches (review CF-1)"
+    assert_equal carrier.tile, rec[:tile]
+  end
+
+  def test_cap_evicts_oldest_unlinked_never_the_linked
+    carrier, _ = stage_loaded_death(world)
+    linked_id = load_at(world, carrier.tile)[:id]
+    # make the linked record the OLDEST so eviction actually reaches it
+    world.corpses.reject! { |r| !r[:container_id] }
+    45.times { |i| world.corpses << { tile: [1, 1], x: 32, y: 32, faction: :human, at_frame: world.frame } }
+    # trigger one real leave_corpse (any death) to run the cap logic
+    kill(nearest_human(world), by: world.possessed)
+    drive(world, scripted({}), 2)
+    assert world.corpses.any? { |r| r[:container_id] == linked_id },
+           "cap eviction skips linked records (review CF-1)"
+  end
+
+  def test_released_corpse_fades_then_prunes_normally
+    carrier, _ = stage_loaded_death(world)
+    c = load_at(world, carrier.tile)
+    c[:term_left] = 3
+    drive(world, scripted({}), 5) # expire -> link cleared, at_frame re-anchored
+    drive(world, scripted({}), Game::World::CORPSE_FADE_FRAMES + 5)
+    assert_nil world.corpses.find { |r| r[:tile] == carrier.tile && r[:faction] == :pack },
+               "after release the normal fade + prune lifecycle resumes"
+  end
 end

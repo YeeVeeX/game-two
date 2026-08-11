@@ -611,7 +611,7 @@ module Game
     def prune_caches
       @flow_cache&.select! { |anchor, _| !anchor.dead? }
       @telegraphing&.select! { |actor, _| !actor.dead? }
-      corpses.reject! { |c| @frame - c[:at_frame] > CORPSE_FADE_FRAMES }
+      corpses.reject! { |c| !c[:container_id] && @frame - c[:at_frame] > CORPSE_FADE_FRAMES }
     end
 
     def emit_attack_hit(attacker, victim, landed)
@@ -640,7 +640,9 @@ module Game
       list = corpses
       list << { tile: actor.tile, x: actor.x, y: actor.y,
                 faction: actor.faction, at_frame: @frame }
-      list.shift if list.length > CORPSE_CAP
+      return if list.length <= CORPSE_CAP
+      evict = list.index { |c| !c[:container_id] }
+      list.delete_at(evict) if evict
     end
 
     # The container is sim truth; the serial links it to the cosmetic corpse
