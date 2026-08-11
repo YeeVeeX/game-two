@@ -228,6 +228,8 @@ module Game
       resolve_attacks
       tick_projectiles
       tick_drops
+      tick_corpse_loads
+      tick_expiry_flashes
       respawn_due_humans
       prune_caches
     end
@@ -400,6 +402,46 @@ module Game
           true
         end
       end
+    end
+
+    # Corpse-load clocks tick in EVERY zone (the tick_drops law: nest time is
+    # real time). Counted only in tick_world, so hitstop and the wipe veil
+    # pause them deterministically. At term zero the load is destroyed —
+    # carried_lost is EXPIRY's event in D1 (actor deliberately absent: the
+    # body may be long revived).
+    def tick_corpse_loads
+      @corpse_loads.each do |zone, list|
+        list.each do |c|
+          c[:settle_left] -= 1 if c[:settle_left].positive?
+          c[:term_left] -= 1
+        end
+        list.reject! do |c|
+          next false if c[:term_left].positive?
+          @bus.emit(:carried_lost, amount: c[:amount], tile: c[:tile], zone:)
+          release_corpse_record(zone, c[:id])
+          @expiry_flashes[zone] << { tile: c[:tile], frames_left: @death[:expiry_flash_frames],
+                                     frames: @death[:expiry_flash_frames] }
+          true
+        end
+      end
+    end
+
+    def tick_expiry_flashes
+      @expiry_flashes.each_value do |list|
+        list.each { |f| f[:frames_left] -= 1 }
+        list.reject! { |f| f[:frames_left] <= 0 }
+      end
+    end
+
+    # Sim-owned, event-time (loot + expiry): clear the container link and
+    # re-anchor the fade, so a body held at full strength starts fading NOW
+    # instead of snapping to invisible (review CF-2). Pure readers everywhere
+    # else — the renderer never mutates (taunted_target law).
+    def release_corpse_record(zone, container_id)
+      rec = @corpses[zone].find { |c| c[:container_id] == container_id }
+      return unless rec
+      rec.delete(:container_id)
+      rec[:at_frame] = @frame
     end
 
     # Seeded roll (the sim PRNG's first consumer — rolls happen at bus-process

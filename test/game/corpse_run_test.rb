@@ -142,4 +142,62 @@ class CorpseRunTest < Minitest::Test
     assert_equal [amount, 2], loads.map { |c| c[:amount] }, "creation order kept"
     refute_equal loads[0][:id], loads[1][:id]
   end
+
+  # --- clocks: term ticks everywhere, veil freezes, expiry destroys --------
+
+  def test_term_ticks_in_abandoned_zones
+    carrier, _ = stage_loaded_death(world)
+    before = load_at(world, carrier.tile)[:term_left]
+    # walk the pack home through the west gate (carry_home idiom)
+    world.possessed.walker.teleport(1, 13)
+    drive(world, scripted(hold(:left, world.frame, world.frame + STEP * 4)), STEP * 4)
+    assert_equal "nest", world.zone_name
+    drive(world, scripted({}), 100)
+    after = load_at(world, carrier.tile, zone: "district")[:term_left]
+    assert_operator after, :<, before - 90, "nest time is real time (tick_drops law)"
+  end
+
+  def test_term_is_frozen_during_the_wipe_veil
+    carrier, _ = stage_loaded_death(world)
+    killer = world.humans.reject(&:dead?).first
+    world.pack.living.each { |m| kill(m, by: killer) }
+    drive(world, scripted({}), 1)
+    assert_equal :nest_respawn, world.states.current
+    frozen = load_at(world, carrier.tile, zone: "district")[:term_left]
+    drive(world, scripted({}), 50) # deep inside the 90f veil
+    assert_equal frozen, load_at(world, carrier.tile, zone: "district")[:term_left],
+                 "tick_world never runs during nest_respawn — terms freeze (review CF-6)"
+  end
+
+  def test_expiry_destroys_load_emits_and_flashes
+    lost = []
+    world.bus.subscribe(:carried_lost) { |e| lost << e }
+    carrier, amount = stage_loaded_death(world)
+    c = load_at(world, carrier.tile)
+    c[:term_left] = 3 # direct record mutation — the drops-test idiom
+    drive(world, scripted({}), 5)
+    assert_nil load_at(world, carrier.tile), "container removed at expiry"
+    assert_equal [{ amount:, tile: carrier.tile, zone: "district" }],
+                 lost.map { |e| { amount: e[:amount], tile: e[:tile], zone: e[:zone] } }
+    flash = world.expiry_flashes.find { |f| f[:tile] == carrier.tile }
+    refute_nil flash, "expiry leaves a flash record in ITS zone"
+    rec = world.corpses.find { |r| r[:tile] == carrier.tile && r[:faction] == :pack }
+    assert_nil rec[:container_id], "link cleared at expiry"
+    # expiry landed mid-drive (term_left hit 0 on the 3rd of 5 ticks) — the
+    # re-anchor is "recent", not "this exact frame"
+    assert_in_delta world.frame, rec[:at_frame], 5, "fade re-anchored at the expiry"
+  end
+
+  def test_expiry_flash_is_per_zone
+    carrier, _ = stage_loaded_death(world)
+    world.possessed.walker.teleport(1, 13)
+    drive(world, scripted(hold(:left, world.frame, world.frame + STEP * 4)), STEP * 4)
+    assert_equal "nest", world.zone_name
+    # mutate AFTER arriving so the expiry lands inside the drive below and the
+    # 45f flash is still alive at the assertions (walk frames would eat it)
+    load_at(world, carrier.tile, zone: "district")[:term_left] = 10
+    drive(world, scripted({}), 20)
+    assert_empty world.expiry_flashes, "the nest floor never flashes for a district expiry (review CF-4)"
+    refute_empty world.expiry_flashes("district")
+  end
 end
