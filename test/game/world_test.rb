@@ -114,7 +114,7 @@ class WorldTest < Minitest::Test
   def test_pack_of_three_spawns_in_nest
     assert_equal 3, world.pack.members.length
     assert_equal world.map.pack_spawn.take(3).sort, world.pack.members.map(&:tile).sort
-    assert_equal world.pack.members.first, world.possessed
+    assert_equal :blocker, world.possessed.kit_name, "initial_possessed = blocker (data key)"
     assert_empty world.humans
   end
 
@@ -219,6 +219,7 @@ class WorldTest < Minitest::Test
   # --- combat laws ---------------------------------------------------------
 
   def test_held_attack_swings_at_exhaust_pace
+    possess_kit(world, :striker)
     starts = 0
     world.bus.subscribe(:attack_started) { starts += 1 }
     drive(world, scripted(hold(:attack, 0, EXHAUST * 3 - 1)), EXHAUST * 3)
@@ -276,8 +277,8 @@ class WorldTest < Minitest::Test
     end
     a, b = world.humans.first(2)
     world.humans.replace([a, b])
-    a.walker.teleport(11, 12)
-    b.walker.teleport(13, 12)
+    a.revive!(map: world.map, tile: [11, 12])
+    b.revive!(map: world.map, tile: [13, 12])
     a.face([1, 0])
     b.face([-1, 0])
     assert a.start_attack
@@ -620,6 +621,7 @@ class WorldTest < Minitest::Test
   # --- carried grid invariants (rewritten from v2 suite) -------------------
 
   def test_held_key_walks_tile_by_tile
+    possess_kit(world, :striker)
     input = scripted(hold(:right, 0, STEP * 3 - 1))
     x0, y0 = world.possessed.tile
     drive(world, input, STEP * 3)
@@ -1062,7 +1064,8 @@ class WorldTest < Minitest::Test
     enter_district(world)
     isolate_humans(world, 0)
     world.drops << { tile: [8, 13], amount: 2, frames_left: 1800, decay_frames: 1800 }
-    incoming = world.pack.members[1] # swap_next! target in roster order
+    idx = world.pack.members.index(world.possessed)
+    incoming = world.pack.members[(idx + 1) % world.pack.members.length]
     incoming.walker.teleport(8, 13)
     drive(world, scripted({ world.frame.to_s => %w[interact swap] }), 1)
     assert_equal incoming, world.possessed, "swap landed on the parked body"

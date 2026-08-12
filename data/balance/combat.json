@@ -5,6 +5,7 @@
       "blocker",
       "lobber"
     ],
+    "initial_possessed": "blocker",
     "swap_stagger_frames": 20,
     "mark_range_tiles": 6,
     "mark_leash_tiles": 14

@@ -705,7 +705,8 @@ module Game
                      kit_name: kit_name.to_sym, map: home, tile: home.pack_spawn[i],
                      faction: :pack, name: kit_name)
       end
-      @pack = Pack.new(members:, stagger_frames: cfg[:swap_stagger_frames])
+      @pack = Pack.new(members:, stagger_frames: cfg[:swap_stagger_frames],
+                       initial_kit: cfg[:initial_possessed])
     end
 
     def respawn_pack

@@ -14,6 +14,15 @@ class FightLedgerTest < Minitest::Test
   STEP = DATA["balance/combat"][:kits][:striker][:step_frames]
 
   def world = @world ||= Game::World.new(DATA)
+
+  def possess_kit(world, kit_name)
+    world.pack.members.length.times do
+      return world.possessed if world.possessed.kit_name == kit_name
+      world.pack.swap_next!
+    end
+    flunk "could not possess #{kit_name}"
+  end
+
   def scripted(frames) = Core::ScriptedInput.new(frames:)
 
   def hold(action, from, to)
@@ -323,6 +332,7 @@ class FightLedgerTest < Minitest::Test
   end
 
   def test_carried_lost_is_zone_filtered_for_the_window_but_not_the_leg
+    possess_kit(world, :striker)
     events = resolved_events(world)
     # Make a container IN THE NEST (carrier killed at home by direct hits).
     enter_district(world)
@@ -521,6 +531,7 @@ class FightLedgerTest < Minitest::Test
   end
 
   def test_bank_tally_reconciles_the_leg_and_resets
+    possess_kit(world, :striker)
     enter_district(world)
     isolate_humans(world)
     kill(nearest_human(world), by: world.possessed)
