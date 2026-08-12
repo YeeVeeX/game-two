@@ -7,9 +7,10 @@ module App
   class Renderer
     HUMAN_BODY = Gosu::Color.new(255, 205, 198, 180) # pale bone
     KIT_BODY = Hash.new(HUMAN_BODY).merge(
-      striker: Gosu::Color.new(255, 235, 120, 40),
-      blocker: Gosu::Color.new(255, 190, 80, 35),
-      lobber:  Gosu::Color.new(255, 225, 170, 90)
+      striker:      Gosu::Color.new(255, 235, 120, 40),
+      blocker:      Gosu::Color.new(255, 190, 80, 35),
+      lobber:       Gosu::Color.new(255, 225, 170, 90),
+      rusher_hater: Gosu::Color.new(255, 235, 120, 40)
     ).freeze
 
     POSSESSED_RING = Gosu::Color.new(255, 255, 255, 255)
@@ -52,6 +53,7 @@ module App
     # precedent) — the fetch defaults only keep a bare Renderer.new drawable.
     def initialize(display: {})
       @display = display
+      @pressure_alpha = @display.fetch(:pressure_outline_alpha, 140)
     end
 
     def draw(world)
@@ -256,6 +258,8 @@ module App
         Gosu.draw_rect(x - 3, y - 3, SIZE + 6, SIZE + 6, POSSESSED_RING)
       end
       draw_taunt_underline(c, x, y) if c.faction == :human && c.taunted_target
+      draw_pressure_outline(c, x, y, world) if c.faction == :human &&
+                                                world.pressure_role(c) == :pressuring
       if c.faction == :human && c.telegraphing?
         swell = 8
         Gosu.draw_rect(x - swell / 2, y - swell / 2, SIZE + swell, SIZE + swell, TELEGRAPH_EDGE)
@@ -356,6 +360,18 @@ module App
       alpha = frac < (1 / 3.0) ? (255 * frac * 3).clamp(60, 255).round : 255
       Gosu.draw_rect(x - 2, y + SIZE + 9, SIZE + 4, 3,
                      Gosu::Color.new(alpha, TAUNT_RUST.red, TAUNT_RUST.green, TAUNT_RUST.blue))
+    end
+
+    # Pressuring stance (A2): a thin hollow outline — present, encircling,
+    # not swinging. Distinct from the telegraph's FILLED swell and the taunt
+    # underline. Outline = state (the glean-pip grammar).
+    def draw_pressure_outline(c, x, y, world)
+      col = Gosu::Color.new(@pressure_alpha, HUMAN_BODY.red, HUMAN_BODY.green, HUMAN_BODY.blue)
+      t = 2
+      Gosu.draw_rect(x - 4, y - 4, SIZE + 8, t, col)
+      Gosu.draw_rect(x - 4, y + SIZE + 2, SIZE + 8, t, col)
+      Gosu.draw_rect(x - 4, y - 4, t, SIZE + 8, col)
+      Gosu.draw_rect(x + SIZE + 2, y - 4, t, SIZE + 8, col)
     end
 
     # Taunt cast tell (A0.6): one continuous expanding hollow SQUARE outline —

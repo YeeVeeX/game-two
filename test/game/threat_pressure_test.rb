@@ -204,7 +204,16 @@ class ThreatPressureTest < Minitest::Test
                  "no pressuring humans remain when living <= cap"
   end
 
+  # --- display keys (data-driven gate for Task 11 vision wall) -----------------
+
+  def test_pressure_display_keys_exist
+    display = load_data["display"]
+    assert display[:pressure_outline_alpha].between?(60, 220)
+  end
+
   private
+
+  def load_data = DATA
 
   def chebyshev((ax, ay), (bx, by)) = [(bx - ax).abs, (by - ay).abs].max
 end
