@@ -267,4 +267,23 @@ class CreatureTest < Minitest::Test
     h.taunt!(p, 300)
     assert h.beachhead_waived?
   end
+
+  # --- D1b: God-mark ---
+
+  def test_god_mark_lifecycle
+    c = creature
+    refute c.marked?
+    c.inscribe_mark!
+    assert c.marked?
+    c.burn_mark!
+    refute c.marked?
+  end
+
+  def test_god_mark_survives_revive
+    c = creature
+    c.inscribe_mark!
+    c.take_hit(damage: c.hp, attacker: creature) until c.dead?
+    c.revive!(map: MAP, tile: [1, 1])
+    assert c.marked?, "revive! must NOT clear the mark — only burn_mark! does"
+  end
 end
