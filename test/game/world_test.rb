@@ -868,7 +868,7 @@ class WorldTest < Minitest::Test
     drive(world, scripted({}), 1) # flush bus
     drop = drop_at(world, victim.tile)
     refute_nil drop, "rusher death must leave a drop on its tile"
-    assert_includes [2, 4], drop[:amount], "amount from drop_table [1,1,2] at deep gradient (x2.0)"
+    assert_includes [4, 7], drop[:amount], "amount from drop_table [1,1,2] at deep gradient (x3.5)"
     assert_equal DATA["balance/combat"][:drops][:decay_frames], drop[:frames_left],
                  "decay clock starts from data"
     assert_equal 1, events.length
@@ -1202,7 +1202,7 @@ class WorldTest < Minitest::Test
 
   def test_district_drop_gradient_loaded
     enter_district(world)
-    assert_equal [[0, 1.0], [14, 1.5], [28, 2.0]], world.map.drop_gradient
+    assert_equal [[0, 1.0], [14, 1.5], [28, 3.5]], world.map.drop_gradient
   end
 
   def test_nest_has_no_drop_gradient

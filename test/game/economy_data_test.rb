@@ -18,4 +18,12 @@ class EconomyDataTest < Minitest::Test
     assert ECO[:inscribe_cost] < ECO[:regrow_cost],
            "inscribe_cost must be < regrow_cost (fiction law, spec §3)"
   end
+
+  def test_depth_gradient_steepens
+    bands = DATA["zones/district"][:drop_gradient]
+    refute_nil bands, "district must have a drop gradient"
+    mults = bands.map(&:last)
+    assert mults.each_cons(2).all? { |a, b| b > a }, "gradient strictly increasing: #{mults}"
+    assert mults.last >= 3.0, "band-2 premium >= 3.0x sustains the Q6 dilemma (v10.1 retune)"
+  end
 end
