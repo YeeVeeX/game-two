@@ -353,6 +353,7 @@ module Game
         target, cause = @ai.select_target(h, self)
         if target && !target.equal?(h.focus)
           @bus.emit(:human_retargeted, actor: h, from: h.focus, to: target, cause:)
+          h.retarget_cue!(cause, @economy[:retarget_cue_frames]) unless cause == :acquired
         end
         h.focus = target
       end

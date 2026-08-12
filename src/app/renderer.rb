@@ -50,6 +50,11 @@ module App
     CUE_OK = Gosu::Color.new(230, 240, 220, 150)
     CUE_REFUSED = Gosu::Color.new(230, 200, 60, 50)
     GOD_MARK = Gosu::Color.new(230, 235, 220, 170)
+    RETARGET_CUE = {
+      hate: Gosu::Color.new(230, 150, 60, 40),
+      lowhp: Gosu::Color.new(230, 220, 60, 60),
+      proximity: Gosu::Color.new(230, 200, 200, 190),
+    }.freeze
 
     SIZE = Game::Creature::SIZE
 
@@ -307,6 +312,9 @@ module App
         Gosu.draw_rect(x + SIZE / 2 - 2, y - 8, 4, 4, color(world.map.palette[:floor]))
       end
       draw_taunt_underline(c, x, y) if c.faction == :human && c.taunted_target
+      if c.faction == :human && (cue = c.retarget_cue)
+        Gosu.draw_rect(x + SIZE / 2 - 3, y - 9, 6, 6, RETARGET_CUE.fetch(cue[:cause]))
+      end
       draw_pressure_outline(c, x, y, world) if c.faction == :human &&
                                                 world.pressure_role(c) == :pressuring
       if c.faction == :human && c.telegraphing?

@@ -118,10 +118,10 @@ class ThreatTargetingTest < Minitest::Test
     blocker_m = world.pack.members.find { |m| m.kit_name == :blocker }
     lobber_m = world.pack.members.find { |m| m.kit_name == :lobber }
 
-    # margin = 3. Need: d(focus) - d(steal) >= 3.
-    # rusher at [5,3], focus(striker) at [11,3] (d=6), steal(lobber) at [8,3] (d=3).
-    # diff = 6-3 = 3 >= margin => steal fires.
-    striker_m.walker.teleport(11, 3)  # d=6 from rusher
+    # margin = 4. Need: d(focus) - d(steal) >= 4.
+    # rusher at [5,3], focus(striker) at [12,3] (d=7), steal(lobber) at [8,3] (d=3).
+    # diff = 7-3 = 4 >= margin => steal fires.
+    striker_m.walker.teleport(12, 3)  # d=7 from rusher
     lobber_m.walker.teleport(8, 3)    # d=3 from rusher
     blocker_m.walker.teleport(1, 6)   # irrelevant
 
@@ -339,5 +339,39 @@ class ThreatTargetingTest < Minitest::Test
     target, cause = @ai.select_target(rusher, world)
     assert_equal blocker_m, target, "taunt binds through the beachhead"
     assert_equal :taunt, cause
+  end
+
+  # --- Q6 rider: retarget cue (why-they-turned) --------------------------------
+
+  def test_retarget_stamps_cause_cue_and_acquired_does_not
+    h = @world.humans.reject(&:dead?).find { |x| x.kit_name == :rusher }
+    # Clear h's focus so the first drive is a clean acquisition.
+    h.focus = nil
+    # Ensure at least 2 living pack members for the lowhp switch.
+    assert @world.pack.living.length >= 2, "need >= 2 living pack members"
+    # Park the pack inside h's aggro, deep in the district (away from the
+    # beachhead). First acquisition = nearest = living.first (:acquired).
+    @world.pack.living.each_with_index do |m, i|
+      m.walker.teleport(h.tile[0] - 2, h.tile[1] + i)
+    end
+    drive(@world, 1)
+    assert_nil h.retarget_cue, "first sight is :acquired — no cue"
+    # Wound a NON-focused body below the lowhp threshold -> :lowhp switch.
+    wounded = @world.pack.living.reject { |m| m.equal?(h.focus) }.first
+    refute_nil wounded, "need a living non-focused body to wound"
+    dmg = (wounded.max_hp * (1 - THREAT[:lowhp_switch_pct])).to_i + 1
+    wounded.take_hit(damage: dmg, attacker: h)
+    drive(@world, 1)
+    refute_nil h.retarget_cue
+    assert_equal :lowhp, h.retarget_cue[:cause]
+    assert h.retarget_cue[:frames_left].positive?
+  end
+
+  def test_retarget_cue_expires_by_ticking
+    h = @world.humans.reject(&:dead?).first
+    h.retarget_cue!(:lowhp, 5)
+    assert_equal :lowhp, h.retarget_cue[:cause]
+    drive(@world, 6)
+    assert_nil h.retarget_cue
   end
 end

@@ -83,6 +83,7 @@ module Game
       @stagger -= 1 if @stagger.positive?
       @dodge_cooldown -= 1 if @dodge_cooldown.positive?
       @hurt_frames -= 1 if @hurt_frames.positive?
+      @retarget_cue_frames -= 1 if @retarget_cue_frames&.positive?
       if @taunt_frames.positive?
         @taunt_frames -= 1
         clear_taunt! if @taunt_frames.zero? || @taunted_by&.dead?
@@ -214,6 +215,19 @@ module Game
     def taunted_target
       return nil unless @taunted_by && @taunt_frames.positive?
       @taunted_by.dead? ? nil : @taunted_by
+    end
+
+    # Q6 rider: why-they-turned cue. Sim-owned timer (renderer READS it,
+    # never mutates — taunted_target law); stamped by assign_human_focus,
+    # decays in this body's own tick.
+    def retarget_cue!(cause, frames)
+      @retarget_cue_cause = cause
+      @retarget_cue_frames = frames
+    end
+
+    def retarget_cue
+      return nil unless @retarget_cue_frames&.positive?
+      { cause: @retarget_cue_cause, frames_left: @retarget_cue_frames }
     end
 
     def release_taunt! = clear_taunt!
