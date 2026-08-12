@@ -167,7 +167,10 @@ def run_verdict(captures_dir: Path, checks_path: Path) -> int:
     frames = load_frames(captures_dir)
     print(f"gate verdict on {len(frames)} frames from {captures_dir} ...")
     expected_ids = {c["id"] for c in checks}
-    for attempt in (1, 2):
+    # 4 verdict attempts: a Bedrock stream can end early mid-JSON with no
+    # exception (three truncations observed 2026-08-12), so unusable output
+    # is retried like a throttle, never trusted.
+    for attempt in (1, 2, 3, 4):
         text = converse(client, image_blocks(frames) + [{"text": prompt}])
         try:
             result = extract_json(text)
@@ -182,9 +185,10 @@ def run_verdict(captures_dir: Path, checks_path: Path) -> int:
                 )
             break
         except (ValueError, json.JSONDecodeError) as exc:
-            if attempt == 2:
+            if attempt == 4:
                 print(f"GATE INFRA ERROR: unusable verdict: {exc}", file=sys.stderr)
                 return 2
+            time.sleep(15)
     log = Path("drafts") / "_gate-verdicts.log"
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     with log.open("a", encoding="utf-8") as fh:

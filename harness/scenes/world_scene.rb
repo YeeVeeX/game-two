@@ -21,7 +21,9 @@ module Harness
            special_started pack_mark_set drop_spawned drop_picked_up
            drop_decayed banked carried_lost taunted
            corpse_loaded corpse_looted fight_resolved
-           human_retargeted human_leashed].each do |ev|
+           human_retargeted human_leashed
+           inscribed banked_spent tribute_paid body_regrown
+           body_dissolved mark_consumed vessel_kept].each do |ev|
           @world.bus.subscribe(ev) { |e| puts "EVENT #{ev} frame=#{@world.frame} #{describe(e)}" }
         end
         @telemetry = Game::Telemetry.new(@world.bus, world: @world)
