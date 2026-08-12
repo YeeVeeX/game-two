@@ -167,10 +167,17 @@ def run_verdict(captures_dir: Path, checks_path: Path) -> int:
     frames = load_frames(captures_dir)
     print(f"gate verdict on {len(frames)} frames from {captures_dir} ...")
     expected_ids = {c["id"] for c in checks}
-    # 4 verdict attempts: a Bedrock stream can end early mid-JSON with no
-    # exception (three truncations observed 2026-08-12), so unusable output
-    # is retried like a throttle, never trusted.
-    for attempt in (1, 2, 3, 4):
+    # Checks whose text carries a "pass with why='not exercised'" clause
+    # self-gate PASS when their beat is absent; a pass=false with a
+    # not-exercised why on one of these contradicts the checklist itself
+    # (observed live 2026-08-12) and voids the verdict — it must never
+    # decide the gate in either direction.
+    self_gating = {c["id"] for c in checks if "pass with why=" in c["check"]}
+    # 6 verdict attempts: a Bedrock stream can end early mid-JSON with no
+    # exception (repeated truncations observed 2026-08-12 under afternoon
+    # load), so unusable output is retried like a throttle, never trusted.
+    attempts = 6
+    for attempt in range(1, attempts + 1):
         text = converse(client, image_blocks(frames) + [{"text": prompt}])
         try:
             result = extract_json(text)
@@ -183,12 +190,21 @@ def run_verdict(captures_dir: Path, checks_path: Path) -> int:
                     f"checklist coverage mismatch: missing={sorted(expected_ids - returned_ids)} "
                     f"unknown={sorted(returned_ids - expected_ids)}"
                 )
+            contradicted = [
+                c.get("id") for c in result.get("checks", [])
+                if c.get("id") in self_gating and not c.get("pass")
+                and "not exercised" in str(c.get("why", "")).lower()
+            ]
+            if contradicted:
+                raise ValueError(
+                    f"self-contradictory verdict (not-exercised must self-gate PASS): {contradicted}"
+                )
             break
         except (ValueError, json.JSONDecodeError) as exc:
-            if attempt == 4:
+            if attempt == attempts:
                 print(f"GATE INFRA ERROR: unusable verdict: {exc}", file=sys.stderr)
                 return 2
-            time.sleep(15)
+            time.sleep(20)
     log = Path("drafts") / "_gate-verdicts.log"
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     with log.open("a", encoding="utf-8") as fh:
