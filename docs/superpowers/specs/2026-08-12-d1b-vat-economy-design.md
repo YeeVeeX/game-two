@@ -1,6 +1,11 @@
 # D1b — The vat economy (inscription + priced flesh + Q6 legibility rider)
 
-Status: DRAFT (pending adversarial review + owner spec gate). All four
+Status: REVIEWED (2026-08-12, 3-lens adversarial workflow `wf_2ccd8520-4cd`
+— code-fit / design-economy / harness-verifiability, 15 agents, every
+finding independently refuted-or-confirmed: **12 findings, 12 REFUTED, 0
+confirmed**; two refuted-but-useful clarity folds applied [§3 placement
+wording, §Presentation-5 post-wipe capture timing]; ledger:
+`drafts/_d1b-spec-review.md`). Pending: owner spec gate. All four
 design-shaping forks closed by the owner via two AskUserQuestion rounds on
 2026-08-12 (fork ledger: PARKING_LOT §"v10 debate + design OUTCOMES"); the
 economy VISION was locked 2026-08-11 (inscription-within-ritual, kimi/glm
@@ -115,8 +120,11 @@ telemetry gets sinks for free.
   banked < cost → refused (cue); if cost = 0 → refused (nothing to buy).
   The gods do not do partial mercy — one price, one decision, legible.
 - On pay: every dead member regrows — `revive!` onto its `pack_spawn` tile
-  in the nest (occupied-tile fallback = existing deterministic defer
-  pattern); every wounded member heals to max. Regrowth pulls flesh home:
+  in the nest. Placement is a hard rebind (revive! checks no occupancy,
+  exactly like respawn_pack today; transient tile-sharing is legal — only
+  voluntary movement is blocked). If implementation wants a courtesy
+  fallback, the FlowField::STEPS first-free-tile idiom is the pattern.
+  Every wounded member heals to max. Regrowth pulls flesh home:
   a body that died in the district stands at the nest spawn (the field husk
   is inert fiction; the pile it dropped is untouched D1 law). Events:
   `:body_regrown` per body, one `:tribute_paid` (cost, regrown, healed,
@@ -223,11 +231,14 @@ All render-only reads of sim state; no draw-path mutation.
 4. **Spend beats** — inscribe success reads (glyph ignition), tribute reads
    (bodies regrow at the spawn tiles + wounds close), refusals read as
    refusals (distinct cue, not silence, not success).
-5. **The judgment** — during the wipe veil, the return is legible: marked
+5. **The judgment** — as the veil lifts, the return is legible: marked
    bodies come back (glyph burning away), dissolved bodies visibly do NOT,
-   the kept vessel reads as kept. Dissolved flesh leaves NO field husk (the
-   vat took it) — whether dead pack bodies render a husk today is a
-   plan-time code fact; post-judgment the field must be clean either way.
+   the kept vessel reads as kept. The `judgment_reads` capture is POST-wipe
+   (first frames after the veil), never mid-veil. Dissolved flesh leaves NO
+   field husk (the vat took it) — dead pack bodies DO leave fading corpse
+   records today (world.rb:788, CORPSE_FADE_FRAMES); judgment clears
+   pack-faction records (or lets the fade finish — plan-time call), the
+   field must be clean either way.
 6. **Why-they-turned** — the retarget cue glyph (§5) reads at a glance and
    dies quickly (no HUD residue).
 Fiction order form (player-visible names await the bible; spec-speak stays
