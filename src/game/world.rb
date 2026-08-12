@@ -93,6 +93,17 @@ module Game
     def taunt_pulses = @taunt_pulses
     def station_cue = @station_cue
 
+    # Renderer-facing price reader (renderer computes nothing): what THIS
+    # station charges right now. Bank has no price (nil).
+    def station_price(station)
+      case station[:type]
+      when "altar" then @economy[:inscribe_cost]
+      when "vat"
+        @economy[:regrow_cost] * @pack.members.count(&:dead?) +
+          @economy[:heal_cost_per_body] * @pack.living.count { |m| m.hp < m.max_hp }
+      end
+    end
+
     def tick(input)
       if @feel.hitstop?
         @feel.tick
