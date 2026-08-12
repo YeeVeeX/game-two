@@ -254,3 +254,34 @@ parked); **human counterplay** = NONE in A2 (owner + unanimous council).
   `drafts/_a2-design-summary.md` (consolidated design),
   `drafts/_gudii-studio-digest.md` (retention/aggro deltas),
   `drafts/_notebooklm-harvest.md` incl. owner-run chat extension.
+
+## v10 debate + design OUTCOMES (2026-08-12 — all four forks closed; consume, don't re-open)
+
+Scope debate (owner via AskUserQuestion, post-sixth-verify): **increment** =
+D1b **inscription + priced flesh** (pure-inscription, sustain-first, and
+Challenger declined). Rationale on record: `Creature#revive!` is the sim's
+ONLY heal and fires ONLY on wipe-respawn, so the free wipe was the de-facto
+heal + body-recovery button — inscription making wipes destructive REQUIRES
+the priced valve (owner evidence: "no healing → hunts end early →
+repetitive"; touchstone: Tibia supply finances, Gudii f38). **Q6 rider** =
+rides v10 (retarget margin/lowhp threshold tuning + a why-they-turned cue).
+
+Design forks (owner via AskUserQuestion): **dissolution** = regrow-for-price
+with a one-vessel floor — the vat always returns the body possessed at the
+wipe when nothing else survives ("the gods keep you alive to pay";
+gone-for-session declined as run-ending). **Mark duration** = consumed by
+the judgment it survives — one wipe per inscription, so banked can never
+re-become pure score mid-session (endures-the-session declined for the Q8
+relapse).
+
+Dev calls recorded at the design gate (owner approved the consolidated
+design): three separate fixtures in the nest (bank/altar/vat — spatial
+verbs, no menus), tribute = ONE all-or-nothing full-maintenance verb (heal
+wounded + regrow dead; closes the deliberate-wipe loop completely),
+inscription targets the possessed body standing at the altar, banked stays
+visible at the station only (deliberate D0 choice kept).
+
+Spec: `docs/superpowers/specs/2026-08-12-d1b-vat-economy-design.md`. The
+Challenger's trigger condition is MET + RECORDED (sixth verify: threat felt,
+entrainment flat) — promotion stays the owner's explicit call, fairness
+ladder mandatory.
