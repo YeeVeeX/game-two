@@ -47,6 +47,20 @@ module App
     BEAT_PAD_X     = 24                                 # panel padding around the block
     BEAT_PAD_Y     = 14
 
+    CUE_OK = Gosu::Color.new(230, 240, 220, 150)
+    CUE_REFUSED = Gosu::Color.new(230, 200, 60, 50)
+    GOD_MARK = Gosu::Color.new(230, 235, 220, 170)
+    # Cause-keyed why-they-turned cues. The gate critic arbitrated the first
+    # palette: proximity's pale RGB(200,200,190) vanished against HUMAN_BODY,
+    # and lowhp rendered red while the check reads "yellow=wounded-prey" —
+    # lemon (not telegraph-core golden) and cool blue-pale keep every cue off
+    # the palette of the body it floats over.
+    RETARGET_CUE = {
+      hate: Gosu::Color.new(230, 150, 60, 40),
+      lowhp: Gosu::Color.new(230, 235, 235, 90),
+      proximity: Gosu::Color.new(230, 180, 210, 250),
+    }.freeze
+
     SIZE = Game::Creature::SIZE
 
     # Presentation timing/placement rides data/display.json (zone_banner_frames
@@ -202,16 +216,20 @@ module App
 
     # Station fixture: palette-driven block with a hollow center — reads as
     # a PLACE, not a wall (walls are solid) and not a gate (gates are gold).
+    # Per-type palette keys (Task 7): bank keeps :station, altar/vat get their
+    # own (station_altar, station_vat) — three distinct interactable reads.
     def draw_stations(world)
       ts = world.map.tile_size
       world.map.stations.each do |s|
         tx, ty = s[:at]
         x = tx * ts
         y = ty * ts
-        Gosu.draw_rect(x + 2, y + 2, ts - 4, ts - 4,
-                       color(world.map.palette[:station] || world.map.palette[:wall]))
+        key = s[:type] == "bank" ? :station : :"station_#{s[:type]}"
+        fill = world.map.palette[key] || world.map.palette[:station] || world.map.palette[:wall]
+        Gosu.draw_rect(x + 2, y + 2, ts - 4, ts - 4, color(fill))
         Gosu.draw_rect(x + 8, y + 8, ts - 16, ts - 16, color(world.map.palette[:floor]))
       end
+      draw_station_cue(world)
     end
 
     # Banked total shows ONLY at the station, only when the possessed is
@@ -219,6 +237,7 @@ module App
     # not 2: GridWalker commits the tile at step START while the pixel tween
     # trails, so a body that LOOKS adjacent can already be 3 tiles away —
     # the numeral must read whenever the player would say "I'm at it".
+    # D1b: altar/vat get their price prefixed with "-" in the same slot.
     LEDGER_RADIUS_TILES = 3
 
     def draw_station_ledger(world)
@@ -227,9 +246,41 @@ module App
         px, py = world.possessed.tile
         next unless [(tx - px).abs, (ty - py).abs].max <= LEDGER_RADIUS_TILES
         ts = world.map.tile_size
-        text = world.pack.banked.to_s
-        hud_font.draw_text(text, tx * ts + (ts - hud_font.text_width(text)) / 2,
-                           ty * ts - 18, 10, 1, 1, DROP_CORE)
+        if s[:type] == "bank"
+          text = world.pack.banked.to_s
+          hud_font.draw_text(text, tx * ts + (ts - hud_font.text_width(text)) / 2,
+                             ty * ts - 18, 10, 1, 1, DROP_CORE)
+        else
+          price = world.station_price(s)
+          next unless price && price.positive?
+          text = "-#{price}"
+          hud_font.draw_text(text, tx * ts + (ts - hud_font.text_width(text)) / 2,
+                             ty * ts - 18, 10, 1, 1, DROP_CORE)
+        end
+      end
+    end
+
+    # Station cue (D1b): success kinds flash a bright 1-tile pulse ring at
+    # the transaction's own fixture (the cue carries its tile); :refused
+    # draws a short dark-red X-bar.
+    def draw_station_cue(world)
+      cue = world.station_cue
+      return unless cue
+      ts = world.map.tile_size
+      tx, ty = cue[:at]
+      x = tx * ts
+      y = ty * ts
+      if cue[:kind] == :refused
+        # Dark-red X-bar
+        Gosu.draw_rect(x + 6, y + ts / 2 - 2, ts - 12, 4, CUE_REFUSED)
+        Gosu.draw_rect(x + ts / 2 - 2, y + 6, 4, ts - 12, CUE_REFUSED)
+      else
+        # Bright 1-tile pulse ring
+        t = 3
+        Gosu.draw_rect(x, y, ts, t, CUE_OK)
+        Gosu.draw_rect(x, y + ts - t, ts, t, CUE_OK)
+        Gosu.draw_rect(x, y, t, ts, CUE_OK)
+        Gosu.draw_rect(x + ts - t, y, t, ts, CUE_OK)
       end
     end
 
@@ -257,7 +308,14 @@ module App
       if c.equal?(world.possessed)
         Gosu.draw_rect(x - 3, y - 3, SIZE + 6, SIZE + 6, POSSESSED_RING)
       end
+      if c.faction == :pack && c.marked?
+        Gosu.draw_rect(x + SIZE / 2 - 4, y - 10, 8, 8, GOD_MARK)
+        Gosu.draw_rect(x + SIZE / 2 - 2, y - 8, 4, 4, color(world.map.palette[:floor]))
+      end
       draw_taunt_underline(c, x, y) if c.faction == :human && c.taunted_target
+      if c.faction == :human && (cue = c.retarget_cue)
+        Gosu.draw_rect(x + SIZE / 2 - 4, y - 10, 8, 8, RETARGET_CUE.fetch(cue[:cause]))
+      end
       draw_pressure_outline(c, x, y, world) if c.faction == :human &&
                                                 world.pressure_role(c) == :pressuring
       if c.faction == :human && c.telegraphing?

@@ -118,10 +118,10 @@ class ThreatTargetingTest < Minitest::Test
     blocker_m = world.pack.members.find { |m| m.kit_name == :blocker }
     lobber_m = world.pack.members.find { |m| m.kit_name == :lobber }
 
-    # margin = 3. Need: d(focus) - d(steal) >= 3.
-    # rusher at [5,3], focus(striker) at [11,3] (d=6), steal(lobber) at [8,3] (d=3).
-    # diff = 6-3 = 3 >= margin => steal fires.
-    striker_m.walker.teleport(11, 3)  # d=6 from rusher
+    # margin = 4. Need: d(focus) - d(steal) >= 4.
+    # rusher at [5,3], focus(striker) at [12,3] (d=7), steal(lobber) at [8,3] (d=3).
+    # diff = 7-3 = 4 >= margin => steal fires.
+    striker_m.walker.teleport(12, 3)  # d=7 from rusher
     lobber_m.walker.teleport(8, 3)    # d=3 from rusher
     blocker_m.walker.teleport(1, 6)   # irrelevant
 
@@ -339,5 +339,66 @@ class ThreatTargetingTest < Minitest::Test
     target, cause = @ai.select_target(rusher, world)
     assert_equal blocker_m, target, "taunt binds through the beachhead"
     assert_equal :taunt, cause
+  end
+
+  # --- Q6 rider: retarget cue (why-they-turned) --------------------------------
+
+  def test_retarget_stamps_cause_cue_and_acquired_does_not
+    h = @world.humans.reject(&:dead?).find { |x| x.kit_name == :rusher }
+    # Clear h's focus so the first drive is a clean acquisition.
+    h.focus = nil
+    # Ensure at least 2 living pack members for the lowhp switch.
+    assert @world.pack.living.length >= 2, "need >= 2 living pack members"
+    # Park the pack inside h's aggro, deep in the district (away from the
+    # beachhead). First acquisition = nearest = living.first (:acquired).
+    @world.pack.living.each_with_index do |m, i|
+      m.walker.teleport(h.tile[0] - 2, h.tile[1] + i)
+    end
+    drive(@world, 1)
+    assert_nil h.retarget_cue, "first sight is :acquired — no cue"
+    # Wound a NON-focused body below the lowhp threshold -> :lowhp switch.
+    wounded = @world.pack.living.reject { |m| m.equal?(h.focus) }.first
+    refute_nil wounded, "need a living non-focused body to wound"
+    dmg = (wounded.max_hp * (1 - THREAT[:lowhp_switch_pct])).to_i + 1
+    wounded.take_hit(damage: dmg, attacker: h)
+    drive(@world, 1)
+    refute_nil h.retarget_cue
+    assert_equal :lowhp, h.retarget_cue[:cause]
+    assert h.retarget_cue[:frames_left].positive?
+  end
+
+  def test_retarget_cue_expires_by_ticking
+    h = @world.humans.reject(&:dead?).first
+    h.retarget_cue!(:lowhp, 5)
+    assert_equal :lowhp, h.retarget_cue[:cause]
+    drive(@world, 6)
+    assert_nil h.retarget_cue
+  end
+
+  def test_taunt_retarget_stamps_no_cue
+    # Only hate/lowhp/proximity are cue-keyed (spec section 5). A taunt-forced
+    # turn has its own tell (underline + pulse) and the renderer has no color
+    # for :taunt — stamping it crashed the specials_chain replay (wall catch).
+    h = @world.humans.reject(&:dead?).first
+    blocker_m = @world.pack.members.find { |m| m.kit_name == :blocker }
+    h.focus = nil
+    h.taunt!(blocker_m, 300)
+    drive(@world, 1)
+    assert_equal blocker_m, h.focus, "taunt binds the focus"
+    assert_nil h.retarget_cue, "taunt-forced turns must not stamp a cue"
+  end
+
+  def test_unkeyed_retarget_clears_a_stale_cue
+    # A cue may only explain the turn that stamped it: a lowhp cue left
+    # ticking through a taunt-forced turn would misattribute the new focus
+    # (impl review, Codex finding 2).
+    h = @world.humans.reject(&:dead?).first
+    blocker_m = @world.pack.members.find { |m| m.kit_name == :blocker }
+    h.retarget_cue!(:lowhp, 45)
+    h.focus = nil
+    h.taunt!(blocker_m, 300)
+    drive(@world, 1)
+    assert_equal blocker_m, h.focus, "taunt binds the focus"
+    assert_nil h.retarget_cue, "an unkeyed turn clears any stale cue"
   end
 end

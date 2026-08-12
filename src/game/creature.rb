@@ -83,6 +83,7 @@ module Game
       @stagger -= 1 if @stagger.positive?
       @dodge_cooldown -= 1 if @dodge_cooldown.positive?
       @hurt_frames -= 1 if @hurt_frames.positive?
+      @retarget_cue_frames -= 1 if @retarget_cue_frames&.positive?
       if @taunt_frames.positive?
         @taunt_frames -= 1
         clear_taunt! if @taunt_frames.zero? || @taunted_by&.dead?
@@ -216,6 +217,24 @@ module Game
       @taunted_by.dead? ? nil : @taunted_by
     end
 
+    # Q6 rider: why-they-turned cue. Sim-owned timer (renderer READS it,
+    # never mutates — taunted_target law); stamped by assign_human_focus,
+    # decays in this body's own tick.
+    def retarget_cue!(cause, frames)
+      @retarget_cue_cause = cause
+      @retarget_cue_frames = frames
+    end
+
+    def retarget_cue
+      return nil unless @retarget_cue_frames&.positive?
+      { cause: @retarget_cue_cause, frames_left: @retarget_cue_frames }
+    end
+
+    def clear_retarget_cue!
+      @retarget_cue_cause = nil
+      @retarget_cue_frames = 0
+    end
+
     def release_taunt! = clear_taunt!
 
     # Carried value is creature-owned and swap-inert (law 4): it rides the
@@ -226,6 +245,19 @@ module Game
       amount = @carried
       @carried = 0
       amount
+    end
+
+    # D1b god-mark: body-owned and swap-inert (law 4) — it rides the BODY
+    # like carried and taunt, never the possession pointer. Burned ONLY by
+    # the judgment (World#respawn_pack); revive!/vat-regrowth preserve it.
+    def marked? = !!@god_mark
+
+    def inscribe_mark!
+      @god_mark = true
+    end
+
+    def burn_mark!
+      @god_mark = false
     end
 
     def interrupt_action!
@@ -240,6 +272,12 @@ module Game
 
     def rebind(map:, tile:)
       @walker = GridWalker.new(map:, tile_x: tile[0], tile_y: tile[1], size: SIZE)
+    end
+
+    # Tribute heal (D1b): flesh only — clocks, exhaust, iframes, carried all
+    # untouched (revive! is the full reset; this is not it).
+    def heal_full!
+      @hp = @max_hp
     end
 
     def revive!(map:, tile:)

@@ -183,4 +183,25 @@ class PackTest < Minitest::Test
     pack.swap_next!
     assert_equal lobber, pack.possessed, "cycle order still follows the members array"
   end
+
+  # --- D1b: spend! + possess! ---
+
+  def test_spend_subtracts_when_affordable
+    pack.bank!(10)
+    assert pack.spend!(7)
+    assert_equal 3, pack.banked
+  end
+
+  def test_spend_refuses_without_mutation_when_insufficient
+    pack.bank!(5)
+    refute pack.spend!(6)
+    assert_equal 5, pack.banked, "refusal must not mutate"
+  end
+
+  def test_possess_moves_pointer_without_stagger
+    target = pack.members[2]
+    assert_equal target, pack.possess!(target)
+    assert_equal target, pack.possessed
+    refute target.staggered?, "judgment snap is not a combat swap"
+  end
 end

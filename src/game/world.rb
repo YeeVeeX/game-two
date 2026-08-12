@@ -23,6 +23,7 @@ module Game
       drop_spawned drop_picked_up drop_decayed banked carried_lost taunted
       corpse_loaded corpse_looted fight_resolved
       human_retargeted human_leashed
+      inscribed banked_spent tribute_paid body_regrown body_dissolved mark_consumed vessel_kept
     ].freeze
 
     TRANSITIONS = { world: %i[nest_respawn], nest_respawn: %i[world] }.freeze
@@ -37,6 +38,7 @@ module Game
       @balance = data["balance/combat"]
       @death = data["balance/death"]
       @threat = data["balance/threat"]
+      @economy = data["balance/economy"]
       @rng = Random.new(seed)
       @bus = Core::EventBus.new.register(*EVENTS)
       @states = Core::StateStack.new(initial: :world, transitions: TRANSITIONS)
@@ -44,6 +46,7 @@ module Game
       @frame = 0
       @respawn_timer = 0
       @banner_timer = 0
+      @station_cue = nil
       @zones = {}
       @humans = Hash.new { |h, k| h[k] = [] }
       @human_respawns = Hash.new { |h, k| h[k] = [] }
@@ -88,6 +91,18 @@ module Game
     def total_stranded = @corpse_loads.values.sum { |list| list.sum { |c| c[:amount] } }
     def marked_target = @pack.mark
     def taunt_pulses = @taunt_pulses
+    def station_cue = @station_cue
+
+    # Renderer-facing price reader (renderer computes nothing): what THIS
+    # station charges right now. Bank has no price (nil).
+    def station_price(station)
+      case station[:type]
+      when "altar" then @economy[:inscribe_cost]
+      when "vat"
+        @economy[:regrow_cost] * @pack.members.count(&:dead?) +
+          @economy[:heal_cost_per_body] * @pack.living.count { |m| m.hp < m.max_hp }
+      end
+    end
 
     def tick(input)
       if @feel.hitstop?
@@ -98,6 +113,7 @@ module Game
       end
 
       @banner_timer -= 1 if @banner_timer.positive?
+      @station_cue = nil if @station_cue && (@station_cue[:frames_left] -= 1) <= 0
 
       case @states.current
       when :world
@@ -285,11 +301,13 @@ module Game
         return true
       end
       station = map.station_at(*source.tile)
-      return false unless station && station[:type] == "bank" && source.carried.positive?
-      amount = source.drain_carried!
-      @pack.bank!(amount)
-      @bus.emit(:banked, actor: source, amount:, banked: @pack.banked)
-      true
+      return false unless station
+      case station[:type]
+      when "bank"  then interact_bank(source)
+      when "altar" then interact_altar(source)
+      when "vat"   then interact_vat(source)
+      else false
+      end
     end
 
     private
@@ -335,6 +353,15 @@ module Game
         target, cause = @ai.select_target(h, self)
         if target && !target.equal?(h.focus)
           @bus.emit(:human_retargeted, actor: h, from: h.focus, to: target, cause:)
+          # Cue-keyed causes only (spec section 5): taunt/anchor turns carry
+          # their own tells (underline, pulse) and have no cue color — but
+          # every turn invalidates a live cue, or a stale cause would explain
+          # a turn it did not drive (impl review, Codex finding 2).
+          if %i[hate lowhp proximity].include?(cause)
+            h.retarget_cue!(cause, @economy[:retarget_cue_frames])
+          else
+            h.clear_retarget_cue!
+          end
         end
         h.focus = target
       end
@@ -709,15 +736,117 @@ module Game
                        initial_kit: cfg[:initial_possessed])
     end
 
+    # --- D1b station verbs (the only banked sinks; spec S2-3) -----------
+
+    def interact_bank(source)
+      return false unless source.carried.positive?
+      amount = source.drain_carried!
+      @pack.bank!(amount)
+      @bus.emit(:banked, actor: source, amount:, banked: @pack.banked)
+      true
+    end
+
+    def interact_altar(source)
+      return station_refuse!(source.tile) if source.marked?
+      return station_refuse!(source.tile) unless spend_banked(source, @economy[:inscribe_cost], :inscribe)
+      source.inscribe_mark!
+      @bus.emit(:inscribed, body: source, cost: @economy[:inscribe_cost], banked: @pack.banked)
+      station_cue!(:inscribed, source.tile)
+      true
+    end
+
+    # All-or-nothing full maintenance (spec S3): one price, one decision.
+    # Regrowth is a hard rebind onto the home spawn tile (occupancy is soft:
+    # only voluntary movement is blocked — same as respawn_pack).
+    def interact_vat(source)
+      dead = @pack.members.select(&:dead?)
+      wounded = @pack.living.select { |m| m.hp < m.max_hp }
+      cost = @economy[:regrow_cost] * dead.length +
+             @economy[:heal_cost_per_body] * wounded.length
+      return station_refuse!(source.tile) if cost.zero?
+      return station_refuse!(source.tile) unless spend_banked(source, cost, :tribute)
+      home = @zones.fetch(HOME_ZONE)
+      dead.each do |m|
+        m.revive!(map: home, tile: home.pack_spawn[@pack.members.index(m)])
+        @bus.emit(:body_regrown, body: m)
+      end
+      wounded.each(&:heal_full!)
+      @bus.emit(:tribute_paid, cost:, regrown: dead.length,
+                healed: wounded.length, banked: @pack.banked)
+      station_cue!(:tribute, source.tile)
+      true
+    end
+
+    def spend_banked(source, amount, sink)
+      return false unless @pack.spend!(amount)
+      @bus.emit(:banked_spent, actor: source, amount:, sink:, banked: @pack.banked)
+      true
+    end
+
+    # The cue pins the fixture tile at transaction time — deriving it from
+    # proximity at draw time would let a moving player drag the flash onto a
+    # neighboring fixture (impl review, Codex finding 4).
+    def station_cue!(kind, tile)
+      @station_cue = { kind:, at: tile, frames_left: @display[:station_cue_frames] }
+      true
+    end
+
+    def station_refuse!(tile)
+      station_cue!(:refused, tile)
+      false
+    end
+
+    # The judgment (D1b, spec S4): marked flesh revives and the mark burns;
+    # unmarked dissolves (stays dead-and-regrowable — dissolution IS the
+    # absence of revival). Floor: a judgment that would leave nothing
+    # returns the body possessed at the wipe — the gods keep you alive to
+    # pay. Taunt-release sweep and HOME_ZONE re-entry unchanged (impl
+    # review 1 law).
     def respawn_pack
-      # Release EVERY zone's taunt locks before reviving: a frozen victim in
-      # an abandoned zone would otherwise re-lock onto the revived taunter —
-      # a lock that "ended" at the taunter's death un-ending (impl review 1).
       @humans.each_value { |list| list.each(&:release_taunt!) }
       @zone_name = HOME_ZONE
-      @pack.members.each_with_index { |m, i| m.revive!(map:, tile: map.pack_spawn[i]) }
+      vessel = @pack.possessed
+      floor = @pack.members.none?(&:marked?)
+      revived = []
+      @pack.members.each_with_index do |m, i|
+        if m.marked?
+          m.revive!(map:, tile: map.pack_spawn[i])
+          m.burn_mark!
+          @bus.emit(:mark_consumed, body: m)
+          revived << m
+        elsif floor && m.equal?(vessel)
+          # The kept vessel never emits :body_dissolved — dissolution means
+          # staying dead, and the telemetry line counts it as exactly that
+          # (impl review, Codex finding 1).
+          m.revive!(map:, tile: map.pack_spawn[i])
+          @bus.emit(:vessel_kept, body: m)
+          revived << m
+        else
+          @bus.emit(:body_dissolved, body: m)
+        end
+      end
+      clear_unloaded_pack_husks
+      snap_possession_after_judgment(revived)
       enter_zone(HOME_ZONE, map.pack_spawn)
       @bus.emit(:pack_respawned)
+    end
+
+    # Dissolved flesh leaves no field husk (spec S Presentation-5). Loaded
+    # records are D1 pile markers under wipe grace — never touched.
+    def clear_unloaded_pack_husks
+      @corpses.each_value do |list|
+        list.reject! { |c| c[:faction] == :pack && !c[:container_id] }
+      end
+    end
+
+    def snap_possession_after_judgment(revived)
+      return if revived.include?(@pack.possessed)
+      from = @pack.possessed
+      target = revived.min_by do |m|
+        [tile_distance(m.tile, from.tile), @pack.members.index(m)]
+      end
+      @pack.possess!(target)
+      @bus.emit(:possession_changed, from:, to: target, forced: true)
     end
 
     # A respawn DEFERS while its tile is occupied OR any pack body is within

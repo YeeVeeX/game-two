@@ -25,6 +25,21 @@ module Game
       @banked += amount
     end
 
+    # D1b sinks: the ONLY paths that reduce banked, all player-initiated at
+    # stations (the never-taxed law holds — no system call sites exist).
+    def spend!(amount)
+      return false if amount > @banked
+      @banked -= amount
+      true
+    end
+
+    # Judgment-time pointer move (post-wipe possession snap): plain, no
+    # stagger — revival is not a combat beat. Combat swaps keep using
+    # swap_next!/forced_swap!.
+    def possess!(target)
+      @possessed = target
+    end
+
     def clear_mark!
       @mark = nil
     end

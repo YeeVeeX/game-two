@@ -1,6 +1,6 @@
 {
-  "proximity_switch_margin_tiles": 3,
-  "lowhp_switch_pct": 0.35,
+  "proximity_switch_margin_tiles": 4,
+  "lowhp_switch_pct": 0.25,
   "engaged_cap_per_target": 5,
   "pressure_ring_tiles": 2,
   "leash_linger_frames": 90,

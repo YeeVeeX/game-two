@@ -23,6 +23,7 @@ module Game
 
     def tick(creature, input, view)
       @masked.reject! { |a| !input.down?(a) }
+      dodge_pressed = pressed?(input, :dodge)
       special_pressed = pressed?(input, :special)
       mark_pressed = pressed?(input, :mark)
       interact_pressed = pressed?(input, :interact)
@@ -30,7 +31,7 @@ module Game
 
       dir = held_direction(input)
       creature.face(dir)
-      if down?(input, :dodge)
+      if dodge_pressed
         creature.dodge(dir, blocked: @blocked || [])
       elsif dir != [0, 0]
         creature.step(dir[0], dir[1], blocked: @blocked || [])
