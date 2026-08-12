@@ -558,7 +558,7 @@ module Game
     def spawn_drop(victim)
       table = victim.kit[:drop_table]
       return unless table
-      amount = table[@rng.rand(table.length)]
+      amount = (table[@rng.rand(table.length)] * gradient_multiplier(victim.tile)).round
       decay = @balance[:drops][:decay_frames]
       list = @drops[@zone_name]
       drop = list.find { |d| d[:tile] == victim.tile }
@@ -719,16 +719,18 @@ module Game
       @bus.emit(:pack_respawned)
     end
 
-    # A respawn DEFERS while its tile is occupied (retries next tick) — the
-    # body-blocking invariant holds for every path a creature enters the
-    # world by, teleports included (M2 review finding 1: a body parked on
-    # the spawn at the respawn frame stacked two creatures on one tile).
+    # A respawn DEFERS while its tile is occupied OR any pack body is within
+    # the block radius (A2 suppression: spawns freeze near the hunting pack,
+    # denying the gate-grinder its infinite respawn loop). Retries next tick.
     def respawn_due_humans
       occupied = actors.map(&:tile)
+      block = @threat[:respawn_block_tiles]
+      pack_tiles = @pack.living.map(&:tile)
       ready, waiting = @human_respawns[@zone_name].partition { |r| r[:at_frame] <= @frame }
       deferred = []
       ready.each do |r|
-        if occupied.include?(r[:tile])
+        if occupied.include?(r[:tile]) ||
+           pack_tiles.any? { |t| tile_distance(t, r[:tile]) <= block }
           deferred << r
         else
           add_human(@zone_name, r[:kit_name], r[:tile])
@@ -758,6 +760,15 @@ module Game
 
     def tile_distance((ax, ay), (bx, by))
       [(bx - ax).abs, (by - ay).abs].max
+    end
+
+    # Deeper = richer (A2 gradient): multiplier bands over gate distance,
+    # from zone data. Zones without a gradient (nest) multiply by 1.
+    def gradient_multiplier(tile)
+      bands = map.drop_gradient
+      return 1.0 unless bands
+      d = gate_distance(tile)
+      bands.reverse.find { |(min, _)| d >= min }&.last || 1.0
     end
 
     # A body stays where it fell and fades (vision critique: kills that

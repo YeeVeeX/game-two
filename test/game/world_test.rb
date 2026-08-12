@@ -758,9 +758,15 @@ class WorldTest < Minitest::Test
     world.instance_variable_get(:@human_respawns).clear
     count = world.humans.length
     target = nearest_human(world)
+    home = target.tile.dup
     kill(target, by: world.possessed)
     drive(world, scripted({}), 1)
     assert_equal count - 1, world.humans.length
+    # Move the pack far from the respawn home so A2 suppression (block radius
+    # 12) does not defer the respawn — this test isolates the timer mechanism.
+    world.pack.living.each_with_index do |m, i|
+      m.walker.teleport(1, 1 + i)
+    end
     # Allies may kill more rushers during the wait (their respawns land later),
     # so assert the killed human's respawn by fresh-body identity, not headcount.
     roster_after_kill = world.humans.dup
@@ -780,16 +786,21 @@ class WorldTest < Minitest::Test
     world.humans.dup.each { |h| kill(h, by: world.possessed) }
     death_frame = world.frame
     drive(world, scripted({}), 1) # flush bus -> respawns scheduled
-    camped = [10, 12] # a rusher home spawn (data/zones/district.json)
-    navigate_to(world, camped)
+    camped = [14, 12] # a rusher home spawn (data/zones/district.json)
+    # Park ALL pack members far from the spawn (>12 tiles) so A2 suppression
+    # does not mask the occupation deferral this test isolates.
+    world.pack.living.each_with_index { |m, i| m.walker.teleport(1, 1 + i) }
+    # Now teleport the possessed ONTO the spawn tile — this occupies it.
+    world.possessed.walker.teleport(*camped)
     due = death_frame + DATA["balance/combat"][:kits][:rusher][:respawn_frames]
     drive(world, scripted({}), due + 5 - world.frame)
     assert world.humans.none? { |h| h.tile == camped },
            "respawn onto an occupied tile must defer, not stack"
     tiles = world.actors.map(&:tile)
     assert_equal tiles.uniq.length, tiles.length, "no stacking anywhere: #{tiles}"
-    # Step off the spawn: the deferred respawn lands as soon as the tile frees.
-    drive(world, scripted({ world.frame.to_s => ["right"] }), 3)
+    # Move ALL pack members far away and off the spawn — deferred respawn lands.
+    world.pack.living.each_with_index { |m, i| m.walker.teleport(1, 1 + i) }
+    drive(world, scripted({}), 3)
     assert world.humans.any? { |h| h.tile == camped },
            "deferred respawn lands once the spawn tile is free"
   end
@@ -852,7 +863,7 @@ class WorldTest < Minitest::Test
     drive(world, scripted({}), 1) # flush bus
     drop = drop_at(world, victim.tile)
     refute_nil drop, "rusher death must leave a drop on its tile"
-    assert_includes [1, 2], drop[:amount], "amount comes from drop_table [1,1,2]"
+    assert_includes [2, 4], drop[:amount], "amount from drop_table [1,1,2] at deep gradient (x2.0)"
     assert_equal DATA["balance/combat"][:drops][:decay_frames], drop[:frames_left],
                  "decay clock starts from data"
     assert_equal 1, events.length
