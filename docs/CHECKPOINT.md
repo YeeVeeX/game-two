@@ -33,14 +33,19 @@ at-drop-time). New check ids avoid the `mark_glyph_readable` collision
 Corpse-husk law pinned in review: judgment clears only UNLOADED pack
 records — `container_id` records are D1 pile markers, never deleted.
 
-**NEXT SESSION (execution NOT yet greenlit — owner approved spec+plan
-docs; per protocol confirm "proceed" then):** execute the plan
-task-by-task (subagent-driven recommended, as A2), 9-script wall with ALL
-mandatory beats re-staged (dodge fix invalidates every stream), impl
-review, merge --no-ff, NO push (private remote `YeeVeeX/game-two` exists
-since 2026-08-12 — pushing is the owner's action), then the SEVENTH
-fun-verify per spec §Fun-verify (play-first law; Q1/Q8-meaning is the
-headline; routing pre-registered).
+**NEXT SESSION — EXECUTION GREENLIT (owner, 2026-08-12: "proceed,
+greenlit and approved"; goalcomp'd same day at 193 commits / HEAD
+`fe39ce7` / tree clean):** execute the plan task-by-task
+(subagent-driven recommended, as A2; inline executing-plans fallback),
+9-script wall with ALL mandatory beats re-staged (dodge fix invalidates
+every stream), impl review (budget per memory
+`workflow-review-token-calibration`: ~110K/finder + ~55K/refuter), merge
+--no-ff, NO push (private remote `YeeVeeX/game-two` exists since
+2026-08-12 — pushing is the owner's action; fresh clones start ungated
+until the 4-line hook recipe reinstalls — optional idea banked: tracked
+`bin/install-hooks` next harness touch), then the SEVENTH fun-verify per
+spec §Fun-verify (play-first law; Q1-meaning is the headline; routing
+pre-registered).
 
 ## 2026-08-12 — A2 THREAT/PULL ECONOMY SHIPPED: merge `e3759c3`, 8-gate wall green, impl review clean; SIXTH fun-verify handed to the owner
 
