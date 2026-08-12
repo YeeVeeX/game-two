@@ -255,6 +255,12 @@ module Game
       @walker = GridWalker.new(map:, tile_x: tile[0], tile_y: tile[1], size: SIZE)
     end
 
+    # Tribute heal (D1b): flesh only — clocks, exhaust, iframes, carried all
+    # untouched (revive! is the full reset; this is not it).
+    def heal_full!
+      @hp = @max_hp
+    end
+
     def revive!(map:, tile:)
       @hp = @max_hp
       interrupt_action!

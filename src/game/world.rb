@@ -735,8 +735,26 @@ module Game
       true
     end
 
+    # All-or-nothing full maintenance (spec S3): one price, one decision.
+    # Regrowth is a hard rebind onto the home spawn tile (occupancy is soft:
+    # only voluntary movement is blocked — same as respawn_pack).
     def interact_vat(_source)
-      false # Task 5
+      dead = @pack.members.select(&:dead?)
+      wounded = @pack.living.select { |m| m.hp < m.max_hp }
+      cost = @economy[:regrow_cost] * dead.length +
+             @economy[:heal_cost_per_body] * wounded.length
+      return station_refuse! if cost.zero?
+      return station_refuse! unless spend_banked(_source, cost, :tribute)
+      home = @zones.fetch(HOME_ZONE)
+      dead.each do |m|
+        m.revive!(map: home, tile: home.pack_spawn[@pack.members.index(m)])
+        @bus.emit(:body_regrown, body: m)
+      end
+      wounded.each(&:heal_full!)
+      @bus.emit(:tribute_paid, cost:, regrown: dead.length,
+                healed: wounded.length, banked: @pack.banked)
+      station_cue!(:tribute)
+      true
     end
 
     def spend_banked(source, amount, sink)
