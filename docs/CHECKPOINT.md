@@ -1,6 +1,35 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-12 (latest, MERGED) — D1b vat economy SHIPPED to main; seventh fun-verify handed to the owner
+## 2026-08-12 (latest, PLAN APPROVED) — v10.1 Q6 retune plan owner-approved; execution is the next session
+
+**MEASURED: main at 216 commits, HEAD `1da0249` + the committed plan, tree
+otherwise clean. Nothing executed yet — plan only.**
+
+**The plan (owner-approved via plan mode, adversarially reviewed):
+`docs/superpowers/plans/2026-08-12-q6-retune-eighth-verify.md`. READ IT
+FIRST next session — it is self-contained (verified facts, design
+decisions D1-D5 with rejected alternatives, file map, TDD task steps with
+real code, pre-registered eighth-verify questions + routing table, scope
+debate brief skeleton).** One-line summary: restore the Q6 dilemma via
+district.json band-2 drop multiplier 2.0→3.5 (ONE sim number; shallow
+untouched → staged replay spends stay affordable by construction) + Q7 cue
+read-time 45→75 (zero behavior change → zero wall drift) + a q6_cadence
+telemetry oracle (subscriber-side only: bank sizes + kills-by-band) →
+full 9-script wall (zero re-aims expected) → merge --no-ff → BLIND eighth
+fun-verify (no changelog in the handoff — the premium must be felt) →
+Challenger scope debate (trigger double-confirmed; declined once at v10;
+fairness ladder mandatory) → scope v11 + PARKING_LOT updates (tank-first
+entry is STALE — it shipped with A2: combat.json initial_possessed=blocker).
+
+**Key exploration facts banked in the plan** (3 Explore agents + 1 Plan
+agent, all landed): gradient lives at district.json:48; 3 tests pin the
+old values (world_test 1205/871, threat_respawn 116) and update in the
+same commit; no test pins cue 45; :banked already carries amount;
+gradient_depth_reads checks density not amounts; "deeper pays more" is a
+declared corpus gap — license = Tibia hunt-spot choice + Gudii f38 + the
+A2 own-diagnosed-problem precedent.
+
+## 2026-08-12 (MERGED) — D1b vat economy SHIPPED to main; seventh fun-verify handed to the owner
 
 **MEASURED: main at merge commit `402ba1c` (--no-ff, NOT pushed — pushing
 is the owner's action), 214 commits, tree clean. Suite 281 runs/1,164
