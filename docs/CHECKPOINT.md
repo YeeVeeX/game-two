@@ -28,12 +28,25 @@ dropped mandatory beats (projectile/telegraph/swap/nest frames) — restaged, an
 the "passed this morning" claim was refuted from artifacts (memory:
 gate-critic-mandatory-beat-checks).
 
-**NOW PENDING: the SIXTH fun-verify** (owner plays `bin/play`, telemetry lines
-pasted FIRST, 8 spec questions verbatim in two batches; routing PRE-REGISTERED
-in spec §Fun-verify — Q3 moved → A2 wins; Q3 unmoved + threat felt → D1b
-auto-promotes as the inscription economy; threat not felt → data tuning only;
-no scary peaks → Challenger trigger). Verdict + routing bank to
-`drafts/_a2-fun-verify-<date>.md` + checkpoint. NO D1b code in any branch.
+**SIXTH FUN-VERIFY LANDED (same day): VALID — Q3 MOVED. A2 WINS.** Full
+verdict: `drafts/_a2-fun-verify-20260812.md`. First positive chore answer in
+six verifies ("bank now or push deeper" = "It changed — real dilemma"). Threat
+felt end-to-end: box "Felt it — and ran", run-back "In doubt at least once",
+breather "Real option, felt fair". Behavioral: banked_events=3, wipes=1 (vs
+6-8 baseline), one carrying-death pile ABANDONED in the field (corpse_looted=0
+— recoveries are no longer free). Owner overall: "feels good."
+**Routing applied (pre-registered):** next increment = SCOPE DEBATE (v10) with
+D1b-inscription QUEUED as candidate. Signals recorded, not promoted: Q6
+"read as randomness" → margin/threshold + legibility tuning; Q5 no-body-peaks
+→ the Challenger trigger condition MET (its own future increment); Q8 "still
+wouldn't care" → banked meaning still awaits D1b. Owner evidence for the
+debate: NO healing → hunts end early → repetitive (parked priced-sustain /
+pile-buys territory). **BUG banked w/ root cause:** held-Shift dodge locks
+movement (controllers.rb:33-37 — level-triggered dodge branch starves the walk
+branch; one-line fix but invalidates all 8 replay streams → bundle with the
+next sim increment). Also: a2_fired `deepest_band` converts at summary time →
+reads 0 when quitting from the nest (natural session end) — fix at-kill-time,
+same bundle. NO code before the v10 debate closes.
 
 **In-flight resolved:** gamesmith `tibia/psykik-starter` COMPLETE (all 6
 stages done, notes-en.md on disk). Owner queue unchanged: council deepseek-r1
