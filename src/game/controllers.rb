@@ -127,7 +127,10 @@ module Game
       target = creature.focus
       if target && !target.dead?
         creature.reset_leash!
-        engage(creature, target, view) # pressure roles split this in Task 5
+        case view.pressure_role(creature)
+        when :pressuring then pressure_step(creature, target, view)
+        else engage(creature, target, view)
+        end
       else
         creature.tick_leash # leash behavior lands in Task 6
       end
@@ -215,6 +218,27 @@ module Game
       blocked = view.blocked_for(creature)
       Game::FlowField::STEPS.each do |(dx, dy)|
         break if creature.step(dx, dy, blocked:)
+      end
+    end
+
+    # Pressuring: close space, claim a ring tile, body-block -- never swing.
+    # The ring is porous by design (dodge and specials cross it): escapable
+    # is what makes wipes fair (spec cadence law).
+    def pressure_step(creature, target, view)
+      return if creature.moving?
+      slot = view.pressure_slot(creature, target)
+      return unless slot && slot != creature.tile
+      blocked = view.blocked_for(creature)
+      dx = (slot[0] - creature.tile[0]).clamp(-1, 1)
+      dy = (slot[1] - creature.tile[1]).clamp(-1, 1)
+      if creature.step(dx, dy, blocked:)
+        creature.face([dx, dy])
+      else
+        dir = view.flow_to(target).downhill_from(*creature.tile, blocked:)
+        if dir
+          creature.face(dir)
+          creature.step(dir[0], dir[1], blocked:)
+        end
       end
     end
 

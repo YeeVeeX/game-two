@@ -145,6 +145,38 @@ module Game
       slot
     end
 
+    # A2 position pressure: per focus-target, the nearest engaged_cap_per_target
+    # humans fight; the rest PRESSURE (follow, block, never swing). Sorting is
+    # (distance, roster index) -- deterministic. Taunt-bound humans partition
+    # like everyone else: taunt locks attention, not the right to swing.
+    def partition_pressure
+      cap = @threat[:engaged_cap_per_target]
+      @pressure_roles = {}
+      humans.reject(&:dead?).group_by(&:focus).each do |target, group|
+        next unless target
+        group.each_with_index
+             .sort_by { |h, i| [tile_distance(h.tile, target.tile), i] }
+             .each_with_index { |(h, _), rank| @pressure_roles[h] = rank < cap ? :engaged : :pressuring }
+      end
+    end
+
+    def pressure_role(creature) = (@pressure_roles || {}).fetch(creature, :engaged)
+
+    # Ring slots mirror surround_slot one ring further out: the Chebyshev ring at
+    # pressure_ring_tiles, claimed per target per tick, fixed perimeter order.
+    def pressure_slot(attacker, target)
+      claims = (@pressure_claims[target] ||= {})
+      already = claims.find { |_, who| who.equal?(attacker) }
+      return already[0] if already
+      r = @threat[:pressure_ring_tiles]
+      tx, ty = target.tile
+      ring = (-r..r).flat_map { |d| [[tx + d, ty - r], [tx + d, ty + r], [tx - r, ty + d], [tx + r, ty + d]] }
+                    .uniq
+      slot = ring.find { |t| map.passable?(*t) && !claims.key?(t) }
+      claims[slot] = attacker if slot
+      slot
+    end
+
     # Straight walls-only ray check for ranged AI (occupancy is deliberately
     # ignored — a shot over a friendly is legal, no friendly fire).
     def line_clear?(from, to)
@@ -249,6 +281,7 @@ module Game
 
     def tick_world(input)
       @slot_claims = {}
+      @pressure_claims = {}
       handle_swap(input)
       # Forced swap happens at bus-process time (no input in scope there), so
       # the edge-trigger re-arm is deferred to the next tick — law 2 applies
@@ -265,6 +298,7 @@ module Game
       validate_mark
       @pack.living.each { |m| @ai.tick(m, self) unless m.equal?(possessed) }
       assign_human_focus
+      partition_pressure
       humans.each { |h| emit_telegraph_edge(h); @ai.tick(h, self) }
 
       check_transition
