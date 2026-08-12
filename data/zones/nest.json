@@ -7,7 +7,9 @@
     "grid": [40, 30, 34],
     "wall": [150, 96, 84],
     "transition": [235, 190, 90],
-    "station": [185, 75, 205]
+    "station": [185, 75, 205],
+    "station_altar": [230, 215, 170],
+    "station_vat": [90, 150, 60]
   },
   "tiles": [
     "##############################",
@@ -31,7 +33,9 @@
   "pack_spawn": [[14, 8], [13, 8], [15, 8]],
   "enemy_spawns": {},
   "stations": [
-    { "type": "bank", "at": [12, 8] }
+    { "type": "bank", "at": [12, 8] },
+    { "type": "altar", "at": [16, 8] },
+    { "type": "vat", "at": [14, 10] }
   ],
   "transitions": [
     { "at": [29, 8], "to": "district", "spawn": [1, 13] }

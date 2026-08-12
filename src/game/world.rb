@@ -23,6 +23,7 @@ module Game
       drop_spawned drop_picked_up drop_decayed banked carried_lost taunted
       corpse_loaded corpse_looted fight_resolved
       human_retargeted human_leashed
+      inscribed banked_spent tribute_paid body_regrown body_dissolved mark_consumed vessel_kept
     ].freeze
 
     TRANSITIONS = { world: %i[nest_respawn], nest_respawn: %i[world] }.freeze
@@ -45,6 +46,7 @@ module Game
       @frame = 0
       @respawn_timer = 0
       @banner_timer = 0
+      @station_cue = nil
       @zones = {}
       @humans = Hash.new { |h, k| h[k] = [] }
       @human_respawns = Hash.new { |h, k| h[k] = [] }
@@ -89,6 +91,7 @@ module Game
     def total_stranded = @corpse_loads.values.sum { |list| list.sum { |c| c[:amount] } }
     def marked_target = @pack.mark
     def taunt_pulses = @taunt_pulses
+    def station_cue = @station_cue
 
     def tick(input)
       if @feel.hitstop?
@@ -99,6 +102,7 @@ module Game
       end
 
       @banner_timer -= 1 if @banner_timer.positive?
+      @station_cue = nil if @station_cue && (@station_cue[:frames_left] -= 1) <= 0
 
       case @states.current
       when :world
@@ -286,11 +290,13 @@ module Game
         return true
       end
       station = map.station_at(*source.tile)
-      return false unless station && station[:type] == "bank" && source.carried.positive?
-      amount = source.drain_carried!
-      @pack.bank!(amount)
-      @bus.emit(:banked, actor: source, amount:, banked: @pack.banked)
-      true
+      return false unless station
+      case station[:type]
+      when "bank"  then interact_bank(source)
+      when "altar" then interact_altar(source)
+      when "vat"   then interact_vat(source)
+      else false
+      end
     end
 
     private
@@ -708,6 +714,45 @@ module Game
       end
       @pack = Pack.new(members:, stagger_frames: cfg[:swap_stagger_frames],
                        initial_kit: cfg[:initial_possessed])
+    end
+
+    # --- D1b station verbs (the only banked sinks; spec S2-3) -----------
+
+    def interact_bank(source)
+      return false unless source.carried.positive?
+      amount = source.drain_carried!
+      @pack.bank!(amount)
+      @bus.emit(:banked, actor: source, amount:, banked: @pack.banked)
+      true
+    end
+
+    def interact_altar(source)
+      return station_refuse! if source.marked?
+      return station_refuse! unless spend_banked(source, @economy[:inscribe_cost], :inscribe)
+      source.inscribe_mark!
+      @bus.emit(:inscribed, body: source, cost: @economy[:inscribe_cost], banked: @pack.banked)
+      station_cue!(:inscribed)
+      true
+    end
+
+    def interact_vat(_source)
+      false # Task 5
+    end
+
+    def spend_banked(source, amount, sink)
+      return false unless @pack.spend!(amount)
+      @bus.emit(:banked_spent, actor: source, amount:, sink:, banked: @pack.banked)
+      true
+    end
+
+    def station_cue!(kind)
+      @station_cue = { kind:, frames_left: @display[:station_cue_frames] }
+      true
+    end
+
+    def station_refuse!
+      station_cue!(:refused)
+      false
     end
 
     def respawn_pack
