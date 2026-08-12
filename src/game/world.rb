@@ -37,6 +37,7 @@ module Game
       @balance = data["balance/combat"]
       @death = data["balance/death"]
       @threat = data["balance/threat"]
+      @economy = data["balance/economy"]
       @rng = Random.new(seed)
       @bus = Core::EventBus.new.register(*EVENTS)
       @states = Core::StateStack.new(initial: :world, transitions: TRANSITIONS)
