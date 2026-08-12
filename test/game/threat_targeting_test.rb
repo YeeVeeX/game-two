@@ -387,4 +387,18 @@ class ThreatTargetingTest < Minitest::Test
     assert_equal blocker_m, h.focus, "taunt binds the focus"
     assert_nil h.retarget_cue, "taunt-forced turns must not stamp a cue"
   end
+
+  def test_unkeyed_retarget_clears_a_stale_cue
+    # A cue may only explain the turn that stamped it: a lowhp cue left
+    # ticking through a taunt-forced turn would misattribute the new focus
+    # (impl review, Codex finding 2).
+    h = @world.humans.reject(&:dead?).first
+    blocker_m = @world.pack.members.find { |m| m.kit_name == :blocker }
+    h.retarget_cue!(:lowhp, 45)
+    h.focus = nil
+    h.taunt!(blocker_m, 300)
+    drive(@world, 1)
+    assert_equal blocker_m, h.focus, "taunt binds the focus"
+    assert_nil h.retarget_cue, "an unkeyed turn clears any stale cue"
+  end
 end

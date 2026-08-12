@@ -354,9 +354,13 @@ module Game
         if target && !target.equal?(h.focus)
           @bus.emit(:human_retargeted, actor: h, from: h.focus, to: target, cause:)
           # Cue-keyed causes only (spec section 5): taunt/anchor turns carry
-          # their own tells (underline, pulse) and have no cue color.
+          # their own tells (underline, pulse) and have no cue color — but
+          # every turn invalidates a live cue, or a stale cause would explain
+          # a turn it did not drive (impl review, Codex finding 2).
           if %i[hate lowhp proximity].include?(cause)
             h.retarget_cue!(cause, @economy[:retarget_cue_frames])
+          else
+            h.clear_retarget_cue!
           end
         end
         h.focus = target
@@ -743,24 +747,24 @@ module Game
     end
 
     def interact_altar(source)
-      return station_refuse! if source.marked?
-      return station_refuse! unless spend_banked(source, @economy[:inscribe_cost], :inscribe)
+      return station_refuse!(source.tile) if source.marked?
+      return station_refuse!(source.tile) unless spend_banked(source, @economy[:inscribe_cost], :inscribe)
       source.inscribe_mark!
       @bus.emit(:inscribed, body: source, cost: @economy[:inscribe_cost], banked: @pack.banked)
-      station_cue!(:inscribed)
+      station_cue!(:inscribed, source.tile)
       true
     end
 
     # All-or-nothing full maintenance (spec S3): one price, one decision.
     # Regrowth is a hard rebind onto the home spawn tile (occupancy is soft:
     # only voluntary movement is blocked — same as respawn_pack).
-    def interact_vat(_source)
+    def interact_vat(source)
       dead = @pack.members.select(&:dead?)
       wounded = @pack.living.select { |m| m.hp < m.max_hp }
       cost = @economy[:regrow_cost] * dead.length +
              @economy[:heal_cost_per_body] * wounded.length
-      return station_refuse! if cost.zero?
-      return station_refuse! unless spend_banked(_source, cost, :tribute)
+      return station_refuse!(source.tile) if cost.zero?
+      return station_refuse!(source.tile) unless spend_banked(source, cost, :tribute)
       home = @zones.fetch(HOME_ZONE)
       dead.each do |m|
         m.revive!(map: home, tile: home.pack_spawn[@pack.members.index(m)])
@@ -769,7 +773,7 @@ module Game
       wounded.each(&:heal_full!)
       @bus.emit(:tribute_paid, cost:, regrown: dead.length,
                 healed: wounded.length, banked: @pack.banked)
-      station_cue!(:tribute)
+      station_cue!(:tribute, source.tile)
       true
     end
 
@@ -779,13 +783,16 @@ module Game
       true
     end
 
-    def station_cue!(kind)
-      @station_cue = { kind:, frames_left: @display[:station_cue_frames] }
+    # The cue pins the fixture tile at transaction time — deriving it from
+    # proximity at draw time would let a moving player drag the flash onto a
+    # neighboring fixture (impl review, Codex finding 4).
+    def station_cue!(kind, tile)
+      @station_cue = { kind:, at: tile, frames_left: @display[:station_cue_frames] }
       true
     end
 
-    def station_refuse!
-      station_cue!(:refused)
+    def station_refuse!(tile)
+      station_cue!(:refused, tile)
       false
     end
 
@@ -799,6 +806,7 @@ module Game
       @humans.each_value { |list| list.each(&:release_taunt!) }
       @zone_name = HOME_ZONE
       vessel = @pack.possessed
+      floor = @pack.members.none?(&:marked?)
       revived = []
       @pack.members.each_with_index do |m, i|
         if m.marked?
@@ -806,14 +814,16 @@ module Game
           m.burn_mark!
           @bus.emit(:mark_consumed, body: m)
           revived << m
+        elsif floor && m.equal?(vessel)
+          # The kept vessel never emits :body_dissolved — dissolution means
+          # staying dead, and the telemetry line counts it as exactly that
+          # (impl review, Codex finding 1).
+          m.revive!(map:, tile: map.pack_spawn[i])
+          @bus.emit(:vessel_kept, body: m)
+          revived << m
         else
           @bus.emit(:body_dissolved, body: m)
         end
-      end
-      if revived.empty?
-        vessel.revive!(map:, tile: map.pack_spawn[@pack.members.index(vessel)])
-        @bus.emit(:vessel_kept, body: vessel)
-        revived << vessel
       end
       clear_unloaded_pack_husks
       snap_possession_after_judgment(revived)

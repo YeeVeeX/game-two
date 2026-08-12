@@ -261,17 +261,13 @@ module App
     end
 
     # Station cue (D1b): success kinds flash a bright 1-tile pulse ring at
-    # the fixture nearest the possessed; :refused draws a short dark-red X-bar.
+    # the transaction's own fixture (the cue carries its tile); :refused
+    # draws a short dark-red X-bar.
     def draw_station_cue(world)
       cue = world.station_cue
       return unless cue
-      station = world.map.stations.min_by do |s|
-        px, py = world.possessed.tile
-        [(s[:at][0] - px).abs, (s[:at][1] - py).abs].max
-      end
-      return unless station
       ts = world.map.tile_size
-      tx, ty = station[:at]
+      tx, ty = cue[:at]
       x = tx * ts
       y = ty * ts
       if cue[:kind] == :refused

@@ -51,12 +51,18 @@ class EconomyJudgmentTest < Minitest::Test
   def test_floor_keeps_the_possessed_vessel_when_nothing_marked
     vessel = world.pack.possessed
     kept = []
+    dissolved = []
     world.bus.subscribe(:vessel_kept) { |e| kept << e[:body] }
+    world.bus.subscribe(:body_dissolved) { |e| dissolved << e[:body] }
     wipe!
     assert_equal [vessel], kept
     refute vessel.dead?
     assert_equal vessel, world.pack.possessed
     assert_equal 2, world.pack.members.count(&:dead?)
+    others = world.pack.members - [vessel]
+    assert_equal others.sort_by { |m| world.pack.members.index(m) },
+                 dissolved.sort_by { |m| world.pack.members.index(m) },
+                 "the kept vessel never dissolves — dissolution is staying dead"
   end
 
   def test_possession_snaps_when_the_possessed_dissolved

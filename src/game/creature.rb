@@ -230,6 +230,11 @@ module Game
       { cause: @retarget_cue_cause, frames_left: @retarget_cue_frames }
     end
 
+    def clear_retarget_cue!
+      @retarget_cue_cause = nil
+      @retarget_cue_frames = 0
+    end
+
     def release_taunt! = clear_taunt!
 
     # Carried value is creature-owned and swap-inert (law 4): it rides the

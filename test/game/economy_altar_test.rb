@@ -46,6 +46,8 @@ class EconomyAltarTest < Minitest::Test
     refute src.marked?
     assert_equal ECO[:inscribe_cost] - 1, world.pack.banked
     assert_equal :refused, world.station_cue[:kind]
+    assert_equal altar_tile, world.station_cue[:at],
+                 "the cue pins the transaction's own fixture tile"
   end
 
   def test_inscribe_refuses_double_mark_without_spending
