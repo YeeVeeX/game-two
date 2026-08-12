@@ -16,6 +16,17 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
 
 ## New ideas (this project)
 
+- **Video-critic harness leg + gamesmith-assisted fun-verify (owner ask 2026-08-12,
+  mid-v10.1-wall).** Owner: why screenshots only — gamesmith exists for video. Dev-of-record
+  shape: (a) an ADVISORY video leg on the gate — ffmpeg a reel around a beat, video-capable
+  critic judges temporal properties (cue read-time, juice, motion legibility) that stills
+  can't; NEVER replaces the deterministic leg (md5 needs frames; video encode isn't
+  bit-stable) or the 39-check calibrated history (substrate swap = comparability reset,
+  same law as the Nest rename); (b) gamesmith ingesting the OWNER's session recording as
+  fun-verify evidence beside telemetry (its actual wheelhouse — footage → observations).
+  Costs to weigh at promotion: Bedrock spend per gate multiplies; critic variance on video
+  is higher than the already-hardened still path. Harness increment, own wall implications.
+
 - YJIT via self-built Ruby (only if profiling ever shows frame drops)
 - Diagonal corner-cutting asymmetry (M2.1 review finding, preexisting): GridWalker
   step/dash check only destination passability, so the PLAYER can move diagonally through
