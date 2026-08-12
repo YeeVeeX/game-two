@@ -1,6 +1,49 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-12 (latest, mid-execution goalcomp) — D1b EXECUTION: tasks 1-12 DONE, wall 8/9 official + vat critic retry in flight
+## 2026-08-12 (latest, endgame goalcomp) — D1b: 14/14 tasks executed, impl review FOLDED (3 Codex fixes), wall re-proof round 3 in flight
+
+**MEASURED: branch `d1b-vat` 212 commits at `7455257` (main 194 untouched),
+suite 281 runs/1,164 assertions green (hook-verified per commit), checks 39
+(ADD-ONLY law intact — critic hardening touched vision_critic.py, never
+gate_checks.json). Tree clean.**
+
+**Impl review (Task 14) DONE — fold-or-refute complete, ledger
+`drafts/_d1b-impl-review.md`:** Workflow wf_2241b722-775 (3 finders +
+1 refuter, 380,375 of ~1.0M declared subagent tokens): 1 finding, REFUTED.
+Codex cross-vendor (GPT-5.6 Sol): 4 blockers -> 3 CONFIRMED by direct code
+re-verification, fixed TDD in `5a9229c` (floor vessel no longer emits
+:body_dissolved; unkeyed retargets clear stale cues via
+Creature#clear_retarget_cue!; station cue carries at: its transaction
+tile); 1 REFUTED (vat atomicity unreachable). Same-family finders missed
+all 3 — memory `cross-vendor-catches-semantic-honesty` written; keep the
+Codex leg mandatory on merge gates.
+
+**Wall re-proof (F2/F4 are pixel-visible, so the pre-fix official passes
+were invalidated; pre-fix build DID reach 9/9+9/9 first — sweep b7r5qae5o
+8/9 + vat rake-gate exit-0, det 20/20, vision 39/39):** Round 1 post-fix
+sweep 7/9 PASS; loot_loop + corpse_run failed projectile_visible only
+(critic variance on marginal specks; det green), vat truncation only
+(det 20/20). Re-aims (`7455257`): loot +471/+716, corpse +423/+499.
+Round 2: loot_loop official EXIT=0 (critic cited frame 0716). corpse hit a
+SELF-CONTRADICTORY verdict (pass=false + not-exercised why on self-gating
+specials_distinct); vat truncated again. Critic hardened in `7455257`
+(attempts 6, contradiction voids verdict); standalone vat probe
+PROBE_EXIT=0 through the new path. **ROUND 3 IN FLIGHT at goalcomp:
+corpse_run + vat_economy official gates (task bw6p8vhu0 ->
+/tmp/wall3_*.log; summary /tmp/wall_sweep_summary.log appends "WALL3 <s>
+EXIT=" + "ROUND3 DONE"). Determinism has passed EVERY round for every
+script.** Full round log: `drafts/_d1b-wall-log.md`.
+
+**NEXT SEQUENCE:** harvest round 3 (EXIT=0 both -> wall complete
+7 round-1 + loot round-2 + these two = 9/9+9/9; truncation/contradiction
+repeats -> retry the gate, NEVER re-pilot; a real check-FAIL -> read the
+verdict, fix forward) -> `rake perf` ALONE -> full `rake` -> merge
+`--no-ff` d1b-vat into main, NO push -> CHECKPOINT top entry with final
+numbers -> hand the owner the SEVENTH fun-verify verbatim from spec
+§Fun-verify (play-first law; d1b_fired telemetry banked first; Q1 meaning
+headline; routing pre-registered).
+
+## 2026-08-12 (mid-execution goalcomp) — D1b EXECUTION: tasks 1-12 DONE, wall 8/9 official + vat critic retry in flight
 
 **MEASURED at goalcomp: branch `d1b-vat` 14 commits at `283fbbc` (main 194,
 untouched), suite 280 runs/1,159 assertions green (hook-verified per
