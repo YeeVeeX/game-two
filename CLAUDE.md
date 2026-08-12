@@ -113,9 +113,11 @@ ask).**
 ## Enforcement (wired 2026-08-11 — script-enforced, not prompt-requested)
 
 - **Git hooks gate commits and pushes**: `.git/hooks/pre-commit` and `pre-push` both run
-  `rake` (with the Ruby PATH baked in). A red suite blocks the commit — that's the point;
-  fix the test, don't `--no-verify`. Hooks are untracked: to reinstall, each is 4 lines —
-  `#!/bin/sh` + `PATH="/c/Ruby34-x64/bin:$PATH"` + `export PATH` + `exec rake`.
+  `bundle exec rake` (with the Ruby PATH baked in) — bundle exec pins the Gemfile.lock
+  versions; unbundled `rake` drifted from the lock once (2026-08-11, caught by Codex review).
+  A red suite blocks the commit — that's the point; fix the test, don't `--no-verify`.
+  Hooks are untracked: to reinstall, each is 4 lines — `#!/bin/sh` +
+  `PATH="/c/Ruby34-x64/bin:$PATH"` + `export PATH` + `exec bundle exec rake`.
 - **swarmforge** (the quality-gauntlet CLI, `C:/Users/gabri/workspace/swarm-forge`) is
   configured for this repo via `swarmforge.toml`: `gauntlet` runs rake as its test stage,
   `tdd-check` knows `{stem}_test.rb`. Invoke with

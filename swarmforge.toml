@@ -5,8 +5,8 @@
 # CLI lives at C:/Users/gabri/workspace/swarm-forge/.venv/Scripts/.
 
 [gauntlet]
-test_command = ["C:/Ruby34-x64/bin/ruby.exe", "C:/Ruby34-x64/bin/rake"]
-full_command = ["C:/Ruby34-x64/bin/ruby.exe", "C:/Ruby34-x64/bin/rake"]
+test_command = ["C:/Ruby34-x64/bin/ruby.exe", "C:/Ruby34-x64/bin/bundle", "exec", "rake"]
+full_command = ["C:/Ruby34-x64/bin/ruby.exe", "C:/Ruby34-x64/bin/bundle", "exec", "rake"]
 
 [tdd]
 test_patterns = ["{stem}_test.rb"]
