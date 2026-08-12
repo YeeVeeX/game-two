@@ -1,6 +1,51 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-12 (latest) — v10 SCOPE DEBATE CLOSED + D1b SPEC (REVIEWED) + PLAN SHIPPED; next session EXECUTES
+## 2026-08-12 (latest, mid-execution goalcomp) — D1b EXECUTION: tasks 1-12 DONE, wall 8/9 official + vat critic retry in flight
+
+**MEASURED at goalcomp: branch `d1b-vat` 14 commits at `283fbbc` (main 194,
+untouched), suite 280 runs/1,159 assertions green (hook-verified per
+commit), checks 34→39 ADD-ONLY.** Working tree carries the 5 re-piloted
+wall scripts UNCOMMITTED (Task 13's commit awaits the vat critic). Full
+wall evidence + re-pilot technique log + Task-12 deviations:
+`drafts/_d1b-wall-log.md` (the goalcomp harvest — READ IT before resuming).
+
+**Tasks 1-11 (TDD, commits `91b1d5d..c8f9206`):** economy.json (8/12/2/45
+kept — measured re-anchor: world_loop banks 2/session, district_hunt 0,
+far under the ~24 scale-up rule) · Pack#spend!/possess! · god-mark ·
+3 fixtures + altar verb (bank byte-identical pinned) · vat tribute ·
+the judgment + floor + snap · presentation · Q6 rider · dodge edge-trigger
+(one-word `pressed?` fix proven by a failing test: held Shift re-dashed) ·
+deepest_band at drop time · d1b_fired telemetry. Two extra fixes the wall
+caught: cue palette ARGB trap `88a4d65` (proximity was body-camouflaged,
+lowhp red-not-yellow — plan colors deviated deliberately, critic
+arbitrated) and cause=:taunt cue-stamp crash `283fbbc` (whitelist
+hate/lowhp/proximity + regression test).
+
+**Task 12 (`e75c295`):** vat_economy.json — 19,238-frame 5-act pilot
+(seed 7), 20 curated captures, all economy beats on camera (inscribe,
+2 tributes incl 2-body regrow, judgment mark-burn, floor vessel).
+Staging deviation recorded: act-5 tribute fired AFTER the floor wipe
+(epilogue). vision_critic verdict retries 2→4 (Bedrock truncations).
+
+**Task 13 (wall): official sweep 8/9 PASS + vat_economy INFRA-only fail**
+(verdict JSON truncated 4/4; determinism 20/20 byte-identical passed; the
+same artifacts passed 39/39 earlier). The "dodge invalidates every stream"
+claim was WRONG — zero scripts held dodge; real divergence = the judgment
+(wipe scripts) + threat retunes; world_loop/loot_loop/threat_pull kept
+their original streams. Re-piloted: specials_chain, taunt_anchor,
+corpse_run, district_hunt, ledger_loop (ledger loss-tally beat not staged
+after 3 attempts — self-gates honestly; render path untouched by D1b).
+
+**NEXT SEQUENCE:** vat critic retry (in flight at goalcomp, task
+bpbzr8l42 → /tmp/vat_critic_retry.log) → official vat gate exit-0 →
+commit Task 13 → `rake perf` alone → full rake → Task 14 impl review
+(Workflow ~1.0M declared: 3 finders ~110K + ≤12 refuters ~55K; PLUS one
+Codex cross-vendor pass on the branch diff; ledger →
+`drafts/_d1b-impl-review.md`) → merge `--no-ff`, NO push → checkpoint →
+SEVENTH fun-verify (play-first law; Q1 meaning headline; routing
+pre-registered in spec §Fun-verify).
+
+## 2026-08-12 — v10 SCOPE DEBATE CLOSED + D1b SPEC (REVIEWED) + PLAN SHIPPED; next session EXECUTES
 
 **Docs-only session — zero src/data changes; tests still 250/1,056 (each
 commit hook-verified), checks 34, wall untouched.** Commits this session:
