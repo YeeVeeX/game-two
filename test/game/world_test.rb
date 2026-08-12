@@ -205,6 +205,8 @@ class WorldTest < Minitest::Test
     wiped = false
     world.bus.subscribe(:pack_wiped) { wiped = true }
     enter_district(world)
+    # D1b: inscribe all three so the judgment revives them (marks burn at revival)
+    world.pack.members.each(&:inscribe_mark!)
     hunter = world.humans.first
     world.pack.members.each { |m| kill(m, by: hunter) }
     drive(world, scripted({}), 1)
@@ -214,6 +216,7 @@ class WorldTest < Minitest::Test
     assert_equal :world, world.states.current
     assert_equal "nest", world.zone_name, "wipe sends the pack home"
     assert world.pack.members.all? { |m| m.hp == m.max_hp }, "everyone revives full"
+    assert world.pack.members.none?(&:marked?), "marks burn at the judgment"
   end
 
   # --- combat laws ---------------------------------------------------------

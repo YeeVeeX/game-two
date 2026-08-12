@@ -773,15 +773,54 @@ module Game
       false
     end
 
+    # The judgment (D1b, spec S4): marked flesh revives and the mark burns;
+    # unmarked dissolves (stays dead-and-regrowable — dissolution IS the
+    # absence of revival). Floor: a judgment that would leave nothing
+    # returns the body possessed at the wipe — the gods keep you alive to
+    # pay. Taunt-release sweep and HOME_ZONE re-entry unchanged (impl
+    # review 1 law).
     def respawn_pack
-      # Release EVERY zone's taunt locks before reviving: a frozen victim in
-      # an abandoned zone would otherwise re-lock onto the revived taunter —
-      # a lock that "ended" at the taunter's death un-ending (impl review 1).
       @humans.each_value { |list| list.each(&:release_taunt!) }
       @zone_name = HOME_ZONE
-      @pack.members.each_with_index { |m, i| m.revive!(map:, tile: map.pack_spawn[i]) }
+      vessel = @pack.possessed
+      revived = []
+      @pack.members.each_with_index do |m, i|
+        if m.marked?
+          m.revive!(map:, tile: map.pack_spawn[i])
+          m.burn_mark!
+          @bus.emit(:mark_consumed, body: m)
+          revived << m
+        else
+          @bus.emit(:body_dissolved, body: m)
+        end
+      end
+      if revived.empty?
+        vessel.revive!(map:, tile: map.pack_spawn[@pack.members.index(vessel)])
+        @bus.emit(:vessel_kept, body: vessel)
+        revived << vessel
+      end
+      clear_unloaded_pack_husks
+      snap_possession_after_judgment(revived)
       enter_zone(HOME_ZONE, map.pack_spawn)
       @bus.emit(:pack_respawned)
+    end
+
+    # Dissolved flesh leaves no field husk (spec S Presentation-5). Loaded
+    # records are D1 pile markers under wipe grace — never touched.
+    def clear_unloaded_pack_husks
+      @corpses.each_value do |list|
+        list.reject! { |c| c[:faction] == :pack && !c[:container_id] }
+      end
+    end
+
+    def snap_possession_after_judgment(revived)
+      return if revived.include?(@pack.possessed)
+      from = @pack.possessed
+      target = revived.min_by do |m|
+        [tile_distance(m.tile, from.tile), @pack.members.index(m)]
+      end
+      @pack.possess!(target)
+      @bus.emit(:possession_changed, from:, to: target, forced: true)
     end
 
     # A respawn DEFERS while its tile is occupied OR any pack body is within
