@@ -1,6 +1,45 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-11 (latest, night) — A2 BRAINSTORM CLOSED + SPEC (REVISED) + PLAN SHIPPED; next session EXECUTES the plan
+## 2026-08-12 (latest) — A2 THREAT/PULL ECONOMY SHIPPED: merge `e3759c3`, 8-gate wall green, impl review clean; SIXTH fun-verify handed to the owner
+
+**Executed the approved plan end-to-end** (subagent-driven, 13 tasks TDD on
+branch `a2-threat`, 26 branch commits): priority targeting chain (taunt →
+anchor → kit-hate → lowest-HP → sticky-first-seen w/ 3-tile steal margin) ·
+engaged cap 5/target + uncapped pressuring ring (never swings, hollow-outline
+cue) · leash-with-no-heal (walk home in-zone, snap-home on zone entry —
+recorded deviation) · respawn suppression (12 tiles) + per-human beachhead
+waiver (4 tiles) · depth gradient (district 7→15 spawns incl 3 `rusher_hater`,
+drops ×1.0/1.5/2.0 by gate-distance band; the measured [10,12] grinder spawn
+REMOVED) · tank-first possession (`initial_possessed: blocker`, cycle order
+unchanged). New events `:human_retargeted`/`:human_leashed`; `a2_fired`
+telemetry line (event-log-only).
+
+**MEASURED at merge:** main at 186 commits, HEAD `e3759c3`, tree clean. Tests
+250 runs/1,056 assertions green (now hook-enforced: pre-commit/pre-push run
+`bundle exec rake` — owner's parallel session wired gauntlet + hooks, commits
+`35d4923`/`fd6dc16`/`a2051be` ride this merge). Checks 31→34 (ADD-ONLY). Wall
+**8/8 determinism + 8/8 critic** (verdicts `drafts/_gate-verdicts.log`
+20260812-001305..010452; every wall script re-piloted under A2 + new
+`threat_pull.json` 4-act script). Perf p95 0.232ms @15 humans (budget 16.6).
+Impl review CLEAN (workflow wf_554c0d1c-303: 3 lenses, 1 finding, 1 refuted —
+`drafts/_a2-impl-review.md`). Two task-level fix rounds on record: hater
+body-color → HUMAN_BODY (tell = beeline, not color); re-piloted captures had
+dropped mandatory beats (projectile/telegraph/swap/nest frames) — restaged, and
+the "passed this morning" claim was refuted from artifacts (memory:
+gate-critic-mandatory-beat-checks).
+
+**NOW PENDING: the SIXTH fun-verify** (owner plays `bin/play`, telemetry lines
+pasted FIRST, 8 spec questions verbatim in two batches; routing PRE-REGISTERED
+in spec §Fun-verify — Q3 moved → A2 wins; Q3 unmoved + threat felt → D1b
+auto-promotes as the inscription economy; threat not felt → data tuning only;
+no scary peaks → Challenger trigger). Verdict + routing bank to
+`drafts/_a2-fun-verify-<date>.md` + checkpoint. NO D1b code in any branch.
+
+**In-flight resolved:** gamesmith `tibia/psykik-starter` COMPLETE (all 6
+stages done, notes-en.md on disk). Owner queue unchanged: council deepseek-r1
+`us.` prefix; council-via-mmh-gateway + when-to-council update (own session).
+
+## 2026-08-11 (night) — A2 BRAINSTORM CLOSED + SPEC (REVISED) + PLAN SHIPPED; next session EXECUTES the plan
 
 **Docs-only session — zero src/data changes; tests still 215/935, checks 31,
 main at the plan commit** (`85de477` v9 scope → `2465902` brainstorm outcomes
