@@ -161,7 +161,15 @@ module Game
 
     def threat_config = @threat
 
-    def beachhead_shields?(_h, _t) = false
+    # Beachhead (A2): arrival is not an ambush. Blocks ACQUISITION only —
+    # taunt/anchor bind first in the chain, and a human the pack has attacked
+    # is waived for life (you don't get the doormat's protection while
+    # swinging from it).
+    def beachhead_shields?(human, target)
+      return false if human.beachhead_waived?
+      radius = @threat[:beachhead_tiles]
+      arrival_tiles_for(@zone_name).any? { |a| tile_distance(target.tile, a) <= radius }
+    end
 
     def arrival_tiles_for(zone) = @arrivals.fetch(zone) { [] }
 

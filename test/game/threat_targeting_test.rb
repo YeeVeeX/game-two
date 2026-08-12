@@ -268,4 +268,76 @@ class ThreatTargetingTest < Minitest::Test
     assert_equal lobber_m, target, "with no focus, acquires nearest"
     assert_equal :acquired, cause
   end
+
+  # --- beachhead (A2): acquisition shield + waiver ----------------------------
+
+  def test_unwaived_humans_cannot_acquire_a_target_on_the_doormat
+    world = @world
+    world.humans.clear
+    # Arrival for district is [1,13]; beachhead_tiles = 4.
+    # Place a pack member at [2,13] (Chebyshev d=1 from arrival — inside beachhead).
+    striker_m = world.pack.members.find { |m| m.kit_name == :striker }
+    blocker_m = world.pack.members.find { |m| m.kit_name == :blocker }
+    lobber_m = world.pack.members.find { |m| m.kit_name == :lobber }
+
+    striker_m.walker.teleport(2, 13)   # inside beachhead (d=1 from [1,13])
+    blocker_m.walker.teleport(40, 1)   # far outside aggro range
+    lobber_m.walker.teleport(41, 1)    # far outside aggro range
+
+    # Rusher within aggro range of striker but unwaived
+    rusher = make_human(world, :rusher, [3, 13])
+    world.humans << rusher
+
+    target, = @ai.select_target(rusher, world)
+    assert_nil target, "unwaived human cannot acquire a target on the doormat"
+  end
+
+  def test_attacking_from_the_doormat_waives_that_human_only
+    world = @world
+    world.humans.clear
+    striker_m = world.pack.members.find { |m| m.kit_name == :striker }
+    blocker_m = world.pack.members.find { |m| m.kit_name == :blocker }
+    lobber_m = world.pack.members.find { |m| m.kit_name == :lobber }
+
+    striker_m.walker.teleport(2, 13)   # inside beachhead
+    blocker_m.walker.teleport(40, 1)   # far outside aggro range
+    lobber_m.walker.teleport(41, 1)    # far outside aggro range
+
+    rusher = make_human(world, :rusher, [3, 13])
+    other_rusher = make_human(world, :rusher, [4, 13])
+    world.humans << rusher
+    world.humans << other_rusher
+
+    # Pack hits rusher => waiver fires for rusher only
+    rusher.take_hit(damage: 1, attacker: striker_m, knockback_tiles: 0, blocked: [])
+
+    target, = @ai.select_target(rusher, world)
+    assert_equal striker_m, target, "waived human can acquire doormat target"
+
+    other_target, = @ai.select_target(other_rusher, world)
+    assert_nil other_target, "other human is still shielded"
+  end
+
+  def test_taunt_binds_through_the_beachhead
+    world = @world
+    world.humans.clear
+    striker_m = world.pack.members.find { |m| m.kit_name == :striker }
+    blocker_m = world.pack.members.find { |m| m.kit_name == :blocker }
+    lobber_m = world.pack.members.find { |m| m.kit_name == :lobber }
+
+    blocker_m.walker.teleport(2, 13)   # inside beachhead
+    striker_m.walker.teleport(40, 1)   # far outside aggro range
+    lobber_m.walker.teleport(41, 1)    # far outside aggro range
+
+    rusher = make_human(world, :rusher, [3, 13])
+    world.humans << rusher
+
+    # Taunt binds even though the target is inside the beachhead
+    # (taunt is checked BEFORE the reject line in the chain)
+    rusher.taunt!(blocker_m, 300)
+
+    target, cause = @ai.select_target(rusher, world)
+    assert_equal blocker_m, target, "taunt binds through the beachhead"
+    assert_equal :taunt, cause
+  end
 end
