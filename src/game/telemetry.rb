@@ -4,16 +4,41 @@ module Game
   # machine-distinguishable from one that fired and fell flat. Counts only;
   # per-event metrics (cadence, net distribution) derive from the harness
   # EVENT log lines.
+  #
+  # A2 threat/pull economy line (FN-2): retarget causes, leashes, body deaths,
+  # deepest gradient band reached — the fairness/consequence oracle for the
+  # owner's sixth fun-verify.
   class Telemetry
-    EVENTS = %i[corpse_loaded corpse_looted carried_lost pack_wiped banked].freeze
+    D1_EVENTS = %i[corpse_loaded corpse_looted carried_lost pack_wiped banked].freeze
+    A2_RETARGET_CAUSES = %i[hate lowhp proximity acquired].freeze
 
-    def initialize(bus)
+    def initialize(bus, world: nil)
+      @world = world
       @counts = Hash.new(0)
-      EVENTS.each { |ev| bus.subscribe(ev) { @counts[ev] += 1 } }
+      @retargets = Hash.new(0)
+      @max_gate_distance = 0
+
+      # D1 subscriptions
+      D1_EVENTS.each { |ev| bus.subscribe(ev) { @counts[ev] += 1 } }
       bus.subscribe(:fight_resolved) do |e|
         @counts[:fights] += 1
         @counts[:recovery_fights] += 1 if e[:opened_by] == :recovery
         @counts[:negative_fights] += 1 if e[:net].negative?
+      end
+
+      # A2 subscriptions
+      bus.subscribe(:human_retargeted) do |e|
+        cause = e[:cause]
+        @retargets[cause] += 1 if A2_RETARGET_CAUSES.include?(cause)
+      end
+      bus.subscribe(:human_leashed) { @counts[:leashes] += 1 }
+      bus.subscribe(:actor_died) do |e|
+        @counts[:body_deaths] += 1 if e[:faction] == :pack
+      end
+      bus.subscribe(:drop_spawned) do |e|
+        next unless @world
+        d = @world.gate_distance(e[:tile])
+        @max_gate_distance = d if d != Float::INFINITY && d > @max_gate_distance
       end
     end
 
@@ -22,7 +47,27 @@ module Game
         "wipes=#{@counts[:pack_wiped]} corpse_looted=#{@counts[:corpse_looted]} " \
         "carried_lost=#{@counts[:carried_lost]} banked_events=#{@counts[:banked]} " \
         "fights=#{@counts[:fights]} recovery_fights=#{@counts[:recovery_fights]} " \
-        "negative_fights=#{@counts[:negative_fights]}"
+        "negative_fights=#{@counts[:negative_fights]}\n" \
+        "#{a2_summary}"
+    end
+
+    def a2_summary
+      "TELEMETRY a2_fired wipes=#{@counts[:pack_wiped]} " \
+        "body_deaths=#{@counts[:body_deaths]} " \
+        "retargets{hate=#{@retargets[:hate]} lowhp=#{@retargets[:lowhp]} " \
+        "proximity=#{@retargets[:proximity]} acquired=#{@retargets[:acquired]}} " \
+        "leashes=#{@counts[:leashes]} deepest_band=#{deepest_band} " \
+        "banked=#{@counts[:banked]}"
+    end
+
+    private
+
+    def deepest_band
+      return 0 unless @world
+      bands = @world.map.drop_gradient
+      return 0 unless bands
+      idx = bands.rindex { |(min, _)| @max_gate_distance >= min }
+      idx || 0
     end
   end
 end

@@ -74,12 +74,43 @@ module Game
   class AiController
     FOLLOW_DISTANCE = 2
 
+    # A2 human chain: taunt -> anchor -> kit-hate -> lowest-HP -> sticky focus
+    # (proximity-margin steal) -> nearest acquisition. Stateless rules, readable
+    # switches (learnability law): every cause is telemetry.
+    def select_target(creature, view)
+      bound = creature.taunted_target
+      return [bound, :taunt] if bound
+      anchor = anchor_victim_for(creature, view)
+      return [anchor, :anchor] if anchor
+      threat = view.threat_config
+      candidates = view.hostiles_for(creature)
+                       .reject { |h| view.beachhead_shields?(creature, h) }
+                       .select { |h| chebyshev(creature.tile, h.tile) <= creature.kit[:aggro_tiles] }
+      return [nil, nil] if candidates.empty?
+      if (hated = creature.kit[:hate])
+        hit = candidates.find { |h| h.kit_name == hated.to_sym }
+        return [hit, :hate] if hit
+      end
+      low = candidates.select { |h| h.hp < h.max_hp * threat[:lowhp_switch_pct] }
+      unless low.empty?
+        return [nearest(creature, low), :lowhp]
+      end
+      focus = creature.focus
+      if focus && !focus.dead? && candidates.include?(focus)
+        steal = nearest(creature, candidates)
+        if !steal.equal?(focus) &&
+           chebyshev(creature.tile, focus.tile) - chebyshev(creature.tile, steal.tile) >=
+           threat[:proximity_switch_margin_tiles]
+          return [steal, :proximity]
+        end
+        return [focus, :sticky]
+      end
+      [nearest(creature, candidates), :acquired]
+    end
+
     def tick(creature, view)
       return if creature.dead?
-
-      # Taunt symmetry (A0.6): a taunted victim is bound to the taunter, and
-      # an anchor with living victims is bound to THEM — above mark, no aggro
-      # gate on either side ("your own taunt binds you").
+      return tick_human(creature, view) if creature.faction == :human
       bound = creature.taunted_target || anchor_victim_for(creature, view)
       marked = marked_target_for(creature, view)
       target = bound || marked || nearest(creature, view.hostiles_for(creature))
@@ -91,6 +122,35 @@ module Game
     end
 
     private
+
+    def tick_human(creature, view)
+      target = creature.focus
+      if target && !target.dead?
+        creature.reset_leash!
+        case view.pressure_role(creature)
+        when :pressuring then pressure_step(creature, target, view)
+        else engage(creature, target, view)
+        end
+      else
+        creature.tick_leash
+        leash_home(creature, view)
+      end
+    end
+
+    # Leash-with-no-heal (A2): nothing in aggro for the linger -> walk home,
+    # KEEPING hp. A returning human re-engages the moment focus reappears
+    # (dispersed, not invulnerable).
+    def leash_home(creature, view)
+      return if creature.leash_frames < view.threat_config[:leash_linger_frames]
+      return if creature.tile == creature.home_tile
+      view.human_leashed!(creature) if view.respond_to?(:human_leashed!)
+      return if creature.moving?
+      blocked = view.blocked_for(creature)
+      dir = view.flow_home(creature).downhill_from(*creature.tile, blocked:)
+      return unless dir
+      creature.face(dir)
+      creature.step(dir[0], dir[1], blocked:)
+    end
 
     # The anchor holds: a husk that taunted the room must not walk off after
     # a mark press or trail the possessed — it targets its nearest living
@@ -174,6 +234,27 @@ module Game
       blocked = view.blocked_for(creature)
       Game::FlowField::STEPS.each do |(dx, dy)|
         break if creature.step(dx, dy, blocked:)
+      end
+    end
+
+    # Pressuring: close space, claim a ring tile, body-block -- never swing.
+    # The ring is porous by design (dodge and specials cross it): escapable
+    # is what makes wipes fair (spec cadence law).
+    def pressure_step(creature, target, view)
+      return if creature.moving?
+      slot = view.pressure_slot(creature, target)
+      return unless slot && slot != creature.tile
+      blocked = view.blocked_for(creature)
+      dx = (slot[0] - creature.tile[0]).clamp(-1, 1)
+      dy = (slot[1] - creature.tile[1]).clamp(-1, 1)
+      if creature.step(dx, dy, blocked:)
+        creature.face([dx, dy])
+      else
+        dir = view.flow_to(target).downhill_from(*creature.tile, blocked:)
+        if dir
+          creature.face(dir)
+          creature.step(dir[0], dir[1], blocked:)
+        end
       end
     end
 

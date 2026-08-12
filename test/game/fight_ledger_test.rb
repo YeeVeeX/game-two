@@ -14,6 +14,15 @@ class FightLedgerTest < Minitest::Test
   STEP = DATA["balance/combat"][:kits][:striker][:step_frames]
 
   def world = @world ||= Game::World.new(DATA)
+
+  def possess_kit(world, kit_name)
+    world.pack.members.length.times do
+      return world.possessed if world.possessed.kit_name == kit_name
+      world.pack.swap_next!
+    end
+    flunk "could not possess #{kit_name}"
+  end
+
   def scripted(frames) = Core::ScriptedInput.new(frames:)
 
   def hold(action, from, to)
@@ -54,6 +63,9 @@ class FightLedgerTest < Minitest::Test
       h.walker.teleport(40, 23 + i)
       h.stagger!(30_000)
     end
+    # Clear pending respawns from enter_district combat: A2 stickiness makes
+    # humans more flankable → kills can spawn respawns that re-enter mid-test.
+    world.instance_variable_get(:@human_respawns).clear
   end
 
   # Kills BY the possessed trigger hitstop at the NEXT flush — so flush one
@@ -147,6 +159,7 @@ class FightLedgerTest < Minitest::Test
     events = resolved_events(world)
     enter_district(world)
     isolate_humans(world)
+    quiesce_ledger(world, events)
     poke(world)                          # damage_dealt opens (flush this frame)
     drive(world, scripted({}), QUIET - 30)
     assert_empty events
@@ -168,6 +181,7 @@ class FightLedgerTest < Minitest::Test
     events = resolved_events(world)
     enter_district(world)
     isolate_humans(world)
+    quiesce_ledger(world, events)
     kill(world.humans.reject(&:dead?).first, by: world.possessed)
     drain_hitstop(world)
     drive(world, scripted({}), QUIET + 2)
@@ -180,6 +194,7 @@ class FightLedgerTest < Minitest::Test
     events = resolved_events(world)
     enter_district(world)
     isolate_humans(world)
+    quiesce_ledger(world, events)
     poke(world)                          # damage, but no kill and no loot
     drive(world, scripted({}), QUIET + 2)
     assert_empty events, "a pure graze exchange must dissolve, not print"
@@ -317,6 +332,7 @@ class FightLedgerTest < Minitest::Test
   end
 
   def test_carried_lost_is_zone_filtered_for_the_window_but_not_the_leg
+    possess_kit(world, :striker)
     events = resolved_events(world)
     # Make a container IN THE NEST (carrier killed at home by direct hits).
     enter_district(world)
@@ -515,6 +531,7 @@ class FightLedgerTest < Minitest::Test
   end
 
   def test_bank_tally_reconciles_the_leg_and_resets
+    possess_kit(world, :striker)
     enter_district(world)
     isolate_humans(world)
     kill(nearest_human(world), by: world.possessed)

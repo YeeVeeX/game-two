@@ -4,9 +4,9 @@ module Game
   class Pack
     attr_reader :members, :possessed, :mark, :banked
 
-    def initialize(members:, stagger_frames:)
+    def initialize(members:, stagger_frames:, initial_kit: nil)
       @members = members
-      @possessed = members.first
+      @possessed = members.find { |m| m.kit_name.to_s == initial_kit.to_s } || members.first
       @stagger_frames = stagger_frames
       @banked = 0
     end

@@ -8,5 +8,6 @@
   "ledger_flash_alpha": 120,
   "ledger_panel_alpha": 160,
   "ledger_block_y": 160,
-  "ledger_wipe_y": 340
+  "ledger_wipe_y": 340,
+  "pressure_outline_alpha": 140
 }

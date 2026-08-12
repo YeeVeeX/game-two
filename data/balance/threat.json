@@ -1,0 +1,9 @@
+{
+  "proximity_switch_margin_tiles": 3,
+  "lowhp_switch_pct": 0.35,
+  "engaged_cap_per_target": 5,
+  "pressure_ring_tiles": 2,
+  "leash_linger_frames": 90,
+  "respawn_block_tiles": 12,
+  "beachhead_tiles": 4
+}

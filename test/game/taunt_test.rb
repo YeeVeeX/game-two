@@ -190,7 +190,7 @@ class TauntTest < Minitest::Test
 
   def test_tie_break_goes_striker_untaunted_blocker_taunted
     enter_district(world)
-    striker = world.possessed
+    striker = possess_kit(world, :striker)
     assert_equal :striker, striker.kit_name
     blocker = world.pack.members.find { |m| m.kit_name == :blocker }
     striker.walker.teleport(12, 12)
@@ -212,7 +212,7 @@ class TauntTest < Minitest::Test
 
   def test_anchor_with_living_victims_ignores_mark
     enter_district(world)
-    striker = world.possessed # stays possessed; blocker is a husk
+    striker = possess_kit(world, :striker) # stays possessed; blocker is a husk
     blocker = world.pack.members.find { |m| m.kit_name == :blocker }
     striker.walker.teleport(8, 12)
     blocker.revive!(map: world.map, tile: [12, 12]) # clears walk-in combat exhaust
@@ -232,7 +232,7 @@ class TauntTest < Minitest::Test
 
   def test_anchor_chases_victim_beyond_aggro_instead_of_following
     enter_district(world)
-    striker = world.possessed
+    striker = possess_kit(world, :striker)
     blocker = world.pack.members.find { |m| m.kit_name == :blocker }
     striker.walker.teleport(2, 12)
     blocker.walker.teleport(12, 12)

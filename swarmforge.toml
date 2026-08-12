@@ -1,0 +1,12 @@
+# swarmforge config for game-two (Ruby/minitest repo, Python vision harness).
+# The gauntlet's test stage runs rake. Its metric stages scan src/ (Ruby ->
+# nothing to score); the Python files under harness/ are OUTSIDE that default
+# scope -- scan them explicitly when touched: swarmforge crap harness/ --repo .
+# CLI lives at C:/Users/gabri/workspace/swarm-forge/.venv/Scripts/.
+
+[gauntlet]
+test_command = ["C:/Ruby34-x64/bin/ruby.exe", "C:/Ruby34-x64/bin/bundle", "exec", "rake"]
+full_command = ["C:/Ruby34-x64/bin/ruby.exe", "C:/Ruby34-x64/bin/bundle", "exec", "rake"]
+
+[tdd]
+test_patterns = ["{stem}_test.rb"]

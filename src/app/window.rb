@@ -36,7 +36,7 @@ module App
       super display[:view_width], display[:view_height]
       self.caption = "game-two"
       @world = Game::World.new(data)
-      @telemetry = Game::Telemetry.new(@world.bus)
+      @telemetry = Game::Telemetry.new(@world.bus, world: @world)
       @input = Core::KeyboardInput.new(bindings: BINDINGS)
       @renderer = Renderer.new(display: display)
       @overruns = 0

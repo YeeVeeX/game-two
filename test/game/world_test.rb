@@ -114,7 +114,7 @@ class WorldTest < Minitest::Test
   def test_pack_of_three_spawns_in_nest
     assert_equal 3, world.pack.members.length
     assert_equal world.map.pack_spawn.take(3).sort, world.pack.members.map(&:tile).sort
-    assert_equal world.pack.members.first, world.possessed
+    assert_equal :blocker, world.possessed.kit_name, "initial_possessed = blocker (data key)"
     assert_empty world.humans
   end
 
@@ -219,6 +219,7 @@ class WorldTest < Minitest::Test
   # --- combat laws ---------------------------------------------------------
 
   def test_held_attack_swings_at_exhaust_pace
+    possess_kit(world, :striker)
     starts = 0
     world.bus.subscribe(:attack_started) { starts += 1 }
     drive(world, scripted(hold(:attack, 0, EXHAUST * 3 - 1)), EXHAUST * 3)
@@ -276,8 +277,8 @@ class WorldTest < Minitest::Test
     end
     a, b = world.humans.first(2)
     world.humans.replace([a, b])
-    a.walker.teleport(11, 12)
-    b.walker.teleport(13, 12)
+    a.revive!(map: world.map, tile: [11, 12])
+    b.revive!(map: world.map, tile: [13, 12])
     a.face([1, 0])
     b.face([-1, 0])
     assert a.start_attack
@@ -620,6 +621,7 @@ class WorldTest < Minitest::Test
   # --- carried grid invariants (rewritten from v2 suite) -------------------
 
   def test_held_key_walks_tile_by_tile
+    possess_kit(world, :striker)
     input = scripted(hold(:right, 0, STEP * 3 - 1))
     x0, y0 = world.possessed.tile
     drive(world, input, STEP * 3)
@@ -653,18 +655,34 @@ class WorldTest < Minitest::Test
     assert_equal "nest", world.zone_name
   end
 
-  def test_rushers_hunt_the_nearest_pack_member_not_the_possessed
+  def test_rushers_keep_their_first_seen_target_inside_the_margin
     enter_district(world)
-    # The possessed walks north away from the gate; allies hold near it. The
-    # rushers must engage whoever is nearest — assert SOME ally takes a hit
-    # while the possessed keeps distance.
-    ally_hit = false
-    world.bus.subscribe(:attack_hit) do |e|
-      ally_hit = true if e[:victim].faction == :pack && !e[:victim].equal?(world.possessed)
-    end
-    drive(world, scripted(hold(:up, world.frame, world.frame + STEP * 6 - 1)), STEP * 6)
-    drive(world, scripted({}), 6000)
-    assert ally_hit, "humans target nearest pack creature, not the camera"
+    # rusher acquires the striker (nearest at acquisition); the blocker then
+    # closes to 1 tile nearer (inside proximity_switch_margin_tiles): the
+    # rusher stays on the striker — targets no longer flap by distance.
+    striker = world.pack.members.find { |m| m.kit_name == :striker }
+    blocker = world.pack.members.find { |m| m.kit_name == :blocker }
+    lobber = world.pack.members.find { |m| m.kit_name == :lobber }
+
+    # Park pack near the rushers so they acquire targets
+    striker.walker.teleport(12, 8)
+    blocker.walker.teleport(14, 8)
+    lobber.walker.teleport(2, 12) # far away, irrelevant
+
+    # Find a rusher and position it so striker is nearest
+    rusher = world.humans.find { |h| h.kit_name == :rusher }
+    skip "no rusher in district" unless rusher
+    rusher.walker.teleport(10, 8) # d=2 to striker, d=4 to blocker
+
+    # Tick once to let assign_human_focus set the rusher's focus
+    drive(world, scripted({}), 1)
+    assert_equal striker, rusher.focus, "rusher acquires nearest (striker)"
+
+    # Move blocker closer (d=1) — closer by 1, but margin is 3: diff < margin
+    blocker.walker.teleport(11, 8) # d=1 to rusher vs d=2 (striker). diff=2-1=1 < 3
+    drive(world, scripted({}), 1)
+    assert_equal striker, rusher.focus,
+                 "focus holds when rival is closer by less than proximity_switch_margin_tiles"
   end
 
   def test_determinism_same_script_same_state_with_swaps
@@ -737,11 +755,20 @@ class WorldTest < Minitest::Test
 
   def test_human_respawns_after_kill
     enter_district(world)
+    # Clear pending respawns from enter_district combat (A2 stickiness makes
+    # humans more flankable → ally kills can schedule respawns that land mid-test).
+    world.instance_variable_get(:@human_respawns).clear
     count = world.humans.length
     target = nearest_human(world)
+    home = target.tile.dup
     kill(target, by: world.possessed)
     drive(world, scripted({}), 1)
     assert_equal count - 1, world.humans.length
+    # Move the pack far from the respawn home so A2 suppression (block radius
+    # 12) does not defer the respawn — this test isolates the timer mechanism.
+    world.pack.living.each_with_index do |m, i|
+      m.walker.teleport(1, 1 + i)
+    end
     # Allies may kill more rushers during the wait (their respawns land later),
     # so assert the killed human's respawn by fresh-body identity, not headcount.
     roster_after_kill = world.humans.dup
@@ -761,16 +788,21 @@ class WorldTest < Minitest::Test
     world.humans.dup.each { |h| kill(h, by: world.possessed) }
     death_frame = world.frame
     drive(world, scripted({}), 1) # flush bus -> respawns scheduled
-    camped = [10, 12] # a rusher home spawn (data/zones/district.json)
-    navigate_to(world, camped)
+    camped = [14, 12] # a rusher home spawn (data/zones/district.json)
+    # Park ALL pack members far from the spawn (>12 tiles) so A2 suppression
+    # does not mask the occupation deferral this test isolates.
+    world.pack.living.each_with_index { |m, i| m.walker.teleport(1, 1 + i) }
+    # Now teleport the possessed ONTO the spawn tile — this occupies it.
+    world.possessed.walker.teleport(*camped)
     due = death_frame + DATA["balance/combat"][:kits][:rusher][:respawn_frames]
     drive(world, scripted({}), due + 5 - world.frame)
     assert world.humans.none? { |h| h.tile == camped },
            "respawn onto an occupied tile must defer, not stack"
     tiles = world.actors.map(&:tile)
     assert_equal tiles.uniq.length, tiles.length, "no stacking anywhere: #{tiles}"
-    # Step off the spawn: the deferred respawn lands as soon as the tile frees.
-    drive(world, scripted({ world.frame.to_s => ["right"] }), 3)
+    # Move ALL pack members far away and off the spawn — deferred respawn lands.
+    world.pack.living.each_with_index { |m, i| m.walker.teleport(1, 1 + i) }
+    drive(world, scripted({}), 3)
     assert world.humans.any? { |h| h.tile == camped },
            "deferred respawn lands once the spawn tile is free"
   end
@@ -815,6 +847,11 @@ class WorldTest < Minitest::Test
       h.walker.teleport(40, 23 + i)
       h.stagger!(30_000)
     end
+    # Clear pending respawns and stray drops from enter_district combat (A2
+    # stickiness makes humans more flankable → ally kills produce respawns
+    # and drops that interfere with isolated-world assertions).
+    world.instance_variable_get(:@human_respawns).clear
+    world.drops.clear
     drive(world, scripted({}), 60) # settle walk-in combat (tweens, knockback)
     kept
   end
@@ -828,7 +865,7 @@ class WorldTest < Minitest::Test
     drive(world, scripted({}), 1) # flush bus
     drop = drop_at(world, victim.tile)
     refute_nil drop, "rusher death must leave a drop on its tile"
-    assert_includes [1, 2], drop[:amount], "amount comes from drop_table [1,1,2]"
+    assert_includes [2, 4], drop[:amount], "amount from drop_table [1,1,2] at deep gradient (x2.0)"
     assert_equal DATA["balance/combat"][:drops][:decay_frames], drop[:frames_left],
                  "decay clock starts from data"
     assert_equal 1, events.length
@@ -920,8 +957,12 @@ class WorldTest < Minitest::Test
 
   # Kill the nearest human where it stands, then teleport the possessed onto
   # the resulting drop tile — the simplest deterministic pickup stage.
+  # Clears pre-existing drops from enter_district combat so only the staged
+  # kill's drop remains (A2 stickiness makes humans more flankable → extra
+  # drops can appear during the walk-in).
   def stage_drop_under_possessed(world)
     enter_district(world)
+    world.drops.clear
     kill(nearest_human(world), by: world.possessed)
     drive(world, scripted({}), 1)
     tile = world.drops.first[:tile]
@@ -1023,7 +1064,8 @@ class WorldTest < Minitest::Test
     enter_district(world)
     isolate_humans(world, 0)
     world.drops << { tile: [8, 13], amount: 2, frames_left: 1800, decay_frames: 1800 }
-    incoming = world.pack.members[1] # swap_next! target in roster order
+    idx = world.pack.members.index(world.possessed)
+    incoming = world.pack.members[(idx + 1) % world.pack.members.length]
     incoming.walker.teleport(8, 13)
     drive(world, scripted({ world.frame.to_s => %w[interact swap] }), 1)
     assert_equal incoming, world.possessed, "swap landed on the parked body"
@@ -1140,5 +1182,27 @@ class WorldTest < Minitest::Test
     press_interact(world)
     assert_equal 0, world.possessed.carried, "bank on the next press"
     assert_equal 3, world.pack.banked
+  end
+
+  # --- arrival tiles + gate-distance fields (A2 Task 2) --------------------
+
+  def test_district_arrival_tile_comes_from_nest_transition
+    assert_equal [[1, 13]], world.arrival_tiles_for("district")
+    assert_equal [[28, 8]], world.arrival_tiles_for("nest")
+  end
+
+  def test_gate_distance_is_bfs_from_the_arrival_tile
+    enter_district(world)
+    assert_equal 0, world.gate_distance([1, 13])
+    assert_operator world.gate_distance([35, 5]), :>=, 30
+  end
+
+  def test_district_drop_gradient_loaded
+    enter_district(world)
+    assert_equal [[0, 1.0], [14, 1.5], [28, 2.0]], world.map.drop_gradient
+  end
+
+  def test_nest_has_no_drop_gradient
+    assert_nil world.map.drop_gradient
   end
 end

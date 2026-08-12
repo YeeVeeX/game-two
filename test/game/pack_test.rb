@@ -161,4 +161,26 @@ class PackTest < Minitest::Test
     ctl.tick(pack.possessed, input, nil)
     assert_nil pack.possessed.current_action
   end
+
+  # --- Tank-first initial possession ---
+
+  def striker
+    @striker ||= Game::Creature.new(bus:, kit: KIT, kit_name: :striker, map: MAP, tile: [1, 1], faction: :pack, name: "striker")
+  end
+
+  def blocker
+    @blocker ||= Game::Creature.new(bus:, kit: KIT, kit_name: :blocker, map: MAP, tile: [5, 1], faction: :pack, name: "blocker")
+  end
+
+  def lobber
+    @lobber ||= Game::Creature.new(bus:, kit: KIT, kit_name: :lobber, map: MAP, tile: [9, 1], faction: :pack, name: "lobber")
+  end
+
+  def test_initial_possession_honors_initial_kit_without_reordering_the_cycle
+    pack = Game::Pack.new(members: [striker, blocker, lobber],
+                          stagger_frames: 20, initial_kit: "blocker")
+    assert_equal blocker, pack.possessed
+    pack.swap_next!
+    assert_equal lobber, pack.possessed, "cycle order still follows the members array"
+  end
 end

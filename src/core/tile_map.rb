@@ -8,7 +8,7 @@ module Core
     WALL_CHAR = "#".freeze
 
     attr_reader :cols, :rows, :tile_size, :pack_spawn, :enemy_spawns,
-                :display_name, :palette, :transitions, :stations
+                :display_name, :palette, :transitions, :stations, :drop_gradient
 
     def initialize(cfg)
       @tile_size = cfg.fetch(:tile_size)
@@ -21,6 +21,7 @@ module Core
       @enemy_spawns = cfg.fetch(:enemy_spawns, {})
       @transitions = cfg.fetch(:transitions, [])
       @stations = cfg.fetch(:stations, [])
+      @drop_gradient = cfg.fetch(:drop_gradient, nil)
       validate!
     end
 

@@ -22,6 +22,7 @@ module Game
       zone_entered possession_changed pack_wiped pack_respawned projectile_fired pack_mark_set
       drop_spawned drop_picked_up drop_decayed banked carried_lost taunted
       corpse_loaded corpse_looted fight_resolved
+      human_retargeted human_leashed
     ].freeze
 
     TRANSITIONS = { world: %i[nest_respawn], nest_respawn: %i[world] }.freeze
@@ -35,6 +36,7 @@ module Game
       @display = data["display"]
       @balance = data["balance/combat"]
       @death = data["balance/death"]
+      @threat = data["balance/threat"]
       @rng = Random.new(seed)
       @bus = Core::EventBus.new.register(*EVENTS)
       @states = Core::StateStack.new(initial: :world, transitions: TRANSITIONS)
@@ -143,6 +145,38 @@ module Game
       slot
     end
 
+    # A2 position pressure: per focus-target, the nearest engaged_cap_per_target
+    # humans fight; the rest PRESSURE (follow, block, never swing). Sorting is
+    # (distance, roster index) -- deterministic. Taunt-bound humans partition
+    # like everyone else: taunt locks attention, not the right to swing.
+    def partition_pressure
+      cap = @threat[:engaged_cap_per_target]
+      @pressure_roles = {}
+      humans.reject(&:dead?).group_by(&:focus).each do |target, group|
+        next unless target
+        group.each_with_index
+             .sort_by { |h, i| [tile_distance(h.tile, target.tile), i] }
+             .each_with_index { |(h, _), rank| @pressure_roles[h] = rank < cap ? :engaged : :pressuring }
+      end
+    end
+
+    def pressure_role(creature) = (@pressure_roles || {}).fetch(creature, :engaged)
+
+    # Ring slots mirror surround_slot one ring further out: the Chebyshev ring at
+    # pressure_ring_tiles, claimed per target per tick, fixed perimeter order.
+    def pressure_slot(attacker, target)
+      claims = (@pressure_claims[target] ||= {})
+      already = claims.find { |_, who| who.equal?(attacker) }
+      return already[0] if already
+      r = @threat[:pressure_ring_tiles]
+      tx, ty = target.tile
+      ring = (-r..r).flat_map { |d| [[tx + d, ty - r], [tx + d, ty + r], [tx - r, ty + d], [tx + r, ty + d]] }
+                    .uniq
+      slot = ring.find { |t| map.passable?(*t) && !claims.key?(t) }
+      claims[slot] = attacker if slot
+      slot
+    end
+
     # Straight walls-only ray check for ranged AI (occupancy is deliberately
     # ignored — a shot over a friendly is legal, no friendly fire).
     def line_clear?(from, to)
@@ -157,6 +191,25 @@ module Game
       end
     end
 
+    def threat_config = @threat
+
+    # Beachhead (A2): arrival is not an ambush. Blocks ACQUISITION only —
+    # taunt/anchor bind first in the chain, and a human the pack has attacked
+    # is waived for life (you don't get the doormat's protection while
+    # swinging from it).
+    def beachhead_shields?(human, target)
+      return false if human.beachhead_waived?
+      radius = @threat[:beachhead_tiles]
+      arrival_tiles_for(@zone_name).any? { |a| tile_distance(target.tile, a) <= radius }
+    end
+
+    def arrival_tiles_for(zone) = @arrivals.fetch(zone) { [] }
+
+    def gate_distance(tile)
+      field = @gate_fields[@zone_name]
+      field ? field.distance(*tile) : Float::INFINITY
+    end
+
     # Flow fields anchor on ANY creature, cached per anchor, recomputed only
     # when the anchor's tile changes. Cache clears on zone change.
     def flow_to(anchor)
@@ -167,6 +220,21 @@ module Game
         entry[:tile] = anchor.tile
       end
       entry[:field]
+    end
+
+    # Home fields are keyed by TILE and never invalidated inside a zone —
+    # homes don't move. Cleared with the flow cache on zone change.
+    def flow_home(creature)
+      @home_fields ||= {}
+      @home_fields[creature.home_tile] ||= FlowField.new(map).tap { |f| f.recompute!(creature.home_tile) }
+    end
+
+    # One :human_leashed per episode: the flag arms on emit, disarms when the
+    # human regains a focus (reset_leash! call sites) — track via leash_frames
+    # equality: emit exactly when the counter crosses the linger threshold.
+    def human_leashed!(creature)
+      return unless creature.leash_frames == @threat[:leash_linger_frames]
+      @bus.emit(:human_leashed, actor: creature, tile: creature.tile, hp: creature.hp)
     end
 
     def set_mark(source)
@@ -228,6 +296,7 @@ module Game
 
     def tick_world(input)
       @slot_claims = {}
+      @pressure_claims = {}
       handle_swap(input)
       # Forced swap happens at bus-process time (no input in scope there), so
       # the edge-trigger re-arm is deferred to the next tick — law 2 applies
@@ -243,6 +312,8 @@ module Game
       @controller.tick(possessed, input, self)
       validate_mark
       @pack.living.each { |m| @ai.tick(m, self) unless m.equal?(possessed) }
+      assign_human_focus
+      partition_pressure
       humans.each { |h| emit_telegraph_edge(h); @ai.tick(h, self) }
 
       check_transition
@@ -256,6 +327,17 @@ module Game
       @fight_ledger.tick
       respawn_due_humans
       prune_caches
+    end
+
+    def assign_human_focus
+      humans.each do |h|
+        next if h.dead?
+        target, cause = @ai.select_target(h, self)
+        if target && !target.equal?(h.focus)
+          @bus.emit(:human_retargeted, actor: h, from: h.focus, to: target, cause:)
+        end
+        h.focus = target
+      end
     end
 
     # Tab swap: rising edge only, world-level (the controller mask handles
@@ -476,7 +558,7 @@ module Game
     def spawn_drop(victim)
       table = victim.kit[:drop_table]
       return unless table
-      amount = table[@rng.rand(table.length)]
+      amount = (table[@rng.rand(table.length)] * gradient_multiplier(victim.tile)).round
       decay = @balance[:drops][:decay_frames]
       list = @drops[@zone_name]
       drop = list.find { |d| d[:tile] == victim.tile }
@@ -542,11 +624,24 @@ module Game
       raise ArgumentError, "unknown zone #{name}" unless @zones.key?(name)
       @zone_name = name
       @flow_cache = {}
+      @home_fields = {}
       @projectiles = []
       @impacts = []
       @taunt_pulses = []
       @pack.clear_mark!
       @last_damaged_target = nil
+      # Cross-zone leash resolves as snap-home: only the current zone ticks, so
+      # "they walked home while you were away" lands as relocation with KEPT hp
+      # (frozen-zone law; recorded plan deviation 1).
+      @humans[name].each do |h|
+        h.focus = nil
+        next if h.dead?
+        if h.tile != h.home_tile
+          h.rebind(map: @zones.fetch(name), tile: h.home_tile)
+          @bus.emit(:human_leashed, actor: h, tile: h.home_tile, hp: h.hp)
+        end
+        h.reset_leash!
+      end
       placed = 0
       # Possessed gets the first tile; living allies the rest, in roster order.
       ([possessed] + (@pack.living - [possessed])).each do |m|
@@ -566,6 +661,17 @@ module Game
     def load_zones
       names = @data.keys.grep(%r{\Azones/}).map { |k| k.sub("zones/", "") }
       names.each { |n| @zones[n] = Core::TileMap.new(@data["zones/#{n}"]) }
+      @arrivals = Hash.new { |h, k| h[k] = [] }
+      @zones.each_value do |zmap|
+        zmap.transitions.each { |t| @arrivals[t[:to]] << t[:spawn] }
+      end
+      @gate_fields = {}
+      @arrivals.each do |zone, tiles|
+        next if tiles.empty?
+        f = FlowField.new(@zones.fetch(zone))
+        f.recompute!(tiles.first)
+        @gate_fields[zone] = f
+      end
       seed_humans
     end
 
@@ -599,7 +705,8 @@ module Game
                      kit_name: kit_name.to_sym, map: home, tile: home.pack_spawn[i],
                      faction: :pack, name: kit_name)
       end
-      @pack = Pack.new(members:, stagger_frames: cfg[:swap_stagger_frames])
+      @pack = Pack.new(members:, stagger_frames: cfg[:swap_stagger_frames],
+                       initial_kit: cfg[:initial_possessed])
     end
 
     def respawn_pack
@@ -613,16 +720,18 @@ module Game
       @bus.emit(:pack_respawned)
     end
 
-    # A respawn DEFERS while its tile is occupied (retries next tick) — the
-    # body-blocking invariant holds for every path a creature enters the
-    # world by, teleports included (M2 review finding 1: a body parked on
-    # the spawn at the respawn frame stacked two creatures on one tile).
+    # A respawn DEFERS while its tile is occupied OR any pack body is within
+    # the block radius (A2 suppression: spawns freeze near the hunting pack,
+    # denying the gate-grinder its infinite respawn loop). Retries next tick.
     def respawn_due_humans
       occupied = actors.map(&:tile)
+      block = @threat[:respawn_block_tiles]
+      pack_tiles = @pack.living.map(&:tile)
       ready, waiting = @human_respawns[@zone_name].partition { |r| r[:at_frame] <= @frame }
       deferred = []
       ready.each do |r|
-        if occupied.include?(r[:tile])
+        if occupied.include?(r[:tile]) ||
+           pack_tiles.any? { |t| tile_distance(t, r[:tile]) <= block }
           deferred << r
         else
           add_human(@zone_name, r[:kit_name], r[:tile])
@@ -652,6 +761,15 @@ module Game
 
     def tile_distance((ax, ay), (bx, by))
       [(bx - ax).abs, (by - ay).abs].max
+    end
+
+    # Deeper = richer (A2 gradient): multiplier bands over gate distance,
+    # from zone data. Zones without a gradient (nest) multiply by 1.
+    def gradient_multiplier(tile)
+      bands = map.drop_gradient
+      return 1.0 unless bands
+      d = gate_distance(tile)
+      bands.reverse.find { |(min, _)| d >= min }&.last || 1.0
     end
 
     # A body stays where it fell and fades (vision critique: kills that
