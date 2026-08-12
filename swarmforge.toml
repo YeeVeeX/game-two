@@ -1,0 +1,11 @@
+# swarmforge config for game-two (Ruby/minitest repo).
+# The gauntlet's test stage runs rake; the Python metric stages (CRAP/CC)
+# find no .py files here and stay silent. tdd-check understands minitest
+# naming. CLI lives at C:/Users/gabri/workspace/swarm-forge/.venv/Scripts/.
+
+[gauntlet]
+test_command = ["C:/Ruby34-x64/bin/ruby.exe", "C:/Ruby34-x64/bin/rake"]
+full_command = ["C:/Ruby34-x64/bin/ruby.exe", "C:/Ruby34-x64/bin/rake"]
+
+[tdd]
+test_patterns = ["{stem}_test.rb"]

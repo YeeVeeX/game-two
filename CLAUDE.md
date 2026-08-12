@@ -110,6 +110,20 @@ ask).**
   (`printf 'cmd\n' >>`, NEVER Write) to `tmp/pilot/<n>/inbox.txt`, read `log.txt`; idle =
   frozen sim; `export` emits a standard replay script. Full protocol: harness/pilot.rb header.
 
+## Enforcement (wired 2026-08-11 — script-enforced, not prompt-requested)
+
+- **Git hooks gate commits and pushes**: `.git/hooks/pre-commit` and `pre-push` both run
+  `rake` (with the Ruby PATH baked in). A red suite blocks the commit — that's the point;
+  fix the test, don't `--no-verify`. Hooks are untracked: to reinstall, each is 4 lines —
+  `#!/bin/sh` + `PATH="/c/Ruby34-x64/bin:$PATH"` + `export PATH` + `exec rake`.
+- **swarmforge** (the quality-gauntlet CLI, `C:/Users/gabri/workspace/swarm-forge`) is
+  configured for this repo via `swarmforge.toml`: `gauntlet` runs rake as its test stage,
+  `tdd-check` knows `{stem}_test.rb`. Invoke with
+  `PATH="/c/Users/gabri/workspace/swarm-forge/.venv/Scripts:$PATH" swarmforge <cmd> --repo .`
+  — useful for `tdd-check src/game/<file>.rb` (WARN-only heuristic) and
+  `handoff validate` when multi-agent sessions exchange handoff files.
+- `rake gate` stays the Rule 2 blocking ship-gate (unchanged); hooks don't replace it.
+
 ## Controls
 
 WASD / arrows = move · J / Space = attack · K / Shift = dodge · L / E = special ·
