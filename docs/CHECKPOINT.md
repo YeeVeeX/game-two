@@ -1,6 +1,48 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-12 (latest) — A2 THREAT/PULL ECONOMY SHIPPED: merge `e3759c3`, 8-gate wall green, impl review clean; SIXTH fun-verify handed to the owner
+## 2026-08-12 (latest) — v10 SCOPE DEBATE CLOSED + D1b SPEC (REVIEWED) + PLAN SHIPPED; next session EXECUTES
+
+**Docs-only session — zero src/data changes; tests still 250/1,056 (each
+commit hook-verified), checks 34, wall untouched.** Commits this session:
+`867be8d` v10 scope → `fc10bef` fork ledger → `d65f9b9` spec →
+`79d7d14` spec REVIEWED → plan + this checkpoint.
+
+**Scope debate closed (owner via AskUserQuestion): v10 = D1b INSCRIPTION +
+PRICED FLESH, Q6 legibility rider RIDES.** The load-bearing code fact that
+shaped it: `Creature#revive!` is the sim's ONLY heal and fires ONLY on
+wipe-respawn → the free wipe was the de-facto heal + body-recovery button
+(deliberate wipes degenerate-optimal); inscription making wipes destructive
+REQUIRES the priced valve. Design forks (owner): dissolution =
+regrow-for-price + ONE-VESSEL FLOOR (possessed-at-wipe returns free);
+marks CONSUMED by the judgment they survive. Dev calls (owner-approved
+design): three nest fixtures (bank/altar/vat, no menus), tribute =
+all-or-nothing full maintenance, banked stays station-only. Ledger:
+PARKING_LOT §"v10 debate + design OUTCOMES".
+
+**Spec:** `docs/superpowers/specs/2026-08-12-d1b-vat-economy-design.md`
+(REVIEWED + OWNER-APPROVED). Adversarial review wf_2ccd8520-4cd: 3 lenses,
+15 agents, **12 findings → 12 REFUTED, 0 confirmed** (2 clarity folds);
+ledger `drafts/_d1b-spec-review.md`. ⚠️ Rule-7 note: declared ≤600K,
+actual 999K subagent tokens — overrun recorded there. **Plan:**
+`docs/superpowers/plans/2026-08-12-d1b-vat-economy.md` (14 tasks, TDD,
+branch `d1b-vat`, code-fact-bound via `drafts/_d1b-exploration-brief.md`).
+Bug bundle rides as Tasks 9-10 (dodge edge-trigger — the fix is
+`pressed?`, the mechanism controllers.rb:56-61 already owns; deepest_band
+at-drop-time). New check ids avoid the `mark_glyph_readable` collision
+(that's the pack-mark reticle): `god_mark_reads` etc., 34→39 ADD-ONLY.
+Corpse-husk law pinned in review: judgment clears only UNLOADED pack
+records — `container_id` records are D1 pile markers, never deleted.
+
+**NEXT SESSION (execution NOT yet greenlit — owner approved spec+plan
+docs; per protocol confirm "proceed" then):** execute the plan
+task-by-task (subagent-driven recommended, as A2), 9-script wall with ALL
+mandatory beats re-staged (dodge fix invalidates every stream), impl
+review, merge --no-ff, NO push (private remote `YeeVeeX/game-two` exists
+since 2026-08-12 — pushing is the owner's action), then the SEVENTH
+fun-verify per spec §Fun-verify (play-first law; Q1/Q8-meaning is the
+headline; routing pre-registered).
+
+## 2026-08-12 — A2 THREAT/PULL ECONOMY SHIPPED: merge `e3759c3`, 8-gate wall green, impl review clean; SIXTH fun-verify handed to the owner
 
 **Executed the approved plan end-to-end** (subagent-driven, 13 tasks TDD on
 branch `a2-threat`, 26 branch commits): priority targeting chain (taunt →
