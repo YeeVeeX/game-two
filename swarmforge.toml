@@ -1,7 +1,8 @@
-# swarmforge config for game-two (Ruby/minitest repo).
-# The gauntlet's test stage runs rake; the Python metric stages (CRAP/CC)
-# find no .py files here and stay silent. tdd-check understands minitest
-# naming. CLI lives at C:/Users/gabri/workspace/swarm-forge/.venv/Scripts/.
+# swarmforge config for game-two (Ruby/minitest repo, Python vision harness).
+# The gauntlet's test stage runs rake. Its metric stages scan src/ (Ruby ->
+# nothing to score); the Python files under harness/ are OUTSIDE that default
+# scope -- scan them explicitly when touched: swarmforge crap harness/ --repo .
+# CLI lives at C:/Users/gabri/workspace/swarm-forge/.venv/Scripts/.
 
 [gauntlet]
 test_command = ["C:/Ruby34-x64/bin/ruby.exe", "C:/Ruby34-x64/bin/rake"]
