@@ -1,6 +1,36 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-12 (latest, endgame goalcomp) — D1b: 14/14 tasks executed, impl review FOLDED (3 Codex fixes), wall re-proof round 3 in flight
+## 2026-08-12 (latest, MERGED) — D1b vat economy SHIPPED to main; seventh fun-verify handed to the owner
+
+**MEASURED: main at merge commit `402ba1c` (--no-ff, NOT pushed — pushing
+is the owner's action), 214 commits, tree clean. Suite 281 runs/1,164
+assertions, 0 failures (run post-merge). Perf smoke ALONE: p95 0.225 ms /
+max 3.223 ms over 6,990 ticks (budget 16.6 ms). Checks 39, ADD-ONLY law
+intact.**
+
+**Wall COMPLETE on the post-fix build — official 9/9 determinism + 9/9
+vision critic.** Round provenance: world_loop, district_hunt,
+specials_chain, taunt_anchor, ledger_loop, threat_pull round 1;
+loot_loop round 2 (critic cited re-aimed frame 0716); corpse_run +
+vat_economy round 3 (corpse det 14/14, vat det 20/20; vat critic clean
+through the hardened 6-attempt path; retarget_cue_reads self-gated
+pass-with-not-exercised — the valid form). Determinism passed EVERY round
+for every script. Full round log: `drafts/_d1b-wall-log.md`.
+
+**v10 = 14/14 tasks + impl review folded** (`drafts/_d1b-impl-review.md`:
+Workflow 1 finding refuted; Codex cross-vendor 3 confirmed→fixed `5a9229c`,
+1 refuted — never re-raise any of the 12 spec + 4 impl findings).
+
+**NEXT: the SEVENTH fun-verify is in the owner's hands** (handed verbatim
+from spec §Fun-verify, play-first law stated; owner plays `bin/play`, then
+pastes the TELEMETRY d1b_fired line, then answers the batch; Q1 meaning is
+the headline; routing pre-registered in the spec — apply verbatim, do not
+re-derive). Nothing new starts until the verdict lands (scope contract).
+Owner queue unchanged: council MCP deepseek-r1 `us.` prefix;
+council-via-mmh-gateway + when-to-council update (own session); optional
+tracked bin/install-hooks.
+
+## 2026-08-12 (endgame goalcomp) — D1b: 14/14 tasks executed, impl review FOLDED (3 Codex fixes), wall re-proof round 3 in flight
 
 **MEASURED: branch `d1b-vat` 212 commits at `7455257` (main 194 untouched),
 suite 281 runs/1,164 assertions green (hook-verified per commit), checks 39
