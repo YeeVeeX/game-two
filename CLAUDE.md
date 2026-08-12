@@ -6,44 +6,59 @@ permission for design decisions.
 
 ## Scope contract (the #1 Kethral failure was ignoring this — it is enforced here)
 
-v9 (2026-08-11): the fight ledger SHIPPED (merge `42b54d6`, 7-gate wall green)
-and the FIFTH fun-verify landed VALID the same day: **Q1 "landed as a payoff"**
-(first positive signal in five verifies — visibility fixed) and **Q3 "still a
-chore" (FIFTH ask) on a VISIBLE ledger → the v8 pre-queue FIRED: A2 threat/pull
-economy PROMOTED automatically** (owner pre-authorization 2026-08-11;
-supersedes the 2026-08-10 demotion). LB-1 refuted: drama (D1) did not move the
-chore, legibility (ledger) did not — **consequence is the remaining lever**.
-Behavioral first: banked_events=5 (0 in every prior session). Full verdict:
-`drafts/_ledger-fun-verify2-20260811.md`.
+v10 (2026-08-12): A2 SHIPPED (merge `e3759c3`, 8-gate wall green) and the
+SIXTH fun-verify landed VALID the same day: **Q3 "bank now or push deeper" =
+"It changed — real dilemma" — the chore MOVED on the sixth ask, first
+positive in six. A2 WINS.** Threat felt end-to-end (box "Felt it — and ran",
+run-back "In doubt at least once", breather "Real option, felt fair"); wipes
+1/session (vs 6-8 baseline); one pile abandoned in the field. Remaining
+negatives: Q8 banked still pure score, Q5 wipes weightless, Q6 retargets
+"read as randomness", owner free-text "no healing → hunts end early →
+repetitive". SCOPE DEBATE closed 2026-08-12 (owner forks via
+AskUserQuestion): **v10 = D1b inscription + priced flesh; Q6 rider rides.**
+Full verdict: `drafts/_a2-fun-verify-20260812.md`.
 
-**IN scope — v9 promotes exactly ONE increment, A2 threat/pull economy:**
-- **A2 threat/pull economy**: threat must contest what the player does — the
-  position they hold, the corpse they run back to, the walk they bank through
-  (gate-camping becomes designed behavior, recoveries stop being free, the
-  chore chain gains danger). Shape is decided at the A2 brainstorm — owner
-  forks BEFORE the spec; all numbers in `data/`. Evidence index: PARKING_LOT
-  §"A2 brainstorm evidence inputs".
-- **Ledger STAYS through A2** (Q1 positive, per the pre-registered disposition
-  clause). LB-1 is closed: no further presentation iteration as a meaning
-  lever. Q6 "some couldn't read" = polish backlog only.
-- **Tank-first possession ships WITH A2** (owner feedback 2026-08-10; bundled
-  because A2 re-pilots all 7 replay scripts anyway — never standalone).
+**IN scope — v10 promotes exactly ONE increment, the D1b economy (two
+spends, one currency), plus its riders:**
+- **Inscription (the meaning sink)**: spend banked to inscribe a body with a
+  god-mark; on a wipe, inscribed bodies survive the vat, unmarked dissolve.
+  Session-only persistence (restart persistence stays parked). Economy
+  vision owner-locked 2026-08-11 (inscription-within-ritual, council
+  synthesis; `drafts/_council-economy-verdict.md`); player-visible names
+  come from the bible (fiction order form in the spec). Targets Q8 (sixth
+  consecutive "banked wouldn't matter") + Q5 (wipes weightless).
+- **Priced flesh (the recurring sink)**: spend banked at the nest to restore
+  the pack's flesh. No in-field healing. Rationale (code fact + owner
+  evidence, debate 2026-08-12): `Creature#revive!` is the sim's ONLY heal
+  and fires ONLY on wipe-respawn → the free wipe was the de-facto heal and
+  body-recovery button; inscription making wipes destructive REQUIRES the
+  priced valve. Touchstone: Tibia supply finances (Gudii f38).
+- **Q6 legibility rider**: retarget margin/threshold tuning
+  (`proximity_switch_margin_tiles`, `lowhp_switch_pct` — data) + a brief
+  why-they-turned cue (retarget-cause telemetry already carries the reason).
+- **Bug bundle (rides any sim change, never standalone)**: held-Shift dodge
+  locks movement (controllers.rb:33-37 — level-triggered dodge starves the
+  walk branch) and a2_fired `deepest_band` converts at summary time (reads
+  0 when quitting from the nest) → convert at kill time. Both invalidate
+  all 8 replay streams — that is why they ride this increment.
+- Design forks close BEFORE the spec (owner via AskUserQuestion); all
+  numbers in `data/`.
 
 **OUT of scope — goes to PARKING_LOT.md, never to code:**
-Economy/D1b (body fees, vat re-growth, spending banked, priced sustain) parked
-in ALL branches — EXCEPT **"what does the pile buy, and when" as an explicit
-A2-brainstorm SECTION** (owner choice 2026-08-11): discussion that shapes A2's
-design, never code this increment. Also parked: practice fine + insurance (D2,
-blocked on skill-through-use); scavengers + term-extension marks (D3); D1
-term/grace retuning (margin-anchored 5400/2700 stand until measured
-`term_left/term` margins exist); A1 gambits, Shooters, A3 nest advance;
-inventory grids, carry weight, rarity, new drop types, restart persistence;
-any THIRD kit special or new binding; "The Nest" rename (post-bible, its own
+The **Challenger** (named human who taunts back): trigger condition MET +
+RECORDED at the sixth verify (threat felt, entrainment flat) — promotion
+stays the owner's explicit call, fairness ladder mandatory. Also parked:
+restart persistence; quirks/history accumulation beyond the session;
+practice fine + insurance (D2, blocked on skill-through-use); scavengers +
+term-extension marks (D3); D1 term/grace retuning (margin-anchored 5400/2700
+stand until measured `term_left/term` margins exist); A1 gambits, Shooters,
+A3 nest advance; inventory grids, carry weight, rarity, new drop types; any
+THIRD kit special or new binding; "The Nest" rename (post-bible, its own
 increment — two owner complaints on record); plus everything already parked
-(procedural dungeons, stamina, XP/skills, dialogue, status effects, crafting,
-weather, co-op, quests, shops, multiple weapons).
-**Nothing new starts until A2 is fun-verified by the owner (the SIXTH chore
-ask).**
+(procedural dungeons, stamina, XP/skills, dialogue, status effects,
+crafting, weather, co-op, quests, shops, multiple weapons).
+**Nothing new starts until v10 is fun-verified by the owner (the SEVENTH
+ask; Q8 is the headline question).**
 
 ## De-slop + comprobations (owner-set 2026-08-09)
 
