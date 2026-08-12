@@ -30,7 +30,10 @@ class TelemetryTest < Minitest::Test
     expected_d1b = "TELEMETRY d1b_fired inscriptions=0 marks_consumed=0 " \
                    "dissolved=0 regrown=0 tributes=0 floor_fired=0 " \
                    "banked_spent{inscribe=0 tribute=0} banked_end=3"
-    assert_equal "#{expected_d1}\n#{expected_a2}\n#{expected_d1b}", t.summary
+    expected_q6 = "TELEMETRY q6_cadence banks{n=1 mean=3 max=3} " \
+                  "kills_by_band{b0=0 b1=0 b2=0}"
+    assert_equal "#{expected_d1}\n#{expected_a2}\n#{expected_d1b}\n#{expected_q6}",
+                 t.summary
   end
 
   # --- A2 telemetry line ---
@@ -130,5 +133,49 @@ class TelemetryTest < Minitest::Test
     assert_match(/floor_fired=1/, line)
     assert_match(/banked_spent\{inscribe=8 tribute=12\}/, line)
     assert_match(/banked_end=4/, line)
+  end
+
+  # --- Q6 cadence line (v10.1 retune oracle) ---
+
+  def test_q6_line_tracks_bank_sizes_and_kills_by_band
+    bus = Core::EventBus.new.register(*ALL_TELEMETRY_EVENTS)
+    mock_map = Struct.new(:drop_gradient).new([[0, 1.0], [14, 1.5], [28, 2.0]])
+    world_obj = Object.new
+    world_obj.define_singleton_method(:gate_distance) { |tile| tile[0] + tile[1] }
+    world_obj.define_singleton_method(:map) { mock_map }
+    t = Game::Telemetry.new(bus, world: world_obj)
+
+    victim_b0 = Struct.new(:faction, :tile).new(:human, [5, 3])    # dist 8  -> band 0
+    victim_b2 = Struct.new(:faction, :tile).new(:human, [20, 10])  # dist 30 -> band 2
+    pack_body = Struct.new(:faction, :tile).new(:pack, [20, 10])   # ignored
+
+    bus.emit(:actor_died, actor: victim_b0, killer: nil, faction: :human)
+    bus.emit(:actor_died, actor: victim_b2, killer: nil, faction: :human)
+    bus.emit(:actor_died, actor: victim_b2, killer: nil, faction: :human)
+    bus.emit(:actor_died, actor: pack_body, killer: nil, faction: :pack)
+    bus.emit(:banked, actor: nil, amount: 10, banked: 10)
+    bus.emit(:banked, actor: nil, amount: 22, banked: 32)
+    bus.process
+
+    line = t.q6_summary
+    assert_match(/TELEMETRY q6_cadence/, line)
+    assert_match(/banks\{n=2 mean=16 max=22\}/, line)
+    assert_match(/kills_by_band\{b0=1 b1=0 b2=2\}/, line)
+  end
+
+  def test_q6_line_with_no_world_shows_zero_bands
+    bus = Core::EventBus.new.register(*ALL_TELEMETRY_EVENTS)
+    t = Game::Telemetry.new(bus)
+    bus.emit(:banked, actor: nil, amount: 5, banked: 5)
+    bus.process
+    assert_match(/banks\{n=1 mean=5 max=5\}/, t.q6_summary)
+    assert_match(/kills_by_band\{b0=0 b1=0 b2=0\}/, t.q6_summary)
+  end
+
+  def test_q6_line_appears_in_full_summary
+    bus = Core::EventBus.new.register(*ALL_TELEMETRY_EVENTS)
+    t = Game::Telemetry.new(bus)
+    bus.process
+    assert_match(/q6_cadence/, t.summary)
   end
 end

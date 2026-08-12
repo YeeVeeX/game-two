@@ -59,6 +59,21 @@ module Game
         @banked_end = e[:banked]
       end
       bus.subscribe(:banked) { |e| @banked_end = e[:banked] }
+
+      # Q6 cadence (v10.1): bank-trip sizes + kills by depth band — the
+      # bank-now-or-push-deeper oracle. Trip yield == :banked amount (banking
+      # drains all carried).
+      @bank_amounts = []
+      @kills_by_band = [0, 0, 0]
+      bus.subscribe(:banked) { |e| @bank_amounts << e[:amount] }
+      bus.subscribe(:actor_died) do |e|
+        next unless e[:faction] == :human && @world
+        bands = @world.map.drop_gradient
+        next unless bands
+        d = @world.gate_distance(e[:actor].tile)
+        idx = bands.rindex { |(min, _)| d >= min }
+        @kills_by_band[idx] += 1 if idx
+      end
     end
 
     def summary
@@ -68,7 +83,8 @@ module Game
         "fights=#{@counts[:fights]} recovery_fights=#{@counts[:recovery_fights]} " \
         "negative_fights=#{@counts[:negative_fights]}\n" \
         "#{a2_summary}\n" \
-        "#{d1b_summary}"
+        "#{d1b_summary}\n" \
+        "#{q6_summary}"
     end
 
     def a2_summary
@@ -87,6 +103,13 @@ module Game
         "tributes=#{@counts[:tribute_paid]} floor_fired=#{@counts[:vessel_kept]} " \
         "banked_spent{inscribe=#{@spent[:inscribe]} tribute=#{@spent[:tribute]}} " \
         "banked_end=#{@banked_end}"
+    end
+
+    def q6_summary
+      n = @bank_amounts.length
+      mean = n.positive? ? (@bank_amounts.sum / n.to_f).round : 0
+      "TELEMETRY q6_cadence banks{n=#{n} mean=#{mean} max=#{@bank_amounts.max || 0}} " \
+        "kills_by_band{b0=#{@kills_by_band[0]} b1=#{@kills_by_band[1]} b2=#{@kills_by_band[2]}}"
     end
 
     private
