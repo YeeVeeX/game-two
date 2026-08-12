@@ -10,7 +10,7 @@ module App
       striker:      Gosu::Color.new(255, 235, 120, 40),
       blocker:      Gosu::Color.new(255, 190, 80, 35),
       lobber:       Gosu::Color.new(255, 225, 170, 90),
-      rusher_hater: Gosu::Color.new(255, 235, 120, 40)
+      rusher_hater: HUMAN_BODY
     ).freeze
 
     POSSESSED_RING = Gosu::Color.new(255, 255, 255, 255)
