@@ -16,7 +16,7 @@ module Game
       @world = world
       @counts = Hash.new(0)
       @retargets = Hash.new(0)
-      @max_gate_distance = 0
+      @max_band = 0
 
       # D1 subscriptions
       D1_EVENTS.each { |ev| bus.subscribe(ev) { @counts[ev] += 1 } }
@@ -37,8 +37,12 @@ module Game
       end
       bus.subscribe(:drop_spawned) do |e|
         next unless @world
+        bands = @world.map.drop_gradient
+        next unless bands
         d = @world.gate_distance(e[:tile])
-        @max_gate_distance = d if d != Float::INFINITY && d > @max_gate_distance
+        next if d == Float::INFINITY
+        idx = bands.rindex { |(min, _)| d >= min }
+        @max_band = idx if idx && idx > @max_band
       end
     end
 
@@ -62,12 +66,6 @@ module Game
 
     private
 
-    def deepest_band
-      return 0 unless @world
-      bands = @world.map.drop_gradient
-      return 0 unless bands
-      idx = bands.rindex { |(min, _)| @max_gate_distance >= min }
-      idx || 0
-    end
+    def deepest_band = @max_band
   end
 end

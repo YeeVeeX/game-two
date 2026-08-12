@@ -86,4 +86,19 @@ class TelemetryTest < Minitest::Test
                  "retargets{hate=0 lowhp=0 proximity=0 acquired=0} " \
                  "leashes=0 deepest_band=2 banked=0", t.a2_summary
   end
+
+  def test_deepest_band_is_stamped_at_drop_time_not_summary_time
+    bus = Core::EventBus.new.register(*ALL_TELEMETRY_EVENTS)
+    district = Struct.new(:drop_gradient).new([[0, 1.0], [14, 1.5], [28, 2.0]])
+    nest = Struct.new(:drop_gradient).new(nil)
+    maps = { current: district }
+    world_obj = Object.new
+    world_obj.define_singleton_method(:gate_distance) { |tile| tile[0] + tile[1] }
+    world_obj.define_singleton_method(:map) { maps[:current] }
+    t = Game::Telemetry.new(bus, world: world_obj)
+    bus.emit(:drop_spawned, tile: [20, 10], amount: 1) # distance 30 -> band 2
+    bus.process
+    maps[:current] = nest # the owner quits from the nest (gradient nil)
+    assert_match(/deepest_band=2/, t.a2_summary)
+  end
 end
