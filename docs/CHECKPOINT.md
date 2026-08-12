@@ -21,14 +21,23 @@ for every script. Full round log: `drafts/_d1b-wall-log.md`.
 Workflow 1 finding refuted; Codex cross-vendor 3 confirmed→fixed `5a9229c`,
 1 refuted — never re-raise any of the 12 spec + 4 impl findings).
 
-**NEXT: the SEVENTH fun-verify is in the owner's hands** (handed verbatim
-from spec §Fun-verify, play-first law stated; owner plays `bin/play`, then
-pastes the TELEMETRY d1b_fired line, then answers the batch; Q1 meaning is
-the headline; routing pre-registered in the spec — apply verbatim, do not
-re-derive). Nothing new starts until the verdict lands (scope contract).
-Owner queue unchanged: council MCP deepseek-r1 `us.` prefix;
-council-via-mmh-gateway + when-to-council update (own session); optional
-tracked bin/install-hooks.
+**SEVENTH fun-verify VERDICT (same day, post-merge; full record
+`drafts/_d1b-fun-verify-20260812.md`): D1b VALID — Q1 (meaning) MOVED on
+the seventh ask, first positive ever.** Owner played (play-first law held;
+telemetry harvested from the session log: 1 inscription + 3 tributes,
+2 regrown, banked_end=23, wipes=0 → judgment/floor unexercised per
+preamble). Q2 pact "a bet"; Q5 hunts run longer (owner's repetitive
+complaint RESOLVED); Q8 prices right; Q7 "better, not fixed";
+entrainment still flat. **Q6 REGRESSED: dilemma collapsed into
+always-bank.** Pre-registered routing applied verbatim: (1) Q1 moved →
+D1b WINS, next increment = SCOPE DEBATE (Challenger = standing queued
+candidate, promotion the owner's explicit call); (2) Q6 → economy retune
+with the dilemma as oracle, data-only, A2 threat untouched; (3) Q7 →
+threshold iteration (data), cue redesign stays parked. Retune insight
+recorded in the verdict file: collapse is cadence not unit-price (Q8
+clean) — carried must be worth holding in the field again. Owner queue
+unchanged: council MCP deepseek-r1 `us.` prefix; council-via-mmh-gateway +
+when-to-council update (own session); optional tracked bin/install-hooks.
 
 ## 2026-08-12 (endgame goalcomp) — D1b: 14/14 tasks executed, impl review FOLDED (3 Codex fixes), wall re-proof round 3 in flight
 
