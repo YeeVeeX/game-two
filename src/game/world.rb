@@ -222,6 +222,21 @@ module Game
       entry[:field]
     end
 
+    # Home fields are keyed by TILE and never invalidated inside a zone —
+    # homes don't move. Cleared with the flow cache on zone change.
+    def flow_home(creature)
+      @home_fields ||= {}
+      @home_fields[creature.home_tile] ||= FlowField.new(map).tap { |f| f.recompute!(creature.home_tile) }
+    end
+
+    # One :human_leashed per episode: the flag arms on emit, disarms when the
+    # human regains a focus (reset_leash! call sites) — track via leash_frames
+    # equality: emit exactly when the counter crosses the linger threshold.
+    def human_leashed!(creature)
+      return unless creature.leash_frames == @threat[:leash_linger_frames]
+      @bus.emit(:human_leashed, actor: creature, tile: creature.tile, hp: creature.hp)
+    end
+
     def set_mark(source)
       return false unless source.equal?(possessed)
       range = @balance[:pack][:mark_range_tiles]
@@ -609,11 +624,24 @@ module Game
       raise ArgumentError, "unknown zone #{name}" unless @zones.key?(name)
       @zone_name = name
       @flow_cache = {}
+      @home_fields = {}
       @projectiles = []
       @impacts = []
       @taunt_pulses = []
       @pack.clear_mark!
       @last_damaged_target = nil
+      # Cross-zone leash resolves as snap-home: only the current zone ticks, so
+      # "they walked home while you were away" lands as relocation with KEPT hp
+      # (frozen-zone law; recorded plan deviation 1).
+      @humans[name].each do |h|
+        h.focus = nil
+        next if h.dead?
+        if h.tile != h.home_tile
+          h.rebind(map: @zones.fetch(name), tile: h.home_tile)
+          @bus.emit(:human_leashed, actor: h, tile: h.home_tile, hp: h.hp)
+        end
+        h.reset_leash!
+      end
       placed = 0
       # Possessed gets the first tile; living allies the rest, in roster order.
       ([possessed] + (@pack.living - [possessed])).each do |m|

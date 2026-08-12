@@ -132,8 +132,24 @@ module Game
         else engage(creature, target, view)
         end
       else
-        creature.tick_leash # leash behavior lands in Task 6
+        creature.tick_leash
+        leash_home(creature, view)
       end
+    end
+
+    # Leash-with-no-heal (A2): nothing in aggro for the linger -> walk home,
+    # KEEPING hp. A returning human re-engages the moment focus reappears
+    # (dispersed, not invulnerable).
+    def leash_home(creature, view)
+      return if creature.leash_frames < view.threat_config[:leash_linger_frames]
+      return if creature.tile == creature.home_tile
+      view.human_leashed!(creature) if view.respond_to?(:human_leashed!)
+      return if creature.moving?
+      blocked = view.blocked_for(creature)
+      dir = view.flow_home(creature).downhill_from(*creature.tile, blocked:)
+      return unless dir
+      creature.face(dir)
+      creature.step(dir[0], dir[1], blocked:)
     end
 
     # The anchor holds: a husk that taunted the room must not walk off after
