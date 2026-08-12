@@ -374,4 +374,17 @@ class ThreatTargetingTest < Minitest::Test
     drive(@world, 6)
     assert_nil h.retarget_cue
   end
+
+  def test_taunt_retarget_stamps_no_cue
+    # Only hate/lowhp/proximity are cue-keyed (spec section 5). A taunt-forced
+    # turn has its own tell (underline + pulse) and the renderer has no color
+    # for :taunt — stamping it crashed the specials_chain replay (wall catch).
+    h = @world.humans.reject(&:dead?).first
+    blocker_m = @world.pack.members.find { |m| m.kit_name == :blocker }
+    h.focus = nil
+    h.taunt!(blocker_m, 300)
+    drive(@world, 1)
+    assert_equal blocker_m, h.focus, "taunt binds the focus"
+    assert_nil h.retarget_cue, "taunt-forced turns must not stamp a cue"
+  end
 end

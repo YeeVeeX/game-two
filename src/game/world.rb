@@ -353,7 +353,11 @@ module Game
         target, cause = @ai.select_target(h, self)
         if target && !target.equal?(h.focus)
           @bus.emit(:human_retargeted, actor: h, from: h.focus, to: target, cause:)
-          h.retarget_cue!(cause, @economy[:retarget_cue_frames]) unless cause == :acquired
+          # Cue-keyed causes only (spec section 5): taunt/anchor turns carry
+          # their own tells (underline, pulse) and have no cue color.
+          if %i[hate lowhp proximity].include?(cause)
+            h.retarget_cue!(cause, @economy[:retarget_cue_frames])
+          end
         end
         h.focus = target
       end
