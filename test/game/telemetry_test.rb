@@ -7,6 +7,8 @@ class TelemetryTest < Minitest::Test
   ALL_TELEMETRY_EVENTS = %i[
     corpse_loaded corpse_looted carried_lost pack_wiped banked fight_resolved
     human_retargeted human_leashed actor_died drop_spawned
+    inscribed banked_spent mark_consumed body_dissolved body_regrown
+    tribute_paid vessel_kept
   ].freeze
 
   def test_counts_and_formats_the_session_line
@@ -15,7 +17,7 @@ class TelemetryTest < Minitest::Test
     2.times { bus.emit(:corpse_loaded, amount: 1) }
     bus.emit(:pack_wiped)
     bus.emit(:corpse_looted, amount: 1)
-    bus.emit(:banked, amount: 3)
+    bus.emit(:banked, amount: 3, banked: 3)
     bus.emit(:fight_resolved, opened_by: :combat, net: -4)
     bus.emit(:fight_resolved, opened_by: :recovery, net: 4)
     bus.process
@@ -25,7 +27,10 @@ class TelemetryTest < Minitest::Test
     expected_a2 = "TELEMETRY a2_fired wipes=1 body_deaths=0 " \
                   "retargets{hate=0 lowhp=0 proximity=0 acquired=0} " \
                   "leashes=0 deepest_band=0 banked=1"
-    assert_equal "#{expected_d1}\n#{expected_a2}", t.summary
+    expected_d1b = "TELEMETRY d1b_fired inscriptions=0 marks_consumed=0 " \
+                   "dissolved=0 regrown=0 tributes=0 floor_fired=0 " \
+                   "banked_spent{inscribe=0 tribute=0} banked_end=3"
+    assert_equal "#{expected_d1}\n#{expected_a2}\n#{expected_d1b}", t.summary
   end
 
   # --- A2 telemetry line ---
@@ -100,5 +105,30 @@ class TelemetryTest < Minitest::Test
     bus.process
     maps[:current] = nest # the owner quits from the nest (gradient nil)
     assert_match(/deepest_band=2/, t.a2_summary)
+  end
+
+  # --- D1b telemetry line (FN-3) ---
+
+  def test_d1b_line_counts_economy_events
+    bus = Core::EventBus.new.register(*ALL_TELEMETRY_EVENTS)
+    t = Game::Telemetry.new(bus)
+    bus.emit(:inscribed, body: nil, cost: 8, banked: 1)
+    bus.emit(:mark_consumed, body: nil)
+    2.times { bus.emit(:body_dissolved, body: nil) }
+    bus.emit(:body_regrown, body: nil)
+    bus.emit(:tribute_paid, cost: 12, regrown: 1, healed: 0, banked: 4)
+    bus.emit(:vessel_kept, body: nil)
+    bus.emit(:banked_spent, actor: nil, amount: 8, sink: :inscribe, banked: 1)
+    bus.emit(:banked_spent, actor: nil, amount: 12, sink: :tribute, banked: 4)
+    bus.process
+    line = t.d1b_summary
+    assert_match(/inscriptions=1/, line)
+    assert_match(/marks_consumed=1/, line)
+    assert_match(/dissolved=2/, line)
+    assert_match(/regrown=1/, line)
+    assert_match(/tributes=1/, line)
+    assert_match(/floor_fired=1/, line)
+    assert_match(/banked_spent\{inscribe=8 tribute=12\}/, line)
+    assert_match(/banked_end=4/, line)
   end
 end

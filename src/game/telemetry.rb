@@ -12,6 +12,9 @@ module Game
     D1_EVENTS = %i[corpse_loaded corpse_looted carried_lost pack_wiped banked].freeze
     A2_RETARGET_CAUSES = %i[hate lowhp proximity acquired].freeze
 
+    D1B_EVENTS = %i[inscribed mark_consumed body_dissolved body_regrown
+                    tribute_paid vessel_kept].freeze
+
     def initialize(bus, world: nil)
       @world = world
       @counts = Hash.new(0)
@@ -44,6 +47,18 @@ module Game
         idx = bands.rindex { |(min, _)| d >= min }
         @max_band = idx if idx && idx > @max_band
       end
+
+      # D1b subscriptions (FN-3): the meaning oracle — a session that never
+      # spent must be machine-distinguishable from one that spent and felt
+      # nothing.
+      @spent = Hash.new(0)
+      @banked_end = 0
+      D1B_EVENTS.each { |ev| bus.subscribe(ev) { @counts[ev] += 1 } }
+      bus.subscribe(:banked_spent) do |e|
+        @spent[e[:sink]] += e[:amount]
+        @banked_end = e[:banked]
+      end
+      bus.subscribe(:banked) { |e| @banked_end = e[:banked] }
     end
 
     def summary
@@ -52,7 +67,8 @@ module Game
         "carried_lost=#{@counts[:carried_lost]} banked_events=#{@counts[:banked]} " \
         "fights=#{@counts[:fights]} recovery_fights=#{@counts[:recovery_fights]} " \
         "negative_fights=#{@counts[:negative_fights]}\n" \
-        "#{a2_summary}"
+        "#{a2_summary}\n" \
+        "#{d1b_summary}"
     end
 
     def a2_summary
@@ -62,6 +78,15 @@ module Game
         "proximity=#{@retargets[:proximity]} acquired=#{@retargets[:acquired]}} " \
         "leashes=#{@counts[:leashes]} deepest_band=#{deepest_band} " \
         "banked=#{@counts[:banked]}"
+    end
+
+    def d1b_summary
+      "TELEMETRY d1b_fired inscriptions=#{@counts[:inscribed]} " \
+        "marks_consumed=#{@counts[:mark_consumed]} " \
+        "dissolved=#{@counts[:body_dissolved]} regrown=#{@counts[:body_regrown]} " \
+        "tributes=#{@counts[:tribute_paid]} floor_fired=#{@counts[:vessel_kept]} " \
+        "banked_spent{inscribe=#{@spent[:inscribe]} tribute=#{@spent[:tribute]}} " \
+        "banked_end=#{@banked_end}"
     end
 
     private
