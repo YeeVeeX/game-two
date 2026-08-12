@@ -50,10 +50,15 @@ module App
     CUE_OK = Gosu::Color.new(230, 240, 220, 150)
     CUE_REFUSED = Gosu::Color.new(230, 200, 60, 50)
     GOD_MARK = Gosu::Color.new(230, 235, 220, 170)
+    # Cause-keyed why-they-turned cues. The gate critic arbitrated the first
+    # palette: proximity's pale RGB(200,200,190) vanished against HUMAN_BODY,
+    # and lowhp rendered red while the check reads "yellow=wounded-prey" —
+    # lemon (not telegraph-core golden) and cool blue-pale keep every cue off
+    # the palette of the body it floats over.
     RETARGET_CUE = {
       hate: Gosu::Color.new(230, 150, 60, 40),
-      lowhp: Gosu::Color.new(230, 220, 60, 60),
-      proximity: Gosu::Color.new(230, 200, 200, 190),
+      lowhp: Gosu::Color.new(230, 235, 235, 90),
+      proximity: Gosu::Color.new(230, 180, 210, 250),
     }.freeze
 
     SIZE = Game::Creature::SIZE
@@ -313,7 +318,7 @@ module App
       end
       draw_taunt_underline(c, x, y) if c.faction == :human && c.taunted_target
       if c.faction == :human && (cue = c.retarget_cue)
-        Gosu.draw_rect(x + SIZE / 2 - 3, y - 9, 6, 6, RETARGET_CUE.fetch(cue[:cause]))
+        Gosu.draw_rect(x + SIZE / 2 - 4, y - 10, 8, 8, RETARGET_CUE.fetch(cue[:cause]))
       end
       draw_pressure_outline(c, x, y, world) if c.faction == :human &&
                                                 world.pressure_role(c) == :pressuring
