@@ -1,6 +1,50 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-12 (latest, PLAN APPROVED) — v10.1 Q6 retune plan owner-approved; execution is the next session
+## 2026-08-12 (latest, MERGED) — v10.1 Q6 retune SHIPPED to main; eighth fun-verify is next (BLIND — no changelog to the owner before they play)
+
+**MEASURED: main at merge commit `ba4e0ad` (--no-ff, NOT pushed), 223
+commits, tree clean except gitignored drafts. Suite 285 runs / 1,179
+assertions, 0 failures (run post-merge). Perf smoke ALONE: p95 0.224 ms /
+max 3.207 ms over 6,990 ticks (budget 16.6 ms). Checks 39, ADD-ONLY law
+intact (gate_checks.json untouched).**
+
+**v10.1 = 5 commits on `q6-retune`, all hook-verified green:** q6_cadence
+telemetry oracle `88e3adb` (subscriber-side, 3 TDD tests + exact-string
+update; line fires end-to-end in replay: banks{n=4 mean=15 max=32}
+kills_by_band{b0=12 b1=18 b2=6}); band-2 drop multiplier 2.0→3.5 `48b140f`
+(ONE sim number; 3 pins updated — world_test:871 passed by collision, a
+rolled 4 sat in the old [2,4] list — + gradient shape-law test); cue 45→75
+`b4f806d`; critic hardening `de29069` (EventStreamError → retry tuple —
+wall round 1 died to a mid-stream Bedrock 500); threat_pull re-aim
+`0138119` (captures +604/+607).
+
+**Wall COMPLETE 9/9 determinism + 9/9 critic.** Round provenance:
+vat_economy, ledger_loop, loot_loop, district_hunt, world_loop, corpse_run
+round 2 (round 1 = vat INFRA death, mid-stream 500); threat_pull,
+specials_chain, taunt_anchor round 3 (threat_pull round 2 was the wall's
+one REAL check-FAIL: projectile_visible — capture 598 catches the 594 shot
+1 tile into a 19-frame flight, 2 pre-retune flakes on record, and the
+75-frame cue added a rust block to that exact frame; fix = ADD mid-flight
+captures 604/607, no evidence frame moved. Round-3 pass cited 0598 itself
+— the additions stand as redundancy). Full map: `drafts/_q6-wall-log.md`.
+Zero re-pilots; d1b_fired line unchanged; unit prices unchanged.
+
+**NEXT SEQUENCE (plan Tasks 7-8, plan is SSoT:
+`docs/superpowers/plans/2026-08-12-q6-retune-eighth-verify.md`):**
+(1) EIGHTH fun-verify — BLIND handoff (no changelog; the depth premium
+must be FELT). Owner plays `bin/play` FIRST; harvest ALL telemetry incl.
+q6_cadence from the session log BEFORE questions; questions + routing
+table in the plan §Task 7, apply verbatim; preamble: no wipe → judgment
+reads unexercised, not negative. Verdict →
+`drafts/_q6-retune-fun-verify-<date>.md` + CHECKPOINT delta + commit.
+(2) Scope debate: fold verify results into `drafts/_scope-debate-v11.md`
+(static sections pre-drafted: Challenger dossier, judgment-rarity tension,
+rivals with blockers), owner forks via AskUserQuestion, then scope v11 +
+PARKING_LOT updates (tank-first entry STALE — shipped with A2; new
+video-critic/gamesmith harness entry added this session, owner ask) +
+CHECKPOINT + commit. Owner queue unchanged.
+
+## 2026-08-12 (PLAN APPROVED) — v10.1 Q6 retune plan owner-approved; execution is the next session
 
 **MEASURED: main at 216 commits, HEAD `1da0249` + the committed plan, tree
 otherwise clean. Nothing executed yet — plan only.**
