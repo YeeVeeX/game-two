@@ -688,6 +688,53 @@ class WorldTest < Minitest::Test
                  "focus holds when rival is closer by less than proximity_switch_margin_tiles"
   end
 
+  # v12: the breach chain must not bend a seeded stream — two worlds staged
+  # through breach, re-home, and all four zones (nest, district, camp,
+  # Keyward, Slow Door) land byte-identical, including a d2 respawn cycle.
+  def test_determinism_across_the_breach_chain
+    eco = DATA["balance/economy"]
+    seal1 = DATA["zones/district"][:stations].find { |s| s[:type] == "seal" }
+    seal2 = DATA["zones/district_two"][:stations].find { |s| s[:type] == "seal" }
+    slack = DATA["balance/combat"][:feel][:hitstop_frames_kill] + 4
+    states = [Game::World.new(DATA), Game::World.new(DATA)].map do |w|
+      w.possessed.walker.teleport(29, 8)
+      drive(w, scripted({}), 2)
+      assert_equal "district", w.zone_name
+      w.humans.reject(&:dead?).first(2).each { |h| kill(h, by: w.possessed) }
+      src = w.possessed
+      src.walker.teleport(*seal1[:at])
+      (w.pack.living - [src]).each_with_index { |m, i| m.walker.teleport(2, 2 + i) }
+      w.pack.bank!(eco[:breach_cost])
+      assert w.interact(src)
+      src.walker.teleport(*seal1[:opens])
+      drive(w, scripted({}), slack)
+      assert_equal "camp", w.zone_name
+      w.possessed.walker.teleport(19, 5)
+      drive(w, scripted({}), 2)
+      assert_equal "district_two", w.zone_name
+      # Park the pack out of aggro range, then let a full respawn cycle
+      # run — the release-time scatter pick consumes the seeded stream.
+      w.pack.living.each_with_index { |m, i| m.walker.teleport(1 + i, 1) }
+      w.humans.reject(&:dead?).first(2).each { |h| kill(h, by: w.possessed) }
+      drive(w, scripted({}), 400)
+      src = w.possessed
+      src.walker.teleport(*seal2[:at])
+      (w.pack.living - [src]).each_with_index { |m, i| m.walker.teleport(2, 2 + i) }
+      w.pack.bank!(eco[:breach_cost_2])
+      assert w.interact(src)
+      src.walker.teleport(*seal2[:opens])
+      drive(w, scripted({}), slack)
+      assert_equal "slow_door", w.zone_name
+      w.possessed.walker.teleport(7, 7)
+      drive(w, scripted({}), 2 + slack)
+      assert_equal "district_two", w.zone_name
+      [w.zone_name, w.frame, w.pack.banked,
+       w.pack.members.map { |m| [m.tile, m.hp, m.x, m.y] },
+       w.humans.map { |h| [h.tile, h.hp] }]
+    end
+    assert_equal states[0], states[1]
+  end
+
   def test_determinism_same_script_same_state_with_swaps
     script = hold(:right, 0, STEP * 20).merge(
       (STEP * 21).to_s => %w[swap],

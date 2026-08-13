@@ -95,6 +95,48 @@ module Game
         @single_pockets += pockets.count { |p| p.length == 1 }
         @total_pockets += pockets.length
       end
+
+      # Arc (v12): the advance oracle — breach chain, re-homes, new-ground
+      # kills. A session that never found the door must be machine-
+      # distinguishable from one that opened it and shrugged.
+      @arc = Hash.new(0)
+      @arc_first_frame = nil
+      @arc_banked_after = nil
+      bus.subscribe(:seal_breached) do |e|
+        @arc[:fired] += 1
+        @arc_first_frame ||= @world ? @world.frame : 0
+        @arc[:seal2] = 1 if e[:zone] == "district_two"
+      end
+      bus.subscribe(:banked_spent) do |e|
+        @arc_banked_after ||= e[:banked] if e[:sink] == :breach
+      end
+      bus.subscribe(:home_rehomed) { @arc[:rehomed] += 1 }
+      bus.subscribe(:zone_entered) do |e|
+        @arc[:camp_visits] += 1 if e[:zone] == "camp"
+        @arc[:d2_entered] = 1 if e[:zone] == "district_two"
+      end
+      bus.subscribe(:actor_died) do |e|
+        next unless e[:faction] == :human && @world
+        @arc[:d2_kills] += 1 if @world.zone_name == "district_two"
+      end
+
+      # Q6 margins (v12): WHY each bank trip happened — sampled at bank
+      # time, so the tenth verify's Q5 conversation starts from data, not
+      # a blind retune (the third-regression law).
+      @margin_samples = []
+      @margin_gaps = []
+      @last_bank_frame = nil
+      bus.subscribe(:banked) do |e|
+        frame = @world ? @world.frame : 0
+        @margin_gaps << frame - @last_bank_frame if @last_bank_frame
+        @last_bank_frame = frame
+        @margin_samples << {
+          amount: e[:amount],
+          hp: @world ? @world.possessed.hp / @world.possessed.max_hp.to_f : 0.0,
+          dead: @world ? @world.pack.members.count(&:dead?) : 0,
+          wounded: @world ? @world.pack.living.count { |m| m.hp < m.max_hp } : 0
+        }
+      end
     end
 
     def summary
@@ -106,7 +148,9 @@ module Game
         "#{a2_summary}\n" \
         "#{d1b_summary}\n" \
         "#{q6_summary}\n" \
-        "#{density_summary}"
+        "#{density_summary}\n" \
+        "#{arc_summary}\n" \
+        "#{q6_margins_summary}"
     end
 
     def a2_summary
@@ -132,6 +176,34 @@ module Game
       mean = n.positive? ? (@bank_amounts.sum / n.to_f).round : 0
       "TELEMETRY q6_cadence banks{n=#{n} mean=#{mean} max=#{@bank_amounts.max || 0}} " \
         "kills_by_band{b0=#{@kills_by_band[0]} b1=#{@kills_by_band[1]} b2=#{@kills_by_band[2]}}"
+    end
+
+    # Format pinned by the v12 spec: always prints, all-zero when the arc
+    # never fired — a zero-arc session routes as UNEXERCISED, never defect.
+    def arc_summary
+      "TELEMETRY arc breach{fired=#{@arc[:fired]} " \
+        "first_frame=#{@arc_first_frame || 0} " \
+        "banked_after=#{@arc_banked_after || 0}} " \
+        "rehomed=#{@arc[:rehomed]} camp_visits=#{@arc[:camp_visits]} " \
+        "d2{entered=#{@arc[:d2_entered]} kills=#{@arc[:d2_kills]}} " \
+        "seal2_breached=#{@arc[:seal2]}"
+    end
+
+    # Format pinned by the v12 spec. Hypothesis separation for the debate:
+    # high pure share + high hp.mean = carry anxiety; low hp.mean or high
+    # dead.mean = maintenance; short gaps + small amounts = cadence.
+    def q6_margins_summary
+      n = @margin_samples.length
+      amounts = @margin_samples.map { |s| s[:amount] }
+      pure = @margin_samples.count { |s| s[:dead].zero? && s[:wounded].zero? }
+      mean = n.positive? ? (amounts.sum / n.to_f).round : 0
+      hp = n.positive? ? @margin_samples.sum { |s| s[:hp] } / n : 0.0
+      dead = n.positive? ? @margin_samples.sum { |s| s[:dead] } / n.to_f : 0.0
+      wounded = n.positive? ? @margin_samples.sum { |s| s[:wounded] } / n.to_f : 0.0
+      gap = @margin_gaps.empty? ? 0 : (@margin_gaps.sum / @margin_gaps.length / 60.0).round
+      format("TELEMETRY q6_margins banks{n=%d pure=%d} amount{mean=%d max=%d} " \
+             "hp{mean=%.2f} dead{mean=%.1f} wounded{mean=%.1f} gap{mean_s=%d}",
+             n, pure, mean, amounts.max || 0, hp, dead, wounded, gap)
     end
 
     # Format pinned by the v11 spec: the line ALWAYS prints (all-zero at
