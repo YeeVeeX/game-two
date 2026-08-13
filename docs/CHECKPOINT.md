@@ -17,8 +17,14 @@ verbatim) = likely v12. Scope contract rewritten to v11; PARKING_LOT
 updated (tank-first stale entry fixed — it SHIPPED with A2; v11
 outcomes section added; video-critic/gamesmith harness idea parked with
 dossier, owner ask). **Rule-2 note: the revert build's wall re-proof
-runs post-commit (digits-only deltas, twice-proven class — but the gate
-is blocking, so it runs); harvest before any v11 code.**
+was IN FLIGHT when this was written** (9-gate chain on `6283264`,
+digits-only deltas, twice-proven class — but the gate is blocking, so it
+runs): harvest `/tmp/q6_revert_wall_summary.log` (per-script
+`/tmp/q6_revert_wall_<script>.log`) BEFORE any v11 code; if the chain
+died, re-run it (INFRA → retry gate; real FAIL → fix forward per
+`drafts/_d1b-wall-log.md`); append the map to `drafts/_q6-wall-log.md`.
+MEASURED at goalcomp: main 226 commits at `6283264`, tree clean, suite
+285 runs / 1,178 assertions green, checks 39.
 
 ## 2026-08-12 (EIGHTH VERIFY LANDED) — retune NEGATIVE: Q6 still collapsed, BOTH guards regressed; density-decay diagnosis owner-confirmed; scope debate in flight
 
