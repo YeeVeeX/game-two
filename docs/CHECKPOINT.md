@@ -1,5 +1,38 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-13 (NINTH VERIFY: v11 WINS with tuning residue) — first spontaneous "love the core loop"; entrainment MOVED after three flats; scope debate next
+
+**BLIND ninth fun-verify DONE** (protocol held: play-first, no changelog,
+two sessions on unique logs, telemetry harvested before questions;
+verdict + telemetry + routing verbatim in
+`drafts/_v11-fun-verify-20260813.md`). **Unprompted, before any
+question: "I am starting to love the core loop of the gameplay."** And
+during write-up: **"it is actually good that the game is difficult, I
+like the current level of it"** — difficulty pinned RIGHT; the Q7 item
+is a fairness fix, never a global softening.
+
+Answers: Q1 stale "somewhere between" (better, drifts eventually) · Q2
+groups KEPT COMING · Q3 depth pull BIT · Q4 deep drops READ richer · Q5
+money EARNED (guard restored) · Q6 nest trips STILL too often (third
+regression — lever is elsewhere) · Q7 corpse run CAMPED once · **Q8 body
+REACTED — first entrainment movement in four reads; the Challenger's
+trigger did NOT confirm a fourth time.** Telemetry: re-massing fired
+dominantly (arrivals pocket 113 + seed 56 + home 0 across two sessions;
+singles_pct 55→29; pockets.max 14; session 2 ran 22 fights / 9 banks
+mean 19 max 38 / b2=79 deep kills / 5 inscriptions / 7 tributes).
+
+**Routing applied verbatim:** Q1-residue → density VALUES iteration
+(data only) · Q3 structural-economy branch CLOSES unfired · Q4 rider
+VALIDATED (legibility lane closes) · Q6 → economy-lever candidate AT the
+debate · Q7 → corpse_guard/scatter values iteration (guard today binds
+respawn anchors only — live wanderers unguarded; no watched-spawn, so
+NOT a defer bug) · Q8 → Challenger dossier NOT strengthened.
+
+Next: scope debate via AskUserQuestion (arc/purpose v12 = A3 + bible,
+owner wishlist, field now dense enough to carry purpose — vs Challenger
+(weakened trigger) vs tuning-first) → v12 scope rewrite + PARKING_LOT +
+CHECKPOINT committed.
+
 ## 2026-08-13 (V11 MERGED) — wall 9/9 + perf + suite green; merged --no-ff to main (NOT pushed); ninth blind verify is next
 
 **v11 wall COMPLETE 9/9** (phase 1: 6/6, one taunt_anchor critic-INFRA
