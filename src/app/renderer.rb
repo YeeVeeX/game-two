@@ -31,6 +31,8 @@ module App
     MARK_GLYPH     = Gosu::Color.new(255, 75, 235, 205)
     TAUNT_RUST     = Gosu::Color.new(255, 190, 80, 35) # blocker body color — ownership
     DROP_CORE      = Gosu::Color.new(255, 205, 70, 225) # glean drops — magenta/violet, owned by no other element
+    DROP_BAND1     = Gosu::Color.new(255, 225, 105, 130) # mid-band drops — warm rose (v11 depth rider)
+    DROP_BAND2     = Gosu::Color.new(255, 240, 170, 60)  # deep-band drops — ember/gold + glow (v11 depth rider)
     NOTCH          = Gosu::Color.new(255, 20, 14, 12)
     HP_BACK        = Gosu::Color.new(255, 50, 20, 30)
     HP_DEAD        = Gosu::Color.new(255, 35, 25, 30)
@@ -160,21 +162,34 @@ module App
       end
     end
 
-    # Drops: small magenta squares; size steps with amount (1 vs 2+), alpha
-    # fades over the final third of the decay clock (visible rot, like
-    # corpse fade). decay_frames rides each drop — no balance read here.
+    # Drops read as PLACE (v11 rider): size is the primary depth channel —
+    # band 0 keeps the pre-v11 magenta 10/14px (amount step), band 1 warm
+    # rose 16px, band 2 ember/gold 18px behind a faint glow halo. The band
+    # rides the record (stamped at spawn, like decay_frames) — no gradient
+    # read here. Alpha still fades over the final third of the decay clock.
     def draw_drops(world)
       ts = world.map.tile_size
       world.drops.each do |d|
-        size = d[:amount] >= 2 ? 14 : 10
+        outer, size, inner =
+          case d[:band] || 0
+          when 2 then [DROP_BAND2, 18, [255, 235, 180]] # bright ember core
+          when 1 then [DROP_BAND1, 16, [255, 215, 220]] # pale rose core
+          else        [DROP_CORE, d[:amount] >= 2 ? 14 : 10, [250, 225, 255]]
+          end
         frac = d[:frames_left].fdiv(d[:decay_frames])
         alpha = frac < (1 / 3.0) ? (255 * frac * 3).clamp(60, 255).round : 255
         tx, ty = d[:tile]
         inset = (ts - size) / 2.0
-        col = Gosu::Color.new(alpha, DROP_CORE.red, DROP_CORE.green, DROP_CORE.blue)
-        Gosu.draw_rect(tx * ts + inset, ty * ts + inset, size, size, col)
+        if (d[:band] || 0) == 2 # the glow ring: a wider, faint halo
+          halo = size + 8
+          hi = (ts - halo) / 2.0
+          Gosu.draw_rect(tx * ts + hi, ty * ts + hi, halo, halo,
+                         Gosu::Color.new((alpha * 0.35).round, outer.red, outer.green, outer.blue))
+        end
+        Gosu.draw_rect(tx * ts + inset, ty * ts + inset, size, size,
+                       Gosu::Color.new(alpha, outer.red, outer.green, outer.blue))
         Gosu.draw_rect(tx * ts + inset + 3, ty * ts + inset + 3, size - 6, size - 6,
-                       Gosu::Color.new(alpha, 250, 225, 255)) # pale violet-white core
+                       Gosu::Color.new(alpha, *inner))
       end
     end
 

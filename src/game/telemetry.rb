@@ -74,6 +74,27 @@ module Game
         idx = bands.rindex { |(min, _)| d >= min }
         @kills_by_band[idx] += 1 if idx
       end
+
+      # Density (v11): arrivals by anchor kind + a pocket sample per
+      # arrival — the re-massing oracle. A session where home dominates or
+      # singles_pct sits near 100 is machine-distinguishable from one where
+      # re-massing fired. Samples run post-spawn: the handler fires at
+      # bus-process, after respawn_due_humans already placed the body.
+      @density_arrivals = Hash.new(0)
+      @pocket_samples = []
+      @pocket_max = 0
+      @single_pockets = 0
+      @total_pockets = 0
+      bus.subscribe(:human_respawned) do |e|
+        @density_arrivals[e[:anchor]] += 1
+        next unless @world
+        pockets = @world.density_pockets
+        @pocket_samples << pockets.length
+        biggest = pockets.map(&:length).max || 0
+        @pocket_max = biggest if biggest > @pocket_max
+        @single_pockets += pockets.count { |p| p.length == 1 }
+        @total_pockets += pockets.length
+      end
     end
 
     def summary
@@ -84,7 +105,8 @@ module Game
         "negative_fights=#{@counts[:negative_fights]}\n" \
         "#{a2_summary}\n" \
         "#{d1b_summary}\n" \
-        "#{q6_summary}"
+        "#{q6_summary}\n" \
+        "#{density_summary}"
     end
 
     def a2_summary
@@ -110,6 +132,17 @@ module Game
       mean = n.positive? ? (@bank_amounts.sum / n.to_f).round : 0
       "TELEMETRY q6_cadence banks{n=#{n} mean=#{mean} max=#{@bank_amounts.max || 0}} " \
         "kills_by_band{b0=#{@kills_by_band[0]} b1=#{@kills_by_band[1]} b2=#{@kills_by_band[2]}}"
+    end
+
+    # Format pinned by the v11 spec: the line ALWAYS prints (all-zero at
+    # zero arrivals — presence is the subscriber-alive proof).
+    def density_summary
+      n = @pocket_samples.length
+      mean = n.positive? ? (@pocket_samples.sum / n.to_f).round(1) : 0.0
+      pct = @total_pockets.positive? ? (100.0 * @single_pockets / @total_pockets).round : 0
+      "TELEMETRY density pockets{mean=#{mean} max=#{@pocket_max}} " \
+        "arrivals{pocket=#{@density_arrivals[:pocket]} seed=#{@density_arrivals[:seed]} " \
+        "home=#{@density_arrivals[:home]}} singles_pct=#{pct}"
     end
 
     private

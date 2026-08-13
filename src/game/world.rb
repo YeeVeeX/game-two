@@ -606,11 +606,13 @@ module Game
       rec[:at_frame] = @frame
     end
 
-    # Seeded roll (the sim PRNG's first consumer — rolls happen at bus-process
-    # time in emit order, so consumption order is replay-deterministic). One
-    # drop per tile, always: a kill on an occupied tile merges amounts but
-    # KEEPS the first kill's clock — a resetting clock + the 5s rusher
-    # respawn would make any camped tile an immortal zero-risk stash.
+    # Seeded roll (rolls happen at bus-process time in emit order, AFTER the
+    # tick_world scatter picks — consumption order is replay-deterministic).
+    # One drop per tile, always: a kill on an occupied tile merges amounts
+    # but KEEPS the first kill's clock — a resetting clock + the 5s rusher
+    # respawn would make any camped tile an immortal zero-risk stash. The
+    # merge also keeps the band: band is a function of tile, so a same-tile
+    # kill can never disagree with the record it merges into (v11 rider).
     def spawn_drop(victim)
       table = victim.kit[:drop_table]
       return unless table
@@ -621,7 +623,8 @@ module Game
       if drop
         drop[:amount] += amount
       else
-        list << { tile: victim.tile, amount:, frames_left: decay, decay_frames: decay }
+        list << { tile: victim.tile, amount:, frames_left: decay, decay_frames: decay,
+                  band: gradient_band(victim.tile) }
       end
       @bus.emit(:drop_spawned, tile: victim.tile, amount:)
     end
@@ -940,8 +943,16 @@ module Game
     def gradient_multiplier(tile)
       bands = map.drop_gradient
       return 1.0 unless bands
+      bands[gradient_band(tile)].last
+    end
+
+    # The band INDEX for a tile — one lookup law for the multiplier, the
+    # drop-record stamp (v11 rider), and telemetry. No gradient -> band 0.
+    def gradient_band(tile)
+      bands = map.drop_gradient
+      return 0 unless bands
       d = gate_distance(tile)
-      bands.reverse.find { |(min, _)| d >= min }&.last || 1.0
+      bands.rindex { |(min, _)| d >= min } || 0
     end
 
     # A body stays where it fell and fades (vision critique: kills that
