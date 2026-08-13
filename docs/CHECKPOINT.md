@@ -1,6 +1,38 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-12 (latest, MERGED) — v10.1 Q6 retune SHIPPED to main; eighth fun-verify is next (BLIND — no changelog to the owner before they play)
+## 2026-08-12 (latest, EIGHTH VERIFY LANDED) — retune NEGATIVE: Q6 still collapsed, BOTH guards regressed; density-decay diagnosis owner-confirmed; scope debate in flight
+
+**EIGHTH fun-verify VERDICT (blind held — owner played with no changelog;
+full record `drafts/_q6-retune-fun-verify-20260812.md`): the v10.1 retune
+did NOT move its oracle.** Q6 "still always-bank"; depth premium felt
+"uniform" (3.5× earned but not attributed); Q7 "still arbitrary"
+(REGRESSED — read-time exhausted, cue redesign opens as presentation item
+per routing); Q1 guard "money got easy" (D1's written inflation risk
+FIRED); Q5 guard "back to the nest too often" (regressed from seventh's
+win); never wiped (judgment unexercised); entrainment flat THIRD
+consecutive (Challenger trigger third confirmation). Free-form: "feels
+good" moment-to-moment + wishlist = purpose/arc (progress, leveling,
+equipment, zones, lore, cities). ⚠ Session telemetry LOST (dev error:
+double-launch clobbered the log — unique log names per launch from now
+on); felt answers were the oracle; q6_cadence integration stands on replay
+evidence. Routing applied verbatim; the collapsed-Q6 telemetry fork was
+unresolvable → BOTH branches (legibility + structural) carry to the
+debate.
+
+**Owner post-verify evidence, code-grounded same session:** "first pull has
+a good amount of enemies, then respawns are a smaller part, too easy to
+clean up; boring and stale after a few rounds; core system and combat feel
+good." Verified mechanism: 1:1 respawns +300f at HOME spawn tiles +
+respawn_block_tiles 12 → opening masses all 15 once, steady state =
+scattered singles; count conserved, CLUMPING decays. Upstream of Q5/Q6/Q1/
+entrainment. Density/re-massing = new debate candidate.
+
+**NEXT: scope debate (brief `drafts/_scope-debate-v11.md`, updated with all
+of the above), owner forks via AskUserQuestion; then scope v11 rewrite +
+PARKING_LOT updates + CHECKPOINT + commit. Promoted increment's
+brainstorm/spec = NEXT session.**
+
+## 2026-08-12 (MERGED) — v10.1 Q6 retune SHIPPED to main; eighth fun-verify is next (BLIND — no changelog to the owner before they play)
 
 **MEASURED: main at merge commit `ba4e0ad` (--no-ff, NOT pushed), 223
 commits, tree clean except gitignored drafts. Suite 285 runs / 1,179
