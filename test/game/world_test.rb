@@ -1194,15 +1194,22 @@ class WorldTest < Minitest::Test
 
   # --- arrival tiles + gate-distance fields (A2 Task 2) --------------------
 
-  def test_district_arrival_tile_comes_from_nest_transition
-    assert_equal [[1, 13]], world.arrival_tiles_for("district")
+  def test_district_arrival_tiles_cover_both_doors
+    # v12 meaning change (the increment, not collateral): the district has
+    # TWO doors once the camp exists — nest-side [1,13] and camp-side
+    # [40,13]; beachhead grace covers both (arrival is not an ambush).
+    assert_includes world.arrival_tiles_for("district"), [1, 13]
+    assert_includes world.arrival_tiles_for("district"), [40, 13]
     assert_equal [[28, 8]], world.arrival_tiles_for("nest")
   end
 
-  def test_gate_distance_is_bfs_from_the_arrival_tile
+  def test_gate_distance_is_bfs_from_the_gradient_anchor
+    # The anchor pins the band map to the nest-side door regardless of how
+    # many arrivals exist or how they order (v12 review-verified trap).
     enter_district(world)
     assert_equal 0, world.gate_distance([1, 13])
     assert_operator world.gate_distance([35, 5]), :>=, 30
+    assert_operator world.gate_distance([42, 13]), :>=, 28, "deep east stays band 2"
   end
 
   def test_district_drop_gradient_loaded

@@ -6,7 +6,8 @@
     "floor": [34, 36, 42],
     "grid": [44, 46, 54],
     "wall": [130, 134, 150],
-    "transition": [235, 190, 90]
+    "transition": [235, 190, 90],
+    "station_seal": [190, 140, 60]
   },
   "tiles": [
     "############################################",
@@ -42,8 +43,14 @@
                [30, 18], [26, 23], [35, 5], [38, 12], [33, 13], [40, 19]],
     "rusher_hater": [[22, 18], [36, 23], [41, 6]]
   },
-  "transitions": [
-    { "at": [0, 13], "to": "nest", "spawn": [28, 8] }
+  "stations": [
+    { "type": "seal", "at": [41, 13], "price": "breach_cost", "opens": [42, 13],
+      "line": "THE WAY IS PAID" }
   ],
-  "drop_gradient": [[0, 1.0], [14, 1.5], [28, 2.0]]
+  "transitions": [
+    { "at": [0, 13], "to": "nest", "spawn": [28, 8] },
+    { "at": [42, 13], "to": "camp", "spawn": [1, 5], "sealed": true }
+  ],
+  "drop_gradient": [[0, 1.0], [14, 1.5], [28, 2.0]],
+  "gradient_anchor": [1, 13]
 }

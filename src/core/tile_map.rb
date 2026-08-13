@@ -8,7 +8,8 @@ module Core
     WALL_CHAR = "#".freeze
 
     attr_reader :cols, :rows, :tile_size, :pack_spawn, :enemy_spawns,
-                :display_name, :palette, :transitions, :stations, :drop_gradient
+                :display_name, :palette, :transitions, :stations, :drop_gradient,
+                :hub, :gradient_anchor
 
     def initialize(cfg)
       @tile_size = cfg.fetch(:tile_size)
@@ -22,6 +23,11 @@ module Core
       @transitions = cfg.fetch(:transitions, [])
       @stations = cfg.fetch(:stations, [])
       @drop_gradient = cfg.fetch(:drop_gradient, nil)
+      # v12: hub zones re-anchor the pack's home; the gradient anchor pins
+      # the gate-field origin so arrival-list ORDER can never flip a zone's
+      # band map (sorted zone keys reorder arrivals when zones are added).
+      @hub = cfg.fetch(:hub, false)
+      @gradient_anchor = cfg.fetch(:gradient_anchor, nil)
       validate!
     end
 
@@ -56,6 +62,7 @@ module Core
       @enemy_spawns.each_value { |spawns| spawns.each { |s| check_passable!("enemy spawn", s) } }
       @transitions.each { |t| check_passable!("transition", t[:at]) }
       @stations.each { |s| check_passable!("station", s[:at]) }
+      check_passable!("gradient_anchor", @gradient_anchor) if @gradient_anchor
     end
 
     def check_passable!(label, (tx, ty))

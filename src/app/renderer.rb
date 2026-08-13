@@ -51,6 +51,8 @@ module App
 
     CUE_OK = Gosu::Color.new(230, 240, 220, 150)
     CUE_REFUSED = Gosu::Color.new(230, 200, 60, 50)
+    SEAL_SLAB = Gosu::Color.new(255, 20, 16, 24)   # sealed door: near-wall dark
+    BREACH_GOLD = Gosu::Color.new(255, 235, 190, 90) # the writ line, gate-gold
     GOD_MARK = Gosu::Color.new(230, 235, 220, 170)
     # Cause-keyed why-they-turned cues. The gate critic arbitrated the first
     # palette: proximity's pale RGB(200,200,190) vanished against HUMAN_BODY,
@@ -75,7 +77,7 @@ module App
     def draw(world)
       cam = world.camera
       Gosu.translate(world.feel.shake_x - cam.x, world.feel.shake_y - cam.y) do
-        draw_map(world.map)
+        draw_map(world)
         draw_impacts(world)
         draw_corpses(world)
         draw_stations(world)
@@ -92,6 +94,7 @@ module App
       draw_hud(world)
       draw_edge_pips(world)
       draw_banner(world) if world.banner?
+      draw_breach_line(world)
       draw_wipe_overlay(world) if world.states.current == :nest_respawn
       # AFTER the wipe overlay BY DESIGN: the alpha-170 veil would bury the
       # recap, and the recap legible through the veil is the point (spec:
@@ -141,7 +144,8 @@ module App
 
     def color(rgb, alpha = 255) = Gosu::Color.new(alpha, rgb[0], rgb[1], rgb[2])
 
-    def draw_map(map)
+    def draw_map(world)
+      map = world.map
       ts = map.tile_size
       floor = color(map.palette[:floor])
       grid = color(map.palette[:grid])
@@ -158,7 +162,14 @@ module App
       (0..map.rows).each { |ty| Gosu.draw_rect(0, ty * ts, map.pixel_width, 1, grid) }
       map.transitions.each do |t|
         tx, ty = t[:at]
-        Gosu.draw_rect(tx * ts + 3, ty * ts + 3, ts - 6, ts - 6, transition)
+        if t[:sealed] && !world.breached?(world.zone_name, t[:at])
+          # A sealed door is NOT gold — gold means walkable. Dark slab with
+          # a thin gold seam: shut, but a door (v12 presentation spec 1).
+          Gosu.draw_rect(tx * ts + 1, ty * ts + 1, ts - 2, ts - 2, SEAL_SLAB)
+          Gosu.draw_rect(tx * ts + ts / 2 - 1, ty * ts + 4, 2, ts - 8, transition)
+        else
+          Gosu.draw_rect(tx * ts + 3, ty * ts + 3, ts - 6, ts - 6, transition)
+        end
       end
     end
 
@@ -516,6 +527,17 @@ module App
       font = banner_font
       x = (view_width(world) - font.text_width(text)) / 2
       font.draw_text(text, x, 48, 10, 1, 1, BANNER)
+    end
+
+    # The writ line (v12 breach beat): gate-gold, one slot below the zone
+    # banner so the two can never stack illegibly. Pure reader of world
+    # state — replay determinism holds.
+    def draw_breach_line(world)
+      line = world.breach_line
+      return unless line
+      font = banner_font
+      x = (view_width(world) - font.text_width(line[:text])) / 2
+      font.draw_text(line[:text], x, 88, 10, 1, 1, BREACH_GOLD)
     end
 
     def draw_wipe_overlay(world)
