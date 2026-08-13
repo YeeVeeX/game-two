@@ -784,30 +784,35 @@ class WorldTest < Minitest::Test
            "the killed human respawns as a fresh body after respawn_frames"
   end
 
-  # M2 review finding 1: a respawn due while a body stands on its spawn tile
-  # must DEFER, not stack two creatures on one tile.
-  def test_respawn_defers_while_spawn_tile_occupied
-    enter_district(world)
-    world.humans.dup.each { |h| kill(h, by: world.possessed) }
+  # M2 review finding 1: a respawn due onto an occupied tile must DEFER,
+  # not stack two creatures on one tile. Under v11 release-time anchoring
+  # the scatter pick already avoids occupied tiles, so the pure
+  # occupied-defer arm is reachable only where the tile is FIXED: the
+  # no-spawn-list fallback (the nest has enemy_spawns {}), landing on the
+  # death tile. A second body camping that exact tile must defer it.
+  def test_respawn_defers_while_its_fallback_tile_is_occupied
+    fallback = [28, 2] # 13+ tiles from every nest pack spawn (block clear)
+    assert_equal "nest", world.zone_name
+    victim = world.send(:add_human, "nest", :rusher, fallback)
+    kill(victim, by: world.possessed)
     death_frame = world.frame
-    drive(world, scripted({}), 1) # flush bus -> respawns scheduled
-    camped = [14, 12] # a rusher home spawn (data/zones/district.json)
-    # Park ALL pack members far from the spawn (>12 tiles) so A2 suppression
-    # does not mask the occupation deferral this test isolates.
-    world.pack.living.each_with_index { |m, i| m.walker.teleport(1, 1 + i) }
-    # Now teleport the possessed ONTO the spawn tile — this occupies it.
-    world.possessed.walker.teleport(*camped)
+    drive(world, scripted({}), 1) # flush -> schedules the fallback respawn
+    # A second human CAMPS the fallback tile; freeze everyone so 300 frames
+    # of proximity stage no combat (the occupant must survive the wait).
+    camper = world.send(:add_human, "nest", :rusher, fallback)
+    camper.stagger!(30_000)
+    world.pack.living.each { |m| m.stagger!(30_000) }
     due = death_frame + DATA["balance/combat"][:kits][:rusher][:respawn_frames]
     drive(world, scripted({}), due + 5 - world.frame)
-    assert world.humans.none? { |h| h.tile == camped },
-           "respawn onto an occupied tile must defer, not stack"
+    assert_equal [camper], world.humans,
+                 "respawn onto an occupied tile must defer, not stack"
     tiles = world.actors.map(&:tile)
     assert_equal tiles.uniq.length, tiles.length, "no stacking anywhere: #{tiles}"
-    # Move ALL pack members far away and off the spawn — deferred respawn lands.
-    world.pack.living.each_with_index { |m, i| m.walker.teleport(1, 1 + i) }
+    # The camper steps off — the deferred respawn lands on the freed tile.
+    camper.walker.teleport(22, 2)
     drive(world, scripted({}), 3)
-    assert world.humans.any? { |h| h.tile == camped },
-           "deferred respawn lands once the spawn tile is free"
+    assert world.humans.any? { |h| h.tile == fallback },
+           "deferred respawn lands once the fallback tile is free"
   end
 
   # M2 review finding 2: a kit WITHOUT respawn_frames must still leave the

@@ -1,6 +1,62 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-13 (latest, STEP 0 DONE) — revert wall RE-RUN COMPLETE 9/9+9/9; v11 spec written + adversarially reviewed (commit next)
+## 2026-08-13 (RESUME STAGED) — resume plan approved; no execution yet; wall still 6/9
+
+Resume session opened on the goal below; **nothing executed** — this delta
+only records the staging. Plan-mode pass re-verified prerequisites on disk:
+all 9 `/tmp/q6_revert_wall_<s>.log` (beat-inventory source for the three
+re-pilots — volatile, re-verify after any reboot), phase-1 `/tmp/v11_wall_*`
+logs + summary, `tmp/v11_wall_asis.sh`, pilot protocol + d1b techniques.
+**Approved resume plan: `C:\Users\gabri\.claude\plans\greedy-waddling-cherny.md`**
+(operational detail for steps 3a→7; the committed spec stays SSoT for
+mechanism/verify/routing). MEASURED now: `v11-density` at `36e24ff`,
+234 commits, tree clean. Next act = step 3a re-pilots (vat_economy 7,
+corpse_run 7, threat_pull 42 — threat_pull must stage the band-2 drop).
+
+## 2026-08-13 (V11 BUILT + WALL 6/9) — implementation green on `v11-density`; phase-1 wall 6/6; three re-pilots remain
+
+**v11 IMPLEMENTED (plan steps 1-2 DONE), all TDD, hooks enforced:** spec
+committed `f11a643` (adversarially reviewed pre-commit, 9 findings folded
+— ledger `drafts/_v11-spec-review.md`); release-time anchored respawns
+`7470c2b` (records carry {kit_name, fallback_tile, at_frame}; tile chosen
+at RELEASE: pocket join double-min / seed farthest-from-pack / home;
+defer laws re-pinned on the CHOSEN tile + NEW corpse guard;
+`:human_respawned{actor,tile,anchor}`; add_human returns the creature);
+drop-band rider + density telemetry + checks 39→40 `42c22e6` (band
+stamped on drop records; renderer 10/14 magenta / 16 rose / 18
+ember+glow; density line with pinned zero-arrivals form; check #20
+template broadened, `deep_drop_band_reads` added); harness logs the new
+event `55751dd`. **MEASURED at this goalcomp: branch `v11-density` at
+`55751dd`, 233 commits, tree clean, suite 302 runs / 1,238 assertions
+green (run now), checks 40.**
+
+**Wall (step 3) in progress — triage split it 6 as-is / 3 re-pilot
+(`drafts/_v11-wall-log.md` carries the full map + evidence):**
+- **PHASE 1 COMPLETE 6/6** (loot_loop, world_loop, specials_chain,
+  taunt_anchor, district_hunt, ledger_loop — official double replay +
+  md5 + critic on 40 checks). Only retry: taunt_anchor A1, explicitly
+  labeled critic INFRA (malformed verdict JSON), det 10/10; A2 clean.
+- **Mechanism proven in-stream**: density telemetry fired in all 9
+  triage replays — vat_economy `pockets{mean=6.0 max=5} arrivals{
+  pocket=13 seed=0 home=0}`; district_hunt seed path live (seed=4);
+  singles_pct falls with session length (86→62→53).
+- **PHASE 2 PENDING: re-pilot vat_economy / corpse_run / threat_pull**
+  (their story beats died with the respawn law — tribute/loot/pickup
+  chains whiff). Beat inventories per script are in the wall log; the
+  threat_pull re-pilot MUST stage a deep kill so a band-2 ember drop is
+  on camera (no current stream has b2>0 — the new check must be SEEN
+  passing, not not-exercised).
+
+Next sequence: 3 re-pilots (`rake pilot`, printf-append inbox, export,
+re-stage ALL mandatory beats) → gate each (2-attempt INFRA retry) →
+`rake perf` ALONE (p95 < 16.6 ms) → full rake → merge `--no-ff` to main
+(NO push) → CHECKPOINT → BLIND ninth fun-verify (unique log
+`/tmp/game_two_session_$$.log`, harvest density + q6_cadence BEFORE
+questions; questions + routing live IN the spec) → next scope debate
+(Challenger trigger triple-confirmed vs arc/purpose v12 vs verify
+routing).
+
+## 2026-08-13 (STEP 0 DONE) — revert wall RE-RUN COMPLETE 9/9+9/9; v11 spec written + adversarially reviewed (commit next)
 
 **Revert wall re-proof (v11 step 0): WALL COMPLETE 9/9 determinism + 9/9
 critic** on main `2de5be2` (the reverted 2.0-gradient build), chain

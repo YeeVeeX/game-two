@@ -22,7 +22,7 @@ module Game
       zone_entered possession_changed pack_wiped pack_respawned projectile_fired pack_mark_set
       drop_spawned drop_picked_up drop_decayed banked carried_lost taunted
       corpse_loaded corpse_looted fight_resolved
-      human_retargeted human_leashed
+      human_retargeted human_leashed human_respawned
       inscribed banked_spent tribute_paid body_regrown body_dissolved mark_consumed vessel_kept
     ].freeze
 
@@ -208,6 +208,35 @@ module Game
     end
 
     def threat_config = @threat
+
+    # v11 density: pockets = connected groups of living humans in the
+    # current zone within join_radius_tiles of each other (chain distance,
+    # Chebyshev). Public on purpose — the respawn anchor path, telemetry,
+    # and tests must all read the SAME computation. Roster order in, so
+    # grouping is deterministic.
+    def density_pockets
+      radius = @threat[:density][:join_radius_tiles]
+      alive = humans.reject(&:dead?)
+      seen = {}
+      pockets = []
+      alive.each do |h|
+        next if seen[h]
+        group = [h]
+        seen[h] = true
+        queue = [h]
+        until queue.empty?
+          current = queue.shift
+          alive.each do |other|
+            next if seen[other] || tile_distance(current.tile, other.tile) > radius
+            seen[other] = true
+            group << other
+            queue << other
+          end
+        end
+        pockets << group
+      end
+      pockets
+    end
 
     # Beachhead (A2): arrival is not an ambush. Blocks ACQUISITION only —
     # taunt/anchor bind first in the chain, and a human the pack has attacked
@@ -577,11 +606,13 @@ module Game
       rec[:at_frame] = @frame
     end
 
-    # Seeded roll (the sim PRNG's first consumer — rolls happen at bus-process
-    # time in emit order, so consumption order is replay-deterministic). One
-    # drop per tile, always: a kill on an occupied tile merges amounts but
-    # KEEPS the first kill's clock — a resetting clock + the 5s rusher
-    # respawn would make any camped tile an immortal zero-risk stash.
+    # Seeded roll (rolls happen at bus-process time in emit order, AFTER the
+    # tick_world scatter picks — consumption order is replay-deterministic).
+    # One drop per tile, always: a kill on an occupied tile merges amounts
+    # but KEEPS the first kill's clock — a resetting clock + the 5s rusher
+    # respawn would make any camped tile an immortal zero-risk stash. The
+    # merge also keeps the band: band is a function of tile, so a same-tile
+    # kill can never disagree with the record it merges into (v11 rider).
     def spawn_drop(victim)
       table = victim.kit[:drop_table]
       return unless table
@@ -592,7 +623,8 @@ module Game
       if drop
         drop[:amount] += amount
       else
-        list << { tile: victim.tile, amount:, frames_left: decay, decay_frames: decay }
+        list << { tile: victim.tile, amount:, frames_left: decay, decay_frames: decay,
+                  band: gradient_band(victim.tile) }
       end
       @bus.emit(:drop_spawned, tile: victim.tile, amount:)
     end
@@ -713,14 +745,18 @@ module Game
     # Names use a monotonic per-zone counter, never the roster length —
     # respawns after a delete would otherwise collide with a live name and
     # corrupt the harness event log (capture scripts aim by name).
+    # Returns the creature (v11: respawn_due_humans emits it as the
+    # :human_respawned actor — Array#<< would hand back the whole roster).
     def add_human(zone, kit_name, tile)
       kit = @balance[:kits].fetch(kit_name.to_sym)
       @human_serial ||= Hash.new(0)
       serial = @human_serial[zone]
       @human_serial[zone] += 1
-      @humans[zone] << Creature.new(bus: @bus, kit:, kit_name: kit_name.to_sym,
-                                    map: @zones[zone], tile:, faction: :human,
-                                    name: "#{kit_name}#{serial}")
+      creature = Creature.new(bus: @bus, kit:, kit_name: kit_name.to_sym,
+                              map: @zones[zone], tile:, faction: :human,
+                              name: "#{kit_name}#{serial}")
+      @humans[zone] << creature
+      creature
     end
 
     def spawn_pack
@@ -849,22 +885,32 @@ module Game
       @bus.emit(:possession_changed, from:, to: target, forced: true)
     end
 
-    # A respawn DEFERS while its tile is occupied OR any pack body is within
-    # the block radius (A2 suppression: spawns freeze near the hunting pack,
-    # denying the gate-grinder its infinite respawn loop). Retries next tick.
+    # v11 density: the landing TILE is chosen here, at RELEASE time — the
+    # respawn re-masses toward the field as it IS when due, not as it was
+    # at death. A release DEFERS while its chosen tile is occupied, while
+    # any pack body is within the block radius of it (A2 suppression,
+    # unchanged law re-pinned on the CHOSEN tile), or while it sits inside
+    # the corpse guard of a live load (a re-massed pocket must never camp
+    # the D1 run-back). Deferral retries next tick and RECOMPUTES the
+    # anchor — which re-masses better, not worse.
     def respawn_due_humans
       occupied = actors.map(&:tile)
       block = @threat[:respawn_block_tiles]
+      guard = @threat[:density][:corpse_guard_tiles]
       pack_tiles = @pack.living.map(&:tile)
+      load_tiles = corpse_loads.map { |c| c[:tile] }
       ready, waiting = @human_respawns[@zone_name].partition { |r| r[:at_frame] <= @frame }
       deferred = []
       ready.each do |r|
-        if occupied.include?(r[:tile]) ||
-           pack_tiles.any? { |t| tile_distance(t, r[:tile]) <= block }
+        tile, anchor = respawn_target(r, occupied)
+        if tile.nil? || occupied.include?(tile) ||
+           pack_tiles.any? { |t| tile_distance(t, tile) <= block } ||
+           load_tiles.any? { |t| tile_distance(t, tile) <= guard }
           deferred << r
         else
-          add_human(@zone_name, r[:kit_name], r[:tile])
-          occupied << r[:tile]
+          creature = add_human(@zone_name, r[:kit_name], tile)
+          occupied << tile
+          @bus.emit(:human_respawned, actor: creature, tile:, anchor:)
         end
       end
       @human_respawns[@zone_name] = waiting + deferred
@@ -897,8 +943,16 @@ module Game
     def gradient_multiplier(tile)
       bands = map.drop_gradient
       return 1.0 unless bands
+      bands[gradient_band(tile)].last
+    end
+
+    # The band INDEX for a tile — one lookup law for the multiplier, the
+    # drop-record stamp (v11 rider), and telemetry. No gradient -> band 0.
+    def gradient_band(tile)
+      bands = map.drop_gradient
+      return 0 unless bands
       d = gate_distance(tile)
-      bands.reverse.find { |(min, _)| d >= min }&.last || 1.0
+      bands.rindex { |(min, _)| d >= min } || 0
     end
 
     # A body stays where it fell and fades (vision critique: kills that
@@ -994,13 +1048,88 @@ module Game
     # The roster delete comes FIRST: a kit without respawn_frames must still
     # leave the roster on death, or the renderer draws its ghost forever
     # (M2 review finding 2 — latent until someone adds a no-respawn kit).
+    # v11: the record carries NO landing tile — that choice moves to
+    # respawn_due_humans at release time. fallback_tile preserves today's
+    # exact no-spawn-list edge only (a kit absent from the zone's
+    # enemy_spawns respawns at its death tile, as it always did).
     def schedule_human_respawn(human)
       humans.delete(human)
       delay = human.kit[:respawn_frames]
       return unless delay
-      spawns = map.enemy_spawns[human.kit_name] || [human.tile]
-      home = spawns.min_by { |(sx, sy)| (sx - human.tile[0]).abs + (sy - human.tile[1]).abs }
-      @human_respawns[@zone_name] << { kit_name: human.kit_name, tile: home, at_frame: @frame + delay }
+      @human_respawns[@zone_name] << { kit_name: human.kit_name,
+                                       fallback_tile: human.tile,
+                                       at_frame: @frame + delay }
+    end
+
+    # Release-time anchor selection (v11 spec §1): join the nearest eligible
+    # pocket, else seed at the spawn farthest from the pack, else home.
+    # Returns [tile, anchor_kind] with anchor_kind ∈ :pocket|:seed|:home.
+    def respawn_target(record, occupied)
+      spawns = map.enemy_spawns[record[:kit_name]]
+      return [record[:fallback_tile], :home] if spawns.nil? || spawns.empty?
+      cfg = @threat[:density]
+      if (anchor = pocket_anchor(spawns, cfg[:pocket_cap]))
+        tile = scatter_pick(anchor, cfg[:scatter_radius_tiles], occupied)
+        return [tile, :pocket] if tile
+        return [nearest_spawn(spawns, anchor), :home]
+      end
+      if @pack.living.any?
+        seed = seed_anchor(spawns)
+        tile = scatter_pick(seed, cfg[:scatter_radius_tiles], occupied)
+        return [tile, :seed] if tile
+        return [seed, :home]
+      end
+      [spawns.first, :home] # empty pack: "where you aren't" has no referent
+    end
+
+    # The eligible pocket (size < cap) whose nearest member is closest to
+    # ANY of the kit's spawn tiles — a double-minimum over pocket-members ×
+    # spawn-tiles, because the record carries no death tile to score from.
+    # Neutral depth (fork 2); roster-index tie-break. Returns that member's
+    # tile (the anchor), or nil when no pocket is eligible.
+    def pocket_anchor(spawns, cap)
+      best_key = nil
+      best_tile = nil
+      density_pockets.each do |pocket|
+        next unless pocket.length < cap
+        pocket.each do |member|
+          d = spawns.map { |s| tile_distance(member.tile, s) }.min
+          key = [d, humans.index(member)]
+          next if best_key && (key <=> best_key) >= 0
+          best_key = key
+          best_tile = member.tile
+        end
+      end
+      best_tile
+    end
+
+    # Crowds re-form where you aren't: the spawn tile farthest from the
+    # NEAREST living pack member; tie-break lowest index in zone-data order.
+    def seed_anchor(spawns)
+      spawns.each_with_index.max_by do |tile, i|
+        [@pack.living.map { |m| tile_distance(m.tile, tile) }.min, -i]
+      end.first
+    end
+
+    def nearest_spawn(spawns, anchor)
+      spawns.each_with_index.min_by { |tile, i| [tile_distance(anchor, tile), i] }.first
+    end
+
+    # Seeded pick among walkable, unoccupied tiles within the scatter
+    # radius. Candidates build in fixed row-major order and the pick fires
+    # in tick_world BEFORE bus-process drop rolls — moving it would shift
+    # the drop-roll stream and desync every seeded replay containing a kill.
+    def scatter_pick(anchor, radius, occupied)
+      ax, ay = anchor
+      candidates = []
+      (-radius..radius).each do |dy|
+        (-radius..radius).each do |dx|
+          t = [ax + dx, ay + dy]
+          candidates << t if map.passable?(*t) && !occupied.include?(t)
+        end
+      end
+      return nil if candidates.empty?
+      candidates[@rng.rand(candidates.length)]
     end
   end
 end

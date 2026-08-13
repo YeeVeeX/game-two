@@ -8,7 +8,7 @@ class TelemetryTest < Minitest::Test
     corpse_loaded corpse_looted carried_lost pack_wiped banked fight_resolved
     human_retargeted human_leashed actor_died drop_spawned
     inscribed banked_spent mark_consumed body_dissolved body_regrown
-    tribute_paid vessel_kept
+    tribute_paid vessel_kept human_respawned
   ].freeze
 
   def test_counts_and_formats_the_session_line
@@ -32,7 +32,10 @@ class TelemetryTest < Minitest::Test
                    "banked_spent{inscribe=0 tribute=0} banked_end=3"
     expected_q6 = "TELEMETRY q6_cadence banks{n=1 mean=3 max=3} " \
                   "kills_by_band{b0=0 b1=0 b2=0}"
-    assert_equal "#{expected_d1}\n#{expected_a2}\n#{expected_d1b}\n#{expected_q6}",
+    expected_density = "TELEMETRY density pockets{mean=0.0 max=0} " \
+                       "arrivals{pocket=0 seed=0 home=0} singles_pct=0"
+    assert_equal "#{expected_d1}\n#{expected_a2}\n#{expected_d1b}\n" \
+                 "#{expected_q6}\n#{expected_density}",
                  t.summary
   end
 
@@ -177,5 +180,51 @@ class TelemetryTest < Minitest::Test
     t = Game::Telemetry.new(bus)
     bus.process
     assert_match(/q6_cadence/, t.summary)
+  end
+
+  # --- density line (v11 re-massing oracle) ---
+
+  def test_density_line_counts_arrivals_and_samples_pockets
+    bus = Core::EventBus.new.register(*ALL_TELEMETRY_EVENTS)
+    pockets = [%i[a b c], %i[d]]
+    world_obj = Object.new
+    world_obj.define_singleton_method(:density_pockets) { pockets }
+    t = Game::Telemetry.new(bus, world: world_obj)
+    bus.emit(:human_respawned, actor: nil, tile: [1, 1], anchor: :pocket)
+    bus.emit(:human_respawned, actor: nil, tile: [2, 2], anchor: :pocket)
+    bus.emit(:human_respawned, actor: nil, tile: [3, 3], anchor: :seed)
+    bus.emit(:human_respawned, actor: nil, tile: [4, 4], anchor: :home)
+    bus.process
+    assert_equal "TELEMETRY density pockets{mean=2.0 max=3} " \
+                 "arrivals{pocket=2 seed=1 home=1} singles_pct=50",
+                 t.density_summary
+  end
+
+  # Zero arrivals: the line still prints, all-zero — its PRESENCE is the
+  # subscriber-alive proof (spec: absence = broken subscriber, and a
+  # zero-arrival session routes as unexercised, never as a defect).
+  def test_density_line_zero_arrivals_still_prints_all_zero
+    bus = Core::EventBus.new.register(*ALL_TELEMETRY_EVENTS)
+    t = Game::Telemetry.new(bus)
+    bus.process
+    assert_equal "TELEMETRY density pockets{mean=0.0 max=0} " \
+                 "arrivals{pocket=0 seed=0 home=0} singles_pct=0",
+                 t.density_summary
+  end
+
+  def test_density_arrivals_count_without_a_world
+    bus = Core::EventBus.new.register(*ALL_TELEMETRY_EVENTS)
+    t = Game::Telemetry.new(bus)
+    bus.emit(:human_respawned, actor: nil, tile: [1, 1], anchor: :seed)
+    bus.process
+    assert_match(/arrivals\{pocket=0 seed=1 home=0\}/, t.density_summary)
+    assert_match(/pockets\{mean=0.0 max=0\}/, t.density_summary)
+  end
+
+  def test_density_line_appears_in_full_summary
+    bus = Core::EventBus.new.register(*ALL_TELEMETRY_EVENTS)
+    t = Game::Telemetry.new(bus)
+    bus.process
+    assert_match(/TELEMETRY density/, t.summary)
   end
 end
