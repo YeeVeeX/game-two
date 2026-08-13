@@ -1,6 +1,38 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-12 (latest, DEBATE CLOSED) — v11 = DENSITY/RE-MASSING promoted; 3.5× REVERTED to 2.0; Challenger declined 2nd time (trigger triple-confirmed)
+## 2026-08-13 (latest, PLAN APPROVED) — v11 forks CLOSED + execution plan approved; revert wall confirmed DEAD (INFRA) — re-run is step 0
+
+**v11 design forks CLOSED by owner via AskUserQuestion (before the spec, as
+the debate ordered): (1) core shape = RE-MASS TOWARD CLUSTERS — respawn
+tile chosen at RELEASE time; joins the nearest surviving pocket below a
+data cap; all capped/field empty → seed a NEW pocket at the kit's spawn
+tile farthest from the pack; home fallback. (2) depth bias = NEUTRAL (v11
+tests one hypothesis: a dense field fixes stale; bias stays a later data
+knob). (3) Q6 legibility rider = band tint + size/glow by band, NO pickup
+fanfare.** Full mechanism, data schema (threat.json `density` block:
+join_radius 3 / pocket_cap 5 / scatter_radius 2 / corpse_guard 6),
+`:human_respawned` event, density telemetry oracle, TDD order, wall plan
+(checks 39→40 with a band-2-drop check), ninth-verify pre-registration and
+next-debate brief are in the **APPROVED PLAN:
+`C:\Users\gabri\.claude\plans\agile-greeting-bengio.md`** — the execution
+SSoT until step 1 commits the spec into the repo
+(`docs/superpowers/specs/2026-08-13-v11-density-remassing-design.md`).
+
+**Revert wall: the in-flight chain is DEAD, classified INFRA** (summary log
+holds one START line 19:39:22; the vat_economy per-script log cuts
+mid-replay ~frame 15.5K; no ruby/rake process alive). Step 0 = re-run the
+full 9-gate chain on the reverted build BEFORE any v11 code; 9/9 + 9/9
+required; append the map to `drafts/_q6-wall-log.md` noting the dead chain.
+
+**MEASURED at this goalcomp: main 227 commits at `d6615f5`, tree clean,
+suite 285 runs / 1,178 assertions, 0 failures (run now, 12.8 s), checks 39.**
+
+Next sequence = plan steps 0–7: wall re-run → spec commit → TDD on branch
+`v11-density` → full wall with re-pilots (replays WILL desync — expected)
+→ perf alone → merge --no-ff (NO push) → BLIND ninth fun-verify (unique
+session log per launch) → next scope debate.
+
+## 2026-08-12 (DEBATE CLOSED) — v11 = DENSITY/RE-MASSING promoted; 3.5× REVERTED to 2.0; Challenger declined 2nd time (trigger triple-confirmed)
 
 **Owner forked via AskUserQuestion (brief `drafts/_scope-debate-v11.md`):
 v11 = hunting-ground density/re-massing** (his own code-confirmed
