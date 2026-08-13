@@ -130,16 +130,14 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
 
 ## Owner playtest feedback (recorded 2026-08-11, mid-ledger-fun-verify — parked, NOT promoted)
 
-- **"The tank should be the main character to be selected in the party, so he can
-  drive the hunt; the rest feels good for now."** Dev-of-record read: initial
-  possession should start on the BLOCKER, not the striker (pack member order in
-  `data/balance/combat.json`). Independent corroboration: the ledger pilot flight
-  organically converged on blocker-as-driver (it survived every stretch and landed
-  repeated double-kills; the striker died first in nearly every life). Likely a
-  one-line data change BUT it invalidates every recorded gate script (the initial
-  possessed body is baked into all 7 replay input streams — flipping it desyncs
-  corpse_run + ledger_loop, both pilot-authored). SHIP WITH A2 (or whichever next
-  increment re-pilots anyway); do not ship standalone.
+- ~~**"The tank should be the main character to be selected in the party…"**~~
+  **SHIPPED WITH A2 (2026-08-12): `combat.json` initial_possessed=blocker** — the
+  entry below is kept for the reasoning record only. Dev-of-record read at the
+  time: initial possession should start on the BLOCKER, not the striker;
+  corroborated by the ledger pilot flight (blocker survived every stretch, striker
+  died first in nearly every life). It rode A2's re-pilot exactly as planned
+  (flipping the possessed body desyncs pilot-authored replay streams — never
+  standalone). Stale "SHIP WITH A2" wording caught + fixed at the v11 debate.
 
 ## Owner design questions (recorded 2026-08-11, mid-ledger-ship — answered, parked, NOT promoted)
 
@@ -296,3 +294,30 @@ Spec: `docs/superpowers/specs/2026-08-12-d1b-vat-economy-design.md`. The
 Challenger's trigger condition is MET + RECORDED (sixth verify: threat felt,
 entrainment flat) — promotion stays the owner's explicit call, fairness
 ladder mandatory.
+
+## v11 debate OUTCOMES (2026-08-12, post-eighth-verify — consume, don't re-open)
+
+Owner forks via AskUserQuestion (brief: `drafts/_scope-debate-v11.md`;
+verdict: `drafts/_q6-retune-fun-verify-20260812.md`):
+
+- **v11 = DENSITY / RE-MASSING promoted** (hunting-ground pressure). The
+  owner's code-confirmed diagnosis: 1:1 respawns at HOME tiles + 12-tile
+  block = clumping decays after the opening pull → "too easy to clean up…
+  boring and stale after a few rounds". Q6 drop-legibility rides as polish.
+  Brainstorm/spec = next session; design forks close before the spec.
+- **3.5× band-2 multiplier REVERTED to 2.0** (owner fork): the v10.1 retune
+  is a recorded NEGATIVE result — premium earned but not attributed; Q1
+  "money got easy" + Q5 "back to nest too often" regressed. The shape-law
+  test keeps strictly-increasing, drops the >= 3.0 hypothesis floor. Any
+  future premium returns WITH a dense field to read against.
+- **Challenger DECLINED (second time)** with trigger TRIPLE-confirmed
+  (entrainment flat 6th/7th/8th). Dossier stands in the debate brief;
+  standing clause unchanged (owner's explicit call, fairness ladder
+  mandatory, scatter alternative on record).
+- **Arc/purpose wishlist recorded (owner, verbatim 2026-08-12):** "more
+  purpose in the gameplay… move or advance toward something, progress,
+  leveling, equipment, new enemies and zones, lore, cities" — the likely
+  v12 debate; A3 + bible fiction pass are its lead candidates.
+- **Q7 cue redesign = parked presentation item** (two tuning passes — 45→75
+  read-time + earlier threshold round — did not move "still arbitrary";
+  the cue itself misreads; next attempt is a redesign, not a retune).

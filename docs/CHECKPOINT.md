@@ -1,6 +1,26 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-12 (latest, EIGHTH VERIFY LANDED) — retune NEGATIVE: Q6 still collapsed, BOTH guards regressed; density-decay diagnosis owner-confirmed; scope debate in flight
+## 2026-08-12 (latest, DEBATE CLOSED) — v11 = DENSITY/RE-MASSING promoted; 3.5× REVERTED to 2.0; Challenger declined 2nd time (trigger triple-confirmed)
+
+**Owner forked via AskUserQuestion (brief `drafts/_scope-debate-v11.md`):
+v11 = hunting-ground density/re-massing** (his own code-confirmed
+diagnosis: 1:1 home-tile respawns + 12-tile block → clumping decays →
+"boring and stale after a few rounds"). Q6 drop-legibility rides as
+polish. **Brainstorm/spec is the NEXT session's first act** — design
+forks close before the spec; the increment MAY touch the threat layer
+(it owns respawn; the v10.1 freeze is lifted by promotion). **3.5×
+band-2 reverted to 2.0 same session** (pins + shape-law floor updated;
+strictly-increasing law kept) — v10.1 stands as a recorded negative
+result. Challenger dossier stands for the next debate; arc/purpose
+wishlist (progression/leveling/equipment/zones/lore/cities, owner
+verbatim) = likely v12. Scope contract rewritten to v11; PARKING_LOT
+updated (tank-first stale entry fixed — it SHIPPED with A2; v11
+outcomes section added; video-critic/gamesmith harness idea parked with
+dossier, owner ask). **Rule-2 note: the revert build's wall re-proof
+runs post-commit (digits-only deltas, twice-proven class — but the gate
+is blocking, so it runs); harvest before any v11 code.**
+
+## 2026-08-12 (EIGHTH VERIFY LANDED) — retune NEGATIVE: Q6 still collapsed, BOTH guards regressed; density-decay diagnosis owner-confirmed; scope debate in flight
 
 **EIGHTH fun-verify VERDICT (blind held — owner played with no changelog;
 full record `drafts/_q6-retune-fun-verify-20260812.md`): the v10.1 retune

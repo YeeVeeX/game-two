@@ -74,11 +74,11 @@ class ThreatRespawnTest < Minitest::Test
 
   def test_drop_amounts_scale_with_gate_distance_bands
     # Band 0: gate_distance < 14, multiplier 1.0
-    # Band 2: gate_distance >= 28, multiplier 3.5
+    # Band 2: gate_distance >= 28, multiplier 2.0
     # Separate worlds with the same seed ensure the drop roll lands at the
     # same RNG position — only one kill per world, so table-draw index matches.
     near_tile = [5, 13]   # gate_distance ~4 (band 0, mult 1.0)
-    far_tile = [35, 5]    # gate_distance >= 28 (band 2, mult 3.5)
+    far_tile = [35, 5]    # gate_distance >= 28 (band 2, mult 2.0)
 
     3.times do |trial|
       seed = 200 + trial
@@ -112,10 +112,10 @@ class ThreatRespawnTest < Minitest::Test
       refute_nil far_drop, "far kill must produce a drop"
       far_amount = far_drop[:amount]
 
-      # Same RNG roll, but far uses multiplier 3.5
-      assert_equal (near_amount * 3.5).round, far_amount,
-                   "deep kill (gate_distance>=28) must yield 3.5x the base: " \
-                   "near=#{near_amount} (×1.0), far=#{far_amount} (×3.5), seed=#{seed}"
+      # Same RNG roll, but far uses multiplier 2.0
+      assert_equal (near_amount * 2.0).round, far_amount,
+                   "deep kill (gate_distance>=28) must yield 2x the base: " \
+                   "near=#{near_amount} (×1.0), far=#{far_amount} (×2.0), seed=#{seed}"
     end
   end
 end

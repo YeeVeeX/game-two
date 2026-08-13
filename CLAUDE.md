@@ -6,59 +6,68 @@ permission for design decisions.
 
 ## Scope contract (the #1 Kethral failure was ignoring this — it is enforced here)
 
-v10 (2026-08-12): A2 SHIPPED (merge `e3759c3`, 8-gate wall green) and the
-SIXTH fun-verify landed VALID the same day: **Q3 "bank now or push deeper" =
-"It changed — real dilemma" — the chore MOVED on the sixth ask, first
-positive in six. A2 WINS.** Threat felt end-to-end (box "Felt it — and ran",
-run-back "In doubt at least once", breather "Real option, felt fair"); wipes
-1/session (vs 6-8 baseline); one pile abandoned in the field. Remaining
-negatives: Q8 banked still pure score, Q5 wipes weightless, Q6 retargets
-"read as randomness", owner free-text "no healing → hunts end early →
-repetitive". SCOPE DEBATE closed 2026-08-12 (owner forks via
-AskUserQuestion): **v10 = D1b inscription + priced flesh; Q6 rider rides.**
-Full verdict: `drafts/_a2-fun-verify-20260812.md`.
+v11 (2026-08-12): v10 D1b SHIPPED + VALID (Q1 meaning moved, seventh
+verify); v10.1 Q6 retune SHIPPED (merge `ba4e0ad`, wall 9/9+9/9) but the
+EIGHTH fun-verify (blind) landed **NEGATIVE: Q6 still always-bank, depth
+felt uniform, Q1 "money got easy" + Q5 "back to nest too often" both
+regressed, Q7 still arbitrary, entrainment flat THIRD time** — the 3.5×
+premium was earned but never attributed, and it was **REVERTED to 2.0 by
+owner fork** (a recorded negative result: one number was not the lever).
+Same session the owner diagnosed the real upstream problem, code-confirmed:
+**density decay** — the opening pull masses all 15 district humans once;
+1:1 respawns land at HOME spawn tiles (+300f, respawn_block 12) so steady
+state is scattered singles, "too easy to clean up… boring and stale after
+a few rounds, but the core system and combat feels good." SCOPE DEBATE
+closed 2026-08-12 (owner forks via AskUserQuestion): **v11 = DENSITY /
+RE-MASSING (hunting-ground pressure).** Full records:
+`drafts/_q6-retune-fun-verify-20260812.md`, `drafts/_scope-debate-v11.md`.
 
-**IN scope — v10 promotes exactly ONE increment, the D1b economy (two
-spends, one currency), plus its riders:**
-- **Inscription (the meaning sink)**: spend banked to inscribe a body with a
-  god-mark; on a wipe, inscribed bodies survive the vat, unmarked dissolve.
-  Session-only persistence (restart persistence stays parked). Economy
-  vision owner-locked 2026-08-11 (inscription-within-ritual, council
-  synthesis; `drafts/_council-economy-verdict.md`); player-visible names
-  come from the bible (fiction order form in the spec). Targets Q8 (sixth
-  consecutive "banked wouldn't matter") + Q5 (wipes weightless).
-- **Priced flesh (the recurring sink)**: spend banked at the nest to restore
-  the pack's flesh. No in-field healing. Rationale (code fact + owner
-  evidence, debate 2026-08-12): `Creature#revive!` is the sim's ONLY heal
-  and fires ONLY on wipe-respawn → the free wipe was the de-facto heal and
-  body-recovery button; inscription making wipes destructive REQUIRES the
-  priced valve. Touchstone: Tibia supply finances (Gudii f38).
-- **Q6 legibility rider**: retarget margin/threshold tuning
-  (`proximity_switch_margin_tiles`, `lowhp_switch_pct` — data) + a brief
-  why-they-turned cue (retarget-cause telemetry already carries the reason).
-- **Bug bundle (rides any sim change, never standalone)**: held-Shift dodge
-  locks movement (controllers.rb:33-37 — level-triggered dodge starves the
-  walk branch) and a2_fired `deepest_band` converts at summary time (reads
-  0 when quitting from the nest) → convert at kill time. Both invalidate
-  all 8 replay streams — that is why they ride this increment.
-- Design forks close BEFORE the spec (owner via AskUserQuestion); all
-  numbers in `data/`.
+**IN scope — v11 promotes exactly ONE increment, hunting-ground density,
+plus its riders:**
+- **Density / re-massing (the increment)**: after the opening pull, the
+  district must keep offering GROUPED threat — respawn scheduling that
+  re-masses (shape TBD at brainstorm: re-mass toward clusters, wave pulses,
+  density floors per region — design forks close BEFORE the spec, owner via
+  AskUserQuestion). Oracle: the owner's own words — a session must NOT get
+  "boring and stale after a few rounds"; entrainment and Q6-depth re-read
+  behind it. Touchstones: Tibia grounds stay dense (Gudii f83
+  laps/respawn), density-as-consequence (consequence synthesis), A2 shape
+  note "respawns walk back toward the last fight". This increment MAY touch
+  the threat layer (it owns respawn) — the v10.1 "A2 untouched" freeze is
+  lifted by this promotion, values still all in data/.
+- **Q6 drop-legibility rider**: deep drops must READ as place (drop/pickup
+  presentation) — rides as polish, never standalone; the eighth verify
+  proved an unfelt premium degrades into inflation.
+- **Brainstorm/spec is the NEXT session's first act** (per the debate
+  close); nothing lands in code before the spec's owner forks close.
+- All numbers in `data/`; zero balance constants in Ruby.
 
 **OUT of scope — goes to PARKING_LOT.md, never to code:**
-The **Challenger** (named human who taunts back): trigger condition MET +
-RECORDED at the sixth verify (threat felt, entrainment flat) — promotion
-stays the owner's explicit call, fairness ladder mandatory. Also parked:
-restart persistence; quirks/history accumulation beyond the session;
-practice fine + insurance (D2, blocked on skill-through-use); scavengers +
-term-extension marks (D3); D1 term/grace retuning (margin-anchored 5400/2700
-stand until measured `term_left/term` margins exist); A1 gambits, Shooters,
-A3 nest advance; inventory grids, carry weight, rarity, new drop types; any
-THIRD kit special or new binding; "The Nest" rename (post-bible, its own
-increment — two owner complaints on record); plus everything already parked
-(procedural dungeons, stamina, XP/skills, dialogue, status effects,
-crafting, weather, co-op, quests, shops, multiple weapons).
-**Nothing new starts until v10 is fun-verified by the owner (the SEVENTH
-ask; Q8 is the headline question).**
+The **Challenger** (named human who taunts back): DECLINED a SECOND time at
+this debate with its trigger TRIPLE-confirmed (entrainment flat at sixth,
+seventh, eighth) — dossier stands in `drafts/_scope-debate-v11.md`;
+promotion stays the owner's explicit call, fairness ladder mandatory.
+**The arc/purpose layer** (owner wishlist on record 2026-08-12: "advance
+toward something, progress, leveling, equipment, new enemies and zones,
+lore, cities") = the likely v12 debate — A3 nest advance + bible fiction
+pass are its lead candidates; it waits for a dense field to give purpose
+TO. **Q7 cue redesign** opens as its own parked presentation item (two
+tuning passes exhausted; the cue itself misreads). Also parked: restart
+persistence; quirks/history accumulation beyond the session; practice fine
++ insurance (D2, blocked on skill-through-use); scavengers +
+term-extension marks (D3); D1 term/grace retuning (margin-anchored
+5400/2700 stand until measured `term_left/term` margins exist); A1
+gambits, Shooters; inventory grids, carry weight, rarity, new drop types;
+any THIRD kit special or new binding; "The Nest" rename (post-bible, its
+own increment — two owner complaints on record); video-critic harness leg
++ gamesmith fun-verify assist (owner ask, parked with dossier); plus
+everything already parked (procedural dungeons, stamina, XP/skills,
+dialogue, status effects, crafting, weather, co-op, quests, shops,
+multiple weapons).
+**Nothing new starts until v11 is fun-verified by the owner (the NINTH
+ask; the headline question is the owner's own oracle: does a session stay
+alive past "a few rounds", and did the field ever feel worth pushing
+deeper into).**
 
 ## De-slop + comprobations (owner-set 2026-08-09)
 
