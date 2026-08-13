@@ -33,6 +33,7 @@
     { "type": "vat", "at": [10, 6] }
   ],
   "transitions": [
-    { "at": [0, 5], "to": "district", "spawn": [40, 13] }
+    { "at": [0, 5], "to": "district", "spawn": [40, 13] },
+    { "at": [19, 5], "to": "district_two", "spawn": [1, 13] }
   ]
 }
