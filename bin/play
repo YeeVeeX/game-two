@@ -2,4 +2,6 @@
 # Owner launcher: PATH-safe from any shell. Double-clickable via bin/play.cmd.
 cd "$(dirname "$0")/.." || exit 1
 export PATH="/c/Ruby34-x64/bin:$PATH"
-exec ruby -Isrc src/main.rb
+# Session-telemetry law (ninth-verify protocol): unique log per launch —
+# a fixed name cost the eighth verify its telemetry to a relaunch clobber.
+exec ruby -Isrc src/main.rb > "/tmp/game_two_session_$$.log" 2>&1
