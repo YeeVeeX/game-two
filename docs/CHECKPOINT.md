@@ -1,5 +1,24 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-13 (GOALCOMP — v11 goal COMPLETE end to end; v12 staged for a fresh session)
+
+Goal closed this session: wall 9/9 → perf 0.284ms → suite green → merge
+`946c979` (NOT pushed) → BLIND ninth verify (verdict
+`drafts/_v11-fun-verify-20260813.md`) → debate → v12 scope committed.
+**MEASURED now: main at `e350289`, 241 commits, tree clean, 53 commits
+ahead of origin (never push), suite 302 runs / 1,238 assertions green
+(hook-run at `e350289`), checks 40, 11 replay scripts.** Nothing in
+flight; both owner session logs harvested. New harvest file:
+`drafts/_tibia-aoe-research-20260813.md` (the AoE dossier PARKING_LOT
+points at — was context-only). New memory: `pilot-staging-traps`
+(interact is a press; wait 25 after swap before special; force-kill loses
+buffered telemetry). **Next session's first act: v12 ARC/PURPOSE
+brainstorm** (superpowers:brainstorming) — shape candidates for A3 nest
+advance + bible fiction pass; design forks close via owner
+AskUserQuestion BEFORE the spec; then spec → TDD branch → wall → perf →
+merge → TENTH blind verify (headline: did the session advance toward
+something).
+
 ## 2026-08-13 (V12 SCOPED: ARC/PURPOSE) — debate closed via AskUserQuestion; scope contract rewritten; goal COMPLETE
 
 **v12 debate held and closed** (owner picked the dev recommendation over
