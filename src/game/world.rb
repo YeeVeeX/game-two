@@ -24,12 +24,12 @@ module Game
       corpse_loaded corpse_looted fight_resolved
       human_retargeted human_leashed human_respawned
       inscribed banked_spent tribute_paid body_regrown body_dissolved mark_consumed vessel_kept
-      seal_breached
+      seal_breached home_rehomed
     ].freeze
 
     TRANSITIONS = { world: %i[nest_respawn], nest_respawn: %i[world] }.freeze
 
-    HOME_ZONE = "nest".freeze # fiction-pending name (world bible integration = owner call)
+    HOME_ZONE = "nest".freeze # the INITIAL home only — @home_zone advances (v12)
 
     attr_reader :bus, :pack, :feel, :states, :frame, :camera, :zone_name, :rng
 
@@ -50,6 +50,7 @@ module Game
       @station_cue = nil
       @breach_line = nil
       @breached = {}
+      @home_zone = HOME_ZONE
       @zones = {}
       @humans = Hash.new { |h, k| h[k] = [] }
       @human_respawns = Hash.new { |h, k| h[k] = [] }
@@ -74,7 +75,7 @@ module Game
       # the same flush (the wipe-ordering pin, spec M6).
       @fight_ledger = FightLedger.new(@bus, world: self,
                                       config: data["balance/ledger"])
-      enter_zone(HOME_ZONE, map.pack_spawn)
+      enter_zone(@home_zone, map.pack_spawn)
     end
 
     def map = @zones.fetch(@zone_name)
@@ -731,6 +732,12 @@ module Game
       @camera.snap!(possessed.x + Creature::SIZE / 2.0, possessed.y + Creature::SIZE / 2.0)
       @banner_timer = @display[:zone_banner_frames]
       @bus.emit(:zone_entered, zone: name)
+      # v12: home = the last hub entered, session-only. Wipe respawn and vat
+      # regrowth read @home_zone — the arc advances the pack's anchor.
+      if map.hub && name != @home_zone
+        @home_zone = name
+        @bus.emit(:home_rehomed, zone: name)
+      end
     end
 
     def load_zones
@@ -783,8 +790,8 @@ module Game
 
     def spawn_pack
       cfg = @balance[:pack]
-      home = @zones.fetch(HOME_ZONE)
-      @zone_name = HOME_ZONE
+      home = @zones.fetch(@home_zone)
+      @zone_name = @home_zone
       members = cfg[:members].each_with_index.map do |kit_name, i|
         Creature.new(bus: @bus, kit: @balance[:kits].fetch(kit_name.to_sym),
                      kit_name: kit_name.to_sym, map: home, tile: home.pack_spawn[i],
@@ -823,7 +830,7 @@ module Game
              @economy[:heal_cost_per_body] * wounded.length
       return station_refuse!(source.tile) if cost.zero?
       return station_refuse!(source.tile) unless spend_banked(source, cost, :tribute)
-      home = @zones.fetch(HOME_ZONE)
+      home = @zones.fetch(@home_zone)
       dead.each do |m|
         m.revive!(map: home, tile: home.pack_spawn[@pack.members.index(m)])
         @bus.emit(:body_regrown, body: m)
@@ -875,11 +882,11 @@ module Game
     # unmarked dissolves (stays dead-and-regrowable — dissolution IS the
     # absence of revival). Floor: a judgment that would leave nothing
     # returns the body possessed at the wipe — the gods keep you alive to
-    # pay. Taunt-release sweep and HOME_ZONE re-entry unchanged (impl
+    # pay. Taunt-release sweep and home re-entry unchanged (impl
     # review 1 law).
     def respawn_pack
       @humans.each_value { |list| list.each(&:release_taunt!) }
-      @zone_name = HOME_ZONE
+      @zone_name = @home_zone
       vessel = @pack.possessed
       floor = @pack.members.none?(&:marked?)
       revived = []
@@ -902,7 +909,7 @@ module Game
       end
       clear_unloaded_pack_husks
       snap_possession_after_judgment(revived)
-      enter_zone(HOME_ZONE, map.pack_spawn)
+      enter_zone(@home_zone, map.pack_spawn)
       @bus.emit(:pack_respawned)
     end
 
