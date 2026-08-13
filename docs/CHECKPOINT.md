@@ -1,5 +1,33 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-13 (V11 MERGED) — wall 9/9 + perf + suite green; merged --no-ff to main (NOT pushed); ninth blind verify is next
+
+**v11 wall COMPLETE 9/9** (phase 1: 6/6, one taunt_anchor critic-INFRA
+retry; phase 2 re-pilots: corpse_run a1 / threat_pull a2 / vat_economy a1
+— threat_pull a1 was critic INFRA, empty model output, det 20/20 both).
+Determinism passed every attempt for every script. **The new
+`deep_drop_band_reads` check is EXERCISED-PASS** — critic verbatim: "The
+glowing ember-gold square in 4392 reads visibly richer than the small
+magenta drops" (two staged band-2 kills, q6 line b2=2). Re-pilot evidence
++ techniques: `drafts/_v11-wall-log.md` phase 2 (window-split negative
+net; swap-stagger eats special presses — `wait 25` before casting; the
+re-massed deep field mobbed two walk-ins — the mass IS the hazard now).
+
+**MEASURED at this checkpoint: main at merge `946c979` (--no-ff, NOT
+pushed), branch commit `2fde4ef`; suite 302 runs / 1,238 assertions, 0
+failures (hook-run at commit); perf p95 0.284 ms vs 16.6 budget (prior
+0.224 — density bookkeeping cost negligible); checks 40.** Density
+telemetry across the three new streams: pocket arrivals dominant
+(13/6/36), seed path live (vat 3), home fallback never used; singles_pct
+61/76/41.
+
+Next: **BLIND ninth fun-verify** (owner plays `bin/play` FIRST, no
+changelog; unique log `/tmp/game_two_session_$$.log`; harvest density +
+q6_cadence BEFORE questions; questions 1-8 + pre-registered routing
+VERBATIM from the spec) → verdict `drafts/_v11-fun-verify-<date>.md` →
+next scope debate (Challenger, trigger 3-4x, vs arc/purpose v12 vs
+whatever the verify routes).
+
 ## 2026-08-13 (RESUME STAGED) — resume plan approved; no execution yet; wall still 6/9
 
 Resume session opened on the goal below; **nothing executed** — this delta
