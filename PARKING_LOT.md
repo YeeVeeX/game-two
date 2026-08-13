@@ -34,12 +34,17 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
   owner ever notices it; the fix (orthogonal-neighbor check in commit/commit_through)
   changes movement feel, so it waits for an owner verdict rather than shipping silently.
 
-## World mythology (docs-only — no code until fun-verify, then only via scope-contract update)
+## World mythology — ADOPTED at v12 (2026-08-13, owner fork: full adoption)
 
 - `docs/lore/world-bible.md` — standalone Egyptian×Fantasy world bible (Tibia-method: original
   pantheon, every creature family traced to the mythology, gods withdrawn but omnipresent).
-  Deliberately NOT bound to Kethral names (owner call 2026-08-09) — integration is a future
-  decision. Research canon behind it: 4 `game-research/` vault notes (egyptian-cosmology,
+  ~~Deliberately NOT bound (owner call 2026-08-09) — integration is a future decision.~~
+  **INTEGRATION DECIDED at the v12 forks (2026-08-13): game-two IS a place in Suvareth**
+  (the city Silovun, a defaulted funerary quarter under interdict; the pack = the court's
+  collectors). The full order-form answers live in the v12 spec's fiction annex
+  (`docs/superpowers/specs/2026-08-13-v12-arc-purpose-design.md`); v12 renders only
+  born-named NEW surfaces — existing banners/wipe-line renames remain the v13 increment.
+  Research canon behind it: 4 `game-research/` vault notes (egyptian-cosmology,
   egyptian-death-afterlife, akhenaten-amarna, new-kingdom-power — query via
   `hub kb query --domain game-research`). Its gameplay-hooks appendix maps lore → parked
   systems (corpse-run, respawn, skill-through-use, factions, bestiary). Unblocks the
