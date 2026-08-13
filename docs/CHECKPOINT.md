@@ -1,5 +1,35 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-13 (GOALCOMP #2 mid-v12 — TDD 5/5 COMPLETE; wall mid-flight, pilot LIVE)
+
+**All five v12 increments green-committed on `v12-arc`:** seal+camp
+`f7ff543` · re-homing `36d2b6f` · Keyward+Slow Door `69287db` · telemetry+
+checks `5f29598` · riders `706742c`. **MEASURED: 249 commits, HEAD
+`706742c` + this checkpoint, suite 335 runs / 1,386 assertions green
+(hook-run), checks 42 (add-only #41/#42), 11 replay scripts + nest_advance
+in-pilot.** Cross-zone determinism pinned (breach chain, 4 zones, respawn
+cycle). Rider values live: join 4 / cap 6 / corpse_guard 10.
+
+**Wall (drafts/_v12-wall-log.md = the SSoT — READ IT before touching any
+gate):** PASS world_loop, district_hunt, specials_chain, loot_loop,
+taunt_anchor (+ moving_square/critic_reel det-only, the v11 law).
+corpse_run RE-PILOTED + INSTALLED (pilot corpse4: ring bracket, spaced
+shots, depth pair, pip/veil/judgment/loot/bank — 17 captures) — its gate
+OWED. ledger_loop + vat_economy = REAL desyncs -> re-pilots OWED (recipes
+in the wall log; reuse v11 inboxes + corpse4 fixes). threat_pull = 4
+INFRA critic errors, ROOT CAUSE FIXED (vision_critic.py verdict call
+8000->16_000 maxTokens, committed here) — attempt 1 OWED. **nest_advance
+pilot nest1 LIVE (window open, sim frozen): seed 0, generation r5, banked
+22/40, lobber-only; hunt doctrine + resume protocol + acts 2-5 capture
+plan all in the wall log Phase 2 section.** After wall: perf ALONE ->
+full rake -> merge --no-ff (NO push) -> CHECKPOINT -> TENTH blind verify
+(spec questions/routing verbatim) -> v13 debate.
+
+**Session side-events:** owner shared the repo with `juniormaciel10`
+(collaborator, write) + branch `junior-tibia` — assessed + ledgered
+(re-additions 2026-08-13 addendum 2); no branch protection possible on
+the free plan; convention agreed = Junior never pushes main.
+
 ## 2026-08-13 (GOALCOMP mid-v12 — spec committed + increment 1 of 5 green; TDD continues)
 
 **v12 pipeline state: brainstorm DONE -> 7 owner forks CLOSED (all on dev
