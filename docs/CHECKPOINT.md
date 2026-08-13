@@ -1,6 +1,19 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-13 (latest, V11 BUILT + WALL 6/9) — implementation green on `v11-density`; phase-1 wall 6/6; three re-pilots remain
+## 2026-08-13 (RESUME STAGED) — resume plan approved; no execution yet; wall still 6/9
+
+Resume session opened on the goal below; **nothing executed** — this delta
+only records the staging. Plan-mode pass re-verified prerequisites on disk:
+all 9 `/tmp/q6_revert_wall_<s>.log` (beat-inventory source for the three
+re-pilots — volatile, re-verify after any reboot), phase-1 `/tmp/v11_wall_*`
+logs + summary, `tmp/v11_wall_asis.sh`, pilot protocol + d1b techniques.
+**Approved resume plan: `C:\Users\gabri\.claude\plans\greedy-waddling-cherny.md`**
+(operational detail for steps 3a→7; the committed spec stays SSoT for
+mechanism/verify/routing). MEASURED now: `v11-density` at `36e24ff`,
+234 commits, tree clean. Next act = step 3a re-pilots (vat_economy 7,
+corpse_run 7, threat_pull 42 — threat_pull must stage the band-2 drop).
+
+## 2026-08-13 (V11 BUILT + WALL 6/9) — implementation green on `v11-density`; phase-1 wall 6/6; three re-pilots remain
 
 **v11 IMPLEMENTED (plan steps 1-2 DONE), all TDD, hooks enforced:** spec
 committed `f11a643` (adversarially reviewed pre-commit, 9 findings folded
