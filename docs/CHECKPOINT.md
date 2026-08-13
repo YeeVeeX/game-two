@@ -1,6 +1,36 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-13 (latest, PLAN APPROVED) — v11 forks CLOSED + execution plan approved; revert wall confirmed DEAD (INFRA) — re-run is step 0
+## 2026-08-13 (latest, STEP 0 DONE) — revert wall RE-RUN COMPLETE 9/9+9/9; v11 spec written + adversarially reviewed (commit next)
+
+**Revert wall re-proof (v11 step 0): WALL COMPLETE 9/9 determinism + 9/9
+critic** on main `2de5be2` (the reverted 2.0-gradient build), chain
+00:51:52–02:10:34. Eight gates passed attempt 1; taunt_anchor passed
+attempt 2 after an attempt-1 critic-judgment flake (`projectile_visible`,
+det 10/10 byte-identical, vision 38/39; same shot beat passed in prior
+walls + last 11 verdicts of that check were passes — evidence unchanged,
+NOT verdict-shopped). q6_cadence fired in-wall: banks{n=4 mean=13 max=24}
+kills_by_band{b0=12 b1=18 b2=6}. Map appended to `drafts/_q6-wall-log.md`
+(dead chain-1 recorded as INFRA). **The reverted build is Rule-2 valid;
+v11 code may begin.**
+
+**v11 spec WRITTEN + REVIEWED (step 1, committing this session):**
+`docs/superpowers/specs/2026-08-13-v11-density-remassing-design.md` —
+carries the three closed forks verbatim, release-time anchoring mechanism,
+threat.json `density` block, corpse-guard fairness rule (refined to
+always-on while a live load exists — recorded dev call), pinned density
+telemetry format incl. zero-arrivals case, band rider with 10<14<16<18
+size ladder, ninth-verify questions + routing IN the spec. Adversarial
+3-lens review `wf_2e56306e-27f` (45 agents, 2.50M tokens): 14 findings,
+**9 confirmed → all folded in** (add_human return-value trap, double-min
+pocket scoring, empty-pack seed guard, RNG tick-phase ordering pinned,
+band-1 16px, check #20 template amendment, zero-sample telemetry, defer
+test isolation), 5 refuted — ledger `drafts/_v11-spec-review.md`.
+
+Next: spec commit → TDD on branch `v11-density` (plan step 2) → wall with
+re-pilots (desyncs expected; checks 39→40) → perf → merge --no-ff (NO
+push) → BLIND ninth fun-verify → next scope debate.
+
+## 2026-08-13 (PLAN APPROVED) — v11 forks CLOSED + execution plan approved; revert wall confirmed DEAD (INFRA) — re-run is step 0
 
 **v11 design forks CLOSED by owner via AskUserQuestion (before the spec, as
 the debate ordered): (1) core shape = RE-MASS TOWARD CLUSTERS — respawn
