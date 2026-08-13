@@ -1,5 +1,40 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-13 (GOALCOMP mid-v12 — spec committed + increment 1 of 5 green; TDD continues)
+
+**v12 pipeline state: brainstorm DONE -> 7 owner forks CLOSED (all on dev
+recommendation: breach chain / banked toll / second seal priced high / D1
+stays live / FULL Suvareth adoption / court's-collectors identity / new
+surfaces born named) -> spec WRITTEN + adversarially REVIEWED + COMMITTED
+`c373116` -> TDD increment 1/5 green `f7ff543`.** Review: 49-agent 4-lens
+workflow `wf_c93e43ff-7cb` (code-fit/design-fun/harness-verifiability/
+canon-compliance), 3.92M tokens, 12 deduped findings **0 confirmed** (all
+majority-refuted with file:line evidence), 6 cap-dropped hand-dispositioned,
+4 hardening folds (district_two pack_spawn; gradient_anchor validation;
+beachhead named as second desync candidate; annex names tightened to
+direct canon patterns — ulwir/goret/ithet, savrim precedent). Ledger:
+`drafts/_v12-spec-review.md` (local, gitignored by design).
+
+**MEASURED now: branch `v12-arc` at `f7ff543`, 244 commits, tree clean,
+suite 315 runs / 1,288 assertions green (hook-run at commit), checks 40,
+11 replay scripts.** Increment 1 shipped: gradient_anchor law (the
+sorted-zone-keys band-flip trap — watched fail, then pinned), seal station
++ sealed transition in District One's deep east ([41,13]/[42,13], toll 40),
+breach beat (strongest feel kick + "THE WAY IS PAID" gate-gold line +
+slab-to-gold flip), camp.json = "The Second Vigil" (hub, full station kit).
+New test file `test/game/seal_breach_test.rb` (13 runs). Trap for the next
+increments: the breach kick's 8 hitstop frames pause transitions/clocks —
+tests need HITSTOP_SLACK.
+
+**Remaining increments 2-5 + wall plan + traps: `drafts/_v12-implementation-notes.md`**
+(2 = hub re-homing; 3 = The Keyward + The Slow Door + seal2 @150; 4 = arc +
+q6_margins telemetry + world_scene events + checks 40->42; 5 = rider values
+join_radius 4 / pocket_cap 6 / corpse_guard 10). Then: wall (11 scripts
+triage + pilot-authored nest_advance.json -> 10 gates) -> perf ALONE ->
+full rake -> merge --no-ff (NO push) -> TENTH blind verify (questions +
+routing pre-registered IN the spec; harvest arc/density/q6_cadence/
+q6_margins BEFORE questions) -> v13 debate via AskUserQuestion.
+
 ## 2026-08-13 (GOALCOMP — v11 goal COMPLETE end to end; v12 staged for a fresh session)
 
 Goal closed this session: wall 9/9 → perf 0.284ms → suite green → merge
