@@ -26,6 +26,7 @@ from pathlib import Path
 import boto3
 from botocore.config import Config as BotoConfig
 from botocore.exceptions import ConnectionError as BotoConnectionError
+from botocore.exceptions import EventStreamError
 from botocore.exceptions import ReadTimeoutError
 
 # Windows may expose a legacy CP1252 console even though verdict/log data is
@@ -81,7 +82,11 @@ def converse(client, content_blocks: list[dict], max_tokens: int = 8000) -> str:
                 if "text" in delta:
                     parts.append(delta["text"])
             return "".join(parts).strip()
-        except (client.exceptions.ThrottlingException, BotoConnectionError, ReadTimeoutError):
+        except (client.exceptions.ThrottlingException, BotoConnectionError,
+                ReadTimeoutError, EventStreamError):
+            # EventStreamError: Bedrock can 500 MID-stream (internalServerException
+            # inside the event stream, observed 2026-08-12 killing a wall gate) —
+            # transport-transient, retried exactly like a throttle.
             if attempt == _ATTEMPTS:
                 raise
             time.sleep(30)
