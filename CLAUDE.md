@@ -6,68 +6,65 @@ permission for design decisions.
 
 ## Scope contract (the #1 Kethral failure was ignoring this — it is enforced here)
 
-v11 (2026-08-12): v10 D1b SHIPPED + VALID (Q1 meaning moved, seventh
-verify); v10.1 Q6 retune SHIPPED (merge `ba4e0ad`, wall 9/9+9/9) but the
-EIGHTH fun-verify (blind) landed **NEGATIVE: Q6 still always-bank, depth
-felt uniform, Q1 "money got easy" + Q5 "back to nest too often" both
-regressed, Q7 still arbitrary, entrainment flat THIRD time** — the 3.5×
-premium was earned but never attributed, and it was **REVERTED to 2.0 by
-owner fork** (a recorded negative result: one number was not the lever).
-Same session the owner diagnosed the real upstream problem, code-confirmed:
-**density decay** — the opening pull masses all 15 district humans once;
-1:1 respawns land at HOME spawn tiles (+300f, respawn_block 12) so steady
-state is scattered singles, "too easy to clean up… boring and stale after
-a few rounds, but the core system and combat feels good." SCOPE DEBATE
-closed 2026-08-12 (owner forks via AskUserQuestion): **v11 = DENSITY /
-RE-MASSING (hunting-ground pressure).** Full records:
-`drafts/_q6-retune-fun-verify-20260812.md`, `drafts/_scope-debate-v11.md`.
+v12 (2026-08-13): **v11 density/re-massing SHIPPED + WON the ninth blind
+verify** (merge `946c979`, wall 9/9, perf p95 0.284ms). First spontaneous
+positive on record — owner, unprompted, before any question: *"I am
+starting to love the core loop of the gameplay"* — plus *"it is actually
+good that the game is difficult, I like the current level of it"*
+(difficulty pinned RIGHT). Groups kept coming, depth pull BIT, deep drops
+READ richer, money EARNED, **entrainment MOVED after three flat reads**
+(the Challenger's trigger did NOT confirm a fourth time). Residue is
+tuning-sized: stale "somewhere between" (drifts eventually), nest trips
+STILL too often (third regression — lever is elsewhere), one corpse-run
+camp (fairness, NOT difficulty). Verdict + telemetry + routing verbatim:
+`drafts/_v11-fun-verify-20260813.md`. SCOPE DEBATE closed 2026-08-13
+(owner via AskUserQuestion, dev recommendation accepted): **v12 =
+ARC/PURPOSE (A3 nest advance + bible fiction pass).**
 
-**IN scope — v11 promotes exactly ONE increment, hunting-ground density,
-plus its riders:**
-- **Density / re-massing (the increment)**: after the opening pull, the
-  district must keep offering GROUPED threat — respawn scheduling that
-  re-masses (shape TBD at brainstorm: re-mass toward clusters, wave pulses,
-  density floors per region — design forks close BEFORE the spec, owner via
-  AskUserQuestion). Oracle: the owner's own words — a session must NOT get
-  "boring and stale after a few rounds"; entrainment and Q6-depth re-read
-  behind it. Touchstones: Tibia grounds stay dense (Gudii f83
-  laps/respawn), density-as-consequence (consequence synthesis), A2 shape
-  note "respawns walk back toward the last fight". This increment MAY touch
-  the threat layer (it owns respawn) — the v10.1 "A2 untouched" freeze is
-  lifted by this promotion, values still all in data/.
-- **Q6 drop-legibility rider**: deep drops must READ as place (drop/pickup
-  presentation) — rides as polish, never standalone; the eighth verify
-  proved an unfelt premium degrades into inflation.
-- **Brainstorm/spec is the NEXT session's first act** (per the debate
-  close); nothing lands in code before the spec's owner forks close.
+**IN scope — v12 promotes exactly ONE increment, arc/purpose, plus its
+routed riders:**
+- **Arc/purpose (the increment)**: the session must feel like it advances
+  toward something. Lead shape candidates: **A3 nest advance** + **bible
+  fiction pass** (the world bible exists — `docs/lore/world-bible.md`;
+  the spec's fiction order form has handles awaiting names). Shape TBD at
+  brainstorm — design forks close BEFORE the spec, owner via
+  AskUserQuestion. Oracle: the owner's wishlist words (2026-08-12) —
+  "advance toward something, progress, leveling, equipment, new enemies
+  and zones, lore, cities"; the tenth ask's headline = did the session
+  feel like it was GOING somewhere.
+- **Ninth-routed tuning riders (authorized by the routing table, data
+  lanes):** density VALUES iteration for the eventual-drift dose
+  (pocket_cap / join_radius / cadence); corpse_guard/scatter fairness
+  values for the Q7 camp (the guard today binds respawn anchors only —
+  live wanderers unguarded; fairness fix, NEVER a global softening —
+  difficulty is pinned right); Q6 nest-trip economy lever investigation
+  (measured `term_left/term`-style margins BEFORE any retune — third
+  regression proved the lever is elsewhere).
+- **Brainstorm/spec is the NEXT session's first act**; nothing lands in
+  code before the spec's owner forks close.
 - All numbers in `data/`; zero balance constants in Ruby.
 
 **OUT of scope — goes to PARKING_LOT.md, never to code:**
-The **Challenger** (named human who taunts back): DECLINED a SECOND time at
-this debate with its trigger TRIPLE-confirmed (entrainment flat at sixth,
-seventh, eighth) — dossier stands in `drafts/_scope-debate-v11.md`;
-promotion stays the owner's explicit call, fairness ladder mandatory.
-**The arc/purpose layer** (owner wishlist on record 2026-08-12: "advance
-toward something, progress, leveling, equipment, new enemies and zones,
-lore, cities") = the likely v12 debate — A3 nest advance + bible fiction
-pass are its lead candidates; it waits for a dense field to give purpose
-TO. **Q7 cue redesign** opens as its own parked presentation item (two
-tuning passes exhausted; the cue itself misreads). Also parked: restart
-persistence; quirks/history accumulation beyond the session; practice fine
-+ insurance (D2, blocked on skill-through-use); scavengers +
-term-extension marks (D3); D1 term/grace retuning (margin-anchored
-5400/2700 stand until measured `term_left/term` margins exist); A1
-gambits, Shooters; inventory grids, carry weight, rarity, new drop types;
-any THIRD kit special or new binding; "The Nest" rename (post-bible, its
-own increment — two owner complaints on record); video-critic harness leg
-+ gamesmith fun-verify assist (owner ask, parked with dossier); plus
-everything already parked (procedural dungeons, stamina, XP/skills,
-dialogue, status effects, crafting, weather, co-op, quests, shops,
-multiple weapons).
-**Nothing new starts until v11 is fun-verified by the owner (the NINTH
-ask; the headline question is the owner's own oracle: does a session stay
-alive past "a few rounds", and did the field ever feel worth pushing
-deeper into).**
+The **Challenger**: DECLINED a THIRD time at this debate and its
+entrainment trigger did NOT confirm at the ninth (body reacted) — dossier
+stands, weaker; promotion stays the owner's explicit call, fairness
+ladder mandatory. **Tibia AoE-specials dossier** (2026-08-13 deep
+research): clump-payoff special, challenge-retarget special, elemental
+fields — density's player-side payoff tools, parked as v13+ candidates
+(see PARKING_LOT). **Q7 retarget-cue redesign** stays parked
+(presentation). **"The Nest" rename**: still its own increment, but the
+v12 bible pass UNBLOCKS it — re-raise at the v13 debate. Also parked:
+restart persistence; quirks/history accumulation; practice fine +
+insurance (D2); scavengers + term-extension marks (D3); D1 term/grace
+retuning (margin-anchored 5400/2700 stand); A1 gambits, Shooters;
+inventory grids, carry weight, rarity, new drop types; any THIRD kit
+special or new binding; video-critic harness leg + gamesmith fun-verify
+assist; plus everything already parked (procedural dungeons, stamina,
+XP/skills, dialogue, status effects, crafting, weather, co-op, quests,
+shops, multiple weapons).
+**Nothing new starts until v12 is fun-verified by the owner (the TENTH
+ask; headline = did the session feel like it advanced toward
+something).**
 
 ## De-slop + comprobations (owner-set 2026-08-09)
 

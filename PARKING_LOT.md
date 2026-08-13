@@ -321,3 +321,23 @@ verdict: `drafts/_q6-retune-fun-verify-20260812.md`):
 - **Q7 cue redesign = parked presentation item** (two tuning passes — 45→75
   read-time + earlier threshold round — did not move "still arbitrary";
   the cue itself misreads; next attempt is a redesign, not a retune).
+
+## Parked at the v12 debate (2026-08-13 — ninth verify: v11 won; v12 = arc/purpose)
+
+- **The Challenger — THIRD decline.** Its entrainment trigger did NOT confirm at the
+  ninth (body reacted for the first time in four reads — density alone delivered it).
+  Dossier stands in `drafts/_scope-debate-v11.md`, weaker than at either prior decline;
+  promotion remains the owner's explicit call, fairness ladder mandatory.
+- **Tibia AoE-specials dossier (deep research, 2026-08-13).** Full report in the
+  research task output; design seeds extracted: (B) clump-payoff special — an AoE whose
+  efficiency scales with target count, the player-side cash-out for v11's density
+  (lure→clump→burst, the Gudii loop); (D) challenge-retarget special —
+  `exeta amp res`-style forced retarget to the possessed (`cause=challenged`), the tool
+  the deep-carry problem keeps asking for; (A/C/E) elemental fields / resistances / DoT
+  kite-tax — bigger, needs a resistance data layer. All wait behind arc/purpose; v13+
+  candidates. Touchstone: Tibia team-hunt meta (knight holds, shooters volley).
+- **Q3 structural-economy branch (banking rides heal trips) — CLOSED UNFIRED.** Carried
+  since the eighth as an unfalsified hypothesis; the ninth's Q3 "yes, and it bit" ends
+  it without promotion.
+- **Drop-legibility escalation lane — CLOSED VALIDATED.** Ninth Q4 "yes, clearly":
+  the band tint/size/glow rider works; no parked presentation item needed.

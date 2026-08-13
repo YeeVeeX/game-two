@@ -1,5 +1,20 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-13 (V12 SCOPED: ARC/PURPOSE) — debate closed via AskUserQuestion; scope contract rewritten; goal COMPLETE
+
+**v12 debate held and closed** (owner picked the dev recommendation over
+tuning-first and the Challenger): **v12 = ARC/PURPOSE — A3 nest advance +
+bible fiction pass**, with the ninth-routed tuning as riders (density
+drift dose, corpse_guard fairness — never a global softening, Q6
+nest-trip lever behind measured margins). Challenger = THIRD decline,
+trigger unconfirmed at ninth. New parked: the Tibia AoE-specials dossier
+(clump-payoff + challenge-retarget as v13+ candidates); Q3
+structural-economy branch closed unfired; drop-legibility lane closed
+validated. Scope contract rewritten in CLAUDE.md; PARKING_LOT updated.
+**Next session's first act: v12 brainstorm — design forks close via
+owner AskUserQuestion BEFORE the spec.** The tenth ask's headline: did
+the session feel like it advanced toward something.
+
 ## 2026-08-13 (NINTH VERIFY: v11 WINS with tuning residue) — first spontaneous "love the core loop"; entrainment MOVED after three flats; scope debate next
 
 **BLIND ninth fun-verify DONE** (protocol held: play-first, no changelog,
