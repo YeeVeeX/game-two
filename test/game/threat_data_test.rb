@@ -17,4 +17,15 @@ class ThreatDataTest < Minitest::Test
     assert @threat[:respawn_block_tiles] > 10, "suppression must exceed rusher aggro_tiles (10)"
     assert @threat[:beachhead_tiles] < 10, "beachhead must sit inside aggro_tiles or it never binds"
   end
+
+  def test_density_keys_exist_and_are_sane
+    d = @threat[:density]
+    assert d[:join_radius_tiles] >= 1
+    assert d[:pocket_cap] >= 2, "a pocket of one is a single, not a group"
+    assert d[:scatter_radius_tiles] >= 1
+    assert d[:corpse_guard_tiles] >= 1
+    assert d[:corpse_guard_tiles] < @threat[:respawn_block_tiles],
+           "guard sits inside the block radius: the pile stays reachable " \
+           "without suppressing the whole field"
+  end
 end

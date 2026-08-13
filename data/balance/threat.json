@@ -5,5 +5,11 @@
   "pressure_ring_tiles": 2,
   "leash_linger_frames": 90,
   "respawn_block_tiles": 12,
-  "beachhead_tiles": 4
+  "beachhead_tiles": 4,
+  "density": {
+    "join_radius_tiles": 3,
+    "pocket_cap": 5,
+    "scatter_radius_tiles": 2,
+    "corpse_guard_tiles": 6
+  }
 }

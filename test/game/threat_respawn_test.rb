@@ -29,46 +29,12 @@ class ThreatRespawnTest < Minitest::Test
   end
 
   # --- respawn suppression (A2) -------------------------------------------
-
-  def test_respawn_defers_while_a_pack_body_is_within_the_block_radius
-    w = Game::World.new(DATA, seed: 42)
-    enter_district(w)
-    # Clear combat noise: isolate by killing all humans
-    w.humans.dup.each { |h| h.take_hit(damage: h.hp, attacker: w.possessed) until h.dead? }
-    drive(w, scripted({}), 1)  # flush bus -> respawns scheduled
-    w.instance_variable_get(:@human_respawns)["district"].clear
-
-    # Kill the [14, 12] rusher specifically by respawning a fresh one there
-    spawn_tile = [14, 12]
-    w.send(:add_human, "district", :rusher, spawn_tile)
-    target = w.humans.find { |h| h.tile == spawn_tile }
-    refute_nil target
-    target.take_hit(damage: target.hp, attacker: w.possessed) until target.dead?
-    drive(w, scripted({}), 1)  # flush -> schedules respawn at spawn_tile
-    count_after_kill = w.humans.length
-
-    # Park the pack 8 tiles from the spawn point (within block radius 12)
-    park = [spawn_tile[0] - 8, spawn_tile[1]]  # [6, 12], distance=8
-    w.pack.living.each_with_index do |m, i|
-      m.walker.teleport(park[0], park[1] + i)
-    end
-
-    # Tick past respawn_frames: roster count unchanged (suppressed)
-    drive(w, scripted({}), RESPAWN + 10)
-    assert_equal count_after_kill, w.humans.length,
-                 "respawn must defer while a pack body is within #{BLOCK} tiles of the spawn"
-
-    # Move ALL pack members > block radius away (13 tiles from spawn)
-    far = [spawn_tile[0] + 13, spawn_tile[1]]  # [27, 12], distance=13
-    w.pack.living.each_with_index do |m, i|
-      m.walker.teleport(far[0], far[1] + i)
-    end
-
-    # Tick once: the deferred respawn fires
-    drive(w, scripted({}), 1)
-    assert w.humans.any? { |h| h.tile == spawn_tile },
-           "deferred respawn lands once all pack bodies are beyond the block radius"
-  end
+  #
+  # The block-radius pin moved to density_respawn_test (v11): the landing
+  # tile is now chosen at RELEASE time, so the defer law binds on the
+  # CHOSEN tile — see test_respawn_defers_while_the_pack_covers_every_
+  # scatter_tile for the suppression law under release-time anchoring.
+  # BLOCK is still asserted sane in threat_data_test.
 
   # --- depth gradient drops (A2) ------------------------------------------
 
