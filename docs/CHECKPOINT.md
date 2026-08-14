@@ -1,5 +1,55 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-14 (v14 WON the twelfth + v15 DEBATE CLOSED — cycle complete, v15 brainstorm next)
+
+**MEASURED: branch junior-tibia HEAD `35992e7`, 281 commits, tree clean,
+synced 0/0 with origin (pushed; Junior still zero pushes), 14 scripts,
+46 checks, suite 395/1601 green (hook-run at both closing commits).**
+
+**TWELFTH BLIND VERIFY — v14 WON, FOURTH consecutive win (v11 density,
+v12 arc, v13 specials, v14 legibility).** Owner session pid 44448:
+75305 frames (~21 min), 50 fights, 18 banks, 8 wipes. BOTH oracle halves
+positive on first read:
+- **B VALIDATED**: whirl casts=2, hits{1=1,2=1}, kills=2 + "Sí, premio" —
+  v13's design finally judged; the casts=0→2 delta is PRESENTATION alone.
+- **Telegraph VALIDATED**: telegraphs_shown=268 + "Sí, planeé" — the
+  respawn ask CLOSES, zero iteration.
+- **Strip VALIDATED**: "Ayudó" + owner free-text lane: dual keybinds
+  (strip shows J/K/L/;/H/Tab, owner uses Space/Shift/E/Q/F) —
+  "debemos especificar".
+- Q5 "ritmo ok" → **lane e CLOSED (L0)**; Q6 + span_thirds{102<113<134}
+  monotonic → **drift CLOSED**; Q7 "Nada injusto" (3rd clean) →
+  guard-scope stays closed-validated; Q8 body reacted (4th consecutive).
+Full verdict + telemetry + routing verbatim:
+`drafts/_v14-fun-verify-20260814.md`.
+
+**v15 DEBATE CLOSED (owner via AskUserQuestion): v15 = ZONE 3 + THE
+CHALLENGER + CONFIGURABLE KEYBINDS** — three increments, biggest scope
+to date. Challenger PROMOTED on the owner's EXPLICIT call (6 non-confirms
+on record; fairness ladder mandatory). Zone 3 = the arc's next rung
+(seal2 paid twice). Keybinds = binding map in data/ (JSON), strip reads
+per-player config, multiplayer-ready. Multiplayer spike = v16 LEAD.
+Scope contract rewritten (CLAUDE.md `35992e7`) incl. NEW **Human-facing
+surfaces section** — the `human-facing-output` skill (owner-directed
+this session) is wired: every v15 text surface (zone-3 banner, Challenger
+tell text, keybind labels, locale strings) gets the 10-principle
+checklist + language critique blocking at ship per Rules 2/6.
+
+**NEXT SESSION (v15 execution, in order):** (1) owner-queue opening act:
+ratify #19/#42 + check-14 rewording (deferred at the twelfth — the owner
+answered about bindings instead). (2) Bible session names zone 3 + the
+Challenger BEFORE the spec (fiction order form; First Vigil precedent).
+(3) Brainstorm → design forks via AskUserQuestion (zone-3 composition,
+Challenger tell/counter shape, binding-map format) → spec → dual review
+(Codex FIRST then panel, Rule-7 envelope declared) → TDD → pilot(s) →
+wall 14+N → perf → close → THIRTEENTH blind verify (Spanish; oracle =
+zone 3 feels earned + the Challenger scared you).
+
+**Owner queue:** ratify amendments (above); ES locale pass still open
+(girar/gritar/lanzar, LA CARNE SE AGOTA, La Primera Vigilia, El
+Corredor); Junior PT-BR pass later; nudge Junior to clone (docs/JUNIOR.md
+live; zone 3 will give him a richer first play).
+
 ## 2026-08-14 (v14 WALLED 14/14 + perf + suite — TWELFTH blind verify next)
 
 **MEASURED: branch junior-tibia HEAD `20ddcff` pre-close (this commit makes
