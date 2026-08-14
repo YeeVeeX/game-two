@@ -5,5 +5,16 @@
   "zone.nest.display_name": "La Primera Vigilia",
   "zone.slow_door.display_name": "La Puerta Lenta",
   "breach.line": "EL PASO ESTÁ PAGADO",
-  "wipe.line": "LA CARNE SE AGOTA"
+  "wipe.line": "LA CARNE SE AGOTA",
+  "overlay.vessel.striker": "ithet",
+  "overlay.vessel.blocker": "goret",
+  "overlay.vessel.lobber": "hevet",
+  "overlay.attack": "ataque",
+  "overlay.dodge": "esquiva",
+  "overlay.mark": "marca",
+  "overlay.interact": "interactuar",
+  "overlay.swap": "cambio",
+  "overlay.verb.striker": "girar",
+  "overlay.verb.blocker": "gritar",
+  "overlay.verb.lobber": "lanzar"
 }

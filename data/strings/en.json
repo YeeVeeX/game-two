@@ -1,5 +1,16 @@
 {
   "zone.nest.display_name": "The First Vigil",
   "zone.district.display_name": "The Longrow",
-  "wipe.line": "THE FLESH IS SPENT"
+  "wipe.line": "THE FLESH IS SPENT",
+  "overlay.vessel.striker": "ithet",
+  "overlay.vessel.blocker": "goret",
+  "overlay.vessel.lobber": "hevet",
+  "overlay.attack": "attack",
+  "overlay.dodge": "dodge",
+  "overlay.mark": "mark",
+  "overlay.interact": "interact",
+  "overlay.swap": "swap",
+  "overlay.verb.striker": "spin",
+  "overlay.verb.blocker": "shout",
+  "overlay.verb.lobber": "lob"
 }

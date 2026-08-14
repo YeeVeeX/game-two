@@ -1,3 +1,5 @@
+require "app/controls_overlay"
+
 module App
   # Draws the world sim with Gosu primitives. Flat-rect minimalism: kit
   # identity is COLOR + silhouette behavior; the possessed body is brightened
@@ -75,6 +77,7 @@ module App
       @display = display
       @strings = strings
       @pressure_alpha = @display.fetch(:pressure_outline_alpha, 140)
+      @controls_overlay = ControlsOverlay.new(display:, strings:)
     end
 
     def draw(world)
@@ -96,6 +99,11 @@ module App
         draw_station_ledger(world)
       end
       draw_hud(world)
+      # Strip BEFORE edge pips (their bottom clamp lands inside the strip
+      # band — an off-screen ally's pip must stay visible ON the strip) and
+      # BEFORE the veils in call order (all default z: the wipe veil dims
+      # it, ledger beats at z=29-31 stay above everything).
+      @controls_overlay.draw(world)
       draw_edge_pips(world)
       draw_banner(world) if world.banner?
       draw_breach_line(world)

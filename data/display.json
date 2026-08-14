@@ -16,5 +16,14 @@
   "respawn_tell_edge_rgb": [180, 220, 200],
   "respawn_tell_core_rgb": [220, 240, 230],
   "respawn_tell_max_alpha": 180,
-  "respawn_tell_pulse_speed": 3
+  "respawn_tell_pulse_speed": 3,
+  "overlay_strip_height": 28,
+  "overlay_strip_alpha": 140,
+  "overlay_font_size": 12,
+  "overlay_y_pad": 6,
+  "overlay_x_start": 32,
+  "overlay_glyph_gap": 8,
+  "overlay_section_gap": 20,
+  "overlay_pulse_frames": 45,
+  "overlay_pulse_alpha": 230
 }

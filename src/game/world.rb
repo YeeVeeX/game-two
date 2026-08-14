@@ -74,6 +74,13 @@ module Game
       @rearm_needed = false
       load_zones
       spawn_pack
+      # First-possession registry (v14): cosmetic sim state the sim never
+      # reads (taunt_pulses precedent) — the controls overlay derives its
+      # one-time pulse from it as a pure function of world state, so both
+      # gate replays render bit-equal strips (draw-side accumulation would
+      # not be tick-locked). Seeded with the initial body at frame 0;
+      # wire_events keeps it fed on every possession change.
+      @kit_first_possessed = { @pack.possessed.kit_name => 0 }
       wire_events
       # Constructed after wire_events ON PURPOSE: World's actor_died handler
       # must queue corpse_loaded/pack_wiped ahead of the ledger's handlers in
@@ -120,6 +127,9 @@ module Game
     # Session-scoped and wipe-proof BY DESIGN: wipes never close the door —
     # that is the arc. Only a fresh World (restart) re-seals.
     def breached?(zone, tile) = @breached.key?([zone, tile])
+
+    # kit_name => first frame that kind was possessed (v14 overlay pulse).
+    def kit_first_possessed = @kit_first_possessed
 
     # Renderer-facing price reader (renderer computes nothing): what THIS
     # station charges right now. Bank has no price (nil).
@@ -1179,6 +1189,13 @@ module Game
     # shake; ally/AI-vs-AI hits emit events only — the world never freezes
     # for a fight the player isn't in.
     def wire_events
+      # Covers voluntary swaps, forced death-swaps, and judgment snaps in
+      # one seam — every path emits :possession_changed. First time per
+      # kind only (||=); bus FIFO keeps the stamp deterministic.
+      @bus.subscribe(:possession_changed) do |e|
+        @kit_first_possessed[e[:to].kit_name] ||= @frame
+      end
+
       @bus.subscribe(:attack_hit) do |e|
         if e[:victim].equal?(possessed)
           @feel.on_player_hit
