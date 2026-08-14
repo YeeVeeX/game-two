@@ -29,7 +29,7 @@ module Harness
            human_retargeted human_leashed
            inscribed banked_spent tribute_paid body_regrown
            body_dissolved mark_consumed vessel_kept human_respawned
-           seal_breached home_rehomed].each do |ev|
+           seal_breached home_rehomed respawn_telegraphed].each do |ev|
           @world.bus.subscribe(ev) { |e| puts "EVENT #{ev} frame=#{@world.frame} #{describe(e)}" }
         end
         @telemetry = Game::Telemetry.new(@world.bus, world: @world)

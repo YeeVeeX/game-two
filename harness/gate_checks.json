@@ -74,7 +74,7 @@
     },
     {
       "id": "carried_count_reads",
-      "check": "When the possessed carries value, a small magenta numeral reads at the right end of the possessed HUD bar row and appears nowhere else on the HUD; frames without carrying show the identical bar layout minus the numeral (no layout shift). If carrying never occurs in this replay, pass with why='not exercised by this script'."
+      "check": "When the possessed carries value, a small magenta numeral reads at the right end of the possessed HUD bar row and appears nowhere else on the HUD (the bottom-edge controls strip shows key/action reference text only and is not a carried readout — a carried numeral appearing in the strip would still violate this check); frames without carrying show the identical bar layout minus the numeral (no layout shift). If carrying never occurs in this replay, pass with why='not exercised by this script'."
     },
     {
       "id": "bank_station_reads",
@@ -166,7 +166,7 @@
     },
     {
       "id": "new_ground_reads",
-      "check": "When a camp ('The Second Vigil') or Keyward banner frame is on camera, the banner text is legible and the zone reads distinct from District One at a glance: the camp reads safe, station-dense, and warm; the Keyward reads black-and-ochre with a denser hostile field. If neither zone appears in this replay, pass with why='not exercised by this script'."
+      "check": "When a camp ('The Second Vigil') or Keyward banner frame is on camera, the banner text is legible and the zone reads distinct from The Longrow at a glance: the camp reads safe, station-dense, and warm; the Keyward reads black-and-ochre with a denser hostile field. If neither zone appears in this replay, pass with why='not exercised by this script'."
     },
     {
       "id": "whirlwind_reads",
@@ -175,6 +175,14 @@
     {
       "id": "challenge_reads",
       "check": "When a blocker challenge frame window is present (the expanding square pulse), the room visibly answers it: at least one human in the pulse carries the rust taunt underline or has turned to face the blocker within the pulse's read window. If no blocker special is exercised in this script, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "controls_overlay_reads",
+      "check": "A quiet strip at the bottom edge of the screen shows key glyphs paired with action labels for the currently possessed body. The strip updates when possession changes (a different vessel name/verb appears). A brief brighter pulse may accompany the first possession of a kind (allowed, not required). The strip reads as instructional reference, NOT as a combat element — its alpha is subdued relative to the HUD bars and the ledger tally. If the script never shows a living possessed body, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "respawn_telegraph_reads",
+      "check": "When a respawn tell is active (a pulsing ground indicator on a floor tile, pale green-white family), it reads as 'something is about to arrive HERE' — clearly distinct from the human attack telegraph (red-edge/yellow-core), volley impact brackets (orange), the gold gate tiles, and the taunt pulse (rust square). The tell grows or brightens over its visible lifetime and a human materializes at the tell tile at or after full intensity (a tell may legitimately HOLD at full intensity while the player stands near — deferral is honest waiting, not a defect). If no respawn tell frame is present, pass with why='not exercised by this script'."
     }
   ]
 }
