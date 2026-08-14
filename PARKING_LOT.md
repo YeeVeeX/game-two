@@ -346,3 +346,31 @@ verdict: `drafts/_q6-retune-fun-verify-20260812.md`):
   it without promotion.
 - **Drop-legibility escalation lane — CLOSED VALIDATED.** Ninth Q4 "yes, clearly":
   the band tint/size/glow rider works; no parked presentation item needed.
+
+## Parked at the v13 debate (2026-08-14 — tenth verify: v12 WON; v13 = AoE specials B+D)
+
+- **The Challenger — FOURTH decline.** Q8 body reacted again (fifth read; second
+  consecutive confirm) — density+arc carry entrainment without it. Dossier stands,
+  weaker with each read; promotion remains the owner's explicit call, fairness ladder
+  mandatory.
+- **Dossier legs A/C/E (elemental fields / resistance profiles / DoT kite-tax).**
+  B+D promoted WITHOUT the elemental data layer; A needs C, C is a per-kit data layer,
+  E is flavor on top. Re-raise only if B+D's verify routes toward "specials need
+  variety" — otherwise these wait for a dedicated elemental increment.
+- **Zone 3 — beyond the stair.** seal2_breached=1 at the tenth: the owner PAID the 150
+  stretch and saw the sealed stair + beat line (the deliberate v13 hook from the v12
+  spec). The arc ladder's next rung is designed-to-exist but unbuilt — lead v14
+  candidate alongside the Nest rename.
+- **"The Nest" rename — not chosen at this debate.** Still unblocked by the bible
+  pass, still its own increment (rename + full wall re-run, comparability reset law).
+  Re-raise at the v14 debate; two owner complaints stand on record.
+- **Q4 Second Vigil "just a shorter walk" — recorded, no lane.** Re-homing is
+  infrastructure; its meaning rode the headline (which moved). If a future verify
+  routes camp-meaning again, the answer is probably fiction/stakes at the camp, not
+  mechanics.
+- **UN-parked into v13 lanes (leaving this file):** guard-scope live-wanderer
+  avoidance (Q7 values lane exhausted at guard 10 — now a v13 DESIGN item);
+  maintenance-economics lever (q6_margins named it: pure=0/19 banks, dead 1.3 +
+  wounded 1.7 at bank time — trips are maintenance-forced); drift structural lever
+  (two dose iterations both partial-missed — no third blind dose, design
+  investigation with ninth+tenth data).

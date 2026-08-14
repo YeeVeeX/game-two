@@ -6,65 +6,68 @@ permission for design decisions.
 
 ## Scope contract (the #1 Kethral failure was ignoring this — it is enforced here)
 
-v12 (2026-08-13): **v11 density/re-massing SHIPPED + WON the ninth blind
-verify** (merge `946c979`, wall 9/9, perf p95 0.284ms). First spontaneous
-positive on record — owner, unprompted, before any question: *"I am
-starting to love the core loop of the gameplay"* — plus *"it is actually
-good that the game is difficult, I like the current level of it"*
-(difficulty pinned RIGHT). Groups kept coming, depth pull BIT, deep drops
-READ richer, money EARNED, **entrainment MOVED after three flat reads**
-(the Challenger's trigger did NOT confirm a fourth time). Residue is
-tuning-sized: stale "somewhere between" (drifts eventually), nest trips
-STILL too often (third regression — lever is elsewhere), one corpse-run
-camp (fairness, NOT difficulty). Verdict + telemetry + routing verbatim:
-`drafts/_v11-fun-verify-20260813.md`. SCOPE DEBATE closed 2026-08-13
-(owner via AskUserQuestion, dev recommendation accepted): **v12 =
-ARC/PURPOSE (A3 nest advance + bible fiction pass).**
+v13 (2026-08-14): **v12 arc/purpose SHIPPED + WON the tenth blind verify**
+(merge `4703d3d`, wall 10/10, perf p95 0.337ms, suite 335/1386). Headline
+verbatim: **"Advancing toward something"** — SECOND consecutive win.
+Breach = "earned payoff, toll worth it"; Keyward = "arrived somewhere
+new"; body reacted (Q8, fifth read). Telemetry: the owner paid BOTH seals
+(incl. the 150 stretch), 240 Keyward kills, 29 inscriptions / 21 tributes
+/ 634 banked spent. Residue ROUTED (not tuning-sized this time): trips
+are MAINTENANCE-FORCED (q6_margins: pure=0 of 19 banks, dead 1.3 +
+wounded 1.7 at bank — the lever is maintenance economics, not distance);
+drift "Mixed" after dose iteration TWO → structural lever; corpse-run
+camp at guard 10 → values lane EXHAUSTED, guard-scope un-parked. Q4
+Second Vigil = "just a shorter walk" (recorded, no lane — rides the
+headline). Verdict + telemetry + routing verbatim:
+`drafts/_v12-fun-verify-20260813.md`. **c361ba3 check amendment RATIFIED
+by the owner at this debrief** (self-gate wording stands; checks 42).
+SCOPE DEBATE closed 2026-08-14 (owner via AskUserQuestion, all three dev
+recommendations accepted): **v13 = TIBIA AOE SPECIALS (B+D).**
 
-**IN scope — v12 promotes exactly ONE increment, arc/purpose, plus its
-routed riders:**
-- **Arc/purpose (the increment)**: the session must feel like it advances
-  toward something. Lead shape candidates: **A3 nest advance** + **bible
-  fiction pass** (the world bible exists — `docs/lore/world-bible.md`;
-  the spec's fiction order form has handles awaiting names). Shape TBD at
-  brainstorm — design forks close BEFORE the spec, owner via
-  AskUserQuestion. Oracle: the owner's wishlist words (2026-08-12) —
-  "advance toward something, progress, leveling, equipment, new enemies
-  and zones, lore, cities"; the tenth ask's headline = did the session
-  feel like it was GOING somewhere.
-- **Ninth-routed tuning riders (authorized by the routing table, data
-  lanes):** density VALUES iteration for the eventual-drift dose
-  (pocket_cap / join_radius / cadence); corpse_guard/scatter fairness
-  values for the Q7 camp (the guard today binds respawn anchors only —
-  live wanderers unguarded; fairness fix, NEVER a global softening —
-  difficulty is pinned right); Q6 nest-trip economy lever investigation
-  (measured `term_left/term`-style margins BEFORE any retune — third
-  regression proved the lever is elsewhere).
+**IN scope — v13 promotes exactly ONE increment, the AoE-specials pair,
+plus the three routed lanes:**
+- **The increment — dossier legs B+D ONLY**
+  (`drafts/_tibia-aoe-research-20260813.md`): **(B) clump-payoff
+  special** — AoE whose efficiency scales with target count; the
+  player-side cash-out of v11 density; and **(D) challenge-retarget
+  special** — forced retarget of humans in radius to the possessed
+  (`cause=challenged`), Tibia `exeta amp res`; directly answers the
+  mobbed-while-carrying death pattern (owner's tenth session: 21
+  carrying-deaths hauling 58-144 value). Kit placement, pip costs,
+  bindings = design forks at brainstorm, owner closes BEFORE the spec.
+  Oracle: the ELEVENTH ask's headline = did density become YOUR weapon —
+  did the clump/challenge specials make the swarm feel like payoff.
+- **Tenth-routed lanes (authorized by the routing table):**
+  maintenance-economics lever (tribute/inscribe pricing + regrow cadence
+  — DATA lane; q6_margins named it: trips are maintenance-forced);
+  drift structural lever (DESIGN investigation with ninth+tenth data side
+  by side — two value doses both partial-missed, no third blind dose);
+  guard-scope live-wanderer avoidance (DESIGN item, un-parked by Q7 —
+  fairness only, NEVER a global softening; difficulty stays pinned:
+  the owner answered "nothing unfair" alongside the camping report).
 - **Brainstorm/spec is the NEXT session's first act**; nothing lands in
   code before the spec's owner forks close.
 - All numbers in `data/`; zero balance constants in Ruby.
 
 **OUT of scope — goes to PARKING_LOT.md, never to code:**
-The **Challenger**: DECLINED a THIRD time at this debate and its
-entrainment trigger did NOT confirm at the ninth (body reacted) — dossier
-stands, weaker; promotion stays the owner's explicit call, fairness
-ladder mandatory. **Tibia AoE-specials dossier** (2026-08-13 deep
-research): clump-payoff special, challenge-retarget special, elemental
-fields — density's player-side payoff tools, parked as v13+ candidates
-(see PARKING_LOT). **Q7 retarget-cue redesign** stays parked
-(presentation). **"The Nest" rename**: still its own increment, but the
-v12 bible pass UNBLOCKS it — re-raise at the v13 debate. Also parked:
+The **Challenger**: FOURTH decline (Q8 body reacted again — density+arc
+carry entrainment); dossier stands, weaker still; promotion stays the
+owner's explicit call, fairness ladder mandatory. **Dossier legs A/C/E**
+(elemental fields, resistance profiles, DoT kite-tax): parked — B+D ship
+without the elemental data layer. **Zone 3 beyond the stair**: seal2
+opened onto the sealed stair (the hook is LIVE and the owner reached it)
+— v14 arc candidate. **"The Nest" rename**: unblocked by the bible pass,
+not chosen at this debate — re-raise at the v14 debate. **Q7
+retarget-cue redesign** stays parked (presentation). Also parked:
 restart persistence; quirks/history accumulation; practice fine +
 insurance (D2); scavengers + term-extension marks (D3); D1 term/grace
-retuning (margin-anchored 5400/2700 stand); A1 gambits, Shooters;
-inventory grids, carry weight, rarity, new drop types; any THIRD kit
-special or new binding; video-critic harness leg + gamesmith fun-verify
-assist; plus everything already parked (procedural dungeons, stamina,
-XP/skills, dialogue, status effects, crafting, weather, co-op, quests,
-shops, multiple weapons).
-**Nothing new starts until v12 is fun-verified by the owner (the TENTH
-ask; headline = did the session feel like it advanced toward
-something).**
+retuning; A1 gambits, Shooters; inventory grids, carry weight, rarity,
+new drop types; video-critic harness leg + gamesmith fun-verify assist;
+plus everything already parked (procedural dungeons, stamina, XP/skills,
+dialogue, status effects, crafting, weather, co-op, quests, shops,
+multiple weapons).
+**Nothing new starts until v13 is fun-verified by the owner (the
+ELEVENTH ask; headline = did density become your weapon).**
 
 ## De-slop + comprobations (owner-set 2026-08-09)
 

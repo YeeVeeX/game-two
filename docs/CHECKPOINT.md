@@ -1,5 +1,19 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-14 (v13 DEBATE CLOSED: AoE specials B+D; c361ba3 RATIFIED — v12 cycle COMPLETE)
+
+**Debate closed via AskUserQuestion, all three dev recommendations
+accepted:** (1) **v13 = Tibia AoE specials B+D** — clump-payoff special +
+challenge-retarget special (dossier `drafts/_tibia-aoe-research-20260813.md`);
+oracle = the ELEVENTH ask: did density become your weapon. (2) The three
+tenth-routed items **ride v13 as lanes** (maintenance-economics DATA lane,
+drift-structural DESIGN investigation, guard-scope DESIGN item). (3) The
+c361ba3 check amendment is **RATIFIED** (self-gate wording stands, 42
+checks). Scope contract rewritten in CLAUDE.md; PARKING_LOT updated
+(Challenger 4th decline, A/C/E parked, zone-3 stair + Nest rename = v14
+leads). **v13 brainstorm/spec is the NEXT session's first act** — design
+forks (kit placement, pip costs, bindings) close before the spec.
+
 ## 2026-08-14 (TENTH VERIFY: v12 WINS — headline MOVED; v13 debate next)
 
 **Owner verdict (AskUserQuestion, verbatim in
