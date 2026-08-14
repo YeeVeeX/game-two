@@ -2,6 +2,7 @@ require_relative "../test_helper"
 require "core/data_store"
 require "core/strings"
 require "core/input"
+require "core/binding_map"
 require "game/world"
 require "app/controls_overlay"
 
@@ -40,28 +41,49 @@ class ControlsOverlayTest < Minitest::Test
     o = overlay
     striker = o.vessel_line(world_stub(:striker))
     assert_equal "ithet", striker[:vessel]
-    assert_includes striker[:pairs], ["L", "spin"]
+    assert_includes striker[:pairs], { glyphs: %w[L E], label: "spin" }
     blocker = o.vessel_line(world_stub(:blocker))
     assert_equal "goret", blocker[:vessel]
-    assert_includes blocker[:pairs], ["L", "shout"]
+    assert_includes blocker[:pairs], { glyphs: %w[L E], label: "shout" }
     lobber = o.vessel_line(world_stub(:lobber))
     assert_equal "hevet", lobber[:vessel]
-    assert_includes lobber[:pairs], ["L", "lob"]
+    assert_includes lobber[:pairs], { glyphs: %w[L E], label: "lob" }
   end
 
-  def test_pairs_follow_binding_order_with_primary_glyphs
+  def test_pairs_follow_action_order_with_dual_glyphs
     pairs = overlay.vessel_line(world_stub(:blocker))[:pairs]
-    assert_equal %w[J K L ; H Tab], pairs.map(&:first),
-                 "static primary-binding glyphs, window.rb BINDINGS order"
-    assert_equal %w[attack dodge shout mark interact swap], pairs.map(&:last)
+    assert_equal %w[J K L ; H Tab], pairs.map { |p| p[:glyphs].first },
+                 "primary glyphs, ACTIONS order"
+    assert_equal ["Space", "LShift", "E", "Q", "F", nil],
+                 pairs.map { |p| p[:glyphs][1] },
+                 "secondary glyphs visible (the twelfth's dual-keybind lane); swap has none"
+    assert_equal %w[attack dodge shout mark interact swap], pairs.map { |p| p[:label] }
   end
 
   def test_locale_switch_translates_labels_not_vessel_names
     pairs = overlay(locale: "es").vessel_line(world_stub(:blocker))
     assert_equal "goret", pairs[:vessel], "canon vessel names do not translate"
-    assert_includes pairs[:pairs], ["J", "ataque"]
-    assert_includes pairs[:pairs], ["L", "gritar"]
-    assert_includes pairs[:pairs], ["Tab", "cambio"]
+    assert_includes pairs[:pairs], { glyphs: %w[J Space], label: "ataque" }
+    assert_includes pairs[:pairs], { glyphs: %w[L E], label: "gritar" }
+    assert_includes pairs[:pairs], { glyphs: %w[Tab], label: "cambio" }
+  end
+
+  # v15: the strip and KeyboardInput share ONE source — a rebound map is
+  # what the strip shows, byte-for-byte.
+  def test_strip_glyphs_ride_the_injected_binding_map
+    table = { "X" => 1, "Y" => 2, "J" => 3, "K" => 4, "L" => 5, ";" => 6,
+              "H" => 7, "Tab" => 8, "Space" => 9, "LShift" => 10, "E" => 11,
+              "Q" => 12, "F" => 13 }
+    map = Core::BindingMap.new(
+      { attack: %w[X Y], dodge: %w[K], special: %w[L], mark: [";"],
+        interact: %w[H], swap: %w[Tab] }, key_table: table
+    )
+    o = App::ControlsOverlay.new(display: DISPLAY,
+                                 strings: Core::Strings.new(DATA, locale: "en"),
+                                 bindings: map)
+    pairs = o.vessel_line(world_stub(:blocker))[:pairs]
+    assert_includes pairs, { glyphs: %w[X Y], label: "attack" },
+                    "a rebound key shows on the strip — single source"
   end
 
   def test_content_updates_on_possession_swap

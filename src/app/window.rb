@@ -2,33 +2,28 @@ require "gosu"
 require "core/data_store"
 require "core/strings"
 require "core/input"
+require "core/binding_map"
 require "game/world"
 require "game/telemetry"
 require "app/renderer"
+require "app/key_table"
 
 module App
   # Orchestrator (scope contract: <= ~300 lines). Owns the Gosu window, wires
   # data -> world -> renderer, and maps the keyboard to abstract actions.
   # ALL game logic lives in Game::World and below.
   #
+  # Bindings (v15): data/bindings.json + optional per-machine
+  # data/bindings.local.json, resolved through App::KEY_TABLE by
+  # Core::BindingMap — the SAME map feeds KeyboardInput and the controls
+  # strip. Live play is the only local-override consumer (the harness pins
+  # canonical — gate comparability law).
+  #
   # Timebase: update() = exactly ONE sim tick (tick-locked; replays are
   # deterministic by tick count). Under load the game slows rather than
   # skipping — the overrun counter below makes that visible so a sluggish
   # playtest is diagnosed as perf, not misread as balance.
   class Window < Gosu::Window
-    BINDINGS = {
-      left:   [Gosu::KB_LEFT, Gosu::KB_A],
-      right:  [Gosu::KB_RIGHT, Gosu::KB_D],
-      up:     [Gosu::KB_UP, Gosu::KB_W],
-      down:   [Gosu::KB_DOWN, Gosu::KB_S],
-      attack: [Gosu::KB_J, Gosu::KB_SPACE],
-      dodge:  [Gosu::KB_K, Gosu::KB_LEFT_SHIFT],
-      special: [Gosu::KB_L, Gosu::KB_E],
-      mark: [Gosu::KB_SEMICOLON, Gosu::KB_Q],
-      interact: [Gosu::KB_H, Gosu::KB_F],
-      swap:   [Gosu::KB_TAB]
-    }.freeze
-
     FRAME_BUDGET_MS = 17
 
     def initialize
@@ -38,8 +33,10 @@ module App
       self.caption = "game-two"
       @world = Game::World.new(data)
       @telemetry = Game::Telemetry.new(@world.bus, world: @world)
-      @input = Core::KeyboardInput.new(bindings: BINDINGS)
-      @renderer = Renderer.new(display: display, strings: Core::Strings.new(data))
+      bindings = Core::BindingMap.load(data, key_table: KEY_TABLE, local: true)
+      @input = Core::KeyboardInput.new(bindings: bindings.codes)
+      @renderer = Renderer.new(display: display, strings: Core::Strings.new(data),
+                               bindings: bindings)
       @overruns = 0
       @overrun_font = Gosu::Font.new(14)
     end

@@ -6,4 +6,14 @@ export PATH="/c/Ruby34-x64/bin:$PATH"
 [ -n "$1" ] && export GAME_LOCALE="$1"
 # Session-telemetry law (ninth-verify protocol): unique log per launch —
 # a fixed name cost the eighth verify its telemetry to a relaunch clobber.
-exec ruby -Isrc src/main.rb > "/tmp/game_two_session_$$.log" 2>&1
+LOG="/tmp/game_two_session_$$.log"
+ruby -Isrc src/main.rb > "$LOG" 2>&1
+code=$?
+# Crash visibility (v15 panel fold): a config raise — e.g. a bad
+# bindings.local.json — must reach the person who typed it, not die in
+# a temp file. Normal close is exit 0 and stays silent.
+if [ $code -ne 0 ]; then
+  echo "game exited with code $code — log: $LOG"
+  tail -20 "$LOG"
+fi
+exit $code

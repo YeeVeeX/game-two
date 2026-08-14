@@ -36,6 +36,32 @@
 | Tab | trocar de corpo (possessão) |
 | Esc | sair (salva a telemetria — sempre saia com Esc) |
 
+### Teclas personalizadas (v15)
+
+As teclas acima são as padrão (`data/bindings.json`, versionado — não
+mexa nele). Para usar as SUAS teclas, crie um arquivo **novo** chamado
+`data/bindings.local.json` — ele é ignorado pelo git, então nunca gera
+conflito e cada máquina pode ter o seu:
+
+```json
+{
+  "mark": ["M"],
+  "dodge": ["K", "RShift"]
+}
+```
+
+- Só liste as ações que quer mudar; cada linha SUBSTITUI a lista inteira
+  daquela ação (a primeira tecla vira a principal na barra inferior).
+- Ações: `left right up down attack dodge special mark interact swap`.
+- Nomes de tecla: `A`–`Z`, `0`–`9`, `Up Down Left Right`, `Space`, `Tab`,
+  `Enter`, `LShift RShift LCtrl RCtrl LAlt`, `;`, `,`, `.`
+- **Teclado ABNT2:** as posições vêm do layout americano (scancodes),
+  então o `;` pode cair em outra tecla física — é exatamente para isso
+  que o arquivo local existe: remapeie `mark` para uma letra.
+- Errou um nome? O jogo NÃO abre e mostra a lista válida no console
+  (a janela espera com `pause` — leia a mensagem, corrija o arquivo).
+- Uma tecla não pode servir duas ações — o jogo avisa qual conflitou.
+
 ### Fluxo de colaboração (combinado com o Gabriel)
 
 - **Nunca dê push na `main`** — ela é a linha de backup do Gabriel.
@@ -76,6 +102,16 @@ conta AWS — você só instala o app do Tailscale e aceita um convite).
 Controls: WASD/arrows move · J/Space attack · K/Shift dodge · L/E special ·
 ;/Q mark · H/F interact · Tab swap possession · Esc quit (flushes telemetry
 — always exit with Esc).
+
+Custom keys (v15): create `data/bindings.local.json` (gitignored,
+per-machine) listing only the actions you want to change — each entry
+replaces that action's whole key list; first key becomes the primary on
+the bottom strip. Valid names: A–Z, 0–9, arrows, Space, Tab, Enter,
+L/RShift, L/RCtrl, LAlt, `;`, `,`, `.`. A typo or a key bound to two
+actions stops the game at startup with the exact problem printed (the
+window waits on `pause` — read it, fix the file). ABNT2 note: scancodes
+are positional (US layout), so `;` may sit elsewhere physically — remap
+`mark` to a letter in your local file.
 
 Collaboration: never push `main` (Gabriel's backup line); `junior-tibia`
 is the shared line — work there or PR into it; `git fetch` before starting;

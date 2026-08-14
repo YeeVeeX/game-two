@@ -1,0 +1,12 @@
+{
+  "left": ["Left", "A"],
+  "right": ["Right", "D"],
+  "up": ["Up", "W"],
+  "down": ["Down", "S"],
+  "attack": ["J", "Space"],
+  "dodge": ["K", "LShift"],
+  "special": ["L", "E"],
+  "mark": [";", "Q"],
+  "interact": ["H", "F"],
+  "swap": ["Tab"]
+}

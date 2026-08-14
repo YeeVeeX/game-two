@@ -73,11 +73,11 @@ module App
     # precedent) — the fetch defaults only keep a bare Renderer.new drawable.
     # strings: Core::Strings resolver (v13 i18n) — RENDER-time only; the
     # harness constructs it pinned to "en" (replay comparability law).
-    def initialize(display: {}, strings: nil)
+    def initialize(display: {}, strings: nil, bindings: nil)
       @display = display
       @strings = strings
       @pressure_alpha = @display.fetch(:pressure_outline_alpha, 140)
-      @controls_overlay = ControlsOverlay.new(display:, strings:)
+      @controls_overlay = ControlsOverlay.new(display:, strings:, bindings:)
     end
 
     def draw(world)

@@ -10,11 +10,16 @@ module App
   # replays render it bit-equal. #draw is the only Gosu-touching method;
   # content resolution and pulse alpha are pure (tested headlessly).
   class ControlsOverlay
-    # Static primary bindings (Window::BINDINGS first entries). Frozen on
-    # purpose: bindings are constants today; a reverse-lookup earns its
-    # keep only when rebindable controls exist.
-    GLYPHS = { attack: "J", dodge: "K", special: "L",
-               mark: ";", interact: "H", swap: "Tab" }.freeze
+    # Strip order for the six teachable actions (movement stays off the
+    # strip — v14 parked decision). Glyphs come from the injected
+    # Core::BindingMap (v15: the promised reverse-lookup now that
+    # rebindable controls exist) — ONE source feeds both KeyboardInput
+    # and this strip. The fallback map only keeps a bare bindings-less
+    # construct drawable (the VESSEL_FALLBACK precedent).
+    ACTIONS = %i[attack dodge special mark interact swap].freeze
+    GLYPH_FALLBACK = { attack: %w[J Space], dodge: %w[K LShift],
+                       special: %w[L E], mark: [";", "Q"],
+                       interact: %w[H F], swap: %w[Tab] }.freeze
 
     # EN fallbacks keep a bare strings-less construct drawable (the
     # draw_wipe_overlay precedent) — canonical text lives in data/strings.
@@ -30,23 +35,27 @@ module App
     LABEL_RGB = [160, 152, 140].freeze # subdued — the verbs whisper
     BACKING_RGB = [10, 8, 12].freeze   # ledger-panel near-black family
 
-    def initialize(display: {}, strings: nil)
+    def initialize(display: {}, strings: nil, bindings: nil)
       @display = display
       @strings = strings
+      @bindings = bindings
     end
 
-    # { vessel: "goret", pairs: [["J", "attack"], ...] } — pairs in
-    # BINDINGS order; the special slot always speaks the kit's own verb.
+    # { vessel: "goret", pairs: [{ glyphs: ["J", "Space"], label: "attack" },
+    # ...] } — pairs in ACTIONS order, glyphs in binding order (primary
+    # first; the twelfth's dual-keybind lane); the special slot always
+    # speaks the kit's own verb.
     def vessel_line(world)
       kit = world.possessed.kit_name
-      pairs = GLYPHS.map do |action, glyph|
+      pairs = ACTIONS.map do |action|
         label =
           if action == :special
             tr("overlay.verb.#{kit}", VERB_FALLBACK[kit])
           else
             tr("overlay.#{action}", LABEL_FALLBACK[action])
           end
-        [glyph, label]
+        glyphs = @bindings ? @bindings.glyphs(action) : GLYPH_FALLBACK[action]
+        { glyphs:, label: }
       end
       { vessel: tr("overlay.vessel.#{kit}", VESSEL_FALLBACK[kit]), pairs: }
     end
@@ -77,11 +86,19 @@ module App
       x += font.text_width(line[:vessel]) + section_gap
       glyph_col = Gosu::Color.new(text_a, *GLYPH_RGB)
       label_col = Gosu::Color.new([text_a - 40, 60].max, *LABEL_RGB)
-      line[:pairs].each do |(glyph, label)|
-        font.draw_text(glyph, x, ty, 0, 1, 1, glyph_col)
-        x += font.text_width(glyph) + glyph_gap
-        font.draw_text(label, x, ty, 0, 1, 1, label_col)
-        x += font.text_width(label) + section_gap
+      line[:pairs].each do |pair|
+        primary, *rest = pair[:glyphs]
+        font.draw_text(primary, x, ty, 0, 1, 1, glyph_col)
+        x += font.text_width(primary)
+        # Secondary glyphs at label tone — visible but quieter (the
+        # twelfth's ask: show BOTH options without shouting).
+        rest.each do |g|
+          font.draw_text("/#{g}", x, ty, 0, 1, 1, label_col)
+          x += font.text_width("/#{g}")
+        end
+        x += glyph_gap
+        font.draw_text(pair[:label], x, ty, 0, 1, 1, label_col)
+        x += font.text_width(pair[:label]) + section_gap
       end
     end
 

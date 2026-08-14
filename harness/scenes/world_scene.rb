@@ -1,8 +1,10 @@
 require "core/data_store"
 require "core/strings"
+require "core/binding_map"
 require "game/world"
 require "game/telemetry"
 require "app/renderer"
+require "app/key_table"
 
 # Replay adapter: the REAL world sim + REAL renderer under scripted input.
 # No mocks — what the harness captures is what the player sees.
@@ -19,8 +21,14 @@ module Harness
         # THE LAW (v13 spec): gate/replay captures render locale "en"
         # regardless of env or display.json — translated text never enters
         # a capture (check-comparability law).
+        # Same law, bindings (v15): captures render the CANONICAL binding
+        # map only — a machine-local bindings.local.json must never change
+        # a capture (cross-machine gate comparability; local: false).
         @renderer = App::Renderer.new(display: data["display"],
-                                      strings: Core::Strings.new(data, locale: "en"))
+                                      strings: Core::Strings.new(data, locale: "en"),
+                                      bindings: Core::BindingMap.load(
+                                        data, key_table: App::KEY_TABLE, local: false
+                                      ))
         %i[telegraph attack_hit actor_died dodged possession_changed
            pack_wiped pack_respawned zone_entered projectile_fired
            special_started pack_mark_set drop_spawned drop_picked_up
