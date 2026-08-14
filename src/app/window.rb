@@ -1,5 +1,6 @@
 require "gosu"
 require "core/data_store"
+require "core/strings"
 require "core/input"
 require "game/world"
 require "game/telemetry"
@@ -38,7 +39,7 @@ module App
       @world = Game::World.new(data)
       @telemetry = Game::Telemetry.new(@world.bus, world: @world)
       @input = Core::KeyboardInput.new(bindings: BINDINGS)
-      @renderer = Renderer.new(display: display)
+      @renderer = Renderer.new(display: display, strings: Core::Strings.new(data))
       @overruns = 0
       @overrun_font = Gosu::Font.new(14)
     end

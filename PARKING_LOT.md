@@ -374,3 +374,25 @@ verdict: `drafts/_q6-retune-fun-verify-20260812.md`):
   wounded 1.7 at bank time — trips are maintenance-forced); drift structural lever
   (two dose iterations both partial-missed — no third blind dose, design
   investigation with ninth+tenth data).
+
+## Owner directives recorded mid-v13 (2026-08-14) — roadmap items, not v13 code
+
+- **Multiplayer / shared play with Junior (v14 LEAD).** Owner ask verbatim shape:
+  "GameLift y demás… para que Junior y yo podamos compartir la experiencia dentro
+  del juego"; decision explicitly delegated to the dev. **Dev ruling: GameLift
+  REJECTED** — dedicated-server fleet hosting for compiled builds, no Ruby SDK,
+  wrong altitude for a 2-player hobby co-op, and Junior has NO AWS account (hard
+  constraint, owner-stated). **Chosen path: deterministic lockstep over Tailscale**
+  — the tick-locked sim + proven replay determinism is exactly lockstep's
+  precondition; Tailscale already runs on the owner's machine; Junior joins via a
+  free client + invite link (zero AWS, zero port forwarding). Staged: (0) replay
+  exchange through the repo (near-free today — documented in docs/JUNIOR.md);
+  (1) cross-machine determinism spike (same seed+inputs on both PCs → identical
+  states; risks: exact Ruby 3.4.10, float ops, hash-iteration order); (2) 2P
+  possession co-op — each player possesses a different body of the SAME pack
+  (born from the fiction: two souls, one pack). Latency BR↔US ~120-180 ms is
+  playable for PvE lockstep with input delay. Full reasoning in project memory
+  `multiplayer-shared-play-path`.
+- **Localization + collaboration directives shipped INTO v13** (not parked): i18n
+  en/es/pt-br lane, docs/JUNIOR.md onboarding, junior-tibia collaborative branch
+  model. Recorded in the scope contract (CLAUDE.md) and the v13 spec.

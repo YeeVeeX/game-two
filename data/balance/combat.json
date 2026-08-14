@@ -30,14 +30,14 @@
         "knockback_frames_per_tile": 5
       },
       "special": {
-        "damage": 50,
+        "damage": 30,
         "windup_frames": 6,
-        "recovery_frames": 0,
+        "active_frames": 4,
+        "recovery_frames": 8,
         "exhaust_frames": 480,
-        "arc": "dash",
-        "max_tiles": 4,
-        "frames_per_tile": 4,
-        "knockback_tiles": 0
+        "arc": "ring",
+        "knockback_tiles": 1,
+        "refund_frames_per_extra_hit": 120
       },
       "dodge": {
         "tiles": 2,
@@ -72,10 +72,11 @@
         "knockback_tiles": 2,
         "stagger_frames": 45,
         "interrupt_windup": true,
-        "taunt": {
-          "range_tiles": 6,
-          "duration_frames": 300,
-          "pulse_frames": 20
+        "challenge": {
+          "range_tiles": 9,
+          "duration_frames": 450,
+          "pulse_frames": 20,
+          "cause": "challenged"
         }
       },
       "dodge": {

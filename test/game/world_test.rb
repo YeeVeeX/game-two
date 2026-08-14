@@ -302,34 +302,10 @@ class WorldTest < Minitest::Test
     assert_equal [15, 12], b.tile
   end
 
-  def test_striker_lunge_damages_every_human_on_crossed_tiles_once
-    enter_district(world)
-    striker = possess_kit(world, :striker)
-    striker.interrupt_action!
-    striker.walker.teleport(12, 12)
-    striker.face([1, 0])
-    (world.pack.living - [striker]).each_with_index do |member, i|
-      member.walker.teleport(2, 12 + i)
-    end
-    a, b, outside = world.humans.first(3)
-    world.humans.replace([a, b, outside])
-    a.walker.teleport(13, 12)
-    b.walker.teleport(15, 12)
-    outside.walker.teleport(12, 14)
-    [a, b, outside].each { |human| human.stagger!(30) }
-    outside_hp = outside.hp
-
-    assert striker.start_special(blocked: world.blocked_for(striker))
-    assert_equal [16, 12], striker.reserved_tile
-    striker.kit[:special][:windup_frames].times { drive(world, scripted({}), 1) }
-
-    assert a.dead?
-    assert b.dead?
-    assert_equal outside_hp, outside.hp
-    assert_equal [16, 12], striker.tile
-    assert striker.iframes?
-    assert_equal 0, striker.dodge_cooldown
-  end
+  # v13: the striker special is the whirlwind ring (dash replaced — spec
+  # 2026-08-14). Its full coverage (ring hits, refund, interrupt, radial
+  # knockback, no movement) lives in test/game/whirlwind_test.rb; the dash
+  # MECHANISM stays covered by creature_test's fixture kits.
 
   def test_lobber_volley_counts_sim_frames_and_hits_each_impact_tile
     lobber, targets = stage_volley(world)

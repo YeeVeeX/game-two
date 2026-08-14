@@ -69,8 +69,11 @@ module App
 
     # Presentation timing/placement rides data/display.json (zone_banner_frames
     # precedent) — the fetch defaults only keep a bare Renderer.new drawable.
-    def initialize(display: {})
+    # strings: Core::Strings resolver (v13 i18n) — RENDER-time only; the
+    # harness constructs it pinned to "en" (replay comparability law).
+    def initialize(display: {}, strings: nil)
       @display = display
+      @strings = strings
       @pressure_alpha = @display.fetch(:pressure_outline_alpha, 140)
     end
 
@@ -405,7 +408,12 @@ module App
 
     def draw_attack(c, ts)
       return unless %i[windup active].include?(c.attack_state)
-      if c.current_action == :special && c.action_config[:arc] == "dash"
+      # Bright lunge family for the dash arc AND the striker's ring burst
+      # (v13, review-confirmed): without it the whirlwind renders in the
+      # blocker's SPECIAL colors on the same 8-tile pattern and two specials
+      # read as one (check 14, three-specials-three-visuals).
+      if c.current_action == :special &&
+         (c.action_config[:arc] == "dash" || c.kit_name == :striker)
         col = c.attack_state == :windup ? LUNGE_WINDUP : LUNGE_ACTIVE
         inset = c.attack_state == :windup ? 10 : 6
         c.action_tiles.each do |(tx, ty)|
@@ -439,7 +447,7 @@ module App
     # lock's final third: the snap back to free targeting is telegraphed
     # with the same grammar drop decay taught.
     def draw_taunt_underline(c, x, y)
-      duration = c.taunted_target.kit[:special][:taunt][:duration_frames]
+      duration = c.taunted_target.kit[:special][:challenge][:duration_frames]
       frac = c.taunt_frames.fdiv(duration)
       alpha = frac < (1 / 3.0) ? (255 * frac * 3).clamp(60, 255).round : 255
       Gosu.draw_rect(x - 2, y + SIZE + 9, SIZE + 4, 3,
@@ -523,7 +531,7 @@ module App
     end
 
     def draw_banner(world)
-      text = world.map.display_name
+      text = tr("zone.#{world.map.name}.display_name", world.map.display_name)
       font = banner_font
       x = (view_width(world) - font.text_width(text)) / 2
       font.draw_text(text, x, 48, 10, 1, 1, BANNER)
@@ -535,15 +543,18 @@ module App
     def draw_breach_line(world)
       line = world.breach_line
       return unless line
+      text = tr("breach.line", line[:text])
       font = banner_font
-      x = (view_width(world) - font.text_width(line[:text])) / 2
-      font.draw_text(line[:text], x, 88, 10, 1, 1, BREACH_GOLD)
+      x = (view_width(world) - font.text_width(text)) / 2
+      font.draw_text(text, x, 88, 10, 1, 1, BREACH_GOLD)
     end
 
     def draw_wipe_overlay(world)
       Gosu.draw_rect(0, 0, view_width(world), view_height(world), WIPE_VEIL)
       font = wipe_font
-      text = "THE HUNT ENDS" # fiction-pending: wipe line comes from the bible
+      # Canonical text lives in data/strings/en.json (v13 extraction); the
+      # literal here only keeps a bare strings-less Renderer.new drawable.
+      text = tr("wipe.line", "THE HUNT ENDS")
       x = (view_width(world) - font.text_width(text)) / 2
       font.draw_text(text, x, view_height(world) / 2 - 40, 10, 1, 1, Gosu::Color.new(255, 200, 40, 40))
     end
@@ -708,6 +719,10 @@ module App
 
     def view_width(world) = world.camera.view_w
     def view_height(world) = world.camera.view_h
+
+    # v13 i18n seam: every player-visible string funnels through here.
+    # No resolver (bare Renderer.new) = the fallback = pre-v13 exact text.
+    def tr(key, fallback = nil) = @strings ? @strings.t(key, fallback) : fallback
 
     def banner_font = @banner_font ||= Gosu::Font.new(28, bold: true)
     def wipe_font = @wipe_font ||= Gosu::Font.new(64, bold: true)

@@ -27,4 +27,14 @@ class TileMapTest < Minitest::Test
   def test_zones_without_stations_stay_valid
     assert_empty Core::TileMap.new(base_cfg).stations
   end
+
+  # v13 i18n: the renderer keys zone strings off the INTERNAL zone name
+  # ("zone.<name>.display_name"); display_name stays the canonical EN text.
+  def test_name_exposed_for_locale_keys
+    assert_equal "t_zone", Core::TileMap.new(base_cfg.merge(name: "t_zone")).name
+  end
+
+  def test_name_optional_for_fixture_maps
+    assert_nil Core::TileMap.new(base_cfg).name
+  end
 end

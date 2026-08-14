@@ -282,18 +282,69 @@ module Game
     end
 
     # Home fields are keyed by TILE and never invalidated inside a zone —
-    # homes don't move. Cleared with the flow cache on zone change.
+    # homes don't move. Cleared with the flow cache on zone change. Keyed by
+    # the EFFECTIVE home (v13 guard-scope), so shifted and true anchors
+    # coexist deterministically.
     def flow_home(creature)
       @home_fields ||= {}
-      @home_fields[creature.home_tile] ||= FlowField.new(map).tap { |f| f.recompute!(creature.home_tile) }
+      anchor = leash_home_tile(creature)
+      @home_fields[anchor] ||= FlowField.new(map).tap { |f| f.recompute!(anchor) }
+    end
+
+    # v13 guard-scope (fairness only, spec §4): a leashing wanderer whose
+    # home sits inside the corpse guard of the NEWEST live corpse load
+    # re-homes to the nearest walkable tile outside the radius along the
+    # away ray — live humans cannot camp the corpse run. Engaged humans
+    # never read this (leash runs no-focus only); same anchor source as
+    # the respawn guard (corpse_loads, not visual corpses).
+    def leash_home_tile(creature)
+      home = creature.home_tile
+      load = corpse_loads.last
+      return home unless load
+      guard = @threat[:density][:corpse_guard_tiles]
+      return home if tile_distance(load[:tile], home) > guard
+      shifted_home(home, load[:tile], guard)
     end
 
     # One :human_leashed per episode: the flag arms on emit, disarms when the
     # human regains a focus (reset_leash! call sites) — track via leash_frames
     # equality: emit exactly when the counter crosses the linger threshold.
+    # steered (v13): this episode's destination was guard-shifted.
     def human_leashed!(creature)
       return unless creature.leash_frames == @threat[:leash_linger_frames]
-      @bus.emit(:human_leashed, actor: creature, tile: creature.tile, hp: creature.hp)
+      @bus.emit(:human_leashed, actor: creature, tile: creature.tile, hp: creature.hp,
+                steered: leash_home_tile(creature) != creature.home_tile)
+    end
+
+    # Walk the away ray (load->home direction, knock_away_from idiom) until
+    # outside the guard AND walkable; a ray into walls/map edge falls back
+    # to the ring scan; last resort is the true home — fairness is
+    # best-effort, a stuck human would be worse than a camping one.
+    def shifted_home(home, from, guard)
+      dx = (home[0] - from[0]).clamp(-1, 1)
+      dy = (home[1] - from[1]).clamp(-1, 1)
+      dx = 1 if dx.zero? && dy.zero?
+      (1..guard * 2).each do |k|
+        cand = [home[0] + dx * k, home[1] + dy * k]
+        next unless map.passable?(cand[0], cand[1])
+        return cand if tile_distance(from, cand) > guard
+      end
+      ring_home(home, from, guard) || home
+    end
+
+    # Nearest-to-home walkable tile on the ring just outside the guard;
+    # fixed sort key = deterministic.
+    def ring_home(home, from, guard)
+      r = guard + 1
+      candidates = []
+      (-r..r).each do |ox|
+        (-r..r).each do |oy|
+          next unless [ox.abs, oy.abs].max == r
+          cand = [from[0] + ox, from[1] + oy]
+          candidates << cand if map.passable?(cand[0], cand[1])
+        end
+      end
+      candidates.min_by { |c| [tile_distance(home, c), c[0], c[1]] }
     end
 
     def set_mark(source)
@@ -455,7 +506,7 @@ module Game
     end
 
     def resolve_tile_action(attacker, cfg)
-      resolve_taunt_pulse(attacker, cfg) if cfg[:taunt] && attacker.action_can_trigger?
+      resolve_taunt_pulse(attacker, cfg) if cfg[:challenge] && attacker.action_can_trigger?
       foes = hostiles_for(attacker)
       attacker.action_tiles.each do |tile|
         victim = foes.find { |foe| !foe.dead? && foe.tile == tile }
@@ -472,11 +523,13 @@ module Game
     # connects — a whiffed cast still burns the full exhaust (the cost model).
     def resolve_taunt_pulse(attacker, cfg)
       attacker.action_triggered!
-      t = cfg[:taunt]
+      t = cfg[:challenge]
+      # Data ships the cause as a String; the sim speaks Symbols (Codex fold).
+      cause = (t[:cause] || "taunt").to_sym
       victims = hostiles_for(attacker).select do |foe|
         !foe.dead? && tile_distance(attacker.tile, foe.tile) <= t[:range_tiles]
       end
-      victims.each { |v| v.taunt!(attacker, t[:duration_frames]) }
+      victims.each { |v| v.taunt!(attacker, t[:duration_frames], cause:) }
       @taunt_pulses << { tile: attacker.tile, frames_left: t[:pulse_frames],
                          pulse_frames: t[:pulse_frames], range_tiles: t[:range_tiles] }
       @bus.emit(:taunted, actor: attacker, victims: victims.length)
@@ -970,7 +1023,10 @@ module Game
 
     def emit_attack_hit(attacker, victim, landed)
       @last_damaged_target = victim if landed && attacker.equal?(possessed)
-      @bus.emit(:attack_hit, attacker:, victim:)
+      # kind/landed (v13): stamped at EMIT time — sim-exact even if the
+      # action state transitions before the bus processes.
+      @bus.emit(:attack_hit, attacker:, victim:,
+                kind: attacker.current_action, landed:)
     end
 
     def validate_mark

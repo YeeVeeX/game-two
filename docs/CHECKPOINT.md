@@ -1,5 +1,37 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-14 (v13 BUILT + WALLED in one autonomous session — ELEVENTH blind verify NEXT)
+
+**MEASURED: branch `v13-aoe` at `d6c3192` + this checkpoint, 266 commits,
+suite 369/1486 green (hook-run every commit), perf p95 0.252ms (budget
+16.6), checks 44 (ADD-ONLY from 42), 13 replay scripts, WALL 13/13 PASS
+(zero re-pilots of old scripts; aoe_specials a2 after one splice-legal
+capture retime).** Owner delegated the whole cycle mid-session
+("continúa de manera autónoma"): forks closed on dev recommendation
+(fork table in the spec §Design forks — owner may veto at debrief),
+spec `0edf31d` reviewed by Codex (REJECT → 4 folds: refund anchor,
+challenged-cause plumbing ×3, shifted leash-home redesign, challenge ×
+engaged-cap watched risk) + 52-agent workflow (1 CONFIRMED → whirlwind
+render identity + check-14 rewording; envelope declared 2.5M/40, actual
+3.06M/52 — recorded). TDD 5/5 green commits. Review ledger:
+`drafts/_v13-spec-review.md`; wall SSoT: `drafts/_v13-wall-log.md`.
+
+**Owner directives absorbed mid-session (all live):** Spanish sessions;
+`junior-tibia` = collaborative line (PUSHED — main/junior-tibia synced at
+fff5e18, v13-aoe branch pushed at every green); i18n en/es/pt-br SHIPPED
+(authored translations, harness pinned en, `bin/play es|pt-br`);
+`docs/JUNIOR.md` onboarding; multiplayer = lockstep-over-Tailscale staged
+path (GameLift REJECTED, Junior has no AWS) recorded as v14 lead in
+PARKING_LOT + memory `multiplayer-shared-play-path`.
+
+**NEXT: merge v13-aoe --no-ff INTO junior-tibia + push (NOT main — owner:
+main is the solo backup line), then the ELEVENTH BLIND verify** (owner
+plays `bin/play` — or `bin/play es` — FIRST, no changelog; harvest
+/tmp/game_two_session_<pid>.log BEFORE questions; skeleton + routing:
+`drafts/_v13-fun-verify-20260814.md`; headline = did density become YOUR
+weapon; whirl.hits histogram arbitrates). Then the v14 debate (leads:
+zone 3 stair, Nest rename, multiplayer staged path, Challenger 5th look).
+
 ## 2026-08-14 (GOALCOMP #4 — session wrap; v12 cycle CLOSED end-to-end; fresh chat starts v13)
 
 **MEASURED: 257 commits, main HEAD `a5163d8`, tree clean, 69 ahead of

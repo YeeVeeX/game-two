@@ -54,7 +54,7 @@
     },
     {
       "id": "specials_distinct",
-      "check": "When special frames are present, Blocker reads as a heavy ring shock, Lobber as delayed targeted tiles, and Striker as a bright through-lane. The three effects must not look like one reused attack effect. If this replay has no special frames, pass with why='not exercised by this script'."
+      "check": "When special frames are present, Blocker reads as a heavy ring shock, Lobber as delayed targeted tiles, and Striker as a bright ring burst (brighter/whiter family than the Blocker's warm ring). The three effects must not look like one reused attack effect. If this replay has no special frames, pass with why='not exercised by this script'."
     },
     {
       "id": "volley_telegraph_distinct",
@@ -167,6 +167,14 @@
     {
       "id": "new_ground_reads",
       "check": "When a camp ('The Second Vigil') or Keyward banner frame is on camera, the banner text is legible and the zone reads distinct from District One at a glance: the camp reads safe, station-dense, and warm; the Keyward reads black-and-ochre with a denser hostile field. If neither zone appears in this replay, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "whirlwind_reads",
+      "check": "When a striker special-active frame is present, the burst reads as ONE area hit: bright ring tiles around the striker with at least one adjacent victim reacting in the same frame (hurt flash or displaced outward). If no striker special is exercised in this script, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "challenge_reads",
+      "check": "When a blocker challenge frame window is present (the expanding square pulse), the room visibly answers it: at least one human in the pulse carries the rust taunt underline or has turned to face the blocker within the pulse's read window. If no blocker special is exercised in this script, pass with why='not exercised by this script'."
     }
   ]
 }
