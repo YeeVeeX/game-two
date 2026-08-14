@@ -87,6 +87,7 @@ module App
         draw_drops(world)
         draw_corpse_loads(world)
         draw_expiry_flashes(world)
+        draw_respawn_tells(world)
         world.humans.each { |h| draw_creature(h, world) }
         world.pack.living.each { |m| draw_creature(m, world) }
         world.projectiles.each { |p| draw_projectile(p) }
@@ -242,6 +243,46 @@ module App
         Gosu.draw_rect(tx * ts, ty * ts, ts, ts, Gosu::Color.new(a, 12, 6, 14))
       end
     end
+
+    # v14 respawn tell (spec Presentation 2): a growing pale green-white
+    # ground mark drawn UNDER bodies — "something arrives HERE". The
+    # outline brightens and the core fill grows with progress; a
+    # materialize-deferred tell (frames_left 0) holds at full intensity
+    # (deferral is honest waiting, W3). Pure function of the accessor
+    # record — replay determinism holds. The pale green-white family is
+    # its own: distinct from volley orange, telegraph red/yellow, gate
+    # gold, taunt rust, and the magenta drop/pip grammar.
+    def draw_respawn_tells(world)
+      ts = world.map.tile_size
+      world.respawn_tells.each do |tell|
+        progress = 1.0 - tell[:frames_left].fdiv(tell[:total])
+        tx, ty = tell[:tile]
+        x = tx * ts
+        y = ty * ts
+        ec = tell_edge_rgb
+        edge = Gosu::Color.new((tell_max_alpha * (0.45 + 0.55 * progress)).round,
+                               ec[0], ec[1], ec[2])
+        t = 2
+        Gosu.draw_rect(x + 2, y + 2, ts - 4, t, edge)
+        Gosu.draw_rect(x + 2, y + ts - 2 - t, ts - 4, t, edge)
+        Gosu.draw_rect(x + 2, y + 2, t, ts - 4, edge)
+        Gosu.draw_rect(x + ts - 2 - t, y + 2, t, ts - 4, edge)
+        # Core fill: grows from a seed toward the outline; the subtle pulse
+        # rides frames_left (sim state), so it freezes steady when held.
+        pulse = 1.0 + 0.1 * Math.sin(tell[:frames_left] * tell_pulse_speed / 10.0)
+        size = [(4 + progress * (ts - 12)) * pulse, ts - 6].min
+        inset = (ts - size) / 2.0
+        cc = tell_core_rgb
+        Gosu.draw_rect(x + inset, y + inset, size, size,
+                       Gosu::Color.new((tell_max_alpha * (0.25 + 0.75 * progress)).round,
+                                       cc[0], cc[1], cc[2]))
+      end
+    end
+
+    def tell_edge_rgb = @display.fetch(:respawn_tell_edge_rgb, [180, 220, 200])
+    def tell_core_rgb = @display.fetch(:respawn_tell_core_rgb, [220, 240, 230])
+    def tell_max_alpha = @display.fetch(:respawn_tell_max_alpha, 180)
+    def tell_pulse_speed = @display.fetch(:respawn_tell_pulse_speed, 3)
 
     # Station fixture: palette-driven block with a hollow center — reads as
     # a PLACE, not a wall (walls are solid) and not a gate (gates are gold).
