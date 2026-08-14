@@ -174,11 +174,12 @@ Append freely; promoting an item requires updating the scope contract in CLAUDE.
   >> gate round-trip; (b) gate beachhead — small no-camp radius around arrival tiles
   unless attacked; (c) chaser cap ties into A2's aggro soft-cap. Do NOT ship as a
   standalone fix — it reshapes threat, which is exactly the variable A2 owns.
-- **"The Nest" rename — SECOND owner complaint on record (2026-08-11; first was
-  earlier).** The name is fiction-pending spec-speak that leaked player-visible (zone
-  banner draws display_name). PRIORITY item on the fiction order form for the bible
-  session; renaming now would invalidate every gate capture (banner text renders in
-  frames), so it lands as its own post-bible increment: rename + one full wall re-run.
+- ~~**"The Nest" rename — SECOND owner complaint on record (2026-08-11; first was
+  earlier).**~~ **SHIPPED IN v14 (2026-08-14): The Nest → "The First Vigil", District
+  One → "The Longrow", wipe line → "THE FLESH IS SPENT" (×3 locales), riding the v14
+  comparability reset exactly as this entry prescribed** (rename + one full wall
+  re-run). Kept for the record: the name was fiction-pending spec-speak that leaked
+  player-visible; the fix waited for the bible + a cheap reset moment, as designed.
 
 ## A1+ queue (cut from Increment A by the 2026-08-09 dual review — each behind its own fun-verify)
 
@@ -361,9 +362,9 @@ verdict: `drafts/_q6-retune-fun-verify-20260812.md`):
   stretch and saw the sealed stair + beat line (the deliberate v13 hook from the v12
   spec). The arc ladder's next rung is designed-to-exist but unbuilt — lead v14
   candidate alongside the Nest rename.
-- **"The Nest" rename — not chosen at this debate.** Still unblocked by the bible
-  pass, still its own increment (rename + full wall re-run, comparability reset law).
-  Re-raise at the v14 debate; two owner complaints stand on record.
+- ~~**"The Nest" rename — not chosen at this debate.**~~ **Chosen at the v14 debate,
+  SHIPPED IN v14** (First Vigil / Longrow / THE FLESH IS SPENT — see the 2026-08-11
+  entry above).
 - **Q4 Second Vigil "just a shorter walk" — recorded, no lane.** Re-homing is
   infrastructure; its meaning rode the headline (which moved). If a future verify
   routes camp-meaning again, the answer is probably fiction/stakes at the camp, not
@@ -397,6 +398,25 @@ verdict: `drafts/_q6-retune-fun-verify-20260812.md`):
   eleventh produced no signal (casts=0, owner never noticed the striker changed).
   Re-read at the twelfth WITH controls on screen; if it fires and still reads flat,
   the placement fork re-opens at v15.
+
+## Parked by the v14 spec (2026-08-14 — decided against, not deferred by accident)
+
+Full rationale in the spec's "Deliberately absent" section
+(`docs/superpowers/specs/2026-08-14-v14-legibility-design.md`) — re-open only on the
+named triggers:
+
+- **Contextual/timed hints, tutorial prompts, strip hide-toggle** — fork 1 closed on
+  the persistent quiet strip. Re-open ONLY on a twelfth-Q3 "noise" verdict.
+- **Movement keys on the strip** — WASD/arrows are genre-literate; six actions are
+  the teachable surface (more = a manual, not a reference).
+- **Pack/wipe respawn telegraph** — the veil + judgment IS the pack's respawn
+  ceremony; only HUMAN spawns were named sudden.
+- **Telegraph on tile-recompute** (re-roll at materialize-defer) — a tell that JUMPS
+  is a lie with extra steps; the pin holds (W3), W5 unpin escapes camping instead.
+- **AI reactions to tells** (humans avoiding/defending spawn tiles) — sim behavior
+  change; difficulty is pinned by construction this cycle.
+- **Reverse-lookup of live bindings / `overlay.special` generic key** — YAGNI until
+  rebindable controls exist; the special slot always speaks the kit's verb.
 
 ## Owner directives recorded mid-v13 (2026-08-14) — roadmap items, not v13 code
 

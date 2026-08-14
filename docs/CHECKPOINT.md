@@ -1,5 +1,59 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-14 (v14 WALLED 14/14 + perf + suite — TWELFTH blind verify next)
+
+**MEASURED: branch junior-tibia HEAD `20ddcff` pre-close (this commit makes
+280), 279 commits, ahead 9 of origin, 14 scripts, 46 checks, suite
+395/1601 green (bundle exec, 0 failures), perf p95 0.341ms (v13: 0.252 —
+the overlay+tell draw cost, 48× under the 16.6 budget).**
+
+**WALL 14/14 PASS** — 10 scripts a1 + FOUR re-pilot replacements (budget
+was 2-5): the W1 respawn-RNG-stream isolation moved the world under every
+old script's recorded inputs, and the NEW MANIFEST LAW (Codex fold)
+caught FOUR semantic desyncs — **the critic passed 3 of the 4** (only
+nest_advance also tripped vision, later, on capture selection):
+- vat_economy a1 FAIL (pre-known + WIDER: inscribed also died) → pilot
+  vat6 (20.2K frames) → **PASS a2** w/ manifest COMPLETE; tribute_beat_
+  reads exercised on a REAL tribute first time since v12.
+- corpse_run a1 FAIL (corpse_looted=0, banked=0; corpse_run_reads
+  self-gated IN ITS OWN SCRIPT while the critic passed) → pilot cr2 →
+  **PASS a2** (wipe_recap over veil verified; corpse_run_reads still
+  sampling-dependent — honest note in the wall log).
+- ledger_loop a1 FAIL (corpse_loaded=0) → pilot ll2 (4.4K frames,
+  fastest — bank EARLY while the pack lives) → **PASS a2**; splices
+  exercised ledger_negative_reads ("hollow -7 → red -7 net") for real.
+- nest_advance a1 FAIL (banked=0, corpse_looted=0 — the owner SAW the
+  divergence live: "solo te veo dando vueltas en El Nido") → pilot na2
+  (13K frames, 2 banks/2 trips) → a2 vision FAIL (4 mandatory-beat
+  checks needed the FULL PACK in frame; all captures were solo-vessel —
+  memory `gate-critic-mandatory-beat-checks` verbatim) → splice-legal
+  early captures → **PASS a3**.
+
+**Hard-won pilot doctrine BANKED in the wall log** (per-kit step timing
+13/16/19 f/tile — four grab failures from one bug; ranged tap-face vs
+melee attack+direction; dodge dashes along facing; volley delay-lead;
+the corpse-container RATCHET — value re-containers at each death-carrying
+with fresh 5400 term, only drops decay; two-press stacked recoveries;
+speed 20 fast-forward). ~30 deaths of tuition across vat6/cr2/ll2/na2.
+
+**This close commit:** 4 replaced harness/scripts/*.json + PARKING_LOT
+(rename SHIPPED strikethroughs + "Parked by the v14 spec" section) +
+this delta. Untracked by design: _v14-wall-log.md (gate table + doctrine),
+_v14-fun-verify-20260814.md (questions + routing VERBATIM, ready).
+
+**NEXT:** fetch origin → push junior-tibia (NEVER main) → **TWELFTH
+BLIND verify** (owner plays FIRST no changelog; harvest /tmp/game_two_
+session_<pid>.log BEFORE questions; AskUserQuestion in SPANISH; oracle =
+did the whirlwind FIRE and land as payoff + did spawns stop feeling
+sudden; arbiters whirl.casts+hits, first_special{striker},
+telegraphs_shown, span_thirds; preamble: unexercised reads as
+unexercised) → v15 debate (zone 3 stair LEAD, multiplayer spike etapa 1,
+Challenger owner-only 6th, B placement re-read WITH controls) → THEN the
+scope contract v15 rewrite rides the debate outcome.
+
+**Owner queue:** unchanged (ratify #19/#42 + check-14 rewording at the
+debrief; ES locale pass; Junior PT-BR pass; nudge Junior to clone).
+
 ## 2026-08-14 (v14 BUILT: spec+dual review+TDD 6/6+pilot+gate 1/14 — WALL next)
 
 **MEASURED: branch junior-tibia HEAD `d23c090`, 278 commits, tree clean
