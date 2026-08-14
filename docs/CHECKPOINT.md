@@ -1,5 +1,25 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-14 (TENTH VERIFY: v12 WINS — headline MOVED; v13 debate next)
+
+**Owner verdict (AskUserQuestion, verbatim in
+drafts/_v12-fun-verify-20260813.md): Q1 "Advancing toward something" →
+v12 WINS** — second consecutive headline win. Breach = "earned payoff,
+toll worth it"; Keyward = "arrived somewhere new"; body reacted (Q8).
+Telemetry (two clean-Esc sessions harvested BEFORE questions): session 2
+paid BOTH seals (breach fired=2, seal2_breached=1, first @109160),
+240 Keyward kills, 17 camp visits, 29 inscriptions / 21 tributes /
+banked_spent 634 / banked_end 280 — the economy CHURNED.
+
+**Routed to the v13 debate:** (1) Q5 named lever — trips are
+MAINTENANCE-FORCED (pure=0 of 19 banks, dead 1.3 + wounded 1.7 at bank
+time): the lever is maintenance economics, not trip distance. (2) Q6
+drift "Mixed" after dose iteration TWO → structural lever. (3) Q7
+corpse-run camping at guard 10 → values lane exhausted, guard-scope
+un-parks as a design item (fairness only — owner also answered "nothing
+unfair"; difficulty stays pinned). (4) Q8 reacted → Challenger stays
+unpromoted (4th non-confirm). Q4 "just a shorter walk" recorded, no lane.
+
 ## 2026-08-13 (v12 MERGED — wall 10/10, perf 0.337ms, suite 335/1386; TENTH blind verify NEXT)
 
 **MEASURED: 254 commits, main HEAD `4703d3d` (merge --no-ff of v12-arc,
