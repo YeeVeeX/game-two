@@ -43,11 +43,14 @@ class TelemetryTest < Minitest::Test
     expected_v13 = "TELEMETRY v13 whirl{casts=0 hits{1=0 2=0 3=0 4=0 5plus=0} " \
                    "kills=0} challenge{casts=0 retargets=0}"
     expected_drift = "TELEMETRY drift thirds{k1=0 k2=0 k3=0} " \
-                     "pockets{p1=0.0 p2=0.0 p3=0.0}"
+                     "pockets{p1=0.0 p2=0.0 p3=0.0} " \
+                     "span_thirds{k1=0 k2=0 k3=0 span=0}"
+    expected_v14 = "TELEMETRY v14 telegraphs_shown=0 " \
+                   "first_special{striker=never blocker=never lobber=never}"
     assert_equal "#{expected_d1}\n#{expected_a2}\n#{expected_d1b}\n" \
                  "#{expected_q6}\n#{expected_density}\n" \
                  "#{expected_arc}\n#{expected_margins}\n" \
-                 "#{expected_v13}\n#{expected_drift}",
+                 "#{expected_v13}\n#{expected_drift}\n#{expected_v14}",
                  t.summary
   end
 

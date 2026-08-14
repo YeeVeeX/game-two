@@ -16,7 +16,9 @@ class V13TelemetryTest < Minitest::Test
     special_started attack_hit
   ].freeze
 
-  Actor = Struct.new(:kit_name)
+  # faction slot added at v14 (nil here = not pack — the first_special
+  # subscriber reads it; nil skips safely, v13 assertions unchanged).
+  Actor = Struct.new(:kit_name, :faction)
   Victim = Struct.new(:dead) { def dead? = dead }
 
   def bus = @bus ||= Core::EventBus.new.register(*ALL_EVENTS)

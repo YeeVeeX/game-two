@@ -144,6 +144,21 @@ module Game
         @whirl[:kills] += 1 if e[:victim].dead?
       end
 
+      # v14: discovery + telegraph arbiters. first_special is pack-only
+      # (a future human special must not pollute the discovery read);
+      # frame stamped at bus-process time, deterministic. The telegraph
+      # counter subscribes only where the event exists — Telemetry also
+      # serves pre-v14 test buses, and the line's zero must still print
+      # (subscriber-alive law).
+      @first_special = {}
+      bus.subscribe(:special_started) do |e|
+        a = e[:attacker]
+        @first_special[a.kit_name] ||= (@world ? @world.frame : 0) if a.faction == :pack
+      end
+      if bus.registered?(:respawn_telegraphed)
+        bus.subscribe(:respawn_telegraphed) { @counts[:telegraphs_shown] += 1 }
+      end
+
       # Drift instrumentation (v13, Q6 lane): kill frames + pocket-size
       # samples, bucketed into session thirds at SUMMARY time — measures
       # WHERE the field drifts instead of guessing dose three.
@@ -192,7 +207,18 @@ module Game
         "#{arc_summary}\n" \
         "#{q6_margins_summary}\n" \
         "#{v13_summary}\n" \
-        "#{drift_summary}"
+        "#{drift_summary}\n" \
+        "#{v14_summary}"
+    end
+
+    # Format pinned by the v14 spec: `never` (not 0) marks a kit that never
+    # cast — World starts at frame 0, so a 0 sentinel would collide with a
+    # legal first-tick cast (Codex fold).
+    def v14_summary
+      fs = %i[striker blocker lobber]
+           .map { |k| "#{k}=#{@first_special[k] || 'never'}" }.join(" ")
+      "TELEMETRY v14 telegraphs_shown=#{@counts[:telegraphs_shown]} " \
+        "first_special{#{fs}}"
     end
 
     def v13_summary
@@ -206,6 +232,10 @@ module Game
     end
 
     # Session thirds by summary-time frame (tick-locked: frames ARE time).
+    # span_thirds (v14 companion) re-buckets the SAME kills over the
+    # first->last-kill span — a long pre-combat head or idle tail can no
+    # longer compress the curve (the eleventh's all-k3 shape). The legacy
+    # field stays untouched beside it: comparability both directions.
     def drift_summary
       total = @world ? @world.frame : (@kill_frames.max || 0) + 1
       third = [total.fdiv(3).ceil, 1].max
@@ -215,7 +245,18 @@ module Game
       @drift_pockets.each { |(f, mean)| pockets[[f / third, 2].min] << mean }
       p1, p2, p3 = pockets.map { |s| s.empty? ? 0.0 : s.sum.fdiv(s.length) }
       "TELEMETRY drift thirds{k1=#{kills[0]} k2=#{kills[1]} k3=#{kills[2]}} " \
-        "pockets{p1=#{format('%.1f', p1)} p2=#{format('%.1f', p2)} p3=#{format('%.1f', p3)}}"
+        "pockets{p1=#{format('%.1f', p1)} p2=#{format('%.1f', p2)} p3=#{format('%.1f', p3)}} " \
+        "#{span_thirds_segment}"
+    end
+
+    def span_thirds_segment
+      return "span_thirds{k1=0 k2=0 k3=0 span=0}" if @kill_frames.empty?
+      first = @kill_frames.first
+      span = @kill_frames.last - first + 1
+      third = [span.fdiv(3).ceil, 1].max
+      k = [0, 0, 0]
+      @kill_frames.each { |f| k[[(f - first) / third, 2].min] += 1 }
+      "span_thirds{k1=#{k[0]} k2=#{k[1]} k3=#{k[2]} span=#{span}}"
     end
 
     def a2_summary
