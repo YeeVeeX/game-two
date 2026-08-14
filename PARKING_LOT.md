@@ -376,28 +376,27 @@ verdict: `drafts/_q6-retune-fun-verify-20260812.md`):
   (two dose iterations both partial-missed — no third blind dose, design
   investigation with ninth+tenth data).
 
-## Parked at the v14 debate (2026-08-14 — eleventh verify: v13 WON; v14 = legibility/onboarding)
+## Promoted OUT of the lot at the v15 debate (2026-08-14 — twelfth verify: v14 WON)
 
-- **The Challenger — FIFTH decline.** Q8 body reacted (third consecutive read) —
-  density+arc+specials carry entrainment without it. Weakest the dossier has ever
-  been; promotion remains the owner's explicit call, fairness ladder mandatory.
-- **Zone 3 beyond the stair — v15 LEAD.** Third consecutive arc headline win and
-  the owner paid the 150 stretch AGAIN (seal2_breached=1, 68 Keyward kills). Waits
-  one short cycle so B (whirlwind) gets its first real verdict.
-- **Multiplayer spike etapa 1 (cross-machine determinism)** — queued right after
-  v14; Junior has not cloned yet (verified: zero pushes/PRs as of the eleventh
-  debrief), and legibility serves his first play. Full staged path in the
-  directives section below + memory `multiplayer-shared-play-path`.
-- **Guard-scope live-wanderer steering — CLOSED VALIDATED** (leaves the lanes):
-  eleventh Q7 "Nada injusto", no corpse camping for the first time in three reads.
-- **Maintenance PRICING dose — recorded NEGATIVE result** (regrow 12→9 reverted
-  `52314c9`; the pre-registered gap arbiter fired: 83s→47s + trips-still-often).
-  The maintenance lever is now regrow CADENCE (a v14 investigation lane), never
-  re-try the price cut blind.
-- **B placement fork (whirlwind on striker) — stays closed, UNJUDGED**: the
-  eleventh produced no signal (casts=0, owner never noticed the striker changed).
-  Re-read at the twelfth WITH controls on screen; if it fires and still reads flat,
-  the placement fork re-opens at v15.
+- ~~**The Challenger**~~ → **PROMOTED TO v15** (owner's EXPLICIT call after SIX
+  non-confirms, four consecutive body-reacts). Enters WITH zone 3, fairness
+  ladder mandatory. First human who fights back.
+- ~~**Zone 3 beyond the stair**~~ → **PROMOTED TO v15** (v15 = zone 3 + Challenger
+  + configurable keybinds). Four consecutive arc wins, owner paid seal2 twice.
+- **Multiplayer spike etapa 1 — v16 LEAD.** Junior hasn't cloned yet; zone 3
+  gives a richer first experience. Full staged path in the directives section
+  below + memory `multiplayer-shared-play-path`.
+- **Guard-scope live-wanderer steering — CLOSED VALIDATED** (third consecutive
+  clean read: eleventh + twelfth both "Nada injusto").
+- **Maintenance PRICING dose — CLOSED (L0 wins).** Twelfth Q5 "ritmo ok" with
+  regrow 12 restored. The pre-registered arbiter fired: L0, nothing ships.
+  The regrow-cadence investigation (`drafts/_v14-regrow-cadence-investigation.md`)
+  is the record; the pricing lever family is permanently recorded-negative.
+- **B placement fork — CLOSED VALIDATED.** Twelfth Q1 "Sí, premio" with
+  casts=2 + hit histogram fat tail. The whirlwind fired on its current placement
+  and landed as payoff. Fork does not re-open.
+- **Drift structural lever — CLOSED.** span_thirds{102<113<134} monotonically
+  increasing at the twelfth — first real measurement, validates the field.
 
 ## Parked by the v14 spec (2026-08-14 — decided against, not deferred by accident)
 

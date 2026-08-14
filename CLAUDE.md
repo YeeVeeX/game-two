@@ -6,54 +6,77 @@ permission for design decisions.
 
 ## Scope contract (the #1 Kethral failure was ignoring this — it is enforced here)
 
-v14 (2026-08-14): **v13 AoE specials SHIPPED + WON the eleventh blind
-verify** (merge `3219f30` on `junior-tibia`, wall 13/13, perf 0.252ms,
-suite 369/1486). Headline verbatim: **"Oportunidad para cobrar"** —
-THIRD consecutive win, carried by the challenge ALONE (23 casts, 71
-retargets, carrying_deaths 21→2). **The whirlwind never fired (casts=0)
-— UNEXERCISED, not judged** (ledger precedent: presentation first).
-Owner verbatim mid-debrief: "necesitamos tener los controles en pantalla
-o algo así, si no no me doy cuenta que hay habilidades nuevas" + the Q7
-free-text respawn ask ("un pequeño timer/delay… no sea tan repentino").
-Guard-scope steering CLOSED VALIDATED (no camping, first time in three
-reads). Maintenance dose REVERTED per the pre-registered gap arbiter
-(83s→47s + trips-still-often = backfired; `52314c9`). Challenger 5th
-non-confirm. Verdict + routing verbatim:
-`drafts/_v13-fun-verify-20260814.md`. v14 DEBATE CLOSED 2026-08-14
-(owner via AskUserQuestion, both on dev recommendation):
-**v14 = LEGIBILITY/ONBOARDING.**
+v15 (2026-08-14): **v14 legibility SHIPPED + WON the twelfth blind
+verify** (`4b33426` on `junior-tibia`, wall 14/14 with 4 re-pilots,
+perf 0.341ms, suite 395/1601). Headline: **B VALIDATED + telegraph
+VALIDATED + strip VALIDATED** — FOURTH consecutive win. Whirlwind fired
+(casts=2, hits{1=1,2=1}, kills=2) and landed as payoff ("Sí, premio");
+268 telegraphs shown + planned around ("Sí, planeé"); strip helped find
+tools ("Ayudó") with a LANE out: dual-keybind visibility. Body reacted
+(seventh read, fourth consecutive). Verdict + routing + telemetry
+verbatim: `drafts/_v14-fun-verify-20260814.md`.
+v15 DEBATE CLOSED 2026-08-14 (owner via AskUserQuestion):
+**v15 = ZONE 3 + THE CHALLENGER + CONFIGURABLE KEYBINDS.**
 
-**IN scope — v14 promotes ONE presentation increment (three owner-named
-pieces riding ONE comparability reset) plus two lanes:**
-- **(a) On-screen controls / ability legibility** — the owner's verbatim
-  ask; the fix that unblocks B's real verdict. Design forks at
-  brainstorm: persistent overlay vs contextual hints vs first-possession
-  prompts; quiet-HUD law applies.
-- **(b) Respawn telegraph** — a timer/delay/tell so spawns stop being
-  "repentino y brusco" and the player can plan. Fairness/planning
-  presentation, NEVER a difficulty change (difficulty stays pinned).
-- **(c) "The Nest" rename** — owner picked the cheap moment: the overlay
-  already resets EVERY capture, one wall re-run absorbs both. The new
-  name comes from the bible/owner BEFORE the spec (fiction order form).
-- **Lanes:** drift-instrument verification (eleventh's curve bucketed
-  all 186 kills in k3 vs breach at 95612 — verify the mechanism before
-  the structural decision trusts it); regrow-CADENCE design
-  investigation (the pricing dose is a recorded negative result).
-- Oracle: the TWELFTH ask — **did the whirlwind FIRE and land as
-  payoff** (B's first real verdict) + did spawns stop feeling sudden.
+**IN scope — v15 promotes THREE increments (biggest scope to date):**
+- **(a) Zone 3 — beyond the stair.** New geography, new zone data file,
+  zone banner, enemy composition, arc progression. What is past the
+  sealed stair the owner paid 150 to open TWICE. Human-facing surfaces
+  (zone banner, any beat text) go through the `human-facing-output`
+  skill at every draft. Fiction order form: the bible session names the
+  zone BEFORE the spec (same process as First Vigil/Longrow).
+- **(b) The Challenger.** A NAMED human who force-taunts the player's
+  possessed body — "humans never fought back, until one did." MANDATORY
+  fairness ladder: visible tell + counters (the player can react).
+  Dossier: `drafts/_scope-debate-v11.md` + 6 non-confirms + owner's
+  EXPLICIT promotion at the twelfth. The first peak entrainment was
+  never asked to carry — it now has its own source.
+- **(c) Configurable keybinds strip.** Binding map in `data/` (JSON);
+  the strip reads it per player config. Secondary bindings visible.
+  Multiplayer-ready: each machine's config can differ at v16.
+- **Lanes:** check-amendment ratification (#19/#42 + check-14 rewording
+  — owner queue, opening act); ES/PT-BR locale pass (overlay verbs +
+  zone-3 names — `human-facing-output` skill applies); multiplayer prep
+  docs update for Junior (docs/JUNIOR.md).
+- Oracle: the THIRTEENTH ask — **did zone 3 feel like arriving somewhere
+  earned** + **did the Challenger scare you** (the first peak it exists
+  to create).
 - All numbers in `data/`; zero balance constants in Ruby; checks
-  ADD-ONLY from 44 (wording may follow behavior per the c361ba3/check-14
-  precedent, owner ratifies).
+  ADD-ONLY from 46.
 
 **OUT of scope — goes to PARKING_LOT.md, never to code:**
-**Zone 3 beyond the stair** (v15 LEAD — three consecutive arc wins say
-it's next once B is judged); **multiplayer spike etapa 1** (cross-machine
-determinism — right after v14; Junior hasn't cloned yet, legibility
-serves his first play); **the Challenger** (FIFTH decline, entrainment
-carried 3 consecutive reads without it; owner's explicit call only);
-dossier legs A/C/E; everything long-parked.
-**Nothing new starts until v14 is fun-verified by the owner (the
-TWELFTH ask).**
+**Multiplayer spike etapa 1** (v16 LEAD — Junior hasn't cloned yet; zone
+3 gives a richer first experience); dossier legs A/C/E; everything
+long-parked.
+**Nothing new starts until v15 is fun-verified by the owner (the
+THIRTEENTH ask).**
+
+## Human-facing surfaces
+
+- **Surfaces**: zone banners, wipe/victory lines, controls strip labels,
+  overlay verb text, in-game locale strings (en/es/pt-br), error messages.
+- **Audience**: hobbyist player (owner) + friend (Junior, PT-BR).
+- **Register target**: converge to the fiction's register (diegetic, terse,
+  New-Kingdom-Egypt-through-fantasy); never patronize.
+- **Disclosure needs**: N/A (no AI-interaction surface in-game; single-
+  player hobby project, not a commercial product).
+
+Ship-gate: language critique (accuracy vs presentation, separate axes) is
+blocking at ship per global Rules 2/6; checklist in the `human-facing-output`
+skill.
+
+## Previous scope contract (v14 — CLOSED 2026-08-14, WON the twelfth)
+
+v14 (2026-08-14): legibility/onboarding — controls strip + respawn
+telegraph + renames (First Vigil/Longrow/THE FLESH IS SPENT) + span_thirds
+drift companion. Wall 14/14 (4 re-pilots vs W1 RNG shift; manifest law
+caught 4 desyncs the critic missed 3 of). B VALIDATED (whirlwind fired
+casts=2, "Sí, premio"), telegraph VALIDATED (268 shown, "Sí, planeé"),
+strip VALIDATED ("Ayudó" + dual-keybind lane out). Lane e CLOSED (L0,
+"ritmo ok"), drift CLOSED (span_thirds monotonic 102<113<134), guard-scope
+CLOSED-VALIDATED (third clean), Challenger promoted to v15 (owner's
+explicit call after 6 non-confirms). Spec:
+`docs/superpowers/specs/2026-08-14-v14-legibility-design.md`.
 
 ## Previous scope contract (v13 — CLOSED 2026-08-14, kept for the record)
 
