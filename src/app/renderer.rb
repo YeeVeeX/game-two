@@ -447,7 +447,7 @@ module App
     # lock's final third: the snap back to free targeting is telegraphed
     # with the same grammar drop decay taught.
     def draw_taunt_underline(c, x, y)
-      duration = c.taunted_target.kit[:special][:taunt][:duration_frames]
+      duration = c.taunted_target.kit[:special][:challenge][:duration_frames]
       frac = c.taunt_frames.fdiv(duration)
       alpha = frac < (1 / 3.0) ? (255 * frac * 3).clamp(60, 255).round : 255
       Gosu.draw_rect(x - 2, y + SIZE + 9, SIZE + 4, 3,

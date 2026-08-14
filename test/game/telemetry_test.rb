@@ -26,7 +26,7 @@ class TelemetryTest < Minitest::Test
                   "carried_lost=0 banked_events=1 fights=2 recovery_fights=1 " \
                   "negative_fights=1"
     expected_a2 = "TELEMETRY a2_fired wipes=1 body_deaths=0 " \
-                  "retargets{hate=0 lowhp=0 proximity=0 acquired=0} " \
+                  "retargets{hate=0 lowhp=0 proximity=0 acquired=0 challenged=0} " \
                   "leashes=0 deepest_band=0 banked=1"
     expected_d1b = "TELEMETRY d1b_fired inscriptions=0 marks_consumed=0 " \
                    "dissolved=0 regrown=0 tributes=0 floor_fired=0 " \
@@ -61,7 +61,7 @@ class TelemetryTest < Minitest::Test
     bus.emit(:human_retargeted, actor: nil, from: nil, to: nil, cause: :sticky)
     bus.process
     assert_equal "TELEMETRY a2_fired wipes=0 body_deaths=0 " \
-                 "retargets{hate=2 lowhp=1 proximity=1 acquired=2} " \
+                 "retargets{hate=2 lowhp=1 proximity=1 acquired=2 challenged=0} " \
                  "leashes=0 deepest_band=0 banked=0", t.a2_summary
   end
 
@@ -81,7 +81,7 @@ class TelemetryTest < Minitest::Test
     bus.emit(:banked, amount: 3)
     bus.process
     assert_equal "TELEMETRY a2_fired wipes=1 body_deaths=2 " \
-                 "retargets{hate=0 lowhp=0 proximity=0 acquired=0} " \
+                 "retargets{hate=0 lowhp=0 proximity=0 acquired=0 challenged=0} " \
                  "leashes=2 deepest_band=0 banked=2", t.a2_summary
   end
 
@@ -100,7 +100,7 @@ class TelemetryTest < Minitest::Test
     bus.emit(:drop_spawned, tile: [7, 8], amount: 1)   # distance 15 -> band 1
     bus.process
     assert_equal "TELEMETRY a2_fired wipes=0 body_deaths=0 " \
-                 "retargets{hate=0 lowhp=0 proximity=0 acquired=0} " \
+                 "retargets{hate=0 lowhp=0 proximity=0 acquired=0 challenged=0} " \
                  "leashes=0 deepest_band=2 banked=0", t.a2_summary
   end
 

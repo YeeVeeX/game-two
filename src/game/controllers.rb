@@ -80,7 +80,7 @@ module Game
     # switches (learnability law): every cause is telemetry.
     def select_target(creature, view)
       bound = creature.taunted_target
-      return [bound, :taunt] if bound
+      return [bound, creature.taunt_cause || :taunt] if bound
       anchor = anchor_victim_for(creature, view)
       return [anchor, :anchor] if anchor
       threat = view.threat_config

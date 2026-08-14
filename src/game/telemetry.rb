@@ -10,7 +10,7 @@ module Game
   # owner's sixth fun-verify.
   class Telemetry
     D1_EVENTS = %i[corpse_loaded corpse_looted carried_lost pack_wiped banked].freeze
-    A2_RETARGET_CAUSES = %i[hate lowhp proximity acquired].freeze
+    A2_RETARGET_CAUSES = %i[hate lowhp proximity acquired challenged].freeze
 
     D1B_EVENTS = %i[inscribed mark_consumed body_dissolved body_regrown
                     tribute_paid vessel_kept].freeze
@@ -157,7 +157,8 @@ module Game
       "TELEMETRY a2_fired wipes=#{@counts[:pack_wiped]} " \
         "body_deaths=#{@counts[:body_deaths]} " \
         "retargets{hate=#{@retargets[:hate]} lowhp=#{@retargets[:lowhp]} " \
-        "proximity=#{@retargets[:proximity]} acquired=#{@retargets[:acquired]}} " \
+        "proximity=#{@retargets[:proximity]} acquired=#{@retargets[:acquired]} " \
+        "challenged=#{@retargets[:challenged]}} " \
         "leashes=#{@counts[:leashes]} deepest_band=#{deepest_band} " \
         "banked=#{@counts[:banked]}"
     end

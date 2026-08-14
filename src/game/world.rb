@@ -455,7 +455,7 @@ module Game
     end
 
     def resolve_tile_action(attacker, cfg)
-      resolve_taunt_pulse(attacker, cfg) if cfg[:taunt] && attacker.action_can_trigger?
+      resolve_taunt_pulse(attacker, cfg) if cfg[:challenge] && attacker.action_can_trigger?
       foes = hostiles_for(attacker)
       attacker.action_tiles.each do |tile|
         victim = foes.find { |foe| !foe.dead? && foe.tile == tile }
@@ -472,11 +472,13 @@ module Game
     # connects — a whiffed cast still burns the full exhaust (the cost model).
     def resolve_taunt_pulse(attacker, cfg)
       attacker.action_triggered!
-      t = cfg[:taunt]
+      t = cfg[:challenge]
+      # Data ships the cause as a String; the sim speaks Symbols (Codex fold).
+      cause = (t[:cause] || "taunt").to_sym
       victims = hostiles_for(attacker).select do |foe|
         !foe.dead? && tile_distance(attacker.tile, foe.tile) <= t[:range_tiles]
       end
-      victims.each { |v| v.taunt!(attacker, t[:duration_frames]) }
+      victims.each { |v| v.taunt!(attacker, t[:duration_frames], cause:) }
       @taunt_pulses << { tile: attacker.tile, frames_left: t[:pulse_frames],
                          pulse_frames: t[:pulse_frames], range_tiles: t[:range_tiles] }
       @bus.emit(:taunted, actor: attacker, victims: victims.length)

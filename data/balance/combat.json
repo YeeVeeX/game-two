@@ -72,10 +72,11 @@
         "knockback_tiles": 2,
         "stagger_frames": 45,
         "interrupt_windup": true,
-        "taunt": {
-          "range_tiles": 6,
-          "duration_frames": 300,
-          "pulse_frames": 20
+        "challenge": {
+          "range_tiles": 9,
+          "duration_frames": 450,
+          "pulse_frames": 20,
+          "cause": "challenged"
         }
       },
       "dodge": {

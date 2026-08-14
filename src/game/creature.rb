@@ -200,11 +200,16 @@ module Game
 
     # Taunt lock (A0.6): victim-owned, swap-inert — bound to the taunter's
     # BODY, never the possession pointer. A fresh taunt overwrites.
-    def taunt!(taunter, frames)
+    # cause (v13): rides the lock for telemetry (:challenged for the
+    # blocker's challenge); the mechanism itself is unchanged.
+    def taunt!(taunter, frames, cause: :taunt)
       @taunted_by = taunter
       @taunt_frames = frames
+      @taunt_cause = cause
       waive_beachhead!
     end
+
+    def taunt_cause = @taunt_cause
 
     # PURE reader — never mutates (the renderer calls it from draw, and a
     # mutating reader would let wall-clock draw timing change sim state).
@@ -299,6 +304,7 @@ module Game
     def clear_taunt!
       @taunted_by = nil
       @taunt_frames = 0
+      @taunt_cause = nil
     end
 
     def begin_action(kind, active_frames: nil)

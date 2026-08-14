@@ -10,7 +10,9 @@ require "game/world"
 class TauntTest < Minitest::Test
   DATA = Core::DataStore.new(File.expand_path("../../data", __dir__))
   STEP = DATA["balance/combat"][:kits][:striker][:step_frames]
-  TAUNT = DATA["balance/combat"][:kits][:blocker][:special][:taunt]
+  # v13: the taunt block evolved into the challenge (radius 9, duration 450,
+  # cause :challenged) — the lock MECHANISM this file pins is unchanged.
+  TAUNT = DATA["balance/combat"][:kits][:blocker][:special][:challenge]
   SLAM_WINDUP = DATA["balance/combat"][:kits][:blocker][:special][:windup_frames]
 
   MAP = Core::TileMap.new(
@@ -127,8 +129,8 @@ class TauntTest < Minitest::Test
   def test_pulse_taunts_range_boundary_and_emits_once
     blocker, humans = stage(world, blocker_at: [12, 12], keep: 2)
     inside, outside = humans
-    inside.walker.teleport(18, 12)  # Chebyshev 6 — in
-    outside.walker.teleport(19, 12) # Chebyshev 7 — out
+    inside.walker.teleport(21, 12)  # Chebyshev 9 — in (v13 challenge radius)
+    outside.walker.teleport(22, 12) # Chebyshev 10 — out
     humans.each { |h| h.stagger!(400) }
 
     events = []
