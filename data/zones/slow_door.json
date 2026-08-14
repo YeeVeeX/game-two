@@ -3,10 +3,26 @@
   "display_name": "The Slow Door",
   "tile_size": 32,
   "palette": {
-    "floor": [12, 10, 14],
-    "grid": [20, 17, 22],
-    "wall": [58, 48, 64],
-    "transition": [235, 190, 90]
+    "floor": [
+      12,
+      10,
+      14
+    ],
+    "grid": [
+      20,
+      17,
+      22
+    ],
+    "wall": [
+      58,
+      48,
+      64
+    ],
+    "transition": [
+      235,
+      190,
+      90
+    ]
   },
   "tiles": [
     "##############",
@@ -19,10 +35,48 @@
     "#............#",
     "##############"
   ],
-  "pack_spawn": [[7, 6], [6, 6], [8, 6]],
+  "pack_spawn": [
+    [
+      7,
+      6
+    ],
+    [
+      6,
+      6
+    ],
+    [
+      8,
+      6
+    ]
+  ],
   "enemy_spawns": {},
   "stations": [],
   "transitions": [
-    { "at": [7, 7], "to": "district_two", "spawn": [40, 13] }
+    {
+      "at": [
+        7,
+        7
+      ],
+      "to": "district_two",
+      "spawn": [
+        40,
+        13
+      ]
+    },
+    {
+      "at": [
+        7,
+        1
+      ],
+      "to": "low_quay",
+      "spawn": [
+        2,
+        4
+      ]
+    }
+  ],
+  "gradient_anchor": [
+    7,
+    4
   ]
 }

@@ -111,7 +111,11 @@
         "recovery_frames": 12,
         "exhaust_frames": 720,
         "arc": "volley",
-        "impact_distances": [2, 3, 4],
+        "impact_distances": [
+          2,
+          3,
+          4
+        ],
         "delay_frames": 40,
         "knockback_tiles": 0
       },
@@ -129,7 +133,11 @@
       "step_frames": 16,
       "aggro_tiles": 10,
       "respawn_frames": 300,
-      "drop_table": [1, 1, 2],
+      "drop_table": [
+        1,
+        1,
+        2
+      ],
       "attack": {
         "damage": 12,
         "windup_frames": 20,
@@ -148,7 +156,11 @@
       "step_frames": 16,
       "aggro_tiles": 10,
       "respawn_frames": 300,
-      "drop_table": [1, 1, 2],
+      "drop_table": [
+        1,
+        1,
+        2
+      ],
       "hate": "lobber",
       "attack": {
         "damage": 12,
@@ -180,6 +192,32 @@
       },
       "knockback_frames_per_tile": 5,
       "interrupt_on_hit": false
+    },
+    "challenger": {
+      "max_hp": 140,
+      "step_frames": 16,
+      "aggro_tiles": 10,
+      "drop_table": [
+        8
+      ],
+      "attack": {
+        "damage": 15,
+        "windup_frames": 20,
+        "active_frames": 6,
+        "recovery_frames": 0,
+        "exhaust_frames": 66,
+        "arc": "ring",
+        "knockback_tiles": 1,
+        "knockback_frames_per_tile": 5
+      },
+      "knockback_frames_per_tile": 5,
+      "seize": {
+        "chant_frames": 120,
+        "range_tiles": 7,
+        "duration_frames": 450,
+        "cooldown_frames": 600,
+        "cause": "seized"
+      }
     }
   },
   "feel": {

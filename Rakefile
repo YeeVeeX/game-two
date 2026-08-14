@@ -55,6 +55,31 @@ task :perf do
   sh "ruby", "-Isrc", "-e", ruby_code
 end
 
+desc "Stream canary (v15): ONE replay, per-frame md5 vs a preserved BASELINE dir. SCRIPT=... BASELINE=..."
+task :canary do
+  require "digest"
+  require "json"
+  require "fileutils"
+  script = ENV.fetch("SCRIPT") { abort "Usage: rake canary SCRIPT=... BASELINE=..." }
+  baseline = ENV.fetch("BASELINE") { abort "Usage: rake canary SCRIPT=... BASELINE=..." }
+  abort "CANARY FAIL: baseline dir #{baseline} missing" unless Dir.exist?(baseline)
+  out = "#{JSON.parse(File.read(script)).fetch('out_dir')}_canary"
+  FileUtils.rm_rf(out)
+
+  sh "ruby -Isrc harness/replay_runner.rb #{script} #{out}"
+
+  ref = Dir[File.join(baseline, "*.png")].sort
+  fresh = Dir[File.join(out, "*.png")].sort
+  abort "CANARY FAIL: no captures produced" if fresh.empty?
+  abort "CANARY FAIL: capture counts differ (#{fresh.size} vs baseline #{ref.size})" if fresh.size != ref.size
+  ref.zip(fresh).each do |r, f|
+    hr = Digest::MD5.file(r).hexdigest
+    hf = Digest::MD5.file(f).hexdigest
+    abort "CANARY FAIL: #{File.basename(f)} diverged from baseline (#{hf} != #{hr})" unless hr == hf
+  end
+  puts "CANARY PASS: #{fresh.size} captures byte-identical to #{baseline}"
+end
+
 desc "Rule 2 gate (BLOCKING): replay twice, byte-compare captures, vision verdict. SCRIPT=..."
 task :gate do
   require "digest"
