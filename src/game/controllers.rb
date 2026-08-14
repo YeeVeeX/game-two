@@ -140,10 +140,12 @@ module Game
 
     # Leash-with-no-heal (A2): nothing in aggro for the linger -> walk home,
     # KEEPING hp. A returning human re-engages the moment focus reappears
-    # (dispersed, not invulnerable).
+    # (dispersed, not invulnerable). Home may be guard-shifted (v13
+    # guard-scope) — the view owns that call; flow_home shares the anchor.
     def leash_home(creature, view)
       return if creature.leash_frames < view.threat_config[:leash_linger_frames]
-      return if creature.tile == creature.home_tile
+      home = view.respond_to?(:leash_home_tile) ? view.leash_home_tile(creature) : creature.home_tile
+      return if creature.tile == home
       view.human_leashed!(creature) if view.respond_to?(:human_leashed!)
       return if creature.moving?
       blocked = view.blocked_for(creature)
