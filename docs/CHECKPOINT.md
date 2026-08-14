@@ -1,5 +1,27 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-14 (GOALCOMP #4 — session wrap; v12 cycle CLOSED end-to-end; fresh chat starts v13)
+
+**MEASURED: 257 commits, main HEAD `a5163d8`, tree clean, 69 ahead of
+origin (NEVER push), 12 replay scripts, 42 checks, suite 335/1386 green
+(hook-run at every commit today), perf p95 0.337ms.** Nothing in flight —
+no pilots, no background gates, no agents. The whole v12 cycle (spec →
+TDD → wall 10/10 → merge `4703d3d` → tenth verify WON → v13 debate
+closed) completed in this session's arc.
+
+**Read-first for the v13 session:** this file's two 2026-08-14 entries +
+CLAUDE.md scope contract (v13 = AoE specials B+D + three routed lanes) +
+`drafts/_tibia-aoe-research-20260813.md` (the dossier) +
+`drafts/_v12-fun-verify-20260813.md` (verdict/routing/telemetry) +
+`drafts/_v12-wall-log.md` (gate provenance + pilot doctrine, incl. vat5b
+flight notes). **First act = v13 brainstorm** (superpowers:brainstorming),
+design forks close via AskUserQuestion BEFORE the spec: kit placement
+(which body gets B, which gets D — or one body both), pip costs, binding
+(L/E exists; "any THIRD special or new binding" was a v12 OUT — v13
+promotes exactly these two), clump-payoff formula shape, challenge
+duration/radius, and how the three lanes land (maintenance pricing DATA;
+drift structural DESIGN; guard-scope DESIGN).
+
 ## 2026-08-14 (v13 DEBATE CLOSED: AoE specials B+D; c361ba3 RATIFIED — v12 cycle COMPLETE)
 
 **Debate closed via AskUserQuestion, all three dev recommendations
