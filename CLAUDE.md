@@ -46,10 +46,27 @@ plus the three routed lanes:**
   fairness only, NEVER a global softening; difficulty stays pinned:
   the owner answered "nothing unfair" alongside the camping report).
 - **Brainstorm/spec is the NEXT session's first act**; nothing lands in
-  code before the spec's owner forks close.
+  code before the spec's owner forks close. *(2026-08-14: the owner
+  delegated fork closure mid-session — "continúa de manera autónoma";
+  forks closed on dev recommendation, documented in the spec for owner
+  veto at the eleventh debrief.)*
+- **Owner-directive additions (2026-08-14, mid-session, IN scope by owner
+  order):** (a) **i18n lane** — locales en/es/pt-br, authored translations
+  (no Amazon Translate at ~8 strings), harness pins locale=en (gate
+  comparability law); (b) **Junior onboarding doc** (`docs/JUNIOR.md`,
+  PT-BR+EN — Junior has NO AWS account; everything he touches must be
+  git-pull simple); (c) **branch model change**: `junior-tibia` = the
+  collaborative line (work lands there, pushed regularly — supersedes
+  "never push"); `main` = solo/backup line, untouched.
 - All numbers in `data/`; zero balance constants in Ruby.
 
 **OUT of scope — goes to PARKING_LOT.md, never to code:**
+**Multiplayer/shared play** (owner ask 2026-08-14, decision delegated to
+dev): GameLift REJECTED (dedicated-server fleets, no Ruby SDK, overkill
+for 2P co-op; Junior has no AWS). Chosen path = deterministic lockstep
+over Tailscale, staged: (0) replay exchange via the repo, (1) v14
+cross-machine determinism spike, (2) 2P possession co-op (each player
+possesses a body of the SAME pack). v14 lead; ZERO netcode in v13.
 The **Challenger**: FOURTH decline (Q8 body reacted again — density+arc
 carry entrainment); dossier stands, weaker still; promotion stays the
 owner's explicit call, fairness ladder mandatory. **Dossier legs A/C/E**
