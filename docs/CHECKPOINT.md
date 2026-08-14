@@ -1,5 +1,35 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-13 (v12 MERGED — wall 10/10, perf 0.337ms, suite 335/1386; TENTH blind verify NEXT)
+
+**MEASURED: 254 commits, main HEAD `4703d3d` (merge --no-ff of v12-arc,
+NOT pushed — 55+ ahead of origin by design), suite 335/1,386 green (hook +
+standalone), perf p95 0.337ms (budget 16.6), checks 42, 12 replay scripts.**
+
+**WALL COMPLETE — 10/10 gameplay gates PASS** (+ moving_square/critic_reel
+det-only): world_loop, district_hunt, specials_chain, loot_loop,
+taunt_anchor, corpse_run, threat_pull, **ledger_loop (a2 — g-frames retimed
+into a confirmed 15f flight window + carried>0 HUD frames)**, **vat_economy
+(vat5b re-pilot, 42/42 first try — inscribe/god-mark/judgment/tribute-regrow
+on camera)**, **nest_advance (a3 — +kits-at-spawn frame 15 + carried frame
+1000; a2's check patch had cleared 4 of 6)**. All sequential, ONE window at
+a time. Verdicts: tmp/wall/*.log; provenance: drafts/_v12-wall-log.md
+(includes vat5b flight notes — 5 deaths' worth of new pilot doctrine:
+never goto/hold toward enemy mass, lane chokes, leash-return 1v1s,
+deliberate-wipe-as-free-heal).
+
+**NEXT ACT = TENTH BLIND FUN-VERIFY** (owner plays bin/play FIRST, no
+changelog). Skeleton ready: drafts/_v12-fun-verify-20260813.md — protocol,
+questions 1-8 + routing VERBATIM from the spec, telemetry harvest slots
+(session logs land at /tmp/game_two_session_<pid>.log). Harvest BEFORE
+questions. Then the v13 debate (leads: Tibia AoE dossier B+D, Challenger
+3rd decline, Nest rename unblocked) → scope/PARKING_LOT/CHECKPOINT.
+
+**Owner queue (unchanged + one addition):** RATIFY the c361ba3 check
+amendment (surface at the tenth debrief — cost: per-script forcing gone);
+council MCP deepseek-r1 us. prefix; council-via-mmh-gateway; optional
+bin/install-hooks; Junior never pushes main (PRs from junior-tibia).
+
 ## 2026-08-13 (GOALCOMP #3 mid-v12 — wall 7/10 gameplay gates PASS; 3 owed; perf PASS)
 
 **MEASURED: 251 commits, HEAD `c361ba3` + this checkpoint, suite 335/1,386
