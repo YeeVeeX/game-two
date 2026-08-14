@@ -1,5 +1,54 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-14 (v14 BUILT: spec+dual review+TDD 6/6+pilot+gate 1/14 — WALL next)
+
+**MEASURED: branch junior-tibia HEAD `d23c090`, 278 commits, tree clean
+except drafts (untracked by design), ahead 8 of origin (push rides the
+close step), 14 replay scripts, 46 checks (ADD-ONLY from 44), suite
+395/1601 green (hook-run at every commit + measured now).** v14 committed
+DIRECTLY on junior-tibia (no side branch — deviation from the v13
+side-branch pattern, recorded; close step = fetch + push, no merge).
+
+**Done this session:** spec `554fd6e` (dual review BEFORE commit: Codex
+REJECT → 7 folds ALL applied — W5 unpin bound `telegraph_defer_unpin_
+frames: 240` NEW threat key, #19 amendment re-cut non-narrowing,
+`never` sentinel, machine-checked wall manifests, vat_economy exposed as
+ALREADY-desynced at v13 (tributes=0 in its teed gate logs — the v13 wall
+log's "did not bite" note was WRONG); panel wf_80a86046 4 lenses → 0
+findings, 421K/4 agents vs 2.2-3.1M/45 declared). TDD 1-6 green commits
+`0179e55..19d082b` (rename batch + span_thirds/first_special + telegraph
+sim w/ dedicated respawn RNG stream + tell render + controls overlay w/
+sim-cosmetic kit_first_possessed + checks 46). Pilot tg1 (r1 recon + r2
+export, seed 7) → `harness/scripts/respawn_telegraph.json` `d23c090`,
+**gate PASS a1** (det 9/9; #45+#46 EXERCISED verbatim in verdict). Lane e
+doc: drafts/_v14-regrow-cadence-investigation.md (L0-L3 levers, v15).
+
+**Artifacts (drafts/, untracked):** _v14-spec-review.md (both review legs
+verbatim), _v14-wall-log.md (SSoT: measured per-script event MANIFESTS —
+new triage law; pilot doctrine incl. the 12-tile-block/13-14-visible-band
+geometry + deferral-as-camera-control; respawn_telegraph provenance +
+honest deviations: camera-edge delivery, no volley+tell beat, no wipe
+beats in-script), _v14-regrow-cadence-investigation.md.
+
+**NEXT (execution order):** WALL remaining 13 scripts sequential ONE
+window (order + manifests in _v14-wall-log.md; verdicts from
+tmp/wall/*_v14_a*.log teed files NEVER exit codes; vat_economy =
+PRE-KNOWN re-pilot, its manifest needs tribute_paid+body_regrown;
+nest_advance ~65min NOT frozen; splice law; budget 2-5 re-pilots) →
+rake perf ALONE → full bundle exec rake → CHECKPOINT + CLAUDE.md scope
+v15 rewrite + PARKING_LOT → fetch origin → push junior-tibia (NEVER
+main) → TWELFTH blind verify (Spanish protocol, harvest
+/tmp/game_two_session_<pid>.log BEFORE questions; skeleton to write:
+drafts/_v14-fun-verify-20260814.md from spec questions+routing verbatim;
+oracle = whirlwind FIRED + spawns stopped feeling sudden) → v15 debate
+(zone 3 stair LEAD, multiplayer spike etapa 1, Challenger owner-only
+6th, B placement re-read WITH controls).
+
+**Owner queue:** ratify #19/#42 amendments + standing check-14 rewording
+at the twelfth debrief; ES locale pass (overlay verbs girar/gritar/
+lanzar + LA CARNE SE AGOTA + La Primera Vigilia/El Corredor); Junior
+PT-BR pass later; nudge Junior to clone (docs/JUNIOR.md live).
+
 ## 2026-08-14 (v14 PLANNED: forks closed + plan APPROVED — execution starts at spec)
 
 **MEASURED: branch junior-tibia HEAD `7eeec1b`, 269 commits, tree clean, synced
