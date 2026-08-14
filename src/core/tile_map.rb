@@ -9,10 +9,14 @@ module Core
 
     attr_reader :cols, :rows, :tile_size, :pack_spawn, :enemy_spawns,
                 :display_name, :palette, :transitions, :stations, :drop_gradient,
-                :hub, :gradient_anchor
+                :hub, :gradient_anchor, :name
 
     def initialize(cfg)
       @tile_size = cfg.fetch(:tile_size)
+      # v13 i18n: internal zone name keys locale lookups ("zone.<name>.…");
+      # optional so fixture maps stay valid — nil name just falls back to
+      # the canonical display_name at render.
+      @name = cfg.fetch(:name, nil)
       @display_name = cfg.fetch(:display_name)
       @palette = cfg.fetch(:palette)
       @grid = cfg.fetch(:tiles).map(&:chars)

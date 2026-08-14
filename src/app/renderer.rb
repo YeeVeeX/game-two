@@ -69,8 +69,11 @@ module App
 
     # Presentation timing/placement rides data/display.json (zone_banner_frames
     # precedent) — the fetch defaults only keep a bare Renderer.new drawable.
-    def initialize(display: {})
+    # strings: Core::Strings resolver (v13 i18n) — RENDER-time only; the
+    # harness constructs it pinned to "en" (replay comparability law).
+    def initialize(display: {}, strings: nil)
       @display = display
+      @strings = strings
       @pressure_alpha = @display.fetch(:pressure_outline_alpha, 140)
     end
 
@@ -523,7 +526,7 @@ module App
     end
 
     def draw_banner(world)
-      text = world.map.display_name
+      text = tr("zone.#{world.map.name}.display_name", world.map.display_name)
       font = banner_font
       x = (view_width(world) - font.text_width(text)) / 2
       font.draw_text(text, x, 48, 10, 1, 1, BANNER)
@@ -535,15 +538,18 @@ module App
     def draw_breach_line(world)
       line = world.breach_line
       return unless line
+      text = tr("breach.line", line[:text])
       font = banner_font
-      x = (view_width(world) - font.text_width(line[:text])) / 2
-      font.draw_text(line[:text], x, 88, 10, 1, 1, BREACH_GOLD)
+      x = (view_width(world) - font.text_width(text)) / 2
+      font.draw_text(text, x, 88, 10, 1, 1, BREACH_GOLD)
     end
 
     def draw_wipe_overlay(world)
       Gosu.draw_rect(0, 0, view_width(world), view_height(world), WIPE_VEIL)
       font = wipe_font
-      text = "THE HUNT ENDS" # fiction-pending: wipe line comes from the bible
+      # Canonical text lives in data/strings/en.json (v13 extraction); the
+      # literal here only keeps a bare strings-less Renderer.new drawable.
+      text = tr("wipe.line", "THE HUNT ENDS")
       x = (view_width(world) - font.text_width(text)) / 2
       font.draw_text(text, x, view_height(world) / 2 - 40, 10, 1, 1, Gosu::Color.new(255, 200, 40, 40))
     end
@@ -708,6 +714,10 @@ module App
 
     def view_width(world) = world.camera.view_w
     def view_height(world) = world.camera.view_h
+
+    # v13 i18n seam: every player-visible string funnels through here.
+    # No resolver (bare Renderer.new) = the fallback = pre-v13 exact text.
+    def tr(key, fallback = nil) = @strings ? @strings.t(key, fallback) : fallback
 
     def banner_font = @banner_font ||= Gosu::Font.new(28, bold: true)
     def wipe_font = @wipe_font ||= Gosu::Font.new(64, bold: true)

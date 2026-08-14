@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # Owner launcher: PATH-safe from any shell. Double-clickable via bin/play.cmd.
+# Optional locale arg (v13 i18n, display-only): bin/play es | pt-br
 cd "$(dirname "$0")/.." || exit 1
 export PATH="/c/Ruby34-x64/bin:$PATH"
+[ -n "$1" ] && export GAME_LOCALE="$1"
 # Session-telemetry law (ninth-verify protocol): unique log per launch —
 # a fixed name cost the eighth verify its telemetry to a relaunch clobber.
 exec ruby -Isrc src/main.rb > "/tmp/game_two_session_$$.log" 2>&1

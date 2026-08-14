@@ -1,4 +1,5 @@
 require "core/data_store"
+require "core/strings"
 require "game/world"
 require "game/telemetry"
 require "app/renderer"
@@ -15,7 +16,11 @@ module Harness
       def initialize(width:, height:, seed: 0)
         data = Core::DataStore.new(File.expand_path("../../data", __dir__))
         @world = Game::World.new(data, seed:)
-        @renderer = App::Renderer.new(display: data["display"])
+        # THE LAW (v13 spec): gate/replay captures render locale "en"
+        # regardless of env or display.json — translated text never enters
+        # a capture (check-comparability law).
+        @renderer = App::Renderer.new(display: data["display"],
+                                      strings: Core::Strings.new(data, locale: "en"))
         %i[telegraph attack_hit actor_died dodged possession_changed
            pack_wiped pack_respawned zone_entered projectile_fired
            special_started pack_mark_set drop_spawned drop_picked_up
