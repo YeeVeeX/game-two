@@ -438,3 +438,21 @@ named triggers:
 - **Localization + collaboration directives shipped INTO v13** (not parked): i18n
   en/es/pt-br lane, docs/JUNIOR.md onboarding, junior-tibia collaborative branch
   model. Recorded in the scope contract (CLAUDE.md) and the v13 spec.
+
+## Parked by the v15 spec (2026-08-14 — decided against, not deferred by accident)
+
+Full rationale in the spec's "Deliberately absent" section
+(`docs/superpowers/specs/2026-08-14-v15-zone3-challenger-keybinds-design.md`) — re-open
+only on the named triggers:
+
+- **LOS/range break as a fourth seizure counter** — the set is swap/interrupt/kill;
+  a fourth counter dilutes the fear the increment exists to create. Re-open ONLY on a
+  thirteenth-Q3 unfair verdict.
+- **Varekka phases / enrage / second form** — one man, one sentence, one death.
+- **Zone-3 remittance chest** (fork-1 option B, owner-declined) — RE-OPENS at the v16
+  debate if thirteenth-Q4 reads the climb-back as "trámite" instead of part of the hunt.
+- **Seal/toll on the stair down** — the owner paid 150 twice; arrival is the payoff,
+  not another toll (oracle half A depends on it).
+- **In-game rebind UI** — the binding map is a FILE by design (hobbyist + Junior
+  git-pull workflow); a rebind screen is its own increment with its own wall.
+- **Deeper chambers below the Low Quay** — future arc rungs; one chamber is v15's.
