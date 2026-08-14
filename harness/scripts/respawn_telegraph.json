@@ -97,5 +97,9 @@
     1435,
     1446
   ],
-  "run_until": 1467
+  "run_until": 1467,
+  "manifest": {
+    "respawn_telegraphed": 2,
+    "human_respawned": 1
+  }
 }

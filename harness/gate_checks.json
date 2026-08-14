@@ -14,11 +14,11 @@
     },
     {
       "id": "possession_ring_moves",
-      "check": "Across the swap frames, the white possession ring appears on a DIFFERENT pack creature before vs after \u00e2\u20ac\u201d possession visibly moved. If the script never shows a swap, mark pass=false with why='not exercised by this script'.. If the script never shows a swap, pass with why='not exercised by this script'"
+      "check": "Across the swap frames, the white possession ring appears on a DIFFERENT pack creature before vs after â€” possession visibly moved. If the script never shows a swap, mark pass=false with why='not exercised by this script'.. If the script never shows a swap, pass with why='not exercised by this script'"
     },
     {
       "id": "facing_readable",
-      "check": "Creatures carry a small dark notch on the edge they face \u00e2\u20ac\u201d you can tell which way a body points in a static frame."
+      "check": "Creatures carry a small dark notch on the edge they face â€” you can tell which way a body points in a static frame."
     },
     {
       "id": "projectile_visible",
@@ -70,7 +70,7 @@
     },
     {
       "id": "drops_read_as_pickups",
-      "check": "When glean drops are present (small magenta/violet squares near the gate; larger warm-rose or ember-gold glowing squares deeper in the district \u00e2\u20ac\u201d all centered on floor tiles), they read as desirable pickups, clearly distinct from corpses, projectiles, human telegraphs, the teal mark reticle, and the gold gate tiles. If a near-expiry drop is visible its fade reads as decay, not a render bug. If this replay shows no drops, pass with why='not exercised by this script'."
+      "check": "When glean drops are present (small magenta/violet squares near the gate; larger warm-rose or ember-gold glowing squares deeper in the district â€” all centered on floor tiles), they read as desirable pickups, clearly distinct from corpses, projectiles, human telegraphs, the teal mark reticle, and the gold gate tiles. If a near-expiry drop is visible its fade reads as decay, not a render bug. If this replay shows no drops, pass with why='not exercised by this script'."
     },
     {
       "id": "carried_count_reads",
@@ -78,11 +78,11 @@
     },
     {
       "id": "bank_station_reads",
-      "check": "When nest frames include the station fixture (hollow-centered magenta-toned block), it reads as a distinct interactable place \u00e2\u20ac\u201d not a wall, not the gold gate. When the possessed stands within ~3 tiles of it, a banked-total numeral is legible above the fixture. If the replay never shows the station, pass with why='not exercised by this script'."
+      "check": "When nest frames include the station fixture (hollow-centered magenta-toned block), it reads as a distinct interactable place â€” not a wall, not the gold gate. When the possessed stands within ~3 tiles of it, a banked-total numeral is legible above the fixture. If the replay never shows the station, pass with why='not exercised by this script'."
     },
     {
       "id": "taunt_underline_reads",
-      "check": "Taunted humans are marked by a thin deep-rust underline strip BELOW the body (offset clear of the red-edge attack telegraph), distinct from the telegraph flare, the hurt flash, the teal mark reticle corners, and magenta drops. A near-expiry underline may read faded \u00e2\u20ac\u201d that is decay, not a bug. Humans crowding a pack body WITHOUT underlines are ordinary nearest-targeting, NOT taunt \u00e2\u20ac\u201d do not infer taunt from a swarm. Judge only if at least one frame shows the expanding rust square cast pulse or an underlined human; otherwise pass with why='not exercised by this script'."
+      "check": "Taunted humans are marked by a thin deep-rust underline strip BELOW the body (offset clear of the red-edge attack telegraph), distinct from the telegraph flare, the hurt flash, the teal mark reticle corners, and magenta drops. A near-expiry underline may read faded â€” that is decay, not a bug. Humans crowding a pack body WITHOUT underlines are ordinary nearest-targeting, NOT taunt â€” do not infer taunt from a swarm. Judge only if at least one frame shows the expanding rust square cast pulse or an underlined human; otherwise pass with why='not exercised by this script'."
     },
     {
       "id": "taunt_pulse_reads",
@@ -90,7 +90,7 @@
     },
     {
       "id": "taunt_convergence_reads",
-      "check": "When a mid-taunt frame is present, multiple humans are adjacent to or converging on the deep-rust (blocker) body \u00e2\u20ac\u201d the rust-underlined humans cluster around IT and not around any other pack body. The blocker anchoring the swarm may legitimately BE the possessed white-ringed body (a self-anchor cast is the taunt working as designed). The failure case is rust-underlined humans swarming a NON-blocker pack body while the blocker stands ignored. If no mid-taunt frame with multiple living taunted humans exists, pass with why='not exercised by this script'."
+      "check": "When a mid-taunt frame is present, multiple humans are adjacent to or converging on the deep-rust (blocker) body â€” the rust-underlined humans cluster around IT and not around any other pack body. The blocker anchoring the swarm may legitimately BE the possessed white-ringed body (a self-anchor cast is the taunt working as designed). The failure case is rust-underlined humans swarming a NON-blocker pack body while the blocker stands ignored. If no mid-taunt frame with multiple living taunted humans exists, pass with why='not exercised by this script'."
     },
     {
       "id": "corpse_load_reads",
@@ -138,31 +138,31 @@
     },
     {
       "id": "god_mark_reads",
-      "check": "When a pack body carries the god-mark (a small hollow pale-gold square floating just above the body), it reads at a glance as a persistent blessing on THAT body \u00e2\u20ac\u201d clearly distinct from the white possession ring (full-body outline), the teal mark reticle (on humans), and magenta drop/pip glyphs. If no marked body appears in this replay, pass with why='not exercised by this script'."
+      "check": "When a pack body carries the god-mark (a small hollow pale-gold square floating just above the body), it reads at a glance as a persistent blessing on THAT body â€” clearly distinct from the white possession ring (full-body outline), the teal mark reticle (on humans), and magenta drop/pip glyphs. If no marked body appears in this replay, pass with why='not exercised by this script'."
     },
     {
       "id": "fixtures_distinct_read",
-      "check": "In nest frames showing the stations, the three fixtures read as three DIFFERENT interactable places (bank magenta-toned, altar pale bone-gold, vat green) \u00e2\u20ac\u201d a stranger could point at which is which. None reads as a wall or the gold gate. If fewer than two fixtures appear, pass with why='not exercised by this script'."
+      "check": "In nest frames showing the stations, the three fixtures read as three DIFFERENT interactable places (bank magenta-toned, altar pale bone-gold, vat green) â€” a stranger could point at which is which. None reads as a wall or the gold gate. If fewer than two fixtures appear, pass with why='not exercised by this script'."
     },
     {
       "id": "tribute_beat_reads",
-      "check": "When a tribute fires at the vat (dead bodies regrow at the spawn tiles, wounded HP bars refill), the before/after frames read as a purchase: bodies that were missing/dead stand alive near the vat afterward, and the station cue pulse marks the transaction. Regrown bodies are persistent state \u00e2\u20ac\u201d judge any post-tribute frame. If no tribute occurs in this replay, pass with why='not exercised by this script'."
+      "check": "When a tribute fires at the vat (dead bodies regrow at the spawn tiles, wounded HP bars refill), the before/after frames read as a purchase: bodies that were missing/dead stand alive near the vat afterward, and the station cue pulse marks the transaction. Regrown bodies are persistent state â€” judge any post-tribute frame. If no tribute occurs in this replay, pass with why='not exercised by this script'."
     },
     {
       "id": "judgment_reads",
-      "check": "POST-wipe return frames (first frames after the veil lifts) show the judgment: marked bodies stand at the nest spawn while dissolved bodies are ABSENT (their HP bars read dead/empty), or \u00e2\u20ac\u201d in the floor case \u00e2\u20ac\u201d exactly one kept vessel stands alone. The return must NOT show all three bodies alive after a wipe in which fewer than three were marked. If no wipe occurs in this replay, pass with why='not exercised by this script'."
+      "check": "POST-wipe return frames (first frames after the veil lifts) show the judgment: marked bodies stand at the nest spawn while dissolved bodies are ABSENT (their HP bars read dead/empty), or â€” in the floor case â€” exactly one kept vessel stands alone. The return must NOT show all three bodies alive after a wipe in which fewer than three were marked. If no wipe occurs in this replay, pass with why='not exercised by this script'."
     },
     {
       "id": "retarget_cue_reads",
-      "check": "When a human switches targets mid-fight, a brief small block flashes above it, its color keyed to the cause (rust=kit-hate, yellow=wounded-prey, pale=proximity steal) \u00e2\u20ac\u201d readable as 'it turned for a reason', distinct from the telegraph flare and hurt flash. If no retarget cue frame is present, pass with why='not exercised by this script'."
+      "check": "When a human switches targets mid-fight, a brief small block flashes above it, its color keyed to the cause (rust=kit-hate, yellow=wounded-prey, pale=proximity steal) â€” readable as 'it turned for a reason', distinct from the telegraph flare and hurt flash. If no retarget cue frame is present, pass with why='not exercised by this script'."
     },
     {
       "id": "deep_drop_band_reads",
-      "check": "When a deep-district drop (ember/gold square, larger than the magenta drops, with a faint glow halo) is on camera, it reads visibly RICHER than near-gate drops (small magenta) \u00e2\u20ac\u201d a stranger could point at which is worth more, even in a frame showing only the gold drop. When a mid-band drop (warm rose, sized between the two) is also present, it reads BETWEEN them: bigger and warmer than magenta, smaller and quieter than gold. If no ember/gold drop appears in this replay, pass with why='not exercised by this script'."
+      "check": "When a deep-district drop (ember/gold square, larger than the magenta drops, with a faint glow halo) is on camera, it reads visibly RICHER than near-gate drops (small magenta) â€” a stranger could point at which is worth more, even in a frame showing only the gold drop. When a mid-band drop (warm rose, sized between the two) is also present, it reads BETWEEN them: bigger and warmer than magenta, smaller and quieter than gold. If no ember/gold drop appears in this replay, pass with why='not exercised by this script'."
     },
     {
       "id": "seal_breach_reads",
-      "check": "When the seal is on camera SEALED, it reads as a shut, priced door: a dark slab across the corridor with a thin gold seam, the seal station beside it, and a visible price \u00e2\u20ac\u201d a stranger could say 'locked, costs money'. When the breach beat is on camera, the way visibly OPENS (the slab turns gold) and the line 'THE WAY IS PAID' is legible in the banner slot. If no seal or breach frame is present in this replay, pass with why='not exercised by this script'."
+      "check": "When the seal is on camera SEALED, it reads as a shut, priced door: a dark slab across the corridor with a thin gold seam, the seal station beside it, and a visible price â€” a stranger could say 'locked, costs money'. When the breach beat is on camera, the way visibly OPENS (the slab turns gold) and the line 'THE WAY IS PAID' is legible in the banner slot. If no seal or breach frame is present in this replay, pass with why='not exercised by this script'."
     },
     {
       "id": "new_ground_reads",
@@ -183,6 +183,18 @@
     {
       "id": "respawn_telegraph_reads",
       "check": "When a respawn tell is active (a pulsing ground indicator on a floor tile, pale green-white family), it reads as 'something is about to arrive HERE' — clearly distinct from the human attack telegraph (red-edge/yellow-core), volley impact brackets (orange), the gold gate tiles, and the taunt pulse (rust square). The tell grows or brightens over its visible lifetime and a human materializes at the tell tile at or after full intensity (a tell may legitimately HOLD at full intensity while the player stands near — deferral is honest waiting, not a defect). If no respawn tell frame is present, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "low_quay_reads",
+      "check": "When a Low Quay frame is on camera, the zone reads as a dark under-harbor distinct at a glance from the Keyward (black-and-ochre blocks) and the Longrow (gray row): indigo-black floor, a central impassable channel band — a dry stone bed in slate-bone, crossed by two bridge gaps — and slate-bone colonnade; the banner 'The Low Quay' is legible when shown. If the replay never enters the Low Quay, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "challenger_tell_reads",
+      "check": "When Varekka's chant is on camera, a deep-blue expanding hollow ring centers on ONE pale human and a small hollow blue square floats above exactly one pack vessel — the pair reads as 'he is calling THAT body', clearly distinct from the rust taunt square, the teal respawn tell, the red/yellow attack telegraph, the orange volley brackets, AND the small washed-out pale-blue retarget cue block (the chant family is deeper and more saturated, and body-scale rather than an 8px block). If no chant frame is present, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "seizure_reads",
+      "check": "When a seized vessel is on camera, it carries a thin blue underline (mirror of the rust taunt underline) and, in the court-stamp frames, the lines ONE STANDS / THE FLESH IS CALLED / THE TERM IS PAID are legible in the banner slot with banner-scale prominence. A seized body standing adjacent to Varekka doing nothing is the design, not broken AI. If neither a seized vessel nor a challenger stamp appears, pass with why='not exercised by this script'."
     }
   ]
 }

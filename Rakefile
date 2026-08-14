@@ -55,6 +55,13 @@ task :perf do
   sh "ruby", "-Isrc", "-e", ruby_code
 end
 
+desc "Manifest check (v15): script-declared event minimums vs a teed gate log. SCRIPT=... LOG=..."
+task :manifest do
+  script = ENV.fetch("SCRIPT") { abort "Usage: rake manifest SCRIPT=... LOG=..." }
+  log = ENV.fetch("LOG") { abort "Usage: rake manifest SCRIPT=... LOG=..." }
+  sh "ruby harness/manifest_check.rb #{script} #{log}"
+end
+
 desc "Stream canary (v15): ONE replay, per-frame md5 vs a preserved BASELINE dir. SCRIPT=... BASELINE=..."
 task :canary do
   require "digest"

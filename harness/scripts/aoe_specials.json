@@ -170,5 +170,9 @@
     1335,
     1374
   ],
-  "run_until": 1385
+  "run_until": 1385,
+  "manifest": {
+    "special_started": 2,
+    "taunted": 1
+  }
 }

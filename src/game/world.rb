@@ -52,7 +52,12 @@ module Game
       @feel = Feel.new(@balance[:feel])
       @frame = 0
       @respawn_timer = 0
-      @banner_timer = 0
+      # v15 banner FIFO (panel fold W6): zone banners + court stamps share
+      # the slot as QUEUED entries {text_key:, fallback:, color:,
+      # frames_left:} — keys, never locale-baked text (locale-at-render
+      # law). The active entry plays out; queued follow; nothing is eaten.
+      @banner_queue = []
+      @called_stamped = false
       @station_cue = nil
       @breach_line = nil
       @breached = {}
@@ -94,7 +99,8 @@ module Game
     def map = @zones.fetch(@zone_name)
     def humans = @humans[@zone_name]
     def possessed = @pack.possessed
-    def banner? = @banner_timer.positive?
+    def banner? = !active_banner.nil?
+    def active_banner = @banner_queue.first
     def actors = (@pack.members + humans).reject(&:dead?)
     def projectiles = @projectiles
     def impacts = @impacts
@@ -155,7 +161,10 @@ module Game
         return
       end
 
-      @banner_timer -= 1 if @banner_timer.positive?
+      if (b = @banner_queue.first)
+        b[:frames_left] -= 1
+        @banner_queue.shift if b[:frames_left] <= 0
+      end
       @station_cue = nil if @station_cue && (@station_cue[:frames_left] -= 1) <= 0
       @breach_line = nil if @breach_line && (@breach_line[:frames_left] -= 1) <= 0
 
@@ -550,6 +559,10 @@ module Game
           h.abort_chant!
           if target && !target.dead?
             target.seize!(h, seize[:duration_frames])
+            unless @called_stamped
+              @called_stamped = true
+              enqueue_stamp("challenger.called.line", "THE FLESH IS CALLED")
+            end
             @bus.emit(:vessel_seized, actor: h, body: target,
                       frames: seize[:duration_frames])
           else
@@ -564,6 +577,7 @@ module Game
         if !h.engaged_announced? && h.focus && !h.focus.dead? &&
            h.focus.faction == :pack
           h.announce_engaged!
+          enqueue_stamp("challenger.stands.line", "ONE STANDS")
           @bus.emit(:challenger_engaged, actor: h)
         end
         next unless h.seize_cooldown.zero?
@@ -617,6 +631,20 @@ module Game
           h.seize_cooldown!(h.kit[:seize][:cooldown_frames]) if h.kit[:seize]
         end
       end
+    end
+
+    # Court stamps + zone banners share one FIFO slot. Cap applies to the
+    # QUEUE only — the active entry is never dropped; past the cap the
+    # oldest QUEUED entry yields (display key banner_queue_max).
+    def enqueue_banner(text_key:, fallback:, color:, frames:)
+      cap = @display.fetch(:banner_queue_max, 2)
+      @banner_queue.delete_at(1) while @banner_queue.length - 1 >= cap
+      @banner_queue << { text_key:, fallback:, color:, frames_left: frames }
+    end
+
+    def enqueue_stamp(key, fallback)
+      enqueue_banner(text_key: key, fallback:, color: :gold,
+                     frames: @display.fetch(:stamp_banner_frames, 150))
     end
 
     # Tab swap: rising edge only, world-level (the controller mask handles
@@ -950,7 +978,9 @@ module Game
         lerp: @display[:camera_lerp]
       )
       @camera.snap!(possessed.x + Creature::SIZE / 2.0, possessed.y + Creature::SIZE / 2.0)
-      @banner_timer = @display[:zone_banner_frames]
+      enqueue_banner(text_key: "zone.#{name}.display_name",
+                     fallback: map.display_name, color: :banner,
+                     frames: @display[:zone_banner_frames])
       @bus.emit(:zone_entered, zone: name)
       # v12: home = the last hub entered, session-only. Wipe respawn and vat
       # regrowth read @home_zone — the arc advances the pack's anchor.
@@ -1352,6 +1382,10 @@ module Game
         @pack.clear_mark! if e[:actor].equal?(marked_target)
         if e[:faction] == :human
           @feel.on_kill if e[:killer].equal?(possessed)
+          # v15: the challenger's death is a court event — the term-looter
+          # finally pays the term's price (canon-exact; Codex pass-2
+          # replaced the NAME IS STRUCK draft).
+          enqueue_stamp("challenger.term.line", "THE TERM IS PAID") if e[:actor].kit[:seize]
           schedule_human_respawn(e[:actor])
         elsif e[:actor].equal?(possessed)
           handle_possessed_death

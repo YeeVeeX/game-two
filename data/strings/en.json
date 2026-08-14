@@ -12,5 +12,10 @@
   "overlay.swap": "swap",
   "overlay.verb.striker": "spin",
   "overlay.verb.blocker": "shout",
-  "overlay.verb.lobber": "lob"
+  "overlay.verb.lobber": "lob",
+  "zone.low_quay.display_name": "The Low Quay",
+  "challenger.name": "VAREKKA",
+  "challenger.stands.line": "ONE STANDS",
+  "challenger.called.line": "THE FLESH IS CALLED",
+  "challenger.term.line": "THE TERM IS PAID"
 }

@@ -95,6 +95,7 @@ module App
         world.pack.living.each { |m| draw_creature(m, world) }
         world.projectiles.each { |p| draw_projectile(p) }
         draw_taunt_pulses(world)
+        draw_chant_rings(world)
         draw_mark(world)
         draw_station_ledger(world)
       end
@@ -391,6 +392,11 @@ module App
         Gosu.draw_rect(x + SIZE / 2 - 2, y - 8, 4, 4, color(world.map.palette[:floor]))
       end
       draw_taunt_underline(c, x, y) if c.faction == :human && c.taunted_target
+      # v15 seizure state: the exact mirror of the taunt underline in the
+      # chant's deep blue — rust says "they come to you", blue says "your
+      # flesh goes to him". Pack-only slot: no collision with taunt (human).
+      draw_seized_underline(c, x, y) if c.faction == :pack && c.seized_by
+      draw_nameplate(c, x, y) if c.faction == :human && c.kit[:seize]
       if c.faction == :human && (cue = c.retarget_cue)
         Gosu.draw_rect(x + SIZE / 2 - 4, y - 10, 8, 8, RETARGET_CUE.fetch(cue[:cause]))
       end
@@ -503,6 +509,59 @@ module App
                      Gosu::Color.new(alpha, TAUNT_RUST.red, TAUNT_RUST.green, TAUNT_RUST.blue))
     end
 
+    def draw_seized_underline(c, x, y)
+      duration = c.seized_by.kit[:seize][:duration_frames]
+      frac = c.seized_frames.fdiv(duration)
+      alpha = frac < (1 / 3.0) ? (255 * frac * 3).clamp(60, 255).round : 255
+      Gosu.draw_rect(x - 2, y + SIZE + 9, SIZE + 4, 3,
+                     Gosu::Color.new(alpha, *seized_rgb))
+    end
+
+    # The only human with a NAME (v15): small bone type above the body —
+    # the increment IS "a named human"; one deliberate new draw detail.
+    def draw_nameplate(c, x, y)
+      name = tr("challenger.name", "VAREKKA")
+      f = nameplate_font
+      f.draw_text(name, x + SIZE / 2 - f.text_width(name) / 2, y - 24, 5, 1, 1, BANNER)
+    end
+
+    # Chant tell (v15): an expanding hollow DEEP-BLUE square repeating over
+    # the chant (taunt-pulse grammar, virgin color audited vs the pale-blue
+    # retarget cue) out to the seize range — the calling range made visible.
+    # The pinned vessel carries a hollow blue square ABOVE the god-mark slot.
+    def draw_chant_rings(world)
+      ts = world.map.tile_size
+      world.humans.each do |h|
+        next unless h.chanting?
+        cfg = h.kit[:seize]
+        elapsed = cfg[:chant_frames] - h.chant_left
+        cycle = @display.fetch(:chant_ring_cycle_frames, 40)
+        progress = (elapsed % cycle).fdiv(cycle)
+        reach = (cfg[:range_tiles] * ts * progress).round
+        cx = h.tile[0] * ts + ts / 2
+        cy = h.tile[1] * ts + ts / 2
+        if reach >= 4
+          alpha = (220 * (1.0 - progress * 0.6)).round
+          col = Gosu::Color.new(alpha, *chant_rgb)
+          thick = 3
+          Gosu.draw_rect(cx - reach, cy - reach, reach * 2, thick, col)
+          Gosu.draw_rect(cx - reach, cy + reach - thick, reach * 2, thick, col)
+          Gosu.draw_rect(cx - reach, cy - reach, thick, reach * 2, col)
+          Gosu.draw_rect(cx + reach - thick, cy - reach, thick, reach * 2, col)
+        end
+        if (t = h.chant_target) && !t.dead?
+          Gosu.draw_rect(t.x + SIZE / 2 - 4, t.y - 20, 8, 8,
+                         Gosu::Color.new(255, *chant_rgb))
+          Gosu.draw_rect(t.x + SIZE / 2 - 2, t.y - 18, 4, 4,
+                         color(world.map.palette[:floor]))
+        end
+      end
+    end
+
+    def chant_rgb = @chant_rgb ||= @display.fetch(:chant_ring_rgb, [60, 100, 220])
+    def seized_rgb = @seized_rgb ||= @display.fetch(:seized_underline_rgb, [60, 100, 220])
+    def nameplate_font = @nameplate_font ||= Gosu::Font.new(@display.fetch(:nameplate_font_size, 10))
+
     # Pressuring stance (A2): a thin hollow outline — present, encircling,
     # not swinging. Distinct from the telegraph's FILLED swell and the taunt
     # underline. Outline = state (the glean-pip grammar).
@@ -579,11 +638,17 @@ module App
       end
     end
 
+    # v15 banner FIFO: the slot renders the ACTIVE queue entry — zone
+    # banners in bone, court stamps in gate-gold. Entries carry KEYS;
+    # locale resolves here at draw time (comparability law preserved).
     def draw_banner(world)
-      text = tr("zone.#{world.map.name}.display_name", world.map.display_name)
+      entry = world.active_banner
+      return unless entry
+      text = tr(entry[:text_key], entry[:fallback])
       font = banner_font
       x = (view_width(world) - font.text_width(text)) / 2
-      font.draw_text(text, x, 48, 10, 1, 1, BANNER)
+      col = entry[:color] == :gold ? BREACH_GOLD : BANNER
+      font.draw_text(text, x, 48, 10, 1, 1, col)
     end
 
     # The writ line (v12 breach beat): gate-gold, one slot below the zone

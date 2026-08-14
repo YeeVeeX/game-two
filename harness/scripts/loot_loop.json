@@ -395,5 +395,9 @@
     1820,
     1822
   ],
-  "run_until": 1823
+  "run_until": 1823,
+  "manifest": {
+    "drop_picked_up": 1,
+    "banked": 1
+  }
 }

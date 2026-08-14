@@ -47,10 +47,16 @@ class TelemetryTest < Minitest::Test
                      "span_thirds{k1=0 k2=0 k3=0 span=0}"
     expected_v14 = "TELEMETRY v14 telegraphs_shown=0 " \
                    "first_special{striker=never blocker=never lobber=never}"
+    expected_v15 = "TELEMETRY quay entries=0 frames=0 kills=0 deaths=0 " \
+                   "banked_after{events=0 amount=0}\n" \
+                   "TELEMETRY varekka engaged=0 chants=0 interrupted=0 " \
+                   "seized=0 swap_escapes=0 slain=0 deaths_while_seized=0 " \
+                   "ends{expired=0 slain=0 died=0 zone_left=0 wiped=0}"
     assert_equal "#{expected_d1}\n#{expected_a2}\n#{expected_d1b}\n" \
                  "#{expected_q6}\n#{expected_density}\n" \
                  "#{expected_arc}\n#{expected_margins}\n" \
-                 "#{expected_v13}\n#{expected_drift}\n#{expected_v14}",
+                 "#{expected_v13}\n#{expected_drift}\n#{expected_v14}\n" \
+                 "#{expected_v15}",
                  t.summary
   end
 

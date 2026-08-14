@@ -300,5 +300,9 @@
     983,
     1248
   ],
-  "run_until": 1249
+  "run_until": 1249,
+  "manifest": {
+    "banked": 1,
+    "drop_picked_up": 1
+  }
 }

@@ -192,6 +192,80 @@ module Game
           wounded: @world ? @world.pack.living.count { |m| m.hp < m.max_hp } : 0
         }
       end
+
+      # v15: the thirteenth's arbiters. quay{} tracks the descent (half A);
+      # varekka{} tracks the peak (half B). swap_escapes is EVENT-ORDERED
+      # (panel telemetry-race fold): the bus flushes after the whole tick,
+      # so open/close flags ride the queue order, never live sim state —
+      # and only voluntary swaps count (a forced death-swap is not an
+      # escape). Subscriber-alive law: pre-v15 test buses lack the events.
+      @quay = Hash.new(0)
+      @quay_frames = 0
+      @quay_entered_at = nil
+      @quay_trip = false
+      @vk = Hash.new(0)
+      @vk_ends = Hash.new(0)
+      @chant_open = false
+      @seizure_open = false
+      @seized_body = nil
+      bus.subscribe(:zone_entered) do |e|
+        if e[:zone] == "low_quay"
+          @quay[:entries] += 1
+          @quay_entered_at ||= (@world ? @world.frame : 0)
+          @quay_trip = true
+        elsif @quay_entered_at
+          @quay_frames += (@world ? @world.frame : 0) - @quay_entered_at
+          @quay_entered_at = nil
+        end
+      end
+      bus.subscribe(:actor_died) do |e|
+        in_quay = @world && @world.zone_name == "low_quay"
+        @quay[:kills] += 1 if in_quay && e[:faction] == :human
+        @quay[:deaths] += 1 if in_quay && e[:faction] == :pack
+        if @seizure_open && e[:actor].equal?(@seized_body)
+          @vk[:deaths_while_seized] += 1
+        end
+        # respond_to? guard: pre-v15 test buses emit actor stand-ins
+        # without kits (subscriber-alive law).
+        if e[:faction] == :human && e[:actor].respond_to?(:kit) &&
+           e[:actor].kit[:seize]
+          @vk[:slain] = 1
+        end
+      end
+      bus.subscribe(:banked) do |e|
+        if @quay_trip
+          @quay[:banked_events] += 1
+          @quay[:banked_amount] += e[:amount]
+          @quay_trip = false
+        end
+      end
+      bus.subscribe(:pack_wiped) { @quay_trip = false }
+      if bus.registered?(:challenger_chant_started)
+        bus.subscribe(:challenger_engaged) { @vk[:engaged] = 1 }
+        bus.subscribe(:challenger_chant_started) do
+          @vk[:chants] += 1
+          @chant_open = true
+        end
+        bus.subscribe(:chant_interrupted) do
+          @vk[:interrupted] += 1
+          @chant_open = false
+        end
+        bus.subscribe(:vessel_seized) do |e|
+          @vk[:seized] += 1
+          @chant_open = false
+          @seizure_open = true
+          @seized_body = e[:body]
+        end
+        bus.subscribe(:seizure_ended) do |e|
+          @vk_ends[e[:why]] += 1
+          @seizure_open = false
+          @seized_body = nil
+        end
+        bus.subscribe(:possession_changed) do |e|
+          next if e[:forced]
+          @vk[:swap_escapes] += 1 if @chant_open || @seizure_open
+        end
+      end
     end
 
     def summary
@@ -208,7 +282,23 @@ module Game
         "#{q6_margins_summary}\n" \
         "#{v13_summary}\n" \
         "#{drift_summary}\n" \
-        "#{v14_summary}"
+        "#{v14_summary}\n" \
+        "#{v15_summary}"
+    end
+
+    # v15: quay + varekka in one line pair — the thirteenth's arbiters.
+    def v15_summary
+      frames = @quay_frames +
+               (@quay_entered_at && @world ? @world.frame - @quay_entered_at : 0)
+      ends = %i[expired slain died zone_left wiped]
+             .map { |w| "#{w}=#{@vk_ends[w]}" }.join(" ")
+      "TELEMETRY quay entries=#{@quay[:entries]} frames=#{frames} " \
+        "kills=#{@quay[:kills]} deaths=#{@quay[:deaths]} " \
+        "banked_after{events=#{@quay[:banked_events]} amount=#{@quay[:banked_amount]}}\n" \
+        "TELEMETRY varekka engaged=#{@vk[:engaged]} chants=#{@vk[:chants]} " \
+        "interrupted=#{@vk[:interrupted]} seized=#{@vk[:seized]} " \
+        "swap_escapes=#{@vk[:swap_escapes]} slain=#{@vk[:slain]} " \
+        "deaths_while_seized=#{@vk[:deaths_while_seized]} ends{#{ends}}"
     end
 
     # Format pinned by the v14 spec: `never` (not 0) marks a kit that never

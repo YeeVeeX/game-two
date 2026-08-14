@@ -16,5 +16,10 @@
   "overlay.swap": "trocar",
   "overlay.verb.striker": "girar",
   "overlay.verb.blocker": "gritar",
-  "overlay.verb.lobber": "arremessar"
+  "overlay.verb.lobber": "arremessar",
+  "zone.low_quay.display_name": "O Cais Baixo",
+  "challenger.name": "VAREKKA",
+  "challenger.stands.line": "UM SE PLANTA",
+  "challenger.called.line": "A CARNE É CHAMADA",
+  "challenger.term.line": "O PRAZO ESTÁ PAGO"
 }

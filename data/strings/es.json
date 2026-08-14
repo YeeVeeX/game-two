@@ -16,5 +16,10 @@
   "overlay.swap": "cambio",
   "overlay.verb.striker": "girar",
   "overlay.verb.blocker": "gritar",
-  "overlay.verb.lobber": "lanzar"
+  "overlay.verb.lobber": "lanzar",
+  "zone.low_quay.display_name": "El Muelle Bajo",
+  "challenger.name": "VAREKKA",
+  "challenger.stands.line": "UNO SE PLANTA",
+  "challenger.called.line": "LA CARNE ES LLAMADA",
+  "challenger.term.line": "EL PLAZO ESTÁ PAGADO"
 }
