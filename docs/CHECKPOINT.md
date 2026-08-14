@@ -1,5 +1,35 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-14 (ELEVENTH VERIFY: v13 WINS — third consecutive headline; v14 DEBATE CLOSED = legibility/onboarding)
+
+**Owner verdict (AskUserQuestion en español, verbatim in
+drafts/_v13-fun-verify-20260814.md): Q1 "Oportunidad para cobrar" → v13
+WINS** — third consecutive headline win, carried by the CHALLENGE alone
+(23 casts / 71 retargets / carrying_deaths 21→2 vs tenth). **The
+whirlwind NEVER FIRED (casts=0 both sessions) → UNEXERCISED, not judged**
+(ledger precedent). Owner named the fix verbatim: on-screen controls.
+Q7 free-text: respawn timer/delay ask. Telemetry (two clean-Esc
+sessions, harvested BEFORE questions): session 2 = 19 fights, 11 banks
+(mean 33 max 67), BOTH seals paid again, 68 Keyward kills, economy
+churned (11 tributes / 3 inscriptions / 168 spent).
+
+**Routing fired:** guard-scope steering CLOSED VALIDATED (Q7 "nada
+injusto", no camping). Maintenance dose REVERTED per the pre-registered
+gap arbiter (83s→47s + trips-still-often = backfired; `52314c9` pushed).
+Drift curve FLAGGED SUSPECT (all 186 kills bucketed k3 vs breach at
+95612 — verify the instrument at v14 before the structural decision).
+Challenger 5th non-confirm. **v14 DEBATE CLOSED (owner, both picks on
+dev recommendation): v14 = LEGIBILITY/ONBOARDING** — on-screen controls
++ respawn telegraph + The Nest rename riding ONE comparability reset
+(full wall re-run); lanes = drift-instrument verification + regrow-
+cadence investigation. Oracle: the TWELFTH ask = did the whirlwind FIRE
+and land as payoff. Scope contract rewritten; PARKING_LOT updated.
+**v14 brainstorm/spec = next session's first act** (forks: overlay
+design, telegraph shape, the new Nest name from the bible/owner).
+
+Junior status at debrief: zero pushes/PRs yet; junior-tibia carries
+everything (`52314c9`), main untouched (solo backup line).
+
 ## 2026-08-14 (v13 BUILT + WALLED in one autonomous session — ELEVENTH blind verify NEXT)
 
 **MEASURED: branch `v13-aoe` at `d6c3192` + this checkpoint, 266 commits,

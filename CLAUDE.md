@@ -6,6 +6,57 @@ permission for design decisions.
 
 ## Scope contract (the #1 Kethral failure was ignoring this — it is enforced here)
 
+v14 (2026-08-14): **v13 AoE specials SHIPPED + WON the eleventh blind
+verify** (merge `3219f30` on `junior-tibia`, wall 13/13, perf 0.252ms,
+suite 369/1486). Headline verbatim: **"Oportunidad para cobrar"** —
+THIRD consecutive win, carried by the challenge ALONE (23 casts, 71
+retargets, carrying_deaths 21→2). **The whirlwind never fired (casts=0)
+— UNEXERCISED, not judged** (ledger precedent: presentation first).
+Owner verbatim mid-debrief: "necesitamos tener los controles en pantalla
+o algo así, si no no me doy cuenta que hay habilidades nuevas" + the Q7
+free-text respawn ask ("un pequeño timer/delay… no sea tan repentino").
+Guard-scope steering CLOSED VALIDATED (no camping, first time in three
+reads). Maintenance dose REVERTED per the pre-registered gap arbiter
+(83s→47s + trips-still-often = backfired; `52314c9`). Challenger 5th
+non-confirm. Verdict + routing verbatim:
+`drafts/_v13-fun-verify-20260814.md`. v14 DEBATE CLOSED 2026-08-14
+(owner via AskUserQuestion, both on dev recommendation):
+**v14 = LEGIBILITY/ONBOARDING.**
+
+**IN scope — v14 promotes ONE presentation increment (three owner-named
+pieces riding ONE comparability reset) plus two lanes:**
+- **(a) On-screen controls / ability legibility** — the owner's verbatim
+  ask; the fix that unblocks B's real verdict. Design forks at
+  brainstorm: persistent overlay vs contextual hints vs first-possession
+  prompts; quiet-HUD law applies.
+- **(b) Respawn telegraph** — a timer/delay/tell so spawns stop being
+  "repentino y brusco" and the player can plan. Fairness/planning
+  presentation, NEVER a difficulty change (difficulty stays pinned).
+- **(c) "The Nest" rename** — owner picked the cheap moment: the overlay
+  already resets EVERY capture, one wall re-run absorbs both. The new
+  name comes from the bible/owner BEFORE the spec (fiction order form).
+- **Lanes:** drift-instrument verification (eleventh's curve bucketed
+  all 186 kills in k3 vs breach at 95612 — verify the mechanism before
+  the structural decision trusts it); regrow-CADENCE design
+  investigation (the pricing dose is a recorded negative result).
+- Oracle: the TWELFTH ask — **did the whirlwind FIRE and land as
+  payoff** (B's first real verdict) + did spawns stop feeling sudden.
+- All numbers in `data/`; zero balance constants in Ruby; checks
+  ADD-ONLY from 44 (wording may follow behavior per the c361ba3/check-14
+  precedent, owner ratifies).
+
+**OUT of scope — goes to PARKING_LOT.md, never to code:**
+**Zone 3 beyond the stair** (v15 LEAD — three consecutive arc wins say
+it's next once B is judged); **multiplayer spike etapa 1** (cross-machine
+determinism — right after v14; Junior hasn't cloned yet, legibility
+serves his first play); **the Challenger** (FIFTH decline, entrainment
+carried 3 consecutive reads without it; owner's explicit call only);
+dossier legs A/C/E; everything long-parked.
+**Nothing new starts until v14 is fun-verified by the owner (the
+TWELFTH ask).**
+
+## Previous scope contract (v13 — CLOSED 2026-08-14, kept for the record)
+
 v13 (2026-08-14): **v12 arc/purpose SHIPPED + WON the tenth blind verify**
 (merge `4703d3d`, wall 10/10, perf p95 0.337ms, suite 335/1386). Headline
 verbatim: **"Advancing toward something"** — SECOND consecutive win.
