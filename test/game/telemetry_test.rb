@@ -10,6 +10,7 @@ class TelemetryTest < Minitest::Test
     inscribed banked_spent mark_consumed body_dissolved body_regrown
     tribute_paid vessel_kept human_respawned
     seal_breached home_rehomed zone_entered
+    special_started attack_hit
   ].freeze
 
   def test_counts_and_formats_the_session_line
@@ -39,9 +40,14 @@ class TelemetryTest < Minitest::Test
                    "rehomed=0 camp_visits=0 d2{entered=0 kills=0} seal2_breached=0"
     expected_margins = "TELEMETRY q6_margins banks{n=1 pure=1} amount{mean=3 max=3} " \
                        "hp{mean=0.00} dead{mean=0.0} wounded{mean=0.0} gap{mean_s=0}"
+    expected_v13 = "TELEMETRY v13 whirl{casts=0 hits{1=0 2=0 3=0 4=0 5plus=0} " \
+                   "kills=0} challenge{casts=0 retargets=0}"
+    expected_drift = "TELEMETRY drift thirds{k1=0 k2=0 k3=0} " \
+                     "pockets{p1=0.0 p2=0.0 p3=0.0}"
     assert_equal "#{expected_d1}\n#{expected_a2}\n#{expected_d1b}\n" \
                  "#{expected_q6}\n#{expected_density}\n" \
-                 "#{expected_arc}\n#{expected_margins}",
+                 "#{expected_arc}\n#{expected_margins}\n" \
+                 "#{expected_v13}\n#{expected_drift}",
                  t.summary
   end
 
@@ -207,6 +213,7 @@ class TelemetryTest < Minitest::Test
     pockets = [%i[a b c], %i[d]]
     world_obj = Object.new
     world_obj.define_singleton_method(:density_pockets) { pockets }
+    world_obj.define_singleton_method(:frame) { 0 } # v13 drift sampler reads it
     t = Game::Telemetry.new(bus, world: world_obj)
     bus.emit(:human_respawned, actor: nil, tile: [1, 1], anchor: :pocket)
     bus.emit(:human_respawned, actor: nil, tile: [2, 2], anchor: :pocket)

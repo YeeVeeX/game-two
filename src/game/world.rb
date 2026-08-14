@@ -1023,7 +1023,10 @@ module Game
 
     def emit_attack_hit(attacker, victim, landed)
       @last_damaged_target = victim if landed && attacker.equal?(possessed)
-      @bus.emit(:attack_hit, attacker:, victim:)
+      # kind/landed (v13): stamped at EMIT time — sim-exact even if the
+      # action state transitions before the bus processes.
+      @bus.emit(:attack_hit, attacker:, victim:,
+                kind: attacker.current_action, landed:)
     end
 
     def validate_mark

@@ -120,6 +120,46 @@ module Game
         @arc[:d2_kills] += 1 if @world.zone_name == "district_two"
       end
 
+      # v13 (B+D): the eleventh ask's oracle. whirl.hits buckets landed
+      # special hits between :special_started edges (bus processes in
+      # order); a fat 3+ tail = density became ammunition, a 1-spike = a
+      # worse dash. challenge casts/retargets tell D's story beside
+      # d1.carrying_deaths (tenth baseline: 21).
+      @whirl_hist = Hash.new(0)
+      @whirl = Hash.new(0)
+      @whirl_open = nil
+      bus.subscribe(:special_started) do |e|
+        case e[:attacker].kit_name
+        when :striker
+          close_whirl_cast!
+          @whirl_open = 0
+          @whirl[:casts] += 1
+        when :blocker
+          @whirl[:challenge_casts] += 1
+        end
+      end
+      bus.subscribe(:attack_hit) do |e|
+        next unless e[:kind] == :special && e[:landed] && e[:attacker].kit_name == :striker
+        @whirl_open = (@whirl_open || 0) + 1
+        @whirl[:kills] += 1 if e[:victim].dead?
+      end
+
+      # Drift instrumentation (v13, Q6 lane): kill frames + pocket-size
+      # samples, bucketed into session thirds at SUMMARY time — measures
+      # WHERE the field drifts instead of guessing dose three.
+      @kill_frames = []
+      @drift_pockets = []
+      bus.subscribe(:actor_died) do |e|
+        @kill_frames << (@world ? @world.frame : 0) if e[:faction] == :human
+      end
+      bus.subscribe(:human_respawned) do
+        next unless @world
+        pockets = @world.density_pockets
+        next if pockets.empty?
+        mean = pockets.map(&:length).sum.fdiv(pockets.length)
+        @drift_pockets << [@world.frame, mean]
+      end
+
       # Q6 margins (v12): WHY each bank trip happened — sampled at bank
       # time, so the tenth verify's Q5 conversation starts from data, not
       # a blind retune (the third-regression law).
@@ -150,7 +190,32 @@ module Game
         "#{q6_summary}\n" \
         "#{density_summary}\n" \
         "#{arc_summary}\n" \
-        "#{q6_margins_summary}"
+        "#{q6_margins_summary}\n" \
+        "#{v13_summary}\n" \
+        "#{drift_summary}"
+    end
+
+    def v13_summary
+      close_whirl_cast!
+      "TELEMETRY v13 whirl{casts=#{@whirl[:casts]} " \
+        "hits{1=#{@whirl_hist[1]} 2=#{@whirl_hist[2]} 3=#{@whirl_hist[3]} " \
+        "4=#{@whirl_hist[4]} 5plus=#{@whirl_hist[5]}} " \
+        "kills=#{@whirl[:kills]}} " \
+        "challenge{casts=#{@whirl[:challenge_casts]} " \
+        "retargets=#{@retargets[:challenged]}}"
+    end
+
+    # Session thirds by summary-time frame (tick-locked: frames ARE time).
+    def drift_summary
+      total = @world ? @world.frame : (@kill_frames.max || 0) + 1
+      third = [total.fdiv(3).ceil, 1].max
+      kills = [0, 0, 0]
+      @kill_frames.each { |f| kills[[f / third, 2].min] += 1 }
+      pockets = [[], [], []]
+      @drift_pockets.each { |(f, mean)| pockets[[f / third, 2].min] << mean }
+      p1, p2, p3 = pockets.map { |s| s.empty? ? 0.0 : s.sum.fdiv(s.length) }
+      "TELEMETRY drift thirds{k1=#{kills[0]} k2=#{kills[1]} k3=#{kills[2]}} " \
+        "pockets{p1=#{format('%.1f', p1)} p2=#{format('%.1f', p2)} p3=#{format('%.1f', p3)}}"
     end
 
     def a2_summary
@@ -219,6 +284,14 @@ module Game
     end
 
     private
+
+    # Push the open whirl-cast bucket into the histogram (idempotent —
+    # nil means no open cast; 0-hit casts count as casts, not hist rows).
+    def close_whirl_cast!
+      return if @whirl_open.nil?
+      @whirl_hist[[@whirl_open, 5].min] += 1 if @whirl_open.positive?
+      @whirl_open = nil
+    end
 
     def deepest_band = @max_band
   end

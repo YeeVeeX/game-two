@@ -148,9 +148,13 @@ that A0.6 fun-verified). The `taunt` sub-config is RENAMED and evolved:
   of the literal `:taunt` — `:human_retargeted` telemetry then reports
   `challenged` with zero new plumbing (world.rb:399 already emits the
   cause it gets).
-- Victims fire the existing `retarget_cue!` with cause `challenged`
-  (cue frames from economy.json `retarget_cue_frames` 75, unchanged) —
-  why-they-turned stays readable, Q7-cue redesign stays parked.
+- ~~Victims fire the existing `retarget_cue!` with cause `challenged`~~
+  **AMENDED at TDD:** the cue system deliberately EXCLUDES taunt-family
+  causes ("taunt/anchor turns carry their own tells" —
+  world.rb assign_human_focus). Challenge tells RIDE the fun-verified
+  A0.6 grammar: rust underline on victims + the expanding pulse (now
+  radius-9 sized, free from `range_tiles`). The cue's else-branch still
+  invalidates stale cues on a challenged turn — no new palette entry.
 - Internal naming: `taunt!`/`taunted_target` method names STAY (the
   mechanism is a taunt lock); only the kit config key renames to
   `challenge`. Player-visible names: NONE (de-slop: dash/volley/ring
@@ -251,10 +255,12 @@ PRs welcome), replay exchange how-to (rake capture + harness scripts =
 
 ### 7. Events
 
-- `+:special_cast` payload `{kit:, kind:}` (`:whirlwind` | `:challenge`)
-  — registered in `World::EVENTS` (34 → 35; count corrected at review —
-  the whitelist already held 34 symbols), emitted at special action
-  start. Defined at first use per the event law; telemetry subscribes.
+- ~~`+:special_cast`~~ **AMENDED at TDD: no new event.** `:special_started`
+  already exists with payload `attacker:` (begin_action emits it) —
+  telemetry derives kit/kind from the attacker. Defining a duplicate
+  would violate the event law's spirit. `:attack_hit` payload gains
+  `kind:` + `landed:` (stamped at EMIT time — sim-exact even if the
+  action state transitions before the bus processes).
 - `:human_retargeted` gains cause value `challenged` (existing event,
   new cause symbol in the telemetry whitelist).
 
@@ -263,11 +269,15 @@ PRs welcome), replay exchange how-to (rake capture + harness scripts =
 New `v13` line + drift instrumentation, formats pinned here:
 
 ```
-v13: whirl{casts=N hits{1=N 2=N 3=N 4=N 5plus=N} kills=N refund_zero_casts=N}
+v13: whirl{casts=N hits{1=N 2=N 3=N 4=N 5plus=N} kills=N}
      challenge{casts=N retargets=N}
-a2:  retargets{... challenged=N} steered=N          (existing line, new keys)
+a2:  retargets{... challenged=N}                    (existing line, new key)
+a2 (leash event): steered flag -> steered episodes counted per lane test
 drift: thirds{k1=N k2=N k3=N} pockets{p1=F p2=F p3=F}
 ```
+
+(AMENDED at TDD: `refund_zero_casts` dropped — redundant, 5+ hits always
+floors the refund, so `hits.5plus` IS that count.)
 
 - `whirl.hits` histogram = the oracle's hard number: a fat 3+/cast tail
   means density became ammunition; a 1-spike means B is being used as a
