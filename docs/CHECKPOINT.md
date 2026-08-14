@@ -1,5 +1,51 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-14 (v14 PLANNED: forks closed + plan APPROVED — execution starts at spec)
+
+**MEASURED: branch junior-tibia HEAD `7eeec1b`, 269 commits, tree clean, synced
+0/0 with origin (Junior: still zero pushes), 13 replay scripts, 44 checks,
+suite 369/1486 green at HEAD (hook-run at 7eeec1b).** Planning session ran the
+full brainstorm arc in plan mode: 3 Explore agents + 1 Plan agent (envelope
+declared 450K, actual ~372K subagent tokens), owner closed ALL FOUR v14 forks
+via AskUserQuestion (all on dev rec), plan APPROVED via ExitPlanMode.
+
+**Forks closed (owner, 2026-08-14):** (1) overlay = persistent quiet strip +
+one-time first-possession pulse; (2) strip text = vessel canon names
+(ithet/goret/hevet) + key:verb lowercase pairs; (3) telegraph = growing ground
+mark, ~2s lead, tile pinned at tell time, materialize tick UNCHANGED
+(difficulty pinned by construction); (4) rename batch = FULL (The Nest→The
+First Vigil, District One→The Longrow, wipe line→"THE FLESH IS SPENT" — the
+v12-annex pre-registered batch).
+
+**Key planning verdicts:** drift instrument = NOT defective (q6 bands are
+SPATIAL, thirds are TEMPORAL; all-k3 = session shape) but session-shape
+sensitive → lane ships `span_thirds` companion + missing tests, legacy field
+kept. Human-respawn path is the sudden one (tile chosen at release,
+world.rb:995-1015) → split-phase telegraph design. Rename blast radius = ~9
+display strings; internal identifiers stay. Check plan: ADD-ONLY 44→46
+(+controls_overlay_reads, +respawn_telegraph_reads) + #19/#42 wording
+amendments (owner ratifies at twelfth). TOP WALL RISK: telegraph pin shifts
+world evolution vs v13 replays → staged-beat scripts may desync → budget 2-5
+re-pilots; wall becomes 14 scripts (new respawn_telegraph.json).
+
+**Artifacts:** approved plan =
+`C:\Users\gabri\.claude\plans\groovy-whistling-spring.md` (READ FIRST on
+revival); blueprint details = `drafts/_v14-blueprint-notes.md` (check wording
+drafts, locale tables, script beats, data keys, telemetry sketch). Nothing in
+flight (all 4 agents harvested).
+
+**NEXT (execution order):** spec at
+docs/superpowers/specs/2026-08-14-v14-legibility-design.md → Codex leg FIRST +
+fold → workflow panel (envelope: 4 finders × 110K + findings × 165K ≈
+2.2-3.1M, cap 45) → spec commit → TDD increments 1-6 (rename / span_thirds /
+telegraph sim / telegraph render+telemetry / overlay / harness) → pilot
+respawn_telegraph → WALL 14 sequential (ONE window at a time; verdicts from
+tmp/wall/*_v14_*.log teed files) → perf → full rake → CHECKPOINT + scope v15
+rewrite + PARKING_LOT → fetch → merge --no-ff INTO junior-tibia + PUSH →
+TWELFTH blind verify (Spanish protocol; harvest logs BEFORE questions) → v15
+debate (leads: zone 3 stair, multiplayer spike etapa 1, Challenger 6th look
+owner-only, B placement re-read WITH controls).
+
 ## 2026-08-14 (ELEVENTH VERIFY: v13 WINS — third consecutive headline; v14 DEBATE CLOSED = legibility/onboarding)
 
 **Owner verdict (AskUserQuestion en español, verbatim in
