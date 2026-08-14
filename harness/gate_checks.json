@@ -1,44 +1,172 @@
 {
   "checks": [
-    { "id": "actors_distinct", "check": "Pack creatures (warm orange family) and humans (pale bone) are immediately distinguishable from each other and from the floor in every frame where both appear." },
-    { "id": "kits_distinct", "check": "The three pack creatures read as three DIFFERENT kinds (bright ember orange / deep rust / pale amber), not three copies. If no frame shows all three, judge from the frames that show two." },
-    { "id": "possessed_readable", "check": "In frames with multiple pack creatures, exactly one reads as 'the one I control' (brighter + white outline). If no frame shows more than one pack creature, mark pass=false with why='not exercised by this script'." },
-    { "id": "possession_ring_moves", "check": "Across the swap frames, the white possession ring appears on a DIFFERENT pack creature before vs after — possession visibly moved. If the script never shows a swap, mark pass=false with why='not exercised by this script'." },
-    { "id": "facing_readable", "check": "Creatures carry a small dark notch on the edge they face — you can tell which way a body points in a static frame." },
-    { "id": "projectile_visible", "check": "At least one frame shows a small pale shot in flight, clearly separate from any creature body. If the script never fires one, mark pass=false with why='not exercised by this script'." },
-    { "id": "telegraph_reads", "check": "Human attack telegraph (red edge + yellow core swell) reads as incoming danger and is clearly distinct from the gold gate/transition tiles." },
-    { "id": "hurt_flash_not_white", "check": "No pack creature's damage flash reads as WHITE (white reads as a spawn/holy effect); pack hurt-flash must read crimson/red. Judge only frames where a pack creature is mid-flash; if none, mark pass=true with why='not exercised'." },
-    { "id": "corpses_persist", "check": "In at least one frame after a kill, a faded remnant of the fallen body is visible where it fell (fights leave history). If no post-kill frame exists, mark pass=false with why='not exercised by this script'." },
-    { "id": "hud_three_bars", "check": "The HUD shows three stacked kit-colored bars; the possessed one is wider with a white edge. Bars plausibly track the fight shown." },
-    { "id": "zones_distinct", "check": "Nest frames (warm dark organic) and district frames (gray concrete city blocks) read as different places at a glance." },
-    { "id": "no_render_garbage", "check": "No frame shows tearing, missing map, entities outside walls, or obviously corrupted output." },
-    { "id": "wipe_reads", "check": "If a wipe frame is present, it reads as a run-ending event (dark veil + large text), distinct from ordinary combat frames. If the script never wipes, mark pass=true with why='not exercised'." },
-    { "id": "specials_distinct", "check": "When special frames are present, Blocker reads as a heavy ring shock, Lobber as delayed targeted tiles, and Striker as a bright through-lane. The three effects must not look like one reused attack effect. If this replay has no special frames, pass with why='not exercised by this script'." },
-    { "id": "volley_telegraph_distinct", "check": "When Volley target tiles are present, their pack-orange outlined countdown is clearly different from both the human red-edge/yellow-core danger telegraph and the solid gold zone gate. If absent, pass with why='not exercised by this script'." },
-    { "id": "mark_glyph_readable", "check": "When a pack mark is present, one human has a clear reticle glyph that does not resemble the possession ring or attack tiles. If absent, pass with why='not exercised by this script'." },
-    { "id": "special_pips_track", "check": "All three HUD bars have a stable special pip. When special casts are present, the relevant body's pip visibly changes from ready to spent while the other bodies retain their own state; if no special is cast in this replay, pass based on all three pips being present and note that tracking was not exercised." },
-    { "id": "drops_read_as_pickups", "check": "When glean drops are present (small magenta/violet squares near the gate; larger warm-rose or ember-gold glowing squares deeper in the district — all centered on floor tiles), they read as desirable pickups, clearly distinct from corpses, projectiles, human telegraphs, the teal mark reticle, and the gold gate tiles. If a near-expiry drop is visible its fade reads as decay, not a render bug. If this replay shows no drops, pass with why='not exercised by this script'." },
-    { "id": "carried_count_reads", "check": "When the possessed carries value, a small magenta numeral reads at the right end of the possessed HUD bar row and appears nowhere else on the HUD; frames without carrying show the identical bar layout minus the numeral (no layout shift). If carrying never occurs in this replay, pass with why='not exercised by this script'." },
-    { "id": "bank_station_reads", "check": "When nest frames include the station fixture (hollow-centered magenta-toned block), it reads as a distinct interactable place — not a wall, not the gold gate. When the possessed stands within ~3 tiles of it, a banked-total numeral is legible above the fixture. If the replay never shows the station, pass with why='not exercised by this script'." },
-    { "id": "taunt_underline_reads", "check": "Taunted humans are marked by a thin deep-rust underline strip BELOW the body (offset clear of the red-edge attack telegraph), distinct from the telegraph flare, the hurt flash, the teal mark reticle corners, and magenta drops. A near-expiry underline may read faded — that is decay, not a bug. Humans crowding a pack body WITHOUT underlines are ordinary nearest-targeting, NOT taunt — do not infer taunt from a swarm. Judge only if at least one frame shows the expanding rust square cast pulse or an underlined human; otherwise pass with why='not exercised by this script'." },
-    { "id": "taunt_pulse_reads", "check": "When a taunt cast frame is present, it shows ONE continuous expanding hollow rust SQUARE outline centered on the deep-rust pack creature, clearly distinct from the solid pale special/damage tiles, the orange volley target brackets, and the human telegraph. If no cast frame is present, pass with why='not exercised by this script'." },
-    { "id": "taunt_convergence_reads", "check": "When a mid-taunt frame is present, multiple humans are adjacent to or converging on the deep-rust (blocker) body — the rust-underlined humans cluster around IT and not around any other pack body. The blocker anchoring the swarm may legitimately BE the possessed white-ringed body (a self-anchor cast is the taunt working as designed). The failure case is rust-underlined humans swarming a NON-blocker pack body while the blocker stands ignored. If no mid-taunt frame with multiple living taunted humans exists, pass with why='not exercised by this script'." },
-    { "id": "corpse_load_reads", "check": "A loaded pack corpse is marked by a hollow magenta OUTLINE pip centered on the container's TILE. The pip may legitimately sit up to one tile BESIDE the brown corpse rectangle - a knockback kill leaves the body's pixels trailing off its committed tile, and the pip marks the interact tile, not the sprite (this offset is correct, not a defect). Judge instead: the pip is a hollow OUTLINE, distinct from free drops (small FILLED magenta squares), the bank station, and looted/expired corpses (no pip anywhere near them) - INCLUDING in any frame where a free drop and a hollow outline share a tile (filled square inside a hollow outline = two objects). If no loaded corpse appears, pass with why='not exercised by this script'." },
-    { "id": "corpse_states_distinct", "check": "Across the replay's frames, loaded (full-strength body + pip), looted-empty (no pip, body fading), and expired (no pip, body fading, or a brief dark tile flash) pack corpses read as three DIFFERENT states, and a settling corpse (dim pip) reads distinct from a lootable one (full pip). Judge only the states the frames actually show; if fewer than two states appear, pass with why='not exercised by this script'." },
-    { "id": "corpse_run_reads", "check": "When post-wipe frames are present AND a loaded corpse with a pip exists in the district, the return frames read as a purposeful RETURN: the pack re-entering the district while at least one loaded corpse with a pip awaits. Do not infer a corpse run from mere walking; require a visible pip in the district frames. If the script has no wipe followed by a return to a district holding a loaded corpse, pass with why='not exercised by this script'." },
-    { "id": "ledger_beat_reads", "check": "After combat ends, a large glyph+number tally appears center-screen above the player avatar on a dark contrast panel (filled magenta square + a +N number in large bold type; optionally loss and net lines under it) and later fades out. It must be one of the most visually prominent on-screen elements during its display - comparable in scale to the zone banner or wipe text. Gains (magenta) must read distinct from losses (a hollow outline glyph with -N, or a dark red-edged square with -N). If no tally appears in these frames, pass with why='not exercised by this script'." },
-    { "id": "ledger_negative_reads", "check": "When a tally shows a loss line (hollow magenta outline glyph + -N, meaning a pile waits on a corpse; or a dark red-edged square + -N, meaning destroyed) its net line ('= -N') reads clearly NEGATIVE (red family), visually distinct from an all-positive tally. If no tally with a loss line appears, pass with why='not exercised by this script'." },
-    { "id": "wipe_recap_reads", "check": "During the wipe veil (dark overlay + the large wipe line), the tally renders OVER the veil and stays legible - its numbers readable against the darkened field. The hollow-outline loss number is the value waiting on corpses out in the world. If no wipe with a live tally appears, pass with why='not exercised by this script'." },
-    { "id": "bank_tally_reads", "check": "When the pack banks at the station, a tally appears center-screen above the player avatar on a dark contrast panel, reading as a trip reconciliation: a +N take in large bold type, optionally a hollow-outline -N (value still out on corpses) and a net line. It must be visually prominent - large type on a panel, comparable to the zone banner. It must be distinguishable from mid-fight tallies by context (station present, no combat). If no banking tally appears, pass with why='not exercised by this script'." },
-    { "id": "ledger_prominence", "check": "When a fight tally or bank tally is on screen, it reads as one of the TWO OR THREE most visually prominent elements in the frame - its type size and dark panel make it impossible to miss, comparable in visual weight to the 64pt wipe text or the zone banner. A player focused on the center of the screen CANNOT fail to notice it. The tally must NOT read as a small footnote, marginal annotation, or debug overlay. If no tally appears in these frames, pass with why='not exercised by this script'." },
-    { "id": "pressure_ring_reads", "check": "When pressuring humans are visible (thin hollow outline stance, distinct from the filled-body engaged humans that are actively attacking), the group reads as ENCIRCLEMENT - bodies positioned around the pack creature at a fixed perimeter distance, waiting. They must NOT read as laggy or broken pathing; the formation must look deliberate and menacing. Pressuring humans are visually distinct from engaged humans (engaged = red-edge telegraph active, body adjacent, attacking; pressuring = outline only, perimeter spacing, no telegraph). If no frame shows pressuring humans distinct from engaged ones, pass with why='not exercised by this script'." },
-    { "id": "leash_walkback_reads", "check": "When a human walks home after losing its target (leash disengage), the movement reads as INTENTIONAL RETREAT - a creature turning away and walking back toward its home tile, not as broken AI or stuck pathing. The walkback is visually distinct from pursuit: the human moves AWAY from the pack rather than toward it. If multiple frames show the same human at different positions during a walkback, the trajectory reads as smooth and purposeful. If no frame captures a human mid-walkback (moving away from pack toward its spawn), pass with why='not exercised by this script'." },
-    { "id": "gradient_depth_reads", "check": "Frames taken deep in the district (far from the gate at column 0) show MORE humans on screen than frames taken near the gate. The deep district reads as denser and more dangerous - more bodies visible, more threat present. Near-gate frames (beachhead area, columns 0-4) read as relatively calm with few or no humans, while deep frames (columns 14+) read as crowded and threatening. If the script does not include both near-gate and deep-district frames for comparison, pass with why='not exercised by this script'." },
-    { "id": "god_mark_reads", "check": "When a pack body carries the god-mark (a small hollow pale-gold square floating just above the body), it reads at a glance as a persistent blessing on THAT body — clearly distinct from the white possession ring (full-body outline), the teal mark reticle (on humans), and magenta drop/pip glyphs. If no marked body appears in this replay, pass with why='not exercised by this script'." },
-    { "id": "fixtures_distinct_read", "check": "In nest frames showing the stations, the three fixtures read as three DIFFERENT interactable places (bank magenta-toned, altar pale bone-gold, vat green) — a stranger could point at which is which. None reads as a wall or the gold gate. If fewer than two fixtures appear, pass with why='not exercised by this script'." },
-    { "id": "tribute_beat_reads", "check": "When a tribute fires at the vat (dead bodies regrow at the spawn tiles, wounded HP bars refill), the before/after frames read as a purchase: bodies that were missing/dead stand alive near the vat afterward, and the station cue pulse marks the transaction. Regrown bodies are persistent state — judge any post-tribute frame. If no tribute occurs in this replay, pass with why='not exercised by this script'." },
-    { "id": "judgment_reads", "check": "POST-wipe return frames (first frames after the veil lifts) show the judgment: marked bodies stand at the nest spawn while dissolved bodies are ABSENT (their HP bars read dead/empty), or — in the floor case — exactly one kept vessel stands alone. The return must NOT show all three bodies alive after a wipe in which fewer than three were marked. If no wipe occurs in this replay, pass with why='not exercised by this script'." },
-    { "id": "retarget_cue_reads", "check": "When a human switches targets mid-fight, a brief small block flashes above it, its color keyed to the cause (rust=kit-hate, yellow=wounded-prey, pale=proximity steal) — readable as 'it turned for a reason', distinct from the telegraph flare and hurt flash. If no retarget cue frame is present, pass with why='not exercised by this script'." },
-    { "id": "deep_drop_band_reads", "check": "When a deep-district drop (ember/gold square, larger than the magenta drops, with a faint glow halo) is on camera, it reads visibly RICHER than near-gate drops (small magenta) — a stranger could point at which is worth more, even in a frame showing only the gold drop. When a mid-band drop (warm rose, sized between the two) is also present, it reads BETWEEN them: bigger and warmer than magenta, smaller and quieter than gold. If no ember/gold drop appears in this replay, pass with why='not exercised by this script'." }
+    {
+      "id": "actors_distinct",
+      "check": "Pack creatures (warm orange family) and humans (pale bone) are immediately distinguishable from each other and from the floor in every frame where both appear."
+    },
+    {
+      "id": "kits_distinct",
+      "check": "The three pack creatures read as three DIFFERENT kinds (bright ember orange / deep rust / pale amber), not three copies. If no frame shows all three, judge from the frames that show two."
+    },
+    {
+      "id": "possessed_readable",
+      "check": "In frames with multiple pack creatures, exactly one reads as 'the one I control' (brighter + white outline). If no frame shows more than one pack creature, mark pass=false with why='not exercised by this script'."
+    },
+    {
+      "id": "possession_ring_moves",
+      "check": "Across the swap frames, the white possession ring appears on a DIFFERENT pack creature before vs after \u00e2\u20ac\u201d possession visibly moved. If the script never shows a swap, mark pass=false with why='not exercised by this script'.. If the script never shows a swap, pass with why='not exercised by this script'"
+    },
+    {
+      "id": "facing_readable",
+      "check": "Creatures carry a small dark notch on the edge they face \u00e2\u20ac\u201d you can tell which way a body points in a static frame."
+    },
+    {
+      "id": "projectile_visible",
+      "check": "At least one frame shows a small pale shot in flight, clearly separate from any creature body. If the script never fires one, mark pass=false with why='not exercised by this script'.. If the script never fires a projectile, pass with why='not exercised by this script'"
+    },
+    {
+      "id": "telegraph_reads",
+      "check": "Human attack telegraph (red edge + yellow core swell) reads as incoming danger and is clearly distinct from the gold gate/transition tiles.. If no telegraph frame is present, pass with why='not exercised by this script'"
+    },
+    {
+      "id": "hurt_flash_not_white",
+      "check": "No pack creature's damage flash reads as WHITE (white reads as a spawn/holy effect); pack hurt-flash must read crimson/red. Judge only frames where a pack creature is mid-flash; if none, mark pass=true with why='not exercised'."
+    },
+    {
+      "id": "corpses_persist",
+      "check": "In at least one frame after a kill, a faded remnant of the fallen body is visible where it fell (fights leave history). If no post-kill frame exists, mark pass=false with why='not exercised by this script'.. If no post-kill frame exists, pass with why='not exercised by this script'"
+    },
+    {
+      "id": "hud_three_bars",
+      "check": "The HUD shows three stacked kit-colored bars; the possessed one is wider with a white edge. Bars plausibly track the fight shown."
+    },
+    {
+      "id": "zones_distinct",
+      "check": "Nest frames (warm dark organic) and district frames (gray concrete city blocks) read as different places at a glance."
+    },
+    {
+      "id": "no_render_garbage",
+      "check": "No frame shows tearing, missing map, entities outside walls, or obviously corrupted output."
+    },
+    {
+      "id": "wipe_reads",
+      "check": "If a wipe frame is present, it reads as a run-ending event (dark veil + large text), distinct from ordinary combat frames. If the script never wipes, mark pass=true with why='not exercised'."
+    },
+    {
+      "id": "specials_distinct",
+      "check": "When special frames are present, Blocker reads as a heavy ring shock, Lobber as delayed targeted tiles, and Striker as a bright through-lane. The three effects must not look like one reused attack effect. If this replay has no special frames, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "volley_telegraph_distinct",
+      "check": "When Volley target tiles are present, their pack-orange outlined countdown is clearly different from both the human red-edge/yellow-core danger telegraph and the solid gold zone gate. If absent, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "mark_glyph_readable",
+      "check": "When a pack mark is present, one human has a clear reticle glyph that does not resemble the possession ring or attack tiles. If absent, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "special_pips_track",
+      "check": "All three HUD bars have a stable special pip. When special casts are present, the relevant body's pip visibly changes from ready to spent while the other bodies retain their own state; if no special is cast in this replay, pass based on all three pips being present and note that tracking was not exercised."
+    },
+    {
+      "id": "drops_read_as_pickups",
+      "check": "When glean drops are present (small magenta/violet squares near the gate; larger warm-rose or ember-gold glowing squares deeper in the district \u00e2\u20ac\u201d all centered on floor tiles), they read as desirable pickups, clearly distinct from corpses, projectiles, human telegraphs, the teal mark reticle, and the gold gate tiles. If a near-expiry drop is visible its fade reads as decay, not a render bug. If this replay shows no drops, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "carried_count_reads",
+      "check": "When the possessed carries value, a small magenta numeral reads at the right end of the possessed HUD bar row and appears nowhere else on the HUD; frames without carrying show the identical bar layout minus the numeral (no layout shift). If carrying never occurs in this replay, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "bank_station_reads",
+      "check": "When nest frames include the station fixture (hollow-centered magenta-toned block), it reads as a distinct interactable place \u00e2\u20ac\u201d not a wall, not the gold gate. When the possessed stands within ~3 tiles of it, a banked-total numeral is legible above the fixture. If the replay never shows the station, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "taunt_underline_reads",
+      "check": "Taunted humans are marked by a thin deep-rust underline strip BELOW the body (offset clear of the red-edge attack telegraph), distinct from the telegraph flare, the hurt flash, the teal mark reticle corners, and magenta drops. A near-expiry underline may read faded \u00e2\u20ac\u201d that is decay, not a bug. Humans crowding a pack body WITHOUT underlines are ordinary nearest-targeting, NOT taunt \u00e2\u20ac\u201d do not infer taunt from a swarm. Judge only if at least one frame shows the expanding rust square cast pulse or an underlined human; otherwise pass with why='not exercised by this script'."
+    },
+    {
+      "id": "taunt_pulse_reads",
+      "check": "When a taunt cast frame is present, it shows ONE continuous expanding hollow rust SQUARE outline centered on the deep-rust pack creature, clearly distinct from the solid pale special/damage tiles, the orange volley target brackets, and the human telegraph. If no cast frame is present, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "taunt_convergence_reads",
+      "check": "When a mid-taunt frame is present, multiple humans are adjacent to or converging on the deep-rust (blocker) body \u00e2\u20ac\u201d the rust-underlined humans cluster around IT and not around any other pack body. The blocker anchoring the swarm may legitimately BE the possessed white-ringed body (a self-anchor cast is the taunt working as designed). The failure case is rust-underlined humans swarming a NON-blocker pack body while the blocker stands ignored. If no mid-taunt frame with multiple living taunted humans exists, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "corpse_load_reads",
+      "check": "A loaded pack corpse is marked by a hollow magenta OUTLINE pip centered on the container's TILE. The pip may legitimately sit up to one tile BESIDE the brown corpse rectangle - a knockback kill leaves the body's pixels trailing off its committed tile, and the pip marks the interact tile, not the sprite (this offset is correct, not a defect). Judge instead: the pip is a hollow OUTLINE, distinct from free drops (small FILLED magenta squares), the bank station, and looted/expired corpses (no pip anywhere near them) - INCLUDING in any frame where a free drop and a hollow outline share a tile (filled square inside a hollow outline = two objects). If no loaded corpse appears, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "corpse_states_distinct",
+      "check": "Across the replay's frames, loaded (full-strength body + pip), looted-empty (no pip, body fading), and expired (no pip, body fading, or a brief dark tile flash) pack corpses read as three DIFFERENT states, and a settling corpse (dim pip) reads distinct from a lootable one (full pip). Judge only the states the frames actually show; if fewer than two states appear, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "corpse_run_reads",
+      "check": "When post-wipe frames are present AND a loaded corpse with a pip exists in the district, the return frames read as a purposeful RETURN: the pack re-entering the district while at least one loaded corpse with a pip awaits. Do not infer a corpse run from mere walking; require a visible pip in the district frames. If the script has no wipe followed by a return to a district holding a loaded corpse, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "ledger_beat_reads",
+      "check": "After combat ends, a large glyph+number tally appears center-screen above the player avatar on a dark contrast panel (filled magenta square + a +N number in large bold type; optionally loss and net lines under it) and later fades out. It must be one of the most visually prominent on-screen elements during its display - comparable in scale to the zone banner or wipe text. Gains (magenta) must read distinct from losses (a hollow outline glyph with -N, or a dark red-edged square with -N). If no tally appears in these frames, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "ledger_negative_reads",
+      "check": "When a tally shows a loss line (hollow magenta outline glyph + -N, meaning a pile waits on a corpse; or a dark red-edged square + -N, meaning destroyed) its net line ('= -N') reads clearly NEGATIVE (red family), visually distinct from an all-positive tally. If no tally with a loss line appears, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "wipe_recap_reads",
+      "check": "During the wipe veil (dark overlay + the large wipe line), the tally renders OVER the veil and stays legible - its numbers readable against the darkened field. The hollow-outline loss number is the value waiting on corpses out in the world. If no wipe with a live tally appears, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "bank_tally_reads",
+      "check": "When the pack banks at the station, a tally appears center-screen above the player avatar on a dark contrast panel, reading as a trip reconciliation: a +N take in large bold type, optionally a hollow-outline -N (value still out on corpses) and a net line. It must be visually prominent - large type on a panel, comparable to the zone banner. It must be distinguishable from mid-fight tallies by context (station present, no combat). If no banking tally appears, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "ledger_prominence",
+      "check": "When a fight tally or bank tally is on screen, it reads as one of the TWO OR THREE most visually prominent elements in the frame - its type size and dark panel make it impossible to miss, comparable in visual weight to the 64pt wipe text or the zone banner. A player focused on the center of the screen CANNOT fail to notice it. The tally must NOT read as a small footnote, marginal annotation, or debug overlay. If no tally appears in these frames, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "pressure_ring_reads",
+      "check": "When pressuring humans are visible (thin hollow outline stance, distinct from the filled-body engaged humans that are actively attacking), the group reads as ENCIRCLEMENT - bodies positioned around the pack creature at a fixed perimeter distance, waiting. They must NOT read as laggy or broken pathing; the formation must look deliberate and menacing. Pressuring humans are visually distinct from engaged humans (engaged = red-edge telegraph active, body adjacent, attacking; pressuring = outline only, perimeter spacing, no telegraph). If no frame shows pressuring humans distinct from engaged ones, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "leash_walkback_reads",
+      "check": "When a human walks home after losing its target (leash disengage), the movement reads as INTENTIONAL RETREAT - a creature turning away and walking back toward its home tile, not as broken AI or stuck pathing. The walkback is visually distinct from pursuit: the human moves AWAY from the pack rather than toward it. If multiple frames show the same human at different positions during a walkback, the trajectory reads as smooth and purposeful. If no frame captures a human mid-walkback (moving away from pack toward its spawn), pass with why='not exercised by this script'."
+    },
+    {
+      "id": "gradient_depth_reads",
+      "check": "Frames taken deep in the district (far from the gate at column 0) show MORE humans on screen than frames taken near the gate. The deep district reads as denser and more dangerous - more bodies visible, more threat present. Near-gate frames (beachhead area, columns 0-4) read as relatively calm with few or no humans, while deep frames (columns 14+) read as crowded and threatening. If the script does not include both near-gate and deep-district frames for comparison, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "god_mark_reads",
+      "check": "When a pack body carries the god-mark (a small hollow pale-gold square floating just above the body), it reads at a glance as a persistent blessing on THAT body \u00e2\u20ac\u201d clearly distinct from the white possession ring (full-body outline), the teal mark reticle (on humans), and magenta drop/pip glyphs. If no marked body appears in this replay, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "fixtures_distinct_read",
+      "check": "In nest frames showing the stations, the three fixtures read as three DIFFERENT interactable places (bank magenta-toned, altar pale bone-gold, vat green) \u00e2\u20ac\u201d a stranger could point at which is which. None reads as a wall or the gold gate. If fewer than two fixtures appear, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "tribute_beat_reads",
+      "check": "When a tribute fires at the vat (dead bodies regrow at the spawn tiles, wounded HP bars refill), the before/after frames read as a purchase: bodies that were missing/dead stand alive near the vat afterward, and the station cue pulse marks the transaction. Regrown bodies are persistent state \u00e2\u20ac\u201d judge any post-tribute frame. If no tribute occurs in this replay, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "judgment_reads",
+      "check": "POST-wipe return frames (first frames after the veil lifts) show the judgment: marked bodies stand at the nest spawn while dissolved bodies are ABSENT (their HP bars read dead/empty), or \u00e2\u20ac\u201d in the floor case \u00e2\u20ac\u201d exactly one kept vessel stands alone. The return must NOT show all three bodies alive after a wipe in which fewer than three were marked. If no wipe occurs in this replay, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "retarget_cue_reads",
+      "check": "When a human switches targets mid-fight, a brief small block flashes above it, its color keyed to the cause (rust=kit-hate, yellow=wounded-prey, pale=proximity steal) \u00e2\u20ac\u201d readable as 'it turned for a reason', distinct from the telegraph flare and hurt flash. If no retarget cue frame is present, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "deep_drop_band_reads",
+      "check": "When a deep-district drop (ember/gold square, larger than the magenta drops, with a faint glow halo) is on camera, it reads visibly RICHER than near-gate drops (small magenta) \u00e2\u20ac\u201d a stranger could point at which is worth more, even in a frame showing only the gold drop. When a mid-band drop (warm rose, sized between the two) is also present, it reads BETWEEN them: bigger and warmer than magenta, smaller and quieter than gold. If no ember/gold drop appears in this replay, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "seal_breach_reads",
+      "check": "When the seal is on camera SEALED, it reads as a shut, priced door: a dark slab across the corridor with a thin gold seam, the seal station beside it, and a visible price \u00e2\u20ac\u201d a stranger could say 'locked, costs money'. When the breach beat is on camera, the way visibly OPENS (the slab turns gold) and the line 'THE WAY IS PAID' is legible in the banner slot. If no seal or breach frame is present in this replay, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "new_ground_reads",
+      "check": "When a camp ('The Second Vigil') or Keyward banner frame is on camera, the banner text is legible and the zone reads distinct from District One at a glance: the camp reads safe, station-dense, and warm; the Keyward reads black-and-ochre with a denser hostile field. If neither zone appears in this replay, pass with why='not exercised by this script'."
+    }
   ]
 }

@@ -2,5 +2,7 @@
   "inscribe_cost": 8,
   "regrow_cost": 12,
   "heal_cost_per_body": 2,
-  "retarget_cue_frames": 75
+  "retarget_cue_frames": 75,
+  "breach_cost": 40,
+  "breach_cost_2": 150
 }

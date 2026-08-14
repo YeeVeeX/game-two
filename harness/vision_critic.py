@@ -183,7 +183,12 @@ def run_verdict(captures_dir: Path, checks_path: Path) -> int:
     # load), so unusable output is retried like a throttle, never trusted.
     attempts = 6
     for attempt in range(1, attempts + 1):
-        text = converse(client, image_blocks(frames) + [{"text": prompt}])
+        # 16K: a 42-check verdict is ~6K of JSON alone, and the model can
+        # spend the whole 8K default reasoning before its first text delta
+        # (observed 2026-08-13: three empty-output INFRA errors in a row on
+        # a 20-frame verdict while smaller verdicts passed).
+        text = converse(client, image_blocks(frames) + [{"text": prompt}],
+                        max_tokens=16_000)
         try:
             result = extract_json(text)
             # The model's output is trusted only if it covers the checklist

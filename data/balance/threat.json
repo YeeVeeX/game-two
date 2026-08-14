@@ -7,9 +7,9 @@
   "respawn_block_tiles": 12,
   "beachhead_tiles": 4,
   "density": {
-    "join_radius_tiles": 3,
-    "pocket_cap": 5,
+    "join_radius_tiles": 4,
+    "pocket_cap": 6,
     "scatter_radius_tiles": 2,
-    "corpse_guard_tiles": 6
+    "corpse_guard_tiles": 10
   }
 }

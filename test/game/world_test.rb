@@ -688,6 +688,53 @@ class WorldTest < Minitest::Test
                  "focus holds when rival is closer by less than proximity_switch_margin_tiles"
   end
 
+  # v12: the breach chain must not bend a seeded stream — two worlds staged
+  # through breach, re-home, and all four zones (nest, district, camp,
+  # Keyward, Slow Door) land byte-identical, including a d2 respawn cycle.
+  def test_determinism_across_the_breach_chain
+    eco = DATA["balance/economy"]
+    seal1 = DATA["zones/district"][:stations].find { |s| s[:type] == "seal" }
+    seal2 = DATA["zones/district_two"][:stations].find { |s| s[:type] == "seal" }
+    slack = DATA["balance/combat"][:feel][:hitstop_frames_kill] + 4
+    states = [Game::World.new(DATA), Game::World.new(DATA)].map do |w|
+      w.possessed.walker.teleport(29, 8)
+      drive(w, scripted({}), 2)
+      assert_equal "district", w.zone_name
+      w.humans.reject(&:dead?).first(2).each { |h| kill(h, by: w.possessed) }
+      src = w.possessed
+      src.walker.teleport(*seal1[:at])
+      (w.pack.living - [src]).each_with_index { |m, i| m.walker.teleport(2, 2 + i) }
+      w.pack.bank!(eco[:breach_cost])
+      assert w.interact(src)
+      src.walker.teleport(*seal1[:opens])
+      drive(w, scripted({}), slack)
+      assert_equal "camp", w.zone_name
+      w.possessed.walker.teleport(19, 5)
+      drive(w, scripted({}), 2)
+      assert_equal "district_two", w.zone_name
+      # Park the pack out of aggro range, then let a full respawn cycle
+      # run — the release-time scatter pick consumes the seeded stream.
+      w.pack.living.each_with_index { |m, i| m.walker.teleport(1 + i, 1) }
+      w.humans.reject(&:dead?).first(2).each { |h| kill(h, by: w.possessed) }
+      drive(w, scripted({}), 400)
+      src = w.possessed
+      src.walker.teleport(*seal2[:at])
+      (w.pack.living - [src]).each_with_index { |m, i| m.walker.teleport(2, 2 + i) }
+      w.pack.bank!(eco[:breach_cost_2])
+      assert w.interact(src)
+      src.walker.teleport(*seal2[:opens])
+      drive(w, scripted({}), slack)
+      assert_equal "slow_door", w.zone_name
+      w.possessed.walker.teleport(7, 7)
+      drive(w, scripted({}), 2 + slack)
+      assert_equal "district_two", w.zone_name
+      [w.zone_name, w.frame, w.pack.banked,
+       w.pack.members.map { |m| [m.tile, m.hp, m.x, m.y] },
+       w.humans.map { |h| [h.tile, h.hp] }]
+    end
+    assert_equal states[0], states[1]
+  end
+
   def test_determinism_same_script_same_state_with_swaps
     script = hold(:right, 0, STEP * 20).merge(
       (STEP * 21).to_s => %w[swap],
@@ -1194,15 +1241,22 @@ class WorldTest < Minitest::Test
 
   # --- arrival tiles + gate-distance fields (A2 Task 2) --------------------
 
-  def test_district_arrival_tile_comes_from_nest_transition
-    assert_equal [[1, 13]], world.arrival_tiles_for("district")
+  def test_district_arrival_tiles_cover_both_doors
+    # v12 meaning change (the increment, not collateral): the district has
+    # TWO doors once the camp exists — nest-side [1,13] and camp-side
+    # [40,13]; beachhead grace covers both (arrival is not an ambush).
+    assert_includes world.arrival_tiles_for("district"), [1, 13]
+    assert_includes world.arrival_tiles_for("district"), [40, 13]
     assert_equal [[28, 8]], world.arrival_tiles_for("nest")
   end
 
-  def test_gate_distance_is_bfs_from_the_arrival_tile
+  def test_gate_distance_is_bfs_from_the_gradient_anchor
+    # The anchor pins the band map to the nest-side door regardless of how
+    # many arrivals exist or how they order (v12 review-verified trap).
     enter_district(world)
     assert_equal 0, world.gate_distance([1, 13])
     assert_operator world.gate_distance([35, 5]), :>=, 30
+    assert_operator world.gate_distance([42, 13]), :>=, 28, "deep east stays band 2"
   end
 
   def test_district_drop_gradient_loaded

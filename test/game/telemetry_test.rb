@@ -9,6 +9,7 @@ class TelemetryTest < Minitest::Test
     human_retargeted human_leashed actor_died drop_spawned
     inscribed banked_spent mark_consumed body_dissolved body_regrown
     tribute_paid vessel_kept human_respawned
+    seal_breached home_rehomed zone_entered
   ].freeze
 
   def test_counts_and_formats_the_session_line
@@ -34,8 +35,13 @@ class TelemetryTest < Minitest::Test
                   "kills_by_band{b0=0 b1=0 b2=0}"
     expected_density = "TELEMETRY density pockets{mean=0.0 max=0} " \
                        "arrivals{pocket=0 seed=0 home=0} singles_pct=0"
+    expected_arc = "TELEMETRY arc breach{fired=0 first_frame=0 banked_after=0} " \
+                   "rehomed=0 camp_visits=0 d2{entered=0 kills=0} seal2_breached=0"
+    expected_margins = "TELEMETRY q6_margins banks{n=1 pure=1} amount{mean=3 max=3} " \
+                       "hp{mean=0.00} dead{mean=0.0} wounded{mean=0.0} gap{mean_s=0}"
     assert_equal "#{expected_d1}\n#{expected_a2}\n#{expected_d1b}\n" \
-                 "#{expected_q6}\n#{expected_density}",
+                 "#{expected_q6}\n#{expected_density}\n" \
+                 "#{expected_arc}\n#{expected_margins}",
                  t.summary
   end
 
@@ -146,6 +152,18 @@ class TelemetryTest < Minitest::Test
     world_obj = Object.new
     world_obj.define_singleton_method(:gate_distance) { |tile| tile[0] + tile[1] }
     world_obj.define_singleton_method(:map) { mock_map }
+    # v12 grew the World duck-type: arc reads zone_name; margins read
+    # frame, pack, and possessed at bank time.
+    world_obj.define_singleton_method(:zone_name) { "district" }
+    world_obj.define_singleton_method(:frame) { 0 }
+    pack_obj = Object.new
+    pack_obj.define_singleton_method(:members) { [] }
+    pack_obj.define_singleton_method(:living) { [] }
+    world_obj.define_singleton_method(:pack) { pack_obj }
+    possessed_obj = Object.new
+    possessed_obj.define_singleton_method(:hp) { 30 }
+    possessed_obj.define_singleton_method(:max_hp) { 30 }
+    world_obj.define_singleton_method(:possessed) { possessed_obj }
     t = Game::Telemetry.new(bus, world: world_obj)
 
     victim_b0 = Struct.new(:faction, :tile).new(:human, [5, 3])    # dist 8  -> band 0
@@ -226,5 +244,128 @@ class TelemetryTest < Minitest::Test
     t = Game::Telemetry.new(bus)
     bus.process
     assert_match(/TELEMETRY density/, t.summary)
+  end
+
+  # --- arc line (v12 advance oracle) ---
+
+  # Duck world whose frame and zone are mutable mid-test — handlers run at
+  # bus-process time, so the test stages emissions in zone-true batches.
+  def arc_world(state)
+    w = Object.new
+    w.define_singleton_method(:frame) { state[:frame] }
+    w.define_singleton_method(:zone_name) { state[:zone] }
+    w.define_singleton_method(:gate_distance) { |_tile| 0 }
+    w.define_singleton_method(:map) { Struct.new(:drop_gradient).new(nil) }
+    pack = Object.new
+    pack.define_singleton_method(:members) { [] }
+    pack.define_singleton_method(:living) { [] }
+    w.define_singleton_method(:pack) { pack }
+    possessed = Object.new
+    possessed.define_singleton_method(:hp) { 30 }
+    possessed.define_singleton_method(:max_hp) { 30 }
+    w.define_singleton_method(:possessed) { possessed }
+    w
+  end
+
+  def test_arc_line_zero_case_still_prints
+    bus = Core::EventBus.new.register(*ALL_TELEMETRY_EVENTS)
+    t = Game::Telemetry.new(bus)
+    bus.process
+    assert_equal "TELEMETRY arc breach{fired=0 first_frame=0 banked_after=0} " \
+                 "rehomed=0 camp_visits=0 d2{entered=0 kills=0} seal2_breached=0",
+                 t.arc_summary
+  end
+
+  def test_arc_line_counts_the_breach_chain
+    bus = Core::EventBus.new.register(*ALL_TELEMETRY_EVENTS)
+    state = { frame: 1000, zone: "district" }
+    t = Game::Telemetry.new(bus, world: arc_world(state))
+    human = Struct.new(:faction, :tile).new(:human, [5, 5])
+
+    bus.emit(:seal_breached, zone: "district", tile: [42, 13], cost: 40)
+    bus.emit(:banked_spent, actor: nil, amount: 40, sink: :breach, banked: 7)
+    bus.process
+    state[:frame] = 2000
+    bus.emit(:home_rehomed, zone: "camp")
+    bus.emit(:zone_entered, zone: "camp")
+    bus.process
+    state[:zone] = "district_two"
+    bus.emit(:zone_entered, zone: "district_two")
+    3.times { bus.emit(:actor_died, actor: human, killer: nil, faction: :human) }
+    bus.process
+    bus.emit(:seal_breached, zone: "district_two", tile: [42, 13], cost: 150)
+    bus.emit(:banked_spent, actor: nil, amount: 150, sink: :breach, banked: 0)
+    bus.process
+
+    assert_equal "TELEMETRY arc breach{fired=2 first_frame=1000 banked_after=7} " \
+                 "rehomed=1 camp_visits=1 d2{entered=1 kills=3} seal2_breached=1",
+                 t.arc_summary
+  end
+
+  def test_arc_kills_count_only_district_two
+    bus = Core::EventBus.new.register(*ALL_TELEMETRY_EVENTS)
+    state = { frame: 0, zone: "district" }
+    t = Game::Telemetry.new(bus, world: arc_world(state))
+    human = Struct.new(:faction, :tile).new(:human, [5, 5])
+    bus.emit(:actor_died, actor: human, killer: nil, faction: :human)
+    bus.process
+    assert_match(/d2\{entered=0 kills=0\}/, t.arc_summary)
+  end
+
+  # --- q6 margins line (v12: MEASURE before any Q6 retune) ---
+
+  def test_q6_margins_zero_case_still_prints
+    bus = Core::EventBus.new.register(*ALL_TELEMETRY_EVENTS)
+    t = Game::Telemetry.new(bus)
+    bus.process
+    assert_equal "TELEMETRY q6_margins banks{n=0 pure=0} amount{mean=0 max=0} " \
+                 "hp{mean=0.00} dead{mean=0.0} wounded{mean=0.0} gap{mean_s=0}",
+                 t.q6_margins_summary
+  end
+
+  def test_q6_margins_samples_at_bank_time
+    bus = Core::EventBus.new.register(*ALL_TELEMETRY_EVENTS)
+    state = { frame: 600, zone: "district", hp: 30, dead: [], wounded: [] }
+    w = Object.new
+    w.define_singleton_method(:frame) { state[:frame] }
+    w.define_singleton_method(:zone_name) { state[:zone] }
+    dead_body = Object.new
+    dead_body.define_singleton_method(:dead?) { true }
+    hurt_body = Object.new
+    hurt_body.define_singleton_method(:dead?) { false }
+    hurt_body.define_singleton_method(:hp) { 10 }
+    hurt_body.define_singleton_method(:max_hp) { 30 }
+    pack = Object.new
+    pack.define_singleton_method(:members) { state[:dead] }
+    pack.define_singleton_method(:living) { state[:wounded] }
+    w.define_singleton_method(:pack) { pack }
+    possessed = Object.new
+    possessed.define_singleton_method(:hp) { state[:hp] }
+    possessed.define_singleton_method(:max_hp) { 30 }
+    w.define_singleton_method(:possessed) { possessed }
+    t = Game::Telemetry.new(bus, world: w)
+
+    # Bank 1: full hp, nothing dead or wounded — a PURE trip.
+    bus.emit(:banked, actor: nil, amount: 10, banked: 10)
+    bus.process
+    # Bank 2, twenty seconds later: half hp, one dead, one wounded.
+    state[:frame] = 1800
+    state[:hp] = 15
+    state[:dead] = [dead_body]
+    state[:wounded] = [hurt_body]
+    bus.emit(:banked, actor: nil, amount: 22, banked: 32)
+    bus.process
+
+    assert_equal "TELEMETRY q6_margins banks{n=2 pure=1} amount{mean=16 max=22} " \
+                 "hp{mean=0.75} dead{mean=0.5} wounded{mean=0.5} gap{mean_s=20}",
+                 t.q6_margins_summary
+  end
+
+  def test_arc_and_margins_lines_appear_in_full_summary
+    bus = Core::EventBus.new.register(*ALL_TELEMETRY_EVENTS)
+    t = Game::Telemetry.new(bus)
+    bus.process
+    assert_match(/TELEMETRY arc /, t.summary)
+    assert_match(/TELEMETRY q6_margins /, t.summary)
   end
 end

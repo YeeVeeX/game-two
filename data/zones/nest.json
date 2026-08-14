@@ -1,6 +1,7 @@
 {
   "name": "nest",
   "display_name": "The Nest",
+  "hub": true,
   "tile_size": 32,
   "palette": {
     "floor": [30, 22, 26],

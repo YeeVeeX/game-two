@@ -24,11 +24,12 @@ module Game
       corpse_loaded corpse_looted fight_resolved
       human_retargeted human_leashed human_respawned
       inscribed banked_spent tribute_paid body_regrown body_dissolved mark_consumed vessel_kept
+      seal_breached home_rehomed
     ].freeze
 
     TRANSITIONS = { world: %i[nest_respawn], nest_respawn: %i[world] }.freeze
 
-    HOME_ZONE = "nest".freeze # fiction-pending name (world bible integration = owner call)
+    HOME_ZONE = "nest".freeze # the INITIAL home only — @home_zone advances (v12)
 
     attr_reader :bus, :pack, :feel, :states, :frame, :camera, :zone_name, :rng
 
@@ -47,6 +48,9 @@ module Game
       @respawn_timer = 0
       @banner_timer = 0
       @station_cue = nil
+      @breach_line = nil
+      @breached = {}
+      @home_zone = HOME_ZONE
       @zones = {}
       @humans = Hash.new { |h, k| h[k] = [] }
       @human_respawns = Hash.new { |h, k| h[k] = [] }
@@ -71,7 +75,7 @@ module Game
       # the same flush (the wipe-ordering pin, spec M6).
       @fight_ledger = FightLedger.new(@bus, world: self,
                                       config: data["balance/ledger"])
-      enter_zone(HOME_ZONE, map.pack_spawn)
+      enter_zone(@home_zone, map.pack_spawn)
     end
 
     def map = @zones.fetch(@zone_name)
@@ -92,6 +96,11 @@ module Game
     def marked_target = @pack.mark
     def taunt_pulses = @taunt_pulses
     def station_cue = @station_cue
+    def breach_line = @breach_line
+
+    # Session-scoped and wipe-proof BY DESIGN: wipes never close the door —
+    # that is the arc. Only a fresh World (restart) re-seals.
+    def breached?(zone, tile) = @breached.key?([zone, tile])
 
     # Renderer-facing price reader (renderer computes nothing): what THIS
     # station charges right now. Bank has no price (nil).
@@ -101,6 +110,10 @@ module Game
       when "vat"
         @economy[:regrow_cost] * @pack.members.count(&:dead?) +
           @economy[:heal_cost_per_body] * @pack.living.count { |m| m.hp < m.max_hp }
+      when "seal"
+        # A spent seal shows no price — the toll line is the discovery
+        # mechanism while sealed, and noise once the way stands open.
+        breached?(@zone_name, station[:opens]) ? nil : @economy.fetch(station[:price].to_sym)
       end
     end
 
@@ -114,6 +127,7 @@ module Game
 
       @banner_timer -= 1 if @banner_timer.positive?
       @station_cue = nil if @station_cue && (@station_cue[:frames_left] -= 1) <= 0
+      @breach_line = nil if @breach_line && (@breach_line[:frames_left] -= 1) <= 0
 
       case @states.current
       when :world
@@ -335,6 +349,7 @@ module Game
       when "bank"  then interact_bank(source)
       when "altar" then interact_altar(source)
       when "vat"   then interact_vat(source)
+      when "seal"  then interact_seal(source, station)
       else false
       end
     end
@@ -663,6 +678,8 @@ module Game
       return if c.walker.moving? || c.dead?
       t = map.transition_at(*c.tile)
       return unless t
+      # v12: a sealed door is not a gate until its toll is paid.
+      return if t[:sealed] && !breached?(@zone_name, t[:at])
       enter_zone(t[:to], arrival_tiles(t[:to], t[:spawn]))
     end
 
@@ -715,6 +732,12 @@ module Game
       @camera.snap!(possessed.x + Creature::SIZE / 2.0, possessed.y + Creature::SIZE / 2.0)
       @banner_timer = @display[:zone_banner_frames]
       @bus.emit(:zone_entered, zone: name)
+      # v12: home = the last hub entered, session-only. Wipe respawn and vat
+      # regrowth read @home_zone — the arc advances the pack's anchor.
+      if map.hub && name != @home_zone
+        @home_zone = name
+        @bus.emit(:home_rehomed, zone: name)
+      end
     end
 
     def load_zones
@@ -724,11 +747,17 @@ module Game
       @zones.each_value do |zmap|
         zmap.transitions.each { |t| @arrivals[t[:to]] << t[:spawn] }
       end
+      # Gate fields anchor on the zone's DECLARED gradient_anchor when it has
+      # one — arrival-list order follows sorted zone keys, so adding a zone
+      # would otherwise silently re-anchor a neighbor's whole band map (v12
+      # review-verified trap). Fallback = first arrival, today's behavior.
       @gate_fields = {}
-      @arrivals.each do |zone, tiles|
-        next if tiles.empty?
-        f = FlowField.new(@zones.fetch(zone))
-        f.recompute!(tiles.first)
+      @zones.each do |zone, zmap|
+        anchor = zmap.gradient_anchor ||
+                 (@arrivals.key?(zone) ? @arrivals[zone].first : nil)
+        next unless anchor
+        f = FlowField.new(zmap)
+        f.recompute!(anchor)
         @gate_fields[zone] = f
       end
       seed_humans
@@ -761,8 +790,8 @@ module Game
 
     def spawn_pack
       cfg = @balance[:pack]
-      home = @zones.fetch(HOME_ZONE)
-      @zone_name = HOME_ZONE
+      home = @zones.fetch(@home_zone)
+      @zone_name = @home_zone
       members = cfg[:members].each_with_index.map do |kit_name, i|
         Creature.new(bus: @bus, kit: @balance[:kits].fetch(kit_name.to_sym),
                      kit_name: kit_name.to_sym, map: home, tile: home.pack_spawn[i],
@@ -801,7 +830,7 @@ module Game
              @economy[:heal_cost_per_body] * wounded.length
       return station_refuse!(source.tile) if cost.zero?
       return station_refuse!(source.tile) unless spend_banked(source, cost, :tribute)
-      home = @zones.fetch(HOME_ZONE)
+      home = @zones.fetch(@home_zone)
       dead.each do |m|
         m.revive!(map: home, tile: home.pack_spawn[@pack.members.index(m)])
         @bus.emit(:body_regrown, body: m)
@@ -811,6 +840,23 @@ module Game
                 healed: wounded.length, banked: @pack.banked)
       station_cue!(:tribute, source.tile)
       true
+    end
+
+    # The breach (v12): pay the toll standing at the seal, and the way
+    # opens — permanently for the session. One price, one decision (the
+    # station law); the beat is LOUD (strongest feel kick + the writ line
+    # in the banner slot) because opening the way IS the arc's payoff.
+    def interact_seal(source, station)
+      opens = station[:opens]
+      return false if breached?(@zone_name, opens)
+      price = @economy.fetch(station[:price].to_sym)
+      return station_refuse!(station[:at]) unless spend_banked(source, price, :breach)
+      @breached[[@zone_name, opens]] = true
+      @breach_line = { text: station[:line],
+                       frames_left: @display[:breach_banner_frames] }
+      @feel.on_kill
+      @bus.emit(:seal_breached, zone: @zone_name, tile: opens, cost: price)
+      station_cue!(:breached, station[:at])
     end
 
     def spend_banked(source, amount, sink)
@@ -836,11 +882,11 @@ module Game
     # unmarked dissolves (stays dead-and-regrowable — dissolution IS the
     # absence of revival). Floor: a judgment that would leave nothing
     # returns the body possessed at the wipe — the gods keep you alive to
-    # pay. Taunt-release sweep and HOME_ZONE re-entry unchanged (impl
+    # pay. Taunt-release sweep and home re-entry unchanged (impl
     # review 1 law).
     def respawn_pack
       @humans.each_value { |list| list.each(&:release_taunt!) }
-      @zone_name = HOME_ZONE
+      @zone_name = @home_zone
       vessel = @pack.possessed
       floor = @pack.members.none?(&:marked?)
       revived = []
@@ -863,7 +909,7 @@ module Game
       end
       clear_unloaded_pack_husks
       snap_possession_after_judgment(revived)
-      enter_zone(HOME_ZONE, map.pack_spawn)
+      enter_zone(@home_zone, map.pack_spawn)
       @bus.emit(:pack_respawned)
     end
 
