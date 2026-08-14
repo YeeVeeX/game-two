@@ -553,8 +553,9 @@ module App
       Gosu.draw_rect(0, 0, view_width(world), view_height(world), WIPE_VEIL)
       font = wipe_font
       # Canonical text lives in data/strings/en.json (v13 extraction); the
-      # literal here only keeps a bare strings-less Renderer.new drawable.
-      text = tr("wipe.line", "THE HUNT ENDS")
+      # literal here only keeps a bare strings-less Renderer.new drawable
+      # and must match en.json byte-for-byte (fallback law).
+      text = tr("wipe.line", "THE FLESH IS SPENT")
       x = (view_width(world) - font.text_width(text)) / 2
       font.draw_text(text, x, view_height(world) / 2 - 40, 10, 1, 1, Gosu::Color.new(255, 200, 40, 40))
     end

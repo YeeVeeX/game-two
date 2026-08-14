@@ -38,9 +38,10 @@ module Core
 
     def test_wipe_line_lives_in_en_json_not_ruby
       # The extraction proof: the wipe line resolves from data with NO
-      # fallback argument at every locale.
-      assert_equal "THE HUNT ENDS", Strings.new(DATA, locale: "en").t("wipe.line")
-      assert_equal "LA CACERÍA TERMINA", Strings.new(DATA, locale: "es").t("wipe.line")
+      # fallback argument at every locale. v14 rename batch: the judgment
+      # register line (v12 fiction annex pre-registration).
+      assert_equal "THE FLESH IS SPENT", Strings.new(DATA, locale: "en").t("wipe.line")
+      assert_equal "LA CARNE SE AGOTA", Strings.new(DATA, locale: "es").t("wipe.line")
     end
 
     def test_explicit_locale_beats_env
@@ -52,7 +53,7 @@ module Core
     def test_env_beats_display_json
       ENV["GAME_LOCALE"] = "pt-br"
       s = Strings.new(DATA)
-      assert_equal "O Ninho", s.t("zone.nest.display_name", "The Nest")
+      assert_equal "A Primeira Vigília", s.t("zone.nest.display_name", "The First Vigil")
     end
 
     def test_display_json_default_is_en
@@ -62,8 +63,17 @@ module Core
 
     def test_unknown_locale_falls_through_to_en_then_fallback
       s = Strings.new(DATA, locale: "fr")
-      assert_equal "THE HUNT ENDS", s.t("wipe.line")               # en table
-      assert_equal "District One", s.t("zone.district.display_name", "District One")
+      assert_equal "THE FLESH IS SPENT", s.t("wipe.line")          # en table
+      # zone.camp has no en.json override — proves the caller-fallback leg.
+      assert_equal "The Second Vigil", s.t("zone.camp.display_name", "The Second Vigil")
+    end
+
+    def test_renamed_zones_resolve_from_en_overrides
+      # v14 rename batch: the two renamed zones carry en.json overrides so
+      # every locale (known or not) sees the new canon names.
+      s = Strings.new(DATA, locale: "fr")
+      assert_equal "The First Vigil", s.t("zone.nest.display_name", "stale")
+      assert_equal "The Longrow", s.t("zone.district.display_name", "stale")
     end
 
     def test_missing_key_everywhere_returns_nil_without_fallback

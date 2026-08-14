@@ -1,9 +1,9 @@
 {
   "zone.camp.display_name": "La Segunda Vigilia",
-  "zone.district.display_name": "Distrito Uno",
+  "zone.district.display_name": "El Corredor",
   "zone.district_two.display_name": "El Guardallaves",
-  "zone.nest.display_name": "El Nido",
+  "zone.nest.display_name": "La Primera Vigilia",
   "zone.slow_door.display_name": "La Puerta Lenta",
   "breach.line": "EL PASO ESTÁ PAGADO",
-  "wipe.line": "LA CACERÍA TERMINA"
+  "wipe.line": "LA CARNE SE AGOTA"
 }
