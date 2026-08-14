@@ -29,6 +29,20 @@ module Game
       interact_pressed = pressed?(input, :interact)
       return if creature.dead?
 
+      # v15 seizure: the feet are his, the hands are yours. Direction and
+      # dodge are suppressed (the edge bookkeeping above ran regardless —
+      # a dodge pressed during seizure must not ghost-fire on expiry,
+      # spec controller-ordering pin); aim + verbs stay the player's.
+      if creature.seized_by && view.respond_to?(:seized_step)
+        view.seized_step(creature)
+        creature.face(held_direction(input)) # re-aim allowed; steps are not
+        view.interact(creature) if interact_pressed && view.respond_to?(:interact)
+        creature.start_special(blocked: @blocked || []) if special_pressed
+        creature.start_attack if down?(input, :attack)
+        view.set_mark(creature) if mark_pressed && view.respond_to?(:set_mark)
+        return
+      end
+
       dir = held_direction(input)
       creature.face(dir)
       if dodge_pressed
@@ -112,6 +126,13 @@ module Game
     def tick(creature, view)
       return if creature.dead?
       return tick_human(creature, view) if creature.faction == :human
+      # v15: a seized ally answered its name — it walks to the voice and
+      # starts no NEW swings (already-committed actions resolve body-owned
+      # like every action; Codex pass-2 wording).
+      if creature.seized_by && view.respond_to?(:seized_step)
+        view.seized_step(creature)
+        return
+      end
       bound = creature.taunted_target || anchor_victim_for(creature, view)
       marked = marked_target_for(creature, view)
       target = bound || marked || nearest(creature, view.hostiles_for(creature))

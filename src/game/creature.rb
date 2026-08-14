@@ -45,6 +45,15 @@ module Game
       @focus = nil
       @leash_frames = 0
       @beachhead_waived = false
+      # v15 seizure (victim side) + chant (challenger side). Inert for
+      # every kind that never uses them — the taunt-state precedent.
+      @seized_by = nil
+      @seized_frames = 0
+      @chant_left = 0
+      @chant_target = nil
+      @chant_hp = 0
+      @seize_cooldown = 0
+      @engaged_announced = false
     end
 
     def tile = [@walker.tile_x, @walker.tile_y]
@@ -242,6 +251,67 @@ module Game
 
     def release_taunt! = clear_taunt!
 
+    # --- v15 seizure: the Challenger's verb, victim side -----------------
+    # Body-owned and swap-inert like taunt — the sentence names the FLESH,
+    # never the echo (fiction-exact AND the swap-escape mechanism).
+    def seize!(seizer, frames)
+      @seized_by = seizer
+      @seized_frames = frames
+    end
+
+    # PURE reader (taunted_target law): nil once the seizure is spent or
+    # the seizer is dead. Raw state stays visible via seizure_seizer /
+    # seize_active? for the World's exactly-once end sweep.
+    def seized_by
+      return nil unless @seized_by && @seized_frames.positive?
+      @seized_by.dead? ? nil : @seized_by
+    end
+
+    def seize_active? = !@seized_by.nil? && @seized_frames.positive?
+    def seizure_seizer = @seized_by
+    def seized_frames = @seized_frames
+
+    def tick_seizure
+      @seized_frames -= 1 if @seized_frames.positive?
+    end
+
+    def release_seize!
+      @seized_by = nil
+      @seized_frames = 0
+    end
+
+    # --- v15 chant: the Challenger's verb, caster side -------------------
+    # The creature holds state; World#tick_challengers owns the clock,
+    # the interrupt (hp below chant-start), and every event.
+    def start_chant!(target, frames)
+      @chant_target = target
+      @chant_left = frames
+      @chant_hp = @hp
+    end
+
+    def chanting? = @chant_left.positive?
+    def chant_target = @chant_target
+    def chant_hp = @chant_hp
+
+    def tick_chant
+      @chant_left -= 1 if @chant_left.positive?
+    end
+
+    def abort_chant!
+      @chant_left = 0
+      @chant_target = nil
+    end
+
+    def seize_cooldown = @seize_cooldown
+    def seize_cooldown!(frames) = @seize_cooldown = frames
+
+    def tick_seize_cooldown
+      @seize_cooldown -= 1 if @seize_cooldown.positive?
+    end
+
+    def engaged_announced? = @engaged_announced
+    def announce_engaged! = @engaged_announced = true
+
     # Carried value is creature-owned and swap-inert (law 4): it rides the
     # body, not the possession pointer. Drained by banking and by death.
     def pick_up(amount) = @carried += amount
@@ -296,6 +366,10 @@ module Game
       @hurt_frames = 0
       @carried = 0
       clear_taunt!
+      # Belt+braces (clear_taunt! reasoning): a revived body is fresh
+      # flesh. Reachable seizures end at death (why=:died) BEFORE any
+      # revive, so this never swallows an event.
+      release_seize!
       rebind(map:, tile:)
     end
 

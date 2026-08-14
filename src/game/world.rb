@@ -25,6 +25,7 @@ module Game
       human_retargeted human_leashed human_respawned
       inscribed banked_spent tribute_paid body_regrown body_dissolved mark_consumed vessel_kept
       seal_breached home_rehomed respawn_telegraphed
+      challenger_engaged challenger_chant_started chant_interrupted vessel_seized seizure_ended
     ].freeze
 
     TRANSITIONS = { world: %i[nest_respawn], nest_respawn: %i[world] }.freeze
@@ -252,6 +253,23 @@ module Game
 
     def threat_config = @threat
 
+    # v15 seized walk (controllers call this — view API): the named flesh
+    # goes to the voice on the EXISTING flow_to moving-anchor cache.
+    # Routes through creature.step, so windup/active/stagger gates hold —
+    # fighting back drags your feet (intended depth, spec fold 4).
+    # Adjacent = arrived: it answered its name; it waits.
+    def seized_step(creature)
+      seizer = creature.seized_by
+      return unless seizer
+      return if creature.moving?
+      return if tile_distance(creature.tile, seizer.tile) <= 1
+      blocked = blocked_for(creature)
+      dir = flow_to(seizer).downhill_from(*creature.tile, blocked:)
+      return unless dir
+      creature.face(dir)
+      creature.step(dir[0], dir[1], blocked:)
+    end
+
     # v11 density: pockets = connected groups of living humans in the
     # current zone within join_radius_tiles of each other (chain distance,
     # Chebyshev). Public on purpose — the respawn anchor path, telemetry,
@@ -456,13 +474,20 @@ module Game
       @pack.living.each { |m| @ai.tick(m, self) unless m.equal?(possessed) }
       assign_human_focus
       partition_pressure
-      humans.each { |h| emit_telegraph_edge(h); @ai.tick(h, self) }
+      tick_challengers
+      # A chanting challenger STANDS — pronunciation is stillness (his AI
+      # tick is the only thing suspended; timers/attack-state still ran).
+      humans.each { |h| emit_telegraph_edge(h); @ai.tick(h, self) unless h.chanting? }
 
       check_transition
       tick_impacts
       tick_taunt_pulses
       resolve_attacks
       tick_projectiles
+      # AFTER every damage source on purpose: a body killed this frame ends
+      # its seizure THIS frame (why=:died — the zero-frame seizure is legal
+      # and ordered; spec same-frame race).
+      tick_seizures
       tick_drops
       tick_corpse_loads
       tick_expiry_flashes
@@ -492,6 +517,108 @@ module Game
       end
     end
 
+    # --- v15 the Challenger: chant -> seizure ---------------------------
+
+    # World-driven (the taunt-pulse precedent): creatures hold state, this
+    # owns the clock, the interrupt, and every event. Runs BEFORE the
+    # human AI loop (a chanting challenger's AI tick is suspended) and
+    # after assign_human_focus (the engagement stamp reads focus).
+    def tick_challengers
+      humans.each do |h|
+        next if h.dead?
+        seize = h.kit[:seize]
+        next unless seize
+        h.tick_seize_cooldown unless h.chanting?
+        if h.chanting?
+          # ANY damage since chant start interrupts — hp comparison covers
+          # every source (melee, whirl, volley, projectile) without
+          # touching the hit paths. Interrupt buys the room the full
+          # cooldown (legible reward).
+          if h.hp < h.chant_hp
+            h.abort_chant!
+            h.seize_cooldown!(seize[:cooldown_frames])
+            @bus.emit(:chant_interrupted, actor: h)
+            next
+          end
+          h.tick_chant
+          next if h.chanting?
+          # Completion: the sentence lands on the body PINNED at chant
+          # start (decision 3) — if that body died first, it lands on
+          # nothing and the cooldown starts now. On a landed seize the
+          # cooldown starts at SEIZURE END instead (spec pacing fold).
+          target = h.chant_target
+          h.abort_chant!
+          if target && !target.dead?
+            target.seize!(h, seize[:duration_frames])
+            @bus.emit(:vessel_seized, actor: h, body: target,
+                      frames: seize[:duration_frames])
+          else
+            h.seize_cooldown!(seize[:cooldown_frames])
+          end
+          next
+        end
+        # ONE STANDS: first pack contact, once per session. Deviation from
+        # the spec letter recorded: focus on ANY pack body announces him
+        # (contact is contact) — waiting for possessed-specific focus
+        # could leave his first fight unannounced.
+        if !h.engaged_announced? && h.focus && !h.focus.dead? &&
+           h.focus.faction == :pack
+          h.announce_engaged!
+          @bus.emit(:challenger_engaged, actor: h)
+        end
+        next unless h.seize_cooldown.zero?
+        next if h.staggered? || h.attack_state != :idle
+        # Never chant while his own seizure holds (cooldown starts at
+        # seizure END, so this guard is what prevents chant-chaining).
+        next if @pack.members.any? { |m| m.seize_active? && m.seizure_seizer.equal?(h) }
+        body = possessed
+        next if body.dead? || tile_distance(h.tile, body.tile) > seize[:range_tiles]
+        h.start_chant!(body, seize[:chant_frames])
+        @bus.emit(:challenger_chant_started, actor: h, body:)
+      end
+    end
+
+    # Exactly-once end sweep (spec): first cause wins, later causes find
+    # no state. Runs AFTER every damage source in tick_world so a body
+    # killed this frame ends why=:died THIS frame.
+    def tick_seizures
+      @pack.members.each do |m|
+        next unless m.seize_active?
+        m.tick_seizure
+        if m.dead?
+          end_seizure(m, :died)
+        elsif m.seizure_seizer.dead?
+          end_seizure(m, :slain)
+        elsif m.seized_frames.zero?
+          end_seizure(m, :expired)
+        end
+      end
+    end
+
+    def end_seizure(body, why)
+      # Exactly-once keys on the RAW seizer presence, NOT on seize_active?:
+      # at expiry the frame count is already zero (this tick's decrement),
+      # so an active?-guard would swallow the :expired event and leave
+      # dangling-but-inert state (caught by the expiry test, live).
+      seizer = body.seizure_seizer
+      return unless seizer
+      body.release_seize!
+      if seizer && !seizer.dead? && (cfg = seizer.kit[:seize])
+        seizer.seize_cooldown!(cfg[:cooldown_frames])
+      end
+      @bus.emit(:seizure_ended, body:, why:)
+    end
+
+    def abort_all_chants!
+      @humans.each_value do |list|
+        list.each do |h|
+          next unless h.chanting?
+          h.abort_chant!
+          h.seize_cooldown!(h.kit[:seize][:cooldown_frames]) if h.kit[:seize]
+        end
+      end
+    end
+
     # Tab swap: rising edge only, world-level (the controller mask handles
     # every OTHER action; swap itself must not autorepeat while held).
     # Refused while the possessed is staggered — otherwise an instant Tab
@@ -499,9 +626,14 @@ module Game
     # death penalty never lands (law 2).
     def handle_swap(input)
       down = input.down?(:swap)
+      # v15 seized exemption (Codex pass-2 CONFIRMED defect): while the
+      # possessed is seized, Tab ALWAYS works — a crew hit staggering the
+      # seized body must not trap the echo inside it (the ratified
+      # fairness ladder). Scoped to seized-only so law 2's forced-swap
+      # stagger hole stays closed.
       can_swap = @pack.living.length > 1 &&
-                 !possessed.staggered? &&
-                 !possessed.special_committed?
+                 (possessed.seized_by ||
+                  (!possessed.staggered? && !possessed.special_committed?))
       if down && !@swap_was_down && can_swap
         from = possessed
         @pack.swap_next!
@@ -781,6 +913,11 @@ module Game
 
     def enter_zone(name, tiles)
       raise ArgumentError, "unknown zone #{name}" unless @zones.key?(name)
+      # v15: the whole pack teleports through gates (arrival_tiles), so a
+      # seized body would cross zones with dangling state — seizures end
+      # and every chant aborts BEFORE the move (spec lifecycle fold i).
+      @pack.members.each { |m| end_seizure(m, :zone_left) if m.seize_active? }
+      abort_all_chants!
       @zone_name = name
       @flow_cache = {}
       @home_fields = {}
@@ -1239,6 +1376,13 @@ module Game
         @corpse_loads.each_value do |list|
           list.each { |c| c[:term_left] = [c[:term_left], grace].max }
         end
+        # v15: chants + seizures clear AT :nest_respawn ENTRY, not at
+        # respawn — the veil bypasses tick_world, so a chant aborted only
+        # in respawn_pack would freeze mid-count under it (Codex pass-2).
+        # Seizures on dead bodies already ended why=:died this frame; the
+        # sweep is the idempotent safety net.
+        @pack.members.each { |m| end_seizure(m, :wiped) if m.seize_active? }
+        abort_all_chants!
         @respawn_timer = @balance[:respawn_frames]
         @states.transition_to(:nest_respawn)
       end
