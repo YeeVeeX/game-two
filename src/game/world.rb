@@ -24,7 +24,7 @@ module Game
       corpse_loaded corpse_looted fight_resolved
       human_retargeted human_leashed human_respawned
       inscribed banked_spent tribute_paid body_regrown body_dissolved mark_consumed vessel_kept
-      seal_breached home_rehomed
+      seal_breached home_rehomed respawn_telegraphed
     ].freeze
 
     TRANSITIONS = { world: %i[nest_respawn], nest_respawn: %i[world] }.freeze
@@ -41,6 +41,11 @@ module Game
       @threat = data["balance/threat"]
       @economy = data["balance/economy"]
       @rng = Random.new(seed)
+      # Respawn scatter draws from its OWN derived stream (v14): the
+      # telegraph moves consumption ~120f earlier, and on the shared
+      # stream that would reorder every drop roll behind it. Salt is
+      # stream derivation (determinism plumbing), not balance.
+      @respawn_rng = Random.new(seed ^ RESPAWN_STREAM_SALT)
       @bus = Core::EventBus.new.register(*EVENTS)
       @states = Core::StateStack.new(initial: :world, transitions: TRANSITIONS)
       @feel = Feel.new(@balance[:feel])
@@ -95,6 +100,20 @@ module Game
     def total_stranded = @corpse_loads.values.sum { |list| list.sum { |c| c[:amount] } }
     def marked_target = @pack.mark
     def taunt_pulses = @taunt_pulses
+
+    # Active respawn tells of the CURRENT zone, for the renderer (v14).
+    # Non-autovivifying fetch: the draw path must never insert zone keys
+    # into sim state (the corpse_loads pure-reader law). frames_left
+    # clamps at 0 — a materialize-deferred tell holds at full intensity.
+    def respawn_tells
+      lead = @threat[:telegraph_frames]
+      @human_respawns.fetch(@zone_name) { [] }
+                     .select { |r| r[:pinned_tile] }
+                     .map do |r|
+        { tile: r[:pinned_tile], kit_name: r[:kit_name],
+          frames_left: [r[:at_frame] - @frame, 0].max, total: lead }
+      end
+    end
     def station_cue = @station_cue
     def breach_line = @breach_line
 
@@ -438,6 +457,7 @@ module Game
       tick_corpse_loads
       tick_expiry_flashes
       @fight_ledger.tick
+      telegraph_due_humans
       respawn_due_humans
       prune_caches
     end
@@ -984,32 +1004,88 @@ module Game
       @bus.emit(:possession_changed, from:, to: target, forced: true)
     end
 
-    # v11 density: the landing TILE is chosen here, at RELEASE time — the
-    # respawn re-masses toward the field as it IS when due, not as it was
-    # at death. A release DEFERS while its chosen tile is occupied, while
-    # any pack body is within the block radius of it (A2 suppression,
-    # unchanged law re-pinned on the CHOSEN tile), or while it sits inside
-    # the corpse guard of a live load (a re-massed pocket must never camp
-    # the D1 run-back). Deferral retries next tick and RECOMPUTES the
-    # anchor — which re-masses better, not worse.
+    # v14 telegraph phase 1 (spec Sim 1): records inside their tell window
+    # (at_frame - telegraph_frames <= frame < at_frame) pin their landing
+    # tile through TODAY'S exact cascade + defer predicates, and the tell
+    # fires. A blocked pin stays unpinned and retries next tick (the same
+    # law release-time deferral always had, shifted 120f earlier). Sibling
+    # pins count as occupied — two tells never share a tile. A record past
+    # due and never pinned (veil resume, exhausted window, W5 unpin) is
+    # NOT touched here: it releases through the v13 path below.
+    def telegraph_due_humans
+      records = @human_respawns.fetch(@zone_name) { [] }
+      lead = @threat[:telegraph_frames]
+      pending = records.select do |r|
+        !r[:pinned_tile] && @frame >= r[:at_frame] - lead && @frame < r[:at_frame]
+      end
+      return if pending.empty?
+      occupied = actors.map(&:tile) + records.filter_map { |r| r[:pinned_tile] }
+      block = @threat[:respawn_block_tiles]
+      guard = @threat[:density][:corpse_guard_tiles]
+      pack_tiles = @pack.living.map(&:tile)
+      load_tiles = corpse_loads.map { |c| c[:tile] }
+      pending.each do |r|
+        tile, anchor = respawn_target(r, occupied)
+        next if tile.nil? || occupied.include?(tile) ||
+                pack_tiles.any? { |t| tile_distance(t, tile) <= block } ||
+                load_tiles.any? { |t| tile_distance(t, tile) <= guard }
+        r[:pinned_tile] = tile
+        r[:pinned_anchor] = anchor
+        r[:defer_frames] = 0
+        occupied << tile
+        @bus.emit(:respawn_telegraphed, tile:, kit_name: r[:kit_name],
+                  at_frame: r[:at_frame])
+      end
+    end
+
+    # v11 density law, split-phase since v14: a PINNED record materializes
+    # at its UNCHANGED at_frame on the pinned tile, re-running today's
+    # occupied/block/guard checks — blocked defers and the tell persists
+    # (standing near a tell delays it: plannable, honest). The tile never
+    # re-rolls WHILE told (a moving tell is a lie); past
+    # telegraph_defer_unpin_frames of deferral the record UNPINS (W5 —
+    # today's recompute could escape a camper, a permanent pin could not)
+    # and takes the UNPINNED path: today's release-time law verbatim —
+    # choose at release, recompute on defer, re-mass better not worse.
     def respawn_due_humans
       occupied = actors.map(&:tile)
       block = @threat[:respawn_block_tiles]
       guard = @threat[:density][:corpse_guard_tiles]
       pack_tiles = @pack.living.map(&:tile)
       load_tiles = corpse_loads.map { |c| c[:tile] }
-      ready, waiting = @human_respawns[@zone_name].partition { |r| r[:at_frame] <= @frame }
+      records = @human_respawns[@zone_name]
+      pins = records.filter_map { |r| r[:pinned_tile] }
+      ready, waiting = records.partition { |r| r[:at_frame] <= @frame }
       deferred = []
       ready.each do |r|
-        tile, anchor = respawn_target(r, occupied)
-        if tile.nil? || occupied.include?(tile) ||
-           pack_tiles.any? { |t| tile_distance(t, tile) <= block } ||
-           load_tiles.any? { |t| tile_distance(t, tile) <= guard }
-          deferred << r
+        if r[:pinned_tile]
+          tile = r[:pinned_tile]
+          if occupied.include?(tile) ||
+             pack_tiles.any? { |t| tile_distance(t, tile) <= block } ||
+             load_tiles.any? { |t| tile_distance(t, tile) <= guard }
+            r[:defer_frames] = (r[:defer_frames] || 0) + 1
+            if r[:defer_frames] > @threat[:telegraph_defer_unpin_frames]
+              r.delete(:pinned_tile)
+              r.delete(:pinned_anchor)
+            end
+            deferred << r
+          else
+            creature = add_human(@zone_name, r[:kit_name], tile)
+            occupied << tile
+            @bus.emit(:human_respawned, actor: creature, tile:,
+                      anchor: r[:pinned_anchor])
+          end
         else
-          creature = add_human(@zone_name, r[:kit_name], tile)
-          occupied << tile
-          @bus.emit(:human_respawned, actor: creature, tile:, anchor:)
+          tile, anchor = respawn_target(r, occupied + pins)
+          if tile.nil? || occupied.include?(tile) || pins.include?(tile) ||
+             pack_tiles.any? { |t| tile_distance(t, tile) <= block } ||
+             load_tiles.any? { |t| tile_distance(t, tile) <= guard }
+            deferred << r
+          else
+            creature = add_human(@zone_name, r[:kit_name], tile)
+            occupied << tile
+            @bus.emit(:human_respawned, actor: creature, tile:, anchor:)
+          end
         end
       end
       @human_respawns[@zone_name] = waiting + deferred
@@ -1062,6 +1138,10 @@ module Game
     # never reads them; only renderer/tests do. Cap guards the roster.
     CORPSE_FADE_FRAMES = 600
     CORPSE_CAP = 40
+
+    # Respawn-stream derivation salt (v14) — determinism plumbing like the
+    # corpse constants above, not a tunable.
+    RESPAWN_STREAM_SALT = 0x52455350
 
     # Returns the record it appended, or nil when that record was itself the
     # cap-eviction victim (every other record linked) — the caller must stamp
@@ -1218,9 +1298,11 @@ module Game
     end
 
     # Seeded pick among walkable, unoccupied tiles within the scatter
-    # radius. Candidates build in fixed row-major order and the pick fires
-    # in tick_world BEFORE bus-process drop rolls — moving it would shift
-    # the drop-roll stream and desync every seeded replay containing a kill.
+    # radius. Candidates build in fixed row-major order. Draws from the
+    # DEDICATED respawn stream (v14): pins consume ~120f earlier than
+    # releases did, and on the old shared stream that reordering would
+    # have moved every drop roll behind it. Drop rolls and respawn picks
+    # can no longer perturb each other.
     def scatter_pick(anchor, radius, occupied)
       ax, ay = anchor
       candidates = []
@@ -1231,7 +1313,7 @@ module Game
         end
       end
       return nil if candidates.empty?
-      candidates[@rng.rand(candidates.length)]
+      candidates[@respawn_rng.rand(candidates.length)]
     end
   end
 end
