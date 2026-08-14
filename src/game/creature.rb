@@ -338,12 +338,26 @@ module Game
         @state_frames = @action_frames[:active]
         activate_action
       when :active
+        # v13 clump-payoff: the refund anchors HERE — the one moment
+        # @hit_victims is complete and not yet cleared (interrupt paths
+        # never reach this line, so an interrupted spin refunds nothing).
+        apply_special_refund! if @current_action == :special
         @attack_state = :recovery
         @state_frames = @action_frames[:recovery]
         interrupt_action! if @state_frames.zero?
       when :recovery
         interrupt_action!
       end
+    end
+
+    # Exhaust refund per extra victim (data-driven; nil config = no-op).
+    # Density literally powers cadence — the v13 oracle's formula.
+    def apply_special_refund!
+      refund = action_config[:refund_frames_per_extra_hit]
+      return unless refund
+      extra = @hit_victims.length - 1
+      return unless extra.positive?
+      @special_exhaust = [@special_exhaust - refund * extra, 0].max
     end
 
     def activate_action

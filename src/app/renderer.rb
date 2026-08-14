@@ -408,7 +408,12 @@ module App
 
     def draw_attack(c, ts)
       return unless %i[windup active].include?(c.attack_state)
-      if c.current_action == :special && c.action_config[:arc] == "dash"
+      # Bright lunge family for the dash arc AND the striker's ring burst
+      # (v13, review-confirmed): without it the whirlwind renders in the
+      # blocker's SPECIAL colors on the same 8-tile pattern and two specials
+      # read as one (check 14, three-specials-three-visuals).
+      if c.current_action == :special &&
+         (c.action_config[:arc] == "dash" || c.kit_name == :striker)
         col = c.attack_state == :windup ? LUNGE_WINDUP : LUNGE_ACTIVE
         inset = c.attack_state == :windup ? 10 : 6
         c.action_tiles.each do |(tx, ty)|
