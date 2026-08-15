@@ -1,5 +1,61 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-15 (FOURTEENTH WON on livability + v16 SCOPED: presentation/identity — multiplayer deferred to v17 behind triggers)
+
+**FOURTEENTH blind verify (semi-blind — contamination disclosed, skeleton
+item 5):** owner session 1902617848, ~22 min / 44 fights / 5 wipes / 18
+banks (max 261 banked out of the quay). Quay entries 2→5, frames
+1137→6061 (5.3x), kills 4→52 — **ZONE VALIDATED** ("ganado"), **TAX-WALL
+CLOSED** (Q5a), fork-1 validated (Q4a "parte de la cacería"), **economy
+arc CLOSED POSITIVE** (first since D0), guard-scope 5th clean. Varekka:
+chants=2, seized=2, deaths_while_seized=2, interrupted=0, slain=1 — Q2b
+flat + seized>0 → **DESIGN PROBLEM per pre-registered routing**
+(fair + legible + affordable ≠ scary; seizure threatens a body and bodies
+are refundable). Q6c: ES names STILL false in situ (2nd consecutive) +
+owner meta-finding: the dev's own conversational ES reads forced —
+translationese authorship is the bug, not the word choices. Verdict +
+routing: `drafts/_v15p5-fun-verify-20260815.md`.
+
+**Ratified same day (owner):** working language = English. Language
+pipeline = meaning brief → grounded candidates (attested notarial
+formulas + bible found-language, constrained mutation; LLM composes
+natively, never translates) → owner picks ON CAPTURES → Junior post-edits
+PT-BR when active. Amazon Translate = docs/errors drafts + optional
+back-translation sanity only. Council (Kimi) adversarial pass folded:
+3-probe register calibration opens the lane (attested-notarial vs plain
+vs game-generic, owner picks blind); back-translation QA demoted.
+
+**v16 DEBATE CLOSED (owner ratified): the presentation/identity cycle.**
+(a) resolution scaling — render-only, capture pipeline untouched;
+(b) zone visual identity — data-driven identity block per zone;
+(c) stamp delivery; (d) Varekka dread — non-refundable stakes knob +
+dread presentation, no audio; (e) kill pop. Language lane runs after the
+delivery dose. ONE comparability reset (Nest-rename law): full wall
+re-run + critic recalibration. Oracle for the FIFTEENTH: does the Quay
+look like a place / did Varekka scare you / do the stamps land.
+**Multiplayer etapa 1 → v17 behind TWO TRIGGERS:** Junior playing at
+etapa 0 (async — timezone-proof) + v16 shipped.
+
+**Also this session (process — owner-commissioned adversarial review):**
+drafts/ + wall runner now TRACKED in git (harness/run_wall.sh: pipefail +
+PIPESTATUS, dynamic glob, 5 guard tests); CLAUDE.md → AGENTS.md
+(one-cycle scope rule; history via `git log --follow -- AGENTS.md`);
+process debt filed in PARKING_LOT. Review:
+`drafts/_adversarial-review-20260815.md`. Full gate re-verified from the
+new seat's own hands (world_loop, critic included: PASS).
+
+**NEXT (v16 execution order):** dev closes forks with recommendations
+recorded (dread-stakes shape, zone palette direction, scale default —
+owner veto at debrief, v13 precedent) → spec
+(`2026-08-15-v16-presentation-identity-design.md`) + dual review → TDD
+increments: (a) scaling FIRST → (e) kill pop → (c) stamps → (b) zone
+identity → (d) dread → language lane (3-probe + grounded candidates) →
+pilots as needed → WALL full re-run (comparability reset) → perf →
+FIFTEENTH blind ask (es) → v17 debate (multiplayer trigger check).
+**Owner queue:** nudge Junior (etapa 0 is the together-play channel NOW);
+be available for the 3-probe calibration + capture ratifications when the
+language lane opens.
+
 ## 2026-08-15 (v15.5 BUILT + WALLED: vat in slow_door, ES pass ratified line-by-line, THREE check amendments, bible de-slop — FOURTEENTH verify next)
 
 **MEASURED: suite 451/1961 green, perf p95 0.252ms, wall 16/16

@@ -10,37 +10,49 @@ permission for design decisions.
 specs in `docs/superpowers/specs/`; verdict/telemetry narratives live in
 `drafts/`, never here.
 
-v15.5 (2026-08-15, debate closed, owner ratified): **MAKE v15 LIVABLE, then
-re-ask.** v15 (Zone 3 "The Low Quay" + the Challenger Varekka + configurable
-keybinds) is BUILT + WALLED; THIRTEENTH verdict: UNDER-EXERCISED, not lost —
-root cause: **no healing at or before the quay = tax-wall**. Verdict +
-telemetry + routing verbatim: `drafts/_v15-fun-verify-20260815.md`. v15 spec:
-`docs/superpowers/specs/2026-08-14-v15-zone3-challenger-keybinds-design.md`.
+v16 (2026-08-15, debate closed, owner ratified): **THE PRESENTATION/IDENTITY
+CYCLE — give the simulation a face.** The FOURTEENTH verdict closed v15.5:
+quay EARNED, tax-wall CLOSED, economy positive (first since D0), guard-scope
+5th clean — and both failures are surface-family: Varekka fear = DESIGN
+PROBLEM (fair + legible + affordable ≠ scary; seized=2, both tanked), ES
+names false in situ (2nd consecutive; root cause = translationese
+authorship). Verdict + routing: `drafts/_v15p5-fun-verify-20260815.md`.
 
-**Status 2026-08-15 (checkpoint `2541cae`): v15.5 BUILT + WALLED.** (a) vat
-in slow_door SHIPPED (data-only, wall 16/16); (b) ES pass SHIPPED (owner
-ratified every line; two owner overrides on record; blocking language
-critique passed); (d) THREE check amendments RATIFIED (49 checks, ADD-ONLY
-held). Full trail: `docs/CHECKPOINT.md`.
+**IN scope — five pieces, one comparability reset:**
+- **(a) Resolution scaling** — render-only integer scaling; sim +
+  capture pipeline untouched (wall stays byte-comparable). The substrate.
+- **(b) Zone visual identity** — data-driven identity block per zone
+  (palette / floor motif / light). A zone reads as a place without its
+  banner.
+- **(c) Stamp delivery** — court stamps land like stamps (scale-in /
+  hold / dwell) at the new resolution. Delivery BEFORE re-wording.
+- **(d) Varekka dread** — stakes knob (something non-refundable at risk
+  while seized) + dread presentation (world dims during the chant). No
+  audio (owner order stands). Forks close on dev recommendation; owner
+  veto at the debrief (v13 precedent).
+- **(e) Kill pop** — every kill lands visibly (the parked Vlambeer item).
+- **Language lane** (owner-approved pipeline, runs AFTER the delivery
+  dose): 3-probe register calibration → grounded candidates (attested
+  notarial formulas + bible found-language, constrained mutation) →
+  owner picks ON CAPTURES; re-word only lines the owner names.
+- All palettes/numbers in `data/`; visual change = comparability reset →
+  ONE full wall re-run + critic recalibration (Nest-rename law).
 
-**LIVE NOW — (c) the FOURTEENTH blind ask:** owner plays `bin/play es`
-FIRST (no changelog); harvest `/tmp/game_two_session_<pid>.log` BEFORE
-questions; skeleton + pre-registered routing:
-`drafts/_v15p5-fun-verify-skeleton.md`. Then the v16 debate (multiplayer
-etapa 1 LEAD vs presentation cycle — dev recommendation on record in
-PARKING_LOT.md).
+**Oracle (the FIFTEENTH ask):** does the Quay look like a place; did
+Varekka scare you; do the stamps land.
 
-**Seat:** dev of record = the main session (owner-declared 2026-08-15;
-prior cycle sessions closed). Owner directive same date: prior decisions
-are re-openable by dev recommendation at debates — the scope-contract
-discipline itself is unchanged.
+**Seat:** dev of record = the main session (owner-declared 2026-08-15).
+Working language: English (owner-ratified same day); player-facing ES/PT
+only via the language pipeline — the dev never composes ES/PT alone.
 
 **OUT of scope — goes to PARKING_LOT.md, never to code:**
-**Multiplayer spike etapa 1** (v16 LEAD — starts AFTER the fourteenth);
-zone-identity presentation dose (the fourteenth decides); the chest
-fork (P4 unexercised); dossier legs A/C/E; everything long-parked.
-**Nothing new starts until v15 is fun-verified livable (the FOURTEENTH
-ask).**
+**Multiplayer etapa 1 → v17, behind TWO TRIGGERS (owner-ratified
+2026-08-15):** (1) Junior demonstrably playing at etapa 0 (async replay
+exchange — timezone-proof, `docs/JUNIOR.md`), (2) this cycle shipped.
+Also out: new zones/enemies/systems beyond the dread-stakes knob; audio
+(owner order); in-game rebind UI; the chest fork (Q4a validated it
+closed); everything long-parked. **Nothing new starts until v16 is
+fun-verified (the FIFTEENTH ask).**
 
 ## Human-facing surfaces
 
@@ -55,6 +67,15 @@ ask).**
 Ship-gate: language critique (accuracy vs presentation, separate axes) is
 blocking at ship per global Rules 2/6; checklist in the `human-facing-output`
 skill.
+
+**Authorship (owner-ratified 2026-08-15): the dev NEVER composes ES/PT
+alone.** Diegetic lines: meaning brief (intent/speaker/canon, rejected
+lines as negative examples) → grounded candidates (attested notarial
+formulas + bible found-language; constrained mutation — LLM composes
+natively, never translates) → owner picks/edits ON CAPTURES at real
+resolution. PT-BR: Junior post-edits from brief + ratified ES. Amazon
+Translate: docs/error-text drafts + optional back-translation sanity
+check only — never authors the fiction's voice.
 
 ## De-slop + comprobations (owner-set 2026-08-09)
 

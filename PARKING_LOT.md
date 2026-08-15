@@ -383,9 +383,15 @@ verdict: `drafts/_q6-retune-fun-verify-20260812.md`):
   ladder mandatory. First human who fights back.
 - ~~**Zone 3 beyond the stair**~~ → **PROMOTED TO v15** (v15 = zone 3 + Challenger
   + configurable keybinds). Four consecutive arc wins, owner paid seal2 twice.
-- **Multiplayer spike etapa 1 — v16 LEAD.** Junior hasn't cloned yet; zone 3
-  gives a richer first experience. Full staged path in the directives section
-  below + memory `multiplayer-shared-play-path`.
+- **Multiplayer spike etapa 1 — ~~v16 LEAD~~ deferred to v17 at the v16 debate
+  (owner-ratified 2026-08-15), behind TWO TRIGGERS:** (1) Junior demonstrably
+  playing at etapa 0 (async replay exchange through the repo — timezone-proof,
+  docs/JUNIOR.md), (2) the v16 presentation cycle shipped (first impression =
+  a game with a face). Owner's own argument sealed it: very different time
+  zones make real-time lockstep the worst-fit payoff; async challenge races
+  (same seed, compare telemetry, swap replays) are the together-play channel
+  NOW. Full staged path in the directives section below + memory
+  `multiplayer-shared-play-path`.
 - **Guard-scope live-wanderer steering — CLOSED VALIDATED** (third consecutive
   clean read: eleventh + twelfth both "Nada injusto").
 - **Maintenance PRICING dose — CLOSED (L0 wins).** Twelfth Q5 "ritmo ok" with
@@ -456,7 +462,9 @@ only on the named triggers:
 - **In-game rebind UI** — the binding map is a FILE by design (hobbyist + Junior
   git-pull workflow); a rebind screen is its own increment with its own wall.
 - **Deeper chambers below the Low Quay** — future arc rungs; one chamber is v15's.
-- **Whirlwind kill pop (death juice)** — a one-shot kill deletes the victim between
+- ~~**Whirlwind kill pop (death juice)**~~ **PROMOTED TO v16 (2026-08-15,
+  item e — the fourteenth's debate).** Original finding kept for the record:
+  a one-shot kill deletes the victim between
   frames with zero death effect on the tile (found via the aoe_specials dense diag,
   2026-08-15: victim alive+underlined at 1280, gone at 1281). Vlambeer touchstone:
   kills should POP. Check 42 was amended to accept kill-evidence; the underlying
@@ -481,6 +489,6 @@ Infra items, not game features; each needs a maintenance window, not a cycle.
   (GL-dependent tests skip loudly). Catches machine-local rot; the wall stays local.
 - **README.md** — ten lines + one capture, for humans landing on the repo (Junior
   clones for the multiplayer era).
-- **v16 recommendation ON RECORD (owner decides at the fourteenth)** — a
-  presentation/identity cycle (resolution scaling P5, zone identity P1, fiction/name
-  pass P6) BEFORE the multiplayer spike; also the cheapest de-risk of multiplayer.
+- ~~**v16 recommendation ON RECORD (owner decides at the fourteenth)**~~
+  **FIRED at the v16 debate (2026-08-15): owner ratified the
+  presentation/identity cycle; multiplayer → v17 behind triggers.**
