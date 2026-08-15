@@ -2,6 +2,7 @@
  "locale": "en",
  "view_width": 960,
  "view_height": 540,
+ "window_scale": "auto",
  "camera_lerp": 0.1,
  "zone_banner_frames": 150,
  "ledger_pop_frames": 10,

@@ -23,7 +23,8 @@ IN:
   Window opens at 960k×540k; ONE `Gosu.scale(k)` wraps the draw. Sim,
   logical coordinates, and the capture pipeline are untouched — harness
   pins scale=1 (same law as pinned locale). Auto = largest integer fit
-  within the desktop work area, min 1.
+  within the SCREEN dimensions (full res — work-area fit would refuse 2x
+  on 1080p taskbar setups; live deviation from the draft, recorded), min 1.
 - **(b) Zone visual identity** — palette redesign per zone (data-only on
   the existing `palette` slot) + two NEW data-driven renderer channels:
   `motif` (sparse deterministic floor pattern, per-zone glyph) and

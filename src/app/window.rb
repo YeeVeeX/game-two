@@ -6,6 +6,7 @@ require "core/binding_map"
 require "game/world"
 require "game/telemetry"
 require "app/renderer"
+require "app/scale"
 require "app/key_table"
 
 module App
@@ -23,13 +24,25 @@ module App
   # deterministic by tick count). Under load the game slows rather than
   # skipping — the overrun counter below makes that visible so a sluggish
   # playtest is diagnosed as perf, not misread as balance.
+  #
+  # v16 (a): the window opens at view*scale and ONE Gosu.scale wraps the
+  # draw — everything below draws in LOGICAL 960×540 space, unchanged. The
+  # harness never uses this class (replay windows open at script dims), so
+  # captures are scale-blind by construction.
   class Window < Gosu::Window
     FRAME_BUDGET_MS = 17
+
+    attr_reader :scale, :view_width, :view_height
 
     def initialize
       data = Core::DataStore.new(File.expand_path("../../data", __dir__))
       display = data["display"]
-      super display[:view_width], display[:view_height]
+      @view_width = display[:view_width]
+      @view_height = display[:view_height]
+      @scale = App::Scale.factor(display[:window_scale],
+                                 view_w: @view_width, view_h: @view_height,
+                                 screen_w: Gosu.screen_width, screen_h: Gosu.screen_height)
+      super @view_width * @scale, @view_height * @scale
       self.caption = "game-two"
       @world = Game::World.new(data)
       @telemetry = Game::Telemetry.new(@world.bus, world: @world)
@@ -48,10 +61,12 @@ module App
     end
 
     def draw
-      @renderer.draw(@world)
-      if @overruns.positive?
-        @overrun_font.draw_text("overruns: #{@overruns}", width - 110, 8, 20, 1, 1,
-                                Gosu::Color.new(200, 255, 120, 120))
+      Gosu.scale(@scale) do
+        @renderer.draw(@world)
+        if @overruns.positive?
+          @overrun_font.draw_text("overruns: #{@overruns}", @view_width - 110, 8, 20, 1, 1,
+                                  Gosu::Color.new(200, 255, 120, 120))
+        end
       end
     end
 
