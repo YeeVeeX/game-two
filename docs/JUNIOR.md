@@ -12,10 +12,12 @@
      falha ao compilar a gosu.
 2. **Clone e instale:**
    ```
-   git clone https://github.com/YeeVeeX/game-two.git
+   git clone -b junior-tibia https://github.com/YeeVeeX/game-two.git
    cd game-two
    bundle install
    ```
+   (O `-b junior-tibia` importa: essa é a nossa linha compartilhada — a
+   `main` é só o backup do Gabriel e fica atrás.)
 3. **Jogue:**
    ```
    bin\play.cmd pt-br      (cmd / duplo clique)
@@ -94,8 +96,9 @@ conta AWS — você só instala o app do Tailscale e aceita um convite).
    compiles from source on this version): RubyInstaller 3.4.x + DevKit
    from https://rubyinstaller.org/downloads/, keep **"Run 'ridk install'"**
    checked and accept the default (MSYS2 + toolchain).
-2. **Clone + install:** `git clone https://github.com/YeeVeeX/game-two.git`,
-   `cd game-two`, `bundle install`.
+2. **Clone + install:** `git clone -b junior-tibia https://github.com/YeeVeeX/game-two.git`,
+   `cd game-two`, `bundle install`. (The `-b junior-tibia` matters — that is
+   our shared line; `main` is Gabriel's backup and runs behind.)
 3. **Play:** `bin\play.cmd pt-br` (cmd) or `bin/play pt-br` (Git Bash).
    No argument = English; `es` = Spanish, `pt-br` = Portuguese.
 
