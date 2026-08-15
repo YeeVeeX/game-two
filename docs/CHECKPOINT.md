@@ -1,5 +1,41 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-14 (v15 PILOT MID-ACT: two harness commits + pilot-found ship-stopper fixed; quay6 session LIVE = the future low_quay_run; wall next)
+
+**MEASURED: junior-tibia HEAD `1037576`, 290 commits, ahead 7 of origin,
+suite 448/1930 green, 14 scripts (+low_quay_run pending from the LIVE
+quay6 pilot), 49 checks.**
+
+**The economy lesson, honestly:** the original plan (pilot farms 190
+for both seals) was INVIABLE — no v14 script ever farmed a coin (that
+is exactly coverage gap #41), and ~2h of pilot grind produced banked 21
+across 9 wipes. Fix was structural, not heroic: **`51fa9c0` adds the
+`start` script param** ({"banked": N} on the script JSON, same class as
+scenario/seed; Harness.apply_start via the audited pack.bank! path;
+pilot START env; export carries it; TDD x5). Wall scripts are focused
+regression scenes — the gate exercises seals/Varekka, not the grind.
+
+**Pilot value proven:** `1037576` fixes a SHIP-STOPPER the pilot found
+live — Creature#chant_left reader missing, so the renderer CRASHED the
+first time Varekka's chant entered the camera. The thirteenth verify
+would have died at its climax. TDD'd + suite green.
+
+**quay6 session state (LIVE window — do not quit/reset):** seed 7,
+START 600; both seals breached IN the history (40 @1093, 150 @5913);
+challenger_engaged + chant_started + vessel_seized + seizure_ended
+(:died) all in the log; Varekka alive at 140hp (damage accumulates —
+attrition wins); 10 good captures incl. one_stands/flesh_called/
+seized_underline. Remaining: interrupt beat + ring capture, kill →
+THE TERM IS PAID + fat drop, 2 banks (camp + nest), export, manifest
+from MEASURED log counts. Full state + play doctrine (marks insurance,
+lobber-for-crossings, single-batch rule, deterministic inbox replay):
+`drafts/_v15-pilot-progress.md` — READ FIRST.
+
+**Then:** wall 15 (tmp/run_wall.sh) + rake manifest each + perf + suite
+→ CHECKPOINT + push junior-tibia → THIRTEENTH blind verify (Spanish;
+telemetry harvest FIRST; spec questions incl. TELL VALIDATED branch +
+the TERM IS PAID disclosure) → v16 debate (multiplayer etapa 1 LEAD).
+
 ## 2026-08-14 (v15 BUILT: ratify+bible+forks+spec+dual review+TDD 6/6 — pilot quay1 IN FLIGHT, wall next)
 
 **MEASURED: branch junior-tibia HEAD `b431b34`, 287 commits, ahead 5 of
