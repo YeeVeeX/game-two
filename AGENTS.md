@@ -17,23 +17,23 @@ root cause: **no healing at or before the quay = tax-wall**. Verdict +
 telemetry + routing verbatim: `drafts/_v15-fun-verify-20260815.md`. v15 spec:
 `docs/superpowers/specs/2026-08-14-v15-zone3-challenger-keybinds-design.md`.
 
-**IN scope — v15.5 is a short cycle, three items + one amendment:**
-- **(a) VAT in slow_door** (healing before the quay — the owner's
-  literal ask; the quay itself stays STATIONLESS per fork 1).
-  Data-only: `zones/slow_door.json` stations. Wall scripts re-run.
-- **(b) Full ES human-facing-output pass** over names/stamps/banners
-  with the bible (register: diegetic, terse, the fiction's voice —
-  never translationese). Owner ratifies each replacement. Blocking at
-  ship per Rules 2/6.
-- **(c) FOURTEENTH blind ask** — both v15 oracle halves unchanged
-  (Low Quay EARNED + Varekka SCARED), plus strip/stationless re-asks.
-- **(d) moving_square check amendment** (formal wording; owner
-  ratifies): synthetic render smoke exempt from world-conditioned
-  checks OR determinism-only wall slot.
-- P5 strip legibility: recorded, deferred by the owner to the
-  resolution-scaling item (no dose now).
-- All numbers in `data/`; zero balance constants in Ruby; checks
-  ADD-ONLY from 49.
+**Status 2026-08-15 (checkpoint `2541cae`): v15.5 BUILT + WALLED.** (a) vat
+in slow_door SHIPPED (data-only, wall 16/16); (b) ES pass SHIPPED (owner
+ratified every line; two owner overrides on record; blocking language
+critique passed); (d) THREE check amendments RATIFIED (49 checks, ADD-ONLY
+held). Full trail: `docs/CHECKPOINT.md`.
+
+**LIVE NOW — (c) the FOURTEENTH blind ask:** owner plays `bin/play es`
+FIRST (no changelog); harvest `/tmp/game_two_session_<pid>.log` BEFORE
+questions; skeleton + pre-registered routing:
+`drafts/_v15p5-fun-verify-skeleton.md`. Then the v16 debate (multiplayer
+etapa 1 LEAD vs presentation cycle — dev recommendation on record in
+PARKING_LOT.md).
+
+**Seat:** dev of record = the main session (owner-declared 2026-08-15;
+prior cycle sessions closed). Owner directive same date: prior decisions
+are re-openable by dev recommendation at debates — the scope-contract
+discipline itself is unchanged.
 
 **OUT of scope — goes to PARKING_LOT.md, never to code:**
 **Multiplayer spike etapa 1** (v16 LEAD — starts AFTER the fourteenth);

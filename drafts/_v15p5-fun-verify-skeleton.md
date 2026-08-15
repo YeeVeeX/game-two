@@ -53,6 +53,12 @@ not re-ask.
    gate_checks.json (ratificada 2026-08-15); las 49 checks intactas.
 4. **Muro**: determinism 16/16; retries standalone del crítico
    documentados en tmp/wall/*_v15p5_retry.log.
+5. **Integridad del blind (honesto):** en la sesión de revisión
+   adversarial (2026-08-15) el owner vio el tile de la tina [3,5] y los
+   targets de telemetría (frames >> 1137, chants > 0) — el fourteenth
+   es SEMI-ciego. Debilita la rama de descubrimiento de Q5 y modula la
+   lectura de Q1; las preguntas de sensación siguen válidas. Registrar
+   esta contaminación en el verdict, eje por eje donde aplique.
 
 ## Routing (mecánico — NO improvisar)
 
