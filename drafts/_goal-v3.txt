@@ -1,0 +1,21 @@
+PROJECT: game-two - Ruby+Gosu grid ARPG. Repo: C:/Users/gabri/workspace/game-two. Claude = dev of record (design calls mine to make/defend); owner = tester.
+
+VERIFIED FUN (owner, 2026-08-09): grid v2 "so much better now feels very good" - tile stepping + hub-and-spoke + feel layer all validated. 6 commits, 31 tests green.
+
+DIRECTION LOCKED (owner): MONSTER FLIP - play a pack of 3 creatures (blocker/puller/ranged) hunting HUMANS in a collapsing modern city. Possess one (Tab), others run JSON gambit rules. World: break districts, re-home the nest. Combat-core-first sequencing.
+
+DE-SLOP RULE (owner, critical): "The Pack"/"Advancing Nest" framing REJECTED as AI-slop. Names come from INSIDE fiction. Slop test: name could ship in another game -> spec-speak only. Proposed grounding = owner's Kethral mythos (Sondrekh wound, Kurmasi conlang, Kelvor/Grashk/Ashvorgravi ecology): same world, other side of the wound. OWNER CALL PENDING - ask before writing spec.
+
+DUAL REVIEW VERDICT (Codex@high + Fable@max, both REJECT-as-one-increment): READ drafts/_design-review-reconciliation.md FIRST - contains binding design law: (1) A0 = possession core ONLY (actor/controller refactor, 3 hardcoded kits, Tab swap, husk-grade ally AI, Rushers only, one district - NO gambit engine yet); (2) possessed death = forced-swap to survivor, wipe = nest; (3) determinism spec before AI code (frame-quantized ticks, seeded PRNG, swap lane in harness schema); (4) exhaust+buffers creature-owned, swap-inert, edge-triggered post-swap (blocks swap-cycling exploit); (5) per-attacker hit cooldowns REPLACE blanket 30f invuln; hitstop scoped to possessed body. Exhaust = 45f data-driven HYPOTHESIS (research says 2s melee/1s ranged - 0.75s is a guess to tune).
+
+EVIDENCE CORPUS (drafts/, do NOT regenerate): _tibia-research.md (11 verified findings) - _tibia-videos/*_analysis.md (3 briefs; tools: harness/video_analyst.py, vision_critic.py) - _vision-critique-20260809-090905.md (fixes: facing notch, hurt-flash never white, telegraph!=gate color, wall brightness 2-3x, corpses persist, ease-out tween, attack lunge) - _kethral-feature-map.md - _design-review-reconciliation.md.
+
+STANDING COMPROBATIONS (fold into CLAUDE.md with spec): reference wall (idea serves no touchstone -> parking lot; touchstones = Tibia research/footage, Kethral bible, Vlambeer juice) - "every commit changes what player sees/hears/feels" - judge builds not briefs.
+
+NEXT SEQUENCE: (1) Ask owner: fiction grounding = Kethral mythos or new bible? (2) One-page A0 spec in chosen fiction + CLAUDE.md scope rewrite (docs/superpowers/specs/, brainstorming skill step 6; then writing-plans). (3) Implement A0 end-to-end, Rule 2 gate incl. critique fixes, ship bin/play.cmd build. (4) A1+ (gambits+hot-reload, Shooters, pull economy w/ aggro cap, nest advance) each behind own fun-verify.
+
+STANDING RULES: Rule 2 blocking (rake capture + md5 determinism + Read PNGs). Read-before-edit. One-bundled-change-set. No mocks in integration tests. Measure counts never recall. Orchestrator <=300 lines. Data-driven JSON. PATH: export PATH="/c/Ruby34-x64/bin:$PATH" per shell. BUDGET: zero paid outside AWS; inside AWS unlimited.
+
+OWNER QUEUE: (1) fiction call (Kethral mythos vs new); (2) read docs/design-increment-a.html knowing the review cut it to A0; (3) playtest A0 when shipped.
+
+DONE WHEN: owner possesses all 3 creatures in a real hunt vs humans and calls it fun; tests green; every visual passed capture critique.

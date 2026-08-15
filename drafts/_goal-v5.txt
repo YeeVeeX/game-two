@@ -1,0 +1,19 @@
+PROJECT: game-two - Ruby+Gosu grid ARPG (monster flip). Repo: C:/Users/gabri/workspace/game-two. Claude = dev of record; owner = tester. Branch: main at 44c1cef (M2 merged); work happens on a0-m2.1-feel-repair.
+
+ACTIVE WORK: M2.1 FEEL-REPAIR. Owner verdict on M2 (verbatim): "game feels slugish now, dash/doge is not very useful and instead the character gets stuck and the teammates now feel dumb and weak, the enemies are too hard if the player doesn't have spells or more stronger combos to chain." M1 was "feels really good" -> M2 introduced a regression. NO spells, NO new systems (Kethral trap). Pincer AI was owner-ordered and STAYS.
+
+READ FIRST: drafts/_m2.1-feel-repair-plan.md = full code-traced diagnosis + work order + per-fix tests + invariants. Six calls: (1) dodge no-ops when first tile occupied (pincer fills exactly those tiles) -> dodge dashes THROUGH bodies to first free tile in range, walls still stop; (2) hitstop fires per RECEIVED hit, 5 rushers freeze 15-25% of wall time = "sluggish" (perf measured innocent p95 0.039ms) -> hitstop only on possessed's DEALT hits/kills, received keeps flash+shake; (3) rearm! masks held MOVEMENT after every Tab -> unmask movement, keep attack/dodge edge-triggered; (4) rushers outrun 2/3 kits + out-aggro all -> rusher step 14->16, aggro 12->10; (5) allies weak/passive -> pack aggro to 10, blocker dmg 20->25, lobber adjacent-inert fix promoted from A1 (step-away micro-rule in AiController, ~6 lines); (6) "spells/combos" = swap IS the combo system, currently masked by 1-5; more depth = A1/A0.5 owner call after repair plays well.
+
+SEQUENCE: branch a0-m2.1-feel-repair -> fixes 1-5 in plan order, test per fix, commit per task -> rake + rake perf + BOTH gates (re-aim district_hunt captures from event log - rusher speed shifts all timings; NEVER weaken checks) -> adversarial review over diff (NEVER merge unreviewed; M1: 4 findings 2 real, M2: 3 findings 2 fixed 1 owned) -> fold -> merge --no-ff -> owner re-check: kit identities / Lobber possession / pincer pressure / District One + "does dodge feel like an escape now?"
+
+INVARIANTS THAT MUST NOT REGRESS: byte-identical double replay (dash-through must stay deterministic); forced-swap stagger + Tab-refused-while-staggered green; hitstop scoped to possessed's fights; surround test (>=2 distinct sides) green.
+
+SHIPPED SO FAR: grid v2 -> M1 possession core (fun-verified) -> M2 kits+district+surround (merged 6e1d432, review folded e76bb44: respawn defers on occupied tile, no-respawn kits leave roster, knockback-through-gate OWNED as design).
+
+FICTION: docs/lore/world-bible.md ON DISK, UNGATED (no critic panel), deliberately untracked; integration = owner call (PARKING_LOT). Spec-speak placeholders ship ("The Nest","District One","THE HUNT ENDS"). De-slop: names from INSIDE fiction only.
+
+KEY DOCS: docs/CHECKPOINT.md (top section = M2.1) - drafts/_m2.1-feel-repair-plan.md (work order) - docs/superpowers/specs/2026-08-09-a0-possession-core-design.md - docs/design-corpus/ - PARKING_LOT.md (A1-A3 queue + lobber gambit note).
+
+STANDING RULES: rake gate = BLOCKING (double replay + md5 + 13-check vision verdict; SKIP_CRITIC=1 = iteration only). rake perf = blocking p95<16.6ms. Read-before-edit. One-bundled-change-set. No mocks. Measure never recall. Orchestrator<=300 (window.rb ~64). Data-driven JSON. Events registered. PATH: export PATH="/c/Ruby34-x64/bin:$PATH" per shell. Budget: zero paid outside AWS. Commit per task; never push (no remote).
+
+DONE WHEN: M2.1 merged post-review; owner replays and the sluggish/stuck/weak-teammates complaints are cleared (or produce the next concrete directive); tests+gates+perf green.

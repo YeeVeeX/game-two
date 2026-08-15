@@ -1,0 +1,17 @@
+PROJECT: game-two - Ruby+Gosu rebuild of Kethral (2D action RPG). Repo: C:/Users/gabri/workspace/game-two. Old Python repo is read-only reference: C:/Users/gabri/Documents.stale-20260413/coding_projects_main/Game On(e).
+
+ROLES: Claude is the dev of record - all design calls (mechanics, visuals, systems, architecture) are Claude's to make and defend. Owner is the tester: plays builds, reacts, reports. Do not ask permission for design decisions; log reasoning and ship testable builds.
+
+DELIVERABLE: a fun-verified vertical slice - move, fight, die, respawn loop with distinct feel - built depth-first in Ruby/Gosu with a blocking visual verification harness.
+
+LOCKED DECISIONS (do not relitigate): (1) Gosu on CRuby 3.4+YJIT; DragonRuby and Ruby2D rejected. (2) Audio is placeholder only - the Kethral MIDI/procedural-SFX experiment is dropped by owner order. (3) Better-this-time doctrine from the Kethral post-mortem: scope contract lives in project CLAUDE.md, new ideas go to PARKING_LOT.md never to code, orchestrator capped ~300 lines, systems communicate via event bus, nothing new starts until the current loop is fun-verified.
+
+STATUS: repo initialized (main, 1 commit: checkpoint). No code yet. READ FIRST: docs/CHECKPOINT.md then drafts/_session-handoff-20260809.md (full rationale, Kethral post-mortem, Gosu API caveats).
+
+NEXT SEQUENCE: (1) verify ruby -v 3.1+, gem install gosu, smoke-test an empty window opens. (2) scaffold: project CLAUDE.md scope contract, Gemfile, Rakefile, src/ skeleton (event bus, state machine, JSON data loader - port the pattern from kethral/core, not the code), minitest, PARKING_LOT.md, .gitignore. (3) Phase 0 BLOCKING: deterministic input replay + frame capture + vision critique, proven on a moving square before any game code; verify Gosu.render/Image#save against current docs (context7) first. (4) distill .kiro/specs/marrow + kethral phase docs into a 1-page slice spec - improve, don't transcribe. (5) first playable loop: move, fight one enemy, die, respawn - ship to owner.
+
+STANDING RULES: Rule 2 vision critique is a blocking ship-gate for every visual change. Read-before-edit. One-bundled-change-set after greenlight. No mocks in integration tests. Measure counts, never recall them. BUDGET: zero paid purchases/subscriptions outside AWS (free/OSS tools only - this also seals the Gosu-over-DragonRuby call); anything inside AWS is unlimited (Bedrock image gen, vision critique, etc.).
+
+OWNER QUEUE: launch sessions in ~/workspace/game-two (prior session cwd was stuck in the old repo).
+
+DONE WHEN: owner playtests the slice loop and calls it fun; all tests green; every shipped visual passed frame-capture critique.

@@ -1,7 +1,7 @@
 # Parking lot — ideas go here, never to code
 
 Rule: nothing below starts until the current loop is fun-verified by the owner.
-Append freely; promoting an item requires updating the scope contract in CLAUDE.md first.
+Append freely; promoting an item requires updating the scope contract in AGENTS.md first.
 
 ## Parked from Kethral (proven-built once, deliberately not rebuilt yet)
 
@@ -461,3 +461,26 @@ only on the named triggers:
   2026-08-15: victim alive+underlined at 1280, gone at 1281). Vlambeer touchstone:
   kills should POP. Check 42 was amended to accept kill-evidence; the underlying
   feel gap is content for a juice cycle, not a check problem.
+
+## Process debt (adversarial review 2026-08-15 — drafts/_adversarial-review-20260815.md)
+
+Infra items, not game features; each needs a maintenance window, not a cycle.
+
+- **en.json key backfill** — ~100 renderer `t()` fallback literals are the de-facto en
+  locale; move them byte-identical into `data/strings/en.json` during the v15.5(b) ES
+  pass (same surface, one review). Literals stay as emergency fallback only.
+- **Telemetry retirement rule** — when a cycle's verdict closes a lane, its counters
+  leave `Telemetry` (or move under a retired section). 429 lines and growing without it.
+- **world.rb growth cap** — line-cap test beside the orchestrator cap (world.rb is 1,522;
+  cap ~1,800) + extract-on-touch: the next cycle that materially edits a subsystem
+  (drops/corpses are the cleanest seam) moves it to a plain object with explicit call
+  order. NO bus-mediation inside the sim (determinism + debuggability).
+- **Check-set amendment policy** — codify what v15.5(d) does ad hoc: ADD-ONLY stays the
+  default; exemptions/retirements need an owner-ratified entry in a checks changelog.
+- **Headless CI** — GitHub Actions running the pure-sim majority of the suite
+  (GL-dependent tests skip loudly). Catches machine-local rot; the wall stays local.
+- **README.md** — ten lines + one capture, for humans landing on the repo (Junior
+  clones for the multiplayer era).
+- **v16 recommendation ON RECORD (owner decides at the fourteenth)** — a
+  presentation/identity cycle (resolution scaling P5, zone identity P1, fiction/name
+  pass P6) BEFORE the multiplayer spike; also the cheapest de-risk of multiplayer.

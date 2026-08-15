@@ -1,0 +1,44 @@
+CONTEXT RESTORE (2026-08-09 late: death-economy design SHIPPED - no
+agent-actionable mission open; this is a state map. MET when the owner gives
+the next task. Do not spin on it.)
+
+NEW THIS CYCLE
+1. Death-economy design doc: game-two docs/design-corpus/death-economy-design.md
+   (commit c293420, on main). Corpse-run + wipe tax + insurance for the A0
+   POSSESSION game. Keystone: the SOUL MODEL - possessing entity is the only
+   soul, creatures are vat-grown soulless vessels, dead vessels re-grow at the
+   nest for a body fee (second sink; prices die-on-purpose lines; canon-clean
+   per bible 5.3). Two-tier death: body-death tactical (load to corpse + fee),
+   wipe economic (practice fine + fees + 3-corpse run). Patronage line, NOT a
+   zero-fine floor (canon: the Toll is never waived; someone else pays).
+   Staged: D0 loot loop (interact verb + carry HUD + bank; cadence gate) ->
+   D1 corpse run (THE fun-verify; no fine yet) -> D2 fine+insurance (blocked
+   on skill-through-use; maybe forever-away, D1 stands alone) -> D3 extras.
+   D0-D3 is a candidate track PARALLEL to A1-A3; ordering = owner call.
+   Gated by 3-critic adversarial panel (contract/economy/scope): 6 blocking +
+   19 advisory findings, ALL adjudicated - reports drafts/_dcrit-{a,b,c}.md,
+   adjudication drafts/_dcrit-adjudication.md. Docs-only fuel; src/ untouched.
+2. M2.1 feel-repair MERGED TO MAIN by the parallel session (0c2f9ba, checkpoint
+   efc0b00 says owner replay next). World bible b027453 now reachable from main.
+3. Open follow-up: PARKING_LOT.md needs a one-line pointer to the death-economy
+   doc (deferred - parallel session owned the file; add when repo is quiet).
+
+PRIOR STATE (committed, verified; see drafts/_goal-post-research-cycle.txt)
+- Bible b027453 (5-input panel); Egypt 5b3c206 + terrain/progression 0453985
+  corpora (never-cite: terrain 10/13/17, progression 28/1/23); vault c4dd7c4;
+  hub KB 219 files/5,224 chunks; research map drafts/_mechanics-research-map.md.
+
+STANDING RULES (unchanged)
+- Docs-only fuel until owner fun-verifies + promotes via scope contract.
+- game-two: single-file staged commits; never git add -A. Locate-by-quote.
+- Workflow tool DEAD this session; direct Agent fan-out banking to disk works.
+- De-slop rule: names come from INSIDE the bible; order forms carry the asks.
+
+OWNER QUEUE (human-gated; do not attempt)
+- Replay/fun-verify M2.1 on main - gates ALL promotion.
+- Then pick a track: D0 loot loop (design ready, scope update must name
+  interact verb + loot + carry HUD) OR A1 gambits OR fiction-binding session
+  (A0 order form + death-economy order form items 1-9, incl. the
+  ten-days-vs-ten-minutes term delta) OR audio/visual identity pass.
+
+DONE WHEN: owner reads the report and gives the next direction.

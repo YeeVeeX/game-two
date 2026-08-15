@@ -1,0 +1,46 @@
+CONTEXT RESTORE (2026-08-09 research cycle COMPLETE - no agent-actionable mission
+open; this goal is a state map, not a driving goal. MET when the owner gives the
+next task. Do not spin on it.)
+
+WHAT SHIPPED (all committed, all verified)
+1. World bible v1 "First Canon Edition" - game-two commit b027453 on branch
+   a0-m2.1-feel-repair. 17,894 words / 14 sections. Gated by a 5-input panel
+   (originality, craft, consistency x2, Codex cross-vendor): 12 blocking + 17
+   advisory fixes applied; banned-name greps independently verified zero
+   (Tibia/Egyptian/Kethral); all 6 genesis beats divergent from Tibia.
+   Pre-revision snapshot: drafts/_world-bible-pre-revision.md. Panel reports:
+   drafts/_critic-*.md + _codex-review-adjudicated.md + _revision-brief.md.
+2. Egypt corpus (51 files): knowledge commit 5b3c206. Never-cite 12/32/38/44/50.
+   4 vault notes (egyptian-*, akhenaten-*, new-kingdom-*).
+3. Terrain (26) + progression (32) corpora: knowledge commit 0453985, swept
+   BEFORE mining. Never-cite: terrain 10/13/17 (17 = NotebookLM self-synthesis
+   posing as a TDD), progression 28/1/23 (28 = fabricated SEO-spam). 4 more
+   vault notes (autotiling-WFC, UO-Tibia map formats, XP curves, death
+   penalties). Sweep tables: knowledge/.scratch/{terrain,progression}-sweep.md.
+4. Vault commit c4dd7c4 (8 notes + Tibia genealogy fix). Hub KB reindexed:
+   219 files / 5,224 chunks; 3/3 smoke queries rank new notes #1. Raw FTS
+   5,095 docs / 55,397 chunks; kb.py doctor + freshness audit clean.
+5. game-two research map: drafts/_mechanics-research-map.md (which note feeds
+   which parked item; blessing economy <-> passage-scroll fiction is 1:1).
+
+STANDING RULES (unchanged)
+- Everything above is docs-only fuel. Nothing touches src/ or data/ until the
+  owner fun-verifies and promotes via scope contract (PARKING_LOT rule).
+- The parallel M2.1 feel-repair session owns src/ + PARKING_LOT.md right now -
+  single-file staged commits only in game-two; never git add -A.
+- Workflow tool was DEAD this session (stream stalls); direct Agent fan-out with
+  banked-to-disk outputs is the working pattern. Long compositions write
+  incrementally.
+- NotebookLM exports: code blocks + HTML tables DROP, inline/LaTeX survives;
+  Reddit captures carry injected AI-answer chrome - never chunk it.
+
+OWNER QUEUE (human-gated; do not attempt)
+- Playtest fun-verify of the M2.1 feel-repair, then of the grid slice - gates
+  ANY lore/mechanics promotion to code.
+- Optional recaptures: Tutankhamun's Armies (real book); TibiaWiki constant
+  tables (Skill A / Vocation b) if exact constants ever needed.
+- Candidate next asks: corpse-run slice design doc (bible S13 + death-penalties
+  note are the kit); bible S4.1 portrait-prose recast (deferred craft advisory);
+  fiction-bound audio/visual identity pass (unblocked by the bible).
+
+DONE WHEN: owner reads the final report and gives the next direction.

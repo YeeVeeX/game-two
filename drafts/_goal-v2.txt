@@ -1,0 +1,17 @@
+PROJECT: game-two - Ruby+Gosu rebuild of Kethral. Repo: C:/Users/gabri/workspace/game-two. Old repo (read-only): C:/Users/gabri/Documents.stale-20260413/coding_projects_main/Game On(e).
+
+ROLES: Claude is dev of record (all design calls); owner is tester. Ship testable builds, log reasoning, don't ask permission on design.
+
+PLAYTEST VERDICT (2026-08-09, slice v1): owner says "simple, fun" BUT (a) wants GRID-BASED movement like Tibia, not free 8-way float; (b) "kethral arena is not what I intend" - the one-room duel is not the game; intent is the fuller shape/features of the first and second Kethral pygame versions. Feel layer (hitstop/shake/telegraph/dodge) validated - keep it.
+
+LOCKED: (1) Gosu on CRuby 3.4 (no YJIT - RubyInstaller lacks it, accepted). (2) Audio placeholder only, no MIDI. (3) Better-this-time doctrine: scope contract in project CLAUDE.md, ideas to PARKING_LOT.md never code, orchestrator <=300 lines (now 42), event bus, nothing new until current loop fun-verified. (4) Ruby at C:/Ruby34-x64 - export PATH="/c/Ruby34-x64/bin:$PATH" per shell.
+
+STATUS: 4 commits, 26 tests green, Rule 2 harness proven (replay + capture byte-identical + vision critique). Slice v1 loop works: move/attack/dodge/die/respawn vs one husk. READ FIRST: docs/CHECKPOINT.md (top section), then drafts/_marrow-fact-sheet.md (mined spec numbers - do NOT re-mine marrow), drafts/_session-handoff-20260809.md.
+
+NEXT SEQUENCE: (1) Mine old repo version dirs - prototype/ (57 py), kethral/ (211 py), kethral_v2/ (27 py, unexplained - identify it) - into drafts/_kethral-feature-map.md: movement model, world/zone structure, feature inventory, what made each version feel like "the game". Confirm which dirs are the owner's "first and second versions" from evidence. (2) Design grid movement (Tibia-like tile stepping) behind the existing input seam; keep feel layer; port tests+replay scripts to tile assertions; Rule 2 gate before ship. (3) Rewrite docs/SLICE_SPEC.md v2 + CLAUDE.md scope contract around the real intent (world shape, zones, features - not arena). (4) Ship next playable increment to owner.
+
+STANDING RULES: Rule 2 vision critique is a BLOCKING ship-gate for every visual change (harness: rake capture SCRIPT=harness/scripts/<name>.json, md5 determinism check, Read the PNGs). Read-before-edit. One-bundled-change-set after greenlight. No mocks in integration tests. Measure counts, never recall. BUDGET: zero paid purchases outside AWS; inside AWS unlimited (Bedrock image gen, vision critique).
+
+OWNER QUEUE: playtest next increment when shipped (bin/play.cmd); react raw, no design homework.
+
+DONE WHEN: owner playtests a grid-movement build that carries the intended Kethral shape (not arena-only) and calls it fun; all tests green; every shipped visual passed frame-capture critique.

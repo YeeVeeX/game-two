@@ -1,0 +1,21 @@
+GOAL: v10 SCOPE DEBATE first. A2 WON the sixth fun-verify (Q3 "bank now or push deeper" = "It changed - real dilemma", first positive in six). D1b-inscription is the QUEUED candidate but the increment is DECIDED BY DEBATE - owner forks via AskUserQuestion BEFORE any spec. Then v10 contract rewrite in CLAUDE.md, then brainstorm -> spec -> plan for the chosen increment. NO code before an approved spec+plan.
+
+READ FIRST (Rule 8), in order: project CLAUDE.md; docs/CHECKPOINT.md top entry; drafts/_a2-fun-verify-20260812.md (verdict + routing + full agenda); PARKING_LOT "A2 brainstorm OUTCOMES" (economy vision LOCKED: inscription-within-ritual); drafts/_council-economy-verdict.md (inscription shape); drafts/_a2-impl-review.md (clean, 1 refuted).
+
+STATE (measured 2026-08-12): main 188 commits, HEAD 67d1c33, tree clean. A2 merged e3759c3: targeting chain, engaged cap + pressure ring, leash no-heal, respawn suppression + beachhead, depth gradient (15 spawns incl 3 rusher_hater), tank-first. Wall 8/8 determinism + 8/8 critic; tests 250/1056; checks 34; perf p95 0.232ms. Pre-commit/pre-push hooks now run bundle exec rake (owner session wired gauntlet; commits take ~13s).
+
+DEBATE AGENDA (all banked in the verify doc):
+1. D1b-inscription (QUEUED): spend banked to inscribe a body with a god-mark; inscribed bodies survive the vat on wipe, unmarked dissolve; session-only persistence first; player-visible names come from the bible (fiction order form in the A2 spec).
+2. Owner evidence: no healing -> hunts end early -> turns repetitive (priced-sustain / "what does the pile buy" territory - the debate decides if it shapes D1b).
+3. Q6 "retargets read as randomness" -> margin/lowhp threshold tuning + maybe a why-they-turned legibility cue (data + presentation, small).
+4. BUG BUNDLE - rides the NEXT sim increment, never standalone (both invalidate all 8 replay streams): (a) held-Shift dodge locks movement - controllers.rb:33-37, dodge is level-triggered so the walk elsif never runs while held; one-line fix (edge-trigger or fall through on refusal). (b) a2_fired deepest_band converts at summary time vs current zone - reads 0 when quitting from the nest (natural end); fix = convert band at kill time.
+5. Challenger trigger condition MET + recorded (threat felt: box + run-back positive; entrainment flat - no scary peaks). Its own future increment, fairness ladder mandatory. NOT promoted unless the owner says so.
+6. Q8 control: banked still pure score - consistent with D1b as the meaning lever.
+
+DEBATE RULES: genuine owner forks batched via AskUserQuestion BEFORE the spec; ONE increment ships; everything else stays parked; every idea cites a touchstone or a measured problem (reference wall); wipes-rare+heavy cadence and the taunt purity law are settled - do not reopen.
+
+STANDING RULES: export PATH="/c/Ruby34-x64/bin:$PATH" per shell. NO push ever (no remote). rm -rf deny-listed (SDD workspace .superpowers/sdd/2026-08-11-a2-threat-pull-economy/ retained for this reason - owner may delete). Vision checks ADD-ONLY, never weaken. Read-before-edit. Zero balance constants in Ruby. Judge builds, not briefs. Any sim change = re-pilot every wall script (the A2 lesson: re-stage ALL mandatory beats - projectile/telegraph/swap/nest frames; memory gate-critic-mandatory-beat-checks).
+
+OWNER QUEUE (unchanged): council MCP deepseek-r1 id needs the us. inference-profile prefix; council-via-mmh-gateway upgrade (seats grok-4.3) + when-to-council skill update = own session. Platform question ANSWERED and banked (drafts/_platform-stack-verdict.md: stay Ruby+Gosu, named port/online triggers).
+
+DONE WHEN: debate closed with owner forks answered; v10 contract committed in CLAUDE.md; chosen increment spec written + adversarially reviewed + owner-approved; implementation plan written. NO code this session.

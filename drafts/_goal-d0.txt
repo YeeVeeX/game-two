@@ -1,0 +1,57 @@
+game-two: ship D0 (thin loot loop) end-to-end as dev of record; owner is tester.
+
+DELIVERABLE: D0 merged to main --no-ff (NO push), all gates green, playable build +
+3 fun-verify questions delivered to owner. Loop: kill Rusher -> deterministic tile
+drop -> interact pickup -> carry on one body -> bank at Nest station -> banked total
+permanently safe within the run.
+
+STATUS: main clean at 157af7b (65 commits, 96 tests/372 asserts green, perf p95
+0.038ms). A0.5 fun-verified ("feels good, needs more variety and progression sense").
+Owner promoted D0; A1 gambits NOT bundled. Checkpoint updated 2026-08-10. Cadence
+MEASURED (drafts/_d0-cadence-measurements.md): bank round trips 10.4-32.9s vs 5s
+rusher respawn -> banking non-trivial, D0 proceeds at current map scale, no A3.
+
+NEXT SEQUENCE (in order):
+1. Write D0 spec (docs/superpowers/specs/2026-08-10-d0-loot-loop-design.md) resolving
+   6 challenges: progression-signal honesty gate; cadence (DONE, cite measurements);
+   one-increment (prefer) vs D0a/D0b; determinism under replay seed (drop counts from
+   sim PRNG, no wall clock); drop/carry/bank ownership + zone-transition + wipe
+   lifecycle exact; scope contract v4 in CLAUDE.md + checkpoint (checkpoint DONE).
+2. Adversarial spec review (code-reviewer agent over spec vs code+laws), fold.
+3. superpowers:writing-plans -> commit reviewed plan BEFORE branching.
+4. Branch d0-loot-loop. Test-first, commit per task: drops entity/data/lifecycle ->
+   interact verb edge semantics -> per-creature carried ledger + vanish-on-death ->
+   Nest bank station + banked ledger -> quiet HUD + telemetry events ->
+   loot_loop.json + APPENDED vision checks (never weaken existing 17).
+5. Gates: rake; rake perf p95<16.6ms; double-replay+MD5+vision for loot_loop,
+   specials_chain, world_loop, district_hunt; frame inspection; structural checks
+   (window.rb<=300, no balance constants in Ruby, core/input.rb untouched).
+6. Adversarial impl review main...HEAD (economy exploits, replay divergence,
+   ownership leaks across possession, held-interact ghost, dup pickup/bank, decay
+   during hitstop, zone/wipe cleanup, save-scope creep, HUD instability, excusing
+   tests) -> bank in drafts/_d0-implementation-review.md -> fold -> re-gate ->
+   merge --no-ff.
+7. Report to owner with EXACT questions: "Did bank now or push deeper feel like a
+   real decision?" / "Did the banked total feel like progression, or just
+   bookkeeping?" / "Did drops change your route and risk choices enough to add
+   variety?" Then recommend ONE next track (A1 tactical variety / D1 corpse-run
+   stakes / A3 if cadence collapsed) - do NOT start it.
+
+BINDING SOURCES: docs/design-corpus/death-economy-design.md (D0 staging + laws +
+interaction substrate); docs/CHECKPOINT.md top entry; CLAUDE.md scope contract;
+PARKING_LOT.md; A0/A0.5 specs; drafts/_d0-cadence-measurements.md.
+
+STANDING RULES: D0 death rule = carried VANISHES (corpse containers are D1). Banked
+is session-only unless spec proves restart-persistence necessary to the fun thesis
+(no smuggled save system). Quiet HUD: carried on possessed bar only; banked visible
+only at station; dimensions stable across swap/death. Interact verb edge-triggered
+across voluntary AND forced swaps. Deterministic: seeded sim PRNG only, frame
+counters, fixed iteration order. Data-driven JSON, zero constants in Ruby. Events
+registered on first use. grok-voice-consult for EVERY player-facing name/label
+(bible adjudicates; loot/glean/bank/interact stay spec-speak). OUT: gear, affixes,
+inventory grids, rarity, XP, skills, crafting, vendors, corpse containers, body
+fees, wipe fines, insurance, gambits, Shooters, new districts. No mocks in
+integration tests. Never merge unreviewed. No remote push.
+
+DONE WHEN: D0 merged --no-ff after review fold, all gates green, owner has build +
+the 3 questions + a single recommended next track awaiting owner promotion.

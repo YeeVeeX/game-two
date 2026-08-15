@@ -1,0 +1,16 @@
+GOAL: Ship D1 (the corpse run) end-to-end on branch d1-corpse-run, then hand the owner the 6-question fun-verify.
+
+DELIVERABLE: a pack body that dies carrying leaves its load in a corpse container (term 90s, settle 5s, wipe-grace 45s, all in data/balance/death.json); survivors re-loot via interact; term expiry is the permanent loss; three readable corpse states (hollow magenta pip = loaded, dim while settling, snap on lootable); TELEMETRY d1_fired line on close. Authorities: docs/superpowers/specs/2026-08-10-d1-corpse-run-design.md (REVISED - binding) and docs/superpowers/plans/2026-08-11-d1-corpse-run.md (10 TDD tasks - execute IN ORDER, code is already written in the plan). Review bank: drafts/_d1-spec-review.md (21 findings, all folded; read before re-litigating any design call).
+
+STATUS: main clean at 1725d2a (107 commits, 173/689 green). Spec REVISED (5f18e96) + plan (1725d2a) committed. Nothing in flight. NOT started: no branch, no D1 code.
+
+NEXT SEQUENCE (all greenlit - owner said "approved proceed"; do not re-ask):
+1. git checkout -b d1-corpse-run
+2. Plan tasks 1-8 in order, test-first, commit per task: death.json+invariants -> container creation (flip 2 D0 vanish tests) -> clocks/expiry/per-zone flashes -> prune/cap protection (CF-1) -> interact recovery (drop->corpse->bank) -> wipe grace -> renderer (pip/held corpses/flash) -> Game::Telemetry wired into window.rb+world_scene+replay_runner+pilot.
+3. Task 9: append 3 vision checks (23->26, wording verbatim in plan) + author corpse_run.json VIA PILOT MODE (4 acts incl. drop-on-loaded-corpse frame; swap lockout 16f; capture exports as K-1). rake + rake perf + ALL SIX gates green (check loot_loop event expectations - carried_lost moved to expiry).
+4. Task 10: adversarial impl review (seed suspicions listed in plan) -> fold -> re-gate -> merge --no-ff to main, NO push -> checkpoint delta with measured numbers.
+5. Deliver fun-verify handoff: the spec's 6 questions + N/A-never-fired preamble + tell the owner to read the TELEMETRY line off the shell after closing the game.
+
+STANDING RULES: window.rb <= 300 lines. Zero balance constants in Ruby. Events registered in World::EVENTS. No mocks. Existing vision checks never weaken. export PATH="/c/Ruby34-x64/bin:$PATH" per shell. Vision critic flakes: pixel-verify before believing a FAIL; retry INFRA errors. Data values (5400/300/2700/45/0.4) are margin-anchored hypotheses - do NOT revert to the death-economy doc's 10-min floor (the doc self-contradicts; spec records the conflict). Scope: D1 tension slice ONLY - fees/ledger/A2 stay parked (CLAUDE.md v7). NO push to any remote.
+
+DONE WHEN: merge commit on main with all six gates green + fun-verify questions delivered to the owner. Then STOP - the fun-verify verdict decides what is next (ledger is the queued candidate).

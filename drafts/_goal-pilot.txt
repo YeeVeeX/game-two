@@ -1,0 +1,59 @@
+game-two: implement PILOT MODE end-to-end from the approved committed plan; then
+deliver D0 fun-verify report. Dev of record; owner is tester.
+
+DELIVERABLE: pilot mode merged to main --no-ff (NO push) per
+docs/superpowers/plans/2026-08-10-pilot-mode.md (approved via plan mode, Plan-agent
+pressure-tested, 11 findings folded - READ IT FIRST, it is the binding source).
+Pilot mode = file-driven interactive harness: commands appended to
+tmp/pilot/<NAME>/inbox.txt drive the REAL sim+renderer in a real Gosu window; output
+to log.txt; idle = frozen sim; sessions export to standard replay scripts.
+
+STATUS: main clean at 1216d14 (78 commits, 122 tests/475 asserts green). D0 loot loop
+SHIPPED at merge 386d1e4 (all 4 gates byte-identical + 20/20 vision; reviews folded).
+Owner has NOT yet fun-verified D0. Pilot plan committed at
+docs/superpowers/plans/2026-08-10-pilot-mode.md. Nothing in flight.
+
+NEXT SEQUENCE (plan tasks, in order, branch pilot-mode, commit per task):
+1. Extract harness/support.rb (expand_script + save_opaque from replay_runner, NO
+   top-level gosu require; replay_runner delegates). Verify: rake green +
+   SKIP_CRITIC=1 gate on district_hunt byte-identical.
+2. Pure tests FIRST (test/harness/pilot_session_test.rb): parser table + ERR cases;
+   inbox edges (partial line, truncation reset, ENOENT, CRLF); recorder round-trip
+   through Harness.expand_script + ScriptedInput walk; capture indexing (after N
+   frames -> exports N-1; at frame 0 -> ERR).
+3. Implement harness/pilot_session.rb (PURE: Parser, Inbox via binary size+pread,
+   Recorder hold-ranges-only export, PilotInput duck, state_hash/dump_hash,
+   GotoEngine with aborts unreachable/zone_changed/possession_changed/pack_wiped/
+   guard). Tests green.
+4. Headless round-trip + goto tests vs REAL World (pilot_roundtrip_test.rb): export
+   -> fresh same-seed World -> same tile/frame/zone; hitstop-spanning hold; goto
+   abort cases.
+5. harness/pilot.rb window host (thin; log self-owned via stdout.reopen+sync, ACK on
+   completion, speed cap 60, FATAL+crash.json auto-export) + rake pilot task
+   (NAME=session SEED=0) + CLAUDE.md commands bullet.
+6. LIVE verification (acceptance): rake pilot in background; fly the D0 loop via
+   inbox (goto rusher, hold attack, goto drop, press interact, goto 12 8 via gate,
+   press interact, capture, state banked>0); minimize-window frames still advance;
+   gate-crossing goto -> GOTO_FAILED zone_changed; export smoke + quit; rake capture
+   on export; MD5 pilot PNG == replay PNG (THE bar). Bank transcript to
+   drafts/_pilot-first-flight.md.
+7. Adversarial review main...HEAD -> drafts/_pilot-review.md -> fold -> rake + all 4
+   gates green -> merge --no-ff -> checkpoint delta.
+
+THEN (after merge): remind owner of D0 fun-verify with EXACT questions: "Did bank now
+or push deeper feel like a real decision?" / "Did the banked total feel like
+progression, or just bookkeeping?" / "Did drops change your route and risk choices
+enough to add variety?" Recommendation already banked: A0.6 blocker taunt (owner
+asked mid-session; recorded in PARKING_LOT.md) - do NOT start it unpromoted.
+
+STANDING RULES: pilot mode is TOOLING - zero src/ changes (git diff main -- src/
+must be empty), window.rb untouched, no balance constants. No mocks in tests (real
+files, real World). Existing 4 gate scripts + 20 vision checks are regression law.
+Determinism: pilot tick count locksteps world.frame (verified: tick increments frame
+on EVERY path incl. hitstop); exported capture frame = world.frame - 1. Inbox is
+append-only (printf 'cmd\n' >>), never the Write tool. Never merge unreviewed. No
+remote push. Owner queue: D0 fun-verify; taunt promotion decision.
+
+DONE WHEN: pilot-mode merged --no-ff after review fold, rake + 4 gates green, live
+MD5 proof banked, checkpoint updated, owner has D0 fun-verify questions + single
+next-track recommendation (A0.6 taunt) awaiting promotion.

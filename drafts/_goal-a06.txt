@@ -1,0 +1,59 @@
+game-two: ship A0.6 BLOCKER TAUNT end-to-end (spec review -> fold -> implement ->
+gates -> review -> merge --no-ff, NO push). Dev of record; owner is tester.
+
+STATUS: main at fc11e9c (90 commits, 158/632 green). Pilot mode SHIPPED (merge
+ccfa6e1) - use it to author gate scripts and debug (rake pilot NAME=x SEED=0;
+printf 'cmd\n' >> tmp/pilot/x/inbox.txt; read log.txt).
+D0 fun-verify verdict: "bank or push deeper = a chore" -> NO blind D0 tuning;
+taunt first, D0 re-verify after. Scope contract v5 (commit 230de6e). Spec DRAFT
+committed fc11e9c at docs/superpowers/specs/2026-08-10-a0.6-blocker-taunt.md -
+READ IT FIRST. One uncommitted edit may remain in the spec (touchstone tension
+note): commit it before anything else.
+
+NEXT SEQUENCE:
+1. Commit any dirty spec edit.
+2. Spec adversarial review as DIRECT AGENT FAN-OUT (a workflow was killed mid-run
+   earlier - do not resume it; fallback ladder applies). 3 lenses vs the spec +
+   code: (a) code-fit/determinism: ring arc does NOT use action_can_trigger?
+   today (resolve_tile_action has no one-shot) - verify the spec's mechanism is
+   safe; cross-zone taunted_target landmines (flow_to/blocked_for/surround_slot
+   when taunter left the zone); hitstop/veil pause of taunt clock. (b) design:
+   Slam-coupling cadence (600f exhaust = ~1 taunt/10s vs Tibia exeta res
+   spammable - tension already recorded in spec; ship coupled FIRST unless review
+   finds it fatal); does husk-AI blocker WALK OUT of the pincer after you swap
+   away (check AiController follow/engage). (c) fun: does taunt make the 160HP
+   blocker just die faster vs 5 rushers x12dmg @66f? cheapest falsifying
+   playtest. Bank verdicts to drafts/_a06-spec-review.md, fold, commit spec
+   REVISED.
+3. Implement test-first on branch a0.6-blocker-taunt: Creature taunt!/
+   taunted_target/@taunt_frames (decay in tick_body, revive! clears, swap-inert);
+   AiController target priority taunted_target || nearest, aggro-gate bypass
+   like mark; World ring-arc taunt pulse ONCE at active entry (one-shot), emit
+   :taunted (register event), cosmetic pulse record ticked in tick_world;
+   renderer rust underline (190/80/35) on taunted humans + expanding hollow cast
+   ring; data blocker.special.taunt {range_tiles:6, duration_frames:300}. Tests:
+   set/decay/dead-taunter-nil, revive clears, priority + gate bypass, pulse
+   once, range boundary 6-in 7-out, re-taunt overwrites, ring damage unchanged,
+   lock survives possession swap, taunter death releases.
+4. Gate script taunt_anchor.json authored VIA PILOT MODE (fly: possess blocker ->
+   wade -> Slam -> swap -> carve; export; aim captures at cast/convergence/
+   expiry). 3 APPENDED vision checks (taunt_underline_reads, taunt_pulse_reads,
+   taunt_convergence_reads; pass-true hatches; existing 20 never weaken).
+5. rake + perf + ALL 5 gates green -> adversarial impl review main...HEAD ->
+   drafts/_a06-impl-review.md -> fold -> re-gate -> merge --no-ff -> checkpoint.
+6. Deliver build + fun-verify questions: "Does possessing the blocker now feel
+   like playing a TANK - did Slam-then-swap become a move you wanted to make?" /
+   "Did fights get stickier in a good way or an annoying (too locked) way?" /
+   "Is 5s of taunt too short/long/right?" ALSO remind: D0 re-verify now
+   unblocked (same 3 questions as before, in CHECKPOINT.md D0 entry).
+
+STANDING RULES: window.rb <=300 lines; zero balance constants in Ruby (all in
+data/balance/combat.json); events registered on first use; no mocks (real World);
+existing gates + 20 vision checks are law (append-only); never merge unreviewed;
+NO remote push. Touchstones: drafts/_gamesmith-touchstone-digest.md (Tibia bank
+loop works via supply burn + death teeth - cite extracts, never recall); Tibia
+feedback style is the ANTI-touchstone for combat feel (we are Vlambeer).
+
+DONE WHEN: a0.6-blocker-taunt merged --no-ff after review fold, rake + 5 gates
+green, checkpoint updated, owner has taunt fun-verify questions + D0 re-verify
+reminder.

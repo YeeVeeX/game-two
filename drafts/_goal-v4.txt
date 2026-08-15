@@ -1,0 +1,17 @@
+PROJECT: game-two - Ruby+Gosu grid ARPG (monster flip). Repo: C:/Users/gabri/workspace/game-two. Claude = dev of record; owner = tester. Branch NOW: a0-m2-kits-district (10 commits over main).
+
+SHIPPED + FUN-VERIFIED: grid v2 ("so much better") then M1 possession core ("feels really good!") - pack of 3, Tab swap edge-triggered, forced-swap+stagger (Tab locked during it), wipe->nest, 45f exhaust paces held attack, per-attacker cadence (no blanket invuln), hitstop scoped to possessed. M1 merged to main.
+
+M2 BUILT on branch (measured: 56 tests/148 assertions green, both rake gate scripts PASS incl 13/13 vision, rake perf p95 0.035ms): 3 kits with identity (Striker fast/front1/no-KB, Blocker 160hp/arc3/KB/uninterruptible, Lobber 6-tile projectile no friendly fire) vs Rushers in District One; nest=hub (town/threketh retired to data/zones_retired); renderer v2 = ALL critique fixes (facing notch, crimson-never-white flash, two-tone telegraph!=gate gold, lunge, fading corpses) + 3-bar kit HUD + exhaust pip + edge pips; knockback = attacker stat. OWNER DIRECTIVE shipped: surround/trap AI - slot-claim pincer (attackers claim DISTINCT adjacent tiles, deterministic roster order), rushers step 14/windup 20, asserted by test.
+
+IN FLIGHT AT COMPACT: adversarial code-reviewer over git diff main..HEAD. READ drafts/_m2-review-inflight.md FIRST - it has the brief, what I already verified clean, and the fold-in procedure. If verdict lost: RE-RUN review; NEVER merge unreviewed. M1 precedent: 4 findings, 2 real.
+
+NEXT SEQUENCE: (1) fold review findings (fix+test, re-gate if sim changed); (2) merge a0-m2-kits-district -> main --no-ff; (3) owner feel-check: kit identities, possessing the Lobber, Rusher pincer pressure, District One; (4) from reaction -> A1 planning (gambits+hot-reload first candidate; PARKING_LOT has A1-A3 queue).
+
+FICTION: docs/lore/world-bible.md ON DISK (17.8K words, EgyptianxFantasy) but UNGATED - 3-critic panel + revision NOT run; names provisional; file deliberately untracked; integration into game = owner call (PARKING_LOT). Game ships spec-speak placeholders ("The Nest","District One","THE HUNT ENDS") until then. De-slop rule: names from INSIDE fiction only; slop test = could ship in another game unchanged.
+
+KEY DOCS: docs/CHECKPOINT.md (top 3 sections = current) - docs/superpowers/specs/2026-08-09-a0-possession-core-design.md (approved spec incl fiction order form) - docs/superpowers/plans/ (M1+M2 plans) - docs/design-corpus/ (tracked: review reconciliation, tibia research, kethral map, vision critique) - drafts/_egypt-mythology-pipeline-state.md (bible pipeline state).
+
+STANDING RULES: rake gate = BLOCKING (double replay + md5 + 13-check Bedrock vision verdict, exit nonzero; SKIP_CRITIC=1 = iteration only). rake perf = blocking p95<16.6ms. Read-before-edit. One-bundled-change-set. No mocks. Measure never recall. Orchestrator<=300 (window.rb ~64). Data-driven JSON. Events registered. Tick-locked timebase + overrun counter. PATH: export PATH="/c/Ruby34-x64/bin:$PATH" per shell. Budget: zero paid outside AWS. Commit per task; never push (no remote).
+
+DONE WHEN: M2 merged post-review; owner hunts in District One possessing all 3 kits and calls it fun; tests green; gates green.

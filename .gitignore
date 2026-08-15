@@ -1,4 +1,6 @@
-drafts/_*
+# Process artifacts (verdicts, reviews, calibration history) are TRACKED —
+# adversarial review 2026-08-15. Only the media reference corpus stays out.
+drafts/_tibia-videos/
 captures/
 tmp/
 *.gem
