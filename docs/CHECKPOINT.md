@@ -1,6 +1,58 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-14 (v15 PILOT MID-ACT: two harness commits + pilot-found ship-stopper fixed; quay6 session LIVE = the future low_quay_run; wall next)
+## 2026-08-15 (v15 BUILT + WALLED: both zone-3 scripts exported and gate-green, wall 16/16 determinism, three pilot-driven balance commits — THIRTEENTH verify next)
+
+**MEASURED: suite 451/1961 green, perf p95 0.335ms, 16 wall scripts
+(+low_quay_run +varekka_duel), 49 checks (ADD-ONLY held), wall
+determinism 16/16 byte-identical, vision 15/16 direct PASS (see
+moving_square note).**
+
+**Session commits, in order:** `c77b4f2` duel kill-box cleared (pilot
+finding: 5 chants / 0 interrupts / 0 damage across 8 instrumented
+attempts — guard density nullified the fairness ladder); `2f76956`
+funnel guards un-piled (retune #1 had made the entries worse);
+`a8b28b1` **Varekka hunts the whole quay (aggro 10→45)** — ~28
+attempts proved the duel unreachable by travel (pack enters at
+~130-150hp, every route costs more); the spec's own fiction (he
+force-taunts, ONE STANDS) says HE comes to YOU — duel now happens at
+the door, chant/seize/interrupt untouched; `87ee19b` start param grows
+`zone` key (TDD x3) — focused duel scenes; `85d0b70` both scripts +
+measured manifests.
+
+**The two scripts:** `low_quay_run` (travel regression: both seals
+in-run — gap #41 CLOSED — all banners, vat heal + regrow, corpse-run,
+banked x2; manifest 7 keys measured) and `varekka_duel` (duel
+regression via start zone: ONE STANDS, live chant ring [check 48],
+landed seizure + FLESH IS CALLED + underline [check 49],
+seizure_ended why=zone_left, chant_interrupted x2, THE TERM IS PAID
+kill, fat-drop pickup; manifest 6 keys measured). Authored TAS-style —
+fresh-world runs are deterministic puzzles (seeds 11/12 died on the
+IDENTICAL tile+frame); scouting run then take run; traps banked in
+memory + drafts/_v15-pilot-progress.md.
+
+**Wall integrity findings (owner disclosure at the debrief):**
+(1) run_wall.sh read `$?` after a pipe — gate_rc was tee's rc, ALWAYS
+0; fixed with PIPESTATUS (tmp/, untracked). Verdicts were re-read from
+the teed logs: 15/16 vision PASS direct (aoe_specials + low_quay_run
+passed on standalone INFRA retry — critic API flake, 2 confirmed
+reproductions). (2) **moving_square has been FAILING the vision critic
+since at least the v14 wall (13 red checks on 2026-08-13, masked by
+the same rc bug)** — structural, not a v15 regression: it is the
+synthetic render smoke (a red square in a void, no map/HUD/strip by
+design) and the world-conditioned checks cannot apply to it. Its
+determinism is green (3/3 byte-identical) and its look is unchanged
+across 12 walls. ROUTED: check-amendment proposal to the owner
+(synthetic-scenario exemption or determinism-only wall slot) — checks
+are ADD-ONLY and amendments are the owner's to ratify (precedent
+#14/#19/#42).
+
+**NEXT:** push junior-tibia → THIRTEENTH blind verify (SPANISH, owner
+plays FIRST no changelog, telemetry harvest BEFORE questions; 8
+questions + routing pre-registered in the spec; skeleton with exact ES
+phrasing in drafts/_v15-fun-verify-skeleton.md; disclosures: TERM IS
+PAID name swap, the three balance commits — owner may veto — and the
+moving_square finding) → v16 debate (multiplayer spike etapa 1 LEAD;
+check Junior clone first).
 
 **MEASURED: junior-tibia HEAD `1037576`, 290 commits, ahead 7 of origin,
 suite 448/1930 green, 14 scripts (+low_quay_run pending from the LIVE
