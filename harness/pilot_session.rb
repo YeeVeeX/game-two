@@ -199,14 +199,16 @@ module Harness
         frame
       end
 
-      def to_script(seed:, width:, height:, out_dir:)
-        {
+      def to_script(seed:, width:, height:, out_dir:, start: nil)
+        script = {
           scenario: "world",
           seed:, width:, height:, out_dir:,
           hold: hold_ranges,
           captures: @captures.sort,
           run_until: @frames.length
         }
+        script[:start] = start if start
+        script
       end
 
       private

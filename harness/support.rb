@@ -17,6 +17,16 @@ module Harness
     frames
   end
 
+  # v15 `start` script parameter: begin a world scene with banked value so
+  # a focused wall script can exercise seals/Varekka without a farm
+  # prologue. Harness plumbing only — pack.bank! is the same audited path
+  # the bank station uses, and no game code reads this.
+  def self.apply_start(world, start)
+    return unless start
+    amount = start[:banked]
+    world.pack.bank!(amount) if amount && amount.positive?
+  end
+
   # The window's backbuffer is opaque, but Gosu.render keeps blended alpha
   # (a translucent overlay leaves e.g. a=198 in the PNG), so viewers
   # composite the capture against their own background and misrepresent the

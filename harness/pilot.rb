@@ -36,9 +36,10 @@ require_relative "scenes/world_scene"
 module Harness
   module Pilot
     class PilotWindow < Gosu::Window
-      def initialize(name:, seed:)
+      def initialize(name:, seed:, start: nil)
         @name = name
         @seed = seed
+        @start = start
         @dir = File.join("tmp", "pilot", name)
         FileUtils.mkdir_p(@dir)
 
@@ -93,7 +94,8 @@ module Harness
       def boot_session(seed: nil)
         @generation = (@generation || 0) + 1
         @seed = seed if seed
-        @scene = Scenes::WorldScene.new(width: @width, height: @height, seed: @seed)
+        @scene = Scenes::WorldScene.new(width: @width, height: @height,
+                                        seed: @seed, start: @start)
         @input = PilotInput.new
         @recorder = Recorder.new
         @current = nil
@@ -219,6 +221,7 @@ module Harness
 
       def export_script(path, dir_suffix: "replay")
         script = @recorder.to_script(seed: @seed, width: @width, height: @height,
+                                     start: @start,
                                      out_dir: File.join("captures", "pilot",
                                                         "#{session_tag}_#{dir_suffix}"))
         File.write(path, JSON.pretty_generate(script))
@@ -248,8 +251,10 @@ module Harness
 end
 
 if __FILE__ == $PROGRAM_NAME
+  start_env = ENV["START"]
   Harness::Pilot::PilotWindow.new(
     name: ENV.fetch("NAME", "session"),
-    seed: Integer(ENV.fetch("SEED", "0"), 10)
+    seed: Integer(ENV.fetch("SEED", "0"), 10),
+    start: start_env && JSON.parse(start_env, symbolize_names: true)
   ).show
 end

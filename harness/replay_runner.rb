@@ -37,7 +37,9 @@ module Harness
       super(w, h)
       self.caption = "game-two replay: #{raw[:scenario]}"
 
-      @scene = SCENES.fetch(raw.fetch(:scenario)).new(width: w, height: h, seed: raw.fetch(:seed, 0))
+      scene_kwargs = { width: w, height: h, seed: raw.fetch(:seed, 0) }
+      scene_kwargs[:start] = raw[:start] if raw[:start] && raw.fetch(:scenario) == "world"
+      @scene = SCENES.fetch(raw.fetch(:scenario)).new(**scene_kwargs)
       @input = Core::ScriptedInput.new(frames: Harness.expand_script(raw))
       @captures = raw.fetch(:captures, []).to_a
       @run_until = raw.fetch(:run_until)

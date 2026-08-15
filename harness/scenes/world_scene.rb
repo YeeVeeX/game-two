@@ -15,9 +15,10 @@ module Harness
 
       # Logs key sim events with frame numbers so capture scripts can be
       # aimed at exact moments (telegraph, swap, wipe, zone change).
-      def initialize(width:, height:, seed: 0)
+      def initialize(width:, height:, seed: 0, start: nil)
         data = Core::DataStore.new(File.expand_path("../../data", __dir__))
         @world = Game::World.new(data, seed:)
+        Harness.apply_start(@world, start)
         # THE LAW (v13 spec): gate/replay captures render locale "en"
         # regardless of env or display.json — translated text never enters
         # a capture (check-comparability law).
