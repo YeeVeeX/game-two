@@ -32,6 +32,26 @@ class SceneStartTest < Minitest::Test
     assert_equal 0, w.pack.banked
   end
 
+  def test_apply_start_with_zone_relocates_the_pack_to_that_spawn
+    w = world
+    Harness.apply_start(w, { zone: "low_quay" })
+    assert_equal "low_quay", w.zone_name
+    spawn = w.map.pack_spawn
+    assert_equal spawn.sort, w.pack.members.map(&:tile).sort
+  end
+
+  def test_apply_start_with_zone_and_banked_applies_both
+    w = world
+    Harness.apply_start(w, { banked: 240, zone: "low_quay" })
+    assert_equal 240, w.pack.banked
+    assert_equal "low_quay", w.zone_name
+  end
+
+  def test_apply_start_with_unknown_zone_raises
+    w = world
+    assert_raises(ArgumentError) { Harness.apply_start(w, { zone: "nowhere" }) }
+  end
+
   def test_recorder_export_carries_start_through
     r = Harness::Pilot::Recorder.new
     r.record_frame([])

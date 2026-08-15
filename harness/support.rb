@@ -25,6 +25,8 @@ module Harness
     return unless start
     amount = start[:banked]
     world.pack.bank!(amount) if amount && amount.positive?
+    zone = start[:zone]
+    world.start_in(zone.to_s) if zone
   end
 
   # The window's backbuffer is opaque, but Gosu.render keeps blended alpha

@@ -97,6 +97,14 @@ module Game
     end
 
     def map = @zones.fetch(@zone_name)
+
+    # Focused-scene start (v15 harness `start` param): begin the session in
+    # a named zone. Same arrival path as any gate crossing — enter_zone owns
+    # the banner/home/leash law. No in-game system calls this.
+    def start_in(zone)
+      raise ArgumentError, "unknown zone #{zone}" unless @zones.key?(zone)
+      enter_zone(zone, @zones.fetch(zone).pack_spawn)
+    end
     def humans = @humans[@zone_name]
     def possessed = @pack.possessed
     def banner? = !active_banner.nil?
