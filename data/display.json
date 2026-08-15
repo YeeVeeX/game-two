@@ -47,6 +47,17 @@
   220
  ],
  "nameplate_font_size": 10,
+ "kill_pop_flash_frames": 5,
+ "kill_pop_flash_rgb": [
+  255,
+  250,
+  230
+ ],
+ "kill_pop_shard_rgb": [
+  255,
+  150,
+  90
+ ],
  "stamp_banner_frames": 150,
  "banner_queue_max": 2
 }

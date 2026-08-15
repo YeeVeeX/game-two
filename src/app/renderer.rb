@@ -1,4 +1,5 @@
 require "app/controls_overlay"
+require "app/kill_pop"
 
 module App
   # Draws the world sim with Gosu primitives. Flat-rect minimalism: kit
@@ -95,6 +96,7 @@ module App
         world.pack.living.each { |m| draw_creature(m, world) }
         world.projectiles.each { |p| draw_projectile(p) }
         draw_taunt_pulses(world)
+        draw_kill_pops(world)
         draw_chant_rings(world)
         draw_mark(world)
         draw_station_ledger(world)
@@ -577,6 +579,26 @@ module App
     # Taunt cast tell (A0.6): one continuous expanding hollow SQUARE outline —
     # square because range is Chebyshev (a circle under-reads the corners),
     # continuous because per-tile marks would read as volley brackets.
+    # v16 (e): the FLASH is the primary channel (solid bright body-rect for
+    # the first frames), shards are the secondary motion read — geometry is
+    # pure integer math in App::KillPop (deterministic by construction).
+    def draw_kill_pops(world)
+      ts = world.map.tile_size
+      flash_frames = @display.fetch(:kill_pop_flash_frames, 5)
+      flash = color(@display.fetch(:kill_pop_flash_rgb, [255, 250, 230]))
+      shard = color(@display.fetch(:kill_pop_shard_rgb, [255, 150, 90]))
+      world.kill_pops.each do |p|
+        age = p[:pop_frames] - p[:frames_left]
+        if age < flash_frames
+          Gosu.draw_rect(p[:tile][0] * ts + 2, p[:tile][1] * ts + 2, ts - 4, ts - 4, flash)
+        end
+        App::KillPop.shards(tile: p[:tile], phase: p[:phase], frames_left: p[:frames_left],
+                            pop_frames: p[:pop_frames], ts: ts).each do |x, y, size|
+          Gosu.draw_rect(x, y, size, size, shard)
+        end
+      end
+    end
+
     def draw_taunt_pulses(world)
       ts = world.map.tile_size
       world.taunt_pulses.each do |p|

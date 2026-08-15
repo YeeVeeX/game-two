@@ -223,6 +223,7 @@
  "feel": {
   "hitstop_frames_hit": 3,
   "hitstop_frames_kill": 8,
+  "pop_frames": 14,
   "shake_hit": 3.0,
   "shake_player_hit": 6.0,
   "shake_kill": 8.0,

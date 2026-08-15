@@ -74,6 +74,8 @@ module Game
       @expiry_flashes = Hash.new { |h, k| h[k] = [] }
       @corpse_serial = 0
       @taunt_pulses = []
+      @kill_pops = []
+      @pop_frames = @balance[:feel][:pop_frames]
       @controller = PossessedController.new
       @ai = AiController.new
       @swap_was_down = false
@@ -122,6 +124,7 @@ module Game
     def total_stranded = @corpse_loads.values.sum { |list| list.sum { |c| c[:amount] } }
     def marked_target = @pack.mark
     def taunt_pulses = @taunt_pulses
+    def kill_pops = @kill_pops
 
     # Active respawn tells of the CURRENT zone, for the renderer (v14).
     # Non-autovivifying fetch: the draw path must never insert zone keys
@@ -499,6 +502,7 @@ module Game
       check_transition
       tick_impacts
       tick_taunt_pulses
+      tick_kill_pops
       resolve_attacks
       tick_projectiles
       # AFTER every damage source on purpose: a body killed this frame ends
@@ -740,6 +744,13 @@ module Game
       @taunt_pulses.reject! { |p| p[:frames_left] <= 0 }
     end
 
+    # v16 (e): pops age in tick_world only — hitstop and the wipe veil pause
+    # them like impacts (the tick_drops law). Renderer is a pure reader.
+    def tick_kill_pops
+      @kill_pops.each { |p| p[:frames_left] -= 1 }
+      @kill_pops.reject! { |p| p[:frames_left] <= 0 }
+    end
+
     def resolve_dash_action(attacker, cfg)
       return unless attacker.action_can_trigger?
       attacker.action_triggered!
@@ -960,6 +971,7 @@ module Game
       @projectiles = []
       @impacts = []
       @taunt_pulses = []
+      @kill_pops = []
       @pack.clear_mark!
       @last_damaged_target = nil
       # Cross-zone leash resolves as snap-home: only the current zone ticks, so
@@ -1388,6 +1400,11 @@ module Game
           spawn_corpse_load(e[:actor], corpse_record)
         end
         @pack.clear_mark! if e[:actor].equal?(marked_target)
+        # v16 (e): every death POPS — transient render record, integer phase
+        # seeded by (tile, frame) so replays are byte-identical.
+        @kill_pops << { tile: e[:actor].tile, frames_left: @pop_frames,
+                        pop_frames: @pop_frames,
+                        phase: (e[:actor].tile[0] * 31 + e[:actor].tile[1] * 17 + @frame) % 997 }
         if e[:faction] == :human
           @feel.on_kill if e[:killer].equal?(possessed)
           # v15: the challenger's death is a court event — the term-looter
