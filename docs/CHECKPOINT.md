@@ -1,5 +1,83 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-15 (v15.5 BUILT + WALLED: vat in slow_door, ES pass ratified line-by-line, THREE check amendments, bible de-slop — FOURTEENTH verify next)
+
+**MEASURED: suite 451/1961 green, perf p95 0.252ms, wall 16/16
+(determinism 16/16 byte-identical in-sweep; vision 11/16 direct + 2
+variance retries + 3 amended standalone PASSes — trail below), 49
+checks (ADD-ONLY held: 5 owner-ratified rewordings + 1 scope clause,
+zero deletions).**
+
+**(a) VAT in slow_door [3,5]** — data-only. Verified before commit:
+stations never block (tile_map passability is tile-glyph-only,
+`check_passable!` guards placement) and interact is exact-tile
+(`world.rb:461`), so no replay could touch [3,5] — wall determinism
+16/16 confirmed it.
+
+**(b) ES pass — owner ratified EVERY line via AskUserQuestion (es):**
+court-stamp performative register (the v15 spec's own "court's stamps"
+law → Spanish notarial "QUEDA + participio"): QUEDA PAGADO EL PASO /
+QUEDA PAGADO EL PLAZO, UNO SE ALZA; zones La Primera/Segunda Vela, La
+Rúa Larga, El Cerrojal, El Bajofondo, La Puerta Tarda; strip actions
+atacar/esquivar/marcar/usar/cambiar (kit verbs kept). **TWO OWNER
+OVERRIDES over dev objection, on record:** wipe.line "LA REENCARNACIÓN
+ES INMINENTE" (theology mismatch flagged — no reincarnation in canon)
+and challenger.called.line "ALGO HA DESPERTADO" (accuracy + slop test
+flagged). Blocking language critique (4-agent workflow, axes separate):
+ACCURACY PASS | REGISTER PASS | SLOP PASS at set level; the two
+overrides scored worst (1-2), honest scores in
+`drafts/_es-language-critique-2026-08-15.md`. Ship decision on them is
+the owner's recorded call. Tests updated to ratified canon (strings +
+controls_overlay). Harness stays pinned locale=en — gates untouched.
+
+**(c) THREE check amendments ratified (precedent #14/#19/#42):**
+1. Synthetic-probe scope clause (gate_checks.json "scope" field +
+   2-line critic prepend) — moving_square had been failing 13
+   world-conditioned checks since ≥v14, masked by the rc bug; now
+   PASSES standalone.
+2. Ensemble-trio self-gate clauses — kits_distinct (no clause),
+   possessed_readable (INVERTED pre-v14 clause "mark pass=false"),
+   possession_ring_moves (two contradictory clauses). Evidence:
+   varekka_duel is a one-body focused scene by design; frame_0149
+   SHOWS 2+ pack bodies yet the critic coin-flipped 2 PASS / 3 FAIL
+   over identical pixels. Ensemble reads stay genuinely proven by the
+   11 multi-body scripts.
+3. whirlwind_reads one-shot clause — dense diag (frames 1278→1292,
+   tmp/aoe_diag.json) proved the burst KILLS its taunted victim
+   between 1280→1281; a survivor-reaction frame does not exist. Check
+   now accepts kill-evidence across the reel. Feel gap (no death pop)
+   parked in PARKING_LOT.md.
+
+**(d) BIBLE de-slop enrichment (owner mid-session ask):** 21-agent
+workflow (1.38M tokens) harvested lyrics-hub craft (dual-register
+streams, causal withholding, found-language, sensory anchors,
+plain-speech anchors), audited 15 named tics ("which is why" ×18+,
+"not X but Y" ×16+, epigram-per-section, register flatness), 10/15
+edits survived 3-lens adversarial verify (canon-lock / slop / variety;
+kills all by "withholding over asserting") and are APPLIED to
+`docs/lore/world-bible.md`. Proposal + kill list:
+`drafts/_bible-enrichment-2026-08-15.md`.
+
+**Wall trail (verdicts from teed logs, never runner rc):** in-sweep 11
+direct vision PASS + 16/16 determinism + 16/16 manifests; critic_reel
+and low_quay_run passed on ONE standalone retry each (judgment
+variance — low_quay_run's 3rd lifetime reproduction); moving_square /
+varekka_duel / aoe_specials passed standalone on amended checks (logs:
+tmp/wall/*_v15p5_{a1,retry,amended}.log). Gotchas banked: zone-3
+scripts' out_dir lives under `captures/pilot/` (standalone retries
+need it); the replay script key is `"captures"`, NOT `capture_frames`.
+
+**Junior clone traffic:** gh api shows 1 unique clone on 2026-08-13
+(the day the collaborator was added) — ambiguous; ask Junior directly
+at the v16 debate.
+
+**NEXT: FOURTEENTH blind verify** — owner plays `bin/play es` FIRST,
+no changelog; harvest `/tmp/game_two_session_<pid>.log` BEFORE
+questions; skeleton `drafts/_v15p5-fun-verify-skeleton.md` (Q5 = the
+vat, Q6 = new ES set in situ; keybind Q dropped); targets vs
+thirteenth: quay frames >> 1137, chants > 0. Then v16 debate
+(multiplayer spike etapa 1 LEAD).
+
 ## 2026-08-15 (v15 CYCLE COMPLETE: thirteenth verdict UNDER-EXERCISED, routing ratified, v15.5 scoped — healing + ES pass + amendment + fourteenth)
 
 **MEASURED at goalcomp: junior-tibia HEAD `055aba0`, 298 commits, 0

@@ -456,3 +456,8 @@ only on the named triggers:
 - **In-game rebind UI** — the binding map is a FILE by design (hobbyist + Junior
   git-pull workflow); a rebind screen is its own increment with its own wall.
 - **Deeper chambers below the Low Quay** — future arc rungs; one chamber is v15's.
+- **Whirlwind kill pop (death juice)** — a one-shot kill deletes the victim between
+  frames with zero death effect on the tile (found via the aoe_specials dense diag,
+  2026-08-15: victim alive+underlined at 1280, gone at 1281). Vlambeer touchstone:
+  kills should POP. Check 42 was amended to accept kill-evidence; the underlying
+  feel gap is content for a juice cycle, not a check problem.
