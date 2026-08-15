@@ -50,7 +50,15 @@
     ]
   ],
   "enemy_spawns": {},
-  "stations": [],
+  "stations": [
+    {
+      "type": "vat",
+      "at": [
+        3,
+        5
+      ]
+    }
+  ],
   "transitions": [
     {
       "at": [
