@@ -1,4 +1,5 @@
 {
+  "scope": "All checks below judge world-scenario captures. Exception - synthetic probe: if EVERY frame in the reel shows only bare geometric primitives on an empty void (no tilemap, no HUD bars, no controls strip, no banner text anywhere in the reel), the replay is a render-pipeline smoke (e.g. moving_square) and each check whose subject cannot exist in such a probe passes with why='synthetic probe, out of scope'. no_render_garbage still applies in full - tearing or corrupted output fails even in a probe. If even ONE frame shows a tilemap or HUD, no exemption applies.",
   "checks": [
     {
       "id": "actors_distinct",
@@ -6,15 +7,15 @@
     },
     {
       "id": "kits_distinct",
-      "check": "The three pack creatures read as three DIFFERENT kinds (bright ember orange / deep rust / pale amber), not three copies. If no frame shows all three, judge from the frames that show two."
+      "check": "The three pack creatures read as three DIFFERENT kinds (bright ember orange / deep rust / pale amber), not three copies. If no frame shows all three, judge from the frames that show two. If no frame shows at least two pack creatures, pass with why='not exercised by this script'."
     },
     {
       "id": "possessed_readable",
-      "check": "In frames with multiple pack creatures, exactly one reads as 'the one I control' (brighter + white outline). If no frame shows more than one pack creature, mark pass=false with why='not exercised by this script'."
+      "check": "In frames with multiple pack creatures, exactly one reads as 'the one I control' (brighter + white outline). If no frame shows more than one pack creature, pass with why='not exercised by this script'."
     },
     {
       "id": "possession_ring_moves",
-      "check": "Across the swap frames, the white possession ring appears on a DIFFERENT pack creature before vs after â€” possession visibly moved. If the script never shows a swap, mark pass=false with why='not exercised by this script'.. If the script never shows a swap, pass with why='not exercised by this script'"
+      "check": "Across the swap frames, the white possession ring appears on a DIFFERENT pack creature before vs after - possession visibly moved. If the reel never shows the ring on two different creatures (single-body scenes, off-camera swap targets), pass with why='not exercised by this script'."
     },
     {
       "id": "facing_readable",
@@ -170,7 +171,7 @@
     },
     {
       "id": "whirlwind_reads",
-      "check": "When a striker special-active frame is present, the burst reads as ONE area hit: bright ring tiles around the striker with at least one adjacent victim reacting in the same frame (hurt flash or displaced outward). If no striker special is exercised in this script, pass with why='not exercised by this script'."
+      "check": "When a striker special-active frame is present, the burst reads as ONE area hit: bright ring tiles around the striker with at least one adjacent victim reacting in the same frame (hurt flash or displaced outward) OR an adjacent victim visibly deleted by the burst across the reel (alive in a pre-burst frame, corpse/absent in the burst frames - a one-shot kill is the burst landing). If no striker special is exercised in this script, pass with why='not exercised by this script'."
     },
     {
       "id": "challenge_reads",

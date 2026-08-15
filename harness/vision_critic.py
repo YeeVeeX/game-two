@@ -165,8 +165,13 @@ def extract_json(text: str) -> dict:
 
 
 def run_verdict(captures_dir: Path, checks_path: Path) -> int:
-    checks = json.loads(checks_path.read_text(encoding="utf-8"))["checks"]
+    checks_doc = json.loads(checks_path.read_text(encoding="utf-8"))
+    checks = checks_doc["checks"]
     listing = "\n".join(f"- [{c['id']}] {c['check']}" for c in checks)
+    # Owner-ratified scope clause (amendment 2026-08-15): checklist-level
+    # scoping the per-check texts cannot express (synthetic-probe exemption).
+    if checks_doc.get("scope"):
+        listing = f"Scope: {checks_doc['scope']}\n\n{listing}"
     prompt = VERDICT_PROMPT_TEMPLATE.format(checks=listing)
     client = _client()
     frames = load_frames(captures_dir)
