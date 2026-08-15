@@ -63,9 +63,9 @@ class ControlsOverlayTest < Minitest::Test
   def test_locale_switch_translates_labels_not_vessel_names
     pairs = overlay(locale: "es").vessel_line(world_stub(:blocker))
     assert_equal "goret", pairs[:vessel], "canon vessel names do not translate"
-    assert_includes pairs[:pairs], { glyphs: %w[J Space], label: "ataque" }
+    assert_includes pairs[:pairs], { glyphs: %w[J Space], label: "atacar" }
     assert_includes pairs[:pairs], { glyphs: %w[L E], label: "gritar" }
-    assert_includes pairs[:pairs], { glyphs: %w[Tab], label: "cambio" }
+    assert_includes pairs[:pairs], { glyphs: %w[Tab], label: "cambiar" }
   end
 
   # v15: the strip and KeyboardInput share ONE source — a rebound map is

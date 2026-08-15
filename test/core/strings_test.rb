@@ -21,7 +21,7 @@ module Core
 
     def test_es_locale_resolves_translated_zone_name
       s = Strings.new(DATA, locale: "es")
-      assert_equal "La Segunda Vigilia", s.t("zone.camp.display_name", "The Second Vigil")
+      assert_equal "La Segunda Vela", s.t("zone.camp.display_name", "The Second Vigil")
     end
 
     def test_pt_br_locale_resolves_translated_breach_line
@@ -41,7 +41,7 @@ module Core
       # fallback argument at every locale. v14 rename batch: the judgment
       # register line (v12 fiction annex pre-registration).
       assert_equal "THE FLESH IS SPENT", Strings.new(DATA, locale: "en").t("wipe.line")
-      assert_equal "LA CARNE SE AGOTA", Strings.new(DATA, locale: "es").t("wipe.line")
+      assert_equal "LA REENCARNACIÓN ES INMINENTE", Strings.new(DATA, locale: "es").t("wipe.line")
     end
 
     def test_explicit_locale_beats_env
