@@ -1,5 +1,59 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-14 (v15 BUILT: ratify+bible+forks+spec+dual review+TDD 6/6 — pilot quay1 IN FLIGHT, wall next)
+
+**MEASURED: branch junior-tibia HEAD `b431b34`, 287 commits, ahead 5 of
+origin, tree clean (drafts untracked by design), 14 scripts (+1 pending:
+low_quay_run from the quay1 pilot), 49 checks (ADD-ONLY from 46), suite
+442/1918 green (hook-run at every commit), perf p95 0.336ms, canary
+PASS x2 (world_loop 10/10 + district_hunt 9/9 byte-identical vs true
+v14 gate captures — W1 closed empirically).**
+
+**Done this session, in order:** (1) #14/#19/#42 check amendments
+RATIFIED (owner, opening act — c361ba3 precedent closed). (2) Bible
+session named zone 3 = **The Low Quay** (the silov Silovun is named
+for; dark since the interdict) and the Challenger = **Varekka**
+(Kadravai wardsman-captain, earned third syllable; speaks the suvrim's
+stolen vat-clauses — Dravessa precedent SS12.1; fairness ladder canon-
+derived: pronunciation is stillness). (3) Owner closed 4 forks: quay
+stationless + forced-approach seizure + bindings.json+local override +
+names ratified. (4) Spec + DUAL REVIEW: Codex 2 passes (pass 1 died at
+a session cut, 4 findings recovered from the rollout FILE; pass 2
+REJECT: swap-while-seized defect CONFIRMED in today's code, THE NAME
+IS STRUCK canon violation -> **THE TERM IS PAID**, canary-order defect,
+bindings.local cross-machine poison) + 145-agent panel (16/45 confirmed
+-> ALL folded; envelope declared 3.0M/45, actual 8.39M/145 — recorded,
+calibration memory updated). Review ledger verbatim:
+`drafts/_v15-spec-review.md`. Spec commit `5bf1762`. (5) TDD 6/6 green
+commits: zone+canary `4455cd9` -> keybinds `acd6fee` -> chant+seizure
+`ae5a24d` -> presentation+telemetry+manifests `b431b34`. Live catches:
+exactly-once guard swallowed :expired (keyed on active? at zero frames
+— fixed on raw seizer presence); hitstop ate test drives (clear_crew
+burns it now).
+
+**IN FLIGHT at goalcomp: pilot quay1** (`rake pilot NAME=quay1 SEED=7`,
+window idle = frozen). Route + beats + manifest + doctrine pointers:
+`drafts/_v15-pilot-plan.md` (read it FIRST after compact; if the window
+died, relaunch fresh — nothing exported yet). The script must pay BOTH
+seals in-run (fresh world per replay) — this also closes the #41
+seal-breach coverage gap (zero wall scripts staged a breach since v12).
+
+**NEXT:** finish pilot -> export low_quay_run + add manifest key ->
+WALL full re-run 15 scripts (low_quay_run FIRST, then v14 order; teed
+logs tmp/wall/<s>_v15_a1.log; rake manifest after every gate; re-pilot
+budget 3-6) -> perf + full suite -> CHECKPOINT + PARKING_LOT (already
+has the v15 parked section) -> fetch -> push junior-tibia -> THIRTEENTH
+blind verify (SPANISH ask; oracle = did the Low Quay feel EARNED + did
+Varekka SCARE you; harvest /tmp/game_two_session_<pid>.log BEFORE
+questions; questions + routing pre-registered in the spec, incl. the
+TELL VALIDATED branch and the acta-swap disclosure) -> v16 debate
+(multiplayer spike etapa 1 = LEAD; check Junior clone status first).
+
+**Owner queue:** ES locale pass (now also: UNO SE PLANTA / LA CARNE ES
+LLAMADA / EL PLAZO ESTA PAGADO / El Muelle Bajo); Junior PT-BR pass
+(UM SE PLANTA / O PRAZO ESTA PAGO / O Cais Baixo + the new JUNIOR.md
+custom-keys section); nudge Junior to clone.
+
 ## 2026-08-14 (v14 WON the twelfth + v15 DEBATE CLOSED — cycle complete, v15 brainstorm next)
 
 **MEASURED: branch junior-tibia HEAD `35992e7`, 281 commits, tree clean,
