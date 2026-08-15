@@ -6,50 +6,59 @@ permission for design decisions.
 
 ## Scope contract (the #1 Kethral failure was ignoring this — it is enforced here)
 
-v15 (2026-08-14): **v14 legibility SHIPPED + WON the twelfth blind
-verify** (`4b33426` on `junior-tibia`, wall 14/14 with 4 re-pilots,
-perf 0.341ms, suite 395/1601). Headline: **B VALIDATED + telegraph
-VALIDATED + strip VALIDATED** — FOURTH consecutive win. Whirlwind fired
-(casts=2, hits{1=1,2=1}, kills=2) and landed as payoff ("Sí, premio");
-268 telegraphs shown + planned around ("Sí, planeé"); strip helped find
-tools ("Ayudó") with a LANE out: dual-keybind visibility. Body reacted
-(seventh read, fourth consecutive). Verdict + routing + telemetry
-verbatim: `drafts/_v14-fun-verify-20260814.md`.
-v15 DEBATE CLOSED 2026-08-14 (owner via AskUserQuestion):
-**v15 = ZONE 3 + THE CHALLENGER + CONFIGURABLE KEYBINDS.**
+v15.5 (2026-08-15): **v15 BUILT + WALLED (16 scripts, determinism
+16/16, zone-3 scripts landed, gap #41 closed) + THIRTEENTH verdict:
+UNDER-EXERCISED, not lost.** Owner played 43 min, paid both seals,
+34 fights — and lasted 19 SECONDS total across two Low Quay entries
+(quay entries=2 frames=1137 deaths=2; varekka engaged=1 chants=0).
+His P7+P8 named the same root the pilot's ~28 instrumented attempts
+measured: **no healing at or before the quay = tax-wall**; every
+headline read (P1 "otro distrito más", P2 "casi ni lo vi") is
+downstream of that one fault. P6: ES strings "todos suenan falsos" —
+owner invoked /human-facing-output. Three pilot-driven balance commits
+RATIFIED at the debrief (kill-box `c77b4f2`, funnels `2f76956`,
+**Varekka hunts the whole quay, aggro 10→45** `a8b28b1`). Verdict +
+telemetry + routing verbatim: `drafts/_v15-fun-verify-20260815.md`.
+v15.5 DEBATE CLOSED 2026-08-15 (owner via AskUserQuestion, dev
+recommendation accepted): **v15.5 = MAKE v15 LIVABLE, then re-ask.**
 
-**IN scope — v15 promotes THREE increments (biggest scope to date):**
-- **(a) Zone 3 — beyond the stair.** New geography, new zone data file,
-  zone banner, enemy composition, arc progression. What is past the
-  sealed stair the owner paid 150 to open TWICE. Human-facing surfaces
-  (zone banner, any beat text) go through the `human-facing-output`
-  skill at every draft. Fiction order form: the bible session names the
-  zone BEFORE the spec (same process as First Vigil/Longrow).
-- **(b) The Challenger.** A NAMED human who force-taunts the player's
-  possessed body — "humans never fought back, until one did." MANDATORY
-  fairness ladder: visible tell + counters (the player can react).
-  Dossier: `drafts/_scope-debate-v11.md` + 6 non-confirms + owner's
-  EXPLICIT promotion at the twelfth. The first peak entrainment was
-  never asked to carry — it now has its own source.
-- **(c) Configurable keybinds strip.** Binding map in `data/` (JSON);
-  the strip reads it per player config. Secondary bindings visible.
-  Multiplayer-ready: each machine's config can differ at v16.
-- **Lanes:** check-amendment ratification (#19/#42 + check-14 rewording
-  — owner queue, opening act); ES/PT-BR locale pass (overlay verbs +
-  zone-3 names — `human-facing-output` skill applies); multiplayer prep
-  docs update for Junior (docs/JUNIOR.md).
-- Oracle: the THIRTEENTH ask — **did zone 3 feel like arriving somewhere
-  earned** + **did the Challenger scare you** (the first peak it exists
-  to create).
+**IN scope — v15.5 is a short cycle, three items + one amendment:**
+- **(a) VAT in slow_door** (healing before the quay — the owner's
+  literal ask; the quay itself stays STATIONLESS per fork 1).
+  Data-only: `zones/slow_door.json` stations. Wall scripts re-run.
+- **(b) Full ES human-facing-output pass** over names/stamps/banners
+  with the bible (register: diegetic, terse, the fiction's voice —
+  never translationese). Owner ratifies each replacement. Blocking at
+  ship per Rules 2/6.
+- **(c) FOURTEENTH blind ask** — both v15 oracle halves unchanged
+  (Low Quay EARNED + Varekka SCARED), plus strip/stationless re-asks.
+- **(d) moving_square check amendment** (formal wording; owner
+  ratifies): synthetic render smoke exempt from world-conditioned
+  checks OR determinism-only wall slot. Found via the run_wall.sh
+  PIPESTATUS bug — it had been failing the critic since ≥v14, masked.
+- P5 strip legibility: recorded, deferred by the owner to the
+  resolution-scaling item (no dose now).
 - All numbers in `data/`; zero balance constants in Ruby; checks
-  ADD-ONLY from 46.
+  ADD-ONLY from 49.
 
 **OUT of scope — goes to PARKING_LOT.md, never to code:**
-**Multiplayer spike etapa 1** (v16 LEAD — Junior hasn't cloned yet; zone
-3 gives a richer first experience); dossier legs A/C/E; everything
-long-parked.
-**Nothing new starts until v15 is fun-verified by the owner (the
-THIRTEENTH ask).**
+**Multiplayer spike etapa 1** (v16 LEAD — starts AFTER the fourteenth;
+Junior still hasn't cloned); zone-identity presentation dose (cannot
+be judged from inside a meat grinder — fourteenth decides); the chest
+fork (P4 unexercised); dossier legs A/C/E; everything long-parked.
+**Nothing new starts until v15 is fun-verified livable (the FOURTEENTH
+ask).**
+
+## Previous scope contract (v15 — verify ran 2026-08-15, routed to v15.5)
+
+v15 = ZONE 3 (The Low Quay) + THE CHALLENGER (Varekka) + CONFIGURABLE
+KEYBINDS. Built + walled complete: `low_quay_run` (travel regression,
+both seals in-run) + `varekka_duel` (duel regression: live ring, landed
+seizure, chant_interrupted x2, THE TERM IS PAID, fat-drop pickup) via
+the new `start.zone` harness param (`87ee19b`); TAS-style authoring
+doctrine banked in memory + drafts/_v15-pilot-progress.md. THIRTEENTH
+verdict: under-exercised (healing access), routed to v15.5 above. Spec:
+`docs/superpowers/specs/2026-08-14-v15-zone3-challenger-keybinds-design.md`.
 
 ## Human-facing surfaces
 
@@ -77,88 +86,6 @@ strip VALIDATED ("Ayudó" + dual-keybind lane out). Lane e CLOSED (L0,
 CLOSED-VALIDATED (third clean), Challenger promoted to v15 (owner's
 explicit call after 6 non-confirms). Spec:
 `docs/superpowers/specs/2026-08-14-v14-legibility-design.md`.
-
-## Previous scope contract (v13 — CLOSED 2026-08-14, kept for the record)
-
-v13 (2026-08-14): **v12 arc/purpose SHIPPED + WON the tenth blind verify**
-(merge `4703d3d`, wall 10/10, perf p95 0.337ms, suite 335/1386). Headline
-verbatim: **"Advancing toward something"** — SECOND consecutive win.
-Breach = "earned payoff, toll worth it"; Keyward = "arrived somewhere
-new"; body reacted (Q8, fifth read). Telemetry: the owner paid BOTH seals
-(incl. the 150 stretch), 240 Keyward kills, 29 inscriptions / 21 tributes
-/ 634 banked spent. Residue ROUTED (not tuning-sized this time): trips
-are MAINTENANCE-FORCED (q6_margins: pure=0 of 19 banks, dead 1.3 +
-wounded 1.7 at bank — the lever is maintenance economics, not distance);
-drift "Mixed" after dose iteration TWO → structural lever; corpse-run
-camp at guard 10 → values lane EXHAUSTED, guard-scope un-parked. Q4
-Second Vigil = "just a shorter walk" (recorded, no lane — rides the
-headline). Verdict + telemetry + routing verbatim:
-`drafts/_v12-fun-verify-20260813.md`. **c361ba3 check amendment RATIFIED
-by the owner at this debrief** (self-gate wording stands; checks 42).
-SCOPE DEBATE closed 2026-08-14 (owner via AskUserQuestion, all three dev
-recommendations accepted): **v13 = TIBIA AOE SPECIALS (B+D).**
-
-**IN scope — v13 promotes exactly ONE increment, the AoE-specials pair,
-plus the three routed lanes:**
-- **The increment — dossier legs B+D ONLY**
-  (`drafts/_tibia-aoe-research-20260813.md`): **(B) clump-payoff
-  special** — AoE whose efficiency scales with target count; the
-  player-side cash-out of v11 density; and **(D) challenge-retarget
-  special** — forced retarget of humans in radius to the possessed
-  (`cause=challenged`), Tibia `exeta amp res`; directly answers the
-  mobbed-while-carrying death pattern (owner's tenth session: 21
-  carrying-deaths hauling 58-144 value). Kit placement, pip costs,
-  bindings = design forks at brainstorm, owner closes BEFORE the spec.
-  Oracle: the ELEVENTH ask's headline = did density become YOUR weapon —
-  did the clump/challenge specials make the swarm feel like payoff.
-- **Tenth-routed lanes (authorized by the routing table):**
-  maintenance-economics lever (tribute/inscribe pricing + regrow cadence
-  — DATA lane; q6_margins named it: trips are maintenance-forced);
-  drift structural lever (DESIGN investigation with ninth+tenth data side
-  by side — two value doses both partial-missed, no third blind dose);
-  guard-scope live-wanderer avoidance (DESIGN item, un-parked by Q7 —
-  fairness only, NEVER a global softening; difficulty stays pinned:
-  the owner answered "nothing unfair" alongside the camping report).
-- **Brainstorm/spec is the NEXT session's first act**; nothing lands in
-  code before the spec's owner forks close. *(2026-08-14: the owner
-  delegated fork closure mid-session — "continúa de manera autónoma";
-  forks closed on dev recommendation, documented in the spec for owner
-  veto at the eleventh debrief.)*
-- **Owner-directive additions (2026-08-14, mid-session, IN scope by owner
-  order):** (a) **i18n lane** — locales en/es/pt-br, authored translations
-  (no Amazon Translate at ~8 strings), harness pins locale=en (gate
-  comparability law); (b) **Junior onboarding doc** (`docs/JUNIOR.md`,
-  PT-BR+EN — Junior has NO AWS account; everything he touches must be
-  git-pull simple); (c) **branch model change**: `junior-tibia` = the
-  collaborative line (work lands there, pushed regularly — supersedes
-  "never push"); `main` = solo/backup line, untouched.
-- All numbers in `data/`; zero balance constants in Ruby.
-
-**OUT of scope — goes to PARKING_LOT.md, never to code:**
-**Multiplayer/shared play** (owner ask 2026-08-14, decision delegated to
-dev): GameLift REJECTED (dedicated-server fleets, no Ruby SDK, overkill
-for 2P co-op; Junior has no AWS). Chosen path = deterministic lockstep
-over Tailscale, staged: (0) replay exchange via the repo, (1) v14
-cross-machine determinism spike, (2) 2P possession co-op (each player
-possesses a body of the SAME pack). v14 lead; ZERO netcode in v13.
-The **Challenger**: FOURTH decline (Q8 body reacted again — density+arc
-carry entrainment); dossier stands, weaker still; promotion stays the
-owner's explicit call, fairness ladder mandatory. **Dossier legs A/C/E**
-(elemental fields, resistance profiles, DoT kite-tax): parked — B+D ship
-without the elemental data layer. **Zone 3 beyond the stair**: seal2
-opened onto the sealed stair (the hook is LIVE and the owner reached it)
-— v14 arc candidate. **"The Nest" rename**: unblocked by the bible pass,
-not chosen at this debate — re-raise at the v14 debate. **Q7
-retarget-cue redesign** stays parked (presentation). Also parked:
-restart persistence; quirks/history accumulation; practice fine +
-insurance (D2); scavengers + term-extension marks (D3); D1 term/grace
-retuning; A1 gambits, Shooters; inventory grids, carry weight, rarity,
-new drop types; video-critic harness leg + gamesmith fun-verify assist;
-plus everything already parked (procedural dungeons, stamina, XP/skills,
-dialogue, status effects, crafting, weather, co-op, quests, shops,
-multiple weapons).
-**Nothing new starts until v13 is fun-verified by the owner (the
-ELEVENTH ask; headline = did density become your weapon).**
 
 ## De-slop + comprobations (owner-set 2026-08-09)
 
