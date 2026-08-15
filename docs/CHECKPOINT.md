@@ -1,5 +1,39 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-15 (v15 CYCLE COMPLETE: thirteenth verdict UNDER-EXERCISED, routing ratified, v15.5 scoped — healing + ES pass + amendment + fourteenth)
+
+**MEASURED at goalcomp: junior-tibia HEAD `055aba0`, 298 commits, 0
+ahead of origin (pushed), suite 451/1961 green (re-run at write time),
+16 wall scripts, 49 checks, 16 teed wall logs.**
+
+**THIRTEENTH BLIND VERIFY — ran 2026-08-15, verdict UNDER-EXERCISED
+(not lost).** Owner session pid 16132: ~43 min, 34 fights, 8 wipes,
+15 banks, BOTH seals paid — and **19 seconds total across two Low Quay
+entries** (quay entries=2 frames=1137 deaths=2; varekka engaged=1
+chants=0 — he crossed toward the owner, who died before one chant).
+P7+P8 named the root the pilot's ~28 attempts had measured: **no
+healing at or before the quay = tax-wall**; P1 "otro distrito más" and
+P2 "casi ni lo vi" are downstream of it. P6: ES strings "todos suenan
+falsos" — owner invoked /human-facing-output. P5 strip: functional,
+legibility deferred by owner to resolution scaling. Debrief: ALL
+disclosures approved (3 balance commits ratified incl. aggro 10→45;
+moving_square amendment approved in principle). Verdict + telemetry +
+routing verbatim: `drafts/_v15-fun-verify-20260815.md`.
+
+**v15.5 DEBATE CLOSED (owner accepted dev recommendation): make v15
+livable, then re-ask.** Scope in CLAUDE.md. Operating detail (vat tile
+choice [3,5] off the door column, ES pass mechanics, amendment shapes,
+fourteenth protocol): `drafts/_v15p5-plan.md` — READ FIRST next
+session. Wall-integrity carry-forwards (PIPESTATUS pattern, critic
+INFRA-flake retry protocol) are in that plan too.
+
+**NEXT sequence:** (1) vat in slow_door (data-only, verify no replay
+paths [3,5]) → wall 16 re-run; (2) ES pass via human-facing-output
+skill, owner ratifies each name via AskUserQuestion; (3) moving_square
+amendment text → owner ratification; (4) FOURTEENTH blind ask (same
+oracle halves); (5) then v16 = multiplayer spike etapa 1 (Junior still
+has NOT cloned — nudge).
+
 ## 2026-08-15 (v15 BUILT + WALLED: both zone-3 scripts exported and gate-green, wall 16/16 determinism, three pilot-driven balance commits — THIRTEENTH verify next)
 
 **MEASURED: suite 451/1961 green, perf p95 0.335ms, 16 wall scripts
