@@ -113,6 +113,19 @@ class ChallengerTest < Minitest::Test
     assert_equal post, varekka.tile, "pronunciation is stillness"
   end
 
+  # The renderer's tell derives elapsed from chant_left (pilot-found crash:
+  # the reader was missing while the ivar existed — NoMethodError the first
+  # time a chant entered the camera).
+  def test_chant_left_is_readable_and_counts_down
+    face_varekka!(dist: 5)
+    drive(world, scripted({}), 3)
+    assert varekka.chanting?
+    before = varekka.chant_left
+    assert_operator before, :>, 0
+    drive(world, scripted({}), 10)
+    assert_operator varekka.chant_left, :<, before
+  end
+
   def test_chant_does_not_start_out_of_range
     face_varekka!(dist: SEIZE[:range_tiles] + 3)
     started = collect(:challenger_chant_started)

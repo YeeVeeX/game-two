@@ -290,6 +290,7 @@ module Game
     end
 
     def chanting? = @chant_left.positive?
+    def chant_left = @chant_left
     def chant_target = @chant_target
     def chant_hp = @chant_hp
 
