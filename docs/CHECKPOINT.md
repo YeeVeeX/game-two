@@ -1,5 +1,49 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-15 (v16 increments 1-2 SHIPPED: scaling + kill pop — increment 3 next; Junior cloning)
+
+**MEASURED: junior-tibia `2375335` synced 0/0 with origin, suite 474/2031
+green (hook-run at every commit), window.rb 84/300.**
+
+**Shipped, TDD, each green+pushed:** (a) resolution scaling `c43a0f0` —
+`App::Scale` pure policy + window wiring, `window_scale: "auto"` in
+display.json, harness pinned by construction (structural test), **canary
+proof: 10 captures byte-identical to the pre-change baseline**; (e) kill
+pop `21d3c9d` — `world.kill_pops` transient records (taunt_pulses
+pattern), `App::KillPop` integer shard geometry, flash-primary renderer
+draw, keys in combat.json feel + display.json.
+
+**Two traps hit + banked:** (1) the possessed's kill hitstop PAUSES pops
+— the spec's own law; the test burns `hitstop_frames_kill` before
+measuring (HITSTOP_SLACK precedent). (2) Suite-green ≠ game-runs: the
+renderer used `App::KillPop` without requiring it; test load-order masked
+it; the world_loop replay CRASHED at frame 643 and the determinism gate
+caught it (v15 chant-crash class). Fix: explicit require; the gate is the
+backstop for require hygiene.
+
+**Owner feel-check (informal, NO protocol):** ~220 kills / 22 fights /
+5 wipes / 10 banks / seal 1 paid at the new scale with pops live. No
+impressions volunteered; open question stands.
+
+**Junior: CLONING NOW (first engagement).** JUNIOR.md clone snippet fixed
+same day (`6b75f51` — bare clone landed on main, which runs behind; now
+`-b junior-tibia`). When his window opens: `bin\play.cmd pt-br`, report
+install errors verbatim + PT-BR lines that read wrong. First working
+session = **v17 trigger #1, log it in the scope contract**.
+
+**NEXT (fresh session, spec order — read the spec first:**
+`docs/superpowers/specs/2026-08-15-v16-presentation-identity-design.md`**):**
+increment 3 stamp delivery (display keys + stamp path in draw_banner +
+floor seal marks for located stamps + timing tests) → 4 zone identity
+(6 palette redesigns + motif/ambient/decor channels + fallback
+byte-identity test) → 5 dread (inscription burn sim + writ-frame +
+seized weight; burn ordering tests per review fold) → language lane
+(3-probe calibration with the owner ON CAPTURES, grounded candidates for
+named lines only) → WALL full re-run (comparability reset; expect critic
+recalibration on identity checks, INFRA-flake retry protocol applies) →
+perf → FIFTEENTH blind ask (protocol + routing pre-registered in the
+spec) → v17 debate (multiplayer triggers check).
+
 ## 2026-08-15 (FOURTEENTH WON on livability + v16 SCOPED: presentation/identity — multiplayer deferred to v17 behind triggers)
 
 **FOURTEENTH blind verify (semi-blind — contamination disclosed, skeleton
