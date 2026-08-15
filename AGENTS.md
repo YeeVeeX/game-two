@@ -1,26 +1,21 @@
 # game-two — Ruby+Gosu grid ARPG (monster flip)
 
-Claude is the **dev of record** (design calls are Claude's to make and defend); owner is the
+The dev agent is the **dev of record** (design calls are the dev's to make and defend); owner is the
 **tester** (plays builds, reacts, reports). Log reasoning, ship testable builds, don't ask
 permission for design decisions.
 
 ## Scope contract (the #1 Kethral failure was ignoring this — it is enforced here)
 
-v15.5 (2026-08-15): **v15 BUILT + WALLED (16 scripts, determinism
-16/16, zone-3 scripts landed, gap #41 closed) + THIRTEENTH verdict:
-UNDER-EXERCISED, not lost.** Owner played 43 min, paid both seals,
-34 fights — and lasted 19 SECONDS total across two Low Quay entries
-(quay entries=2 frames=1137 deaths=2; varekka engaged=1 chants=0).
-His P7+P8 named the same root the pilot's ~28 instrumented attempts
-measured: **no healing at or before the quay = tax-wall**; every
-headline read (P1 "otro distrito más", P2 "casi ni lo vi") is
-downstream of that one fault. P6: ES strings "todos suenan falsos" —
-owner invoked /human-facing-output. Three pilot-driven balance commits
-RATIFIED at the debrief (kill-box `c77b4f2`, funnels `2f76956`,
-**Varekka hunts the whole quay, aggro 10→45** `a8b28b1`). Verdict +
-telemetry + routing verbatim: `drafts/_v15-fun-verify-20260815.md`.
-v15.5 DEBATE CLOSED 2026-08-15 (owner via AskUserQuestion, dev
-recommendation accepted): **v15.5 = MAKE v15 LIVABLE, then re-ask.**
+**One cycle lives in this file.** Previous cycles: `git log --follow -- AGENTS.md` +
+specs in `docs/superpowers/specs/`; verdict/telemetry narratives live in
+`drafts/`, never here.
+
+v15.5 (2026-08-15, debate closed, owner ratified): **MAKE v15 LIVABLE, then
+re-ask.** v15 (Zone 3 "The Low Quay" + the Challenger Varekka + configurable
+keybinds) is BUILT + WALLED; THIRTEENTH verdict: UNDER-EXERCISED, not lost —
+root cause: **no healing at or before the quay = tax-wall**. Verdict +
+telemetry + routing verbatim: `drafts/_v15-fun-verify-20260815.md`. v15 spec:
+`docs/superpowers/specs/2026-08-14-v15-zone3-challenger-keybinds-design.md`.
 
 **IN scope — v15.5 is a short cycle, three items + one amendment:**
 - **(a) VAT in slow_door** (healing before the quay — the owner's
@@ -34,31 +29,18 @@ recommendation accepted): **v15.5 = MAKE v15 LIVABLE, then re-ask.**
   (Low Quay EARNED + Varekka SCARED), plus strip/stationless re-asks.
 - **(d) moving_square check amendment** (formal wording; owner
   ratifies): synthetic render smoke exempt from world-conditioned
-  checks OR determinism-only wall slot. Found via the run_wall.sh
-  PIPESTATUS bug — it had been failing the critic since ≥v14, masked.
+  checks OR determinism-only wall slot.
 - P5 strip legibility: recorded, deferred by the owner to the
   resolution-scaling item (no dose now).
 - All numbers in `data/`; zero balance constants in Ruby; checks
   ADD-ONLY from 49.
 
 **OUT of scope — goes to PARKING_LOT.md, never to code:**
-**Multiplayer spike etapa 1** (v16 LEAD — starts AFTER the fourteenth;
-Junior still hasn't cloned); zone-identity presentation dose (cannot
-be judged from inside a meat grinder — fourteenth decides); the chest
+**Multiplayer spike etapa 1** (v16 LEAD — starts AFTER the fourteenth);
+zone-identity presentation dose (the fourteenth decides); the chest
 fork (P4 unexercised); dossier legs A/C/E; everything long-parked.
 **Nothing new starts until v15 is fun-verified livable (the FOURTEENTH
 ask).**
-
-## Previous scope contract (v15 — verify ran 2026-08-15, routed to v15.5)
-
-v15 = ZONE 3 (The Low Quay) + THE CHALLENGER (Varekka) + CONFIGURABLE
-KEYBINDS. Built + walled complete: `low_quay_run` (travel regression,
-both seals in-run) + `varekka_duel` (duel regression: live ring, landed
-seizure, chant_interrupted x2, THE TERM IS PAID, fat-drop pickup) via
-the new `start.zone` harness param (`87ee19b`); TAS-style authoring
-doctrine banked in memory + drafts/_v15-pilot-progress.md. THIRTEENTH
-verdict: under-exercised (healing access), routed to v15.5 above. Spec:
-`docs/superpowers/specs/2026-08-14-v15-zone3-challenger-keybinds-design.md`.
 
 ## Human-facing surfaces
 
@@ -73,19 +55,6 @@ verdict: under-exercised (healing access), routed to v15.5 above. Spec:
 Ship-gate: language critique (accuracy vs presentation, separate axes) is
 blocking at ship per global Rules 2/6; checklist in the `human-facing-output`
 skill.
-
-## Previous scope contract (v14 — CLOSED 2026-08-14, WON the twelfth)
-
-v14 (2026-08-14): legibility/onboarding — controls strip + respawn
-telegraph + renames (First Vigil/Longrow/THE FLESH IS SPENT) + span_thirds
-drift companion. Wall 14/14 (4 re-pilots vs W1 RNG shift; manifest law
-caught 4 desyncs the critic missed 3 of). B VALIDATED (whirlwind fired
-casts=2, "Sí, premio"), telegraph VALIDATED (268 shown, "Sí, planeé"),
-strip VALIDATED ("Ayudó" + dual-keybind lane out). Lane e CLOSED (L0,
-"ritmo ok"), drift CLOSED (span_thirds monotonic 102<113<134), guard-scope
-CLOSED-VALIDATED (third clean), Challenger promoted to v15 (owner's
-explicit call after 6 non-confirms). Spec:
-`docs/superpowers/specs/2026-08-14-v14-legibility-design.md`.
 
 ## De-slop + comprobations (owner-set 2026-08-09)
 
@@ -139,11 +108,13 @@ explicit call after 6 non-confirms). Spec:
 
 - `rake` — run all tests
 - `bin/play` (Git Bash) or `bin\play.cmd` (double-click / cmd) — launch the game
-- `rake capture SCRIPT=harness/scripts/<name>.json` — deterministic replay + frame capture
-  (world_loop.json = everyday regression loop; district_hunt.json = hunt regression;
-  specials_chain.json = A0.5 specials chain; loot_loop.json = D0 loot loop;
-  taunt_anchor.json = A0.6 taunt anchor; corpse_run.json = D1 corpse run;
-  ledger_loop.json = fight-ledger beats)
+- `rake capture SCRIPT=harness/scripts/<name>.json` — deterministic replay + frame capture.
+  One script per regression surface lives in `harness/scripts/` (the wall); trust the
+  directory, not an inline list here (an inline list went stale once). Canonical entry
+  points: `world_loop.json` (everyday loop), `low_quay_run.json` + `varekka_duel.json`
+  (v15 wall; zone-start scripts use the `start.zone` param).
+- `harness/run_wall.sh [tag]` — full wall sweep: every script in `harness/scripts/`
+  through gate + manifest, teed logs in `tmp/wall/`, nonzero exit if any script fails.
 - `rake gate SCRIPT=harness/scripts/<name>.json` — the BLOCKING Rule 2 gate: double replay +
   md5 compare + structured vision verdict (exit nonzero on any failure). `SKIP_CRITIC=1` runs
   the determinism half only (iteration aid, not a shippable pass).
@@ -167,6 +138,9 @@ explicit call after 6 non-confirms). Spec:
   — useful for `tdd-check src/game/<file>.rb` (WARN-only heuristic) and
   `handoff validate` when multi-agent sessions exchange handoff files.
 - `rake gate` stays the Rule 2 blocking ship-gate (unchanged); hooks don't replace it.
+- **Process artifacts are tracked**: `drafts/` (verdicts, reviews, calibration history)
+  lives in git — commit at cycle close. Only `drafts/_tibia-videos/` (media corpus) stays
+  ignored. The wall runner is `harness/run_wall.sh`, never a tmp/ scratch copy.
 
 ## Controls
 
