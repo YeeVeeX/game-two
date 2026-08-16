@@ -138,12 +138,26 @@ module Game
       target = bound || marked || nearest(creature, view.hostiles_for(creature))
       if target && (bound || marked || chebyshev(creature.tile, target.tile) <= creature.kit[:aggro_tiles])
         engage(creature, target, view)
-      elsif creature.faction == :pack && !view.possessed.equal?(creature)
-        follow(creature, view.possessed, view)
+      elsif creature.faction == :pack && !controlled_by_view?(creature, view)
+        anchor = follow_anchor(creature, view)
+        follow(creature, anchor, view) if anchor
       end
     end
 
     private
+
+    # v17 decision 11: AI drives every living body NOT controlled by a
+    # seat; the free ally follows the NEAREST controlled body (Chebyshev,
+    # tie -> seat order). respond_to? keeps the single-possessed duck-type
+    # contract for plain views.
+    def controlled_by_view?(creature, view)
+      view.respond_to?(:controlled?) ? view.controlled?(creature) : view.possessed.equal?(creature)
+    end
+
+    def follow_anchor(creature, view)
+      bodies = view.respond_to?(:controlled_bodies) ? view.controlled_bodies : [view.possessed]
+      nearest(creature, bodies.reject(&:dead?))
+    end
 
     def tick_human(creature, view)
       target = creature.focus
@@ -187,7 +201,7 @@ module Game
 
     def marked_target_for(creature, view)
       return nil unless creature.faction == :pack
-      return nil if view.possessed.equal?(creature)
+      return nil if controlled_by_view?(creature, view)
       view.respond_to?(:marked_target) ? view.marked_target : nil
     end
 

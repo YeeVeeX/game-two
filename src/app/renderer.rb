@@ -77,15 +77,19 @@ module App
     # precedent) — the fetch defaults only keep a bare Renderer.new drawable.
     # strings: Core::Strings resolver (v13 i18n) — RENDER-time only; the
     # harness constructs it pinned to "en" (replay comparability law).
-    def initialize(display: {}, strings: nil, bindings: nil)
+    def initialize(display: {}, strings: nil, bindings: nil, local_seat: 1)
       @display = display
       @strings = strings
       @pressure_alpha = @display.fetch(:pressure_outline_alpha, 140)
-      @controls_overlay = ControlsOverlay.new(display:, strings:, bindings:)
+      # v17 renderer seam (Codex fold #7): every possessed/camera read goes
+      # through the LOCAL seat — default 1, so single-player output is
+      # byte-identical by default.
+      @local_seat = local_seat
+      @controls_overlay = ControlsOverlay.new(display:, strings:, bindings:, local_seat:)
     end
 
     def draw(world)
-      cam = world.camera
+      cam = world.camera(@local_seat)
       Gosu.translate(world.feel.shake_x - cam.x, world.feel.shake_y - cam.y) do
         draw_map(world)
         draw_impacts(world)
@@ -120,7 +124,7 @@ module App
       # recap, and the recap legible through the veil is the point (spec:
       # one owned draw-order decision; review M1-codefit).
       draw_ledger_beat(world)
-      draw_stagger_veil(world) if world.possessed.staggered?
+      draw_stagger_veil(world) if world.possessed(@local_seat).staggered?
     end
 
     def draw_impacts(world)
@@ -350,7 +354,7 @@ module App
     def draw_station_ledger(world)
       world.map.stations.each do |s|
         tx, ty = s[:at]
-        px, py = world.possessed.tile
+        px, py = world.possessed(@local_seat).tile
         next unless [(tx - px).abs, (ty - py).abs].max <= LEDGER_RADIUS_TILES
         ts = world.map.tile_size
         if s[:type] == "bank"
@@ -412,7 +416,7 @@ module App
       lx, ly = lunge_offset(c)
       x = c.x + lx
       y = c.y + ly
-      if c.equal?(world.possessed)
+      if c.equal?(world.possessed(@local_seat))
         Gosu.draw_rect(x - 3, y - 3, SIZE + 6, SIZE + 6, POSSESSED_RING)
       end
       if c.faction == :pack && c.marked?
@@ -453,7 +457,7 @@ module App
       draw_attack(c, world.map.tile_size) if c.faction == :pack
     end
 
-    def ally?(c, world) = c.faction == :pack && !c.equal?(world.possessed)
+    def ally?(c, world) = c.faction == :pack && !c.equal?(world.possessed(@local_seat))
 
     def body_color(c, world)
       if c.faction == :pack && c.iframes? && (world.frame / 3).even?
@@ -554,7 +558,7 @@ module App
     def draw_writ_veil(world)
       chanter = world.humans.find(&:chanting?)
       return unless chanter
-      cam = world.camera
+      cam = world.camera(@local_seat)
       cx = (chanter.x + SIZE / 2 + world.feel.shake_x - cam.x).round
       cy = (chanter.y + SIZE / 2 + world.feel.shake_y - cam.y).round
       radius = @display.fetch(:writ_radius_tiles, 4) * world.map.tile_size
@@ -675,7 +679,7 @@ module App
     def draw_hud(world)
       world.pack.members.each_with_index do |m, i|
         y = 16 + i * 20
-        mine = m.equal?(world.possessed)
+        mine = m.equal?(world.possessed(@local_seat))
         w = mine ? 260 : 200
         x = 32
         Gosu.draw_rect(x - 2, y - 2, w + 4, 18, POSSESSED_RING) if mine
@@ -701,9 +705,9 @@ module App
     # Living off-screen kin show as kit-colored pips clamped to the viewport
     # edge toward their true position — ally state is never invisible.
     def draw_edge_pips(world)
-      cam = world.camera
+      cam = world.camera(@local_seat)
       world.pack.living.each do |m|
-        next if m.equal?(world.possessed)
+        next if m.equal?(world.possessed(@local_seat))
         sx = m.x - cam.x
         sy = m.y - cam.y
         on_screen = sx > -SIZE && sx < cam.view_w && sy > -SIZE && sy < cam.view_h
@@ -955,8 +959,8 @@ module App
       Gosu::Color.new((color.alpha * a / 255.0).round, color.red, color.green, color.blue)
     end
 
-    def view_width(world) = world.camera.view_w
-    def view_height(world) = world.camera.view_h
+    def view_width(world) = world.camera(@local_seat).view_w
+    def view_height(world) = world.camera(@local_seat).view_h
 
     # v13 i18n seam: every player-visible string funnels through here.
     # No resolver (bare Renderer.new) = the fallback = pre-v13 exact text.

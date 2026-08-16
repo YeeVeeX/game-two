@@ -26,6 +26,13 @@ module Core
     end
   end
 
+  # The input that holds nothing (v17 seat plumbing): a seat missing from
+  # a World#tick inputs hash reads this — deterministic, stateless.
+  class NullInput
+    def down?(_action) = false
+    def update(_frame) = nil
+  end
+
   # Replay script: { "frames": { "12": ["right", "attack"], ... } }
   # Frame numbers are the frame the actions are HELD on; contiguous runs are
   # expressed by listing each frame (scripts are generated, not hand-typed).

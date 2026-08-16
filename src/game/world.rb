@@ -2,6 +2,7 @@ require "core/event_bus"
 require "core/state_stack"
 require "core/tile_map"
 require "core/counting_rng"
+require "core/input"
 require "game/creature"
 require "game/pack"
 require "game/projectile"
@@ -34,9 +35,14 @@ module Game
 
     HOME_ZONE = "nest".freeze # the INITIAL home only — @home_zone advances (v12)
 
-    attr_reader :bus, :pack, :feel, :states, :frame, :camera, :zone_name, :rng, :respawn_rng
+    attr_reader :bus, :pack, :feel, :states, :frame, :zone_name, :rng, :respawn_rng
 
-    def initialize(data, seed: 0)
+    def initialize(data, seed: 0, seats: 1)
+      # v17 seat map (spec Sim spec): seat ids are PINNED [1..n]; every
+      # per-seat loop iterates this order on both machines (seat-order
+      # law, decision 2). Single-seat construction is byte-identical to
+      # the walled line by design.
+      @seats = (1..seats).to_a
       @data = data
       @display = data["display"]
       @balance = data["balance/combat"]
@@ -70,7 +76,7 @@ module Game
       @human_respawns = Hash.new { |h, k| h[k] = [] }
       @projectiles = []
       @impacts = []
-      @last_damaged_target = nil
+      @last_damaged = {}
       @corpses = Hash.new { |h, k| h[k] = [] }
       @drops = Hash.new { |h, k| h[k] = [] }
       @corpse_loads = Hash.new { |h, k| h[k] = [] }
@@ -80,10 +86,11 @@ module Game
       @kill_pops = []
       @seal_marks = []
       @pop_frames = @balance[:feel][:pop_frames]
-      @controller = PossessedController.new
+      @controllers = @seats.to_h { |s| [s, PossessedController.new] }
       @ai = AiController.new
-      @swap_was_down = false
-      @rearm_needed = false
+      @null_input = Core::NullInput.new
+      @swap_was_down = @seats.to_h { |s| [s, false] }
+      @rearm_needed = @seats.to_h { |s| [s, false] }
       load_zones
       spawn_pack
       # First-possession registry (v14): cosmetic sim state the sim never
@@ -92,7 +99,8 @@ module Game
       # gate replays render bit-equal strips (draw-side accumulation would
       # not be tick-locked). Seeded with the initial body at frame 0;
       # wire_events keeps it fed on every possession change.
-      @kit_first_possessed = { @pack.possessed.kit_name => 0 }
+      @kit_first_possessed = {}
+      controlled_bodies.each { |b| @kit_first_possessed[b.kit_name] ||= 0 }
       wire_events
       # Constructed after wire_events ON PURPOSE: World's actor_died handler
       # must queue corpse_loaded/pack_wiped ahead of the ledger's handlers in
@@ -112,7 +120,19 @@ module Game
       enter_zone(zone, @zones.fetch(zone).pack_spawn)
     end
     def humans = @humans[@zone_name]
-    def possessed = @pack.possessed
+    # Bare = seat 1 (existing call sites unchanged, spec Sim spec);
+    # possessed(2) = the partner seat's body, nil while that seat waits.
+    def possessed(seat = 1) = @pack.possessed(seat)
+    # Decision 11 seat semantics: the seat-ordered pointer list and its
+    # lookups. AI dispatch, feel scoping, verb guards, seizure targeting,
+    # and zone gates read THESE — never bare possessed.
+    def controlled_bodies = @seats.filter_map { |s| @pack.possessed(s) }
+    def seat_for(creature) = @seats.find { |s| @pack.possessed(s)&.equal?(creature) }
+    def controlled?(creature) = !seat_for(creature).nil?
+    def seats = @seats
+    # Per-seat cameras (decision 5): presentation state, digest-excluded;
+    # the renderer draws through the LOCAL seat's camera.
+    def camera(seat = 1) = @cameras[seat]
     def banner? = !active_banner.nil?
     def active_banner = @banner_queue.first
     def actors = (@pack.members + humans).reject(&:dead?)
@@ -170,6 +190,7 @@ module Game
     end
 
     def tick(input)
+      inputs = input.is_a?(Hash) ? input : { 1 => input }
       if @feel.hitstop?
         @feel.tick
         @bus.process
@@ -190,7 +211,7 @@ module Game
 
       case @states.current
       when :world
-        tick_world(input)
+        tick_world(inputs)
       when :nest_respawn
         @respawn_timer -= 1
         if @respawn_timer <= 0
@@ -199,8 +220,10 @@ module Game
         end
       end
 
-      c = possessed
-      @camera.tick(c.x + Creature::SIZE / 2.0, c.y + Creature::SIZE / 2.0)
+      @seats.each do |seat|
+        a = camera_anchor(seat)
+        @cameras[seat].tick(a.x + Creature::SIZE / 2.0, a.y + Creature::SIZE / 2.0)
+      end
       @feel.tick
       @bus.process
       @frame += 1
@@ -424,10 +447,11 @@ module Game
     end
 
     def set_mark(source)
-      return false unless source.equal?(possessed)
+      seat = seat_for(source)
+      return false unless seat
       range = @balance[:pack][:mark_range_tiles]
       foes = hostiles_for(source)
-      preferred = @last_damaged_target
+      preferred = @last_damaged[seat]
       target =
         if preferred && foes.include?(preferred) &&
            tile_distance(source.tile, preferred.tile) <= range
@@ -448,7 +472,7 @@ module Game
     # so a drop ON the station tile takes two presses, deterministically.
     # Possessed-only — which body holds the value is a player decision.
     def interact(source)
-      return false unless source.equal?(possessed)
+      return false unless controlled?(source)
       return false if source.dead? || source.staggered? || source.attack_state != :idle
       drop = drops.find { |d| d[:tile] == source.tile }
       if drop
@@ -498,8 +522,9 @@ module Game
         ["frame", @frame], ["zone", @zone_name], ["state", @states.current],
         ["respawn_timer", @respawn_timer], ["home_zone", @home_zone],
         ["breached", @breached.keys.map(&:inspect).sort.join("|")],
-        ["last_damaged", @last_damaged_target&.name],
-        ["swap_was_down", @swap_was_down], ["rearm_needed", @rearm_needed],
+        ["last_damaged", @seats.map { |s| "#{s}:#{@last_damaged[s]&.name}" }.join("|")],
+        ["swap_was_down", @seats.map { |s| "#{s}:#{@swap_was_down[s]}" }.join("|")],
+        ["rearm_needed", @seats.map { |s| "#{s}:#{@rearm_needed[s]}" }.join("|")],
         ["corpse_serial", @corpse_serial],
         ["rng_draws", @rng.draws], ["respawn_rng_draws", @respawn_rng.draws]
       ] + @feel.digest_fields
@@ -547,24 +572,33 @@ module Game
 
     private
 
-    def tick_world(input)
+    def tick_world(inputs)
       @slot_claims = {}
       @pressure_claims = {}
-      handle_swap(input)
+      @seats.each { |seat| handle_swap(seat, seat_input(inputs, seat)) }
       # Forced swap happens at bus-process time (no input in scope there), so
       # the edge-trigger re-arm is deferred to the next tick — law 2 applies
-      # to BOTH swap kinds: no held key may leak into the new body.
-      if @rearm_needed
-        @controller.rearm!(input)
-        @rearm_needed = false
+      # to BOTH swap kinds (per seat): no held key may leak into the new body.
+      @seats.each do |seat|
+        next unless @rearm_needed[seat]
+        @controllers[seat].rearm!(seat_input(inputs, seat))
+        @rearm_needed[seat] = false
       end
       @pack.members.each(&:tick_body)
       humans.each(&:tick_body)
 
-      @controller.blocked = blocked_for(possessed)
-      @controller.tick(possessed, input, self)
+      # Seat-order law (decision 2): seat 1's controller always resolves
+      # before seat 2's, on both machines. A waiting seat has no body —
+      # its inputs are ignored (decision 3).
+      @seats.each do |seat|
+        body = @pack.possessed(seat)
+        next unless body
+        controller = @controllers[seat]
+        controller.blocked = blocked_for(body)
+        controller.tick(body, seat_input(inputs, seat), self)
+      end
       validate_mark
-      @pack.living.each { |m| @ai.tick(m, self) unless m.equal?(possessed) }
+      @pack.living.each { |m| @ai.tick(m, self) unless controlled?(m) }
       assign_human_focus
       partition_pressure
       tick_challengers
@@ -669,8 +703,11 @@ module Game
         # Never chant while his own seizure holds (cooldown starts at
         # seizure END, so this guard is what prevents chant-chaining).
         next if @pack.members.any? { |m| m.seize_active? && m.seizure_seizer.equal?(h) }
-        body = possessed
-        next if body.dead? || tile_distance(h.tile, body.tile) > seize[:range_tiles]
+        # Decision 11: seizure targets the NEAREST controlled body
+        # (Chebyshev; tie -> lower roster index) — deterministic on both
+        # machines.
+        body = nearest_controlled_to(h)
+        next if body.nil? || body.dead? || tile_distance(h.tile, body.tile) > seize[:range_tiles]
         h.start_chant!(body, seize[:chant_frames])
         @bus.emit(:challenger_chant_started, actor: h, body:)
       end
@@ -757,23 +794,29 @@ module Game
     # Refused while the possessed is staggered — otherwise an instant Tab
     # after a forced swap hands you an unstaggered third body and the
     # death penalty never lands (law 2).
-    def handle_swap(input)
+    def handle_swap(seat, input)
       down = input.down?(:swap)
+      body = @pack.possessed(seat)
+      unless body # waiting-for-body: inputs ignored, edge state still tracked
+        @swap_was_down[seat] = down
+        return
+      end
       # v15 seized exemption (Codex pass-2 CONFIRMED defect): while the
       # possessed is seized, Tab ALWAYS works — a crew hit staggering the
       # seized body must not trap the echo inside it (the ratified
       # fairness ladder). Scoped to seized-only so law 2's forced-swap
-      # stagger hole stays closed.
-      can_swap = @pack.living.length > 1 &&
-                 (possessed.seized_by ||
-                  (!possessed.staggered? && !possessed.special_committed?))
-      if down && !@swap_was_down && can_swap
-        from = possessed
-        @pack.swap_next!
-        @controller.rearm!(input)
-        @bus.emit(:possession_changed, from:, to: possessed, forced: false)
+      # stagger hole stays closed. Applies PER SEAT (decision 11); the
+      # swap target never includes the partner's body (decision 3).
+      can_swap = @pack.swap_target(seat) &&
+                 (body.seized_by ||
+                  (!body.staggered? && !body.special_committed?))
+      if down && !@swap_was_down[seat] && can_swap
+        from = body
+        @pack.swap_next!(seat)
+        @controllers[seat].rearm!(input)
+        @bus.emit(:possession_changed, from:, to: @pack.possessed(seat), forced: false)
       end
-      @swap_was_down = down
+      @swap_was_down[seat] = down
     end
 
     # Active actions resolve from their own config. Tile order is fixed and
@@ -1029,12 +1072,20 @@ module Game
     # legal escape and a legal threat; "voluntary moves only" would add
     # hidden state the player can't read.
     def check_transition
-      c = possessed
-      return if c.walker.moving? || c.dead?
-      t = map.transition_at(*c.tile)
-      return unless t
+      trigger = controlled_bodies.find do |c|
+        !c.dead? && !c.walker.moving? && map.transition_at(*c.tile)
+      end
+      return unless trigger
+      t = map.transition_at(*trigger.tile)
       # v12: a sealed door is not a gate until its toll is paid.
       return if t[:sealed] && !breached?(@zone_name, t[:at])
+      # v17 decision 11 (panel fold, Kimi): the gate fires only with EVERY
+      # LIVING controlled body in the gate group — the trigger body resting
+      # ON the gate tile (any rest counts, knockback included — the law
+      # above), every other seat's living body within Chebyshev 1 of it.
+      # Consent by co-location; dead/waiting seats don't block.
+      others = controlled_bodies.reject { |b| b.equal?(trigger) || b.dead? }
+      return unless others.all? { |b| tile_distance(b.tile, t[:at]) <= 1 }
       enter_zone(t[:to], arrival_tiles(t[:to], t[:spawn]))
     end
 
@@ -1067,7 +1118,7 @@ module Game
       @kill_pops = []
       @seal_marks = []
       @pack.clear_mark!
-      @last_damaged_target = nil
+      @last_damaged = {}
       # Cross-zone leash resolves as snap-home: only the current zone ticks, so
       # "they walked home while you were away" lands as relocation with KEPT hp
       # (frozen-zone law; recorded plan deviation 1).
@@ -1081,17 +1132,27 @@ module Game
         h.reset_leash!
       end
       placed = 0
-      # Possessed gets the first tile; living allies the rest, in roster order.
-      ([possessed] + (@pack.living - [possessed])).each do |m|
+      # Controlled bodies take the first tiles in SEAT order (single-seat:
+      # exactly the old possessed-first law); living allies the rest, in
+      # roster order. Dead flesh stays where it fell.
+      controlled = controlled_bodies.reject(&:dead?)
+      (controlled + (@pack.living - controlled)).each do |m|
         m.rebind(map:, tile: tiles[placed] || tiles.first)
         placed += 1
       end
-      @camera = Camera.new(
-        view_w: @display[:view_width], view_h: @display[:view_height],
-        world_w: map.pixel_width, world_h: map.pixel_height,
-        lerp: @display[:camera_lerp]
-      )
-      @camera.snap!(possessed.x + Creature::SIZE / 2.0, possessed.y + Creature::SIZE / 2.0)
+      # Per-seat cameras INSIDE World (decision 5): constructed and snapped
+      # here, ticked at the same call site v16's single camera used. A
+      # waiting seat spectates the partner (camera_anchor).
+      @cameras = @seats.to_h do |seat|
+        cam = Camera.new(
+          view_w: @display[:view_width], view_h: @display[:view_height],
+          world_w: map.pixel_width, world_h: map.pixel_height,
+          lerp: @display[:camera_lerp]
+        )
+        a = camera_anchor(seat)
+        cam.snap!(a.x + Creature::SIZE / 2.0, a.y + Creature::SIZE / 2.0)
+        [seat, cam]
+      end
       enqueue_banner(text_key: "zone.#{name}.display_name",
                      fallback: map.display_name, color: :banner,
                      frames: @display[:zone_banner_frames])
@@ -1162,7 +1223,7 @@ module Game
                      faction: :pack, name: kit_name)
       end
       @pack = Pack.new(members:, stagger_frames: cfg[:swap_stagger_frames],
-                       initial_kit: cfg[:initial_possessed])
+                       initial_kit: cfg[:initial_possessed], seats: @seats.length)
     end
 
     # --- D1b station verbs (the only banked sinks; spec S2-3) -----------
@@ -1200,6 +1261,7 @@ module Game
         @bus.emit(:body_regrown, body: m)
       end
       wounded.each(&:heal_full!)
+      assign_waiting_seats
       @bus.emit(:tribute_paid, cost:, regrown: dead.length,
                 healed: wounded.length, banked: @pack.banked)
       station_cue!(:tribute, source.tile)
@@ -1258,7 +1320,9 @@ module Game
     def respawn_pack
       @humans.each_value { |list| list.each(&:release_taunt!) }
       @zone_name = @home_zone
-      vessel = @pack.possessed
+      # The wipe vessel = the first seat-held body in seat order (bare
+      # possessed, as today; a waiting seat 1 falls through to seat 2's).
+      vessel = controlled_bodies.first
       floor = @pack.members.none?(&:marked?)
       revived = []
       @pack.members.each_with_index do |m, i|
@@ -1279,7 +1343,7 @@ module Game
         end
       end
       clear_unloaded_pack_husks
-      snap_possession_after_judgment(revived)
+      assign_seats_after_judgment(revived)
       enter_zone(@home_zone, map.pack_spawn)
       @bus.emit(:pack_respawned)
     end
@@ -1292,14 +1356,33 @@ module Game
       end
     end
 
-    def snap_possession_after_judgment(revived)
-      return if revived.include?(@pack.possessed)
-      from = @pack.possessed
-      target = revived.min_by do |m|
-        [tile_distance(m.tile, from.tile), @pack.members.index(m)]
+    # Judgment seats (decision 3): seats claim over the ACTUAL revived set
+    # in seat order. A seat whose body revived keeps it (no event — the
+    # old law); otherwise it claims the nearest unclaimed revived body
+    # (the old snap selection, per seat); none left = waiting-for-body
+    # (the one-vessel floor: seat 1 takes the kept vessel, seat 2 waits —
+    # recorded half-B feel risk).
+    def assign_seats_after_judgment(revived)
+      claimed = []
+      @seats.each do |seat|
+        old = @pack.possessed(seat)
+        if old && revived.include?(old) && !claimed.include?(old)
+          claimed << old
+          next
+        end
+        candidates = revived.reject { |m| claimed.include?(m) }
+        target =
+          if old
+            candidates.min_by { |m| [tile_distance(m.tile, old.tile), @pack.members.index(m)] }
+          else
+            candidates.min_by { |m| @pack.members.index(m) }
+          end
+        @pack.possess!(target, seat:)
+        if target
+          claimed << target
+          @bus.emit(:possession_changed, from: old, to: target, forced: true)
+        end
       end
-      @pack.possess!(target)
-      @bus.emit(:possession_changed, from:, to: target, forced: true)
     end
 
     # v14 telegraph phase 1 (spec Sim 1): records inside their tell window
@@ -1396,7 +1479,9 @@ module Game
     end
 
     def emit_attack_hit(attacker, victim, landed)
-      @last_damaged_target = victim if landed && attacker.equal?(possessed)
+      if landed && (seat = seat_for(attacker))
+        @last_damaged[seat] = victim
+      end
       # kind/landed (v13): stamped at EMIT time — sim-exact even if the
       # action state transitions before the bus processes.
       @bus.emit(:attack_hit, attacker:, victim:,
@@ -1407,7 +1492,15 @@ module Game
       target = marked_target
       return unless target
       leash = @balance[:pack][:mark_leash_tiles]
-      @pack.clear_mark! if target.dead? || tile_distance(possessed.tile, target.tile) > leash
+      # v17 decision 4: the mark holds while ANY seat-held body stays in
+      # leash (both seats set it). Deliberately NO dead? filter — the old
+      # law measured from the possessed pointer even mid-death-flush
+      # (forced swap lands at bus-process; the mark must survive that gap
+      # exactly as it always did). Waiting seats (nil) drop out naturally.
+      held = controlled_bodies.any? do |b|
+        tile_distance(b.tile, target.tile) <= leash
+      end
+      @pack.clear_mark! if target.dead? || !held
     end
 
     def tile_distance((ax, ay), (bx, by))
@@ -1485,9 +1578,9 @@ module Game
       end
 
       @bus.subscribe(:attack_hit) do |e|
-        if e[:victim].equal?(possessed)
+        if controlled?(e[:victim])
           @feel.on_player_hit
-        elsif e[:attacker].equal?(possessed)
+        elsif controlled?(e[:attacker])
           @feel.on_hit
         end
       end
@@ -1507,26 +1600,30 @@ module Game
                         pop_frames: @pop_frames,
                         phase: (e[:actor].tile[0] * 31 + e[:actor].tile[1] * 17 + @frame) % 997 }
         if e[:faction] == :human
-          @feel.on_kill if e[:killer].equal?(possessed)
+          @feel.on_kill if controlled?(e[:killer])
           # v15: the challenger's death closes the boss fight (placeholder
           # text per the 2026-08-16 owner order: no lore in this repo).
           enqueue_stamp("challenger.term.line", "BOSS 1 DEFEATED",
                         at: e[:actor].tile) if e[:actor].kit[:seize]
           schedule_human_respawn(e[:actor])
-        elsif e[:actor].equal?(possessed)
-          handle_possessed_death
+        elsif (seat = seat_for(e[:actor]))
+          handle_seat_death(seat)
         end
       end
     end
 
-    def handle_possessed_death
-      from = possessed
-      survivor = @pack.forced_swap!
+    def handle_seat_death(seat)
+      from = @pack.possessed(seat)
+      survivor = @pack.forced_swap!(seat)
       if survivor
-        @rearm_needed = true
+        @rearm_needed[seat] = true
         @feel.on_kill # losing a body lands like a kill against you
         @bus.emit(:possession_changed, from:, to: survivor, forced: true)
-      else
+      elsif @pack.wipe?
+        # Exactly-once guard (Codex fold #6): two controlled bodies dying
+        # in the SAME bus flush must not double-emit or double-transition —
+        # the second death finds the state already switched.
+        return if @states.current == :nest_respawn
         @bus.emit(:pack_wiped)
         # D1 wipe grace: the run back must always be possible — every
         # container's remaining term rises to at least the grace floor.
@@ -1545,8 +1642,47 @@ module Game
         abort_all_chants!
         @respawn_timer = @balance[:respawn_frames]
         @states.transition_to(:nest_respawn)
+      else
+        # Waiting-for-body (decision 3): the partner holds the last living
+        # flesh — forced_swap! nil'd this seat's pointer; the camera
+        # spectates the partner; auto-repossess at the first revive/regrow.
+        # Losing the body still lands like a kill (feel is global sim
+        # state, decision 11). Unreachable single-seat.
+        @feel.on_kill
       end
     end
+
+    # Decision 3: a waiting seat takes the first living uncontrolled body
+    # in ROSTER order the moment one exists (vat regrow; the judgment runs
+    # its own seat assignment). Re-arm applies — no held key leaks into
+    # the new body (law 2).
+    def assign_waiting_seats
+      @seats.each do |seat|
+        next if @pack.possessed(seat)
+        target = @pack.members.find { |m| !m.dead? && !controlled?(m) }
+        next unless target
+        @pack.possess!(target, seat:)
+        @rearm_needed[seat] = true
+        @bus.emit(:possession_changed, from: nil, to: target, forced: true)
+      end
+    end
+
+    # Decision 11 seizure targeting: nearest living controlled body,
+    # Chebyshev, tie -> lower roster index.
+    def nearest_controlled_to(creature)
+      controlled_bodies.reject(&:dead?).min_by do |b|
+        [tile_distance(creature.tile, b.tile), @pack.members.index(b)]
+      end
+    end
+
+    # Decision 3 spectate: a waiting seat's camera follows the partner;
+    # the roster head is the total fallback (unreachable outside a full
+    # wipe, where pointers keep their dead bodies).
+    def camera_anchor(seat)
+      @pack.possessed(seat) || controlled_bodies.first || @pack.members.first
+    end
+
+    def seat_input(inputs, seat) = inputs.fetch(seat) { @null_input }
 
     # The roster delete comes FIRST: a kit without respawn_frames must still
     # leave the roster on death, or the renderer draws its ghost forever

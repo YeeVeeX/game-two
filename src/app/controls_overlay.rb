@@ -35,10 +35,13 @@ module App
     LABEL_RGB = [160, 152, 140].freeze # subdued — the verbs whisper
     BACKING_RGB = [10, 8, 12].freeze   # ledger-panel near-black family
 
-    def initialize(display: {}, strings: nil, bindings: nil)
+    def initialize(display: {}, strings: nil, bindings: nil, local_seat: 1)
       @display = display
       @strings = strings
       @bindings = bindings
+      # v17 renderer seam (Codex fold #7): the strip speaks for the LOCAL
+      # seat's body — default 1 keeps single-player byte-identical.
+      @local_seat = local_seat
     end
 
     # { vessel: "player 2", pairs: [{ glyphs: ["J", "Space"], label: "attack" },
@@ -46,7 +49,7 @@ module App
     # first; the twelfth's dual-keybind lane); the special slot always
     # speaks the kit's own verb.
     def vessel_line(world)
-      kit = world.possessed.kit_name
+      kit = world.possessed(@local_seat).kit_name
       pairs = ACTIONS.map do |action|
         label =
           if action == :special
@@ -64,7 +67,7 @@ module App
     # inside its first-possession pulse window (linear decay back).
     def strip_alpha_now(world)
       rest = strip_alpha
-      first = world.kit_first_possessed[world.possessed.kit_name]
+      first = world.kit_first_possessed[world.possessed(@local_seat).kit_name]
       return rest unless first
       age = world.frame - first
       return rest if age >= pulse_frames
@@ -73,11 +76,11 @@ module App
 
     def draw(world)
       h = strip_height
-      y = world.camera.view_h - h
+      y = world.camera(@local_seat).view_h - h
       a = strip_alpha_now(world)
-      Gosu.draw_rect(0, y, world.camera.view_w, h, Gosu::Color.new(a, *BACKING_RGB))
+      Gosu.draw_rect(0, y, world.camera(@local_seat).view_w, h, Gosu::Color.new(a, *BACKING_RGB))
       line = vessel_line(world)
-      kit = world.possessed.kit_name
+      kit = world.possessed(@local_seat).kit_name
       ty = y + y_pad
       x = x_start
       text_a = [a + 60, 255].min # text reads a notch above its backing

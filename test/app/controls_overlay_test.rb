@@ -22,7 +22,11 @@ class ControlsOverlayTest < Minitest::Test
   def world_stub(kit, frame: 0, first: nil)
     w = Object.new
     class << w
-      attr_accessor :possessed, :frame, :kit_first_possessed
+      attr_accessor :frame, :kit_first_possessed
+      attr_writer :possessed
+      # The real World#possessed takes an optional seat (v17 seat map);
+      # the stub mirrors the API — the overlay reads its local seat.
+      def possessed(_seat = 1) = @possessed
     end
     w.possessed = Possessed.new(kit)
     w.frame = frame
