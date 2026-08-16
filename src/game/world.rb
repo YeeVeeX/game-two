@@ -75,6 +75,7 @@ module Game
       @corpse_serial = 0
       @taunt_pulses = []
       @kill_pops = []
+      @seal_marks = []
       @pop_frames = @balance[:feel][:pop_frames]
       @controller = PossessedController.new
       @ai = AiController.new
@@ -125,6 +126,7 @@ module Game
     def marked_target = @pack.mark
     def taunt_pulses = @taunt_pulses
     def kill_pops = @kill_pops
+    def seal_marks = @seal_marks
 
     # Active respawn tells of the CURRENT zone, for the renderer (v14).
     # Non-autovivifying fetch: the draw path must never insert zone keys
@@ -176,6 +178,10 @@ module Game
         b[:frames_left] -= 1
         @banner_queue.shift if b[:frames_left] <= 0
       end
+      # v16 (c): floor seal marks dwell on the banner clock — same pause
+      # law (hitstop skips this whole branch), fading with their stamp.
+      @seal_marks.each { |m| m[:frames_left] -= 1 }
+      @seal_marks.reject! { |m| m[:frames_left] <= 0 }
       @station_cue = nil if @station_cue && (@station_cue[:frames_left] -= 1) <= 0
       @breach_line = nil if @breach_line && (@breach_line[:frames_left] -= 1) <= 0
 
@@ -651,12 +657,22 @@ module Game
     def enqueue_banner(text_key:, fallback:, color:, frames:)
       cap = @display.fetch(:banner_queue_max, 2)
       @banner_queue.delete_at(1) while @banner_queue.length - 1 >= cap
-      @banner_queue << { text_key:, fallback:, color:, frames_left: frames }
+      @banner_queue << { text_key:, fallback:, color:,
+                         frames_left: frames, frames_total: frames }
     end
 
-    def enqueue_stamp(key, fallback)
+    # v16 (c): a stamp with a tile locus ALSO presses a seal mark into the
+    # floor at the event tile (GLM review fold — the act happens IN the
+    # world, not just on screen). Unlocated stamps stay screen-only.
+    def enqueue_stamp(key, fallback, at: nil)
       enqueue_banner(text_key: key, fallback:, color: :gold,
                      frames: @display.fetch(:stamp_banner_frames, 150))
+      mark_seal!(at) if at
+    end
+
+    def mark_seal!(at)
+      frames = @display.fetch(:stamp_banner_frames, 150)
+      @seal_marks << { at:, frames_left: frames, frames_total: frames }
     end
 
     # Tab swap: rising edge only, world-level (the controller mask handles
@@ -972,6 +988,7 @@ module Game
       @impacts = []
       @taunt_pulses = []
       @kill_pops = []
+      @seal_marks = []
       @pack.clear_mark!
       @last_damaged_target = nil
       # Cross-zone leash resolves as snap-home: only the current zone ticks, so
@@ -1124,6 +1141,12 @@ module Game
       @breached[[@zone_name, opens]] = true
       @breach_line = { text: station[:line],
                        frames_left: @display[:breach_banner_frames] }
+      # v16 (c): the breach is a located court act — the seal presses at
+      # the STATION (where the toll was paid), not the opened way: the way
+      # flips to gate-gold the same frame, and a gold mark on a gold tile
+      # cannot read (live deviation from the spec's exemplar, capture-
+      # verified frame 1430; the slab→gold flip already marks the way).
+      mark_seal!(station[:at])
       @feel.on_kill
       @bus.emit(:seal_breached, zone: @zone_name, tile: opens, cost: price)
       station_cue!(:breached, station[:at])
@@ -1410,7 +1433,8 @@ module Game
           # v15: the challenger's death is a court event — the term-looter
           # finally pays the term's price (canon-exact; Codex pass-2
           # replaced the NAME IS STRUCK draft).
-          enqueue_stamp("challenger.term.line", "THE TERM IS PAID") if e[:actor].kit[:seize]
+          enqueue_stamp("challenger.term.line", "THE TERM IS PAID",
+                        at: e[:actor].tile) if e[:actor].kit[:seize]
           schedule_human_respawn(e[:actor])
         elsif e[:actor].equal?(possessed)
           handle_possessed_death

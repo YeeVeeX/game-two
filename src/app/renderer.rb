@@ -1,5 +1,6 @@
 require "app/controls_overlay"
 require "app/kill_pop"
+require "app/stamp"
 
 module App
   # Draws the world sim with Gosu primitives. Flat-rect minimalism: kit
@@ -91,6 +92,7 @@ module App
         draw_drops(world)
         draw_corpse_loads(world)
         draw_expiry_flashes(world)
+        draw_seal_marks(world)
         draw_respawn_tells(world)
         world.humans.each { |h| draw_creature(h, world) }
         world.pack.living.each { |m| draw_creature(m, world) }
@@ -663,14 +665,58 @@ module App
     # v15 banner FIFO: the slot renders the ACTIVE queue entry — zone
     # banners in bone, court stamps in gate-gold. Entries carry KEYS;
     # locale resolves here at draw time (comparability law preserved).
+    # v16 (c): stamps LAND — scale-in over stamp_in_frames (endpoints in
+    # data), full dwell, final-third fade, framed by a top+bottom rule
+    # pair (the acta look). Zone banners keep their quiet entrance:
+    # places announce, courts JUDGE.
     def draw_banner(world)
       entry = world.active_banner
       return unless entry
       text = tr(entry[:text_key], entry[:fallback])
       font = banner_font
+      return draw_stamp(world, entry, text, font) if entry[:color] == :gold
       x = (view_width(world) - font.text_width(text)) / 2
-      col = entry[:color] == :gold ? BREACH_GOLD : BANNER
-      font.draw_text(text, x, 48, 10, 1, 1, col)
+      font.draw_text(text, x, 48, 10, 1, 1, BANNER)
+    end
+
+    def draw_stamp(world, entry, text, font)
+      age = entry[:frames_total] - entry[:frames_left]
+      s = App::Stamp.scale(age:, in_frames: @display.fetch(:stamp_in_frames, 12),
+                           in_scale: @display.fetch(:stamp_in_scale, 1.6))
+      a = App::Stamp.alpha(frames_left: entry[:frames_left],
+                           frames_total: entry[:frames_total])
+      col = Gosu::Color.new(a, BREACH_GOLD.red, BREACH_GOLD.green, BREACH_GOLD.blue)
+      w = font.text_width(text) * s
+      h = font.height * s
+      cx = view_width(world) / 2.0
+      cy = 48 + font.height / 2.0
+      font.draw_text(text, cx - w / 2, cy - h / 2, 10, s, s, col)
+      pad = @display.fetch(:stamp_rule_pad, 8) * s
+      rule_h = @display.fetch(:stamp_rule_h, 2) * s
+      rule_col = color(@display.fetch(:stamp_rule_rgb, [200, 160, 80]), a)
+      rule_w = w + pad * 2
+      Gosu.draw_rect(cx - rule_w / 2, cy - h / 2 - pad - rule_h, rule_w, rule_h, rule_col, 10)
+      Gosu.draw_rect(cx - rule_w / 2, cy + h / 2 + pad, rule_w, rule_h, rule_col, 10)
+    end
+
+    # v16 (c): located stamps press a seal mark into the floor at the event
+    # tile — rect frame + inner glyph in stamp gold, dwelling with the
+    # banner, fading on the same final-third grammar. Pure reader of
+    # world.seal_marks (replay determinism holds).
+    def draw_seal_marks(world)
+      ts = world.map.tile_size
+      rgb = @display.fetch(:seal_mark_rgb, [235, 190, 90])
+      world.seal_marks.each do |m|
+        a = App::Stamp.alpha(frames_left: m[:frames_left], frames_total: m[:frames_total])
+        col = color(rgb, a)
+        x = m[:at][0] * ts
+        y = m[:at][1] * ts
+        Gosu.draw_rect(x + 2, y + 2, ts - 4, 2, col)
+        Gosu.draw_rect(x + 2, y + ts - 4, ts - 4, 2, col)
+        Gosu.draw_rect(x + 2, y + 4, 2, ts - 8, col)
+        Gosu.draw_rect(x + ts - 4, y + 4, 2, ts - 8, col)
+        Gosu.draw_rect(x + ts / 2 - 4, y + ts / 2 - 4, 8, 8, col)
+      end
     end
 
     # The writ line (v12 breach beat): gate-gold, one slot below the zone

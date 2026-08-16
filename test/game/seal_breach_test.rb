@@ -113,6 +113,19 @@ class SealBreachTest < Minitest::Test
     assert_equal seal_station[:line], world.breach_line[:text]
   end
 
+  # v16 (c): the breach is a located court act — the writ line keeps the
+  # banner slot AND a seal mark presses into the floor at the STATION (the
+  # opened way flips to gate-gold the same frame — a gold mark there is
+  # invisible; capture-verified deviation, recorded in the commit).
+  def test_breach_lands_a_floor_seal_mark_at_the_station
+    src = at_seal!
+    world.pack.bank!(ECO[:breach_cost])
+    assert world.interact(src)
+    mark = world.seal_marks.find { |m| m[:at] == seal_station[:at] }
+    refute_nil mark, "the court's seal lands IN the world, not just on screen"
+    assert_equal DATA["display"][:stamp_banner_frames], mark[:frames_total]
+  end
+
   def test_seal_second_press_is_inert
     src = at_seal!
     world.pack.bank!(ECO[:breach_cost] * 2)

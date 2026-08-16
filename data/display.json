@@ -59,5 +59,19 @@
   90
  ],
  "stamp_banner_frames": 150,
+ "stamp_in_frames": 12,
+ "stamp_in_scale": 1.6,
+ "stamp_rule_pad": 8,
+ "stamp_rule_h": 2,
+ "stamp_rule_rgb": [
+  200,
+  160,
+  80
+ ],
+ "seal_mark_rgb": [
+  235,
+  190,
+  90
+ ],
  "banner_queue_max": 2
 }
