@@ -108,7 +108,9 @@ questions (the SIXTEENTH).
 Proposed by this seat (functional lane, standing order compliant:
 placeholders/verbs only, PARTNER wording law kept — never "JOGADOR 2").
 Key names are increment 7's call; EN strings verbatim from the spec
-§Presentation. **Ratification: pending Junior's read (in-session).**
+§Presentation. **RATIFIED by Junior in-session 2026-08-16 (verbatim:
+"ta legal assim") — all eight labels as tabled, DESSINCRONIA included
+(the simpler alternative below was offered and declined).**
 
 | EN (spec) | PT-BR (proposal) |
 |---|---|
@@ -121,9 +123,9 @@ Key names are increment 7's call; EN strings verbatim from the spec
 | `NO BODY — WAITING` | `SEM CORPO — AGUARDANDO` |
 | `WAITING AT GATE` | `AGUARDANDO NO PORTÃO` |
 
-Register note: `DESSINCRONIA` is the one technical word — alternative
-if it fails the "words the reader owns" test: `AS PARTIDAS DIVERGIRAM
-NO TICK <N> — SESSÃO ENCERRADA`. Junior adjudicates (his language).
+Register note (resolved): `DESSINCRONIA` was flagged as the one
+technical word; the alternative `AS PARTIDAS DIVERGIRAM NO TICK <N> —
+SESSÃO ENCERRADA` was offered and Junior kept the table as-is.
 
 ## What this is NOT
 
