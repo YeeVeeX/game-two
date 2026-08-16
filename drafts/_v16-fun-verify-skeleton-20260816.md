@@ -75,3 +75,47 @@ vs 6,061 frames.
    language pipeline no longer exists in this repo. Replaced by
    functional-only routing (above).
 3. Everything else verbatim from the spec.
+
+---
+
+# VERDICT (2026-08-16, session 36749)
+
+## Telemetry (verbatim)
+
+TELEMETRY d1_fired carrying_deaths=3 wipes=2 corpse_looted=2 carried_lost=0 banked_events=9 fights=17 recovery_fights=1 negative_fights=0
+TELEMETRY a2_fired wipes=2 body_deaths=16 retargets{hate=42 lowhp=66 proximity=1 acquired=257 challenged=83} leashes=53 deepest_band=2 banked=9
+TELEMETRY d1b_fired inscriptions=6 marks_consumed=3 dissolved=2 regrown=12 tributes=10 floor_fired=1 banked_spent{inscribe=48 tribute=172} banked_end=53
+TELEMETRY q6_cadence banks{n=9 mean=35 max=68} kills_by_band{b0=47 b1=69 b2=60}
+TELEMETRY density pockets{mean=2.7 max=18} arrivals{pocket=120 seed=52 home=0} singles_pct=30
+TELEMETRY arc breach{fired=1 first_frame=18598 banked_after=6} rehomed=3 camp_visits=5 d2{entered=1 kills=58} seal2_breached=0
+TELEMETRY q6_margins banks{n=9 pure=0} amount{mean=35 max=68} hp{mean=0.32} dead{mean=1.3} wounded{mean=1.4} gap{mean_s=49}
+TELEMETRY v13 whirl{casts=0} challenge{casts=16 retargets=83}
+TELEMETRY drift thirds{k1=37 k2=66 k3=73} span=31721
+TELEMETRY v14 telegraphs_shown=148 first_special{striker=never blocker=1163 lobber=32307}
+TELEMETRY quay entries=0 frames=0 kills=0 deaths=0
+TELEMETRY varekka engaged=0 chants=0 interrupted=0 seized=0 burns=0
+
+## Answers
+
+Owner declined per-question granularity; global verdict, verbatim:
+"listo, se siente bien" (post-play) + "todo bien, lo disfruté" (at the
+questions). First unprompted positive global in the verify history.
+
+## Reading (per pre-registered routing)
+
+- Q1/Q4/Q5/Q6/Q7/Q8 — global positive, zero negatives named → NO lane
+  fires (routing only acts on negatives). Granularity honestly recorded
+  as declined; identity/stamps/pops validated at LOW RESOLUTION only.
+- Q2/Q3 (BOSS 1 dread + burned mark) — **UNEXERCISED** (ledger
+  precedent): seal2 never breached, ZONE 5 = 0 frames, varekka engaged=0.
+  The dread half of the v16 oracle stays OPEN — needs any future session
+  that reaches ZONE 5; no code work pending (the stakes+presentation
+  shipped and walled; only EXPOSURE is missing).
+- Placeholders: zero complaints in play (Q7 clean at global level).
+
+## Verdict: v16 CLOSES as a PARTIAL WIN
+
+Presentation/identity validated globally ("lo disfruté"), dread
+unresolved-for-exposure. Owner ordered "continua a lo siguiente" =
+adjudication to move on. Dread-exposure question rides along unParked —
+it self-answers the first time any session crosses seal2.

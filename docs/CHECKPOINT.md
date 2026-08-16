@@ -1,5 +1,34 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-16 (FIFTEENTH ran — v16 closes PARTIAL WIN; v17 debate OPEN at close)
+
+**FIFTEENTH ask (session 36749, es, ~9 min sim):** 17 fights / 2 wipes /
+9 banks (max 68) / seal1 breached / ZONE 3 entered (58 kills) / 6
+inscriptions / 10 tributos. Owner declined per-question granularity;
+global verdict verbatim: "se siente bien" + "todo bien, lo disfruté" —
+first unprompted positive global in verify history; ZERO negatives named
+→ no routing lane fires. **Q2/Q3 (BOSS 1 dread) UNEXERCISED** (seal2
+never breached, ZONE 5 = 0 frames, engaged=0; ledger precedent) — the
+dread half stays OPEN-FOR-EXPOSURE: fully built + walled, self-answers
+whenever a session crosses seal2. **v16 CLOSES: PARTIAL WIN** (verdict +
+telemetry verbatim: `drafts/_v16-fun-verify-skeleton-20260816.md`).
+Placeholders drew zero complaints in play.
+
+**Session also closed earlier today (same seat):** lore removal order
+executed end-to-end (see entry below), wall 17/17, three check
+amendments RATIFIED in-session, lore archive shared
+(github.com/YeeVeeX/game-two-lore, private, Junior invited, skills
+in-repo), PT-BR heads-up note delivered to owner's clipboard.
+
+**NEXT: v17 debate** — triggers at adjudication: #1 Junior at etapa 0
+(evidence logged 2026-08-15; strict spike closed db2e83e on sim-identity
+digests — placeholder batch touches no sim events, spike stands), #2 v16
+shipped (wall 17/17 + fifteenth partial-win, owner ordered continue).
+Dev recommendation ON RECORD: v17 = multiplayer etapa 1
+(lockstep-over-Tailscale staged path, banked research in PARKING_LOT);
+dread-exposure rides free (no code); language program stays dead (owner
+order). Scope contract rewrite rides the debate close.
+
 ## 2026-08-16 (OWNER ORDER: LORE REMOVED — placeholders only; FULL WALL OWED before push)
 
 **Owner order (this session): remove ALL lore/names/creative writing from
