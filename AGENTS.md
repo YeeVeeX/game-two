@@ -49,6 +49,12 @@ only via the language pipeline — the dev never composes ES/PT alone.
 **Multiplayer etapa 1 → v17, behind TWO TRIGGERS (owner-ratified
 2026-08-15):** (1) Junior demonstrably playing at etapa 0 (async replay
 exchange — timezone-proof, `docs/JUNIOR.md`), (2) this cycle shipped.
+**Trigger #1 evidence logged 2026-08-15:** Junior's FIRST session played
+on his machine (pt-br, ~15.1k frames, 22 kills / 2 banks / 3
+inscriptions; install clean; PT-BR read clean — zero lines named;
+"divertida, quero mais"). Full telemetry + answers:
+`drafts/_junior-first-session-20260815.md`. Strict etapa-0 replay
+exchange still owed; owner adjudicates the trigger at the v17 debate.
 Also out: new zones/enemies/systems beyond the dread-stakes knob; audio
 (owner order); in-game rebind UI; the chest fork (Q4a validated it
 closed); everything long-parked. **Nothing new starts until v16 is
