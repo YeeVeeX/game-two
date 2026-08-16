@@ -1152,7 +1152,8 @@ module Game
       return station_refuse!(station[:at]) unless spend_banked(source, price, :breach)
       @breached[[@zone_name, opens]] = true
       @breach_line = { text: station[:line],
-                       frames_left: @display[:breach_banner_frames] }
+                       frames_left: @display[:breach_banner_frames],
+                       frames_total: @display[:breach_banner_frames] }
       # v16 (c): the breach is a located court act — the seal presses at
       # the STATION (where the toll was paid), not the opened way: the way
       # flips to gate-gold the same frame, and a gold mark on a gold tile

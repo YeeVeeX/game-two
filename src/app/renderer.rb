@@ -726,22 +726,27 @@ module App
       return unless entry
       text = tr(entry[:text_key], entry[:fallback])
       font = banner_font
-      return draw_stamp(world, entry, text, font) if entry[:color] == :gold
+      if entry[:color] == :gold
+        return draw_stamp_line(world, text, frames_left: entry[:frames_left],
+                                            frames_total: entry[:frames_total], top: 48)
+      end
       x = (view_width(world) - font.text_width(text)) / 2
       font.draw_text(text, x, 48, 10, 1, 1, BANNER)
     end
 
-    def draw_stamp(world, entry, text, font)
-      age = entry[:frames_total] - entry[:frames_left]
+    # Shared court-stamp delivery: the banner-slot stamps AND the breach
+    # writ line land with the same grammar (a court has ONE seal press).
+    def draw_stamp_line(world, text, frames_left:, frames_total:, top:)
+      font = banner_font
+      age = frames_total - frames_left
       s = App::Stamp.scale(age:, in_frames: @display.fetch(:stamp_in_frames, 12),
                            in_scale: @display.fetch(:stamp_in_scale, 1.6))
-      a = App::Stamp.alpha(frames_left: entry[:frames_left],
-                           frames_total: entry[:frames_total])
+      a = App::Stamp.alpha(frames_left:, frames_total:)
       col = Gosu::Color.new(a, BREACH_GOLD.red, BREACH_GOLD.green, BREACH_GOLD.blue)
       w = font.text_width(text) * s
       h = font.height * s
       cx = view_width(world) / 2.0
-      cy = 48 + font.height / 2.0
+      cy = top + font.height / 2.0
       font.draw_text(text, cx - w / 2, cy - h / 2, 10, s, s, col)
       pad = @display.fetch(:stamp_rule_pad, 8) * s
       rule_h = @display.fetch(:stamp_rule_h, 2) * s
@@ -773,14 +778,16 @@ module App
 
     # The writ line (v12 breach beat): gate-gold, one slot below the zone
     # banner so the two can never stack illegibly. Pure reader of world
-    # state — replay determinism holds.
+    # state — replay determinism holds. v16 (c): lands with the SAME stamp
+    # grammar as the banner-slot court lines (rule pair + scale-in + fade)
+    # — the wall critic caught the flat render as broken court ceremony.
     def draw_breach_line(world)
       line = world.breach_line
       return unless line
-      text = tr("breach.line", line[:text])
-      font = banner_font
-      x = (view_width(world) - font.text_width(text)) / 2
-      font.draw_text(text, x, 88, 10, 1, 1, BREACH_GOLD)
+      draw_stamp_line(world, tr("breach.line", line[:text]),
+                      frames_left: line[:frames_left],
+                      frames_total: line.fetch(:frames_total, @display.fetch(:breach_banner_frames, 150)),
+                      top: 88)
     end
 
     def draw_wipe_overlay(world)

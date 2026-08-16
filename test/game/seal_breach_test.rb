@@ -111,6 +111,8 @@ class SealBreachTest < Minitest::Test
     assert_equal ECO[:breach_cost], breached.first[:cost]
     refute_nil world.breach_line, "the breach line arms for the banner slot"
     assert_equal seal_station[:line], world.breach_line[:text]
+    assert_equal DATA["display"][:breach_banner_frames], world.breach_line[:frames_total],
+                 "the stamp renderer needs age = total - left (v16 delivery grammar)"
   end
 
   # v16 (c): the breach is a located court act — the writ line keeps the
