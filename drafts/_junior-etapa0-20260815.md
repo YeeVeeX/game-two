@@ -107,3 +107,22 @@ A Porta Lenta undone; mirrors ES "La Rúa Larga"), payment stamps and
 UM SE PLANTA ratified as-is. stamp.mark_void PT-BR deliberately
 DEFERRED — the pipeline law says Junior post-edits from brief +
 RATIFIED ES, and the ES waits on the owner's language lane.
+
+> **OWNER-SEAT COMPARISON RESULT (2026-08-16, this seat):** the RE-RUN
+> md5 blocks above were diffed against this machine's wall gate captures
+> (same scripts, same frames, same code line): **0/21 files
+> byte-identical.** This is the EXPECTED result and it retires the
+> instrument, not the claim: PNG bytes are machine-local (Gosu::Font
+> rasterizes through the host font stack; the PNG encoder is compiled
+> per machine) — pixel-file identity across machines was never the
+> invariant lockstep needs. The invariant that matters is SIM identity:
+> same inputs → same tick-by-tick event stream and telemetry.
+> **Protocol correction for the strict exchange (v17 stage-1 spike):**
+> publish the per-script TELEMETRY lines + an md5 over the EVENT log
+> (the `EVENT ... frame=` stream from the teed replay log), never PNG
+> md5s. The RE-RUN's "telemetry identical to the owner-seat wall" claim
+> is CREDIBLE but unverifiable as published (the lines themselves were
+> not included) — Junior seat: re-publish with the telemetry lines +
+> event-log digest and the spike closes for real. Within-machine
+> determinism stands proven on BOTH machines (double replays
+> byte-identical each side).
