@@ -530,3 +530,23 @@ Infra items, not game features; each needs a maintenance window, not a cycle.
   (0 unique commits) — deletion is Junior's call, his branch. origin/main
   runs 3 days behind BY DESIGN (owner's solo backup line) — syncing it is
   the owner's move, never the dev seat's.
+
+## Systemic-worlds research shelf (banked 2026-08-16, knowledge-session evidence drop — consume, don't re-derive)
+
+- **Five verified vault notes now cover the systemic-world design space** (NPC
+  schedules/sim-LOD, economy sinks-faucets, damage/elements/combat math,
+  crafting/loot/pity, world events/towns/folklore-mechanics), each with a
+  "For game-two" section mapped onto entries in this file. Consumption
+  workflow, trust tiers (VERIFIED/CORRECTED/FLAGGED — folklore never lands in
+  `data/`), and the spec pipeline codified from the death-economy precedent:
+  `docs/design-corpus/systemic-worlds-research-shelf.md`. Query via
+  `hub kb query --domain game-research "<topic>"`.
+- Backing corpus: `knowledge/sources/rpg-systemic-worlds-research-2026-08`
+  (adversarially verified 2026-08-16, per-file verdict tables; ~50 VERIFIED /
+  ~31 CORRECTED / ~43 FLAGGED / 2 REMOVED — two invented GDC talks caught).
+  Notable for future cycles: the v11 arc/purpose wishlist (progress, leveling,
+  equipment, new enemies/zones, cities) maps almost 1:1 onto these notes; the
+  corpus is MMO-first, so it also feeds the post-v17 multiplayer era.
+- **NOT a promotion.** Zero code owed; v17 scope untouched. This is the A2
+  evidence-inputs pattern: pointers banked so promotion day starts from
+  verified touchstones instead of re-research.
