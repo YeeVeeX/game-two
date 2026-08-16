@@ -1,5 +1,47 @@
 # Etapa 0 — Junior's replay exchange + cross-machine determinism evidence (2026-08-15)
 
+> **RE-RUN AT THE RESOLVED LINE (2026-08-16, the owner checkpoint's
+> explicit ask):** the md5 blocks BELOW this note were computed against
+> the pre-race Junior-seat line and are history only. The valid exchange
+> set for the v17 trigger is THIS one, computed at junior-tibia
+> `9b755dc` (the two-seat-resolved line, owner implementation):
+>
+> **world_loop** (`captures/world_loop`):
+> ```
+> 487e2a946a60314491c6712906bc618e  frame_0000.png
+> d4ce27adb3a44cc7fb9ede8d9252cdb5  frame_0300.png
+> 3e3733be06abd33fd501e3692fcc63a0  frame_0303.png
+> 1184c150976042664c0dc5ab54057b1d  frame_0397.png
+> 09d1ad1107c92c0b9477b51e42c15a51  frame_0431.png
+> ef1cc0a8e8c2601fac1b00cca406e1d9  frame_0441.png
+> b85db3188e08aaf461afb4e35e6c3f86  frame_0701.png
+> 1284dddfca221ecb4532b339fe878165  frame_0805.png
+> c197efb9f98cc857dd1602dd6a155bd5  frame_0983.png
+> b84b544c4ff75f628e9e3ebd5def6729  frame_1248.png
+> ```
+> **varekka_duel** (`captures/pilot/quay9_r2_replay`):
+> ```
+> 8bcf0814fc60d7b47ea6cb1bfc07bf60  frame_0149.png
+> d60d5e8989487c8d662ec615ef249ca2  frame_0937.png
+> 8f7fa75d447b25057804bbe14052ed9d  frame_0998.png
+> 93ac09ea5a9542de80ba6376a2f4842c  frame_2578.png
+> 596daa3b499025501e69a7e5079722af  frame_2682.png
+> ```
+> **burn_duel** (`captures/pilot/burn_duel`):
+> ```
+> 3c00ac5691f950e38eeeb1410d21f40a  frame_0420.png
+> 6bbb57fde8aa81fab084cd12c1665286  frame_0485.png
+> 4f313f5d9a3e56150c0bd6fcb842b2bd  frame_0495.png
+> 35aa779a62ae4ac41df28394be39e999  frame_0535.png
+> cc6af2ab7be36644ff627ca29ebb106a  frame_0634.png
+> af2b96c40c4558c6c20bb3e39f932ff2  frame_0700.png
+> ```
+> Same machine facts as below (Ruby 3.4.10 exact, gosu 1.4.6). All
+> three replays REPLAY_DONE with telemetry identical to the owner-seat
+> wall (varekka_duel: chants=3 interrupted=2 seized=1 zone_left=1).
+> Owner: run the same three captures on your seat and diff — a match =
+> the stage-1 cross-machine spike CONFIRMED on the line that ships.
+
 The STRICT form of v17 trigger #1 (async replay exchange through the
 repo, `docs/JUNIOR.md`): Gabriel's canonical replays reproduced on
 JUNIOR'S machine, per-frame md5 published here so the owner seat can
