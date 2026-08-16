@@ -1,5 +1,6 @@
 require "app/controls_overlay"
 require "app/kill_pop"
+require "app/stamp_delivery"
 
 module App
   # Draws the world sim with Gosu primitives. Flat-rect minimalism: kit
@@ -91,6 +92,7 @@ module App
         draw_drops(world)
         draw_corpse_loads(world)
         draw_expiry_flashes(world)
+        draw_seal_marks(world)
         draw_respawn_tells(world)
         world.humans.each { |h| draw_creature(h, world) }
         world.pack.living.each { |m| draw_creature(m, world) }
@@ -599,6 +601,35 @@ module App
       end
     end
 
+    # v16 (c) decision 4: located stamps land IN the world — a rect frame +
+    # inner glyph in stamp gold at the event tile, on the same delivery
+    # clock as the banner stamp (scale-in, dwell, fade). Floor decal: draws
+    # above corpses/drops (the court stamps over the body), below actors.
+    def draw_seal_marks(world)
+      ts = world.map.tile_size
+      in_frames = @display.fetch(:stamp_in_frames, 12)
+      fade_frames = @display.fetch(:stamp_fade_frames, 30)
+      from = @display.fetch(:stamp_scale_from, 1.6)
+      to = @display.fetch(:stamp_scale_to, 1.0)
+      glyph = @display.fetch(:seal_mark_glyph_px, 8)
+      world.seal_marks.each do |m|
+        s = App::StampDelivery.scale_at(age: m[:total] - m[:frames_left],
+                                        in_frames:, from:, to:)
+        col = fade(BREACH_GOLD, App::StampDelivery.alpha_at(
+          frames_left: m[:frames_left], fade_frames:
+        ))
+        side = ((ts - 6) * s).round
+        x = m[:tile][0] * ts + (ts - side) / 2
+        y = m[:tile][1] * ts + (ts - side) / 2
+        Gosu.draw_rect(x, y, side, 2, col)
+        Gosu.draw_rect(x, y + side - 2, side, 2, col)
+        Gosu.draw_rect(x, y, 2, side, col)
+        Gosu.draw_rect(x + side - 2, y, 2, side, col)
+        Gosu.draw_rect(x + (side - glyph) / 2, y + (side - glyph) / 2,
+                       glyph, glyph, col)
+      end
+    end
+
     def draw_taunt_pulses(world)
       ts = world.map.tile_size
       world.taunt_pulses.each do |p|
@@ -663,14 +694,43 @@ module App
     # v15 banner FIFO: the slot renders the ACTIVE queue entry — zone
     # banners in bone, court stamps in gate-gold. Entries carry KEYS;
     # locale resolves here at draw time (comparability law preserved).
+    # v16 (c): stamps LAND (scale-in, dwell, fade, rule pair); zone banners
+    # keep the quiet entrance (places announce, courts judge).
     def draw_banner(world)
       entry = world.active_banner
       return unless entry
       text = tr(entry[:text_key], entry[:fallback])
       font = banner_font
+      return draw_stamp(world, entry, text, font) if entry[:color] == :gold
       x = (view_width(world) - font.text_width(text)) / 2
-      col = entry[:color] == :gold ? BREACH_GOLD : BANNER
-      font.draw_text(text, x, 48, 10, 1, 1, col)
+      font.draw_text(text, x, 48, 10, 1, 1, BANNER)
+    end
+
+    # Pure function of the entry record (frames_left/total) — replay
+    # determinism holds. At scale 1.0 the text sits on the pre-v16 y=48
+    # anchor exactly; the rule pair (the acta look) scales and fades with
+    # the text.
+    def draw_stamp(world, entry, text, font)
+      total = entry[:total] || @display.fetch(:stamp_banner_frames, 150)
+      s = App::StampDelivery.scale_at(
+        age: total - entry[:frames_left],
+        in_frames: @display.fetch(:stamp_in_frames, 12),
+        from: @display.fetch(:stamp_scale_from, 1.6),
+        to: @display.fetch(:stamp_scale_to, 1.0)
+      )
+      a = App::StampDelivery.alpha_at(frames_left: entry[:frames_left],
+                                      fade_frames: @display.fetch(:stamp_fade_frames, 30))
+      w = font.text_width(text) * s
+      h = font.height * s
+      cx = view_width(world) / 2
+      x = cx - w / 2
+      y = 48 + font.height / 2 - h / 2
+      font.draw_text(text, x, y, 10, s, s, fade(BREACH_GOLD, a))
+      pad = @display.fetch(:stamp_rule_pad, 6)
+      rule = fade(color(@display.fetch(:stamp_rule_rgb, [235, 190, 90])), a)
+      rw = (w + pad * 2).round
+      Gosu.draw_rect(cx - rw / 2, (y - pad - 2).round, rw, 2, rule, 10)
+      Gosu.draw_rect(cx - rw / 2, (y + h + pad).round, rw, 2, rule, 10)
     end
 
     # The writ line (v12 breach beat): gate-gold, one slot below the zone

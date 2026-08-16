@@ -260,6 +260,27 @@ class ChallengerTest < Minitest::Test
     assert_equal :slain, ended.first[:why]
   end
 
+  # v16 (c) decision 4: THE TERM IS PAID is a located stamp — the court
+  # marks the floor where he fell, the frame the stamp ACTIVATES (it waits
+  # its FIFO turn behind the quay zone banner + ONE STANDS).
+  def test_his_death_stamps_the_floor_where_he_fell
+    face_varekka!(dist: 3)
+    drive(world, scripted({}), 2)
+    tile = varekka.tile
+    varekka.take_hit(damage: 9_999, attacker: world.possessed)
+    400.times do
+      break if world.active_banner&.[](:text_key) == "challenger.term.line"
+      drive(world, scripted({}), 1)
+    end
+    assert_equal "challenger.term.line", world.active_banner[:text_key],
+                 "the term stamp reached the slot"
+    drive(world, scripted({}), 1) # the mark lands on the stamp's first tick
+    mark = world.seal_marks.find { |m| m[:tile] == tile }
+    refute_nil mark, "his death lands a floor seal mark at the death tile"
+    assert_equal world.active_banner[:frames_left], mark[:frames_left],
+                 "the mark dwells in lockstep with its stamp"
+  end
+
   def test_seized_body_death_ends_exactly_once_even_through_the_wipe
     seize_possessed!
     ended = collect(:seizure_ended)

@@ -58,6 +58,10 @@ module Game
       # law). The active entry plays out; queued follow; nothing is eaten.
       @banner_queue = []
       @called_stamped = false
+      # v16 (c) decision 4: located stamps also mark the WORLD — floor seal
+      # records {zone:, tile:, frames_left:, total:} on the banner clock
+      # (the act dwells with its stamp). Renderer is a pure reader.
+      @seal_marks = []
       @station_cue = nil
       @breach_line = nil
       @breached = {}
@@ -126,6 +130,12 @@ module Game
     def taunt_pulses = @taunt_pulses
     def kill_pops = @kill_pops
 
+    # Floor seal marks of the CURRENT zone (v16 c): court acts stamped at
+    # their event tile. Zone-stamped, never cleared on transition — a writ
+    # outlives the walk through the gate it opened; the filter keeps other
+    # zones' coordinates out of this zone's draw.
+    def seal_marks = @seal_marks.select { |m| m[:zone] == @zone_name }
+
     # Active respawn tells of the CURRENT zone, for the renderer (v14).
     # Non-autovivifying fetch: the draw path must never insert zone keys
     # into sim state (the corpse_loads pure-reader law). frames_left
@@ -173,9 +183,19 @@ module Game
       end
 
       if (b = @banner_queue.first)
+        # v16 (c): a located stamp lands its floor mark the frame its
+        # banner ACTIVATES — mark and stamp share one clock from birth
+        # (decision 4: the mark dwells WITH the banner; adversarial review
+        # caught the enqueue-time anchor draining marks behind a queued
+        # stamp). An evicted queued stamp never stamps the floor at all.
+        stamp_floor!(b[:at]) if b[:at] && b[:frames_left] == b[:total]
         b[:frames_left] -= 1
         @banner_queue.shift if b[:frames_left] <= 0
       end
+      # Seal marks share the banner clock (not tick_world) so a mark dwells
+      # in lockstep with its stamp — both pause under hitstop above.
+      @seal_marks.each { |m| m[:frames_left] -= 1 }
+      @seal_marks.reject! { |m| m[:frames_left] <= 0 }
       @station_cue = nil if @station_cue && (@station_cue[:frames_left] -= 1) <= 0
       @breach_line = nil if @breach_line && (@breach_line[:frames_left] -= 1) <= 0
 
@@ -648,15 +668,28 @@ module Game
     # Court stamps + zone banners share one FIFO slot. Cap applies to the
     # QUEUE only — the active entry is never dropped; past the cap the
     # oldest QUEUED entry yields (display key banner_queue_max).
-    def enqueue_banner(text_key:, fallback:, color:, frames:)
+    def enqueue_banner(text_key:, fallback:, color:, frames:, at: nil)
       cap = @display.fetch(:banner_queue_max, 2)
       @banner_queue.delete_at(1) while @banner_queue.length - 1 >= cap
-      @banner_queue << { text_key:, fallback:, color:, frames_left: frames }
+      # total: feeds the renderer's delivery clock (v16 c scale-in age);
+      # at: is the tile locus of a located stamp (floor mark on activation).
+      @banner_queue << { text_key:, fallback:, color:, frames_left: frames,
+                         total: frames, at: }
     end
 
-    def enqueue_stamp(key, fallback)
-      enqueue_banner(text_key: key, fallback:, color: :gold,
+    # A stamp with a tile locus (seal breach, mark void, term paid) also
+    # lands a floor seal mark at the event tile (v16 c, decision 4) — the
+    # mark lands when the stamp ACTIVATES (tick), never at enqueue.
+    def enqueue_stamp(key, fallback, at: nil)
+      enqueue_banner(text_key: key, fallback:, color: :gold, at:,
                      frames: @display.fetch(:stamp_banner_frames, 150))
+    end
+
+    # frames: lets a mark ride its companion beat's own window (the breach
+    # writ line runs breach_banner_frames — data may retune them apart).
+    def stamp_floor!(tile, frames: nil)
+      total = frames || @display.fetch(:stamp_banner_frames, 150)
+      @seal_marks << { zone: @zone_name, tile:, frames_left: total, total: }
     end
 
     # Tab swap: rising edge only, world-level (the controller mask handles
@@ -1126,6 +1159,11 @@ module Game
                        frames_left: @display[:breach_banner_frames] }
       @feel.on_kill
       @bus.emit(:seal_breached, zone: @zone_name, tile: opens, cost: price)
+      # v16 (c): the breach is a located stamp — the court marks the seal
+      # fixture, not the gate tile (gold mark on gold floor would vanish).
+      # The writ line starts NOW (own slot, no queue), so its mark lands
+      # now too, on the writ's own window — lockstep by construction.
+      stamp_floor!(station[:at], frames: @display[:breach_banner_frames])
       station_cue!(:breached, station[:at])
     end
 
@@ -1410,7 +1448,10 @@ module Game
           # v15: the challenger's death is a court event — the term-looter
           # finally pays the term's price (canon-exact; Codex pass-2
           # replaced the NAME IS STRUCK draft).
-          enqueue_stamp("challenger.term.line", "THE TERM IS PAID") if e[:actor].kit[:seize]
+          if e[:actor].kit[:seize]
+            enqueue_stamp("challenger.term.line", "THE TERM IS PAID",
+                          at: e[:actor].tile)
+          end
           schedule_human_respawn(e[:actor])
         elsif e[:actor].equal?(possessed)
           handle_possessed_death
