@@ -126,3 +126,88 @@ RATIFIED ES, and the ES waits on the owner's language lane.
 > event-log digest and the spike closes for real. Within-machine
 > determinism stands proven on BOTH machines (double replays
 > byte-identical each side).
+
+## SIM-IDENTITY RE-PUBLISH (2026-08-16, Junior seat — the corrected protocol)
+
+Computed at junior-tibia `f68d7cb`, sim-identical to the walled line:
+`git diff 0ce2fd4..f68d7cb -- src data harness bin` is EMPTY — only
+docs/tests/CI landed since, plus one `PLATFORMS ruby` line in
+Gemfile.lock (dependency metadata, no sim effect). Each script ran
+TWICE (`bundle exec rake capture SCRIPT=...`, stdout redirected to
+`tmp/etapa0/<script>_ev{A,B}.log`, kept locally for audit); digest =
+`grep '^EVENT ' <log> | tr -d '\r' | md5sum` (the `tr` normalizes line
+endings so the digest is comparable across shells). **Run A = run B on
+every script** — the instrument itself is deterministic on this
+machine. All runs `REPLAY_DONE`.
+
+### world_loop — 70 EVENT lines, event-log md5 `a4150c43669b9783e59cb6c39c322b67`
+
+```
+TELEMETRY d1_fired carrying_deaths=0 wipes=0 corpse_looted=0 carried_lost=0 banked_events=1 fights=1 recovery_fights=0 negative_fights=0
+TELEMETRY a2_fired wipes=0 body_deaths=0 retargets{hate=1 lowhp=0 proximity=0 acquired=6 challenged=0} leashes=0 deepest_band=1 banked=1
+TELEMETRY d1b_fired inscriptions=0 marks_consumed=0 dissolved=0 regrown=0 tributes=0 floor_fired=0 banked_spent{inscribe=0 tribute=0} banked_end=2
+TELEMETRY q6_cadence banks{n=1 mean=2 max=2} kills_by_band{b0=1 b1=2 b2=0}
+TELEMETRY density pockets{mean=0.0 max=0} arrivals{pocket=0 seed=0 home=0} singles_pct=0
+TELEMETRY arc breach{fired=0 first_frame=0 banked_after=0} rehomed=0 camp_visits=0 d2{entered=0 kills=0} seal2_breached=0
+TELEMETRY q6_margins banks{n=1 pure=0} amount{mean=2 max=2} hp{mean=0.40} dead{mean=0.0} wounded{mean=3.0} gap{mean_s=0}
+TELEMETRY v13 whirl{casts=0 hits{1=0 2=0 3=0 4=0 5plus=0} kills=0} challenge{casts=0 retargets=0}
+TELEMETRY drift thirds{k1=0 k2=2 k3=1} pockets{p1=0.0 p2=0.0 p3=0.0} span_thirds{k1=2 k2=0 k3=1 span=253}
+TELEMETRY v14 telegraphs_shown=2 first_special{striker=never blocker=never lobber=never}
+TELEMETRY quay entries=0 frames=0 kills=0 deaths=0 banked_after{events=0 amount=0}
+TELEMETRY varekka engaged=0 chants=0 interrupted=0 seized=0 swap_escapes=0 slain=0 deaths_while_seized=0 burns=0 ends{expired=0 slain=0 died=0 zone_left=0 wiped=0}
+```
+
+### varekka_duel — 220 EVENT lines, event-log md5 `22dbad126c73753952574ff450e3419b`
+
+```
+TELEMETRY d1_fired carrying_deaths=0 wipes=0 corpse_looted=0 carried_lost=0 banked_events=0 fights=2 recovery_fights=0 negative_fights=0
+TELEMETRY a2_fired wipes=0 body_deaths=2 retargets{hate=8 lowhp=5 proximity=0 acquired=37 challenged=0} leashes=18 deepest_band=0 banked=0
+TELEMETRY d1b_fired inscriptions=0 marks_consumed=0 dissolved=0 regrown=0 tributes=0 floor_fired=0 banked_spent{inscribe=0 tribute=0} banked_end=0
+TELEMETRY q6_cadence banks{n=0 mean=0 max=0} kills_by_band{b0=9 b1=0 b2=0}
+TELEMETRY density pockets{mean=5.0 max=15} arrivals{pocket=8 seed=0 home=0} singles_pct=13
+TELEMETRY arc breach{fired=0 first_frame=0 banked_after=0} rehomed=0 camp_visits=0 d2{entered=0 kills=0} seal2_breached=0
+TELEMETRY q6_margins banks{n=0 pure=0} amount{mean=0 max=0} hp{mean=0.00} dead{mean=0.0} wounded{mean=0.0} gap{mean_s=0}
+TELEMETRY v13 whirl{casts=0 hits{1=0 2=0 3=0 4=0 5plus=0} kills=0} challenge{casts=0 retargets=0}
+TELEMETRY drift thirds{k1=8 k2=0 k3=1} pockets{p1=6.1 p2=7.9 p3=0.0} span_thirds{k1=8 k2=0 k3=1 span=2526}
+TELEMETRY v14 telegraphs_shown=8 first_special{striker=never blocker=never lobber=never}
+TELEMETRY quay entries=2 frames=2681 kills=9 deaths=2 banked_after{events=0 amount=0}
+TELEMETRY varekka engaged=1 chants=3 interrupted=2 seized=1 swap_escapes=2 slain=1 deaths_while_seized=0 burns=0 ends{expired=0 slain=0 died=0 zone_left=1 wiped=0}
+```
+
+### burn_duel — 185 EVENT lines, event-log md5 `d148b8386001cdc8da44fe8472e46c72`
+
+```
+TELEMETRY d1_fired carrying_deaths=0 wipes=1 corpse_looted=0 carried_lost=0 banked_events=0 fights=1 recovery_fights=0 negative_fights=0
+TELEMETRY a2_fired wipes=1 body_deaths=3 retargets{hate=3 lowhp=12 proximity=0 acquired=20 challenged=0} leashes=10 deepest_band=1 banked=0
+TELEMETRY d1b_fired inscriptions=0 marks_consumed=0 dissolved=0 regrown=0 tributes=0 floor_fired=0 banked_spent{inscribe=0 tribute=0} banked_end=0
+TELEMETRY q6_cadence banks{n=0 mean=0 max=0} kills_by_band{b0=4 b1=4 b2=0}
+TELEMETRY density pockets{mean=6.4 max=18} arrivals{pocket=7 seed=0 home=0} singles_pct=31
+TELEMETRY arc breach{fired=0 first_frame=0 banked_after=0} rehomed=0 camp_visits=0 d2{entered=0 kills=0} seal2_breached=0
+TELEMETRY q6_margins banks{n=0 pure=0} amount{mean=0 max=0} hp{mean=0.00} dead{mean=0.0} wounded{mean=0.0} gap{mean_s=0}
+TELEMETRY v13 whirl{casts=0 hits{1=0 2=0 3=0 4=0 5plus=0} kills=0} challenge{casts=0 retargets=0}
+TELEMETRY drift thirds{k1=3 k2=4 k3=1} pockets{p1=0.0 p2=3.9 p3=4.3} span_thirds{k1=2 k2=2 k3=4 span=501}
+TELEMETRY v14 telegraphs_shown=8 first_special{striker=never blocker=never lobber=never}
+TELEMETRY quay entries=1 frames=787 kills=8 deaths=3 banked_after{events=0 amount=0}
+TELEMETRY varekka engaged=1 chants=1 interrupted=0 seized=1 swap_escapes=0 slain=0 deaths_while_seized=1 burns=1 ends{expired=0 slain=0 died=1 zone_left=0 wiped=0}
+```
+
+### To verify on the owner seat (per script, one run is enough)
+
+Run at `f68d7cb` or any sim-identical line (empty
+`git diff f68d7cb -- src data harness bin`). `2> /dev/null` keeps
+stderr out of the digested stream:
+
+```
+bundle exec rake capture SCRIPT=harness/scripts/world_loop.json > /tmp/wl.log 2> /dev/null
+grep '^EVENT ' /tmp/wl.log | tr -d '\r' | md5sum   # → a4150c43669b9783e59cb6c39c322b67
+grep '^TELEMETRY' /tmp/wl.log                      # → diff against the block above
+```
+
+Expected digests: world_loop `a4150c43669b9783e59cb6c39c322b67`,
+varekka_duel `22dbad126c73753952574ff450e3419b`, burn_duel
+`d148b8386001cdc8da44fe8472e46c72`.
+
+Three digest matches + three telemetry-block matches → same inputs
+produced the same tick-by-tick event stream and the same telemetry on
+two machines: **the v17 stage-1 cross-machine sim-identity spike
+CLOSES.** Any diff is the v17 work item — bank it, don't average it.
