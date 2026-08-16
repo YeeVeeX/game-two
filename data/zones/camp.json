@@ -4,14 +4,23 @@
   "hub": true,
   "tile_size": 32,
   "palette": {
-    "floor": [38, 28, 22],
-    "grid": [50, 38, 30],
-    "wall": [158, 118, 72],
+    "floor": [32, 28, 26],
+    "grid": [42, 38, 34],
+    "wall": [150, 140, 130],
     "transition": [235, 190, 90],
     "station": [185, 75, 205],
     "station_altar": [230, 215, 170],
-    "station_vat": [90, 150, 60]
+    "station_vat": [90, 150, 60],
+    "motif": "chip",
+    "motif_rgb": [56, 48, 42],
+    "ambient_rgba": [255, 140, 60, 10]
   },
+  "decor": [
+    { "kind": "brazier", "at": [3, 2], "rgb": [235, 115, 45], "alpha": 255 },
+    { "kind": "brazier", "at": [16, 2], "rgb": [235, 115, 45], "alpha": 255 },
+    { "kind": "brazier", "at": [3, 8], "rgb": [235, 115, 45], "alpha": 255 },
+    { "kind": "brazier", "at": [16, 8], "rgb": [235, 115, 45], "alpha": 255 }
+  ],
   "tiles": [
     "####################",
     "#..................#",

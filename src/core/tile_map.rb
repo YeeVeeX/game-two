@@ -9,7 +9,7 @@ module Core
 
     attr_reader :cols, :rows, :tile_size, :pack_spawn, :enemy_spawns,
                 :display_name, :palette, :transitions, :stations, :drop_gradient,
-                :hub, :gradient_anchor, :name
+                :hub, :gradient_anchor, :name, :decor
 
     def initialize(cfg)
       @tile_size = cfg.fetch(:tile_size)
@@ -32,6 +32,9 @@ module Core
       # band map (sorted zone keys reorder arrivals when zones are added).
       @hub = cfg.fetch(:hub, false)
       @gradient_anchor = cfg.fetch(:gradient_anchor, nil)
+      # v16 (b): authored landmark features — RENDER-ONLY (never blocking,
+      # never validated against passability: braziers mount on walls).
+      @decor = cfg.fetch(:decor, [])
       validate!
     end
 

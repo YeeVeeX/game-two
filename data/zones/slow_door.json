@@ -3,26 +3,13 @@
   "display_name": "The Slow Door",
   "tile_size": 32,
   "palette": {
-    "floor": [
-      12,
-      10,
-      14
-    ],
-    "grid": [
-      20,
-      17,
-      22
-    ],
-    "wall": [
-      58,
-      48,
-      64
-    ],
-    "transition": [
-      235,
-      190,
-      90
-    ]
+    "floor": [14, 10, 18],
+    "grid": [22, 16, 28],
+    "wall": [92, 72, 112],
+    "transition": [235, 190, 90],
+    "motif": "plank",
+    "motif_rgb": [32, 26, 42],
+    "ambient_rgba": [120, 60, 180, 16]
   },
   "tiles": [
     "##############",

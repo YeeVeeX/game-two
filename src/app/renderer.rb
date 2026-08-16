@@ -1,6 +1,7 @@
 require "app/controls_overlay"
 require "app/kill_pop"
 require "app/stamp"
+require "app/zone_identity"
 
 module App
   # Draws the world sim with Gosu primitives. Flat-rect minimalism: kit
@@ -177,6 +178,15 @@ module App
       end
       (0..map.cols).each { |tx| Gosu.draw_rect(tx * ts, 0, 1, map.pixel_height, grid) }
       (0..map.rows).each { |ty| Gosu.draw_rect(0, ty * ts, map.pixel_width, 1, grid) }
+      # v16 (b): identity channels — motif texture + authored landmarks
+      # after the grid (floor detail), under transitions (gold stays law).
+      # Geometry memoized per map: pure function of immutable zone config.
+      motif, decor = identity_rects(map)
+      unless motif.empty?
+        mcol = color(map.palette[:motif_rgb])
+        motif.each { |(x, y, w, h)| Gosu.draw_rect(x, y, w, h, mcol) }
+      end
+      decor.each { |(x, y, w, h, rgb, a)| Gosu.draw_rect(x, y, w, h, color(rgb, a)) }
       map.transitions.each do |t|
         tx, ty = t[:at]
         if t[:sealed] && !world.breached?(world.zone_name, t[:at])
@@ -188,6 +198,18 @@ module App
           Gosu.draw_rect(tx * ts + 3, ty * ts + 3, ts - 6, ts - 6, transition)
         end
       end
+      # Ambient tint LAST over the whole map quad — a faint colored light
+      # the zone sits in; actors draw after (untinted — W6, bodies anchor).
+      if (amb = App::ZoneIdentity.ambient(map))
+        Gosu.draw_rect(0, 0, map.pixel_width, map.pixel_height,
+                       color(amb[0, 3], amb[3]))
+      end
+    end
+
+    def identity_rects(map)
+      @identity_cache ||= {}
+      @identity_cache[map] ||= [App::ZoneIdentity.motif_rects(map),
+                                App::ZoneIdentity.decor_rects(map)]
     end
 
     # Drops read as PLACE (v11 rider): size is the primary depth channel —
