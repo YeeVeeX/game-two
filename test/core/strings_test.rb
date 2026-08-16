@@ -36,12 +36,13 @@ module Core
       assert_equal "The Second Vigil", s.t("zone.camp.display_name", "The Second Vigil")
     end
 
-    def test_wipe_line_lives_in_en_json_not_ruby
-      # The extraction proof: the wipe line resolves from data with NO
-      # fallback argument at every locale. v14 rename batch: the judgment
-      # register line (v12 fiction annex pre-registration).
-      assert_equal "THE FLESH IS SPENT", Strings.new(DATA, locale: "en").t("wipe.line")
-      assert_equal "LA REENCARNACIÓN ES INMINENTE", Strings.new(DATA, locale: "es").t("wipe.line")
+    def test_court_line_lives_in_json_not_ruby
+      # The extraction proof: a court line resolves from data with NO
+      # fallback argument at every locale. (Was wipe.line until the
+      # 2026-08-16 owner order removed that text — breach.line carries
+      # the same extraction pattern.)
+      assert_equal "QUEDA PAGADO EL PASO", Strings.new(DATA, locale: "es").t("breach.line")
+      assert_equal "A PASSAGEM ESTÁ PAGA", Strings.new(DATA, locale: "pt-br").t("breach.line")
     end
 
     def test_explicit_locale_beats_env
@@ -63,7 +64,7 @@ module Core
 
     def test_unknown_locale_falls_through_to_en_then_fallback
       s = Strings.new(DATA, locale: "fr")
-      assert_equal "THE FLESH IS SPENT", s.t("wipe.line")          # en table
+      assert_equal "THE TERM IS PAID", s.t("challenger.term.line") # en table
       # zone.camp has no en.json override — proves the caller-fallback leg.
       assert_equal "The Second Vigil", s.t("zone.camp.display_name", "The Second Vigil")
     end

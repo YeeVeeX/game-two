@@ -58,7 +58,6 @@ module Game
       # frames_left:} — keys, never locale-baked text (locale-at-render
       # law). The active entry plays out; queued follow; nothing is eaten.
       @banner_queue = []
-      @called_stamped = false
       @station_cue = nil
       @breach_line = nil
       @breached = {}
@@ -578,10 +577,9 @@ module Game
           h.abort_chant!
           if target && !target.dead?
             target.seize!(h, seize[:duration_frames])
-            unless @called_stamped
-              @called_stamped = true
-              enqueue_stamp("challenger.called.line", "THE FLESH IS CALLED")
-            end
+            # v16 owner order (2026-08-16): the called-stamp TEXT is removed
+            # — the lore rework renames or retires it; the seizure's
+            # delivery is the writ-frame + ring + seized weight until then.
             @bus.emit(:vessel_seized, actor: h, body: target,
                       frames: seize[:duration_frames])
           else

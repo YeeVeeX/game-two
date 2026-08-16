@@ -791,14 +791,10 @@ module App
     end
 
     def draw_wipe_overlay(world)
+      # v16 owner order (2026-08-16): the wipe TEXT is removed — the lore
+      # rework renames or retires it. The veil + the recap ARE the wipe's
+      # delivery until the new bible speaks.
       Gosu.draw_rect(0, 0, view_width(world), view_height(world), WIPE_VEIL)
-      font = wipe_font
-      # Canonical text lives in data/strings/en.json (v13 extraction); the
-      # literal here only keeps a bare strings-less Renderer.new drawable
-      # and must match en.json byte-for-byte (fallback law).
-      text = tr("wipe.line", "THE FLESH IS SPENT")
-      x = (view_width(world) - font.text_width(text)) / 2
-      font.draw_text(text, x, view_height(world) / 2 - 40, 10, 1, 1, Gosu::Color.new(255, 200, 40, 40))
     end
 
     # Forced swap lands with a one-beat red edge so losing a body FEELS lost.

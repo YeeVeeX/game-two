@@ -1,7 +1,6 @@
 {
   "zone.nest.display_name": "The First Vigil",
   "zone.district.display_name": "The Longrow",
-  "wipe.line": "THE FLESH IS SPENT",
   "overlay.vessel.striker": "ithet",
   "overlay.vessel.blocker": "goret",
   "overlay.vessel.lobber": "hevet",
@@ -16,7 +15,6 @@
   "zone.low_quay.display_name": "The Low Quay",
   "challenger.name": "VAREKKA",
   "challenger.stands.line": "ONE STANDS",
-  "challenger.called.line": "THE FLESH IS CALLED",
   "challenger.term.line": "THE TERM IS PAID",
   "stamp.mark_void": "THE MARK IS VOID"
 }

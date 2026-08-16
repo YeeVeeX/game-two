@@ -115,7 +115,7 @@
     },
     {
       "id": "wipe_recap_reads",
-      "check": "During the wipe veil (dark overlay + the large wipe line), the tally renders OVER the veil and stays legible - its numbers readable against the darkened field. The hollow-outline loss number is the value waiting on corpses out in the world. If no wipe with a live tally appears, pass with why='not exercised by this script'."
+      "check": "During the wipe veil (dark overlay), the tally renders OVER the veil and stays legible - its numbers readable against the darkened field. The hollow-outline loss number is the value waiting on corpses out in the world. If no wipe with a live tally appears, pass with why='not exercised by this script'."
     },
     {
       "id": "bank_tally_reads",
@@ -195,7 +195,7 @@
     },
     {
       "id": "seizure_reads",
-      "check": "When a seized vessel is on camera, it carries a thin blue underline (mirror of the rust taunt underline) and a body-scale blue darkening for the whole hold and, in the court-stamp frames, the lines ONE STANDS / THE FLESH IS CALLED / THE TERM IS PAID are legible in the banner slot with banner-scale prominence. A seized body standing adjacent to Varekka doing nothing is the design, not broken AI. If neither a seized vessel nor a challenger stamp appears, pass with why='not exercised by this script'."
+      "check": "When a seized vessel is on camera, it carries a thin blue underline (mirror of the rust taunt underline) and a body-scale blue darkening for the whole hold and, in the court-stamp frames, the lines ONE STANDS / THE TERM IS PAID are legible in the banner slot with banner-scale prominence. A seized body standing adjacent to Varekka doing nothing is the design, not broken AI. If neither a seized vessel nor a challenger stamp appears, pass with why='not exercised by this script'."
     },
     {
       "id": "zone_identity_reads",

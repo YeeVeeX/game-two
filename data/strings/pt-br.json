@@ -5,7 +5,6 @@
   "zone.nest.display_name": "A Primeira Vigília",
   "zone.slow_door.display_name": "A Porta Lenta",
   "breach.line": "A PASSAGEM ESTÁ PAGA",
-  "wipe.line": "A CARNE SE ESGOTA",
   "overlay.vessel.striker": "ithet",
   "overlay.vessel.blocker": "goret",
   "overlay.vessel.lobber": "hevet",
@@ -20,6 +19,5 @@
   "zone.low_quay.display_name": "O Cais Baixo",
   "challenger.name": "VAREKKA",
   "challenger.stands.line": "UM SE PLANTA",
-  "challenger.called.line": "A CARNE É CHAMADA",
   "challenger.term.line": "O PRAZO ESTÁ PAGO"
 }

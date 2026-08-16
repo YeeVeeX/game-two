@@ -5,7 +5,6 @@
   "zone.nest.display_name": "La Primera Vela",
   "zone.slow_door.display_name": "La Puerta Tarda",
   "breach.line": "QUEDA PAGADO EL PASO",
-  "wipe.line": "LA REENCARNACIÓN ES INMINENTE",
   "overlay.vessel.striker": "ithet",
   "overlay.vessel.blocker": "goret",
   "overlay.vessel.lobber": "hevet",
@@ -20,7 +19,6 @@
   "zone.low_quay.display_name": "El Bajofondo",
   "challenger.name": "VAREKKA",
   "challenger.stands.line": "UNO SE ALZA",
-  "challenger.called.line": "ALGO HA DESPERTADO",
   "challenger.term.line": "QUEDA PAGADO EL PLAZO",
   "stamp.mark_void": "QUEDA ANULADA LA MARCA"
 }
