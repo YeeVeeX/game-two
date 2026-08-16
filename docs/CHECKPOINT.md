@@ -1,5 +1,121 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-16 (v17 TDD session 2: increments 4-6 GREEN + PUSHED — Lockstep, Fingerprint/Wire/Session, two-sim integration lane; wall untouched by construction)
+
+**MEASURED: junior-tibia `8d0902d` pushed (pull clean both ends — no
+Junior commits today), suite 625/9274 green (hook-run at every commit),
+perf p95 0.289 ms, netplay integration lane 0.314 ms/tick (two sims +
+wire, one process — 25x under the 8 ms ceiling), diff f2430f5..HEAD
+touches ONLY data/netplay.json + src/net/ + test/net/ (no src/game, no
+src/app, no harness/scripts → no wall re-run owed; the three headless
+canaries ride `rake` and are green).**
+
+**Increment 4 — `Net::Lockstep` (`b223038`), pure scheduler + `data/
+netplay.json` (Rule 3: port 43117, delay {4,12,8,3}, digest_every 60,
+stall_warn 500 ms, abort 10000 ms, drain 2000 ms, probes 5):** per-seat
+queues, ticks 0..D-1 by-definition empties; sampling law MECHANICAL —
+submit_local exactly once per executed tick, raises on double-submit,
+on submit-while-stalled ("samples NOTHING"), and advance!-before-submit
+(W4's ordering sin); duplicate slot differing = Protocol::Fault,
+identical = idempotent (pre-D slots included: nonzero mask for slot <D
+faults); stall ledger in CALLER-FED wall ms (total/run/max-run +
+stall_ms_max, warn/abort verdicts returned never acted); boundary
+retention ceil((D+RTT_ticks)/N)+1 enforced BOTH maps (local windows
+awaiting peer + peer md5s awaiting local — overflow = cadence fault);
+desync compare machine latches (ready? false forever, drain traffic
+ignored not faulted), late/bursty schedules tested; latch_desync!(t)
+for peer-declared halts counts desyncs on both seats; derive_delay =
+clamp(ceil(median/2/16.67)+jitter, 4,12), median not mean (outlier
+test), probe failure → default 8, above-clamp → LINK SLOW flag. 27
+tests.
+
+**Increment 5 — Fingerprint + Wire + Session (`0907b0a`):**
+`Net::Fingerprint` (sorted relpath:content-md5 over src/**/*.rb +
+data/** + Gemfile.lock, bindings.local.json EXCLUDED; mismatch print
+NAMES each differing field + `git pull` hint). `Net::Wire` (Qwen fold
+pinned: ONE drain per pump — select(0) probe + read_nonblock
+`exception: false` [same discipline as the WaitReadable rescue, no
+exception cost], EOF/ECONNRESET/EPIPE → dead_reason, Oversize
+mid-stream → dead (conn_lost taxonomy), partial writes retained,
+NODELAY getsockopt-verified). `Net::Session`: phase machine
+LISTEN→HELLO→PROBE→SESSION→READY→RUN→END with per-phase ALLOWED table +
+role guards (out-of-phase = fault); host=seat 1, session_id =
+seed^epoch hex, sequential probes host-measured, D via derive_delay,
+SESSION carries d/digest_every/link_slow (optional field — pinned
+vocabulary untouched); READY→START barrier gates on BOTH callers'
+attach(world); run loop = pump→sample→submit→send INPUT→advance→
+fold_input→world.tick→boundary digest exchange; termination machine =
+DESYNC exchange + bounded drain / BYE{quit} drain / reason precedence
+desync>protocol>conn_lost>quit; desync artifact
+tmp/netplay/desync_<sid>_tick<B>.json (manifest+snapshot+lines);
+TELEMETRY line exposed (printed by the app at increment 7). Handshake
+timeout: any post-connect pre-RUN phase stuck >abort_stall_ms =
+conn_lost; :listen EXEMPT (hosting waits indefinitely). Tests over REAL
+127.0.0.1 (port 0 ephemeral): happy path (D=4 from 10 ms fake-clock
+rounds), D derivation (100 ms→6), LINK SLOW both seats, barrier holds
+until both attach, fingerprint/version refusal naming the field on BOTH
+seats, clean quit both-reason=quit, raw-socket peer faults (out-of-
+phase INPUT, garbage JSON), silent-peer timeout, listen-alone never
+times out. 12+8+6 tests (session/fingerprint/wire).
+
+**Increment 6 — the etapa-1 lane (`8d0902d`,
+test/net/netplay_integration_test.rb):** two REAL Worlds (seed from
+handshake, seats: 2) + two REAL Sessions over loopback in one process,
+scripted seat inputs, synchronous alternating pumps, fake ms clock.
+(1) HOLD: 3000 ticks, zero desyncs, tick counts equal, 50/50 window
+md5s identical, boundaries compared live, both quit at the same tick →
+TELEMETRY identical modulo seat, zero stalls; perf print + ≤8 ms
+assert. (2) DIVERGENCE: `wh.pack.bank!(1)` at tick ~32 → desync at
+boundary 60 exactly, both reason=desync, desyncs=1 both, artifact
+written (both seats' write paths exercised; same file in-process),
+snapshot+manifest+differing md5s verified. (3) STALL: freeze seat 2's
+pump → host warns (stall_warning_ms overlay feed) then aborts at
+10000 ms fake-wall → conn_lost; thawed seat discovers BYE/EOF →
+conn_lost BOTH ends.
+
+**One trap hit + fixed mid-increment-5:** the joiner has no way to know
+probes ended except SESSION itself — ALLOWED[:probe] must include
+:session or the handshake protocol-faults on its own happy path (caught
+by the first live loopback run; fix = allow + transition in
+handle_session).
+
+**Session-2 dev decisions on record (within closed design):** (a)
+rtt_ticks for the retention bound = D on BOTH seats (D already embeds
+half-RTT + jitter; bound reads identically both sides); (b) submit-
+while-stalled raises (the spec's "samples NOTHING" made mechanical, not
+just conventional); (c) Wire uses `exception: false` nonblocking calls
+(identical semantics to the pinned WaitReadable rescue, cheaper); (d)
+Session exposes telemetry_line/stall_warning_ms/refusal — PRINTING is
+increment 7's job (window/CLI); (e) BYE{conn_lost} best-effort sent on
+stall-abort so the frozen peer can print honestly on thaw.
+
+**NEXT SESSION — increment 7 (app integration + Rule-2 surfaces), NOT
+started here on purpose (never start the Rule-2 loop without room to
+finish it green):** CLI `bin/play [locale] --host [port] / --join
+<ip[:port]>` (BOTH launchers forward args past the locale), src/main.rb
+parse, Window session mode (sample→submit→pump→advance?→tick ≈30 lines,
+cap law; print TELEMETRY at close beside the sim summary; wire
+Process.clock_gettime(:MONOTONIC)*1000 as now_ms; Esc → session.quit!),
+presentation states (HOSTING—WAITING FOR PARTNER +port / CONNECTING… /
+stall overlay `WAITING FOR PARTNER`+ms via session.stall_warning_ms /
+LINK SLOW banner via session.link_slow / DESYNC AT TICK N—SESSION ENDED
++ report path / CONNECTION LOST—SESSION ENDED / NO BODY—WAITING /
+WAITING AT GATE cue), partner ring (second color in display.json,
+decision 10 — rings only, PARTNER wording), then the harness/net script
+family (netplay scenario: two Worlds + two Sessions in the replay
+window, seat-1 view; netplay_session / netplay_desync /
+netplay_conn_lost) + the CHECKS= gate argument (default untouched —
+netplay checks in their own file, ADD-ONLY) + full gates (Rule 2
+BLOCKING: capture + critique per state). Window/renderer changes =
+Rule-2 visual changes; if src/game or the renderer is touched, the
+three headless canaries + full-wall `rake canary` (baselines
+tmp/canary_baseline/, machine-local — RE-BANK from a sim-identical line
+first if tmp/ was cleaned). Then increment 8 (JUNIOR.md netplay section
+PT-BR-first, AGENTS commands note, PARKING_LOT: UDP/adaptive-D/rejoin,
+checkpoint) → the SIXTEENTH ask (protocol pre-registered in the spec
+§Fun-verify; owner hosts, Junior joins over Tailscale, ≥10 sim-min,
+telemetry harvested from BOTH seats BEFORE questions).
+
 ## 2026-08-16 (v17 TDD session 1: increments 1-3 GREEN + PUSHED — digest lane, seat plumbing, protocol; full-wall canary 17/17 byte-identical)
 
 **Increment 1 — DIGEST LANE (`155c059`):** `Net::EventSerial` extracted
