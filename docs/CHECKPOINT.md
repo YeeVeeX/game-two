@@ -1,5 +1,40 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-16 (v17 DEBATE CLOSED: MULTIPLAYER ETAPA 1 — owner ratified; brainstorm opens next session)
+
+**Owner ratified at the debate (verbatim "ok procede como recomiendes, lo
+apruebo"): v17 = multiplayer etapa 1** — live lockstep co-op with Junior
+over Tailscale, on the dev recommendation. Both triggers adjudicated
+CUMPLIDOS: #1 Junior at etapa 0 (first session + strict exchange + his
+own sim-identity re-run on the placeholder line, 3/3 digests, `b7beb85`);
+#2 v16 shipped (wall 17/17 + fifteenth partial win). **Scope contract
+REWRITTEN in AGENTS.md** (v16 text retired to git history per the
+one-cycle law): IN = etapa 1 + named design forks (embodiment,
+tick-sync/input-delay, bootstrap, desync-detect-loudly policy, latency
+budget) + digest instrumentation + two-sims-one-process netplay test
+lane + Rule-2 on new UI; OUT = >2 players, rollback/resync, open
+internet, voice, dread iteration (open-for-exposure), all lore
+(standing order). Oracle = the SIXTEENTH ask, two halves: session HELD
+(digest counters both seats) + felt like playing TOGETHER (both players
+asked separately). PARKING_LOT updated (dread-exposure rider, v16
+leftovers, repo-hygiene notes: junior/ci deletion is Junior's call,
+main sync is the owner's).
+
+**State at close: junior-tibia synced 0/0, suite 527/2329 green, wall
+17/17 (tag placeholders), perf p95 0.365ms, tree clean.**
+
+**NEXT SESSION (v17 execution opens — in order):** (1) brainstorm → the
+five forks close on dev recommendation + owner veto (v13 precedent) —
+read first: PARKING_LOT multiplayer section + both etapa-0 drafts
+(`_junior-etapa0-20260815.md`, `_junior-etapa0-20260816.md`) + JUNIOR.md;
+(2) spec `2026-08-XX-v17-multiplayer-etapa1-design.md` + dual review
+(Codex first, then panel — Rule-7 envelope declared); (3) TDD increments
+(digest lane first — it is the safety net everything else stands on);
+(4) coordinate Junior's seat via drafts + handoff validate (he is active:
+CI, PT-BR labels, playtests); (5) SIXTEENTH ask = first real two-seat
+session. Owner queue: nothing pending — Junior heads-up already sent
+(clipboard note), lore archive shared.
+
 ## 2026-08-16 (FIFTEENTH ran — v16 closes PARTIAL WIN; v17 debate OPEN at close)
 
 **FIFTEENTH ask (session 36749, es, ~9 min sim):** 17 fights / 2 wipes /

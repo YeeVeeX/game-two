@@ -512,3 +512,21 @@ Infra items, not game features; each needs a maintenance window, not a cycle.
   state-of-play: `../game-two-lore`, commit 374d3e2) under
   `junior-language-lane/` (3-probe package + ratified PT-BR mark_void),
   plus game-two history via merge `00d63bb` second parent.
+
+## Parked at the v17 debate close (2026-08-16)
+
+- **BOSS-1 dread iteration — OPEN-FOR-EXPOSURE, zero code owed.** Stakes +
+  presentation shipped and walled in v16; the fifteenth never crossed
+  seal2. Self-answers the first time any session (owner or Junior) reaches
+  ZONE 5 and meets BOSS 1: harvest varekka{interrupted, swap_escapes,
+  burns} + ask Q2/Q3 from the fifteenth skeleton. Only becomes a WORK item
+  if that exposure reads flat AND behavior didn't change (pre-registered
+  routing: park-for-redesign, not iteration).
+- **v16 leftovers that stay parked:** font-native hi-res text (Q5 lever,
+  no complaint yet); sprites/art (own cycle + pipeline); whirlwind feel
+  gap (striker first_special=never AGAIN this session — watch it at v17
+  playtests, promote only if a verdict names it).
+- **Repo hygiene, other seats' moves:** origin/junior/ci is 100% integrated
+  (0 unique commits) — deletion is Junior's call, his branch. origin/main
+  runs 3 days behind BY DESIGN (owner's solo backup line) — syncing it is
+  the owner's move, never the dev seat's.

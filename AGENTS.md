@@ -21,60 +21,51 @@ writing ever restarts, it restarts OUTSIDE this repo (from the archive
 folder) — never here. Placeholder
 changes are still Rule-2 visual changes (wall + recalibration apply).
 
-v16 (2026-08-15, debate closed, owner ratified): **THE PRESENTATION/IDENTITY
-CYCLE — give the simulation a face.** The FOURTEENTH verdict closed v15.5:
-quay EARNED, tax-wall CLOSED, economy positive (first since D0), guard-scope
-5th clean — and both failures are surface-family: Varekka fear = DESIGN
-PROBLEM (fair + legible + affordable ≠ scary; seized=2, both tanked), ES
-names false in situ (2nd consecutive; root cause = translationese
-authorship). Verdict + routing: `drafts/_v15p5-fun-verify-20260815.md`.
+v17 (2026-08-16, debate closed, owner ratified — "ok procede como
+recomiendes, lo apruebo"): **THE MULTIPLAYER CYCLE — etapa 1, live
+lockstep co-op with Junior.** Both v16 triggers adjudicated CUMPLIDOS at
+the debate: (1) Junior at etapa 0 — first session logged 2026-08-15
+("divertida, quero mais") + strict etapa-0 exchange + sim-identity re-run
+ON THE PLACEHOLDER LINE (3/3 digests identical, his commit `b7beb85`);
+(2) v16 shipped — wall 17/17 + FIFTEENTH partial win (first unprompted
+positive global; verdict `drafts/_v16-fun-verify-skeleton-20260816.md`).
 
-**IN scope — five pieces, one comparability reset:**
-- **(a) Resolution scaling** — render-only integer scaling; sim +
-  capture pipeline untouched (wall stays byte-comparable). The substrate.
-- **(b) Zone visual identity** — data-driven identity block per zone
-  (palette / floor motif / light). A zone reads as a place without its
-  banner.
-- **(c) Stamp delivery** — court stamps land like stamps (scale-in /
-  hold / dwell) at the new resolution. Delivery BEFORE re-wording.
-- **(d) Varekka dread** — stakes knob (something non-refundable at risk
-  while seized) + dread presentation (world dims during the chant). No
-  audio (owner order stands). Forks close on dev recommendation; owner
-  veto at the debrief (v13 precedent).
-- **(e) Kill pop** — every kill lands visibly (the parked Vlambeer item).
-- **Language lane** (owner-approved pipeline, runs AFTER the delivery
-  dose): 3-probe register calibration → grounded candidates (attested
-  notarial formulas + bible found-language, constrained mutation) →
-  owner picks ON CAPTURES; re-word only lines the owner names.
-- All palettes/numbers in `data/`; visual change = comparability reset →
-  ONE full wall re-run + critic recalibration (Nest-rename law).
+**IN scope:**
+- **Etapa 1** — two players (owner + Junior), one shared deterministic
+  sim, lockstep over Tailscale (staged path banked at v13; GameLift
+  rejected — Junior has no AWS). The tick-locked sim + proven
+  cross-machine sim-identity (event-log digests) are the substrate.
+- **Design forks close at the brainstorm** (dev recommendation + owner
+  veto, v13 precedent): second-player embodiment (shared pack vs second
+  pack vs seat-swap), input-delay/tick-sync scheme, session bootstrap
+  (host/join + seed exchange), desync policy (etapa 1 = detect LOUDLY +
+  end honestly — no rollback/resync magic), latency budget.
+- **Determinism instrumentation** — per-N-tick digest exchange built on
+  the etapa-0 digest machinery; a desync is a counted, visible event.
+- **Netplay test lane** — two sim instances in one process exchanging
+  inputs = the real integration test (no mocks law); the existing wall
+  stays single-player and untouched.
+- **New UI surfaces** (connection state, second-player identity ring,
+  waiting states) are Rule-2 visual changes: capture + critique; text =
+  placeholders/functional only (standing order).
 
-**Oracle (the FIFTEENTH ask):** does the Quay look like a place; did
-Varekka scare you; do the stamps land.
+**Oracle (the SIXTEENTH ask, two halves):** did a real session with
+Junior HOLD (zero desyncs, arbiter = digest counters both seats) — and
+did it feel like playing TOGETHER (both players asked, separately).
 
-**Seat:** dev of record = the main session (owner-declared 2026-08-15).
-Working language: English (owner-ratified same day); player-facing ES/PT
-only via the language pipeline — the dev never composes ES/PT alone.
+**Seat:** dev of record = the main session. Working language: English.
+Junior's seat is ACTIVE (CI, PT-BR functional labels, playtesting,
+etapa-0 tooling) — pull before push, always; parallel-session handoffs
+via drafts/ + `swarmforge handoff validate`.
 
 **OUT of scope — goes to PARKING_LOT.md, never to code:**
-**Multiplayer etapa 1 → v17, behind TWO TRIGGERS (owner-ratified
-2026-08-15):** (1) Junior demonstrably playing at etapa 0 (async replay
-exchange — timezone-proof, `docs/JUNIOR.md`), (2) this cycle shipped.
-**Trigger #1 evidence logged 2026-08-15:** Junior's FIRST session played
-on his machine (pt-br, ~15.1k frames, 22 kills / 2 banks / 3
-inscriptions; install clean; PT-BR read clean — zero lines named;
-"divertida, quero mais"). Full telemetry + answers:
-`drafts/_junior-first-session-20260815.md`. **Strict etapa-0 exchange
-LOGGED same day** (`drafts/_junior-etapa0-20260815.md`): both canonical
-replays reproduced on Junior's machine, per-frame md5 published for
-owner-seat comparison — doubles as the multiplayer stage-1
-cross-machine determinism spike. PT-BR post-edit pass ratified by
-Junior (strip infinitives, A Rua Longa). Owner adjudicates the trigger
-at the v17 debate.
-Also out: new zones/enemies/systems beyond the dread-stakes knob; audio
-(owner order); in-game rebind UI; the chest fork (Q4a validated it
-closed); everything long-parked. **Nothing new starts until v16 is
-fun-verified (the FIFTEENTH ask).**
+>2 players; matchmaking/lobbies beyond host+join; open-internet play
+(Tailscale = trusted overlay only); rollback/resync (etapa 2+ material);
+spectators; voice/chat; BOSS-1-dread iteration (OPEN-FOR-EXPOSURE —
+self-answers when any session crosses seal2; zero code owed); all
+lore/creative writing (standing order above); new zones/enemies/
+single-player systems; audio (owner order); in-game rebind UI.
+**Nothing new starts until v17 is fun-verified (the SIXTEENTH ask).**
 
 ## Human-facing surfaces
 
