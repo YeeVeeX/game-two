@@ -25,6 +25,15 @@ module Harness
     return unless start
     amount = start[:banked]
     world.pack.bank!(amount) if amount && amount.positive?
+    # v16: inscribed kit list — state setup on the body's own mark path
+    # (the bank! precedent: start params set state, never emit economy
+    # events). Unknown kit names fail loud (BindingMap law) — a typo'd
+    # script must stop at load, not stage the wrong scene.
+    Array(start[:inscribed]).each do |kit|
+      body = world.pack.members.find { |m| m.kit_name == kit.to_sym }
+      raise ArgumentError, "start.inscribed: unknown kit #{kit.inspect}" unless body
+      body.inscribe_mark!
+    end
     zone = start[:zone]
     world.start_in(zone.to_s) if zone
   end

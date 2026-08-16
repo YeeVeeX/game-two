@@ -1,6 +1,8 @@
 require_relative "../test_helper"
 require "json"
+require "core/data_store"
 require "core/input"
+require "game/world"
 require_relative "../../harness/support"
 require_relative "../../harness/pilot_session"
 
@@ -45,6 +47,33 @@ class SceneStartTest < Minitest::Test
     Harness.apply_start(w, { banked: 240, zone: "low_quay" })
     assert_equal 240, w.pack.banked
     assert_equal "low_quay", w.zone_name
+  end
+
+  # v16 (d) wall prep: the burn beat's designated exerciser needs an
+  # INSCRIBED body in a stationless zone — same class of primitive as
+  # banked (a focused scene skips the altar prologue, not the economy).
+  def test_apply_start_inscribes_named_kits
+    w = world
+    Harness.apply_start(w, { inscribed: ["striker"] })
+    marks = w.pack.members.group_by(&:kit_name).transform_values { |(m)| m.marked? }
+    assert marks[:striker], "the named kit carries the god-mark"
+    refute marks[:blocker]
+    refute marks[:lobber]
+  end
+
+  def test_apply_start_inscribed_composes_with_zone_and_banked
+    w = world
+    Harness.apply_start(w, { banked: 40, zone: "low_quay", inscribed: %w[striker lobber] })
+    assert_equal 40, w.pack.banked
+    assert_equal "low_quay", w.zone_name
+    assert_equal 2, w.pack.members.count(&:marked?)
+  end
+
+  def test_apply_start_inscribed_unknown_kit_fails_loud
+    w = world
+    assert_raises(ArgumentError) do
+      Harness.apply_start(w, { inscribed: ["stiker"] })
+    end
   end
 
   def test_apply_start_with_unknown_zone_raises
