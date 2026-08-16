@@ -1,6 +1,6 @@
 {
   "name": "district_two",
-  "display_name": "The Keyward",
+  "display_name": "ZONE 3",
   "tile_size": 32,
   "palette": {
     "floor": [14, 14, 20],
@@ -50,7 +50,7 @@
   },
   "stations": [
     { "type": "seal", "at": [41, 13], "price": "breach_cost_2", "opens": [42, 13],
-      "line": "THE WAY IS PAID" }
+      "line": "TOLL PAID" }
   ],
   "transitions": [
     { "at": [0, 13], "to": "camp", "spawn": [18, 5] },

@@ -1,5 +1,52 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-16 (OWNER ORDER: LORE REMOVED — placeholders only; FULL WALL OWED before push)
+
+**Owner order (this session): remove ALL lore/names/creative writing from
+project+repo; leave generic placeholders (zone1/hub1/boss1/player1...);
+creative writing separates from this repo completely.** Context: the
+bible-rework session died honestly — phase-0 taste battery: EVERY control
+read dumb (QUEDA stamps "forzado", ratified zone names "falso", flesh
+lines "macabro"; only Vessic god names scored "fuerte"); phase-1 frames
+(3 notarial re-skins — dev miss, all contained PAGADO) rejected; phase-1b
+divergent seeds (jauría/ronda/apuesta) rejected ("C se oye mejor" at
+best); owner then named the root: the project hardcoded a mold and lore
+was eating game time. Order executed same session.
+
+**Executed:** creative writing EXPORTED to
+`C:/Users/gabri/workspace/game-two-lore/` (bible, 13 lore drafts,
+threketh.json, writ cover) then git rm'd. Strings en/es/pt-br →
+placeholders: ZONE 1 (nest), ZONE 2 (district), HUB 1 (camp), ZONE 3
+(district_two), ZONE 4 (slow_door), ZONE 5 (low_quay), BOSS 1 (challenger),
+BOSS 1 SPAWNED / BOSS 1 DEFEATED / MARK LOST / TOLL PAID, vessels player
+1/2/3 — names locale-invariant; functional verbs keep ratified
+translations. Zone JSON display_names + station lines swapped; code
+fallbacks (world.rb ×3, renderer nameplate, controls_overlay
+VESSEL_FALLBACK); gate_checks.json recalibrated (7 checks de-lored);
+tests updated (strings_test REWRITTEN — locale-precedence proofs moved to
+verb keys; placeholder locale-invariance test added); README rewritten;
+AGENTS.md standing order + register target + de-slop law amended;
+PARKING_LOT (external lore home + optional internal-id sweep).
+**Suite 527/2329 green. world_loop FULL gate smoke PASS (det 10/10 +
+vision on recalibrated checks).**
+
+**Kept (dev calls, on record):** internal mechanical ids (zone ids, event
+names, kit names, harness script filenames incl. varekka_duel.json) —
+player-invisible + replay/wall-load-bearing; renamed only on explicit
+owner ask (parked). Engineering history (specs, verdicts, wall logs)
+stays — records, not creative writing. wipe.line + challenger.called.line
+stay ABSENT (textless beats). v16's language-lane NEXT item is DEAD; the
+FIFTEENTH-ask protocol needs re-registration against placeholder surfaces.
+
+**OWED before push (Rules 2/6 — DO NOT push junior-tibia until green):**
+FULL wall re-run (`harness/run_wall.sh placeholders`) — this one
+comparability reset also carries the 2026-08-16 text-removal debt
+(varekka_duel / burn_duel / corpse_run / nest_advance / vat_economy reels
+changed pixels). Expect identity-check arbitration on renamed banners;
+W2 variance protocol; zone-start scripts need `captures/pilot/`;
+nest_advance ~65 min; ONE window at a time; then `rake perf` + full
+`bundle exec rake`. After green: pull-before-push (Junior's seat active).
+
 ## 2026-08-15 (v16 WALLED 17/17 + TWO-SEAT RACE RESOLVED + v17 trigger #1 evidence — language lane + FIFTEENTH next)
 
 **2026-08-16 addendum (owner-approved actions):** repo flipped **PUBLIC**

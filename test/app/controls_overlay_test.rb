@@ -7,7 +7,7 @@ require "game/world"
 require "app/controls_overlay"
 
 # v14 controls overlay (spec Presentation 1): a quiet bottom strip naming
-# the possessed vessel (canon: ithet/goret/hevet) + key:verb pairs, with a
+# the possessed vessel (placeholders: player 1/2/3) + key:verb pairs, with a
 # one-time first-possession pulse per body kind. Content resolution and
 # pulse alpha are PURE functions (draw is the only Gosu-touching method);
 # the pulse derives from World's kit_first_possessed — sim-cosmetic state
@@ -40,13 +40,13 @@ class ControlsOverlayTest < Minitest::Test
   def test_vessel_and_verb_per_kit
     o = overlay
     striker = o.vessel_line(world_stub(:striker))
-    assert_equal "ithet", striker[:vessel]
+    assert_equal "player 1", striker[:vessel]
     assert_includes striker[:pairs], { glyphs: %w[L E], label: "spin" }
     blocker = o.vessel_line(world_stub(:blocker))
-    assert_equal "goret", blocker[:vessel]
+    assert_equal "player 2", blocker[:vessel]
     assert_includes blocker[:pairs], { glyphs: %w[L E], label: "shout" }
     lobber = o.vessel_line(world_stub(:lobber))
-    assert_equal "hevet", lobber[:vessel]
+    assert_equal "player 3", lobber[:vessel]
     assert_includes lobber[:pairs], { glyphs: %w[L E], label: "lob" }
   end
 
@@ -62,7 +62,7 @@ class ControlsOverlayTest < Minitest::Test
 
   def test_locale_switch_translates_labels_not_vessel_names
     pairs = overlay(locale: "es").vessel_line(world_stub(:blocker))
-    assert_equal "goret", pairs[:vessel], "canon vessel names do not translate"
+    assert_equal "player 2", pairs[:vessel], "placeholder vessel names are locale-invariant"
     assert_includes pairs[:pairs], { glyphs: %w[J Space], label: "atacar" }
     assert_includes pairs[:pairs], { glyphs: %w[L E], label: "gritar" }
     assert_includes pairs[:pairs], { glyphs: %w[Tab], label: "cambiar" }
@@ -89,9 +89,9 @@ class ControlsOverlayTest < Minitest::Test
   def test_content_updates_on_possession_swap
     o = overlay
     w = world_stub(:blocker)
-    assert_equal "goret", o.vessel_line(w)[:vessel]
+    assert_equal "player 2", o.vessel_line(w)[:vessel]
     w.possessed = Possessed.new(:striker)
-    assert_equal "ithet", o.vessel_line(w)[:vessel],
+    assert_equal "player 1", o.vessel_line(w)[:vessel],
                  "the strip reads the possessed kit every draw"
   end
 

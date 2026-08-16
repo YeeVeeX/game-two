@@ -163,11 +163,11 @@
     },
     {
       "id": "seal_breach_reads",
-      "check": "When the seal is on camera SEALED, it reads as a shut, priced door: a dark slab across the corridor with a thin gold seam, the seal station beside it, and a visible price â€” a stranger could say 'locked, costs money'. When the breach beat is on camera, the way visibly OPENS (the slab turns gold) and the line 'THE WAY IS PAID' is legible in the banner slot. If no seal or breach frame is present in this replay, pass with why='not exercised by this script'."
+      "check": "When the seal is on camera SEALED, it reads as a shut, priced door: a dark slab across the corridor with a thin gold seam, the seal station beside it, and a visible price â€” a stranger could say 'locked, costs money'. When the breach beat is on camera, the way visibly OPENS (the slab turns gold) and the line 'TOLL PAID' is legible in the banner slot. If no seal or breach frame is present in this replay, pass with why='not exercised by this script'."
     },
     {
       "id": "new_ground_reads",
-      "check": "When a camp ('The Second Vigil') or Keyward banner frame is on camera, the banner text is legible and the zone reads distinct from The Longrow at a glance: the camp reads safe, station-dense, and warm (warm-gray walls, ember braziers at the wall clusters); the Keyward reads cold slate-and-indigo with a denser hostile field. If neither zone appears in this replay, pass with why='not exercised by this script'."
+      "check": "When a camp ('HUB 1') or ZONE 3 (district_two) banner frame is on camera, the banner text is legible and the zone reads distinct from ZONE 2 (district) at a glance: the camp reads safe, station-dense, and warm (warm-gray walls, ember braziers at the wall clusters); ZONE 3 reads cold slate-and-indigo with a denser hostile field. If neither zone appears in this replay, pass with why='not exercised by this script'."
     },
     {
       "id": "whirlwind_reads",
@@ -187,15 +187,15 @@
     },
     {
       "id": "low_quay_reads",
-      "check": "When a Low Quay frame is on camera, the zone reads as a drowned under-harbor distinct at a glance from the Keyward (cold slate-and-indigo blocks) and the Longrow (sun-baked clay row): green-black floor with sparse ripple marks and drowned stains, a central impassable channel band — a dry stone bed crossed by two bridge gaps, its lips picked out by pale edge highlights — and a pale drowned-green colonnade; the banner 'The Low Quay' is legible when shown. If the replay never enters the Low Quay, pass with why='not exercised by this script'."
+      "check": "When a ZONE 5 (low_quay) frame is on camera, the zone reads as a drowned under-harbor distinct at a glance from ZONE 3 (cold slate-and-indigo blocks) and ZONE 2 (sun-baked clay row): green-black floor with sparse ripple marks and drowned stains, a central impassable channel band — a dry stone bed crossed by two bridge gaps, its lips picked out by pale edge highlights — and a pale drowned-green colonnade; the banner 'ZONE 5' is legible when shown. If the replay never enters ZONE 5, pass with why='not exercised by this script'."
     },
     {
       "id": "challenger_tell_reads",
-      "check": "When Varekka's chant is on camera, a deep-blue expanding hollow ring centers on ONE pale human and a small hollow blue square floats above exactly one pack vessel — the pair reads as 'he is calling THAT body', clearly distinct from the rust taunt square, the teal respawn tell, the red/yellow attack telegraph, the orange volley brackets, AND the small washed-out pale-blue retarget cue block (the chant family is deeper and more saturated, and body-scale rather than an 8px block). If no chant frame is present, pass with why='not exercised by this script'."
+      "check": "When the boss's (BOSS 1) chant is on camera, a deep-blue expanding hollow ring centers on ONE pale human and a small hollow blue square floats above exactly one pack vessel — the pair reads as 'he is calling THAT body', clearly distinct from the rust taunt square, the teal respawn tell, the red/yellow attack telegraph, the orange volley brackets, AND the small washed-out pale-blue retarget cue block (the chant family is deeper and more saturated, and body-scale rather than an 8px block). If no chant frame is present, pass with why='not exercised by this script'."
     },
     {
       "id": "seizure_reads",
-      "check": "When a seized vessel is on camera, it carries a thin blue underline (mirror of the rust taunt underline) and a body-scale blue darkening for the whole hold and, in the court-stamp frames, the lines ONE STANDS / THE TERM IS PAID are legible in the banner slot with banner-scale prominence. A seized body standing adjacent to Varekka doing nothing is the design, not broken AI. If neither a seized vessel nor a challenger stamp appears, pass with why='not exercised by this script'."
+      "check": "When a seized vessel is on camera, it carries a thin blue underline (mirror of the rust taunt underline) and a body-scale blue darkening for the whole hold and, in the stamp frames, the lines BOSS 1 SPAWNED / BOSS 1 DEFEATED are legible in the banner slot with banner-scale prominence. A seized body standing adjacent to the boss doing nothing is the design, not broken AI. If neither a seized vessel nor a challenger stamp appears, pass with why='not exercised by this script'."
     },
     {
       "id": "zone_identity_reads",
@@ -203,7 +203,7 @@
     },
     {
       "id": "stamp_delivery_reads",
-      "check": "Court stamps (gate-gold lines like THE TERM IS PAID / THE MARK IS VOID) LAND like stamps: framed by a thin top+bottom gold rule pair (the acta look), and where consecutive frames straddle a stamp's arrival the text is visibly larger in the earlier frame (scale-in settling). Located stamps (seal breach at its station, term paid, mark void) also press a gold floor seal mark — a small rect frame with an inner glyph — at the event tile, fading with the banner. Zone name banners stay quiet (bone, no rules — places announce, courts judge). If no court stamp appears, pass with why='not exercised by this script'."
+      "check": "Event stamps (gate-gold lines like BOSS 1 DEFEATED / MARK LOST) LAND like stamps: framed by a thin top+bottom gold rule pair, and where consecutive frames straddle a stamp's arrival the text is visibly larger in the earlier frame (scale-in settling). Located stamps (seal breach at its station, boss defeated, mark lost) also press a gold floor seal mark — a small rect frame with an inner glyph — at the event tile, fading with the banner. Zone name banners stay quiet (bone, no rules — zone banners announce, event stamps land emphatic). If no event stamp appears, pass with why='not exercised by this script'."
     },
     {
       "id": "kill_pop_reads",
@@ -211,7 +211,7 @@
     },
     {
       "id": "writ_frame_reads",
-      "check": "While Varekka's chant runs, a thin chant-blue square writ-frame centers on him and the world OUTSIDE that frame darkens hard while everything INSIDE (the chant ring, Varekka, nearby bodies, the possessed's white ring) stays fully readable — dread without unfairness: no threat inside the writ may be obscured, and the HUD/controls strip stay legible over the darkening. If no chant frame is present, pass with why='not exercised by this script'."
+      "check": "While the boss's chant runs, a thin chant-blue square writ-frame centers on him and the world OUTSIDE that frame darkens hard while everything INSIDE (the chant ring, the boss, nearby bodies, the possessed's white ring) stays fully readable — dread without unfairness: no threat inside the writ may be obscured, and the HUD/controls strip stay legible over the darkening. If no chant frame is present, pass with why='not exercised by this script'."
     }
   ]
 }

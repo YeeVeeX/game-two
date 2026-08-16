@@ -1,6 +1,6 @@
 {
   "name": "district",
-  "display_name": "The Longrow",
+  "display_name": "ZONE 2",
   "tile_size": 32,
   "palette": {
     "floor": [36, 30, 20],
@@ -48,7 +48,7 @@
   },
   "stations": [
     { "type": "seal", "at": [41, 13], "price": "breach_cost", "opens": [42, 13],
-      "line": "THE WAY IS PAID" }
+      "line": "TOLL PAID" }
   ],
   "transitions": [
     { "at": [0, 13], "to": "nest", "spawn": [28, 8] },

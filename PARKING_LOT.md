@@ -492,3 +492,17 @@ Infra items, not game features; each needs a maintenance window, not a cycle.
 - ~~**v16 recommendation ON RECORD (owner decides at the fourteenth)**~~
   **FIRED at the v16 debate (2026-08-15): owner ratified the
   presentation/identity cycle; multiplayer → v17 behind triggers.**
+
+## Parked by the 2026-08-16 owner order (lore removal)
+
+- **Creative-writing program — SEPARATED from this repo.** Bible, language
+  pipeline artifacts, and the bible-rework session live at
+  `C:/Users/gabri/workspace/game-two-lore/` (also in git history pre-removal).
+  If fiction ever returns, it gets its own repo and pipeline; this repo
+  stays placeholders-only (AGENTS.md standing order).
+- **Internal-id de-lore sweep (optional).** Zone ids (`slow_door`,
+  `low_quay`), harness script filenames (`varekka_duel.json`,
+  `low_quay_run.json`), event names (`seal_breached`, `inscribed`,
+  `tribute_paid`, `vessel_seized`) and telemetry keys (`varekka`) remain
+  lore-flavored but are player-invisible and replay/wall-load-bearing.
+  Rename only on explicit owner ask; costs a full wall + manifest churn.

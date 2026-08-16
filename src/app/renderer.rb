@@ -574,9 +574,9 @@ module App
     end
 
     # The only human with a NAME (v15): small bone type above the body —
-    # the increment IS "a named human"; one deliberate new draw detail.
+    # placeholder name per the 2026-08-16 owner order (no lore in repo).
     def draw_nameplate(c, x, y)
-      name = tr("challenger.name", "VAREKKA")
+      name = tr("challenger.name", "BOSS 1")
       f = nameplate_font
       f.draw_text(name, x + SIZE / 2 - f.text_width(name) / 2, y - 24, 5, 1, 1, BANNER)
     end

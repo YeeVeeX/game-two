@@ -69,7 +69,7 @@ class DistrictTwoTest < Minitest::Test
 
   def test_the_keyward_declares_its_shape
     map = Core::TileMap.new(DATA["zones/district_two"])
-    assert_equal "The Keyward", map.display_name
+    assert_equal "ZONE 3", map.display_name
     assert_equal 44, map.cols
     assert_equal 26, map.rows
     refute map.hub, "new ground is not a refuge"
@@ -116,7 +116,7 @@ class DistrictTwoTest < Minitest::Test
     src.walker.teleport(*seal2[:opens])
     drive(world, scripted({}), HITSTOP_SLACK)
     assert_equal "slow_door", world.zone_name
-    assert_equal "The Slow Door", world.map.display_name
+    assert_equal "ZONE 4", world.map.display_name
     assert world.banner?, "arriving somewhere new announces itself"
     refute world.map.hub, "the landing does not re-home — it only waits"
   end

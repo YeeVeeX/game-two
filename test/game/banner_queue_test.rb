@@ -25,12 +25,12 @@ class BannerQueueTest < Minitest::Test
     refute_nil entry
     assert_equal "zone.nest.display_name", entry[:text_key],
                  "entries carry KEYS — locale resolves at draw (comparability law)"
-    assert_equal "The First Vigil", entry[:fallback]
+    assert_equal "ZONE 1", entry[:fallback]
     assert_equal :banner, entry[:color]
   end
 
   def test_fifo_stamps_play_after_the_active_banner_nothing_eaten
-    world.send(:enqueue_stamp, "challenger.stands.line", "ONE STANDS")
+    world.send(:enqueue_stamp, "challenger.stands.line", "BOSS 1 SPAWNED")
     assert_equal :banner, world.active_banner[:color], "the active entry is never displaced"
     drive(world.active_banner[:frames_left] + 1)
     entry = world.active_banner

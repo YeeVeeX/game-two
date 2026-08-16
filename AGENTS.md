@@ -10,6 +10,16 @@ permission for design decisions.
 specs in `docs/superpowers/specs/`; verdict/telemetry narratives live in
 `drafts/`, never here.
 
+**STANDING OWNER ORDER (2026-08-16) — NO LORE IN THIS REPO.** All lore,
+fiction names, and creative writing are REMOVED from the project and repo
+(preserved outside: `C:/Users/gabri/workspace/game-two-lore/`). Every
+player-visible name/line is a generic placeholder: ZONE 1..5, HUB 1,
+BOSS 1, player 1/2/3, TOLL PAID, BOSS 1 SPAWNED/DEFEATED, MARK LOST.
+The v16 language lane is TERMINATED (no 3-probe, no grounded candidates,
+no ES/PT authorship). This repo is mechanics + engine only; creative
+writing restarts, if ever, in its own repo — never here. Placeholder
+changes are still Rule-2 visual changes (wall + recalibration apply).
+
 v16 (2026-08-15, debate closed, owner ratified): **THE PRESENTATION/IDENTITY
 CYCLE — give the simulation a face.** The FOURTEENTH verdict closed v15.5:
 quay EARNED, tax-wall CLOSED, economy positive (first since D0), guard-scope
@@ -70,8 +80,9 @@ fun-verified (the FIFTEENTH ask).**
 - **Surfaces**: zone banners, wipe/victory lines, controls strip labels,
   overlay verb text, in-game locale strings (en/es/pt-br), error messages.
 - **Audience**: hobbyist player (owner) + friend (Junior, PT-BR).
-- **Register target**: converge to the fiction's register (diegetic, terse,
-  New-Kingdom-Egypt-through-fantasy); never patronize.
+- **Register target**: generic-videogame placeholder + functional UI
+  (owner order 2026-08-16). No diegetic register, no fiction voice.
+  Placeholder names are locale-invariant; only functional verbs translate.
 - **Disclosure needs**: N/A (no AI-interaction surface in-game; single-
   player hobby project, not a commercial product).
 
@@ -79,23 +90,18 @@ Ship-gate: language critique (accuracy vs presentation, separate axes) is
 blocking at ship per global Rules 2/6; checklist in the `human-facing-output`
 skill.
 
-**Authorship (owner-ratified 2026-08-15): the dev NEVER composes ES/PT
-alone.** Diegetic lines: meaning brief (intent/speaker/canon, rejected
-lines as negative examples) → grounded candidates (attested notarial
-formulas + bible found-language; constrained mutation — LLM composes
-natively, never translates) → owner picks/edits ON CAPTURES at real
-resolution. PT-BR: Junior post-edits from brief + ratified ES. Amazon
-Translate: docs/error-text drafts + optional back-translation sanity
-check only — never authors the fiction's voice.
+**Authorship (superseded 2026-08-16): the language pipeline is
+SUSPENDED with the lore program.** Player-facing text = placeholders +
+dictionary-word functional labels only; anything beyond that is out of
+scope for this repo. (Historical pipeline: see git history of this file.)
 
 ## De-slop + comprobations (owner-set 2026-08-09)
 
-- **Names come from INSIDE the fiction.** Slop test: could the name ship in another game
-  unchanged? → then it is internal spec-speak only, never player-visible. The bible is being
-  authored in a parallel session (New Kingdom Egypt corpus); the spec's "fiction order form"
-  lists every handle awaiting a name. No fiction-flavored feature names in code or docs.
+- **Names are placeholders (owner order 2026-08-16).** Player-visible names/lines are
+  generic (ZONE N, BOSS 1, player N); internal identifiers are mechanical (striker,
+  district, seal). No fiction names anywhere in code, data, or docs.
 - **Reference wall:** every design idea cites a touchstone (Tibia research/footage in
-  `drafts/`, the bible, Vlambeer juice). Serves none → PARKING_LOT.md.
+  `drafts/`, Vlambeer juice). Serves none → PARKING_LOT.md.
 - **Every commit changes what the player sees, hears, or feels.** A system that can't be
   felt in a capture doesn't merge.
 - **Judge builds, not briefs.** Everything converges to a playable build + captured frames.

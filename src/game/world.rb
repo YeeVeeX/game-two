@@ -594,7 +594,7 @@ module Game
         if !h.engaged_announced? && h.focus && !h.focus.dead? &&
            h.focus.faction == :pack
           h.announce_engaged!
-          enqueue_stamp("challenger.stands.line", "ONE STANDS")
+          enqueue_stamp("challenger.stands.line", "BOSS 1 SPAWNED")
           @bus.emit(:challenger_engaged, actor: h)
         end
         next unless h.seize_cooldown.zero?
@@ -642,7 +642,7 @@ module Game
       if why == :died && body.marked? && seizer.kit[:seizure_burns_inscription]
         body.burn_mark!
         @bus.emit(:inscription_burned, body:, at: body.tile)
-        enqueue_stamp("stamp.mark_void", "THE MARK IS VOID", at: body.tile)
+        enqueue_stamp("stamp.mark_void", "MARK LOST", at: body.tile)
       end
       body.release_seize!
       if seizer && !seizer.dead? && (cfg = seizer.kit[:seize])
@@ -1441,10 +1441,9 @@ module Game
                         phase: (e[:actor].tile[0] * 31 + e[:actor].tile[1] * 17 + @frame) % 997 }
         if e[:faction] == :human
           @feel.on_kill if e[:killer].equal?(possessed)
-          # v15: the challenger's death is a court event — the term-looter
-          # finally pays the term's price (canon-exact; Codex pass-2
-          # replaced the NAME IS STRUCK draft).
-          enqueue_stamp("challenger.term.line", "THE TERM IS PAID",
+          # v15: the challenger's death closes the boss fight (placeholder
+          # text per the 2026-08-16 owner order: no lore in this repo).
+          enqueue_stamp("challenger.term.line", "BOSS 1 DEFEATED",
                         at: e[:actor].tile) if e[:actor].kit[:seize]
           schedule_human_respawn(e[:actor])
         elsif e[:actor].equal?(possessed)

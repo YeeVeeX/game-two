@@ -164,7 +164,7 @@ class SealBreachTest < Minitest::Test
     src.walker.teleport(*seal_station[:opens])
     drive(world, scripted({}), HITSTOP_SLACK)
     assert_equal "camp", world.zone_name
-    assert_equal "The Second Vigil", world.map.display_name
+    assert_equal "HUB 1", world.map.display_name
     assert world.banner?, "arriving somewhere new announces itself"
   end
 

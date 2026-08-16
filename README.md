@@ -1,13 +1,13 @@
 # game-two
 
-A grid ARPG in Ruby + Gosu where you play the MONSTERS: an unbound echo
-serving the court of Suvareth, possessing a pack of three vat-grown
-bodies (Tab swaps), hunting looters through an interdicted funerary
-quarter — bank the toll-scrapings, inscribe a body against the
-judgment, pay the seals, and survive Varekka, the one man who chants
-back.
+A grid ARPG in Ruby + Gosu where you play a pack of three bodies
+(Tab swaps): hunt enemies through connected zones, bank the value you
+collect, pay tolls to open gates, and survive BOSS 1 — the one enemy
+that can seize your body back.
 
-![The writ-frame: Varekka's chant draws the court's writ around him](docs/cover-writ-duel.png)
+All player-visible names are deliberate placeholders (ZONE 1, HUB 1,
+BOSS 1, player 1…): this repo carries mechanics and engine only — no
+lore, no creative writing (owner order, 2026-08-16).
 
 - **Play:** `bin\play.cmd` (Windows) or `bin/play` — add `es` / `pt-br`
   for Spanish/Portuguese. Always quit with Esc (it saves telemetry).

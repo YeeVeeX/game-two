@@ -23,7 +23,7 @@ module App
 
     # EN fallbacks keep a bare strings-less construct drawable (the
     # draw_wipe_overlay precedent) — canonical text lives in data/strings.
-    VESSEL_FALLBACK = { striker: "ithet", blocker: "goret", lobber: "hevet" }.freeze
+    VESSEL_FALLBACK = { striker: "player 1", blocker: "player 2", lobber: "player 3" }.freeze
     VERB_FALLBACK = { striker: "spin", blocker: "shout", lobber: "lob" }.freeze
     LABEL_FALLBACK = { attack: "attack", dodge: "dodge", mark: "mark",
                        interact: "interact", swap: "swap" }.freeze

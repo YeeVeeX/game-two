@@ -139,7 +139,7 @@ class ChallengerTest < Minitest::Test
     drive(world, scripted({}), 30)
     assert_equal 1, engaged.length
     drive(world, scripted({}), 60)
-    assert_equal 1, engaged.length, "ONE STANDS fires once per session"
+    assert_equal 1, engaged.length, "BOSS 1 SPAWNED fires once per session"
   end
 
   def test_damage_interrupts_the_chant_and_buys_the_cooldown

@@ -1,9 +1,14 @@
 {
-  "zone.nest.display_name": "The First Vigil",
-  "zone.district.display_name": "The Longrow",
-  "overlay.vessel.striker": "ithet",
-  "overlay.vessel.blocker": "goret",
-  "overlay.vessel.lobber": "hevet",
+  "zone.nest.display_name": "ZONE 1",
+  "zone.district.display_name": "ZONE 2",
+  "zone.camp.display_name": "HUB 1",
+  "zone.district_two.display_name": "ZONE 3",
+  "zone.slow_door.display_name": "ZONE 4",
+  "zone.low_quay.display_name": "ZONE 5",
+  "breach.line": "TOLL PAID",
+  "overlay.vessel.striker": "player 1",
+  "overlay.vessel.blocker": "player 2",
+  "overlay.vessel.lobber": "player 3",
   "overlay.attack": "attack",
   "overlay.dodge": "dodge",
   "overlay.mark": "mark",
@@ -12,9 +17,8 @@
   "overlay.verb.striker": "spin",
   "overlay.verb.blocker": "shout",
   "overlay.verb.lobber": "lob",
-  "zone.low_quay.display_name": "The Low Quay",
-  "challenger.name": "VAREKKA",
-  "challenger.stands.line": "ONE STANDS",
-  "challenger.term.line": "THE TERM IS PAID",
-  "stamp.mark_void": "THE MARK IS VOID"
+  "challenger.name": "BOSS 1",
+  "challenger.stands.line": "BOSS 1 SPAWNED",
+  "challenger.term.line": "BOSS 1 DEFEATED",
+  "stamp.mark_void": "MARK LOST"
 }

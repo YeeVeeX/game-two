@@ -1,6 +1,6 @@
 {
   "name": "slow_door",
-  "display_name": "The Slow Door",
+  "display_name": "ZONE 4",
   "tile_size": 32,
   "palette": {
     "floor": [14, 10, 18],

@@ -22,7 +22,7 @@ class SealMarkTest < Minitest::Test
   end
 
   def test_located_stamp_lands_a_floor_mark_on_the_banner_clock
-    world.send(:enqueue_stamp, "challenger.term.line", "THE TERM IS PAID", at: [4, 3])
+    world.send(:enqueue_stamp, "challenger.term.line", "BOSS 1 DEFEATED", at: [4, 3])
     mark = world.seal_marks.find { |m| m[:at] == [4, 3] }
     refute_nil mark, "a located stamp presses its seal into the floor"
     assert_equal DISPLAY[:stamp_banner_frames], mark[:frames_total],
@@ -31,7 +31,7 @@ class SealMarkTest < Minitest::Test
   end
 
   def test_unlocated_stamp_leaves_no_mark
-    world.send(:enqueue_stamp, "challenger.stands.line", "ONE STANDS")
+    world.send(:enqueue_stamp, "challenger.stands.line", "BOSS 1 SPAWNED")
     assert_empty world.seal_marks
   end
 
@@ -73,7 +73,7 @@ class SealMarkTest < Minitest::Test
     victim.take_hit(damage: victim.hp, attacker: world.possessed) until victim.dead?
     drive(1) # bus flush -> :actor_died -> stamp + mark
     assert world.seal_marks.any? { |m| m[:at] == tile },
-           "THE TERM IS PAID presses its seal at the death tile"
+           "BOSS 1 DEFEATED presses its seal at the death tile"
   end
 
   def test_display_carries_the_delivery_keys

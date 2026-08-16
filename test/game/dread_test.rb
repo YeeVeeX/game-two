@@ -101,7 +101,7 @@ class DreadTest < Minitest::Test
     assert_equal tile, burned.first[:at]
     refute body.marked?, "the god-mark is GONE — the court pierced the vat"
     assert world.seal_marks.any? { |m| m[:at] == tile },
-           "THE MARK IS VOID presses its seal at the death tile"
+           "MARK LOST presses its seal at the death tile"
   end
 
   def test_uninscribed_seized_death_burns_nothing

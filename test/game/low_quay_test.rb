@@ -4,8 +4,8 @@ require "core/input"
 require "core/tile_map"
 require "game/world"
 
-# v15 increment 1: The Low Quay — the corridor's first chamber under
-# Silovun, past The Slow Door. Stationless by design (fork 1: value climbs
+# v15 increment 1: zone 5 (low_quay) — the stretch zone past zone 4
+# Stationless by design (fork 1: value climbs
 # home); densest field; the stair down is UNSEALED (the way was paid at
 # seal2). Real World + data, no mocks — these tests pin the DATA wiring;
 # the challenger's chant/seize mechanics land in increments 3-4.
@@ -69,7 +69,7 @@ class LowQuayTest < Minitest::Test
 
   def test_the_low_quay_declares_its_shape
     map = Core::TileMap.new(DATA["zones/low_quay"])
-    assert_equal "The Low Quay", map.display_name
+    assert_equal "ZONE 5", map.display_name
     assert_equal 46, map.cols
     assert_equal 21, map.rows
     refute map.hub, "the corridor is not a refuge"
@@ -91,7 +91,7 @@ class LowQuayTest < Minitest::Test
 
   def test_the_stair_descends_unsealed
     descend!
-    assert_equal "The Low Quay", world.map.display_name
+    assert_equal "ZONE 5", world.map.display_name
     assert world.banner?, "arriving somewhere earned announces itself"
     refute world.map.hub, "the quay does not re-home the pack"
   end
