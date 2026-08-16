@@ -19,3 +19,23 @@ never composes PT — this file is the ask, the call is his.
 **Negative examples (rejected registers, do not mirror):** "MARCA
 DESTRUIDA" (game-generic slop), "SE QUEMO LA MARCA" (plain speech —
 true but not the court's voice).
+
+---
+
+## RATIFIED (2026-08-16, Junior — his call, per this brief)
+
+**"A MARCA ESTÁ ANULADA"** — Junior picked it among family-consistent
+candidates (subject-first ESTÁ + particípio, HIS ratified pattern:
+A PASSAGEM ESTÁ PAGA / O PRAZO ESTÁ PAGO) over the verb-first mirror
+of the ES ("FICA ANULADA A MARCA") and the EN-mirror stative ("A MARCA
+É NULA"), and landed the line in `data/strings/pt-br.json` himself.
+Rationale: the PT-BR set keeps its own stamp register where ES uses
+QUEDA-initial — consistent with how the set already diverges (breach +
+term stamps). Canon holds: the MARK is annulled, not the name.
+
+**On-capture confirmation:** `docs/language-lane/ptbr-mark-void.png` —
+burn_duel at HEAD, frame 0535 (with `challenger.called.line` removed
+at e94b362, the mark-void stamp now lands at the burn frame 495
+directly; the accented Á renders clean in the stamp grammar).
+Harness stays pinned en; render used the temp en.json value swap
+(tree restored, wall untouched).
