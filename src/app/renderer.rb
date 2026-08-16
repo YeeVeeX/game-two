@@ -1,6 +1,7 @@
 require "app/controls_overlay"
 require "app/kill_pop"
 require "app/stamp"
+require "app/writ"
 require "app/zone_identity"
 
 module App
@@ -104,6 +105,7 @@ module App
         draw_mark(world)
         draw_station_ledger(world)
       end
+      draw_writ_veil(world)
       draw_hud(world)
       # Strip BEFORE edge pips (their bottom clamp lands inside the strip
       # band — an off-screen ally's pip must stay visible ON the strip) and
@@ -439,6 +441,13 @@ module App
       else
         Gosu.draw_rect(x, y, SIZE, SIZE, body_color(c, world))
         Gosu.draw_rect(x, y, SIZE, SIZE, ALLY_DIM) if ally?(c, world)
+        # v16 (d): the seized body carries visual WEIGHT — darkened toward
+        # the chant's deep blue for the whole hold (underline keeps the
+        # clock; this makes the state read at body scale).
+        if c.faction == :pack && c.seized_by
+          Gosu.draw_rect(x, y, SIZE, SIZE,
+                         Gosu::Color.new(@display.fetch(:seized_weight_alpha, 110), *seized_rgb))
+        end
       end
       draw_facing_notch(c, x, y)
       draw_attack(c, world.map.tile_size) if c.faction == :pack
@@ -533,6 +542,27 @@ module App
       alpha = frac < (1 / 3.0) ? (255 * frac * 3).clamp(60, 255).round : 255
       Gosu.draw_rect(x - 2, y + SIZE + 9, SIZE + 4, 3,
                      Gosu::Color.new(alpha, TAUNT_RUST.red, TAUNT_RUST.green, TAUNT_RUST.blue))
+    end
+
+    # v16 (d): the writ-frame — while a chant runs the court draws its
+    # writ around the chanter: outside darkens hard, inside stays FULLY
+    # readable (dread + the fairness ladder both served — GLM fold).
+    # Pure per-frame reader of chant-active: no stored state, nothing to
+    # flicker or stick; abort_all_chants! on zone transition covers the
+    # edge cases by construction. Drawn BEFORE the HUD/strip — the world
+    # dims, the player's instruments never do.
+    def draw_writ_veil(world)
+      chanter = world.humans.find(&:chanting?)
+      return unless chanter
+      cam = world.camera
+      cx = (chanter.x + SIZE / 2 + world.feel.shake_x - cam.x).round
+      cy = (chanter.y + SIZE / 2 + world.feel.shake_y - cam.y).round
+      radius = @display.fetch(:writ_radius_tiles, 4) * world.map.tile_size
+      r = App::Writ.rects(cx:, cy:, radius:, view_w: cam.view_w, view_h: cam.view_h)
+      out = Gosu::Color.new(@display.fetch(:writ_out_alpha, 140), 0, 0, 0)
+      r[:out].each { |(x, y, w, h)| Gosu.draw_rect(x, y, w, h, out) }
+      border = Gosu::Color.new(230, *chant_rgb)
+      r[:border].each { |(x, y, w, h)| Gosu.draw_rect(x, y, w, h, border) }
     end
 
     def draw_seized_underline(c, x, y)

@@ -73,5 +73,8 @@
   190,
   90
  ],
+ "writ_radius_tiles": 4,
+ "writ_out_alpha": 140,
+ "seized_weight_alpha": 110,
  "banner_queue_max": 2
 }

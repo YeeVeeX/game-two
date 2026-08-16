@@ -26,6 +26,7 @@ module Game
       inscribed banked_spent tribute_paid body_regrown body_dissolved mark_consumed vessel_kept
       seal_breached home_rehomed respawn_telegraphed
       challenger_engaged challenger_chant_started chant_interrupted vessel_seized seizure_ended
+      inscription_burned
     ].freeze
 
     TRANSITIONS = { world: %i[nest_respawn], nest_respawn: %i[world] }.freeze
@@ -634,6 +635,17 @@ module Game
       # dangling-but-inert state (caught by the expiry test, live).
       seizer = body.seizure_seizer
       return unless seizer
+      # v16 (d): a seized body that DIES while held loses its god-mark —
+      # the court's claim overrides the vat's (data switch on the seizer's
+      # kit). Read AT the seizure-death moment, BEFORE corpse bookkeeping
+      # (the actor_died flush runs after tick_world — DeepSeek ordering
+      # fold holds by construction). burn_mark! zeroes the state, so the
+      # wipe path's mark-consumption can never double-consume.
+      if why == :died && body.marked? && seizer.kit[:seizure_burns_inscription]
+        body.burn_mark!
+        @bus.emit(:inscription_burned, body:, at: body.tile)
+        enqueue_stamp("stamp.mark_void", "THE MARK IS VOID", at: body.tile)
+      end
       body.release_seize!
       if seizer && !seizer.dead? && (cfg = seizer.kit[:seize])
         seizer.seize_cooldown!(cfg[:cooldown_frames])

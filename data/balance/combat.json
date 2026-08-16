@@ -217,7 +217,8 @@
     "duration_frames": 450,
     "cooldown_frames": 600,
     "cause": "seized"
-   }
+   },
+   "seizure_burns_inscription": true
   }
  },
  "feel": {

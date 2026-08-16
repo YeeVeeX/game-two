@@ -261,6 +261,9 @@ module Game
           @seizure_open = false
           @seized_body = nil
         end
+        # v16 (d): the stakes knob's arbiter — burns>0 at the fifteenth
+        # means the court actually pierced the vat on a real session.
+        bus.subscribe(:inscription_burned) { @vk[:burns] += 1 }
         bus.subscribe(:possession_changed) do |e|
           next if e[:forced]
           @vk[:swap_escapes] += 1 if @chant_open || @seizure_open
@@ -298,7 +301,7 @@ module Game
         "TELEMETRY varekka engaged=#{@vk[:engaged]} chants=#{@vk[:chants]} " \
         "interrupted=#{@vk[:interrupted]} seized=#{@vk[:seized]} " \
         "swap_escapes=#{@vk[:swap_escapes]} slain=#{@vk[:slain]} " \
-        "deaths_while_seized=#{@vk[:deaths_while_seized]} ends{#{ends}}"
+        "deaths_while_seized=#{@vk[:deaths_while_seized]} burns=#{@vk[:burns]} ends{#{ends}}"
     end
 
     # Format pinned by the v14 spec: `never` (not 0) marks a kit that never
