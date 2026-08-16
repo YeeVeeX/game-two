@@ -23,7 +23,7 @@
     },
     {
       "id": "projectile_visible",
-      "check": "At least one frame shows a small pale shot in flight, clearly separate from any creature body. If the script never fires one, mark pass=false with why='not exercised by this script'.. If the script never fires a projectile, pass with why='not exercised by this script'"
+      "check": "At least one frame shows a small pale shot in flight, clearly separate from any creature body. If the script never fires a projectile, pass with why='not exercised by this script'."
     },
     {
       "id": "telegraph_reads",
@@ -35,7 +35,7 @@
     },
     {
       "id": "corpses_persist",
-      "check": "In at least one frame after a kill, a faded remnant of the fallen body is visible where it fell (fights leave history). If no post-kill frame exists, mark pass=false with why='not exercised by this script'.. If no post-kill frame exists, pass with why='not exercised by this script'"
+      "check": "In at least one frame after a kill, a faded remnant of the fallen body is visible where it fell (fights leave history). If no post-kill frame exists, pass with why='not exercised by this script'."
     },
     {
       "id": "hud_three_bars",
@@ -111,7 +111,7 @@
     },
     {
       "id": "ledger_negative_reads",
-      "check": "When a tally shows a loss line (hollow magenta outline glyph + -N, meaning a pile waits on a corpse; or a dark red-edged square + -N, meaning destroyed) its net line ('= -N') reads clearly NEGATIVE (red family), visually distinct from an all-positive tally. If no tally with a loss line appears, pass with why='not exercised by this script'."
+      "check": "When a tally shows a loss line, judge the net by tally kind. Fight/wipe tallies (mid-combat, or over the wipe veil): the net includes stranded + destroyed value, so with a loss line present the net line reads clearly NEGATIVE ('= -N', red family). Bank tallies (at the station, trip reconciliation): the hollow outline -N is OUTSTANDING value waiting on corpses and is deliberately NOT in the bank net — a positive '= +N' (magenta) beside a hollow -N is CORRECT there; a bank net reads negative (red) only when dark destroyed losses exceed the take. Any net whose sign and color disagree (a negative amount in positive magenta, or a positive amount in red) fails. If no tally with a loss line appears, pass with why='not exercised by this script'."
     },
     {
       "id": "wipe_recap_reads",

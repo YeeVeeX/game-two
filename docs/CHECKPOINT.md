@@ -47,6 +47,40 @@ W2 variance protocol; zone-start scripts need `captures/pilot/`;
 nest_advance ~65 min; ONE window at a time; then `rake perf` + full
 `bundle exec rake`. After green: pull-before-push (Junior's seat active).
 
+**WALL RESET COMPLETE (tag `placeholders`, teed logs tmp/wall/*_placeholders*.log):**
+**17/17** — 14 in-sweep PASS + 3 standalone: aoe_specials + respawn_telegraph
+= W2 judgment variance (flipped on projectile_visible's CONTRADICTORY
+leftover clause; both PASS standalone unamended), low_quay_run = REAL
+reproduced fail → adjudicated BY EYE on frame_8610: bank tally `+5 / -6
+(hollow) / = +5` is CORRECT SIM DESIGN (fight_ledger.rb bank! excludes
+outstanding stranded value from the bank net — including it would
+double-count across legs when corpses are recovered); the CHECK was
+over-general (authored on fight beats; v14's exercised case "hollow -7 →
+red -7 net" was a fight beat). Sim untouched.
+**THREE check amendments applied, AWAIT OWNER RATIFICATION at the next
+debrief (precedent #14/#19/#42 + v16 trio):** (1) ledger_negative_reads
+split by tally kind — fight/wipe nets include stranded+destroyed (must
+read negative with a loss line); bank nets exclude outstanding pip
+(positive `= +N` beside hollow -N is CORRECT; sign/color disagreement
+fails); (2) projectile_visible + (3) corpses_persist: contradictory
+"mark pass=false with why='not exercised'" leftover clauses DELETED
+(coin-flip generators — both flips this sweep landed on #2). All three
+affected scripts re-gated on amended prose: PASS + manifests (aoe 8/8,
+respawn 9/9, low_quay 11/11 byte-identical).
+**PERF PASS p95 0.365ms; suite 527/2329 green; pushed junior-tibia.**
+The placeholder surfaces read clean through the critic everywhere
+exercised (TOLL PAID banner, ZONE N banners, player 1/2/3 strip, BOSS 1
+stamps in duel scripts).
+
+**NEXT:** (1) owner ratifies the three amendments (above) at the next
+debrief; (2) FIFTEENTH blind ask — protocol re-registered mechanically
+against placeholder surfaces: same pre-registered questions/arbiters,
+wording swaps only (Varekka→BOSS 1, the Quay→ZONE 5; oracle halves
+unchanged: zone identity by look, boss dread, stamp delivery — all three
+surfaces are visual and survived the text removal); (3) v17 debate
+(multiplayer triggers: #1 evidence logged, #2 = v16 shipped — pending
+the fifteenth).
+
 ## 2026-08-15 (v16 WALLED 17/17 + TWO-SEAT RACE RESOLVED + v17 trigger #1 evidence — language lane + FIFTEENTH next)
 
 **2026-08-16 addendum (owner-approved actions):** repo flipped **PUBLIC**
