@@ -39,7 +39,7 @@ module Core
       # Every zone key now carries an en.json override (placeholder batch);
       # the caller fallback (zone JSON display_name) loses.
       s = Strings.new(DATA, locale: "en")
-      assert_equal "HUB 1", s.t("zone.camp.display_name", "The Second Vigil")
+      assert_equal "HUB 1", s.t("zone.camp.display_name", "stale")
     end
 
     def test_missing_key_falls_through_to_caller_fallback

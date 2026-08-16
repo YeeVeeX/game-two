@@ -252,7 +252,7 @@ module Game
     def release_taunt! = clear_taunt!
 
     # --- v15 seizure: the Challenger's verb, victim side -----------------
-    # Body-owned and swap-inert like taunt — the sentence names the FLESH,
+    # Body-owned and swap-inert like taunt — the seizure names the BODY,
     # never the echo (fiction-exact AND the swap-escape mechanism).
     def seize!(seizer, frames)
       @seized_by = seizer

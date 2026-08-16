@@ -24,7 +24,7 @@ class ManifestCheckTest < Minitest::Test
     EVENT drop_picked_up frame=120 amount=2
     EVENT banked frame=900 amount=2
     captured captures/x/frame_0100.png
-    EVENT vessel_seized frame=1200 body=goret
+    EVENT vessel_seized frame=1200 body=blocker
     REPLAY_DONE
   LOG
 

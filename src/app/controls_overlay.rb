@@ -41,7 +41,7 @@ module App
       @bindings = bindings
     end
 
-    # { vessel: "goret", pairs: [{ glyphs: ["J", "Space"], label: "attack" },
+    # { vessel: "player 2", pairs: [{ glyphs: ["J", "Space"], label: "attack" },
     # ...] } — pairs in ACTIONS order, glyphs in binding order (primary
     # first; the twelfth's dual-keybind lane); the special slot always
     # speaks the kit's own verb.

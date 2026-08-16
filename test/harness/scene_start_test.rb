@@ -6,7 +6,7 @@ require_relative "../../harness/pilot_session"
 
 # The v15 `start` script parameter: a focused-scene primitive (same class
 # as `scenario`/`seed`) that lets a wall script begin with banked value so
-# the gate replay exercises seals/Varekka without a two-hour farm prologue.
+# the gate replay exercises seals/boss without a two-hour farm prologue.
 # It touches harness plumbing only — no game balance lives here.
 class SceneStartTest < Minitest::Test
   def world

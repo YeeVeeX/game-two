@@ -3,7 +3,7 @@ require "core/data_store"
 require "core/input"
 require "game/world"
 
-# v15 increments 3-4: Varekka — chant (120f, interruptible, pinned) ->
+# v15 increments 3-4: the boss (BOSS 1) — chant (120f, interruptible, pinned) ->
 # forced-approach seizure (450f; swap always escapes; damage interrupts;
 # his death ends everything). Real World on the real zone chain, no
 # mocks. Where a test needs a quiet room the quay crew dies by the real
@@ -82,7 +82,7 @@ class ChallengerTest < Minitest::Test
   end
 
   # Quiet-room staging: crew dead, allies parked far west, possessed at
-  # arm's length from Varekka's post [43,15]. Deliberately does NOT tick
+  # arm's length from the boss post [43,15]. Deliberately does NOT tick
   # after the teleport — the chant triggers on the test's OWN first drive,
   # after its event subscriptions are in place.
   def face_varekka!(dist: 3)
@@ -148,7 +148,7 @@ class ChallengerTest < Minitest::Test
     seized = collect(:vessel_seized)
     drive(world, scripted({}), 3)
     assert varekka.chanting?
-    # Real verb: the possessed (goret, arc3) swings into his tile.
+    # Real verb: the possessed (player 2, arc3) swings into his tile.
     src = world.possessed
     src.face([1, 0])
     input = scripted((world.frame..world.frame + 40).to_h { |f| [f, [:attack]] })
@@ -174,7 +174,7 @@ class ChallengerTest < Minitest::Test
     # completion needs no range: the seizure survives distance).
     pinned.walker.teleport(30, 15)
     drive(world, scripted({}), SEIZE[:chant_frames])
-    assert_equal varekka, pinned.seized_by, "the pinned FLESH answers, not the echo"
+    assert_equal varekka, pinned.seized_by, "the pinned BODY answers, not the possessing player"
     assert_nil world.possessed.seized_by
   end
 
@@ -226,7 +226,7 @@ class ChallengerTest < Minitest::Test
 
   def test_seizure_expires_and_survives_distance
     face_varekka!(dist: 3)
-    # The parked allies would trail the seized possessed toward Varekka
+    # The parked allies would trail the seized possessed toward the boss
     # and kill him (:slain beats :expired) — this test wants the clock,
     # so the pack walks alone (human-side kills: no possessed hitstop).
     (world.pack.living - [world.possessed]).each do |m|
