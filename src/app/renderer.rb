@@ -1,5 +1,6 @@
 require "app/controls_overlay"
 require "app/kill_pop"
+require "app/motif"
 require "app/stamp_delivery"
 
 module App
@@ -177,6 +178,12 @@ module App
       end
       (0..map.cols).each { |tx| Gosu.draw_rect(tx * ts, 0, 1, map.pixel_height, grid) }
       (0..map.rows).each { |ty| Gosu.draw_rect(0, ty * ts, map.pixel_width, 1, grid) }
+      # v16 (b) identity channels — every key OPTIONAL: a zone without an
+      # identity block draws exactly as before this cycle (fallback law,
+      # canary-proven). Order: motif texture, authored landmarks, then
+      # doors stay crisp above paint, ambient tint closes the map pass.
+      draw_motif(map)
+      draw_decor(map)
       map.transitions.each do |t|
         tx, ty = t[:at]
         if t[:sealed] && !world.breached?(world.zone_name, t[:at])
@@ -188,6 +195,46 @@ module App
           Gosu.draw_rect(tx * ts + 3, ty * ts + 3, ts - 6, ts - 6, transition)
         end
       end
+      draw_ambient(map)
+    end
+
+    # Sparse floor texture (App::Motif — pure integer placement). Floor
+    # tiles only: walls carry silhouette, texture belongs to the ground.
+    def draw_motif(map)
+      glyph = map.palette[:motif]
+      rgb = map.palette[:motif_rgb]
+      return unless glyph && rgb
+      col = color(rgb)
+      ts = map.tile_size
+      map.rows.times do |ty|
+        map.cols.times do |tx|
+          next if map.wall?(tx, ty)
+          App::Motif.rects(glyph:, tx:, ty:, ts:).each do |x, y, w, h|
+            Gosu.draw_rect(x, y, w, h, col)
+          end
+        end
+      end
+    end
+
+    # Authored landmarks (zone data decor:) — silhouette identity, pure
+    # paint: passability and replays untouched by construction.
+    def draw_decor(map)
+      ts = map.tile_size
+      map.decor.each do |d|
+        tx, ty = d[:at]
+        w, h = d[:size]
+        Gosu.draw_rect(tx * ts, ty * ts, w * ts, h * ts,
+                       color(d[:rgb], d.fetch(:alpha, 255)))
+      end
+    end
+
+    # Post-map light: one low-alpha quad over the whole map pass, under
+    # every actor — hue-of-place, never a veil (W3 belongs to the writ).
+    def draw_ambient(map)
+      rgba = map.palette[:ambient_rgba]
+      return unless rgba
+      Gosu.draw_rect(0, 0, map.pixel_width, map.pixel_height,
+                     Gosu::Color.new(rgba[3], rgba[0], rgba[1], rgba[2]))
     end
 
     # Drops read as PLACE (v11 rider): size is the primary depth channel —

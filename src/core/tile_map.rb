@@ -9,7 +9,7 @@ module Core
 
     attr_reader :cols, :rows, :tile_size, :pack_spawn, :enemy_spawns,
                 :display_name, :palette, :transitions, :stations, :drop_gradient,
-                :hub, :gradient_anchor, :name
+                :hub, :gradient_anchor, :name, :decor
 
     def initialize(cfg)
       @tile_size = cfg.fetch(:tile_size)
@@ -32,6 +32,10 @@ module Core
       # band map (sorted zone keys reorder arrivals when zones are added).
       @hub = cfg.fetch(:hub, false)
       @gradient_anchor = cfg.fetch(:gradient_anchor, nil)
+      # v16 (b): authored landmark rects — RENDER-ONLY paint (silhouette
+      # identity; never blocking, so passability is deliberately not
+      # checked — a stain may lie across walls).
+      @decor = cfg.fetch(:decor, [])
       validate!
     end
 
@@ -67,6 +71,18 @@ module Core
       @transitions.each { |t| check_passable!("transition", t[:at]) }
       @stations.each { |s| check_passable!("station", s[:at]) }
       check_passable!("gradient_anchor", @gradient_anchor) if @gradient_anchor
+      @decor.each { |d| check_decor!(d) }
+    end
+
+    def check_decor!(d)
+      at = d.fetch(:at) { raise BadMap, "decor entry needs at:" }
+      size = d.fetch(:size) { raise BadMap, "decor entry needs size:" }
+      d.fetch(:rgb) { raise BadMap, "decor entry needs rgb:" }
+      tx, ty = at
+      w, h = size
+      return if tx >= 0 && ty >= 0 && w.positive? && h.positive? &&
+                tx + w <= @cols && ty + h <= @rows
+      raise BadMap, "decor [#{tx}, #{ty}] #{w}x#{h} out of bounds"
     end
 
     def check_passable!(label, (tx, ty))
