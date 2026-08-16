@@ -1,5 +1,55 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-16 (v17 SPEC COMMITTED: five forks closed with the owner in-session; dual review folded — TDD opens next session, DIGEST LANE FIRST)
+
+**Owner in-session closed ALL FIVE forks on dev recommendation
+("aprobado, procede"):** (1) embodiment = SHARED PACK (two seats, two
+possession pointers, AI drives the third body); (2) delay-based lockstep,
+D fixed per session from a handshake RTT probe (clamp 4..12, default 8),
+TCP_NODELAY stdlib, no threads; (3) host/join + verified manifest
+(sim fingerprint excl. bindings.local.json; mismatch refuses with the
+exact diff); (4) desync = state+event digest every 60 ticks, detect
+LOUDLY, end honestly, artifact on both seats; (5) stall warn 500 ms /
+abort 10 s wall-clock, LINK SLOW honesty. Also answered the owner's
+GameLift question on the record (client needs no AWS account — the real
+reasons are no-Ruby-SDK, lockstep needs no server, and it replaces only
+the already-solved part; owner satisfied, path unchanged).
+
+**Spec committed `7a21e84`:**
+`docs/superpowers/specs/2026-08-16-v17-multiplayer-etapa1-design.md` +
+review ledger `drafts/_v17-spec-review.md`. **Codex leg REJECT → 12
+findings, 10 confirmed + folded** (authoritative digest snapshot w/
+mutation-sensitivity sweep; sample-once-per-EXECUTED-tick law; ms-based
+stall abort; termination state machine + reason precedence; decision-11
+seat-semantics table for every bare-`possessed` call site; renderer
+`local_seat:` seam; full-wall `rake canary` baseline protocol; BODY-
+relabel REVERSED — rings only, PARTNER wording; harness/net script
+family + CHECKS= gate arg; framing/handshake pins). **Panel (declared
+≤4 lenses/1.5M; actual 3 agents ~13K tokens):** DeepSeek (end-reason
+precedence fold + CountingRng replaces Marshal-bytes in the digest),
+Kimi (zone gates now need EVERY living controlled body co-located —
+consent by geometry; relaunch-hint mitigation), Qwen (Windows winsock
+pump discipline). Three REJECT-grade claims REFUTED with written
+reasons in the ledger (lockstep deadlock, GC sampling, Gosu cadence) —
+don't re-litigate. Codex `--sandbox read-only` is BROKEN on this
+machine (os error 206); use `--sandbox danger-full-access` + no-write
+prompt order.
+
+**State: junior-tibia `7a21e84` pushed (synced), suite 527/2329 green
+(hook-run), tree clean, wall untouched.** Junior's seat landed
+`drafts/_junior-sessions-3-4-20260816.md` mid-session: seal-1 economy
+wall, "não consigo é muito difícil", recorded-only, routing condition
+MET → onboarding/curve is NEXT-DEBATE material (not v17 scope; note:
+co-op with the owner is itself a live hypothesis against that wall).
+
+**NEXT SESSION (TDD, spec order — read the spec first):** increment 1
+DIGEST LANE FIRST (shared event-serialization helper + StateDigest +
+mutation sweep + headless canaries vs the three banked etapa-0 md5s),
+THEN bank full-wall canary baselines BEFORE any seat plumbing; then
+increments 2-8 per spec. Coordinate Junior via drafts + handoff
+validate (pull before push — his seat is ACTIVE today). SIXTEENTH ask
+protocol is pre-registered in the spec §Fun-verify.
+
 ## 2026-08-16 (v17 DEBATE CLOSED: MULTIPLAYER ETAPA 1 — owner ratified; brainstorm opens next session)
 
 **Owner ratified at the debate (verbatim "ok procede como recomiendes, lo
