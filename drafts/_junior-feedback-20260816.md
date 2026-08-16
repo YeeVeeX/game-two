@@ -29,3 +29,17 @@ legitimate onboarding/curve data point for the v17 debate (a second
 player is exactly the multiplayer cycle's audience) — the lever family
 would be onboarding/legibility, not global damage/HP softening (the
 recorded-negative precedent of v10.1 stands).
+
+---
+
+**ADDENDUM (2026-08-16, later — the condition above is MET):** sessions
+3–4 ran post-fifteenth (`drafts/_junior-sessions-3-4-20260816.md`,
+telemetry verbatim). The meta landed — vat used, banking improved
+(wipes 5→2, banks mean 21 max 39), inscriptions made — and the wall
+did not move: `banked_end` 16 vs seal-1 price 40 in both, `arc
+breach{fired=0}` in all four Junior sessions to date. New verbatim
+(PT-BR): "não consigo é muito difícil". Disposition unchanged on this
+seat: RECORDED ONLY, zero levers. The onboarding/curve data point is
+now LIVE for the v17 debate; side effect: the dread-exposure question
+the FIFTEENTH left open cannot be answered from this seat at the
+current curve (ZONE 5 is two seals deep).
