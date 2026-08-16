@@ -2,7 +2,7 @@
 
 ## 2026-08-16 (v17 TDD session 1: increments 1-3 GREEN + PUSHED — digest lane, seat plumbing, protocol; full-wall canary 17/17 byte-identical)
 
-**Increment 1 — DIGEST LANE (`e595c50`):** `Net::EventSerial` extracted
+**Increment 1 — DIGEST LANE (`155c059`):** `Net::EventSerial` extracted
 from WorldScene#describe (ONE serialization for wall EVENT lines + the
 netplay digest); `Harness::EventLog` (curated list, world_scene consumes
 it); `Net::StateDigest` (folds EVERY registered bus event via new
