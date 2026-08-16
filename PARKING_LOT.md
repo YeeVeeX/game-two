@@ -506,3 +506,9 @@ Infra items, not game features; each needs a maintenance window, not a cycle.
   `tribute_paid`, `vessel_seized`) and telemetry keys (`varekka`) remain
   lore-flavored but are player-invisible and replay/wall-load-bearing.
   Rename only on explicit owner ask; costs a full wall + manifest churn.
+- **Owner addendum (2026-08-16, post-removal): Junior's language work is
+  KEPT on purpose** — "guarda lo que él trabajó de lenguaje, igual nos va
+  a servir." Lives in the external archive (now a git repo with README +
+  state-of-play: `../game-two-lore`, commit 374d3e2) under
+  `junior-language-lane/` (3-probe package + ratified PT-BR mark_void),
+  plus game-two history via merge `00d63bb` second parent.
