@@ -53,8 +53,13 @@ exchange — timezone-proof, `docs/JUNIOR.md`), (2) this cycle shipped.
 on his machine (pt-br, ~15.1k frames, 22 kills / 2 banks / 3
 inscriptions; install clean; PT-BR read clean — zero lines named;
 "divertida, quero mais"). Full telemetry + answers:
-`drafts/_junior-first-session-20260815.md`. Strict etapa-0 replay
-exchange still owed; owner adjudicates the trigger at the v17 debate.
+`drafts/_junior-first-session-20260815.md`. **Strict etapa-0 exchange
+LOGGED same day** (`drafts/_junior-etapa0-20260815.md`): both canonical
+replays reproduced on Junior's machine, per-frame md5 published for
+owner-seat comparison — doubles as the multiplayer stage-1
+cross-machine determinism spike. PT-BR post-edit pass ratified by
+Junior (strip infinitives, A Rua Longa). Owner adjudicates the trigger
+at the v17 debate.
 Also out: new zones/enemies/systems beyond the dread-stakes knob; audio
 (owner order); in-game rebind UI; the chest fork (Q4a validated it
 closed); everything long-parked. **Nothing new starts until v16 is
