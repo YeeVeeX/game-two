@@ -16,8 +16,9 @@ fiction names, and creative writing are REMOVED from the project and repo
 player-visible name/line is a generic placeholder: ZONE 1..5, HUB 1,
 BOSS 1, player 1/2/3, TOLL PAID, BOSS 1 SPAWNED/DEFEATED, MARK LOST.
 The v16 language lane is TERMINATED (no 3-probe, no grounded candidates,
-no ES/PT authorship). This repo is mechanics + engine only; creative
-writing restarts, if ever, in its own repo — never here. Placeholder
+no ES/PT authorship). This repo is mechanics + engine only; if creative
+writing ever restarts, it restarts OUTSIDE this repo (from the archive
+folder) — never here. Placeholder
 changes are still Rule-2 visual changes (wall + recalibration apply).
 
 v16 (2026-08-15, debate closed, owner ratified): **THE PRESENTATION/IDENTITY
