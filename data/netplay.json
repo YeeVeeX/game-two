@@ -1,0 +1,9 @@
+{
+  "port": 43117,
+  "delay": { "min": 4, "max": 12, "default": 8, "jitter_margin_ticks": 3 },
+  "digest_every": 60,
+  "stall_warn_ms": 500,
+  "abort_stall_ms": 10000,
+  "drain_timeout_ms": 2000,
+  "probe_count": 5
+}
