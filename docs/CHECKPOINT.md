@@ -1,5 +1,56 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-15 (v16 WALLED 17/17 + TWO-SEAT RACE RESOLVED + v17 trigger #1 evidence — language lane + FIFTEENTH next)
+
+**MEASURED: junior-tibia `0ce2fd4` PUSHED (synced 0/0), suite 524/2322
+green, 17 scripts, 53 checks, wall 17/17, perf p95 0.260ms.**
+
+**WALL RESET COMPLETE (tag v16, teed logs tmp/wall/*_v16*.log, trail in
+drafts/_gate-verdicts.log):** 16/17 in-sweep PASS; ONE real fail —
+low_quay_run #51: the breach writ line predated the stamp grammar
+(rendered flat while banner-slot stamps landed with rules+scale-in — the
+critic caught my own increment-3 deviation as broken court ceremony).
+Fix `5cb3138`: breach_line carries frames_total, renders through the
+shared draw_stamp_line; capture 1442 added (straddles the 1430 arrival;
+station seal mark beside the body). a2 standalone: GATE PASS
+(determinism 11 byte-identical x2, 53/53 vision — #51 saw "rules +
+settles smaller between 1430 and 1442") + MANIFEST PASS. Identity
+recalibration held: #50 + reworded low_quay_reads/new_ground_reads all
+PASS on the new look. Mid-sweep code-change audit: every pre-fix script
+self-gated on stamp_delivery — no superseded verdicts.
+
+**TWO-SEAT RACE (found at push): a parallel agent session on Junior's
+machine executed the same checkpoint NEXT list** (9 commits, BRT
+timezone, Co-Authored-By Claude) — same spec, same increments 3-5,
+convergent designs, explicitly deferring wall/recalibration to this
+seat. RESOLVED `0ce2fd4` (dev-of-record call, owner veto at the
+debrief): owner-seat wall-verified line survives; their unique work
+cherry-picked — **v17 trigger #1 evidence** (`3ae272f`: Junior's first
+session, pt-br, ~15.1k frames, install clean, PT-BR zero lines named,
+"divertida, quero mais"), **Junior-ratified PT-BR post-edit pass**
+(`5d4c85b`: strip infinitives atacar/esquivar/marcar, O Corredor → A
+Rua Longa; mark_void PT-BR correctly deferred to pipeline), README +
+cover (`77ed763`). Their full line preserved in the merge's second
+parent. **CAVEAT: their etapa-0 per-frame md5s were computed against
+THEIR tree — the strict cross-machine determinism spike must re-run
+against THIS line before it counts (v17 debate item).**
+
+**NEXT (in order):**
+1. **Language lane (OWNER-GATED)** — 3-probe register calibration ON
+   CAPTURES (attested-notarial / plain / game-generic, owner picks
+   blind) → grounded candidates ONLY for owner-named lines + ES for
+   stamp.mark_void (EN fallback ships today) → on-capture ratification
+   → Junior post-edits PT-BR (he's ACTIVE now — first session logged).
+2. **FIFTEENTH blind ask** (spec §Fun-verify pre-registered; `bin/play
+   es`; harvest telemetry BEFORE questions; arbiters: varekka
+   interrupted + swap_escapes > 0, burns, quay dwell vs fourteenth).
+   Owner also ratifies at the debrief: three check-prose
+   recalibrations + the breach-mark-at-station deviation + the
+   two-seat resolution.
+3. **v17 debate** — multiplayer triggers: #1 evidence logged (owner
+   adjudicates; strict md5 exchange re-run owed against this line),
+   #2 = v16 shipped (pending the fifteenth).
+
 ## 2026-08-15 (v16 increments 3-5 SHIPPED: stamps + zone identity + dread — WALL RESET next)
 
 **MEASURED: junior-tibia `7b452df` (7 commits ahead of the increment-2
