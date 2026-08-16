@@ -57,8 +57,10 @@ outstanding stranded value from the bank net — including it would
 double-count across legs when corpses are recovered); the CHECK was
 over-general (authored on fight beats; v14's exercised case "hollow -7 →
 red -7 net" was a fight beat). Sim untouched.
-**THREE check amendments applied, AWAIT OWNER RATIFICATION at the next
-debrief (precedent #14/#19/#42 + v16 trio):** (1) ledger_negative_reads
+**THREE check amendments applied — RATIFIED by the owner IN-SESSION
+(2026-08-16, "procede como tu recomiendes, yo lo apruebo"; explained on
+the record: repo/file scope, the frame_8610 adjudication, the coin-flip
+clauses):** (1) ledger_negative_reads
 split by tally kind — fight/wipe nets include stranded+destroyed (must
 read negative with a loss line); bank nets exclude outstanding pip
 (positive `= +N` beside hollow -N is CORRECT; sign/color disagreement
@@ -72,14 +74,14 @@ The placeholder surfaces read clean through the critic everywhere
 exercised (TOLL PAID banner, ZONE N banners, player 1/2/3 strip, BOSS 1
 stamps in duel scripts).
 
-**NEXT:** (1) owner ratifies the three amendments (above) at the next
-debrief; (2) FIFTEENTH blind ask — protocol re-registered mechanically
+**NEXT:** (1) FIFTEENTH blind ask — protocol re-registered mechanically
 against placeholder surfaces: same pre-registered questions/arbiters,
 wording swaps only (Varekka→BOSS 1, the Quay→ZONE 5; oracle halves
 unchanged: zone identity by look, boss dread, stamp delivery — all three
 surfaces are visual and survived the text removal); (3) v17 debate
 (multiplayer triggers: #1 evidence logged, #2 = v16 shipped — pending
-the fifteenth).
+the fifteenth). Owner queue: tell Junior the language lane moved to the
+shared game-two-lore repo (private, he's invited; skills ship in-repo).
 
 ## 2026-08-15 (v16 WALLED 17/17 + TWO-SEAT RACE RESOLVED + v17 trigger #1 evidence — language lane + FIFTEENTH next)
 
