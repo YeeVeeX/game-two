@@ -196,6 +196,22 @@
     {
       "id": "seizure_reads",
       "check": "When a seized vessel is on camera, it carries a thin blue underline (mirror of the rust taunt underline) and, in the court-stamp frames, the lines ONE STANDS / THE FLESH IS CALLED / THE TERM IS PAID are legible in the banner slot with banner-scale prominence. A seized body standing adjacent to Varekka doing nothing is the design, not broken AI. If neither a seized vessel nor a challenger stamp appears, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "zone_identity_reads",
+      "check": "When the reel spans two or more zones, each zone reads as a DIFFERENT place by floor/wall palette, sparse floor motif, and landmark features alone — without reading the banner text (the v16 families: ash-and-ember hub with wall braziers, sun-baked clay row, cold slate/indigo vaults with pale stack caps, dusk-violet corridor, drowned green-black quay with tide-lines along the channel). Value structure stays law in every zone: walls read lighter than floor, and gold appears ONLY on walkable markers and drops. If the reel never leaves one zone, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "stamp_delivery_reads",
+      "check": "When a court stamp (gate-gold banner text) appears, it LANDS like a stamp: across consecutive frames of the same stamp the text arrives oversized and settles to rest scale, and a thin gold rule pair frames it above and below (the acta look). For located acts (a seal breach, THE TERM IS PAID, THE MARK IS VOID) a gold rect-frame-with-inner-glyph seal mark also dwells on the event tile in the world. A single mid-dwell frame is sufficient evidence for the rule pair and the floor mark; the scale-in needs two frames of the same stamp — if the reel samples no stamp twice, judge the rule pair and floor mark only. Zone name banners (bone-white) stay quiet and are NOT held to this. If no court stamp appears, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "kill_pop_reads",
+      "check": "When a creature dies on camera, the death frame or the frame immediately after shows a solid bright flash filling the victim's tile — the primary channel; small warm shards flying outward are secondary supporting evidence, not required alone. Kill-evidence clause (carried from the whirlwind amendment): if the reel proves a kill only across a frame gap (victim present, then gone, with corpse or drops as evidence) and no frame samples the brief flash window, pass with why='flash window not sampled'. If nothing dies on camera, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "writ_frame_reads",
+      "check": "When Varekka's chant is on camera, the court draws its WRIT: a thin chant-blue square frame centered on him, with the world OUTSIDE the frame clearly darkened and everything INSIDE at full, undimmed readability — the chant ring, Varekka himself, and any bodies inside the writ must stay as legible as in non-chant frames (fairness wording: the outside-darkening may never hide an actor inside the writ, and a threat crossing INTO the writ must become fully readable as it enters). The writ exists ONLY during the chant — seizure frames without a chant showing no writ are correct, not a defect. If no chant frame is present, pass with why='not exercised by this script'."
     }
   ]
 }

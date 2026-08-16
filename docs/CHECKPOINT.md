@@ -1,5 +1,76 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-15 (v16 increments 3-5 SHIPPED from the JUNIOR seat + Junior's first session logged — language lane + wall reset remain, owner seat)
+
+**SEAT NOTE: this delta was executed on Junior's machine** (Claude dev
+session, Junior as tester; owner's dev-of-record seat untouched). Pushed
+green at every step; one remote race (owner's checkpoint d5f1a76) landed
+mid-work — resolved by rebase, no conflicts.
+
+**MEASURED: junior-tibia `2df2adb` + this commit, suite 525/3929 green
+(hook-run at every commit), perf p95 1.164ms (was ~0.25 — the motif/
+ambient/decor draw cost, 14x under budget), checks 49→53 (ADD-ONLY,
+this commit). No AWS on this seat: every gate ran SKIP_CRITIC=1
+determinism + canary; ALL vision-critic legs are owed at the wall reset.**
+
+**Shipped, TDD, adversarially reviewed, each green+pushed:**
+- **(c) stamp delivery `6755d88`** — App::StampDelivery window math
+  (scale-in from stamp_scale_from over stamp_in_frames, dwell, fade
+  tail), rule pair, located stamps (breach, term paid) land a floor
+  SEAL MARK at the event tile. Review catch folded: the mark lands at
+  stamp ACTIVATION (not enqueue) — mark and stamp share one clock; an
+  evicted queued stamp never marks the floor. Breach mark rides
+  breach_banner_frames. world_loop canary 10/10 byte-identical
+  (zone-banner path untouched); varekka_duel determinism 5/5.
+- **(b) zone identity `86baa2d`+`83456bd`** — channels first (motif:
+  integer 1/9 placement, App::Motif; ambient tint; authored decor
+  landmarks; ALL optional — fallback law canary-proven 10/10 with zones
+  untouched), then the 6 hue-family palettes + landmarks (braziers /
+  stack caps / tide-lines / seep). zone_identity_data_test encodes the
+  value laws (wall>2x floor lum, ambient a tint, motif subordinate,
+  gold L1>90 from gate gold — Keyward's brassy wall retired). All 6
+  zones self-inspected on captures: identity reads without banners,
+  possession ring anchors. W6 watch: hub braziers share the ember
+  family with pack bodies (wall-mounted 2x1, no plates) — critic
+  arbitrates at the reset.
+- **(d) Varekka dread `2df2adb`** — seized death BURNS the inscription
+  (data knob kits.challenger.seizure_burns_inscription; burn in the
+  death sweep BEFORE corpse bookkeeping — burn/judgment double-consume
+  impossible, TDD across died/slain/expired/zone_left/wiped). Beat:
+  located stamp THE MARK IS VOID + expiry-flash on the body tile
+  (review fold: the flash is the UNCONDITIONAL channel — the stamp can
+  cap-evict in a wipe arc). :inscription_burned registered + teed in
+  world_scene; telemetry varekka line gains burns=N. WRIT-FRAME shipped
+  (App::WritFrame pure geometry, unit-tested): chant-blue frame on him,
+  outside dims (writ_out_alpha), inside fully readable; seized body
+  darkens toward chant blue (seized_body_alpha). Verified on real duel
+  captures.
+- **Checks 49→53 (this commit):** #50 zone_identity_reads, #51
+  stamp_delivery_reads, #52 kill_pop_reads (kill-evidence clause
+  carried), #53 writ_frame_reads (fairness wording built in). ⚠️ #46
+  low_quay_reads' color prose is now STALE vs the 4b palette
+  (indigo-black → drowned green-black) — needs an owner-ratified
+  amendment at the recalibration, precedent #14/#19/#42.
+
+**Junior: FIRST SESSION PLAYED (v17 trigger #1 evidence,
+`drafts/_junior-first-session-20260815.md` + scope contract note
+`e32f5df`):** pt-br, install clean, ~15.1k frames / 22 kills / 2 banks /
+3 inscriptions / 2 wipes; PT-BR read clean — ZERO lines named false
+(native first read; Q6c data point); stamps "aterrissam bem" (first
+human read of v16 c); verdict "divertida, quero mais". Strict etapa-0
+replay exchange still owed; owner adjudicates.
+
+**NEXT (owner seat):** language lane (owner-gated: 3-probe register
+calibration ON CAPTURES → grounded candidates for owner-NAMED lines →
+ratification; stamp.mark_void has EN only by design — ES/PT via the
+lane) → WALL RESET: all 16 scripts re-gated on the new look (expect
+critic recalibration on identity checks + the #46 amendment),
+varekka_duel re-pilot staging an INSCRIBED seized death (manifest
+inscription_burned >= 1 — the tee is already in world_scene), perf on
+the owner machine → FIFTEENTH blind ask (es; protocol + routing in the
+spec) → v17 debate (trigger #1 evidence above, trigger #2 = this cycle
+shipped).
+
 ## 2026-08-15 (v16 increments 1-2 SHIPPED: scaling + kill pop — increment 3 next; Junior cloning)
 
 **MEASURED: junior-tibia `2375335` synced 0/0 with origin, suite 474/2031
