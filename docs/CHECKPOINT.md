@@ -1,5 +1,85 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-16 (v17 TDD session 1: increments 1-3 GREEN + PUSHED — digest lane, seat plumbing, protocol; full-wall canary 17/17 byte-identical)
+
+**Increment 1 — DIGEST LANE (`e595c50`):** `Net::EventSerial` extracted
+from WorldScene#describe (ONE serialization for wall EVENT lines + the
+netplay digest); `Harness::EventLog` (curated list, world_scene consumes
+it); `Net::StateDigest` (folds EVERY registered bus event via new
+`EventBus#registered_types`, input masks via fold_input, canonical
+snapshot at each window boundary; Window records retain lines+snapshot
+for the decision-8 artifact); `digest_fields` on Creature/Pack/
+Projectile/Feel + `World#digest_snapshot` (flat named scalars, stable
+ids, presentation excluded); `Core::CountingRng` wraps both seeded
+streams (value-transparent; draw counts in the digest — panel fold).
+Suite: decision-6 coverage pins + scalar-leaf guard + schema flip sweep
++ live-mutation battery + THREE banked etapa-0 canaries headless in the
+default suite (test/harness/sim_identity_canary_test.rb, <2 s).
+**Evidence:** live `rake capture` world_loop EVENT md5 =
+`a4150c43669b9783e59cb6c39c322b67` (banked value, byte-exact).
+
+**Baselines banked BEFORE seat plumbing:** one replay per wall script
+into `tmp/canary_baseline/<script>/` (17 dirs, 172 PNGs, manifest.md5).
+MACHINE-LOCAL and gitignored — if tmp/ is ever cleaned, re-bank from a
+sim-identical line before the next sim-touching increment.
+
+**Increment 2 — SEAT PLUMBING (`a367586`):** Pack seat map (per-seat
+pointers, bare arity = seat 1, partner exclusion, waiting = nil, wipe
+keeps the dead vessel pointer); World `seats:` kwarg + `tick({seat =>
+input})` (bare input wraps); per-seat controllers/swap-edge/rearm/
+last-damaged/cameras (decision 5, same call site); decision-11
+semantics: `controlled_bodies`/`seat_for`/`controlled?`, AI drives
+uncontrolled bodies (+ nearest-controlled follow anchor), verb guards
+take any seat's own body, mark last-write-wins + any-seat leash,
+seizure targets nearest controlled body, **zone gates = co-location
+consent** (trigger body ON the gate tile, every other living controlled
+body within Chebyshev 1; dead/waiting don't block), pack_wiped
+exactly-once (same-flush double death), judgment assigns seats over the
+ACTUAL revived set in seat order (floor: seat 1 takes the vessel, seat
+2 waits), vat regrow auto-repossesses waiting seats (roster order,
+from: nil event), renderer+overlay `local_seat:` seam (default 1).
+17-test battery in test/game/seats_test.rb.
+**BLOCKING evidence: full-wall `rake canary` 17/17 scripts, every
+capture byte-identical to the pre-refactor baselines; suite 559 green;
+perf p95 0.280 ms.** One trap hit + fixed mid-increment: adding a
+`!dead?` filter to validate_mark broke single-seat byte-identity (the
+old law measured from a mid-flush dead pointer body) — reverted;
+single-seat identity means preserving even the weird edges.
+
+**Increment 3 — PROTOCOL (`6510223`):** `Net::Protocol` (version 1,
+PINNED 10-bit action order — change = version bump; message vocabulary
+with required-field shapes; encode/decode; Fault→protocol vs
+Oversize-mid-stream→conn_lost taxonomy), `Net::SampledInput` (frozen
+mask, no live-source reference — sampling law by construction),
+`Net::FrameBuffer` (split/coalesced/partial reassembly, unterminated
+>4096 raises). INPUT line pinned ≤40 B. Phase enforcement deliberately
+deferred to Session (increment 5).
+
+**State: junior-tibia `6510223` pushed (pull was clean at every push —
+no Junior commits today), suite 569/9019 green (hook-run), wall canary
+17/17, perf p95 0.280 ms, tree clean except tmp/.**
+
+**NEXT SESSION (spec order — read the spec first, increments 4-8):**
+(1) **Increment 4 — `Net::Lockstep`** pure scheduler (NO I/O): per-seat
+input queues, delay D, empty inputs for ticks < D, `ready?(t)`,
+submit-once-per-executed-tick + duplicate-slot fault (differing mask =
+protocol fault), stall counters (total/current-run/max-run),
+warn/abort thresholds in WALL ms (app-layer clock — the sim never reads
+clocks), digest boundary bookkeeping + retention bound
+ceil((D+RTT_ticks)/N)+1, desync compare state machine; **create
+`data/netplay.json`** (Rule 3: port 43117, delay {4,12,8,3},
+digest_every 60, stall_warn_ms 500, abort_stall_ms 10000,
+drain_timeout_ms 2000, probe_count 5). (2) Increment 5 — Fingerprint
+(bindings.local.json excluded) + wire + Session handshake over real
+127.0.0.1 loopback (Windows pump discipline block: one drain per
+update, WaitReadable rescue, NODELAY getsockopt verify). (3) Increment
+6 — two-sim integration lane (hold/divergence/stall/handshake, ~3k
+ticks, no threads). (4) Increments 7-8 per spec (Rule-2 surfaces +
+harness/net family + CHECKS= gate arg; docs/close). The three headless
+canaries + full-wall `rake canary` re-run after ANY increment that
+touches src/game or the renderer.
+
+
 ## 2026-08-16 (v17 SPEC COMMITTED: five forks closed with the owner in-session; dual review folded — TDD opens next session, DIGEST LANE FIRST)
 
 **Owner in-session closed ALL FIVE forks on dev recommendation
