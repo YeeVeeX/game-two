@@ -52,6 +52,21 @@ class SceneStartTest < Minitest::Test
     assert_raises(ArgumentError) { Harness.apply_start(w, { zone: "nowhere" }) }
   end
 
+  # v16 (d): staging the burn beat — the Low Quay is stationless (owner
+  # fork), so a duel scene cannot inscribe in-run; the start param carries
+  # it (same body mutation the altar performs, harness plumbing only).
+  def test_apply_start_with_inscribed_marks_the_possessed
+    w = world
+    Harness.apply_start(w, { zone: "low_quay", inscribed: true })
+    assert w.possessed.marked?, "the possessed carries the god-mark at scene start"
+  end
+
+  def test_apply_start_without_inscribed_leaves_no_mark
+    w = world
+    Harness.apply_start(w, { zone: "low_quay" })
+    refute w.possessed.marked?
+  end
+
   def test_recorder_export_carries_start_through
     r = Harness::Pilot::Recorder.new
     r.record_frame([])

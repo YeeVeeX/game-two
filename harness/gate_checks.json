@@ -167,7 +167,7 @@
     },
     {
       "id": "new_ground_reads",
-      "check": "When a camp ('The Second Vigil') or Keyward banner frame is on camera, the banner text is legible and the zone reads distinct from The Longrow at a glance: the camp reads safe, station-dense, and warm; the Keyward reads black-and-ochre with a denser hostile field. If neither zone appears in this replay, pass with why='not exercised by this script'."
+      "check": "When a camp ('The Second Vigil') or Keyward banner frame is on camera, the banner text is legible and the zone reads distinct from The Longrow at a glance: the camp reads safe, station-dense, and warm (warm-gray walls, ember braziers at the wall clusters); the Keyward reads cold slate-and-indigo with a denser hostile field. If neither zone appears in this replay, pass with why='not exercised by this script'."
     },
     {
       "id": "whirlwind_reads",
@@ -187,7 +187,7 @@
     },
     {
       "id": "low_quay_reads",
-      "check": "When a Low Quay frame is on camera, the zone reads as a dark under-harbor distinct at a glance from the Keyward (black-and-ochre blocks) and the Longrow (gray row): indigo-black floor, a central impassable channel band — a dry stone bed in slate-bone, crossed by two bridge gaps — and slate-bone colonnade; the banner 'The Low Quay' is legible when shown. If the replay never enters the Low Quay, pass with why='not exercised by this script'."
+      "check": "When a Low Quay frame is on camera, the zone reads as a drowned under-harbor distinct at a glance from the Keyward (cold slate-and-indigo blocks) and the Longrow (sun-baked clay row): green-black floor with sparse ripple marks and drowned stains, a central impassable channel band — a dry stone bed crossed by two bridge gaps, its lips picked out by pale edge highlights — and a pale drowned-green colonnade; the banner 'The Low Quay' is legible when shown. If the replay never enters the Low Quay, pass with why='not exercised by this script'."
     },
     {
       "id": "challenger_tell_reads",
@@ -195,7 +195,23 @@
     },
     {
       "id": "seizure_reads",
-      "check": "When a seized vessel is on camera, it carries a thin blue underline (mirror of the rust taunt underline) and, in the court-stamp frames, the lines ONE STANDS / THE FLESH IS CALLED / THE TERM IS PAID are legible in the banner slot with banner-scale prominence. A seized body standing adjacent to Varekka doing nothing is the design, not broken AI. If neither a seized vessel nor a challenger stamp appears, pass with why='not exercised by this script'."
+      "check": "When a seized vessel is on camera, it carries a thin blue underline (mirror of the rust taunt underline) and a body-scale blue darkening for the whole hold and, in the court-stamp frames, the lines ONE STANDS / THE FLESH IS CALLED / THE TERM IS PAID are legible in the banner slot with banner-scale prominence. A seized body standing adjacent to Varekka doing nothing is the design, not broken AI. If neither a seized vessel nor a challenger stamp appears, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "zone_identity_reads",
+      "check": "When the reel crosses two or more zones, each zone reads as a DIFFERENT PLACE by floor/wall palette and landmark features alone (hue family, sparse floor motif, authored landmarks like braziers, drowned stains, or channel-lip edges) — you could tell the frames apart with the banner covered. Value structure stays constant everywhere: floor dark, walls lighter, gold strictly reserved for open ways. If the reel never leaves one zone, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "stamp_delivery_reads",
+      "check": "Court stamps (gate-gold lines like THE TERM IS PAID / THE MARK IS VOID) LAND like stamps: framed by a thin top+bottom gold rule pair (the acta look), and where consecutive frames straddle a stamp's arrival the text is visibly larger in the earlier frame (scale-in settling). Located stamps (seal breach at its station, term paid, mark void) also press a gold floor seal mark — a small rect frame with an inner glyph — at the event tile, fading with the banner. Zone name banners stay quiet (bone, no rules — places announce, courts judge). If no court stamp appears, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "kill_pop_reads",
+      "check": "A death on camera POPS: the corpse tile flashes solid bright for the first frames after the kill (the primary channel) and small warm shards fly outward from the death tile (secondary, motion read). Kill-evidence across the reel counts: a victim alive in one frame and flashing/shattered or absent in the next IS the pop landing. If no death lands on camera in this script, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "writ_frame_reads",
+      "check": "While Varekka's chant runs, a thin chant-blue square writ-frame centers on him and the world OUTSIDE that frame darkens hard while everything INSIDE (the chant ring, Varekka, nearby bodies, the possessed's white ring) stays fully readable — dread without unfairness: no threat inside the writ may be obscured, and the HUD/controls strip stay legible over the darkening. If no chant frame is present, pass with why='not exercised by this script'."
     }
   ]
 }

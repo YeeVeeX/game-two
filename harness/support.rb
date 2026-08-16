@@ -27,6 +27,11 @@ module Harness
     world.pack.bank!(amount) if amount && amount.positive?
     zone = start[:zone]
     world.start_in(zone.to_s) if zone
+    # v16 (d): stage an inscribed vessel for burn-beat scenes — the same
+    # body mutation the altar performs (stationless zones cannot inscribe
+    # in-run). Applied AFTER the zone move: start_in rebinds bodies, and
+    # the mark rides the body either way (swap-inert law).
+    world.possessed.inscribe_mark! if start[:inscribed]
   end
 
   # The window's backbuffer is opaque, but Gosu.render keeps blended alpha
