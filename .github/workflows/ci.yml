@@ -1,0 +1,34 @@
+# Headless CI — the 2026-08-15 process-debt item: "GitHub Actions running
+# the pure-sim majority of the suite. Catches machine-local rot; the wall
+# stays local." The sim never requires gosu (src/core + src/game are
+# engine-free by law), app-module tests are pure geometry/policy, and no
+# test opens a Gosu window — xvfb covers whatever SDL still wants a
+# display for. The Rule 2 wall (replay gates + vision critic) is NOT
+# here by design: captures need a live GL context and the critic needs
+# the owner seat's Bedrock.
+name: ci
+on:
+  pull_request:
+  push:
+    branches: [junior-tibia, main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Gosu build deps (SDL2 + GL + audio/font stack)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential libsdl2-dev libgl1-mesa-dev libglu1-mesa-dev \
+            libfontconfig1-dev libopenal-dev libsndfile1-dev libmpg123-dev \
+            libgmp-dev xvfb
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: true
+      - name: Suite (headless)
+        run: xvfb-run -a bundle exec rake
