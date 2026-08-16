@@ -2,6 +2,7 @@ require "app/controls_overlay"
 require "app/kill_pop"
 require "app/motif"
 require "app/stamp_delivery"
+require "app/writ_frame"
 
 module App
   # Draws the world sim with Gosu primitives. Flat-rect minimalism: kit
@@ -103,6 +104,7 @@ module App
         draw_chant_rings(world)
         draw_mark(world)
         draw_station_ledger(world)
+        draw_writ_frame(world)
       end
       draw_hud(world)
       # Strip BEFORE edge pips (their bottom clamp lands inside the strip
@@ -464,6 +466,14 @@ module App
       else
         Gosu.draw_rect(x, y, SIZE, SIZE, body_color(c, world))
         Gosu.draw_rect(x, y, SIZE, SIZE, ALLY_DIM) if ally?(c, world)
+        # v16 (d): the seized body carries visual WEIGHT — darkened toward
+        # the chant's blue (the court has it). Data alpha keeps the kit
+        # color readable underneath: dread and fairness both served.
+        if c.faction == :pack && c.seized_by
+          Gosu.draw_rect(x, y, SIZE, SIZE,
+                         Gosu::Color.new(@display.fetch(:seized_body_alpha, 100),
+                                         *seized_rgb))
+        end
       end
       draw_facing_notch(c, x, y)
       draw_attack(c, world.map.tile_size) if c.faction == :pack
@@ -552,6 +562,36 @@ module App
     # and neither read; +9 leaves a clean 4px gap). Alpha fades over the
     # lock's final third: the snap back to free targeting is telegraphed
     # with the same grammar drop decay taught.
+    # v16 (d): the WRIT-FRAME — while a chant runs the court draws its
+    # writ around Varekka: thin chant-blue square frame, the world OUTSIDE
+    # darkens hard, INSIDE stays fully readable (GLM fold — a full-screen
+    # veil reads as a GPU glitch and threatens fairness, W3). Pure
+    # per-frame reader of chant-active: nothing stored, nothing to stick
+    # or flicker; abort_all_chants! on zone transition covers the edge
+    # cases by construction. HUD/strip live in screen space, untouched.
+    def draw_writ_frame(world)
+      chanter = world.humans.find(&:chanting?)
+      return unless chanter
+      ts = world.map.tile_size
+      half = @display.fetch(:writ_radius_tiles, 8) * ts
+      cx = chanter.x + SIZE / 2
+      cy = chanter.y + SIZE / 2
+      dim = Gosu::Color.new(@display.fetch(:writ_out_alpha, 140), 4, 4, 8)
+      App::WritFrame.dim_rects(cx:, cy:, half:,
+                               w: world.map.pixel_width,
+                               h: world.map.pixel_height).each do |x, y, w, h|
+        Gosu.draw_rect(x, y, w, h, dim)
+      end
+      border = Gosu::Color.new(255, *chant_rgb)
+      x0 = cx - half
+      y0 = cy - half
+      side = half * 2
+      Gosu.draw_rect(x0, y0, side, 2, border)
+      Gosu.draw_rect(x0, y0 + side - 2, side, 2, border)
+      Gosu.draw_rect(x0, y0, 2, side, border)
+      Gosu.draw_rect(x0 + side - 2, y0, 2, side, border)
+    end
+
     def draw_taunt_underline(c, x, y)
       duration = c.taunted_target.kit[:special][:challenge][:duration_frames]
       frac = c.taunt_frames.fdiv(duration)

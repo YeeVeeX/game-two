@@ -240,6 +240,11 @@ module Game
         end
       end
       bus.subscribe(:pack_wiped) { @quay_trip = false }
+      # v16 (d): burns arbitrate the fifteenth's stakes question. Own
+      # registered? guard — pre-v16 test buses lack the event.
+      if bus.registered?(:inscription_burned)
+        bus.subscribe(:inscription_burned) { @vk[:burns] += 1 }
+      end
       if bus.registered?(:challenger_chant_started)
         bus.subscribe(:challenger_engaged) { @vk[:engaged] = 1 }
         bus.subscribe(:challenger_chant_started) do
@@ -298,7 +303,8 @@ module Game
         "TELEMETRY varekka engaged=#{@vk[:engaged]} chants=#{@vk[:chants]} " \
         "interrupted=#{@vk[:interrupted]} seized=#{@vk[:seized]} " \
         "swap_escapes=#{@vk[:swap_escapes]} slain=#{@vk[:slain]} " \
-        "deaths_while_seized=#{@vk[:deaths_while_seized]} ends{#{ends}}"
+        "deaths_while_seized=#{@vk[:deaths_while_seized]} " \
+        "burns=#{@vk[:burns]} ends{#{ends}}"
     end
 
     # Format pinned by the v14 spec: `never` (not 0) marks a kit that never

@@ -70,5 +70,8 @@
   90
  ],
  "seal_mark_glyph_px": 8,
+ "writ_radius_tiles": 8,
+ "writ_out_alpha": 140,
+ "seized_body_alpha": 100,
  "banner_queue_max": 2
 }

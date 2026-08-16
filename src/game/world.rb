@@ -26,6 +26,7 @@ module Game
       inscribed banked_spent tribute_paid body_regrown body_dissolved mark_consumed vessel_kept
       seal_breached home_rehomed respawn_telegraphed
       challenger_engaged challenger_chant_started chant_interrupted vessel_seized seizure_ended
+      inscription_burned
     ].freeze
 
     TRANSITIONS = { world: %i[nest_respawn], nest_respawn: %i[world] }.freeze
@@ -648,6 +649,23 @@ module Game
       # dangling-but-inert state (caught by the expiry test, live).
       seizer = body.seizure_seizer
       return unless seizer
+      # v16 (d): the court's claim overrides the vat's — a body that DIES
+      # seized burns its god-mark (the one loss the economy cannot
+      # refund). Read + burn HERE, in the same sweep that saw the death:
+      # corpse bookkeeping rides the later bus flush and the judgment
+      # reads marked? whole states later, so burn and wipe-consumption
+      # can never double-fire (spec ordering discipline, TDD-enforced).
+      if why == :died && body.marked? && seizer.kit[:seizure_burns_inscription]
+        body.burn_mark!
+        @bus.emit(:inscription_burned, body:, at: body.tile)
+        enqueue_stamp("stamp.mark_void", "THE MARK IS VOID", at: body.tile)
+        # The expiry-flash is the burn's UNCONDITIONAL channel (spec d):
+        # the stamp can wait in the FIFO or be cap-evicted in a wipe arc —
+        # the flash on the body tile always lands (review-caught gap).
+        @expiry_flashes[@zone_name] << { tile: body.tile,
+                                         frames_left: @death[:expiry_flash_frames],
+                                         frames: @death[:expiry_flash_frames] }
+      end
       body.release_seize!
       if seizer && !seizer.dead? && (cfg = seizer.kit[:seize])
         seizer.seize_cooldown!(cfg[:cooldown_frames])

@@ -324,8 +324,10 @@ module Game
     end
 
     # D1b god-mark: body-owned and swap-inert (law 4) — it rides the BODY
-    # like carried and taunt, never the possession pointer. Burned ONLY by
-    # the judgment (World#respawn_pack); revive!/vat-regrowth preserve it.
+    # like carried and taunt, never the possession pointer. Burned by the
+    # judgment (World#respawn_pack) and, since v16 (d), by a seized death
+    # (World#end_seizure — the court's claim overrides the vat's);
+    # revive!/vat-regrowth preserve it.
     def marked? = !!@god_mark
 
     def inscribe_mark!

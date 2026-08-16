@@ -60,6 +60,15 @@ class V15TelemetryTest < Minitest::Test
     assert_match(/slain=1 deaths_while_seized=1/, line)
   end
 
+  # v16 (d): burns arbitrate the fifteenth's stakes question.
+  def test_inscription_burns_count_on_the_varekka_line
+    telemetry
+    assert_match(/burns=0/, line)
+    bus.emit(:inscription_burned, body: Actor.new({}, :pack), at: [4, 3])
+    bus.process
+    assert_match(/deaths_while_seized=0 burns=1 ends\{/, line)
+  end
+
   def test_quay_trip_flags_bank_after_descent
     telemetry
     bus.emit(:zone_entered, zone: "low_quay")
