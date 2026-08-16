@@ -1,5 +1,73 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-15 (v16 increments 3-5 SHIPPED: stamps + zone identity + dread — WALL RESET next)
+
+**MEASURED: junior-tibia `7b452df` (7 commits ahead of the increment-2
+checkpoint, NOT yet pushed), suite 524/2309 green (hook-run at every
+commit), 17 wall scripts (+burn_duel), 53 checks (ADD-ONLY from 49),
+perf p95 0.175ms, burn_duel FULL gate 53/53 + manifest PASS.**
+
+**Shipped, TDD, each green+committed:** (c) stamp delivery `2f81c30` —
+`App::Stamp` pure timing (scale-in endpoints in data / dwell /
+final-third fade), acta rule pair, located stamps press floor SEAL MARKS
+(world.seal_marks, banner clock, hitstop pauses, zone entry clears);
+LIVE DEVIATION recorded: breach mark lands at the STATION, not the
+opened way — gold-on-gold cannot read (capture-verified frame 1430).
+(b) zone identity `7b7b407` — `App::ZoneIdentity` pure policy (motif =
+integer (tx*7+ty*13+seed)%9 placement, 4 glyphs; decor =
+stain/brazier/edge authored landmarks; ambient tint), six palettes
+redesigned (First Vigil ash+ember, Longrow clay/ochre, Keyward cold
+slate — brass retired, Second Vigil warm gray + 4 braziers, Slow Door
+dusk violet, Low Quay drowned green-black + channel-lip edges + stains),
+luminance contracts unit-tested (wall>floor spread ≥40, motif between,
+ambient ≤24). (d) dread `804fdff` — seizure_burns_inscription data
+switch: seized death burns the god-mark BEFORE corpse bookkeeping
+(DeepSeek ordering fold by construction; burn+wipe double-consume
+impossible — tested), :inscription_burned registered, THE MARK IS VOID
+located stamp, telemetry varekka gains burns=N; writ-frame (App::Writ
+pure bands, GLM fold) + seized body weight (chant-blue darkening).
+Checks 49→53 `050fb87..` + burn_duel exerciser `7b452df`.
+
+**THREE check-prose recalibrations AWAIT OWNER RATIFICATION at the
+fifteenth debrief** (spec pre-registers critic recalibration;
+Nest-rename law; amendment precedent #14/#19/#42): low_quay_reads
+(indigo-black → drowned green-black + landmarks), new_ground_reads
+(Keyward black-and-ochre → cold slate-and-indigo; camp ember-brazier
+prose), seizure_reads (additive: body-scale blue darkening). ES/PT for
+stamp.mark_void deliberately absent (EN fallback) — the language lane
+authors it.
+
+**Pilot doctrine banked (4 burn attempts, ~40 min):** the quay swarm
+kills uncontrolled allies within ~600f EVERY time — a burn scene cannot
+protect them; burn4 stopped trying and let the wipe close the scene
+(the script's honest tail). `goto guard=N` is a TICK BUDGET, not enemy
+proximity (two aborted attempts misread it). The pin-survives-swap
+mechanism (challenger_test \"the pinned FLESH answers\") is the way to
+stage an ally-burn WITH survivors — unused this time, banked for future
+scenes. start.inscribed + world_scene inscription_burned logging are
+the two harness pieces that made the scene stageable at all (burn1's
+sim fired the burn SILENTLY — no logger line, no manifest).
+
+**NEXT (in order):**
+1. **WALL FULL RE-RUN** — comparability reset, all 17 scripts:
+   `harness/run_wall.sh v16` (teed logs tmp/wall/, nonzero exit on any
+   fail). Expect: identity-check arbitration on the recalibrated prose;
+   W2 variance protocol (standalone retry before believing a FAIL, real
+   fails reproduce); zone-start scripts need `captures/pilot/` present;
+   nest_advance is the ~65-min monster; ONE window at a time (never
+   concurrent gates). Then `rake perf` alone + full `bundle exec rake`.
+2. **Language lane (OWNER-GATED)** — 3-probe register calibration ON
+   CAPTURES (attested-notarial / plain / game-generic, owner picks
+   blind) → grounded candidates ONLY for owner-named lines + the new
+   stamp.mark_void ES/PT → on-capture ratification. Junior post-edits
+   PT-BR when active.
+3. Push junior-tibia → **FIFTEENTH blind ask** (protocol + routing
+   pre-registered in the spec §Fun-verify; `bin/play es`, telemetry
+   harvest BEFORE questions — arbiters: varekka interrupted +
+   swap_escapes > 0, burns, quay dwell vs fourteenth).
+4. v17 debate (multiplayer triggers: Junior playing at etapa 0 + v16
+   shipped).
+
 ## 2026-08-15 (v16 increments 1-2 SHIPPED: scaling + kill pop — increment 3 next; Junior cloning)
 
 **MEASURED: junior-tibia `2375335` synced 0/0 with origin, suite 474/2031
