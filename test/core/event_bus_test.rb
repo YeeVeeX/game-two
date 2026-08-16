@@ -32,6 +32,14 @@ class EventBusTest < Minitest::Test
     assert_raises(Core::EventBus::UnknownEvent) { @bus.subscribe(:typo_event) {} }
   end
 
+  # v17 digest lane: the whitelist is enumerable so Net::StateDigest can
+  # subscribe to EVERY registered event (spec decision 6).
+  def test_registered_types_lists_the_whitelist_in_registration_order
+    assert_equal %i[damage_dealt entity_died], @bus.registered_types
+    @bus.register(:later_event)
+    assert_equal %i[damage_dealt entity_died later_event], @bus.registered_types
+  end
+
   def test_unsubscribe_stops_delivery
     seen = []
     cb = @bus.subscribe(:damage_dealt) { |e| seen << e[:amount] }

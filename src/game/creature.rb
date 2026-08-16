@@ -76,6 +76,45 @@ module Game
     end
 
     def action_can_hit?(victim) = action_active? && !@hit_victims.include?(victim)
+
+    # --- v17 digest lane (spec decision 6): this body as flat named
+    # scalars. Creature references serialize as stable names (kit name for
+    # pack bodies, spawn-order name for humans). Every name here is pinned
+    # by the coverage test and swept by the mutation-sensitivity test;
+    # adding sim state to Creature without adding it here is W1 — the
+    # watched desync-blindness risk. home_tile is static per life but
+    # feeds leashing, so it rides along.
+    def digest_fields
+      [
+        ["kind", @kit_name],
+        ["tile_x", @walker.tile_x], ["tile_y", @walker.tile_y],
+        ["px", @walker.px], ["py", @walker.py],
+        ["tween_left", @walker.tween_left], ["tween_total", @walker.tween_total],
+        ["reserved_x", reserved_tile&.[](0)], ["reserved_y", reserved_tile&.[](1)],
+        ["facing_x", @facing[0]], ["facing_y", @facing[1]],
+        ["hp", @hp], ["alive", !dead?],
+        ["stagger", @stagger], ["exhaust", @exhaust],
+        ["special_exhaust", @special_exhaust], ["iframes", @iframes],
+        ["dodge_cooldown", @dodge_cooldown], ["hurt_frames", @hurt_frames],
+        ["action", @current_action], ["action_state", @attack_state],
+        ["action_frames", @state_frames], ["action_triggered", @action_triggered],
+        ["hit_victims", @hit_victims.map(&:name).join(",")],
+        ["dash_landing", @dash_plan&.landing&.join(",")],
+        ["dash_crossed", @dash_plan && @dash_plan.crossed.map { |t| t.join(",") }.join("|")],
+        ["dash_duration", @dash_plan&.duration],
+        ["carried", @carried], ["marked", marked?],
+        ["seized_by", @seized_by&.name], ["seized_frames", @seized_frames],
+        ["chant_left", @chant_left], ["chant_target", @chant_target&.name],
+        ["chant_hp", @chant_hp], ["seize_cooldown", @seize_cooldown],
+        ["engaged", @engaged_announced],
+        ["focus", @focus&.name],
+        ["taunted_by", @taunted_by&.name], ["taunt_frames", @taunt_frames],
+        ["taunt_cause", @taunt_cause],
+        ["leash_frames", @leash_frames], ["beachhead_waived", @beachhead_waived],
+        ["retarget_cause", @retarget_cue_cause], ["retarget_frames", @retarget_cue_frames],
+        ["home_x", @home_tile[0]], ["home_y", @home_tile[1]]
+      ]
+    end
     def action_hit!(victim)
       @hit_victims << victim unless @hit_victims.include?(victim)
     end

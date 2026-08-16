@@ -1,6 +1,7 @@
 require "core/event_bus"
 require "core/state_stack"
 require "core/tile_map"
+require "core/counting_rng"
 require "game/creature"
 require "game/pack"
 require "game/projectile"
@@ -33,7 +34,7 @@ module Game
 
     HOME_ZONE = "nest".freeze # the INITIAL home only — @home_zone advances (v12)
 
-    attr_reader :bus, :pack, :feel, :states, :frame, :camera, :zone_name, :rng
+    attr_reader :bus, :pack, :feel, :states, :frame, :camera, :zone_name, :rng, :respawn_rng
 
     def initialize(data, seed: 0)
       @data = data
@@ -42,12 +43,14 @@ module Game
       @death = data["balance/death"]
       @threat = data["balance/threat"]
       @economy = data["balance/economy"]
-      @rng = Random.new(seed)
+      @rng = Core::CountingRng.new(Random.new(seed))
       # Respawn scatter draws from its OWN derived stream (v14): the
       # telegraph moves consumption ~120f earlier, and on the shared
       # stream that would reorder every drop roll behind it. Salt is
       # stream derivation (determinism plumbing), not balance.
-      @respawn_rng = Random.new(seed ^ RESPAWN_STREAM_SALT)
+      # Both streams count their draws (v17 digest lane, CountingRng —
+      # value-transparent by construction).
+      @respawn_rng = Core::CountingRng.new(Random.new(seed ^ RESPAWN_STREAM_SALT))
       @bus = Core::EventBus.new.register(*EVENTS)
       @states = Core::StateStack.new(initial: :world, transitions: TRANSITIONS)
       @feel = Feel.new(@balance[:feel])
@@ -476,6 +479,70 @@ module Game
       when "seal"  then interact_seal(source, station)
       else false
       end
+    end
+
+    # --- v17 digest lane (spec decision 6) ------------------------------
+    # The authoritative desync-detection snapshot: every gameplay-affecting
+    # field, as [group, [[name, scalar], ...]] with stable actor ids
+    # (roster index for pack, spawn-order name for humans, zones in sorted
+    # order). Presentation records are EXCLUDED by law — banners, stamps,
+    # station cues, breach lines, taunt pulses, kill pops, seal marks,
+    # expiry flashes, visual corpse records, kit_first_possessed, cameras,
+    # shake: no sim system reads them (standing prohibition, spec decision
+    # 6). RNG streams are covered by DRAW COUNTS (panel fold): a diverged
+    # stream surfaces through positions/drops/spawns within one window.
+    # Empty autovivified zone lists contribute no groups, so reader-side
+    # autovivification can never skew the digest.
+    def digest_snapshot
+      world_fields = [
+        ["frame", @frame], ["zone", @zone_name], ["state", @states.current],
+        ["respawn_timer", @respawn_timer], ["home_zone", @home_zone],
+        ["breached", @breached.keys.map(&:inspect).sort.join("|")],
+        ["last_damaged", @last_damaged_target&.name],
+        ["swap_was_down", @swap_was_down], ["rearm_needed", @rearm_needed],
+        ["corpse_serial", @corpse_serial],
+        ["rng_draws", @rng.draws], ["respawn_rng_draws", @respawn_rng.draws]
+      ] + @feel.digest_fields
+      groups = [["world", world_fields], ["pack", @pack.digest_fields]]
+      @pack.members.each_with_index { |m, i| groups << ["pack.#{i}", m.digest_fields] }
+      @humans.keys.sort.each do |zone|
+        @humans[zone].each { |h| groups << ["human.#{zone}.#{h.name}", h.digest_fields] }
+      end
+      @projectiles.each_with_index { |p, i| groups << ["projectile.#{i}", p.digest_fields] }
+      @impacts.each_with_index do |imp, i|
+        groups << ["impact.#{i}", [
+          ["owner", imp[:owner].name],
+          ["tiles", imp[:tiles].map { |t| t.join(",") }.join("|")],
+          ["frames_left", imp[:frames_left]], ["damage", imp[:damage]]
+        ]]
+      end
+      @drops.keys.sort.each do |zone|
+        @drops[zone].each_with_index do |d, i|
+          groups << ["drop.#{zone}.#{i}", [
+            ["tile_x", d[:tile][0]], ["tile_y", d[:tile][1]], ["amount", d[:amount]],
+            ["frames_left", d[:frames_left]], ["band", d[:band]]
+          ]]
+        end
+      end
+      @corpse_loads.keys.sort.each do |zone|
+        @corpse_loads[zone].each do |c|
+          groups << ["load.#{zone}.#{c[:id]}", [
+            ["tile_x", c[:tile][0]], ["tile_y", c[:tile][1]], ["amount", c[:amount]],
+            ["term_left", c[:term_left]], ["settle_left", c[:settle_left]]
+          ]]
+        end
+      end
+      @human_respawns.keys.sort.each do |zone|
+        @human_respawns[zone].each_with_index do |r, i|
+          groups << ["respawn.#{zone}.#{i}", [
+            ["kit", r[:kit_name]], ["at_frame", r[:at_frame]],
+            ["fallback_x", r[:fallback_tile][0]], ["fallback_y", r[:fallback_tile][1]],
+            ["pinned_x", r[:pinned_tile]&.[](0)], ["pinned_y", r[:pinned_tile]&.[](1)],
+            ["anchor", r[:pinned_anchor]], ["defer", r[:defer_frames]]
+          ]]
+        end
+      end
+      groups
     end
 
     private

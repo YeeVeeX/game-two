@@ -30,6 +30,11 @@ module Core
 
     def registered?(type) = @registered.include?(type)
 
+    # The whitelist, enumerable (v17 digest lane): Net::StateDigest
+    # subscribes to EVERY registered event — this reader is its
+    # subscription source (spec decision 6). Registration order.
+    def registered_types = @registered.to_a
+
     def subscribe(type, &callback)
       check!(type)
       @subscribers[type] << callback

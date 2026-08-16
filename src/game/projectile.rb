@@ -27,6 +27,18 @@ module Game
     def done? = @done
     def damage = @damage
 
+    # v17 digest lane (spec decision 6): pos, dir, ttl — plus the carried
+    # combat stats (read from the owner's kit at launch, they ride the
+    # object). Owner serializes as its stable name.
+    def digest_fields
+      [
+        ["owner", @owner.name], ["tile_x", @tile_x], ["tile_y", @tile_y],
+        ["dir_x", @dir[0]], ["dir_y", @dir[1]],
+        ["damage", @damage], ["knockback", @knockback_tiles],
+        ["range_left", @range_left], ["countdown", @countdown], ["done", @done]
+      ]
+    end
+
     # Smooth draw position: interpolates toward the NEXT tile it is flying at.
     def x
       progress = 1.0 - @countdown.fdiv(@frames_per_tile)

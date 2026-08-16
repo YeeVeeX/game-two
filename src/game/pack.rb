@@ -14,6 +14,12 @@ module Game
     def living = @members.reject(&:dead?)
     def wipe? = living.empty?
 
+    # v17 digest lane (spec decision 6): banked, mark, and the possession
+    # map as seat=>stable-id. One seat today — increment 2 grows the map.
+    def digest_fields
+      [["banked", @banked], ["mark", @mark&.name], ["possessed.1", @possessed.name]]
+    end
+
     def mark!(target)
       @mark = target
     end

@@ -5,6 +5,7 @@ require "game/world"
 require "game/telemetry"
 require "app/renderer"
 require "app/key_table"
+require_relative "../event_log"
 
 # Replay adapter: the REAL world sim + REAL renderer under scripted input.
 # No mocks — what the harness captures is what the player sees.
@@ -30,32 +31,17 @@ module Harness
                                       bindings: Core::BindingMap.load(
                                         data, key_table: App::KEY_TABLE, local: false
                                       ))
-        %i[telegraph attack_hit actor_died dodged possession_changed
-           pack_wiped pack_respawned zone_entered projectile_fired
-           special_started pack_mark_set drop_spawned drop_picked_up
-           drop_decayed banked carried_lost taunted
-           corpse_loaded corpse_looted fight_resolved
-           human_retargeted human_leashed
-           inscribed banked_spent tribute_paid body_regrown
-           body_dissolved mark_consumed vessel_kept human_respawned
-           seal_breached home_rehomed respawn_telegraphed
-           challenger_engaged challenger_chant_started chant_interrupted
-           vessel_seized seizure_ended inscription_burned].each do |ev|
-          @world.bus.subscribe(ev) { |e| puts "EVENT #{ev} frame=#{@world.frame} #{describe(e)}" }
-        end
+        # v17: the curated list + serialization live in Harness::EventLog /
+        # Net::EventSerial (shared with the headless canaries and the
+        # netplay digest) — these lines are the banked etapa-0 instrument
+        # and must stay byte-identical.
+        Harness::EventLog.attach(@world) { |line| puts line }
         @telemetry = Game::Telemetry.new(@world.bus, world: @world)
       end
 
       def tick(input) = @world.tick(input)
       def draw = @renderer.draw(@world)
       def summary = @telemetry.summary
-
-      private
-
-      # Payloads carry live Creature objects — log stable identifiers.
-      def describe(e)
-        e.payload.map { |k, v| "#{k}=#{v.respond_to?(:name) ? v.name : v.inspect}" }.join(" ")
-      end
     end
   end
 end

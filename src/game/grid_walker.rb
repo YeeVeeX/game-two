@@ -8,7 +8,9 @@ module Game
     DIAGONAL = Math.sqrt(2)
     DashPlan = Data.define(:landing, :crossed, :duration, :dx, :dy)
 
-    attr_reader :tile_x, :tile_y, :px, :py
+    # tween_left/tween_total (v17 digest lane): moving? gates step
+    # acceptance, so tween state is sim-branching — the digest reads it.
+    attr_reader :tile_x, :tile_y, :px, :py, :tween_left, :tween_total
 
     def initialize(map:, tile_x:, tile_y:, size:)
       @map = map

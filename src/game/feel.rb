@@ -15,6 +15,11 @@ module Game
 
     def hitstop? = @hitstop.positive?
 
+    # v17 digest lane (spec decision 6): hitstop gates the whole tick —
+    # sim-branching state. Shake amp/phase are presentation (decision 6
+    # exclusion) and never enter the digest.
+    def digest_fields = [["hitstop", @hitstop]]
+
     def on_hit
       @hitstop = [@hitstop, @cfg[:hitstop_frames_hit]].max
       @shake_amp = [@shake_amp, @cfg[:shake_hit]].max
