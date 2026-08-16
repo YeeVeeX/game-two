@@ -2,6 +2,23 @@
 
 ## 2026-08-15 (v16 WALLED 17/17 + TWO-SEAT RACE RESOLVED + v17 trigger #1 evidence — language lane + FIFTEENTH next)
 
+**2026-08-16 addendum (owner-approved actions):** repo flipped **PUBLIC**
+(owner call, this repo only; pre-flip secrets scan clean — no
+credentials anywhere in history-visible files). Junior's CI PR #1
+MERGED (`f68d7cb`); **first green Actions run verified**
+(31935705779: gosu compiled on ubuntu, xvfb suite 526/2324 green,
+~2.5 min). The 3-5s insta-fail root cause was NOT settings: August's
+2000 free private-repo minutes were exhausted by portfolio-spine —
+visibility flip removed the quota gate (public = free standard
+runners). Junior's 5 follow-up commits pulled (trigger evidence #2,
+proposals doc, md5 re-run, det pre-sweep, line-caps test — suite
+carries it). Etapa-0 md5 verdict: 0/21 PNG bytes match cross-machine
+(EXPECTED — fonts/encoder are machine-local); protocol corrected in
+the draft to sim-identity evidence (telemetry lines + event-log
+digest); Junior seat re-publishes, then the stage-1 spike closes.
+Cosmetic: actions/checkout@v4 Node-20 deprecation annotation —
+non-blocking, bump to v5 whenever convenient.
+
 **MEASURED: junior-tibia `0ce2fd4` PUSHED (synced 0/0), suite 524/2322
 green, 17 scripts, 53 checks, wall 17/17, perf p95 0.260ms.**
 
