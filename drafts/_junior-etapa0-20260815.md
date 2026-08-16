@@ -211,3 +211,16 @@ Three digest matches + three telemetry-block matches → same inputs
 produced the same tick-by-tick event stream and the same telemetry on
 two machines: **the v17 stage-1 cross-machine sim-identity spike
 CLOSES.** Any diff is the v17 work item — bank it, don't average it.
+
+> **OWNER-SEAT VERDICT (2026-08-16): SPIKE CLOSED.** Same digest recipe
+> over the owner-seat wall logs' run-A EVENT streams:
+> world_loop 70 lines `a4150c43669b9783e59cb6c39c322b67` /
+> varekka_duel 220 lines `22dbad126c73753952574ff450e3419b` /
+> burn_duel 185 lines `d148b8386001cdc8da44fe8472e46c72` — ALL THREE
+> IDENTICAL to the Junior-seat publish. Telemetry lines diff clean too.
+> Same inputs -> same tick-by-tick sim on two machines (Windows/owner,
+> Junior's box), across the full quay + duel + burn surface: **the v17
+> stage-1 cross-machine determinism requirement is PROVEN async.** The
+> lockstep-over-Tailscale path's foundational bet holds. For the v17
+> debate: what remains for etapa 1 is transport + input exchange +
+> same-build enforcement, not sim work.
