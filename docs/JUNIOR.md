@@ -34,7 +34,7 @@
 | K / Shift | esquiva |
 | L / E | especial |
 | ; / Q | marcar alvo |
-| H / F | interagir (lojas do acampamento, saque, banco) |
+| H / F | interagir (lojas do HUB 1, saque, banco) |
 | Tab | trocar de corpo (possessão) |
 | Esc | sair (salva a telemetria — sempre saia com Esc) |
 
@@ -84,9 +84,10 @@ rake capture SCRIPT=harness/scripts/world_loop.json
 ```
 
 Isso abre uma janela, reproduz a partida gravada e salva frames em
-`captures/`. É o estágio 0 do plano de co-op — em breve: partidas
-compartilhadas de verdade (lockstep via Tailscale, sem servidor, sem
-conta AWS — você só instala o app do Tailscale e aceita um convite).
+`captures/`. É o estágio 0 do plano de co-op — a etapa 1 (partidas
+compartilhadas de verdade: lockstep via Tailscale, sem servidor, sem
+conta AWS — você só instala o app do Tailscale e aceita um convite)
+está prevista para o v17, atrás de dois gatilhos já combinados.
 
 ---
 
@@ -124,4 +125,4 @@ Replays: the sim is fully deterministic; `rake capture
 SCRIPT=harness/scripts/world_loop.json` replays a recorded run tick-for-tick
 and saves frames to `captures/`. This is stage 0 of the co-op plan — real
 shared play (lockstep over Tailscale, no server, no AWS account needed on
-your side) is the v14 roadmap lead.
+your side) is slated for v17, behind the two ratified triggers.
