@@ -515,6 +515,15 @@ Infra items, not game features; each needs a maintenance window, not a cycle.
 
 ## Parked at the v17 debate close (2026-08-16)
 
+- **Etapa-2 netcode candidates (spec §Deliberately absent — recorded here so
+  promotion day starts from the file, not from memory):** UDP + input
+  redundancy (first candidate if the SIXTEENTH shows stall storms with clean
+  digests — pre-registered routing); adaptive/renegotiated D (a desync mine
+  in etapa 1; only behind its own determinism proof); mid-session
+  rejoin/resync + rollback family (owner-parked — lockstep's shared-punishment
+  stall cost is the recorded price, W3/K3); host migration; >2 seats;
+  spectators; open-internet play (Tailscale = trusted overlay only).
+
 - **BOSS-1 dread iteration — OPEN-FOR-EXPOSURE, zero code owed.** Stakes +
   presentation shipped and walled in v16; the fifteenth never crossed
   seal2. Self-answers the first time any session (owner or Junior) reaches

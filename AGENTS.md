@@ -93,7 +93,10 @@ scope for this repo. (Historical pipeline: see git history of this file.)
   generic (ZONE N, BOSS 1, player N); internal identifiers are mechanical (striker,
   district, seal). No fiction names anywhere in code, data, or docs.
 - **Reference wall:** every design idea cites a touchstone (Tibia research/footage in
-  `drafts/`, Vlambeer juice). Serves none → PARKING_LOT.md.
+  `drafts/`, Vlambeer juice) — for systemic-design topics query the verified shelf FIRST:
+  `hub kb query --domain game-research "<topic>"` (tiers + pipeline:
+  `docs/design-corpus/systemic-worlds-research-shelf.md`; FLAGGED numbers never land in
+  `data/` without re-verification). Serves none → PARKING_LOT.md.
 - **Every commit changes what the player sees, hears, or feels.** A system that can't be
   felt in a capture doesn't merge.
 - **Judge builds, not briefs.** Everything converges to a playable build + captured frames.
@@ -138,6 +141,10 @@ scope for this repo. (Historical pipeline: see git history of this file.)
 
 - `rake` — run all tests
 - `bin/play` (Git Bash) or `bin\play.cmd` (double-click / cmd) — launch the game
+- **Netplay (v17):** `bin/play [locale] --host [port]` / `bin/play [locale] --join
+  <ip[:port]>` — lockstep co-op over Tailscale (port defaults from `data/netplay.json`;
+  handshake refusal prints the differing field and exits nonzero). Esc = clean quit
+  (both seats print `TELEMETRY netplay ...` + the relaunch command).
 - `rake capture SCRIPT=harness/scripts/<name>.json` — deterministic replay + frame capture.
   One script per regression surface lives in `harness/scripts/` (the wall); trust the
   directory, not an inline list here (an inline list went stale once). Canonical entry
@@ -147,7 +154,13 @@ scope for this repo. (Historical pipeline: see git history of this file.)
   through gate + manifest, teed logs in `tmp/wall/`, nonzero exit if any script fails.
 - `rake gate SCRIPT=harness/scripts/<name>.json` — the BLOCKING Rule 2 gate: double replay +
   md5 compare + structured vision verdict (exit nonzero on any failure). `SKIP_CRITIC=1` runs
-  the determinism half only (iteration aid, not a shippable pass).
+  the determinism half only (iteration aid, not a shippable pass). Optional `CHECKS=<file>`
+  swaps the checklist — default `harness/gate_checks.json`, wall behavior untouched.
+- **Netplay gates (v17):** `rake gate SCRIPT=harness/net/<netplay_session|netplay_desync|
+  netplay_conn_lost>.json CHECKS=harness/net/gate_checks.json` — two real Worlds + two real
+  Sessions over loopback inside the replay window (scene: `harness/scenes/netplay_scene.rb`;
+  now_ms is a pure function of the frame — determinism law in the scene header). These live
+  OUTSIDE `harness/scripts/` on purpose: the wall stays single-player.
 - `rake perf` — perf smoke (machine-local): district scenario, aborts if p95 tick >= 16.6 ms.
 - `rake pilot NAME=<n> SEED=<s>` — interactive pilot session: append commands
   (`printf 'cmd\n' >>`, NEVER Write) to `tmp/pilot/<n>/inbox.txt`, read `log.txt`; idle =

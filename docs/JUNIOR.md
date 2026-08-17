@@ -84,10 +84,69 @@ rake capture SCRIPT=harness/scripts/world_loop.json
 ```
 
 Isso abre uma janela, reproduz a partida gravada e salva frames em
-`captures/`. É o estágio 0 do plano de co-op — a etapa 1 (partidas
-compartilhadas de verdade: lockstep via Tailscale, sem servidor, sem
-conta AWS — você só instala o app do Tailscale e aceita um convite)
-está prevista para o v17, atrás de dois gatilhos já combinados.
+`captures/`. Era o estágio 0 do plano de co-op — e a etapa 1 chegou:
+
+### Jogar junto pela internet (v17 — co-op)
+
+O co-op é 1 pack, 2 pilotos: você e o Gabriel possuem corpos diferentes
+do MESMO trio (a IA pilota o que sobrar). Mesmo combate, mesmo banco,
+mesmas apostas — e vocês só trocam de zona juntos.
+
+**Preparação (uma vez só):**
+
+1. **Instale o Tailscale** (o túnel seguro entre as duas máquinas — sem
+   servidor, sem conta AWS): baixe e rode
+   `https://pkgs.tailscale.com/stable/tailscale-setup-latest.exe`,
+   aceite o aviso do Windows (UAC) e conclua. Instalado é suficiente —
+   o login vem no passo 2.
+2. **Aceite o convite do Gabriel**: ele envia um link da rede dele;
+   clique e entre com a sua conta. O ícone do Tailscale na bandeja fica
+   conectado e a máquina dele ganha um IP `100.x.y.z` — é esse IP que
+   você usa para entrar na partida.
+
+**Toda sessão (o ritual):**
+
+3. **`git pull` ANTES de jogar, sempre.** O jogo confere se os dois
+   builds são idênticos; se o seu estiver velho ele RECUSA entrar e
+   imprime no console exatamente o que difere, com a dica (`git pull`).
+   Isso é proteção, não defeito.
+4. **Entre na partida** (o Gabriel hospeda e te passa o IP dele):
+   ```
+   bin\play.cmd pt-br --join 100.x.y.z     (cmd)
+   bin/play pt-br --join 100.x.y.z         (Git Bash)
+   ```
+   Porta só se ele avisar (`--join ip:porta`; a padrão é 43117).
+
+**O que você vai ver (tudo normal):**
+
+- `CONECTANDO…` até o aperto de mão terminar; o jogo abre nos dois
+  lados ao mesmo tempo.
+- O corpo do Gabriel carrega um **anel de outra cor** — o seu continua
+  como sempre.
+- `AGUARDANDO PARCEIRO` + milissegundos = a conexão engasgou; o jogo
+  espera em vez de dessincronizar. Não feche.
+- `CONEXÃO LENTA` no início = internet ruim hoje; dá para jogar, com
+  mais atraso que o normal.
+- `AGUARDANDO NO PORTÃO` = trocar de zona exige os corpos controlados
+  vivos juntos no portão.
+- `SEM CORPO — AGUARDANDO` = você ficou sem corpo; vira espectador (a
+  câmera segue o parceiro) até um corpo voltar — a repossessão é
+  automática.
+
+**Como termina:**
+
+- **Saia sempre com Esc** — os dois lados gravam a saída e a telemetria.
+- `DESSINCRONIA NO TICK N — SESSÃO ENCERRADA`: as duas sims divergiram;
+  o jogo para DE PROPÓSITO e aponta um arquivo em `tmp/netplay/` —
+  guarde e compartilhe esse arquivo, ele é o trabalho do dev.
+- `CONEXÃO PERDIDA — SESSÃO ENCERRADA`: a conexão caiu por mais de 10
+  segundos.
+- Depois de qualquer fim, o console imprime o comando exato para
+  relançar dos dois lados.
+
+**Depois da primeira partida:** cole a sua linha `TELEMETRY netplay ...`
+do console (em drafts/ ou mensagem) e responda as 4 perguntas
+pré-registradas — é o 16º veredito.
 
 ---
 
@@ -123,6 +182,20 @@ tests are `bundle exec rake` (the push hook runs them automatically).
 
 Replays: the sim is fully deterministic; `rake capture
 SCRIPT=harness/scripts/world_loop.json` replays a recorded run tick-for-tick
-and saves frames to `captures/`. This is stage 0 of the co-op plan — real
-shared play (lockstep over Tailscale, no server, no AWS account needed on
-your side) is slated for v17, behind the two ratified triggers.
+and saves frames to `captures/`.
+
+Co-op (v17, LIVE): one pack, two pilots over Tailscale (install once from
+`https://pkgs.tailscale.com/stable/tailscale-setup-latest.exe` — no
+winget needed; stay logged out until Gabriel's invite; accept it, note
+his `100.x` IP). Every session: `git pull` FIRST (a stale build =
+fingerprint refusal with the exact diff printed — protection, not a
+bug), then `bin/play pt-br --join <ip[:port]>` (default port 43117).
+In play: partner = distinct ring; the stall overlay waits instead of
+desyncing; LINK SLOW = playable but laggier; zone gates need every
+living controlled body co-located; a bodyless seat spectates until
+auto-repossession. Ends: Esc always (both seats record + flush
+telemetry); DESYNC freezes honestly and points at the `tmp/netplay/`
+artifact — keep and share yours; after any end the console prints the
+exact relaunch command. After the first session: paste your
+`TELEMETRY netplay` line and answer the four pre-registered questions
+(the SIXTEENTH verify).

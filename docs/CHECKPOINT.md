@@ -1,5 +1,96 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-16 (v17 TDD session 3: increments 7-8 GREEN + PUSHED — app integration, Rule-2 netplay surfaces all gated, docs; v17 BUILD COMPLETE → the SIXTEENTH is next)
+
+**MEASURED: increment 7 = `e0c2769` pushed (suite 644/9313 green at the
+hook, perf p95 0.341 ms), all THREE netplay gates PASS with the critic
+(session 13/13, desync 13/13, conn_lost 13/13 checks; determinism halves
+byte-identical across double replays OVER REAL LOOPBACK TCP), full-wall
+`rake canary` 17/17 byte-identical run TWICE (after the renderer edits,
+re-proven after everything). Junior mid-session: PT-BR netplay labels
+RATIFIED (`ae4e960`, "ta legal assim", DESSINCRONIA kept) — shipped
+strings are the ratified table verbatim.**
+
+**Increment 7 shipped:** `App::Cli` (locale-aware launchers forward args;
+--host [port] / --join ip[:port]; refusal + usage errors abort nonzero at
+the console — joiner refusals resolve PRE-window via a bounded pre-pump in
+main.rb); Window session mode (≈30 lines: monotonic-ms clock owned by the
+app, attach-on-params, Esc → quit! + drain, end screens hold until Esc,
+TELEMETRY + desync path + relaunch printed at close; window.rb = 129
+lines); `App::NetplayOverlay` (pure `flags` resolution headless-tested
+against REAL loopback sessions + Gosu draw: HOSTING+PORT / CONNECTING… /
+stall `WAITING FOR PARTNER`+ms top-center / LINK SLOW y=88 while
+ticks<net_banner_frames / `WAITING AT GATE` y=130 / `NO BODY — WAITING` /
+DESYNC+artifact-path and CONN LOST full-veil screens); partner ring =
+cyan `partner_ring_rgb` [80,200,220] in display.json (decision 10 — rings
+only, body labels + ALLY_DIM untouched); waiting-seat nil-guards
+(stagger veil, station ledger, controls strip hides — all unreachable
+single-player, canary-proven); `World#gate_wait` cue feed (recomputed per
+non-hitstop tick inside check_transition); Session hardening (quit! with
+no wire ends immediately — Esc on HOSTING; `sever!` fault-injection seam;
+port cached at bind; telemetry stall_ms_max rounded); netplay strings
+en/es/pt-br (es mine, pt-br = Junior's ratified Part B).
+
+**The Rule-2 vehicle:** `harness/scenes/netplay_scene.rb` — two REAL
+Worlds + two REAL Sessions over loopback inside the replay window,
+seat-1 view through the REAL Renderer + NetplayOverlay; now_ms = frame ×
+16.67 (pure function of tick — the determinism law); fault keys:
+join_at/handshake_stride (slow probes → clamped D + LINK SLOW,
+deterministic), freeze windows (stall), sever_at, quit_at, and TICK-KEYED
+sim pokes. Scripts in `harness/net/` (run_wall's glob never sees them):
+netplay_session (hosting→connecting→LINK SLOW→rings in motion→stall→
+gate-wait→no-body→clean quit, 12 captures), netplay_desync (divergence at
+tick 40 → DESYNC AT TICK 60 exactly), netplay_conn_lost (sever → CONN
+LOST). `rake gate` grew optional `CHECKS=` (default untouched — wall
+behavior identical); netplay checks ADD-ONLY in
+`harness/net/gate_checks.json` (13 checks, not-exercised clauses for the
+mutually-exclusive endings).
+
+**One trap hit + fixed live (recorded in the scene header):** staging
+pokes keyed by SCENE FRAME landed at different SIM TICKS in the two
+worlds (they run ~D apart) and manufactured a real desync at the next
+boundary — caught by the first timing run's digest counters. Fix:
+sim-mutating pokes (teleports, kills) are keyed by WORLD TICK and applied
+to each world as ITS OWN tick count crosses the key; only wire/app pokes
+(sever/quit) stay frame-keyed.
+
+**Dev calls on record (within closed design):** (a) reason=protocol
+shares the CONNECTION LOST screen — TELEMETRY stays honest with
+reason=protocol (trusted seats; a wire speaking wrong reads as a broken
+link); (b) host-side refusal ends via screen + console detail after
+close, joiner-side refusal = console + nonzero with NO window (spec's
+bindings-error precedent read strictly for the seat that must act);
+(c) WAITING AT GATE is a screen-space top-center cue (the blocked gate is
+under the player's own body — context unambiguous); (d) the waiting
+seat's controls strip hides entirely (no body, no instruments — the
+overlay carries the state); (e) partner body keeps ALLY_DIM under its
+cyan ring (rings-only law read minimally).
+
+**Increment 8 shipped:** JUNIOR.md netplay section PT-BR-first (folded
+from Junior's live-verified handoff `d1d7542` — Tailscale 1.102.2 direct
+download, logged-out-until-invite, pull-before-play ritual, what-you-see
+table, Esc + TELEMETRY harvest) + EN mirror; AGENTS.md Commands (netplay
+launch + gate family + CHECKS=) + reference-wall pointer to the
+systemic-worlds research shelf (adopted this session: VERIFIED/CORRECTED
+may land in specs/data with citation, FLAGGED never without
+re-verification); PARKING_LOT etapa-2 netcode entry (UDP+redundancy,
+adaptive D, rejoin/rollback, host migration — with pre-registered
+routing).
+
+**NEXT — the SIXTEENTH ask (protocol pre-registered, spec §Fun-verify;
+PREP ONLY, never run by a dev session):** owner sends Junior the tailnet
+invite; Junior accepts + `git pull`; owner hosts `bin/play es --host`,
+passes his 100.x IP; Junior joins `bin\play.cmd pt-br --join <ip>`;
+≥10 sim-minutes (≥36000 ticks), exit by Esc BOTH seats. Harvest BOTH
+`TELEMETRY netplay` lines BEFORE any question (Junior pastes his —
+drafts/ or relay). Half A arbiter: desyncs=0 both AND reason=quit both
+AND ticks ≥ 36000. Half B: the 4 pre-registered questions per seat,
+asked separately, no changelog shown. Routing pre-registered in the spec
+(desyncs>0 → digest-diff work item; stall storms + clean digests →
+etapa-2 UDP debate; "paralelo" → v17.1 embodiment presentation debate).
+If a desync artifact appears on either seat: BOTH tmp/netplay/ artifacts
+are the work item ("bank the diff, don't average it").
+
 ## 2026-08-16 (v17 TDD session 2: increments 4-6 GREEN + PUSHED — Lockstep, Fingerprint/Wire/Session, two-sim integration lane; wall untouched by construction)
 
 **MEASURED: junior-tibia `8d0902d` pushed (pull clean both ends — no
