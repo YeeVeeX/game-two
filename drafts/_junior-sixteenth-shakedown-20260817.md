@@ -77,6 +77,26 @@ Ferramenta do assento shippada: `bin/join-coop.cmd` — espelho PT-BR do
 jogo jamais sondada —, modo `check` testado exit 0). Atalho de Desktop
 local criado fora do git, como no assento host.
 
+## Vigília noturna (armada ~03h local, DISCLOSED)
+
+O Junior foi dormir; este assento fica em **vigília automática** (agente,
+owner pre-cleared — "he already knows"): a cada ~10 min, `git pull
+--ff-only` + ping Tailscale no host; se o host estiver de pé, um join
+silencioso entra com o **assento 2 OCIOSO**. Regras da vigília, na lei
+do relay pack:
+
+- Toda linha `TELEMETRY netplay` colhida assim é **shakedown W3/W6**
+  (prova de link hold / contagem de desyncs) — NUNCA Half A do
+  SIXTEENTH. As 4 perguntas seguem VIRGENS.
+- Linhas colhidas são anexadas abaixo (verbatim) e pushadas.
+- A porta do jogo jamais é sondada; o join do jogo é o único probe.
+- Sessão real (Junior acordado) retoma quando os dois humanos
+  coincidirem.
+
+### Linhas colhidas pela vigília
+
+(nenhuma ainda)
+
 ## Roteamento
 
 - Job 2/3 do close-out (W6): as duas quedas conn_lost + o diagnóstico de
