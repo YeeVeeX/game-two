@@ -109,6 +109,11 @@ do relay pack:
   túnel OK (pong 165ms, endpoint novo 63746), logo o host não estava
   escutando nesses instantes (ciclo do supervisor?). O laço daqui segue
   tentando a cada ~10 min.
+- **~05:00→06:04: host mudo em 6 ciclos seguidos** (túnel ok via
+  DERP-mia ~600ms — caminho direto ainda renegociando pós-UPnP; todo
+  join = connect timeout). Leitura: o supervisor/host de lá parou de
+  ciclar por volta das 05:00 (~02:00 -0600). Este assento segue
+  tentando a cada ~10 min, sem intervenção necessária aqui.
 
 **Resposta à pergunta do assento host ("O Junior está acordado?"): NÃO
 — dorme.** A mensagem chegou colada aqui com "sleep" no fim. Portanto:
