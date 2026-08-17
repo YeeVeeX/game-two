@@ -39,6 +39,21 @@ of the close-out SPARK); desync artifact → job 2 (both artifacts, diff,
 name the field); start failure → job 3 (W6 lane). Nothing new starts
 until the SIXTEENTH is adjudicated.
 
+**SAME-NIGHT UPDATE (owner asleep, dev at his wheel by order — "he
+already knows"):** full night-support log in
+`drafts/_sixteenth-relay-pack-20260816.md`. Facts: invite link generated
+from the owner's admin console + sent to Junior over the owner's
+WhatsApp (CDP, disclosed as dev); "Approval is required" is ON — approve
+in Users when he signs up; firewall verified NO-change (Tailscale-In
+covers 100.127.147.29, Ruby has Allow rules); bind+accept over the
+tailnet IP tested OK; `bin/host-coop.cmd` + Desktop `JUGAR COOP
+(host).cmd` shipped + check-mode tested (pull --ff-only, live IP print +
+clipboard). Dev line: tonight = SHAKEDOWN only (link/W3/W6 proof,
+dev-piloted seat 1 mostly idle, disclosed to Junior); the 4 questions
+stay VIRGIN; shakedown telemetry never upgrades to SIXTEENTH Half A (the
+real session is owner+Junior). A desync tonight = job-2 work item, fully
+valid.
+
 ## 2026-08-16 (v17 TDD session 3: increments 7-8 GREEN + PUSHED — app integration, Rule-2 netplay surfaces all gated, docs; v17 BUILD COMPLETE → the SIXTEENTH is next)
 
 **MEASURED: increment 7 = `e0c2769` pushed (suite 644/9313 green at the
