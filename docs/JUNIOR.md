@@ -117,6 +117,11 @@ mesmas apostas — e vocês só trocam de zona juntos.
    ```
    Porta só se ele avisar (`--join ip:porta`; a padrão é 43117).
 
+   **Atalho de um clique:** `bin\join-coop.cmd` faz os passos 3 e 4
+   sozinho — puxa a linha, acha o IP do host no Tailscale ao vivo e
+   entra (`bin\join-coop.cmd check` só confere tudo, sem abrir o jogo;
+   um IP explícito como 1º argumento tem prioridade).
+
 **O que você vai ver (tudo normal):**
 
 - `CONECTANDO…` até o aperto de mão terminar; o jogo abre nos dois
