@@ -1,5 +1,44 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-16 (v17 close-out session: SIXTEENTH = STANDBY — no evidence yet; prep relayed, skeleton banked, nothing new started)
+
+**ADJUDICATED MECHANICALLY: no SIXTEENTH evidence exists.** No
+`TELEMETRY netplay` lines pasted by either seat, no Junior telemetry in
+drafts/, no new commits on junior-tibia (pull clean at `d4efa21`). The
+four `tmp/netplay/desync_*.json` files were adjudicated as BUILD-DAY
+residue, not live-session artifacts: two carry `platform:"test"` +
+suite-fake fingerprints (`cccc…`/`dddd…`), one is the gate-manufactured
+tick-60 desync (netplay_desync diverges at tick 40 by design), one is
+the frame-key staging trap hit (tick 300, 18:35, recorded in session 3).
+All four are `seat:2` = the in-process harness seat. Quarantined to
+`tmp/netplay/build-residue-20260816/` so any artifact appearing in
+`tmp/netplay/` from here on IS live-session evidence, unmistakably.
+
+**Live blocker found (verified, not guessed):** Junior's machine is NOT
+on the tailnet — `tailscale status` shows only mmh-gw (100.127.147.29,
+this machine) + an offline iPhone. The owner's invite is the first
+domino; everything else (JUNIOR.md ritual, launchers, TELEMETRY harvest
+lines in both bin/play variants) is verified wired.
+
+**Banked:** `drafts/_v17-fun-verify-skeleton-20260816.md` — v16-skeleton
+precedent: session ritual, contamination disclosure (owner clean on all
+netplay surfaces; Junior text-contaminated by label authorship, clean on
+live feel), verbatim telemetry slots for BOTH seats, Half A arbiter
+(desyncs=0 both ∧ reason=quit both ∧ ticks ≥ 36000), Half B questions
+(es / pt-br, separate, no changelog), pre-registered routing verbatim.
+Verdict section empty until both seats' lines are pasted.
+
+**Prep relayed to owner (es):** invite → Junior accepts + `git pull` →
+owner hosts `bin/play es --host`, passes 100.127.147.29 → Junior
+`bin\play.cmd pt-br --join 100.127.147.29` → ≥10 sim-min (ticks ≥
+36000) → BOTH exit by Esc → harvest BOTH TELEMETRY lines BEFORE any
+question → questions separately (exact text in the skeleton). STANDBY.
+
+**NEXT session:** evidence arrives → adjudicate per the skeleton (job 1
+of the close-out SPARK); desync artifact → job 2 (both artifacts, diff,
+name the field); start failure → job 3 (W6 lane). Nothing new starts
+until the SIXTEENTH is adjudicated.
+
 ## 2026-08-16 (v17 TDD session 3: increments 7-8 GREEN + PUSHED — app integration, Rule-2 netplay surfaces all gated, docs; v17 BUILD COMPLETE → the SIXTEENTH is next)
 
 **MEASURED: increment 7 = `e0c2769` pushed (suite 644/9313 green at the
