@@ -31,4 +31,13 @@ jobs:
           ruby-version: "3.4"
           bundler-cache: true
       - name: Suite (headless)
-        run: xvfb-run -a bundle exec rake
+        run: |
+          xvfb-run -a bundle exec rake 2>&1 | tee /tmp/suite.log
+          exit "${PIPESTATUS[0]}"
+      # Logs need admin via API; annotations are public — surface the
+      # verdict lines so any seat can diagnose a red run without the UI.
+      - name: Surface failures as annotations
+        if: failure()
+        run: |
+          grep -E "^(Failure|Error):" -A 2 /tmp/suite.log | head -24 | while IFS= read -r l; do echo "::error::${l}"; done
+          grep -E "runs, .* assertions" /tmp/suite.log | tail -1 | while IFS= read -r l; do echo "::error::${l}"; done
