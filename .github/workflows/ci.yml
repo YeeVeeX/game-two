@@ -39,5 +39,5 @@ jobs:
       - name: Surface failures as annotations
         if: failure()
         run: |
-          grep -E "^(Failure|Error):" -A 2 /tmp/suite.log | head -24 | while IFS= read -r l; do echo "::error::${l}"; done
+          grep -E "[0-9]+\) (Failure|Error):" -A 4 /tmp/suite.log | head -24 | while IFS= read -r l; do echo "::error::${l}"; done
           grep -E "runs, .* assertions" /tmp/suite.log | tail -1 | while IFS= read -r l; do echo "::error::${l}"; done
