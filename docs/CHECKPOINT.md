@@ -1,5 +1,50 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-17 late (v18 SPEC COMMITTED — forks F1-F7 closed, dual review folded; TDD opens next session, ROUND-TRIP LANE FIRST)
+
+**Session product:** brainstorm → seven forks closed → spec + dual
+review, per the spark. Spec:
+`docs/superpowers/specs/2026-08-17-v18-persistent-world-design.md`.
+Reasoning record: `drafts/_v18-brainstorm-20260817.md` (+ post-review
+addendum). Review ledger: `drafts/_v18-spec-review.md`.
+
+**Forks:** F2/F5/F6/F7 = dev calls (host-authoritative save transferred
+in SESSION; coop.json seat scalars; PROVISIONS priced sustain on an
+11th input bit = protocol v2; god-view = offline `rake map` PNG).
+F1/F3/F4 = owner-level, RECOMMENDED + PROCEEDED per the absent-owner
+clause — **owner veto window OPEN until TDD starts** (batched question
+delivered at session close, es): F1 what persists (characters + banked
++ arc; carried does NOT — Codex exploit kill), F3 banked persists
+(re-opens D0 with the fun-thesis arrived), F4 solo advances the shared
+world (custody honesty: the shared world lives on the OWNER's machine;
+Junior solo = his own world — the nuance the owner must see).
+
+**Dual review both legs done:** Codex REJECT → 21 findings, 20
+CONFIRMED + folded (highlights: carried-persistence exploit; solo seed
+was FIXED at 0 — window.rb:58; enter_zone does NOT normalize what the
+draft claimed → explicit PURE projector; BYE refusal plumbing only
+carried "fingerprint" — session.rb:357; save gating on clean quit only;
+edge-triggered sustain; float-poisoning via absent-block scalar math).
+Panel (deepseek/kimi/qwen-coder, 3×1 round ≈ 5.3K tokens, envelope
+held): 9 folds (pinned canonicalizer — Ruby JSON doesn't sort;
+exact-bytes wire digest — joiner digests RECEIVED string before parse;
+projector purity; rename-failure lane + best-effort durability
+disclosure; provisions cost 6→5 + lever order; de-primed Half B
+questions; mercy-floor routing row; JUNIOR.md custody contract) + 2
+REFUTATIONS with source evidence (peer-quit lands reason=:quit both
+seats via BYE_REASONS; no stale-snapshot race — world constructs at the
+READY→START barrier from Params frozen at launch). Do not re-litigate
+either refutation.
+
+**NEXT SESSION (TDD, spec order — read the spec first):** increment 0
+bank canary baselines for all 17 wall scripts BEFORE any sim change →
+increment 1 `Game::SaveState` + THE ROUND-TRIP LANE (pure projector,
+strict decoder, mutation sweep, veil-tick sweep — the safety net; v17
+digest-lane-first precedent) → increments 2-8 per spec. Owner veto on
+F1/F3/F4 amends the spec before code. Junior: pull — spec + drafts
+landed; his lane this cycle = PT-BR strings (PROVISÃO + cues) +
+JUNIOR.md custody section ratification + the SEVENTEENTH's session 2.
+
 ## 2026-08-17 (v17 CLOSED — SIXTEENTH CUMPLIDO; v18 ratified + founded; next session = v18 brainstorm → forks → spec)
 
 **MEASURED:** junior-tibia green through the v18 contract commit; suite
