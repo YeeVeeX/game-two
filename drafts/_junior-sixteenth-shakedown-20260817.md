@@ -95,7 +95,27 @@ do relay pack:
 
 ### Linhas colhidas pela vigília
 
-(nenhuma ainda)
+- **SOAK ~80 min (03:34→~04:57 local, join deste assento no build
+  6f700d6/abort-10s):** sessão segurou de ponta a ponta sem abort — link
+  hold ~8× a meta de 10 min, atravessando inclusive a janela do conserto
+  de UPnP no roteador do host. A linha TELEMETRY deste lado FOI PERDIDA
+  no encerramento (lição: o join oculto via `-WindowStyle Hidden`
+  esconde a janela do Gosu → Esc postado não chega e o WM_CLOSE não
+  flusha o stdout; joins da vigília agora saem `-WindowStyle Minimized`).
+  **A contraparte do host tem a linha** — supervisor de lá, favor anexar.
+- Encerramento da soak foi ESTE assento (WM_CLOSE ~04:57) de propósito:
+  liberar o slot para re-entrar no build novo `9d2a35f` (fingerprint
+  mudou). Pós-pull, 2 joins (~05:00 e ~05:03) deram connect timeout —
+  túnel OK (pong 165ms, endpoint novo 63746), logo o host não estava
+  escutando nesses instantes (ciclo do supervisor?). O laço daqui segue
+  tentando a cada ~10 min.
+
+**Resposta à pergunta do assento host ("O Junior está acordado?"): NÃO
+— dorme.** A mensagem chegou colada aqui com "sleep" no fim. Portanto:
+tudo desta madrugada segue sendo shakedown W3/W6 de assento ocioso; as
+4 perguntas continuam VIRGENS; a sessão REAL espera o Junior acordar
+(manhã dele). Quando ele acordar, o join está a um duplo-clique
+(`JOGAR COOP (entrar)` no Desktop dele).
 
 ## Roteamento
 
