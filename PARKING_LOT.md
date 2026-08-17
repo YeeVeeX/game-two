@@ -561,3 +561,56 @@ Infra items, not game features; each needs a maintenance window, not a cycle.
 - **NOT a promotion.** Zero code owed; v17 scope untouched. This is the A2
   evidence-inputs pattern: pointers banked so promotion day starts from
   verified touchstones instead of re-research.
+
+## Owner vision drop — 2026-08-17, delivered WITH the SIXTEENTH's Half B (v17 fun-verified same message)
+
+Recorded verbatim-shape from the owner (es), routed — the v18 debate consumes
+this list; nothing here starts before that debate closes:
+
+- **Persistent shared world ("que tanto yo como Junior empecemos a trabajar
+  sobre el mismo mundo y expandir desde allí")** — v18 LEAD CANDIDATE
+  (persistence v1: world+character state survives sessions, host-authoritative
+  save under the fingerprint law). Deliberately re-opens the D0-era "banked is
+  session-only" decision — the fun-thesis need has now arrived (owner ask);
+  inscription economy semantics under persistence = brainstorm fork.
+- **Character creation + save (equipment/items between sessions)** — splits:
+  (a) character PERSISTENCE = part of persistence v1; (b) character CREATION/
+  appearance = own increment, waits for the assets era; (c) equipment/items —
+  NO item system exists yet (marks/banked only); an inventory/equipment system
+  is its own future cycle (Kethral inventory/hotbar stays parked until then).
+- **God/admin mode (full-map view, go-anywhere, add assets, edit the world
+  "como si estuvieramos en un editor de video", maybe from our characters)** —
+  staged: god-view v0 = OFFLINE map tool (rake task rendering the full world
+  from data/save — zero sim/netplay risk) → in-game read-only map/teleport
+  (teleport = lockstep-carried verb or it desyncs) → world EDITING. In-session
+  editing during netplay is a desync mine (every mutation must ride the input
+  stream); the data-driven substrate means "editor" ≈ zone-JSON authoring +
+  hot-reload — the honest v0 editor is the offline lane + git as world store.
+- **Always-online hosted world ("un mundo abierto que se mantenga online")** —
+  PARKED with a named trigger: promotes when different-time play or a third
+  player is REAL (both require server-authoritative sim — an architecture
+  fork, not an increment; lockstep needs all seats present, so an always-on
+  lockstep host is just a lobby). Until then, persistence v1 + git/host-carried
+  saves deliver the FELT version (same world every session).
+- **AWS note (owner: Junior now has poweruser on the owner's account)** —
+  unblocks the future server era + the assets pipeline (Bedrock); it was never
+  the current blocker (lockstep+Tailscale runs fine; owner-side CGNAT is the
+  link wart, and a cloud relay only matters post-lockstep). No infra lane now.
+- **In-game chat / Tibia-style channels** — owner himself: "talvez es un poco
+  temprano". PARKED; two players have out-of-band voice/chat. Revisit with >2
+  players or the roleplay need.
+- **game-two-assets pipeline (parallel repo; owner invites dev contributions
+  anytime)** — integration into this repo stays gated on the owner's own
+  "una vez esté testeado y depurado" + the parked sprites/art cycle (v16
+  leftover). Asset WORK happens over there meanwhile; Rule 2 (capture+critique)
+  will govern the integration cycle here.
+- **World more alive/varied** — systemic-worlds shelf is the pre-banked
+  evidence base (NPC schedules/sim-LOD, world events, economy notes above);
+  candidates feed v18+ debates, not code.
+- **Coop-felt frictions (from the SIXTEENTH's Q3, promotable at the v18
+  debate):** (a) respawn-too-fast-to-walk-back + Junior's "não parece tão
+  dificil" + AI-body suicides = ONE coop pacing/difficulty item (density,
+  respawn timing, third-body AI are single-player tuned today); (b) mid-hunt
+  sustain — design shape PRE-DECIDED in this file (2026-08-11): PRICED in
+  banked value, portable bank-sink, never a free cooldown; field version =
+  the healer-fairy/Navi kernel folded as priced invocation.

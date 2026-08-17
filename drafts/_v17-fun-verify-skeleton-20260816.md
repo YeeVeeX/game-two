@@ -110,8 +110,54 @@ AI third body "se matando por nada" → v17.1 embodiment debate item,
 recorded only (matches the pre-registered "AI third body named weird"
 row). Answers 1–3 trip no routing rows.
 
-### Owner — PENDING (asked 2026-08-17, same protocol: separately, no
-### changelog; answers paste verbatim below when given)
+### Owner — answered 2026-08-17 (verbatim, es; asked separately, no
+### changelog shown, questions virgin until asked)
+
+1. **"sí"** [= juntos]
+2. **"al inicio un poco ya al rato se normalizó"**
+3. **"los enemigos respawnean muy rápido una vez que se matan a los de un
+   lado, entonces a veces no da tiempo de volver; también hace falta poder
+   curarse durante la hunt y no tener que estar yendo siempre al banco"**
+4. **"muy divertido"** + forward vision (persistent shared world, god/
+   admin editor view, character persistence, assets pipeline, chat,
+   livelier world — full text in session log; brainstorm material for
+   the next cycle, NOT verdict input).
+
+Routing per the pre-registered table:
+- Q2 (latency felt early, then normalized): matches the Tailscale
+  DERP→direct path migration signature (first minutes relayed ~600ms,
+  then direct ~165ms) + host-side stall asymmetry. No D re-derivation
+  warranted — it settled and stopped bothering; observe again next
+  session before touching data/netplay.json.
+- Q3a (respawn too fast to walk back after clearing a side): SIM design
+  item, not netcode — folds with Junior's "não parece tão dificil" into
+  ONE coop-difficulty/pacing item (density+respawn are single-player
+  tuned). Next-cycle candidate, recorded.
+- Q3b (no mid-hunt sustain, bank-run friction): new-mechanic ask —
+  next-cycle brainstorm item (design fork: consumable vs regen vs camp),
+  recorded.
+- Q1+Q4: no routing rows tripped — the together-feel held on both seats.
+
+---
+
+# VERDICT (2026-08-17): THE SIXTEENTH IS CUMPLIDO — v17 SHIPS
+
+- **Half A (HELD): PASS** — 89575/89577 ticks (~24.9 sim-min, 2.5×
+  target), desyncs=0 on BOTH seats, reason=quit on BOTH; digest arbiter
+  clean, no desync artifact.
+- **Half B (TOGETHER): PASS** — "juntos": sí/sim from both players,
+  asked separately; verdicts "muy divertido" / "muito bom jogo", both
+  unprompted-positive. First unprompted owner reaction before the
+  questions: "wow I was impressed — this was really very fun."
+- Session bonus: BOSS 1 engaged and slain in co-op, seal2 breached,
+  quay entered ×2 — the whole v15/v16 surface got exercised two-seat.
+- Friction found and fixed the same day (launcher paren-parser bug,
+  `15509d3`); the game and netplay layers survived their first real
+  cross-machine session untouched.
+- v17 etapa 1 closes. Next cycle opens at a brainstorm (owner vision
+  logged 2026-08-17: persistence, shared world, editor/god view, coop
+  difficulty, sustain mechanic) — design forks close there, per v13/v17
+  precedent.
 
 ## Routing (pre-registered — closed at the spec, do not re-litigate)
 
@@ -130,5 +176,3 @@ row). Answers 1–3 trip no routing rows.
   recorded only.
 
 ---
-
-# VERDICT (pending — filled only when both seats' evidence is pasted)
