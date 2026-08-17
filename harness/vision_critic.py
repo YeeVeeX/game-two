@@ -17,6 +17,7 @@ are correct on this API — the bare-id rule is Mantle-transport-only).
 from __future__ import annotations
 
 import json
+import os
 import re
 import sys
 import time
@@ -37,7 +38,9 @@ for stream in (sys.stdout, sys.stderr):
     if reconfigure:
         reconfigure(encoding="utf-8", errors="replace")
 
-PROFILE = "voice-dev"
+# Per-machine AWS profile (W6 cross-machine law): each seat names its own
+# profile via CRITIC_AWS_PROFILE; default stays the owner-machine value.
+PROFILE = os.environ.get("CRITIC_AWS_PROFILE", "voice-dev")
 REGION = "us-east-1"
 MODEL = "us.anthropic.claude-fable-5"
 MAX_IMAGES = 20  # Bedrock converse cap per request
