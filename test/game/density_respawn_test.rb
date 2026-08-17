@@ -191,7 +191,7 @@ class DensityRespawnTest < Minitest::Test
     # scatter candidate sits within corpse_guard_tiles (2 + 4 <= 6).
     w.possessed.walker.teleport(38, 19)
     w.possessed.pick_up(2)
-    w.send(:spawn_corpse_load, w.possessed, nil)
+    w.field_economy.spawn_corpse_load(w.possessed, nil, zone: w.zone_name)
     park_pack(w, FAR_PARK)
     count = w.humans.length
     drive(w, scripted({}), RESPAWN + 20)

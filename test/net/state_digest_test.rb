@@ -18,8 +18,9 @@ class StateDigestTest < Minitest::Test
 
   WORLD_FIELDS = %w[frame zone state respawn_timer home_zone breached
                     last_damaged swap_was_down rearm_needed corpse_serial
-                    rng_draws respawn_rng_draws hitstop].freeze
-  PACK_FIELDS = %w[banked mark possessed.1].freeze
+                    rng_draws respawn_rng_draws boss_1_defeats sessions
+                    hitstop].freeze
+  PACK_FIELDS = %w[banked provisions mark possessed.1].freeze
   CREATURE_FIELDS = %w[kind tile_x tile_y px py tween_left tween_total
                        reserved_x reserved_y facing_x facing_y hp alive
                        stagger exhaust special_exhaust iframes

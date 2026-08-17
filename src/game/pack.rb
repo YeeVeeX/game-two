@@ -8,12 +8,17 @@ module Game
   # BODY (decision 3: partner holds the last living flesh). No two seats
   # ever hold the same body — swap/forced-swap exclude partner bodies.
   class Pack
-    attr_reader :members, :mark, :banked
+    attr_reader :members, :mark, :banked, :provisions
 
     def initialize(members:, stagger_frames:, initial_kit: nil, seats: 1)
       @members = members
       @stagger_frames = stagger_frames
       @banked = 0
+      # v18 decision 15: field charges bought at the bank for banked value
+      # — pack state beside @banked, persisted (F1). The guarded buy/use
+      # verbs land with the sustain increment; until then only save-apply
+      # writes this.
+      @provisions = 0
       first = members.find { |m| m.kit_name.to_s == initial_kit.to_s } || members.first
       @possessed = { 1 => first }
       (2..seats).each do |seat|
@@ -27,11 +32,18 @@ module Game
     def living = @members.reject(&:dead?)
     def wipe? = living.empty?
 
-    # v17 digest lane (spec decision 6): banked, mark, and the possession
-    # map as seat=>stable-id (nil while a seat waits for a body).
+    # v17 digest lane (spec decision 6): banked, provisions, mark, and
+    # the possession map as seat=>stable-id (nil while a seat waits).
     def digest_fields
-      [["banked", @banked], ["mark", @mark&.name]] +
+      [["banked", @banked], ["provisions", @provisions], ["mark", @mark&.name]] +
         @possessed.map { |seat, body| ["possessed.#{seat}", body&.name] }
+    end
+
+    # v18 save-apply seam (SaveState.apply! only): provisions arrive
+    # pre-clamped to the cap. Never a gameplay verb — the sustain verb
+    # spends banked through its own guarded path.
+    def load_provisions!(amount)
+      @provisions = amount
     end
 
     def mark!(target)

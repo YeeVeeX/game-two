@@ -4,5 +4,8 @@
   "heal_cost_per_body": 2,
   "retarget_cue_frames": 75,
   "breach_cost": 40,
-  "breach_cost_2": 150
+  "breach_cost_2": 150,
+  "provision_cost": 5,
+  "provision_cap": 3,
+  "provision_heal": 30
 }

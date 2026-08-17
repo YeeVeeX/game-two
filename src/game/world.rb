@@ -11,6 +11,8 @@ require "game/feel"
 require "game/camera"
 require "game/flow_field"
 require "game/fight_ledger"
+require "game/field_economy"
+require "game/save_state"
 
 module Game
   # The sim: a pack of creatures (one possessed, the rest AI) hunting through
@@ -35,9 +37,10 @@ module Game
 
     HOME_ZONE = "nest".freeze # the INITIAL home only — @home_zone advances (v12)
 
-    attr_reader :bus, :pack, :feel, :states, :frame, :zone_name, :rng, :respawn_rng
+    attr_reader :bus, :pack, :feel, :states, :frame, :zone_name, :rng, :respawn_rng,
+                :home_zone, :boss_1_defeats, :sessions, :field_economy
 
-    def initialize(data, seed: 0, seats: 1)
+    def initialize(data, seed: 0, seats: 1, save: nil)
       # v17 seat map (spec Sim spec): seat ids are PINNED [1..n]; every
       # per-seat loop iterates this order on both machines (seat-order
       # law, decision 2). Single-seat construction is byte-identical to
@@ -78,11 +81,17 @@ module Game
       @projectiles = []
       @impacts = []
       @last_damaged = {}
-      @corpses = Hash.new { |h, k| h[k] = [] }
-      @drops = Hash.new { |h, k| h[k] = [] }
-      @corpse_loads = Hash.new { |h, k| h[k] = [] }
-      @expiry_flashes = Hash.new { |h, k| h[k] = [] }
-      @corpse_serial = 0
+      # The field-value economy (drops, corpse records, carried
+      # containers, expiry flashes) is a plain object — explicit call
+      # order, no bus mediation (extract-on-touch, v18).
+      @field = FieldEconomy.new(bus: @bus, rng: @rng,
+                                drops_cfg: @balance[:drops], death_cfg: @death)
+      @field_economy = @field
+      # v18 persisted counters (spec F1): the defeat accrues across
+      # sessions while the fight itself re-arms every session; sessions
+      # is bumped by the save coordinator at write time, never by the sim.
+      @boss_1_defeats = 0
+      @sessions = 0
       @taunt_pulses = []
       @kill_pops = []
       @seal_marks = []
@@ -108,7 +117,12 @@ module Game
       # the same flush (the wipe-ordering pin, spec M6).
       @fight_ledger = FightLedger.new(@bus, world: self,
                                       config: data["balance/ledger"])
-      enter_zone(@home_zone, map.pack_spawn)
+      # v18 decision 4: facts apply during construction in the PINNED
+      # order (home -> members -> seat pointers -> breaches), then the
+      # initial enter_zone lands the pack at the loaded home's spawn.
+      # save: nil (the wall, replay, pilot) takes the identical fresh path.
+      SaveState.apply!(self, save, economy: @economy) if save
+      enter_zone(@home_zone, @zones.fetch(@home_zone).pack_spawn)
     end
 
     def map = @zones.fetch(@zone_name)
@@ -139,14 +153,15 @@ module Game
     def actors = (@pack.members + humans).reject(&:dead?)
     def projectiles = @projectiles
     def impacts = @impacts
-    def corpses = @corpses[@zone_name]
-    def drops = @drops[@zone_name]
-    # Non-autovivifying: the renderer reads these every draw and a default-proc
-    # index would insert keys into sim state from the draw path (pure-reader law).
-    def corpse_loads(zone = @zone_name) = @corpse_loads.fetch(zone) { [] }
-    def expiry_flashes(zone = @zone_name) = @expiry_flashes.fetch(zone) { [] }
+    def corpses = @field.corpses(@zone_name)
+    def drops = @field.drops(@zone_name)
+    # Non-autovivifying (FieldEconomy law): the renderer reads these every
+    # draw and a default-proc index would insert keys into sim state from
+    # the draw path (pure-reader law).
+    def corpse_loads(zone = @zone_name) = @field.corpse_loads(zone)
+    def expiry_flashes(zone = @zone_name) = @field.expiry_flashes(zone)
     def ledger_beat = @fight_ledger.beat
-    def total_stranded = @corpse_loads.values.sum { |list| list.sum { |c| c[:amount] } }
+    def total_stranded = @field.total_stranded
     def marked_target = @pack.mark
     def taunt_pulses = @taunt_pulses
     def kill_pops = @kill_pops
@@ -176,6 +191,38 @@ module Game
     # Session-scoped and wipe-proof BY DESIGN: wipes never close the door —
     # that is the arc. Only a fresh World (restart) re-seals.
     def breached?(zone, tile) = @breached.key?([zone, tile])
+
+    # v18 decision 4: the ONE breach-restoring path — idempotent and
+    # side-effect-free (no spend, no events, no hitstop/cues/marks).
+    # Shared by the live seal verb (which adds spend + emit + cues) and
+    # by save apply. Tiles are copied so facts arrays never alias sim
+    # state.
+    def restore_breach!(zone, tile)
+      @breached[[zone, [tile[0], tile[1]]]] = true
+    end
+
+    # Persisted view of @breached (spec decision 1): sorted [[zone,
+    # [x, y]], ...] with fresh arrays — mutating facts can never reach
+    # sim state.
+    def breached_tuples
+      @breached.keys.sort_by { |(zone, (x, y))| [zone, x, y] }
+                .map { |(zone, tile)| [zone.dup, [tile[0], tile[1]]] }
+    end
+
+    # --- v18 save-apply seams (SaveState.apply! only — construction
+    # time, before the initial enter_zone; never called mid-session) -----
+
+    def load_home!(zone)
+      raise ArgumentError, "unknown zone #{zone}" unless @zones.key?(zone)
+      @home_zone = zone
+    end
+
+    def load_counters!(boss_1_defeats:, sessions:)
+      @boss_1_defeats = boss_1_defeats
+      @sessions = sessions
+    end
+
+    def save_facts = SaveState.facts(self)
 
     # kit_name => first frame that kind was possessed (v14 overlay pulse).
     def kit_first_possessed = @kit_first_possessed
@@ -497,7 +544,7 @@ module Game
       load = corpse_loads.find { |c| c[:tile] == source.tile && c[:settle_left] <= 0 }
       if load
         corpse_loads.delete(load)
-        release_corpse_record(@zone_name, load[:id])
+        @field.release_corpse_record(@zone_name, load[:id], frame: @frame)
         source.pick_up(load[:amount])
         @bus.emit(:corpse_looted, actor: source, tile: load[:tile],
                   amount: load[:amount], carried: source.carried,
@@ -535,8 +582,9 @@ module Game
         ["last_damaged", @seats.map { |s| "#{s}:#{@last_damaged[s]&.name}" }.join("|")],
         ["swap_was_down", @seats.map { |s| "#{s}:#{@swap_was_down[s]}" }.join("|")],
         ["rearm_needed", @seats.map { |s| "#{s}:#{@rearm_needed[s]}" }.join("|")],
-        ["corpse_serial", @corpse_serial],
-        ["rng_draws", @rng.draws], ["respawn_rng_draws", @respawn_rng.draws]
+        ["corpse_serial", @field.corpse_serial],
+        ["rng_draws", @rng.draws], ["respawn_rng_draws", @respawn_rng.draws],
+        ["boss_1_defeats", @boss_1_defeats], ["sessions", @sessions]
       ] + @feel.digest_fields
       groups = [["world", world_fields], ["pack", @pack.digest_fields]]
       @pack.members.each_with_index { |m, i| groups << ["pack.#{i}", m.digest_fields] }
@@ -551,22 +599,7 @@ module Game
           ["frames_left", imp[:frames_left]], ["damage", imp[:damage]]
         ]]
       end
-      @drops.keys.sort.each do |zone|
-        @drops[zone].each_with_index do |d, i|
-          groups << ["drop.#{zone}.#{i}", [
-            ["tile_x", d[:tile][0]], ["tile_y", d[:tile][1]], ["amount", d[:amount]],
-            ["frames_left", d[:frames_left]], ["band", d[:band]]
-          ]]
-        end
-      end
-      @corpse_loads.keys.sort.each do |zone|
-        @corpse_loads[zone].each do |c|
-          groups << ["load.#{zone}.#{c[:id]}", [
-            ["tile_x", c[:tile][0]], ["tile_y", c[:tile][1]], ["amount", c[:amount]],
-            ["term_left", c[:term_left]], ["settle_left", c[:settle_left]]
-          ]]
-        end
-      end
+      groups.concat(@field.digest_groups)
       @human_respawns.keys.sort.each do |zone|
         @human_respawns[zone].each_with_index do |r, i|
           groups << ["respawn.#{zone}.#{i}", [
@@ -626,9 +659,9 @@ module Game
       # its seizure THIS frame (why=:died — the zero-frame seizure is legal
       # and ordered; spec same-frame race).
       tick_seizures
-      tick_drops
-      tick_corpse_loads
-      tick_expiry_flashes
+      @field.tick_drops
+      @field.tick_corpse_loads(frame: @frame)
+      @field.tick_expiry_flashes
       @fight_ledger.tick
       telegraph_due_humans
       respawn_due_humans
@@ -974,83 +1007,10 @@ module Game
       @impacts.reject! { |impact| impact[:frames_left] <= 0 }
     end
 
-    # Decay ticks in EVERY zone each sim tick (nest time is real time — the
-    # death-economy doc's corpse-term decision, applied to drops): leaving a
-    # pile behind to bank is a real cost. Counted only in tick_world, so
-    # hitstop and the wipe veil pause decay deterministically.
-    def tick_drops
-      @drops.each do |zone, list|
-        list.each { |d| d[:frames_left] -= 1 }
-        list.reject! do |d|
-          next false if d[:frames_left].positive?
-          @bus.emit(:drop_decayed, zone:, tile: d[:tile], amount: d[:amount])
-          true
-        end
-      end
-    end
-
-    # Corpse-load clocks tick in EVERY zone (the tick_drops law: nest time is
-    # real time). Counted only in tick_world, so hitstop and the wipe veil
-    # pause them deterministically. At term zero the load is destroyed —
-    # carried_lost is EXPIRY's event in D1 (actor deliberately absent: the
-    # body may be long revived).
-    def tick_corpse_loads
-      @corpse_loads.each do |zone, list|
-        list.each do |c|
-          c[:settle_left] -= 1 if c[:settle_left].positive?
-          c[:term_left] -= 1
-        end
-        list.reject! do |c|
-          next false if c[:term_left].positive?
-          @bus.emit(:carried_lost, amount: c[:amount], tile: c[:tile], zone:)
-          release_corpse_record(zone, c[:id])
-          @expiry_flashes[zone] << { tile: c[:tile], frames_left: @death[:expiry_flash_frames],
-                                     frames: @death[:expiry_flash_frames] }
-          true
-        end
-      end
-    end
-
-    def tick_expiry_flashes
-      @expiry_flashes.each_value do |list|
-        list.each { |f| f[:frames_left] -= 1 }
-        list.reject! { |f| f[:frames_left] <= 0 }
-      end
-    end
-
-    # Sim-owned, event-time (loot + expiry): clear the container link and
-    # re-anchor the fade, so a body held at full strength starts fading NOW
-    # instead of snapping to invisible (review CF-2). Pure readers everywhere
-    # else — the renderer never mutates (taunted_target law).
-    def release_corpse_record(zone, container_id)
-      rec = @corpses[zone].find { |c| c[:container_id] == container_id }
-      return unless rec
-      rec.delete(:container_id)
-      rec[:at_frame] = @frame
-    end
-
-    # Seeded roll (rolls happen at bus-process time in emit order, AFTER the
-    # tick_world scatter picks — consumption order is replay-deterministic).
-    # One drop per tile, always: a kill on an occupied tile merges amounts
-    # but KEEPS the first kill's clock — a resetting clock + the 5s rusher
-    # respawn would make any camped tile an immortal zero-risk stash. The
-    # merge also keeps the band: band is a function of tile, so a same-tile
-    # kill can never disagree with the record it merges into (v11 rider).
-    def spawn_drop(victim)
-      table = victim.kit[:drop_table]
-      return unless table
-      amount = (table[@rng.rand(table.length)] * gradient_multiplier(victim.tile)).round
-      decay = @balance[:drops][:decay_frames]
-      list = @drops[@zone_name]
-      drop = list.find { |d| d[:tile] == victim.tile }
-      if drop
-        drop[:amount] += amount
-      else
-        list << { tile: victim.tile, amount:, frames_left: decay, decay_frames: decay,
-                  band: gradient_band(victim.tile) }
-      end
-      @bus.emit(:drop_spawned, tile: victim.tile, amount:)
-    end
+    # Decay/term/flash clocks + drop/corpse records live in FieldEconomy
+    # (plain object, explicit call order from tick_world — hitstop and
+    # the wipe veil pause the whole field economy deterministically,
+    # exactly as before the extraction).
 
     # Creation order = resolution order (deterministic). The projectile only
     # reports the victim; damage resolves here from the OWNER's kit, exactly
@@ -1292,7 +1252,7 @@ module Game
       return false if breached?(@zone_name, opens)
       price = @economy.fetch(station[:price].to_sym)
       return station_refuse!(station[:at]) unless spend_banked(source, price, :breach)
-      @breached[[@zone_name, opens]] = true
+      restore_breach!(@zone_name, opens)
       @breach_line = { text: station[:line],
                        frames_left: @display[:breach_banner_frames],
                        frames_total: @display[:breach_banner_frames] }
@@ -1357,18 +1317,10 @@ module Game
           @bus.emit(:body_dissolved, body: m)
         end
       end
-      clear_unloaded_pack_husks
+      @field.clear_unloaded_pack_husks
       assign_seats_after_judgment(revived)
       enter_zone(@home_zone, map.pack_spawn)
       @bus.emit(:pack_respawned)
-    end
-
-    # Dissolved flesh leaves no field husk (spec S Presentation-5). Loaded
-    # records are D1 pile markers under wipe grace — never touched.
-    def clear_unloaded_pack_husks
-      @corpses.each_value do |list|
-        list.reject! { |c| c[:faction] == :pack && !c[:container_id] }
-      end
     end
 
     # Judgment seats (decision 3): seats claim over the ACTUAL revived set
@@ -1490,7 +1442,7 @@ module Game
     def prune_caches
       @flow_cache&.select! { |anchor, _| !anchor.dead? }
       @telegraphing&.select! { |actor, _| !actor.dead? }
-      corpses.reject! { |c| !c[:container_id] && @frame - c[:at_frame] > CORPSE_FADE_FRAMES }
+      @field.prune_corpses!(@zone_name, @frame)
     end
 
     def emit_attack_hit(attacker, victim, landed)
@@ -1539,47 +1491,14 @@ module Game
       bands.rindex { |(min, _)| d >= min } || 0
     end
 
-    # A body stays where it fell and fades (vision critique: kills that
-    # vanish erase the fight's history). Records, not creatures — the sim
-    # never reads them; only renderer/tests do. Cap guards the roster.
-    CORPSE_FADE_FRAMES = 600
-    CORPSE_CAP = 40
+    # A body stays where it fell and fades — the records + cap live in
+    # FieldEconomy now; the constant stays addressable here for the
+    # renderer and the corpse tests (Game::World::CORPSE_FADE_FRAMES).
+    CORPSE_FADE_FRAMES = FieldEconomy::CORPSE_FADE_FRAMES
 
     # Respawn-stream derivation salt (v14) — determinism plumbing like the
     # corpse constants above, not a tunable.
     RESPAWN_STREAM_SALT = 0x52455350
-
-    # Returns the record it appended, or nil when that record was itself the
-    # cap-eviction victim (every other record linked) — the caller must stamp
-    # THIS identity, never corpses.last, or a foreign container's link gets
-    # clobbered (impl review fold 3).
-    def leave_corpse(actor)
-      list = corpses
-      record = { tile: actor.tile, x: actor.x, y: actor.y,
-                 faction: actor.faction, at_frame: @frame }
-      list << record
-      if list.length > CORPSE_CAP
-        evict = list.index { |c| !c[:container_id] }
-        list.delete_at(evict) if evict
-      end
-      list.any? { |c| c.equal?(record) } ? record : nil
-    end
-
-    # The container is sim truth; the serial links it to the cosmetic corpse
-    # record so the renderer/prune can hold the body at full strength while
-    # loaded (tile+frame is not a key — two same-frame knockback deaths can
-    # share a tile). settle_alpha rides the record like decay_frames rides
-    # drops: the renderer reads no balance.
-    def spawn_corpse_load(actor, corpse_record)
-      @corpse_serial += 1
-      term = @death[:corpse_term_frames]
-      record = { id: @corpse_serial, tile: actor.tile, amount: actor.drain_carried!,
-                 term_left: term, term:, settle_left: @death[:loot_settle_frames],
-                 settle_alpha: @death[:settle_pip_alpha] }
-      @corpse_loads[@zone_name] << record
-      corpse_record[:container_id] = @corpse_serial if corpse_record
-      @bus.emit(:corpse_loaded, actor:, tile: record[:tile], amount: record[:amount])
-    end
 
     # Feel is scoped to the possessed body (law 5): its fights hitstop and
     # shake; ally/AI-vs-AI hits emit events only — the world never freezes
@@ -1601,12 +1520,14 @@ module Game
       end
 
       @bus.subscribe(:actor_died) do |e|
-        corpse_record = leave_corpse(e[:actor])
-        spawn_drop(e[:actor])
+        corpse_record = @field.leave_corpse(e[:actor], zone: @zone_name, frame: @frame)
+        @field.spawn_drop(e[:actor], zone: @zone_name,
+                          multiplier: gradient_multiplier(e[:actor].tile),
+                          band: gradient_band(e[:actor].tile))
         # D1: a dying pack body's carried value transfers to a container on
         # its corpse. Term expiry is the permanent-loss tier now.
         if e[:actor].faction == :pack && e[:actor].carried.positive?
-          spawn_corpse_load(e[:actor], corpse_record)
+          @field.spawn_corpse_load(e[:actor], corpse_record, zone: @zone_name)
         end
         @pack.clear_mark! if e[:actor].equal?(marked_target)
         # v16 (e): every death POPS — transient render record, integer phase
@@ -1618,8 +1539,13 @@ module Game
           @feel.on_kill if controlled?(e[:killer])
           # v15: the challenger's death closes the boss fight (placeholder
           # text per the 2026-08-16 owner order: no lore in this repo).
-          enqueue_stamp("challenger.term.line", "BOSS 1 DEFEATED",
-                        at: e[:actor].tile) if e[:actor].kit[:seize]
+          # v18: the defeat ACCRUES (persisted counter, F1); the fight
+          # itself respawns with every session's fresh field.
+          if e[:actor].kit[:seize]
+            @boss_1_defeats += 1
+            enqueue_stamp("challenger.term.line", "BOSS 1 DEFEATED",
+                          at: e[:actor].tile)
+          end
           schedule_human_respawn(e[:actor])
         elsif (seat = seat_for(e[:actor]))
           handle_seat_death(seat)
@@ -1645,9 +1571,7 @@ module Game
         # (The grace covers the RUN BACK, not the veil: terms are frozen
         # during nest_respawn and the veil is only 90 frames — review CF-6.)
         grace = @death[:wipe_grace_frames]
-        @corpse_loads.each_value do |list|
-          list.each { |c| c[:term_left] = [c[:term_left], grace].max }
-        end
+        @field.apply_wipe_grace!(grace)
         # v15: chants + seizures clear AT :nest_respawn ENTRY, not at
         # respawn — the veil bypasses tick_world, so a chant aborted only
         # in respawn_pack would freeze mid-count under it (Codex pass-2).

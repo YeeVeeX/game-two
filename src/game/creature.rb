@@ -375,6 +375,15 @@ module Game
       @god_mark = false
     end
 
+    # v18 save-apply seam (SaveState.apply! only, construction time):
+    # hp lands directly — alive is DERIVED (hp > 0, never stored), so a
+    # zero here IS death; no event fires (a loaded death already
+    # happened in a previous session). Clamping to the kit's current
+    # max is the caller's job (it owns the data).
+    def load_hp!(hp)
+      @hp = hp
+    end
+
     def interrupt_action!
       @attack_state = :idle
       @state_frames = 0
