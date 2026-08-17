@@ -38,6 +38,46 @@ first exposure; they belong to the real owner+Junior session).
   (cmd) in the game folder, git pull first, play only on signal.
 - (log continues in checkpoint / next session notes)
 
+## Night log (2026-08-16, 20:02–23:00 — what actually happened)
+
+- 20:02–21:03 WA coordination: invite sent → Junior signed up (user PPX,
+  jrmaciell92@gmail.com) → approved via console → his device
+  desktop-gu3bmkt joined (100.71.34.81, TS 1.102.2, Win10 21H2).
+- **Tailnet surgery (recorded):** the local client was logged into the
+  YeeVeeX@github tailnet, but the owner's browser console (where the
+  invite came from) is the moralgabriel@gmail.com tailnet — two different
+  tailnets; Junior landed in the second. Fix: `tailscale login` on this
+  machine under moralgabriel@gmail.com (browser-auth driven via CDP).
+  Machine is now **gabo-desktop 100.127.52.49** on moralgabriel's
+  tailnet; the YeeVeeX account remains available — revert =
+  `tailscale switch yeeveex.github`. Firewall rule auto-followed the new
+  IP; bind+accept re-verified on it.
+- **Junior's seat is ALSO agent-driven tonight** (owner pre-cleared:
+  "he already knows"). Their agent port-PROBED the host before joining —
+  the probe consumed the single accept and killed host #1 (found dead
+  with empty log; server socket closes at accept by design). Lesson
+  relayed: no probes, the game's join IS the test.
+- **W6 fired FOR REAL and was fixed:** first genuine join refused —
+  `sim fingerprint: ours ≠ theirs` at both-on-6f700d6. Root cause: EOL.
+  My working tree had Gemfile.lock w/crlf (git ls-files --eol) while
+  their clone differs in flavor — tree_md5 hashed raw bytes, so NO clean
+  clone could ever match. Fix `10b6138`: fingerprint md5s are
+  EOL-normalized (\r\n|\r → \n); TDD (failing CRLF-vs-LF test first),
+  suite 645/9315 green, all three netplay gates re-PASS with critic.
+- **Handshake PROVEN cross-machine after the fix.** Connection #1 (22:20):
+  `TELEMETRY netplay seat=1 ticks=81 desyncs=0 stalls=745
+  stall_ms_max=10014 reason=conn_lost` — 81 real lockstep ticks, ZERO
+  desyncs, then their process went silent → honest 10 s abort. Connection
+  #2: `ticks=0 … reason=conn_lost` (died pre-handshake — crash or another
+  probe). Their primary evidence (their %TEMP% session log) REQUESTED and
+  pending; host intentionally left down until it arrives.
+- End-screen harvesting from an agent seat: PostMessage WM_KEYDOWN Esc to
+  the Gosu hwnd works (SendKeys/SetForegroundWindow do NOT — focus-steal
+  rules); helper banked at tmp/esc_ruby2.ps1 (session-local).
+- No desync artifact from the live sessions (tmp/netplay/ tick-60 files
+  are tonight's gate/suite regenerations — timestamps 21:50–21:52,
+  pre-connection).
+
 ## To send ONLY after the REAL session's telemetry is harvested (both seats)
 
 Junior (pt-br, separately, no changelog):

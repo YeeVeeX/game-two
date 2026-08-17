@@ -1,5 +1,39 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-16 late (SIXTEENTH night support pt 2: tailnet LIVE, W6 fired + FIXED `10b6138`, handshake PROVEN cross-machine — real session still owed)
+
+**MEASURED:** junior-tibia at `10b6138` (fix(net): fingerprint
+EOL-normalized — suite 645/9315 green at hooks, all three netplay gates
+re-PASS with critic). Both machines on ONE tailnet: gabo-desktop
+**100.127.52.49** (this, moralgabriel@gmail.com — tailnet SWITCHED from
+YeeVeeX@github tonight, revert = `tailscale switch yeeveex.github`) +
+desktop-gu3bmkt 100.71.34.81 (Junior, user PPX approved). TSMP/ICMP
+in-tunnel pongs both proven; direct path, no DERP.
+
+**W6 fired for real at the first cross-machine join and is FIXED:**
+refusal named `sim fingerprint` with both seats on clean 6f700d6 — root
+cause: tree_md5 hashed raw bytes and EOL flavor differs per clone (my
+Gemfile.lock w/crlf; autocrlf rewrites elsewhere). `10b6138` normalizes
+EOLs in the fingerprint (TDD: failing CRLF-vs-LF test first). After the
+fix the handshake CLOSED and lockstep RAN cross-machine:
+`TELEMETRY netplay seat=1 ticks=81 desyncs=0 stalls=745
+stall_ms_max=10014 reason=conn_lost` — 81 shared ticks, zero desyncs,
+then the peer went silent (their side also agent-driven tonight; their
+crash/exit UNEXPLAINED, their %TEMP% session log requested and pending).
+Second connect died pre-handshake (ticks=0). No live desync artifact
+exists. Full narrative: `drafts/_sixteenth-relay-pack-20260816.md`.
+
+**The SIXTEENTH itself remains VIRGIN and owed:** no 10-min session, no
+questions asked (owner asleep; his seat was agent-piloted only for
+coordination + shakedown — pre-cleared). Next session inherits: (1)
+their crash log → explain the two conn_losts; (2) the real owner+Junior
+session per the skeleton (both pull ≥ 10b6138; owner double-clicks
+Desktop `JUGAR COOP (host).cmd`; join 100.127.52.49; ≥10 sim-min; Esc
+both; harvest both lines BEFORE questions); (3) adjudicate per
+`drafts/_v17-fun-verify-skeleton-20260816.md` (note: skeleton's IP/steps
+pre-date the tailnet switch — the join IP is now 100.127.52.49 and the
+invite/approval steps are DONE).
+
 ## 2026-08-16 (v17 close-out session: SIXTEENTH = STANDBY — no evidence yet; prep relayed, skeleton banked, nothing new started)
 
 **ADJUDICATED MECHANICALLY: no SIXTEENTH evidence exists.** No
