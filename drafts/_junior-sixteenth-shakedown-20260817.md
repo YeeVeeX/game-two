@@ -134,6 +134,24 @@ ticks 89577 ≥ 36000 ✓ (~25 min de sim). Falta só a contraparte seat 1.
 Metade B (4 perguntas, sem changelog): sendo respondida pelo Junior
 separadamente neste momento; segue em anexo quando ele responder.
 
+### Metade B — respostas do Junior (verbatim, 2026-08-17 manhã, sem changelog, sem combinar com o owner)
+
+Perguntas feitas exatamente como pré-registradas; respostas coladas
+intactas:
+
+1. Pareceu jogar JUNTOS ou em paralelo? — **"sim."** [= juntos]
+2. Sentiu atraso/espera? Incomodou? — **"nenhum."**
+3. Algo pareceu injusto ou quebrado? — **"nada."**
+4. Veredito livre — **"muito bom jogo, jogando em multiplayer não parece
+   ser tão dificil, a AI segue se matando por nada, mas tudo bem, faz
+   parte."**
+
+Notas de contexto do assento (não interpretação): a resposta 4 carrega
+dois sinais para o dev rotear — (a) percepção de dificuldade menor em
+multiplayer; (b) o corpo pilotado pela IA "se matando por nada"
+(atrito de corpo da IA). Ambos são matéria do dev/dono, registrados
+aqui apenas.
+
 ## Roteamento
 
 - Job 2/3 do close-out (W6): as duas quedas conn_lost + o diagnóstico de
