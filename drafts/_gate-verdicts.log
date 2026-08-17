@@ -66333,3 +66333,30 @@ Perf p95 0.260ms (budget 16.6). Suite 524/2322 green.
   ],
   "verdict": "PASS"
 }
+
+=== 20260817-071556 tmp\readme_image_gate ===
+{
+  "checks": [
+    {
+      "id": "representative_gameplay",
+      "pass": true,
+      "why": "Tile world with HUD bars, station fixtures, a controlled orange body at the gate, and a central +2 tally beat."
+    },
+    {
+      "id": "placeholder_compliance",
+      "pass": true,
+      "why": "Only functional text visible such as ZONE 1, player 1, control bindings, and +2."
+    },
+    {
+      "id": "readable_crop",
+      "pass": true,
+      "why": "Full 16:9 game view with HUD, playfield, body shapes, and bottom controls strip intact and unclipped."
+    },
+    {
+      "id": "readme_thumbnail_value",
+      "pass": true,
+      "why": "Warm palette, glowing +2 panel, colored stations, and outlined body form a legible hierarchy at thumbnail scale."
+    }
+  ],
+  "verdict": "PASS"
+}
