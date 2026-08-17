@@ -106,6 +106,11 @@ class SaveStoreTest < Minitest::Test
   end
 
   def test_open_handle_replace_failure_bounded_retry_named_error_tmp_intact
+    # The pinned property is WINDOWS rename semantics (no FILE_SHARE_DELETE:
+    # rename-over-open-file refuses). POSIX replaces an open file happily,
+    # so off-Windows the pin has nothing to bite — skip LOUDLY (headless-CI
+    # law: platform-specific tests skip off-platform, never fake a pass).
+    skip "Windows-only rename-over-open-file semantics" unless Gem.win_platform?
     with_store do |store, _|
       store.write(facts(banked: 1), saved_at_ms: 1)
       err = nil
