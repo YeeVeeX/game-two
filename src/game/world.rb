@@ -69,6 +69,7 @@ module Game
       @banner_queue = []
       @station_cue = nil
       @breach_line = nil
+      @gate_wait = nil
       @breached = {}
       @home_zone = HOME_ZONE
       @zones = {}
@@ -166,6 +167,11 @@ module Game
     end
     def station_cue = @station_cue
     def breach_line = @breach_line
+    # v17 gate-wait cue feed (decision 11 co-location consent): the gate
+    # tile blocked ONLY on partner co-location this tick, else nil.
+    # Presentation reader, digest-excluded; unreachable single-seat (no
+    # partner to wait for) — the walled line is untouched by construction.
+    def gate_wait = @gate_wait
 
     # Session-scoped and wipe-proof BY DESIGN: wipes never close the door —
     # that is the arc. Only a fresh World (restart) re-seals.
@@ -208,6 +214,10 @@ module Game
       @seal_marks.reject! { |m| m[:frames_left] <= 0 }
       @station_cue = nil if @station_cue && (@station_cue[:frames_left] -= 1) <= 0
       @breach_line = nil if @breach_line && (@breach_line[:frames_left] -= 1) <= 0
+      # Gate-wait cue: recomputed every non-hitstop tick — check_transition
+      # re-sets it while the co-location block holds (hitstop keeps the
+      # frozen frame's value, same law as banners).
+      @gate_wait = nil
 
       case @states.current
       when :world
@@ -1085,7 +1095,12 @@ module Game
       # above), every other seat's living body within Chebyshev 1 of it.
       # Consent by co-location; dead/waiting seats don't block.
       others = controlled_bodies.reject { |b| b.equal?(trigger) || b.dead? }
-      return unless others.all? { |b| tile_distance(b.tile, t[:at]) <= 1 }
+      unless others.all? { |b| tile_distance(b.tile, t[:at]) <= 1 }
+        # The blocked gate IS the WAITING AT GATE cue (presentation spec):
+        # set for exactly the ticks the block holds.
+        @gate_wait = t[:at]
+        return
+      end
       enter_zone(t[:to], arrival_tiles(t[:to], t[:spawn]))
     end
 

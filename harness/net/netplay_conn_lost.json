@@ -1,0 +1,21 @@
+{
+  "scenario": "netplay",
+  "seed": 79,
+  "width": 960,
+  "height": 540,
+  "out_dir": "captures/netplay_conn_lost",
+  "netplay": {
+    "port": 43917,
+    "epoch": 11,
+    "join_at": 2,
+    "sever_at": 90,
+    "seat2": {
+      "hold": { "up": [[10, 40]] }
+    }
+  },
+  "hold": {
+    "left": [[10, 40]]
+  },
+  "captures": [4, 40, 100, 140],
+  "run_until": 160
+}

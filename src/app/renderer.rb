@@ -124,7 +124,7 @@ module App
       # recap, and the recap legible through the veil is the point (spec:
       # one owned draw-order decision; review M1-codefit).
       draw_ledger_beat(world)
-      draw_stagger_veil(world) if world.possessed(@local_seat).staggered?
+      draw_stagger_veil(world) if world.possessed(@local_seat)&.staggered?
     end
 
     def draw_impacts(world)
@@ -352,9 +352,12 @@ module App
     LEDGER_RADIUS_TILES = 3
 
     def draw_station_ledger(world)
+      # v17 waiting-for-body: no body, no instruments (the netplay overlay
+      # carries the NO BODY line). Guard never taken single-player.
+      return unless (body = world.possessed(@local_seat))
       world.map.stations.each do |s|
         tx, ty = s[:at]
-        px, py = world.possessed(@local_seat).tile
+        px, py = body.tile
         next unless [(tx - px).abs, (ty - py).abs].max <= LEDGER_RADIUS_TILES
         ts = world.map.tile_size
         if s[:type] == "bank"
@@ -418,6 +421,11 @@ module App
       y = c.y + ly
       if c.equal?(world.possessed(@local_seat))
         Gosu.draw_rect(x - 3, y - 3, SIZE + 6, SIZE + 6, POSSESSED_RING)
+      elsif c.faction == :pack && world.controlled?(c)
+        # v17 decision 10: seat identity is RINGS ONLY — the partner's body
+        # carries the second color (display.json), labels untouched.
+        # Unreachable single-seat (the only controlled body IS possessed).
+        Gosu.draw_rect(x - 3, y - 3, SIZE + 6, SIZE + 6, partner_ring)
       end
       if c.faction == :pack && c.marked?
         Gosu.draw_rect(x + SIZE / 2 - 4, y - 10, 8, 8, GOD_MARK)
@@ -620,6 +628,7 @@ module App
 
     def chant_rgb = @chant_rgb ||= @display.fetch(:chant_ring_rgb, [60, 100, 220])
     def seized_rgb = @seized_rgb ||= @display.fetch(:seized_underline_rgb, [60, 100, 220])
+    def partner_ring = @partner_ring ||= Gosu::Color.new(255, *@display.fetch(:partner_ring_rgb, [80, 200, 220]))
     def nameplate_font = @nameplate_font ||= Gosu::Font.new(@display.fetch(:nameplate_font_size, 10))
 
     # Pressuring stance (A2): a thin hollow outline — present, encircling,

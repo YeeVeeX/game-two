@@ -1,19 +1,27 @@
 #!/usr/bin/env bash
 # Owner launcher: PATH-safe from any shell. Double-clickable via bin/play.cmd.
 # Optional locale arg (v13 i18n, display-only): bin/play es | pt-br
+# v17 netplay: everything past the locale forwards to the game —
+#   bin/play [locale] --host [port] | --join <ip[:port]>
 cd "$(dirname "$0")/.." || exit 1
 export PATH="/c/Ruby34-x64/bin:$PATH"
-[ -n "$1" ] && export GAME_LOCALE="$1"
+case "$1" in
+  ""|-*) ;; # no locale given
+  *) export GAME_LOCALE="$1"; shift ;;
+esac
 # Session-telemetry law (ninth-verify protocol): unique log per launch —
 # a fixed name cost the eighth verify its telemetry to a relaunch clobber.
 LOG="/tmp/game_two_session_$$.log"
-ruby -Isrc src/main.rb > "$LOG" 2>&1
+ruby -Isrc src/main.rb "$@" > "$LOG" 2>&1
 code=$?
 # Crash visibility (v15 panel fold): a config raise — e.g. a bad
 # bindings.local.json — must reach the person who typed it, not die in
-# a temp file. Normal close is exit 0 and stays silent.
+# a temp file. Normal close is exit 0 and stays silent... except the
+# netplay TELEMETRY + relaunch lines, which the fun-verify harvest needs.
 if [ $code -ne 0 ]; then
   echo "game exited with code $code — log: $LOG"
   tail -20 "$LOG"
+else
+  grep -E "^(TELEMETRY netplay|desync report:|relaunch:)" "$LOG"
 fi
 exit $code

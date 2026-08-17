@@ -152,6 +152,25 @@ class SessionTest < Minitest::Test
     assert_match(/seat=2/, j.telemetry_line)
   end
 
+  def test_quit_while_hosting_alone_ends_immediately_without_a_drain
+    h = host_session
+    h.update(0)
+    h.quit!(10)
+    assert h.ended?, "Esc on the HOSTING screen has no peer to drain for"
+    assert_equal :quit, h.reason
+  end
+
+  # --- sever! (harness fault injection: process death, no BYE) -----------------
+
+  def test_severed_peer_reads_as_conn_lost_not_quit
+    h = host_session
+    j = join_session(h.port)
+    t = handshake(h, j)
+    j.sever!
+    pump_until(h, j, start_ms: t, what: "host discovers the dead wire") { h.ended? }
+    assert_equal :conn_lost, h.reason, "no BYE arrived — this is a dead link, not a quit"
+  end
+
   # --- protocol faults (raw-socket peer: a REAL socket speaking wrong) ------------
 
   def raw_peer(host)

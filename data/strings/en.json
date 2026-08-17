@@ -20,5 +20,14 @@
   "challenger.name": "BOSS 1",
   "challenger.stands.line": "BOSS 1 SPAWNED",
   "challenger.term.line": "BOSS 1 DEFEATED",
-  "stamp.mark_void": "MARK LOST"
+  "stamp.mark_void": "MARK LOST",
+  "net.hosting": "HOSTING — WAITING FOR PARTNER",
+  "net.port": "PORT",
+  "net.connecting": "CONNECTING…",
+  "net.stall": "WAITING FOR PARTNER",
+  "net.link_slow": "LINK SLOW",
+  "net.desync": "DESYNC AT TICK <N> — SESSION ENDED",
+  "net.conn_lost": "CONNECTION LOST — SESSION ENDED",
+  "net.no_body": "NO BODY — WAITING",
+  "net.gate_wait": "WAITING AT GATE"
 }

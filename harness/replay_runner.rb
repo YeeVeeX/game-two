@@ -22,11 +22,13 @@ require "core/input"
 require_relative "support"
 require_relative "scenes/moving_square"
 require_relative "scenes/world_scene"
+require_relative "scenes/netplay_scene"
 
 module Harness
   SCENES = {
     "moving_square" => Scenes::MovingSquare,
-    "world" => Scenes::WorldScene
+    "world" => Scenes::WorldScene,
+    "netplay" => Scenes::NetplayScene
   }.freeze
 
   class ReplayWindow < Gosu::Window
@@ -39,6 +41,7 @@ module Harness
 
       scene_kwargs = { width: w, height: h, seed: raw.fetch(:seed, 0) }
       scene_kwargs[:start] = raw[:start] if raw[:start] && raw.fetch(:scenario) == "world"
+      scene_kwargs[:netplay] = raw[:netplay] if raw.fetch(:scenario) == "netplay"
       @scene = SCENES.fetch(raw.fetch(:scenario)).new(**scene_kwargs)
       @input = Core::ScriptedInput.new(frames: Harness.expand_script(raw))
       @captures = raw.fetch(:captures, []).to_a

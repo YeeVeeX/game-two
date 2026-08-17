@@ -1,0 +1,57 @@
+{
+  "scope": "All checks below judge NETPLAY-scenario captures: a two-player lockstep session rendered from seat 1's view. Frames are either (a) full-screen session states (near-black screen with large centered text) or (b) live world frames with netplay overlay text. The local player's body carries the familiar WHITE ring; the PARTNER's body carries a CYAN/teal ring and is otherwise dimmed like an ally. The three netplay scripts stage mutually exclusive endings, so any check whose beat is absent from this reel passes with why='not exercised by this script'. no_render_garbage always applies in full.",
+  "checks": [
+    {
+      "id": "hosting_state_reads",
+      "check": "At least one frame is a full-screen near-black state reading HOSTING - WAITING FOR PARTNER with a PORT number line beneath it, with no world visible behind. If the reel never shows a hosting frame, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "connecting_state_reads",
+      "check": "At least one frame is a full-screen near-black state reading CONNECTING..., no world behind it. If absent, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "partner_ring_distinct",
+      "check": "In frames showing two living ringed pack bodies, exactly one carries the white ring and exactly one carries a clearly different cyan/teal ring - two pilots read at a glance, never two white rings. If no frame shows both ringed bodies alive, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "partner_ring_moves",
+      "check": "Across the mid-run frames the white-ringed body and the cyan-ringed body occupy visibly different positions over time - both pilots are moving independently, not statues. If fewer than two frames show both rings, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "link_slow_reads",
+      "check": "When the LINK SLOW banner is present it is legible top-center and does not collide with or overlap the zone banner above it. If no frame shows LINK SLOW, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "stall_overlay_reads",
+      "check": "At least one frame shows WAITING FOR PARTNER followed by a millisecond count at the top-center over a live world frame - the game visibly waiting, not crashed. If absent, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "gate_wait_reads",
+      "check": "When WAITING AT GATE is shown, a ringed body is standing on or beside the gold gate tile at the map edge and the cue text is legible. If absent, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "no_body_reads",
+      "check": "When NO BODY - WAITING is shown, no white-ringed body is alive in the frame (the cyan-ringed partner may live on) and the bottom controls strip is absent. If absent, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "desync_screen_reads",
+      "check": "When the desync ending is present: a full-screen darkened state reading DESYNC AT TICK <number> - SESSION ENDED with a smaller file path line beneath it; the frozen world may ghost through the veil. If this reel has no desync frames, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "conn_lost_screen_reads",
+      "check": "When the connection-lost ending is present: a full-screen darkened state reading CONNECTION LOST - SESSION ENDED, same delivery as the desync screen. If absent, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "netplay_text_legible",
+      "check": "Every netplay overlay line that appears (hosting, connecting, stall, link slow, gate wait, no body, endings) is legible: readable contrast against what is behind it, not clipped at screen edges, not overlapped into gibberish by other UI."
+    },
+    {
+      "id": "hud_strip_intact",
+      "check": "In mid-run world frames where a white-ringed body is alive, the three HP bars (top-left) and the bottom controls strip render normally - the netplay overlays add text but never break or displace the base UI. (While NO BODY - WAITING shows, the strip is absent BY DESIGN - do not judge those frames here.) If the reel has no qualifying frames, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "no_render_garbage",
+      "check": "No frame shows tearing, missing map, entities outside walls, or obviously corrupted output."
+    }
+  ]
+}

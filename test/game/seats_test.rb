@@ -186,9 +186,11 @@ class SeatsTest < Minitest::Test
     w.possessed(1).walker.teleport(29, 8)  # nest -> district gate tile
     w.tick({ 1 => idle, 2 => idle })
     assert_equal "nest", w.zone_name, "gate holds: partner not in the gate group"
+    assert_equal [29, 8], w.gate_wait, "the blocked gate feeds the WAITING AT GATE cue"
     w.possessed(2).walker.teleport(28, 8)  # adjacent = the gate group
     w.tick({ 1 => idle, 2 => idle })
     assert_equal "district", w.zone_name, "co-location = consent; the gate fires"
+    assert_nil w.gate_wait, "the cue clears the tick the gate fires"
   end
 
   def test_waiting_seat_does_not_block_the_gate

@@ -87,12 +87,17 @@ task :canary do
   puts "CANARY PASS: #{fresh.size} captures byte-identical to #{baseline}"
 end
 
-desc "Rule 2 gate (BLOCKING): replay twice, byte-compare captures, vision verdict. SCRIPT=..."
+desc "Rule 2 gate (BLOCKING): replay twice, byte-compare captures, vision verdict. SCRIPT=... [CHECKS=...]"
 task :gate do
   require "digest"
   require "json"
   require "fileutils"
   script = ENV.fetch("SCRIPT") { abort "Usage: rake gate SCRIPT=harness/scripts/<name>.json" }
+  # v17: netplay gates carry their OWN checks file (harness/net/
+  # gate_checks.json) — the critic applies every check globally, so
+  # world-conditioned checks would misfire on netplay frames (the
+  # moving_square lesson). Default untouched: the wall stays the wall.
+  checks = ENV.fetch("CHECKS", "harness/gate_checks.json")
   base = JSON.parse(File.read(script)).fetch("out_dir")
   a_dir = "#{base}_gate_a"
   b_dir = "#{base}_gate_b"
@@ -116,7 +121,7 @@ task :gate do
     puts "GATE vision: SKIPPED (SKIP_CRITIC=1 — determinism only, NOT a shippable pass)"
     puts "GATE PASS (determinism only)"
   else
-    sh "python harness/vision_critic.py --verdict #{a_dir} --checks harness/gate_checks.json"
+    sh "python harness/vision_critic.py --verdict #{a_dir} --checks #{checks}"
     puts "GATE PASS"
   end
 end

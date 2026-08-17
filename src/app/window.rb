@@ -6,6 +6,7 @@ require "core/binding_map"
 require "game/world"
 require "game/telemetry"
 require "app/renderer"
+require "app/netplay_overlay"
 require "app/scale"
 require "app/key_table"
 
@@ -34,7 +35,7 @@ module App
 
     attr_reader :scale, :view_width, :view_height
 
-    def initialize
+    def initialize(session: nil, relaunch: nil)
       data = Core::DataStore.new(File.expand_path("../../data", __dir__))
       display = data["display"]
       @view_width = display[:view_width]
@@ -44,25 +45,52 @@ module App
                                  screen_w: Gosu.screen_width, screen_h: Gosu.screen_height)
       super @view_width * @scale, @view_height * @scale
       self.caption = "game-two"
-      @world = Game::World.new(data)
-      @telemetry = Game::Telemetry.new(@world.bus, world: @world)
+      # v17 session mode: the two-seat World waits for handshake params
+      # (seed comes from the host); solo mode constructs it now, unchanged.
+      @session = session
+      @relaunch = relaunch
+      @data = data
+      strings = Core::Strings.new(data)
+      if @session
+        @netplay = NetplayOverlay.new(display:, strings:,
+                                      view_w: @view_width, view_h: @view_height)
+      else
+        @world = Game::World.new(data)
+        @telemetry = Game::Telemetry.new(@world.bus, world: @world)
+      end
       bindings = Core::BindingMap.load(data, key_table: KEY_TABLE, local: true)
       @input = Core::KeyboardInput.new(bindings: bindings.codes)
-      @renderer = Renderer.new(display: display, strings: Core::Strings.new(data),
-                               bindings: bindings)
+      @renderer = Renderer.new(display: display, strings:, bindings: bindings,
+                               local_seat: @session ? @session.seat : 1)
       @overruns = 0
       @overrun_font = Gosu::Font.new(14)
     end
 
     def update
       t0 = Gosu.milliseconds
-      @world.tick(@input)
+      @session ? update_session : @world.tick(@input)
       @overruns += 1 if Gosu.milliseconds - t0 > FRAME_BUDGET_MS
+    end
+
+    # One update = one session pump (and at most one sim tick inside it).
+    # The app layer owns the clock (monotonic ms) — the sim never reads
+    # one. Esc quits via the drain (button_down); ended sessions hold the
+    # end screen until the player closes it (the state must be READABLE).
+    def update_session
+      now = Process.clock_gettime(Process::CLOCK_MONOTONIC) * 1000.0
+      if @world.nil? && @session.params_known?
+        @world = Game::World.new(@data, seed: @session.params.seed, seats: 2)
+        @telemetry = Game::Telemetry.new(@world.bus, world: @world)
+        @session.attach(@world)
+      end
+      @session.update(now, @input)
+      close if @session.ended? && @quitting
     end
 
     def draw
       Gosu.scale(@scale) do
-        @renderer.draw(@world)
+        @renderer.draw(@world) if @world
+        @netplay&.draw(@session, @world)
         if @overruns.positive?
           @overrun_font.draw_text("overruns: #{@overruns}", @view_width - 110, 8, 20, 1, 1,
                                   Gosu::Color.new(200, 255, 120, 120))
@@ -71,13 +99,28 @@ module App
     end
 
     def button_down(id)
-      id == Gosu::KB_ESCAPE ? close : super
+      return super unless id == Gosu::KB_ESCAPE
+      if @session && !@session.ended? && !@quitting
+        @quitting = true # quit! begins the BYE drain; update closes at ended?
+        @session.quit!(Process.clock_gettime(Process::CLOCK_MONOTONIC) * 1000.0)
+      else
+        close
+      end
     end
 
     # The owner's play session prints the fun-verify line to the launching
-    # shell on Esc/close — the one session the verdict actually needs.
+    # shell on Esc/close — the one session the verdict actually needs. In
+    # session mode the netplay TELEMETRY line prints beside it, plus the
+    # relaunch command (honest-end friction fold) and the desync artifact
+    # path when one exists.
     def close
-      puts @telemetry.summary
+      puts @telemetry.summary if @telemetry
+      if @session
+        @session.quit!(Process.clock_gettime(Process::CLOCK_MONOTONIC) * 1000.0) unless @session.ended?
+        puts @session.telemetry_line
+        puts "desync report: #{@session.artifact_path}" if @session.artifact_path
+        puts "relaunch: #{@relaunch}" if @relaunch
+      end
       super
     end
   end

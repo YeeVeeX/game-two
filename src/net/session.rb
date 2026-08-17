@@ -83,6 +83,9 @@ module Net
 
     def listen(bind, port, seed:, epoch:)
       @server = TCPServer.new(bind, port)
+      # Cached at bind: the HOSTING screen reads it every frame, and the
+      # server socket closes at accept (addr would raise IOError then).
+      @port = @server.addr[1]
       @seed = seed
       @epoch = epoch
     end
@@ -91,7 +94,7 @@ module Net
       open_wire(TCPSocket.new(host, port))
     end
 
-    def port = @server.addr[1]
+    attr_reader :port
 
     # --- caller surface -----------------------------------------------------
 
@@ -111,7 +114,7 @@ module Net
       "TELEMETRY netplay seat=#{@seat} ticks=#{ticks} " \
         "desyncs=#{@lockstep ? @lockstep.desyncs : 0} " \
         "stalls=#{@lockstep ? @lockstep.stall_updates : 0} " \
-        "stall_ms_max=#{@lockstep ? @lockstep.stall_ms_max : 0} " \
+        "stall_ms_max=#{@lockstep ? @lockstep.stall_ms_max.round : 0} " \
         "reason=#{@reason}"
     end
 
@@ -173,13 +176,29 @@ module Net
     end
 
     # Clean local quit (Esc): BYE{quit}, then a bounded drain for the
-    # peer's BYE ack (decision 8) — both seats record reason=quit.
+    # peer's BYE ack (decision 8) — both seats record reason=quit. With no
+    # wire yet (Esc on the HOSTING screen) there is no peer to drain for:
+    # end immediately — a 2 s freeze on cancel would read as a hang.
     def quit!(now_ms)
       return if ended?
       @now = now_ms
       conclude(:quit)
+      if @wire.nil?
+        finish!
+        return
+      end
       send_msg(:bye, reason: "quit")
       begin_drain(:bye)
+      nil
+    end
+
+    # Harness fault injection (netplay_conn_lost script): hard-close the
+    # socket with NO BYE — simulates process death; the peer discovers it
+    # as EOF on its next pump (conn_lost taxonomy). Never called in live
+    # play; the replay scene stops updating a severed seat.
+    def sever!
+      @wire&.close
+      @server.close if @server && !@server.closed?
       nil
     end
 

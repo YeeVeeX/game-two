@@ -75,6 +75,10 @@ module App
     end
 
     def draw(world)
+      # v17 waiting-for-body: no body, no strip — the netplay overlay says
+      # NO BODY — WAITING (guard never taken single-player: seat 1's
+      # pointer survives even a wipe).
+      return unless world.possessed(@local_seat)
       h = strip_height
       y = world.camera(@local_seat).view_h - h
       a = strip_alpha_now(world)

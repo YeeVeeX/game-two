@@ -1,0 +1,21 @@
+{
+  "scenario": "netplay",
+  "seed": 78,
+  "width": 960,
+  "height": 540,
+  "out_dir": "captures/netplay_desync",
+  "netplay": {
+    "port": 43917,
+    "epoch": 9,
+    "join_at": 2,
+    "diverge_at_tick": 40,
+    "seat2": {
+      "hold": { "left": [[10, 40]] }
+    }
+  },
+  "hold": {
+    "right": [[10, 40]]
+  },
+  "captures": [4, 30, 90, 130],
+  "run_until": 150
+}
