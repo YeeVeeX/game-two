@@ -267,3 +267,50 @@ Valid routes now:
 
 This does not add a new blocker: direct Tailscale is live now, and the
 real ticking session remains the arbiter.
+
+## Host-seat counterpart — THE REAL SESSION, seat 1 (2026-08-17 ~10:37 -0600)
+
+Requested counterpart line, verbatim (recovered from the play.cmd
+session log `game_two_session_1012229766.log`; preserved copy =
+`tmp/netplay/owner_seat_session_20260817.log`):
+
+    TELEMETRY netplay seat=1 ticks=89575 desyncs=0 stalls=5149 stall_ms_max=1113 reason=quit
+
+Half A adjudicated **PASS** on both seats — lines + arbiter now pasted
+in `_v17-fun-verify-skeleton-20260816.md`. Owner's Half B being asked
+(separately, questions virgin until now, no changelog shown). Stall
+asymmetry (5149 vs 189) confirms this side's inbound path carried the
+wait — your NAT-rebind diagnosis, not your seat.
+
+## Launcher post-mortem — why the host "couldn't close" after the session (fixed this commit)
+
+Owner-live failure right after the real session: every Esc relaunched
+the host; three `ticks=0 reason=quit` harvest lines piled up before he
+asked for a kill. Root cause is a **cmd parser law, not the exit seam**
+(probes proved `App::Cli.exit_status` + `play.cmd` propagate 0/1/2
+correctly end-to-end):
+
+- In `( )` blocks, cmd closes the block at the FIRST `)` inside echo
+  text. `host-coop.cmd`'s rehost block said `(Ctrl+C para cortar el
+  loop)` — so `timeout` + `goto host` leaked OUT of the block and ran
+  UNCONDITIONALLY: rehost on every status, Esc could never end it. The
+  console scrape shows the signature (relaunch after reason=quit exits;
+  the "Link caido" echo never printed — it stayed inside the dead block).
+- `join-coop.cmd` had the mirror bug: `(Esc). Pronto.` closed the RC==0
+  block early → `exit /b 0` ran unconditionally → **the auto-rejoin and
+  bounded-retry loops were dead code on your seat**. A mid-session link
+  flap would have ended your launcher silently instead of re-entering.
+- Accomplice found while reproducing: a cmd window spawned from a
+  bash-descended environment resolves GNU `timeout` (Git Bash) instead
+  of System32's — `/t` refused, the rehost grace vanished.
+
+Fix shipped (this commit): both launcher tails rewritten as label/goto
+dispatch — zero multi-line paren blocks, no `)` in block echo text,
+`%SystemRoot%\System32\timeout.exe` by full path. Verified three ways:
+fake-play RC matrix through the real tail logic (host: `2 2 0`→rehost×2
+then clean rc=0, `1`→loud stop rc=1, `0`→clean rc=0; join: `2 0`→rejoin
+then clean, `1 1 0`→tentativa 1/20, 2/20 then clean, refusal-log `1`→
+RECUSADA rc=1), then a live end-to-end host run (real game, PostMessage
+Esc at the HOSTING screen): `Sesion cerrada limpia con Esc. Listo.`,
+launcher rc=0, no respawn, port free. **Pull before your next session
+— your rejoin loop only exists after this commit.**

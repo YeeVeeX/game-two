@@ -32,22 +32,29 @@ if /i "%~1"=="check" (
   exit /b 0
 )
 
-echo Abriendo el juego como HOST... (sali siempre con Esc)
-rem Rehost loop (SIXTEENTH support): un corte de link (NAT flap, status 2)
-rem relanza el host solo; Esc limpio (0) termina de verdad; un error (1)
-rem se muestra y para. GAME_NO_PAUSE: el loop fluye sin "presiona una tecla".
+echo Abriendo el juego como HOST... salir siempre con Esc
+rem Rehost SOLO en corte de link (status 2): Esc limpio (0) termina de
+rem verdad; un error (1) muestra el log y para. GAME_NO_PAUSE: el loop
+rem fluye sin "presiona una tecla".
+rem PARSER LAW (bug cazado en vivo 2026-08-17): cmd corta un bloque "( )"
+rem en el primer ")" dentro de un echo -- el rehost quedaba INCONDICIONAL
+rem y Esc nunca podia cerrar el juego. Por eso: cero bloques multilinea,
+rem solo if+goto de una linea, y timeout con ruta completa (un PATH con
+rem Git Bash mete el timeout de GNU, que no entiende /t).
 set GAME_NO_PAUSE=1
 :host
 call bin\play.cmd es --host
-if "%errorlevel%"=="2" (
-  echo(
-  echo Link caido -- rehosteando en 5s... (Ctrl+C para cortar el loop)
-  timeout /t 5 /nobreak >nul
-  goto host
-)
-if "%errorlevel%"=="1" (
-  echo El juego termino con error -- revisa el log de arriba.
-  pause
-  exit /b 1
-)
-echo Sesion cerrada limpia (Esc). Listo.
+if "%errorlevel%"=="2" goto rehost
+if "%errorlevel%"=="1" goto broke
+echo Sesion cerrada limpia con Esc. Listo.
+exit /b 0
+
+:rehost
+echo Link caido -- rehosteando en 5s... Ctrl+C corta el loop.
+"%SystemRoot%\System32\timeout.exe" /t 5 /nobreak >nul
+goto host
+
+:broke
+echo El juego termino con error -- revisa el log de arriba.
+pause
+exit /b 1
