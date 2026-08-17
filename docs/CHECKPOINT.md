@@ -1,5 +1,33 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-17 (v17 CLOSED — SIXTEENTH CUMPLIDO; v18 ratified + founded; next session = v18 brainstorm → forks → spec)
+
+**MEASURED:** junior-tibia green through the v18 contract commit; suite
+650/9322 at hooks. The REAL owner+Junior session ran 2026-08-17 morning:
+89575/89577 ticks (~25 sim-min), **desyncs=0 both seats**, reason=quit
+both, BOSS 1 slain in co-op. VERDICT: **the SIXTEENTH is CUMPLIDO, both
+halves** — `drafts/_v17-fun-verify-skeleton-20260816.md` (owner: "muy
+divertido"; Junior: "muito bom jogo"). Same-day launcher bug found+fixed
+(`15509d3`): cmd closes ( ) blocks at the first `)` inside echo text —
+host-coop rehosted on EVERY status (owner couldn't Esc out), join-coop's
+rejoin was dead code; both rewritten as goto dispatch, RC-matrix + live
+Esc E2E verified. Seat-1 telemetry recovered from `%TEMP%` session logs
+(play.cmd writes one per launch — that recovery saved Half A).
+
+**v18 RATIFIED (owner 2026-08-17, "yes approved"): THE PERSISTENT WORLD
+CYCLE — etapa 1.** Scope contract rewritten in AGENTS.md; foundation =
+`drafts/_v18-foundation-20260817.md` (three lanes: coop feel + priced
+sustain · persistence v1 host-authoritative save · god-view v0 offline
+map; seven forks F1-F7 with dev positions; SEVENTEENTH oracle shape).
+Owner vision drop routed in PARKING_LOT.md §"Owner vision drop" —
+always-online PARKED with named trigger, accepted by owner.
+
+**Next session (spark: `drafts/_v18-spark-20260817.md`):** brainstorm
+against the foundation → close F1-F7 (batch owner-level F1/F3/F4) →
+spec + dual review → stop. TDD after the spec, save/load round-trip
+lane FIRST. Junior's seat: pull — the join-coop fix + Half A/B verdict
+landed; his rejoin loop only exists post-`15509d3`.
+
 ## 2026-08-16 late (SIXTEENTH night support pt 2: tailnet LIVE, W6 fired + FIXED `10b6138`, handshake PROVEN cross-machine — real session still owed)
 
 **MEASURED:** junior-tibia at `10b6138` (fix(net): fingerprint

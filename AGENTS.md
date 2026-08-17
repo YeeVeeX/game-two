@@ -21,51 +21,57 @@ writing ever restarts, it restarts OUTSIDE this repo (from the archive
 folder) — never here. Placeholder
 changes are still Rule-2 visual changes (wall + recalibration apply).
 
-v17 (2026-08-16, debate closed, owner ratified — "ok procede como
-recomiendes, lo apruebo"): **THE MULTIPLAYER CYCLE — etapa 1, live
-lockstep co-op with Junior.** Both v16 triggers adjudicated CUMPLIDOS at
-the debate: (1) Junior at etapa 0 — first session logged 2026-08-15
-("divertida, quero mais") + strict etapa-0 exchange + sim-identity re-run
-ON THE PLACEHOLDER LINE (3/3 digests identical, his commit `b7beb85`);
-(2) v16 shipped — wall 17/17 + FIFTEENTH partial win (first unprompted
-positive global; verdict `drafts/_v16-fun-verify-skeleton-20260816.md`).
+v18 (2026-08-17, owner ratified — "yes approved"): **THE PERSISTENT
+WORLD CYCLE — etapa 1.** v17 closed the same day: the SIXTEENTH
+adjudicated **CUMPLIDO** on both halves (Half A: 89575/89577 ticks,
+desyncs=0 both seats, reason=quit both; Half B: "juntos" sí/sim asked
+separately, verdicts "muy divertido"/"muito bom jogo"; verdict file
+`drafts/_v16-fun-verify-skeleton-20260816.md`'s successor
+`drafts/_v17-fun-verify-skeleton-20260816.md`). Owner vision drop
+(persistent shared world, editor/god view, character persistence)
+routed in PARKING_LOT.md; always-online = architecture fork, PARKED
+with a named trigger (different-time play or a third player).
 
-**IN scope:**
-- **Etapa 1** — two players (owner + Junior), one shared deterministic
-  sim, lockstep over Tailscale (staged path banked at v13; GameLift
-  rejected — Junior has no AWS). The tick-locked sim + proven
-  cross-machine sim-identity (event-log digests) are the substrate.
+**IN scope (three lanes, one increment — foundation:
+`drafts/_v18-foundation-20260817.md`):**
+- **Coop feel** — respawn/pacing/difficulty made seat-count aware
+  (SIXTEENTH Q3a + Junior's "não parece tão dificil" + AI third-body
+  suicides = one item); **priced mid-hunt sustain** (owner law
+  2026-08-11: spend banked value, portable, never a free cooldown).
+- **Persistence v1** — world+character state survives sessions:
+  host-authoritative save, transferred + digest-checked at the
+  handshake (fingerprint-law extension); save/load round-trips the
+  deterministic sim; schema-versioned, mismatch = named refusal.
+  Re-opens D0's "banked session-only" BY OWNER ASK.
+- **God-view v0** — OFFLINE full-map artifact only (rake task → PNG
+  from data+save; Rule 2 applies to the artifact). In-game map/
+  teleport/editing stay parked.
 - **Design forks close at the brainstorm** (dev recommendation + owner
-  veto, v13 precedent): second-player embodiment (shared pack vs second
-  pack vs seat-swap), input-delay/tick-sync scheme, session bootstrap
-  (host/join + seed exchange), desync policy (etapa 1 = detect LOUDLY +
-  end honestly — no rollback/resync magic), latency budget.
-- **Determinism instrumentation** — per-N-tick digest exchange built on
-  the etapa-0 digest machinery; a desync is a counted, visible event.
-- **Netplay test lane** — two sim instances in one process exchanging
-  inputs = the real integration test (no mocks law); the existing wall
-  stays single-player and untouched.
-- **New UI surfaces** (connection state, second-player identity ring,
-  waiting states) are Rule-2 visual changes: capture + critique; text =
-  placeholders/functional only (standing order).
+  veto, v13 precedent): F1 what persists · F2 save custody · F3 banked
+  persists · F4 solo advances the shared world · F5 pacing shape ·
+  F6 sustain verb · F7 god-view scope — positions in the foundation.
 
-**Oracle (the SIXTEENTH ask, two halves):** did a real session with
-Junior HOLD (zero desyncs, arbiter = digest counters both seats) — and
-did it feel like playing TOGETHER (both players asked, separately).
+**Oracle (the SEVENTEENTH ask, two halves):** (A) PERSISTED — two real
+sessions on different days, session 2 provably resumes the same world
+(save digest chain + zero desyncs across both + a carried fact in
+telemetry); (B) FELT — both players asked separately: did the world
+feel continued, did the respawn/sustain frictions disappear.
 
 **Seat:** dev of record = the main session. Working language: English.
-Junior's seat is ACTIVE (CI, PT-BR functional labels, playtesting,
-etapa-0 tooling) — pull before push, always; parallel-session handoffs
-via drafts/ + `swarmforge handoff validate`.
+Junior's seat is ACTIVE (CI, PT-BR functional labels, playtesting) —
+pull before push, always; parallel-session handoffs via drafts/ +
+`swarmforge handoff validate`.
 
 **OUT of scope — goes to PARKING_LOT.md, never to code:**
->2 players; matchmaking/lobbies beyond host+join; open-internet play
-(Tailscale = trusted overlay only); rollback/resync (etapa 2+ material);
-spectators; voice/chat; BOSS-1-dread iteration (OPEN-FOR-EXPOSURE —
-self-answers when any session crosses seal2; zero code owed); all
-lore/creative writing (standing order above); new zones/enemies/
-single-player systems; audio (owner order); in-game rebind UI.
-**Nothing new starts until v17 is fun-verified (the SIXTEENTH ask).**
+always-online/server-authoritative world (named trigger recorded);
+in-game world editing, map view, teleport; character creation/
+appearance; item/equipment system; in-game chat/channels; >2 players;
+assets integration (gated on game-two-assets pipeline maturity);
+rollback/resync; open-internet play (Tailscale = trusted overlay
+only); BOSS-1-dread iteration (OPEN-FOR-EXPOSURE — zero code owed);
+all lore/creative writing (standing order above); audio (owner order);
+in-game rebind UI.
+**Nothing new starts until v18 is fun-verified (the SEVENTEENTH ask).**
 
 ## Human-facing surfaces
 
