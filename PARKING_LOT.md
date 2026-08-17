@@ -614,3 +614,55 @@ this list; nothing here starts before that debate closes:
   sustain — design shape PRE-DECIDED in this file (2026-08-11): PRICED in
   banked value, portable bank-sink, never a free cooldown; field version =
   the healer-fairy/Navi kernel folded as priced invocation.
+
+## Owner ratification riders — 2026-08-17 (v18 forks F1/F3/F4 ratified
+## "en general todo ok" + two riders, routed here — NOT v18 scope growth)
+
+Delivered with the fork ratification, same message. v18 etapa 1 is
+UNCHANGED (the SEVENTEENTH still gates everything new); these riders
+re-shape what comes AFTER it.
+
+- **ITEM/BACKPACK CYCLE = v19 LEAD CANDIDATE (owner re-ask, verbatim
+  shape: "me gustaría que también persista lo equipado y cargado,
+  deberíamos tener backpack y demás como en Tibia y
+  RavenDawn/RavenQuest").** Supersedes the vision-drop item (c) above
+  from "own future cycle" to "next debate's lead candidate". The
+  dependency chain, DECLARED now so the v19 debate starts real:
+  (1) loot identity (items must EXIST — today value is abstract pips;
+  needs drop tables + item data); (2) inventory/backpack UI (Kethral
+  grids parked since D0 — own Rule-2 surface family); (3) equipment
+  slots + a stats layer (combat-math data extension); (4) **position
+  persistence + logout rules** — the REAL fix for carried-persistence:
+  wake where you slept (Tibia model) instead of teleport-home-at-load,
+  which is exactly the exploit Codex #1 killed in the v18 review
+  (persist-carried + load-at-home = risk-free loot teleport past the
+  corpse-run); remaining known hole even with position persistence:
+  quit-to-reset-a-losing-fight (Tibia solves it server-side with
+  logout blocks — needs a design answer at the debate); (5) save
+  schema v2 (facts vocabulary grows: items, positions, zone).
+  **Research OWED before the debate:** RavenDawn/RavenQuest verified
+  shelf note (inventory/equipment/economy patterns — the owner named
+  both as touchstones; the shelf is Tibia-heavy and has neither).
+  Also gated on: assets pipeline maturity for item ART (sprites cycle,
+  v16 leftover) — items can ship glyph-first if the debate decides so.
+- **AWS staging path (owner re-ask: "el servidor no debería estar en mi
+  computadora si no en AWS").** Architecture honesty, recorded: there
+  is NO server today — lockstep is peer-to-peer simulation on both
+  machines; the host is just seat 1 + save custodian. "Move the server
+  to AWS" therefore stages as three different things with three
+  different costs: **(1) v18.1 — one-way S3 save BACKUP at clean quit**
+  (durability: the world survives the owner's disk; failure = warn,
+  never blocks play; aws-sdk-s3 dep + creds on the host machine;
+  no-mocks law → real-S3 test lane skips loudly without creds; FIRST
+  candidate after the SEVENTEENTH); **(2) cloud save CUSTODY + lock**
+  (S3 conditional-put or DynamoDB lock; EITHER machine can host the
+  SHARED world — this properly answers F4's recorded nuance "Junior
+  solo = his own world"; new failure modes: offline launch, credential
+  expiry, lock contention); **(3) server-authoritative always-online**
+  (the fork above, unchanged — sim runs in the cloud, clients thin;
+  full architecture rewrite). **Trigger status: HALF-FIRED** — the
+  owner asked for AWS unprompted, but the ask is infrastructure-voiced;
+  the named trigger (different-time play or a third player becoming
+  REAL) still governs stage 3. Owner clarification requested 2026-08-17
+  (durability vs different-time play) — the answer routes between
+  stages 1 and 2/3.

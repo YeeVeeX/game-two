@@ -54,6 +54,16 @@ third-body suicides)? Free verdict. Protocol pre-registered in §Fun-verify.
 
 ## Fork verdicts (closed 2026-08-17)
 
+**RATIFIED by the owner 2026-08-17 ("en general todo ok") with two
+riders, both routed to PARKING_LOT §"Owner ratification riders" — NOT
+v18 scope growth:** (1) equipped/carried persistence via a
+Tibia/RavenDawn-style backpack → the ITEM CYCLE, now v19 lead candidate
+(carried-persistence inside v18 stays rejected — the Codex #1 exploit;
+the real fix is position persistence + logout rules, which belong WITH
+the item cycle); (2) "the server should live on AWS, not my machine" →
+the staged AWS path (S3 backup → cloud custody → server-authoritative),
+trigger recorded HALF-FIRED. The SEVENTEENTH still gates everything new.
+
 - **F1 What persists (owner-level, recommendation):** pack economy
   (banked, provisions) + per-member character (kit, exact hp — alive is
   DERIVED as hp > 0, never stored; inscribed flag) + world arc (breached
@@ -514,7 +524,9 @@ third-body suicides)? Free verdict. Protocol pre-registered in §Fun-verify.
    cadence is now schema-critical; **must state the custody contract in
    player terms: the shared world lives on the host's machine, Junior
    solo = his own world, only joining advances the shared one — panel
-   Kimi-Q6 fold**), AGENTS.md Commands (rake map,
+   Kimi-Q6 fold; and the `--fresh` notice: if the host starts fresh,
+   the chain shows it — sessions counter resets, Junior sees
+   source=fresh**), AGENTS.md Commands (rake map,
    --fresh, saves/), PARKING_LOT (custody-handoff entry under the
    always-online trigger), checkpoint, SEVENTEENTH protocol confirmed.
 
@@ -568,8 +580,11 @@ quoting a player's old complaint back at him):
 - Junior asks for HIS solo play to advance the shared world → custody
   handoff = the always-online trigger family (PARKING_LOT).
 - Quit-timing griefs (value stranded in the field at quit) named →
-  session-close presentation item (a "bank before you leave" cue),
-  never a persistence-of-field-value re-open.
+  recorded as EVIDENCE for the item-cycle promotion (backpack +
+  position persistence + logout rules — the owner's 2026-08-17 rider,
+  PARKING_LOT §riders); plus the session-close "bank before you leave"
+  cue as the cheap v18-era mitigation. The v18 mechanic itself does not
+  re-open (the exploit stands until position persistence exists).
 - Session 2 opens under-resourced (dead bodies + banked below the
   regrow fee) AND the opening reads as chore → mercy-floor debate
   (e.g., a first-open regrow discount) — recorded, not auto-built
