@@ -208,3 +208,32 @@ Junior double-clicks `JOGAR COOP (entrar)`, play ≥10 sim-minutes,
 both Esc. Link deaths mid-evening no longer burn the attempt — both
 ends relaunch themselves. Questions stay virgin until the telemetry
 lines are pasted into the skeleton.
+
+## Host network correction — UPnP is real, but CGNAT is upstream (2026-08-17 ~06:40 -0600)
+
+Machine-verified after owner approval to finish the router lane:
+
+    Windows Get-NetUDPEndpoint: tailscaled PID 5792 listens 0.0.0.0/[::]:41641 UDP
+    tailscale debug portmap --type upnp:
+      Probe: {PCP:false PMP:false UPnP:true}
+      mapping external=10.43.52.216:27581 -> internal=192.168.100.5:59505
+    router EG8145V5 (Epuser): Enable UPnP checked; live mapping table empty after reconnect
+    tailscale ping Junior: direct 177.35.76.240:2209, 165ms
+
+**Correction to the earlier cure claim:** the Huawei's UPnP service works,
+but its WAN-facing address is `10.43.52.216` — RFC1918/private. The public
+STUN address remains `200.229.6.92:*`. This host is behind CGNAT/double
+NAT; a Huawei UPnP or static `41641 -> 41641` mapping only crosses the
+first NAT and cannot pin the ISP's public endpoint. Therefore NO static
+forward was added (it would be false confidence). The KB had no relevant
+networking result; live Tailscale/router evidence adjudicates.
+
+Valid routes now:
+
+1. SIXTEENTH proceeds on the already-shipped 45s tolerance + Tailscale
+   direct/DERP fallback + honest auto-relaunch loops.
+2. Permanent network cleanup = ask ISP for public IPv4 / CGNAT opt-out
+   (or native IPv6). Router credentials/forwarding alone cannot cure it.
+
+This does not add a new blocker: direct Tailscale is live now, and the
+real ticking session remains the arbiter.
