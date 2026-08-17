@@ -53,4 +53,40 @@ if /i "%MODE%"=="check" (
 )
 
 echo Abrindo o jogo para ENTRAR na partida... saia sempre com Esc
+rem Rejoin loop (SIXTEENTH support): corte de link (status 2) = re-entra
+rem sozinho; host fora do ar (status 1 sem "refused") = tenta de novo ate
+rem 20x (o host relanca sozinho em ~5s); recusa de fingerprint = para na
+rem hora (precisa de git pull). Esc limpo (0) termina de verdade.
+set GAME_NO_PAUSE=1
+set TRIES=0
+:join
 call bin\play.cmd pt-br --join %HOSTIP%
+set RC=%errorlevel%
+if "%RC%"=="0" (
+  echo Sessao fechada limpa (Esc). Pronto.
+  exit /b 0
+)
+if "%RC%"=="2" (
+  echo(
+  echo Link caiu -- re-entrando em 8s... (Ctrl+C para parar)
+  timeout /t 8 /nobreak >nul
+  set TRIES=0
+  goto join
+)
+rem RC 1: recusa (para) ou host fora do ar (re-tenta). O log da tentativa
+rem fica em %LOG% (play.cmd nao usa setlocal -- a variavel chega aqui).
+findstr /I /C:"refus" "%LOG%" >nul 2>&1
+if not errorlevel 1 (
+  echo Entrada RECUSADA pelo host -- rode git pull e tente de novo.
+  pause
+  exit /b 1
+)
+set /a TRIES+=1
+if %TRIES% GEQ 20 (
+  echo Host nao respondeu em %TRIES% tentativas -- avise o outro lado.
+  pause
+  exit /b 1
+)
+echo Host fora do ar (tentativa %TRIES%/20) -- tentando de novo em 10s...
+timeout /t 10 /nobreak >nul
+goto join

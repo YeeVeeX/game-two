@@ -120,7 +120,10 @@ mesmas apostas — e vocês só trocam de zona juntos.
    **Atalho de um clique:** `bin\join-coop.cmd` faz os passos 3 e 4
    sozinho — puxa a linha, acha o IP do host no Tailscale ao vivo e
    entra (`bin\join-coop.cmd check` só confere tudo, sem abrir o jogo;
-   um IP explícito como 1º argumento tem prioridade).
+   um IP explícito como 1º argumento tem prioridade). Se a conexão
+   cair no meio, ele **re-entra sozinho**; se o host estiver fora do ar,
+   tenta de novo por alguns minutos. Esc (saída limpa) termina de
+   verdade — o atalho não insiste.
 
 **O que você vai ver (tudo normal):**
 
@@ -144,8 +147,9 @@ mesmas apostas — e vocês só trocam de zona juntos.
 - `DESSINCRONIA NO TICK N — SESSÃO ENCERRADA`: as duas sims divergiram;
   o jogo para DE PROPÓSITO e aponta um arquivo em `tmp/netplay/` —
   guarde e compartilhe esse arquivo, ele é o trabalho do dev.
-- `CONEXÃO PERDIDA — SESSÃO ENCERRADA`: a conexão caiu por mais de 10
-  segundos.
+- `CONEXÃO PERDIDA — SESSÃO ENCERRADA`: a conexão caiu por mais tempo
+  que a tolerância (45 segundos — internet ruim de verdade, não um
+  engasgo).
 - Depois de qualquer fim, o console imprime o comando exato para
   relançar dos dois lados.
 

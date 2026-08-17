@@ -8,3 +8,5 @@ tmp/
 vendor/bundle/
 .playwright-mcp/
 data/bindings.local.json
+# pi session memory (machine-local lessons; each seat keeps its own)
+/MEMORY.md

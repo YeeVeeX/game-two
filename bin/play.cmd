@@ -20,15 +20,21 @@ goto build
 rem Session-telemetry law: unique log per launch (never a fixed name).
 set LOG=%TEMP%\game_two_session_%RANDOM%%RANDOM%.log
 ruby -Isrc src\main.rb%ARGS% > "%LOG%" 2>&1
+set GAME_RC=%errorlevel%
+rem Exit statuses (App::Cli.exit_status): 0 = clean end, 1 = crash/refusal,
+rem 2 = link fault (conn_lost) -- the coop launchers relaunch ONLY on 2.
+rem GAME_NO_PAUSE=1 skips the pauses (unattended rehost/rejoin loops).
 rem Crash visibility (v15 panel fold): a config raise (e.g. a bad
 rem bindings.local.json) must not flash-and-close -- show the log and wait.
 rem Netplay sessions keep the console up so TELEMETRY + relaunch stay
 rem readable (the fun-verify harvest reads these lines).
-if errorlevel 1 (
+if "%GAME_RC%"=="1" (
   echo game exited with an error -- log: %LOG%
   type "%LOG%"
-  pause
+  if not defined GAME_NO_PAUSE pause
 ) else (
   findstr /B /C:"TELEMETRY netplay" /C:"desync report:" /C:"relaunch:" "%LOG%"
-  if not "%ARGS%"=="" pause
+  if "%GAME_RC%"=="2" echo link fault ^(conn_lost^) -- safe to relaunch
+  if not "%ARGS%"=="" if not defined GAME_NO_PAUSE pause
 )
+exit /b %GAME_RC%

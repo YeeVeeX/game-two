@@ -33,4 +33,21 @@ if /i "%~1"=="check" (
 )
 
 echo Abriendo el juego como HOST... (sali siempre con Esc)
+rem Rehost loop (SIXTEENTH support): un corte de link (NAT flap, status 2)
+rem relanza el host solo; Esc limpio (0) termina de verdad; un error (1)
+rem se muestra y para. GAME_NO_PAUSE: el loop fluye sin "presiona una tecla".
+set GAME_NO_PAUSE=1
+:host
 call bin\play.cmd es --host
+if "%errorlevel%"=="2" (
+  echo(
+  echo Link caido -- rehosteando en 5s... (Ctrl+C para cortar el loop)
+  timeout /t 5 /nobreak >nul
+  goto host
+)
+if "%errorlevel%"=="1" (
+  echo El juego termino con error -- revisa el log de arriba.
+  pause
+  exit /b 1
+)
+echo Sesion cerrada limpia (Esc). Listo.

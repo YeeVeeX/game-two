@@ -18,10 +18,13 @@ code=$?
 # bindings.local.json — must reach the person who typed it, not die in
 # a temp file. Normal close is exit 0 and stays silent... except the
 # netplay TELEMETRY + relaunch lines, which the fun-verify harvest needs.
-if [ $code -ne 0 ]; then
+# Exit statuses (App::Cli.exit_status): 0 clean end · 1 crash/refusal ·
+# 2 link fault (conn_lost) — the coop launchers relaunch ONLY on 2.
+if [ $code -eq 1 ]; then
   echo "game exited with code $code — log: $LOG"
   tail -20 "$LOG"
 else
   grep -E "^(TELEMETRY netplay|desync report:|relaunch:)" "$LOG"
+  [ $code -eq 2 ] && echo "link fault (conn_lost) — safe to relaunch"
 fi
 exit $code

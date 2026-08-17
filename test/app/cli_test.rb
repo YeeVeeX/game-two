@@ -51,4 +51,29 @@ class CliTest < Minitest::Test
     assert_raises(ArgumentError) { parse("--host", "5000", "extra") }
     assert_raises(ArgumentError) { parse("--join", "1.2.3.4", "extra") }
   end
+
+  # v17 SIXTEENTH support — exit-status seam: launchers loop ONLY on link
+  # faults (2). Clean quit (0) and refusals/desync (1/0) stop the loop —
+  # honest ends stay honest (etapa-1 law: end LOUDLY, never mask).
+  def test_exit_status_clean_quit_is_zero
+    assert_equal 0, App::Cli.exit_status(reason: :quit, refusal: nil)
+  end
+
+  def test_exit_status_refusal_is_one_regardless_of_reason
+    assert_equal 1, App::Cli.exit_status(reason: :fingerprint, refusal: "peer refused: fingerprint")
+    assert_equal 1, App::Cli.exit_status(reason: :conn_lost, refusal: "peer refused: fingerprint")
+  end
+
+  def test_exit_status_conn_lost_is_two
+    assert_equal 2, App::Cli.exit_status(reason: :conn_lost, refusal: nil)
+  end
+
+  def test_exit_status_desync_and_protocol_stop_the_loop
+    assert_equal 0, App::Cli.exit_status(reason: :desync, refusal: nil)
+    assert_equal 0, App::Cli.exit_status(reason: :protocol, refusal: nil)
+  end
+
+  def test_exit_status_single_player_no_session_is_zero
+    assert_equal 0, App::Cli.exit_status(reason: nil, refusal: nil)
+  end
 end

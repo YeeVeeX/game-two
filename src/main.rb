@@ -54,7 +54,5 @@ end
 
 require "app/window"
 App::Window.new(session:, relaunch:).show
-if session.refusal
-  warn session.refusal
-  exit 1
-end
+warn session.refusal if session.refusal
+exit App::Cli.exit_status(reason: session.reason, refusal: session.refusal)

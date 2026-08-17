@@ -7,6 +7,14 @@ module App
   module Cli
     USAGE = "usage: bin/play [locale] [--host [port] | --join <ip[:port]>]".freeze
 
+    # Exit-status seam (v17 SIXTEENTH support): the coop launchers relaunch
+    # ONLY on link faults — a clean Esc or an honest desync/protocol end
+    # stops the loop (etapa-1 law: end LOUDLY, never mask).
+    #   0 = clean end (quit/desync/protocol — console already carries the
+    #       report), 1 = refusal (needs a human: pull/version), 2 = link
+    #       fault (conn_lost — safe to rehost/rejoin).
+    EXIT_LINK_FAULT = 2
+
     module_function
 
     # argv -> nil | {mode: :host, port:} | {mode: :join, host:, port:}
@@ -34,6 +42,13 @@ module App
       port = Integer(raw, exception: false)
       raise ArgumentError, "bad port #{raw.inspect} (1-65535)\n#{USAGE}" unless port&.between?(1, 65_535)
       port
+    end
+
+    # (reason, refusal) -> process exit status; see EXIT_LINK_FAULT above.
+    def exit_status(reason:, refusal:)
+      return 1 if refusal
+      return EXIT_LINK_FAULT if reason == :conn_lost
+      0
     end
   end
 end

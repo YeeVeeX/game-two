@@ -144,7 +144,9 @@ scope for this repo. (Historical pipeline: see git history of this file.)
 - **Netplay (v17):** `bin/play [locale] --host [port]` / `bin/play [locale] --join
   <ip[:port]>` — lockstep co-op over Tailscale (port defaults from `data/netplay.json`;
   handshake refusal prints the differing field and exits nonzero). Esc = clean quit
-  (both seats print `TELEMETRY netplay ...` + the relaunch command).
+  (both seats print `TELEMETRY netplay ...` + the relaunch command). Exit statuses
+  (`App::Cli.exit_status`): 0 clean end · 1 crash/refusal · 2 link fault — the coop
+  launchers (`bin/host-coop.cmd`, `bin/join-coop.cmd`) auto-rehost/rejoin ONLY on 2.
 - `rake capture SCRIPT=harness/scripts/<name>.json` — deterministic replay + frame capture.
   One script per regression surface lives in `harness/scripts/` (the wall); trust the
   directory, not an inline list here (an inline list went stale once). Canonical entry
