@@ -8,15 +8,19 @@ it adjudicates what the seats paste.
 
 ## Session ritual (what must happen before this file gets a verdict)
 
-1. Owner sends Junior the tailnet invite; Junior accepts (his machine is
-   NOT on the tailnet as of 2026-08-16 — verified via `tailscale status`:
-   only mmh-gw + an offline iPhone).
+1. Owner sends Junior the tailnet invite; Junior accepts — DONE 2026-08-16
+   (desktop-gu3bmkt, 100.71.34.81, on the moralgabriel tailnet; this
+   machine is now **gabo-desktop 100.127.52.49** post tailnet surgery).
 2. Junior: `git pull` on junior-tibia (fingerprint refusal names the
-   stale field otherwise — W6).
-3. Owner hosts: `bin/play es --host` → passes his tailnet IP
-   (**100.127.147.29**, port default 43117).
-4. Junior joins: `bin\play.cmd pt-br --join 100.127.147.29`.
+   stale field otherwise — W6; fired live 2026-08-16, fixed `10b6138`).
+3. Owner hosts: double-click `JUGAR COOP (host)` / `bin/host-coop.cmd`
+   (resolves + copies the live tailnet IP; auto-rehosts on link death).
+4. Junior joins: double-click `JOGAR COOP (entrar)` / `bin\join-coop.cmd`
+   (resolves the host live; auto-rejoins on link death — exit-status 2
+   seam, only link faults loop).
 5. Play ≥ 10 sim-minutes (ticks ≥ 36000). BOTH seats exit by Esc.
+   Link deaths mid-run don't burn the attempt — the launchers relaunch
+   both ends; the ticks arbiter reads the SINGLE longest session's line.
 6. Both launchers print the harvest lines at close (`TELEMETRY netplay`,
    plus `desync report:` / `relaunch:` when applicable; backup = the
    session log named at launch). Paste BOTH lines here BEFORE questions.

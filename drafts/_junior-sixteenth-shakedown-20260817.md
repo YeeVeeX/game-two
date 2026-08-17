@@ -131,3 +131,80 @@ tudo desta madrugada segue sendo shakedown W3/W6 de assento ocioso; as
   daqui é neutra.
 - O SIXTEENTH real (owner+Junior, perguntas virgens) segue pendente e
   intacto.
+
+---
+
+# Host-seat counterpart (seat 1, dev of record — 2026-08-17 ~06:00 -0600)
+
+Requested counterpart lines delivered below — with a correction the
+soak reading needs. Timezone anchor first: seat-2 clock is -0300, this
+seat is -0600 (their 03:34–04:57 = 00:34–01:57 here).
+
+## Host-side lines for the soak window (verbatim, tmp/host_loop/)
+
+    host_20260817_004115.log (00:41→00:46): TELEMETRY netplay seat=1 ticks=0 desyncs=0 stalls=0 stall_ms_max=0 reason=conn_lost
+    host_20260817_004654.log (00:46→??):    EMPTY — died at launch, no hosting line (port collision suspected)
+    host_20260817_005528.log (00:55→01:22): TELEMETRY netplay seat=1 ticks=0 desyncs=0 stalls=0 stall_ms_max=0 reason=quit
+    host_20260817_012234.log (01:22):        EMPTY — died at launch (twin launch 6s apart)
+    host_20260817_012240.log (01:22→01:51): TELEMETRY netplay seat=1 ticks=0 desyncs=0 stalls=0 stall_ms_max=0 reason=quit
+    supervisor.log: up 00:41:15 · peer CONNECTED 00:46:23 · conn gone 00:46:33 ·
+      relaunches 00:46/00:55/01:22 · STOP file 01:50:53 ("game left as-is")
+
+## Correction — the "80-min soak" cannot have been one held session
+
+1. **Fingerprint law cuts it at 00:53.** The 45s tune `9d2a35f` was
+   committed 00:53 -0600 and the supervisor hosts launch from this
+   worktree — every host from 00:55 on carries the NEW fingerprint. The
+   seat-2 joiner of the soak ran `6f700d6` (their own note) — it could
+   only ever pair with the 00:41 host.
+2. That host's session ended **conn_lost at 00:46** after ≤12 min,
+   ticks=0. End screens hold until closed BY DESIGN (the state must be
+   readable) — hidden window, nobody closed it. The "80 minutes" were
+   ~12 min of ticks=0 connection + ~70 min of hidden END SCREEN zombie.
+   Their 04:57 WM_CLOSE killed an end screen, not a live session —
+   which is also why the TELEMETRY line "was lost": it had been printed
+   (and lost to the hidden console) long before.
+3. The 00:55/01:22 hosts ran 27/29 min to `quit ticks=0` — harvest-Esc
+   cycles at the HOSTING screen, no peer ever attached (their joiner was
+   the zombie; their next real joins were the 02:00+ connect timeouts,
+   host already down).
+
+**Net evidence state, honestly:** overnight added ZERO tick-bearing
+lockstep evidence. The only real lockstep proof remains the 22:20
+sessions (81/90 ticks, 0 desyncs, conn_lost at the old 10s abort). The
+45s tolerance has never been exercised in a ticking session; W3
+link-hold under it is UNTESTED. The SIXTEENTH is its first real test —
+by two humans with visible windows, which sidesteps the ticks=0 idle
+mode entirely (that mode is a parked observation, not SIXTEENTH risk).
+
+## What shipped from this seat in response (this commit)
+
+- **Exit-status seam** (`App::Cli.exit_status`, unit-tested): 0 clean
+  end · 1 crash/refusal · 2 link fault. `bin/play.cmd` propagates it and
+  no longer crash-scares on a link death; `GAME_NO_PAUSE=1` skips pauses
+  for unattended loops.
+- **`bin/host-coop.cmd` auto-rehosts on status 2** (5s cadence) — the
+  tracked, exit-code-honest replacement for the tmp/ supervisor that
+  stopped at 01:50 and left the host down through your 6 silent cycles.
+  Clean Esc (0) ends for real; crash/refusal (1) stops LOUDLY.
+- **`bin/join-coop.cmd` auto-rejoins on status 2** (8s), bounded-retries
+  a silent host (20×10s), stops immediately on a fingerprint refusal
+  (log grep) — your watch can now be dumb: just run the launcher.
+- Suite 650/9322 green; single-player wall untouched.
+
+## UPnP claim check (wa_msg17 said "flap curado")
+
+NOT holding as of 05:46–05:52 -0600: `tailscale netcheck` shows
+`PortMapping:` EMPTY and the public endpoint rebound TWICE in 6 minutes
+(:11774 → :39188). The router change (01:39–01:49, screenshots in tmp/)
+either didn't stick or isn't answering portmap probes. Working plan
+stays: 45s tolerance + DERP fallback + auto-relaunch loops. Router
+follow-up is an owner errand, not a blocker.
+
+## The one move left (unchanged, now friction-free)
+
+When both humans are awake: owner double-clicks `JUGAR COOP (host)`,
+Junior double-clicks `JOGAR COOP (entrar)`, play ≥10 sim-minutes,
+both Esc. Link deaths mid-evening no longer burn the attempt — both
+ends relaunch themselves. Questions stay virgin until the telemetry
+lines are pasted into the skeleton.
