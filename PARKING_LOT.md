@@ -660,9 +660,14 @@ re-shape what comes AFTER it.
   solo = his own world"; new failure modes: offline launch, credential
   expiry, lock contention); **(3) server-authoritative always-online**
   (the fork above, unchanged — sim runs in the cloud, clients thin;
-  full architecture rewrite). **Trigger status: HALF-FIRED** — the
-  owner asked for AWS unprompted, but the ask is infrastructure-voiced;
-  the named trigger (different-time play or a third player becoming
-  REAL) still governs stage 3. Owner clarification requested 2026-08-17
-  (durability vs different-time play) — the answer routes between
-  stages 1 and 2/3.
+  full architecture rewrite). **Trigger status: PARKED, timing
+  DELEGATED (owner, second message 2026-08-17, verbatim close: "muy
+  pronto para complicar tanto la arquitectura... mejor cuando el juego
+  esté más completo y lo amerite, cuando tú lo decidas y lo
+  recomiendes... aprobado").** The dev raises the recommendation when a
+  named artifact warrants it — candidate artifacts: a SEVENTEENTH-class
+  verdict naming save-loss/host-dependency pain (→ stage 1), Junior
+  asking to advance the shared world without the owner (→ stage 2), or
+  different-time play / a third player becoming real (→ stage 3, the
+  original trigger). Stage 1 (S3 backup) remains the v18.1 first
+  candidate at dev discretion.

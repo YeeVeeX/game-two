@@ -61,8 +61,13 @@ Tibia/RavenDawn-style backpack → the ITEM CYCLE, now v19 lead candidate
 (carried-persistence inside v18 stays rejected — the Codex #1 exploit;
 the real fix is position persistence + logout rules, which belong WITH
 the item cycle); (2) "the server should live on AWS, not my machine" →
-the staged AWS path (S3 backup → cloud custody → server-authoritative),
-trigger recorded HALF-FIRED. The SEVENTEENTH still gates everything new.
+the staged AWS path (S3 backup → cloud custody → server-authoritative).
+**VETO WINDOW CLOSED same day — second owner message, verbatim close:
+"de acuerdo con tu razonamiento... muy pronto para complicar tanto la
+arquitectura... cuando tú lo decidas y lo recomiendes... sigamos tu
+plan... aprobado."** Architecture staging timing is explicitly
+DELEGATED to the dev's recommendation; the SEVENTEENTH still gates
+everything new. TDD is unblocked on this spec as written.
 
 - **F1 What persists (owner-level, recommendation):** pack economy
   (banked, provisions) + per-member character (kit, exact hp — alive is

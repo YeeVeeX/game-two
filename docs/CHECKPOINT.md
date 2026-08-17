@@ -1,6 +1,6 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-17 late (v18 SPEC COMMITTED — forks F1-F7 closed, dual review folded; TDD opens next session, ROUND-TRIP LANE FIRST)
+## 2026-08-17 late (v18 SPEC COMMITTED + FULLY RATIFIED — forks closed, dual review folded, veto window CLOSED "aprobado"; TDD opens next session, ROUND-TRIP LANE FIRST)
 
 **Session product:** brainstorm → seven forks closed → spec + dual
 review, per the spark. Spec:
@@ -11,13 +11,21 @@ addendum). Review ledger: `drafts/_v18-spec-review.md`.
 **Forks:** F2/F5/F6/F7 = dev calls (host-authoritative save transferred
 in SESSION; coop.json seat scalars; PROVISIONS priced sustain on an
 11th input bit = protocol v2; god-view = offline `rake map` PNG).
-F1/F3/F4 = owner-level, RECOMMENDED + PROCEEDED per the absent-owner
-clause — **owner veto window OPEN until TDD starts** (batched question
-delivered at session close, es): F1 what persists (characters + banked
+F1/F3/F4 = owner-level — **RATIFIED IN-SESSION, veto window CLOSED**
+(two owner messages: "en general todo ok" with two riders, then
+"aprobado" delegating architecture timing to dev recommendation).
+Riders routed to PARKING_LOT §"Owner ratification riders", zero v18
+scope growth: (1) backpack/equipment + carried persistence = ITEM
+CYCLE, v19 lead candidate with the dependency chain declared (loot
+identity → inventory UI → equipment/stats → position persistence +
+logout rules → schema v2) + RavenDawn/RavenQuest shelf research OWED
+before that debate; (2) AWS = staged path (v18.1 S3 backup → cloud
+custody → server-authoritative), timing delegated, named promotion
+artifacts recorded: F1 what persists (characters + banked
 + arc; carried does NOT — Codex exploit kill), F3 banked persists
 (re-opens D0 with the fun-thesis arrived), F4 solo advances the shared
 world (custody honesty: the shared world lives on the OWNER's machine;
-Junior solo = his own world — the nuance the owner must see).
+Junior solo = his own world — accepted by the owner).
 
 **Dual review both legs done:** Codex REJECT → 21 findings, 20
 CONFIRMED + folded (highlights: carried-persistence exploit; solo seed
@@ -40,8 +48,9 @@ either refutation.
 bank canary baselines for all 17 wall scripts BEFORE any sim change →
 increment 1 `Game::SaveState` + THE ROUND-TRIP LANE (pure projector,
 strict decoder, mutation sweep, veil-tick sweep — the safety net; v17
-digest-lane-first precedent) → increments 2-8 per spec. Owner veto on
-F1/F3/F4 amends the spec before code. Junior: pull — spec + drafts
+digest-lane-first precedent) → increments 2-8 per spec. Spec is FINAL
+(ratified twice); no owner input owed until the SEVENTEENTH's session 1.
+Junior: pull — spec + drafts
 landed; his lane this cycle = PT-BR strings (PROVISÃO + cues) +
 JUNIOR.md custody section ratification + the SEVENTEENTH's session 2.
 
