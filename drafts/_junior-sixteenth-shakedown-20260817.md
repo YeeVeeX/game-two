@@ -122,6 +122,18 @@ tudo desta madrugada segue sendo shakedown W3/W6 de assento ocioso; as
 (manhã dele). Quando ele acordar, o join está a um duplo-clique
 (`JOGAR COOP (entrar)` no Desktop dele).
 
+## A SESSÃO REAL — 16º ask, Metade A deste assento (2026-08-17, manhã)
+
+Junior ACORDADO e jogando (primeira sessão real owner+Junior). Linha
+verbatim do console deste assento:
+
+    TELEMETRY netplay seat=2 ticks=89577 desyncs=0 stalls=189 stall_ms_max=1111 reason=quit
+
+Metade A (arbiter do skeleton) neste assento: desyncs=0 ✓, reason=quit ✓,
+ticks 89577 ≥ 36000 ✓ (~25 min de sim). Falta só a contraparte seat 1.
+Metade B (4 perguntas, sem changelog): sendo respondida pelo Junior
+separadamente neste momento; segue em anexo quando ele responder.
+
 ## Roteamento
 
 - Job 2/3 do close-out (W6): as duas quedas conn_lost + o diagnóstico de
