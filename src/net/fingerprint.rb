@@ -6,7 +6,11 @@ module Net
   # v17 handshake identity (spec Netplay spec): the sim fingerprint is an
   # md5 over sorted (relpath, content-md5) of src/**/*.rb + data/** +
   # Gemfile.lock — EXCLUDING data/bindings.local.json (display-only,
-  # legitimately per-machine). Ruby/platform/protocol/digest versions ride
+  # legitimately per-machine). Content md5s are EOL-NORMALIZED (\r\n and
+  # \r → \n) — live trap 2026-08-16: the first cross-machine join refused
+  # on an autocrlf=true checkout of the SAME commit (byte drift, identical
+  # sim; Ruby and JSON are EOL-agnostic). Real content drift still refuses.
+  # Ruby/platform/protocol/digest versions ride
   # HELLO as separate fields so a mismatch can NAME what differs (the
   # error reaches the person who must act — W6, stale-line joins).
   module Fingerprint
@@ -31,7 +35,7 @@ module Net
         next if EXCLUDED.include?(rel)
         path = File.join(root, rel)
         next unless File.file?(path) # skips dirs; a MISSING Gemfile.lock honestly changes the hash
-        "#{rel}:#{Digest::MD5.file(path).hexdigest}"
+        "#{rel}:#{Digest::MD5.hexdigest(File.binread(path).gsub(/\r\n?/, "\n"))}"
       end
       Digest::MD5.hexdigest(entries.join("\n"))
     end

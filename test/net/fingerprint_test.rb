@@ -63,6 +63,28 @@ class FingerprintTest < Minitest::Test
     end
   end
 
+  def test_line_ending_flavor_does_not_change_the_hash
+    # Live trap (2026-08-16, first cross-machine join): an autocrlf=true
+    # clone re-writes src/data with CRLF on checkout — byte drift, identical
+    # sim. The fingerprint hashes EOL-normalized content, so only REAL
+    # content drift refuses the handshake.
+    Dir.mktmpdir do |root|
+      build_tree(root)
+      # build_tree used text-mode writes (CRLF on Windows); pin BOTH flavors
+      # explicitly — binwrite bypasses the platform's text-mode translation.
+      File.binwrite(File.join(root, "src/game/world.rb"), "class World; end\n")
+      File.binwrite(File.join(root, "Gemfile.lock"), "GEM\n  gosu (1.4.6)\n")
+      a = Net::Fingerprint.tree_md5(root)
+      File.binwrite(File.join(root, "src/game/world.rb"), "class World; end\r\n")
+      File.binwrite(File.join(root, "Gemfile.lock"), "GEM\r\n  gosu (1.4.6)\r\n")
+      assert_equal a, Net::Fingerprint.tree_md5(root),
+                   "CRLF checkout of the same commit must fingerprint-match LF"
+      File.binwrite(File.join(root, "src/game/world.rb"), "class World; def x; end; end\r\n")
+      refute_equal a, Net::Fingerprint.tree_md5(root),
+                   "real content drift must still refuse"
+    end
+  end
+
   def test_hello_reads_the_real_repo
     h = Net::Fingerprint.hello(root: File.expand_path("../..", __dir__))
     assert_equal Net::Protocol::VERSION, h[:version]
