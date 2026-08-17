@@ -62,6 +62,21 @@ era o Gemfile.lock CRLF no worktree de lá.)
   Hidden` com stdout redirecionado (sem janela de erro; Gosu abre a
   janela do jogo normalmente ao conectar).
 
+## Adendo (mesma madrugada, pós-estacionamento)
+
+Verificação cross-machine do `10b6138` COMPLETA neste assento: suíte
+verde no hook do commit desta evidência; os 3 gates de netplay PASS
+(`SKIP_CRITIC=1`, metade determinismo — 12/4/4 capturas byte-idênticas);
+PNGs inspecionados no olho (protocolo local sem crítico): `LINK SLOW` +
+anel do player 2 + faixa de controles legíveis no netplay_session;
+`CONNECTION LOST — SESSION ENDED` honesto no netplay_conn_lost.
+
+Ferramenta do assento shippada: `bin/join-coop.cmd` — espelho PT-BR do
+`host-coop.cmd` (pull --ff-only, resolve o host AO VIVO pelo
+`tailscale status`, preflight de link só com ping Tailscale — porta do
+jogo jamais sondada —, modo `check` testado exit 0). Atalho de Desktop
+local criado fora do git, como no assento host.
+
 ## Roteamento
 
 - Job 2/3 do close-out (W6): as duas quedas conn_lost + o diagnóstico de
