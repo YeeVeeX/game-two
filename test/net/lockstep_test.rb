@@ -36,7 +36,7 @@ class LockstepTest < Minitest::Test
     assert_equal({ min: 4, max: 12, default: 8, jitter_margin_ticks: 3 }, CFG[:delay])
     assert_equal 60, CFG[:digest_every]
     assert_equal 500, CFG[:stall_warn_ms]
-    assert_equal 10_000, CFG[:abort_stall_ms]
+    assert_equal 45_000, CFG[:abort_stall_ms]
     assert_equal 2_000, CFG[:drain_timeout_ms]
     assert_equal 5, CFG[:probe_count]
   end

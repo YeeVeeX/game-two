@@ -202,9 +202,9 @@ class NetplayIntegrationTest < Minitest::Test
     refute h.ended?
 
     # Freeze seat 2's pump entirely; only the host updates, fake clock
-    # marching in 100ms steps past abort_stall_ms.
+    # marching in 100ms steps past abort_stall_ms (500 x 100ms = 50s > 45s).
     warn_seen = false
-    400.times do
+    500.times do
       h.update(t, in1)
       warn_seen ||= !h.stall_warning_ms.nil?
       break if h.ended?
