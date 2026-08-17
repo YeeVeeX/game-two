@@ -8,5 +8,8 @@ tmp/
 vendor/bundle/
 .playwright-mcp/
 data/bindings.local.json
+# v18 persistence: the machine-local, host-authoritative world save (F2 —
+# git-tracked saves rejected: conflicts, save-scumming, pull friction).
+saves/
 # pi session memory (machine-local lessons; each seat keeps its own)
 /MEMORY.md

@@ -14,6 +14,24 @@ class CliTest < Minitest::Test
     assert_nil parse
   end
 
+  # v18 decision 14: --fresh backs the save up and starts over (solo lane).
+  def test_fresh_parses_solo_fresh
+    assert_equal({ mode: :solo, fresh: true }, parse("--fresh"))
+  end
+
+  def test_fresh_takes_no_arguments
+    err = assert_raises(ArgumentError) { parse("--fresh", "now") }
+    assert_match(/usage:/, err.message)
+  end
+
+  # v18 decision 16: one seed derivation for solo AND host — 32-bit
+  # masked, fresh per call (the fixed-seed-0 solo field is the dead bug).
+  def test_new_seed_is_masked_and_varies
+    seeds = Array.new(8) { App::Cli.new_seed }
+    assert seeds.all? { |s| s.is_a?(Integer) && s >= 0 && s <= 0xffff_ffff }
+    assert seeds.uniq.length > 1, "eight identical seeds — derivation is not per-session"
+  end
+
   def test_host_defaults_the_port_from_data
     assert_equal({ mode: :host, port: DEFAULT }, parse("--host"))
   end

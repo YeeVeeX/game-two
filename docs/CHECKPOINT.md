@@ -1,5 +1,130 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-17 v18 TDD session 1 (increments 0-2 GREEN + PUSHED — canary baselines banked, SaveState + THE ROUND-TRIP LANE, persistence IO + solo wiring; next = increment 3: protocol v2 + SESSION save transfer)
+
+**Increment 0 — baselines banked BEFORE any sim change:** one capture
+replay per wall script into `tmp/canary_baseline/<script>/` — 17 dirs,
+172 PNGs, manifest.md5 (machine-local, gitignored; v17 protocol). The
+fresh bank is byte-identical to the archived v17 close-state baselines
+(`tmp/canary_baseline_v17s1/`, manifest diff empty) — the sim entered
+v18 exactly where v17 left it. A power cut killed the first banking run
+mid-script; the resume protocol (skip dirs whose PNG count == the
+script's captures length, redo partials) is
+`tmp/bank_canary_v18_resume.sh`.
+
+**Increment 1 — `Game::SaveState` + the round-trip lane (`5994eaf`):**
+facts vocabulary exactly per spec decision 1 (banked, provisions,
+home_zone, breached sorted, members kit/hp/inscribed roster order,
+counters boss_1_defeats/sessions; `alive` DERIVED, never stored);
+pinned canonicalizer (recursive key sort, String keys only,
+Integer/String/Boolean + ASCII leaves, else EncodeError); PURE
+projector (veil-tick quits resolve judgment through the live rules —
+marked revives + mark consumed, floor keeps the wipe vessel; carried
+never folds; ≥1-living asserted as ProjectionBug; serialize-twice
+byte-identical, digest_snapshot + rng draws untouched); strict decoder
+`refusal_for(facts, data:)` + `envelope_refusal` (named refusals:
+schema/keys/roster/zone/hub/seal-tuple/type/range/duplicate);
+`World.new(data, seed:, seats:, save:)` applies in the PINNED order
+(home → member facts w/ hp clamp+log → seat pointers over the LIVING
+set in seat order → `restore_breach!` idempotent + side-effect-free →
+enter_zone at the loaded home's spawn). Pack#provisions + World
+counters ride `digest_snapshot` (coverage pins extended). Test book:
+test/game/save_state_test.rb — the LANE (lived-in world A → facts →
+B1/B2 on a new seed: equal snapshots at construction + 4 byte-identical
+StateDigest windows over 240 scripted ticks), idempotence,
+every-veil-tick projector sweep (marked + floor variants),
+persisted-leaf mutation sweep (real verbs only), clamp lanes (hp→kit
+max, provisions→cap), apply-order lane (camp home + only the third
+member alive; seats=2 → seat 2 waits), classification-exhaustiveness
+table (W1 tripwire: every digest field = PERSISTED | SESSION_ONLY |
+DERIVED or the test fails), pinned-seed field-reseed regression (seeds
+1/2, 4-kill drop sequences diverge — decision 16's world half).
+
+**Extract-on-touch fired mid-increment (recorded deviation):** wiring
+SaveState pushed world.rb to 1841 > the 1800 line-cap gate — the
+2026-08-15 process-debt review pre-named "drops/corpses" as the seam,
+so the field-value economy (drops, corpse records, corpse loads,
+expiry flashes, wipe grace, digest groups) moved VERBATIM into
+`Game::FieldEconomy` (plain object, explicit call order, zero bus
+subscriptions; zone/frame/multiplier/band passed as parameters — pure
+lookups, rng order untouched). world.rb 1714.
+`Game::World::CORPSE_FADE_FRAMES` stays addressable (renderer + tests);
+one test moved to the public seam (`w.field_economy.spawn_corpse_load`).
+
+**Increment 2 — persistence IO + solo wiring (this commit):**
+`data/persistence.json` (save_path saves/world.json — gitignored —,
+wire_budget_bytes 3072, backup_on_fresh); `App::SaveStore` (atomic:
+same-dir .tmp → flush+fsync → close → rename-replace with 3×50ms
+bounded retry → NAMED WriteError with .tmp intact; the written envelope
+EMBEDS the canonical facts bytes verbatim, so every printed digest is
+recomputed from bytes actually on disk/applied — never an echo;
+unparseable/truncated/schema-skew → named refusals with newest-.bak
+recovery hint; orphan-.tmp named at the next load; `backup_fresh!`
+moves the save to `.bak-<ts>` BEFORE a fresh session's first write);
+`App::SaveCoordinator` (writes IFF owner ∧ reason=:quit, exactly once;
+desync/conn_lost/protocol/non-owner/double-close write NOTHING;
+`sessions` increments AT THE WRITE, facts-level — the sim never bumps
+it); solo main.rb: load + strict-decode BEFORE the window (refusal =
+console abort exit 1, the bindings-error precedent), per-session seed
+via `App::Cli.new_seed` (decision 16 — the fixed-seed-0 solo field is
+dead; the host path shares the derivation), `--fresh` flag (solo lane;
+usage updated), `TELEMETRY persist saved/loaded/fresh` lines +
+`TELEMETRY session seed=N`; Window takes seed:/save:/saver: and closes
+through the coordinator. Wall pins: test/harness/wall_pin_test.rb
+(harness sources never reference persistence; harness World
+constructions never pass save:). Canary sweep promoted from tmp/
+scratch to `harness/run_canary.sh` + run_canary_test.rb (the
+run_wall.sh lesson: load-bearing enforcement is tracked + tested).
+
+**MEASURED evidence:** suite 706 green at hooks (13.4K assertions);
+full-wall canary sweep 17/17 byte-identical after increment 1 AND after
+increment 2 (harness/run_canary.sh; logs tmp/canary_sweep_v18*.log);
+perf p95 0.192ms / 0.209ms (budget 16.6); LIVE solo E2E (real window,
+Esc via tmp/post_esc.ps1 PostMessage): launch 1 `persist fresh` →
+`saved digest=5691… sessions=1`; launch 2 `persist loaded digest=5691…
+source=file` == launch 1's saved digest VERBATIM (the chain link),
+fresh seed per launch (1469885794 → 1494427101), quit → `saved …
+sessions=2`; `--fresh` backs up to `.bak-<ts>` and restarts the chain
+at sessions=1. Exit status 0 on all three launches.
+
+**Micro-decisions recorded (smallest faithful deviations):** (1) the
+decoder refuses a 0-living save (`roster: no living member`) — the
+load-side mirror of the projector's one-vessel assert; a tampered
+all-dead save would otherwise softlock a loaded seat. (2) Lane 1's
+"buys provisions" staging uses the `Pack#load_provisions!` apply-seam —
+the sustain VERB is increment 5's; provisions state + digest + clamp +
+round-trip are fully live now. (3) `refusal_for` carries `data:`
+(validation needs zones/roster); the envelope-level schema check is
+`envelope_refusal` — both halves of spec decision 6a. (4) `--fresh` is
+solo-only until host custody lands (increment 3). (5) The fresh line
+prints `TELEMETRY persist fresh schema=1 source=fresh` (no digest —
+the chain starts at the first `saved`).
+
+**NEXT SESSION — increment 3 (spec order, read the spec first):**
+protocol v2, ONE bump for the cycle (decision 8: 11-bit mask with
+:sustain — the BIT rides now, the verb is increment 5; the suite pins
+the FINAL v2 vocabulary); SESSION grows save_schema/save_digest/save
+(canonical facts STRING on the wire — the joiner digests RECEIVED
+bytes BEFORE parsing, decision 5); host loads+validates before
+listening + wire preflight of the ACTUAL encoded SESSION line vs
+wire_budget_bytes (decision 6c); joiner strict-decodes during the
+pre-window pump (no window on refusal); BYE vocabulary grows
+save_schema/save_digest/save_invalid with refusal text for ALL refusal
+reasons on BOTH seats, exit 1 (decision 6b — session.rb:357's
+fingerprint-only detail is what gets widened); host SaveCoordinator
+wiring (owner = host; the joiner NEVER writes); lane 3 two-session
+netplay test with PER-SEAT tmp save roots (fresh→save→resume chain
+over real loopback, carried fact asserted, joiner root EMPTY; refusal
+lanes: schema skew / tampered facts / malformed pre-pump / oversize /
+v1 peer); netplay gates re-run (`rake gate SCRIPT=harness/net/…
+CHECKS=harness/net/gate_checks.json`); RC-matrix re-verified (refusals
+exit 1 — launchers must NOT rehost). Then increments 4-8 per spec.
+Canary baselines live in `tmp/canary_baseline/` — if tmp/ was cleaned,
+re-bank from a sim-identical line FIRST, then sweep with
+`harness/run_canary.sh` after every sim-touching increment. Junior:
+pull — increments 1-2 landed; his PT-BR lane (PROVISÃO + cues) opens
+at increment 6.
+
 ## 2026-08-17 late (v18 SPEC COMMITTED + FULLY RATIFIED — forks closed, dual review folded, veto window CLOSED "aprobado"; TDD opens next session, ROUND-TRIP LANE FIRST)
 
 **Session product:** brainstorm → seven forks closed → spec + dual

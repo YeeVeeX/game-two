@@ -1,0 +1,5 @@
+{
+  "save_path": "saves/world.json",
+  "wire_budget_bytes": 3072,
+  "backup_on_fresh": true
+}

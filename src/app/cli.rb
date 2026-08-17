@@ -5,7 +5,7 @@ module App
   # usage — main.rb aborts to the console, nonzero (the bindings-error
   # precedent: the message reaches the person who typed the command).
   module Cli
-    USAGE = "usage: bin/play [locale] [--host [port] | --join <ip[:port]>]".freeze
+    USAGE = "usage: bin/play [locale] [--fresh | --host [port] | --join <ip[:port]>]".freeze
 
     # Exit-status seam (v17 SIXTEENTH support): the coop launchers relaunch
     # ONLY on link faults — a clean Esc or an honest desync/protocol end
@@ -17,11 +17,18 @@ module App
 
     module_function
 
-    # argv -> nil | {mode: :host, port:} | {mode: :join, host:, port:}
+    # argv -> nil | {mode: :solo, fresh: true} | {mode: :host, port:} |
+    #         {mode: :join, host:, port:}
     def parse(argv, default_port:)
       args = argv.dup
       return nil if args.empty?
       case (flag = args.shift)
+      when "--fresh"
+        # v18: start a fresh world; the existing save backs up FIRST
+        # (decision 14's irreversibility guard). Solo-only until the
+        # netplay increments wire host persistence.
+        raise ArgumentError, "--fresh takes no arguments\n#{USAGE}" unless args.empty?
+        { mode: :solo, fresh: true }
       when "--host"
         port = args.shift
         raise ArgumentError, "--host takes at most a port\n#{USAGE}" unless args.empty?
@@ -43,6 +50,12 @@ module App
       raise ArgumentError, "bad port #{raw.inspect} (1-65535)\n#{USAGE}" unless port&.between?(1, 65_535)
       port
     end
+
+    # One seed derivation for every session-owning launch path (v18
+    # decision 16: the solo path was FIXED at seed 0 — every solo session
+    # replayed the same field; now solo and host both draw here and the
+    # seed prints for reproducibility).
+    def new_seed = Random.new_seed & 0xffff_ffff
 
     # (reason, refusal) -> process exit status; see EXIT_LINK_FAULT above.
     def exit_status(reason:, refusal:)

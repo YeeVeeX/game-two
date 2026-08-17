@@ -35,7 +35,7 @@ module App
 
     attr_reader :scale, :view_width, :view_height
 
-    def initialize(session: nil, relaunch: nil)
+    def initialize(session: nil, relaunch: nil, seed: 0, save: nil, saver: nil)
       data = Core::DataStore.new(File.expand_path("../../data", __dir__))
       display = data["display"]
       @view_width = display[:view_width]
@@ -46,16 +46,20 @@ module App
       super @view_width * @scale, @view_height * @scale
       self.caption = "game-two"
       # v17 session mode: the two-seat World waits for handshake params
-      # (seed comes from the host); solo mode constructs it now, unchanged.
+      # (seed comes from the host); solo mode constructs it now with the
+      # per-session seed + validated save facts from main.rb (v18
+      # decisions 4/16). @saver is the save coordinator — solo only until
+      # the protocol-v2 increment wires host custody.
       @session = session
       @relaunch = relaunch
+      @saver = saver
       @data = data
       strings = Core::Strings.new(data)
       if @session
         @netplay = NetplayOverlay.new(display:, strings:,
                                       view_w: @view_width, view_h: @view_height)
       else
-        @world = Game::World.new(data)
+        @world = Game::World.new(data, seed:, save:)
         @telemetry = Game::Telemetry.new(@world.bus, world: @world)
       end
       bindings = Core::BindingMap.load(data, key_table: KEY_TABLE, local: true)
@@ -115,6 +119,13 @@ module App
     # path when one exists.
     def close
       puts @telemetry.summary if @telemetry
+      # v18 decision 2: the coordinator writes IFF this seat owns the save
+      # and the end is clean — solo close IS the clean quit (Esc or the
+      # window X). Idempotent: a double close writes once. Session mode
+      # carries no @saver until the protocol-v2 increment.
+      if @world && (line = @saver&.close(world: @world, reason: :quit))
+        puts line
+      end
       if @session
         @session.quit!(Process.clock_gettime(Process::CLOCK_MONOTONIC) * 1000.0) unless @session.ended?
         puts @session.telemetry_line
