@@ -384,6 +384,15 @@ module Game
       @hp = hp
     end
 
+    # v18 coop-spawn seam (decision 11, World#add_human only, spawn
+    # time): rescales the ceiling and fills to it — an explicit .round
+    # Integer, never mid-life, never at seats=1 (the caller guards on
+    # the coop block's existence).
+    def scale_max_hp!(scale)
+      @max_hp = (@max_hp * scale).round
+      @hp = @max_hp
+    end
+
     def interrupt_action!
       @attack_state = :idle
       @state_frames = 0

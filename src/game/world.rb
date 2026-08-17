@@ -52,6 +52,13 @@ module Game
       @death = data["balance/death"]
       @threat = data["balance/threat"]
       @economy = data["balance/economy"]
+      # v18 decision 11 (+7ii): the seat-count scalar block — nil unless
+      # data/balance/coop.json carries THIS seat count ("1" has no block
+      # by design, so single-player executes ZERO coop arithmetic and the
+      # wall stays byte-identical by construction; scaled values under
+      # seats>=2 are explicit .round Integers — no Float ever enters the
+      # digest).
+      @coop = data["balance/coop"][:seats][:"#{seats}"]
       @rng = Core::CountingRng.new(Random.new(seed))
       # Respawn scatter draws from its OWN derived stream (v14): the
       # telegraph moves consumption ~120f earlier, and on the shared
@@ -163,6 +170,10 @@ module Game
     def ledger_beat = @fight_ledger.beat
     def total_stranded = @field.total_stranded
     def marked_target = @pack.mark
+
+    # v18 decision 12: the seat-gated third-body caution threshold — nil
+    # when no coop block exists (seats=1: the flee guard never evaluates).
+    def ally_flee_hp_pct = @coop && @coop[:ally_flee_hp_pct]
     def taunt_pulses = @taunt_pulses
     def kill_pops = @kill_pops
     def seal_marks = @seal_marks
@@ -1184,6 +1195,9 @@ module Game
       creature = Creature.new(bus: @bus, kit:, kit_name: kit_name.to_sym,
                               map: @zones[zone], tile:, faction: :human,
                               name: "#{kit_name}#{serial}")
+      # v18 decision 11: coop difficulty applies at SPAWN (Junior's ask);
+      # every human — the boss included — flows through here.
+      creature.scale_max_hp!(@coop[:human_hp_scale]) if @coop
       @humans[zone] << creature
       creature
     end
@@ -1634,6 +1648,9 @@ module Game
       humans.delete(human)
       delay = human.kit[:respawn_frames]
       return unless delay
+      # v18 decision 11: respawn relief at SCHEDULE time (owner Q3a — the
+      # cross-zone walk-back), explicit Integer; seats=1 never evaluates.
+      delay = (delay * @coop[:respawn_delay_scale]).round if @coop
       @human_respawns[@zone_name] << { kit_name: human.kit_name,
                                        fallback_tile: human.tile,
                                        at_frame: @frame + delay }

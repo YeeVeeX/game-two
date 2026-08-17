@@ -1,6 +1,6 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-17 v18 TDD session 2a (increment 3 GREEN — protocol v2, SESSION save transfer, refusal taxonomy, wire preflight, THE TWO-SESSION LANE + live loopback E2E; next in-session target = increment 4: coop feel)
+## 2026-08-17 v18 TDD session 2 (increments 3+4 GREEN — protocol v2 + SESSION save transfer + THE TWO-SESSION LANE + live loopback E2E; coop feel: seat scalars + third-body caution; next = increment 5: sustain sim)
 
 **Protocol v2, ONE bump for the cycle (spec decision 8):** `VERSION = 2`;
 `ACTIONS` appends `:sustain` at bit 10 (existing ten bits unmoved — the
@@ -109,23 +109,63 @@ usage error. (5) Lane-3 staging mutates BOTH sims at an asserted-equal
 tick instead of scripting station walks (the netplay staging law from
 project memory; input-driven banking stays lane-1/wall territory).
 
-**NEXT (this session if room, else session 3) — increment 4: coop feel**
-(spec decisions 11/12, lane 4; SIM-TOUCHING — full canary sweep + gates
-+ perf): `data/balance/coop.json` `{"seats":{"2":{respawn_delay_scale
-2.0, human_hp_scale 1.25, ally_flee_hp_pct 0.35}}}`; seats=1 = block NOT
-READ, zero arithmetic (decision 7ii — no Float may enter the digest;
-scaled values explicit `.round`); respawn scale at SCHEDULE time, hp
-scale at SPAWN; third-body flee at the PINNED AiController precedence
-(seizure → flee → mark/aggro; committed swings FINISH; fleeing = no new
-attacks + move toward follow anchor; seats≥2 only). Lane 4: scalar
-units, nothing-evaluates-at-seats=1 pin, flee precedence lanes,
-two-sim digest identity with the block active. Then 5: sustain sim; 6:
-sustain presentation + Rule-2 gate; 7: rake map; 8: docs + close
-(JUNIOR.md custody contract PT-BR-first, AGENTS.md commands, SEVENTEENTH
-protocol confirm). Canary baselines: `tmp/canary_baseline/` (17 dirs) —
-if tmp/ was cleaned, re-bank BEFORE any sim change
+**Increment 4 — coop feel (decisions 11/12 + 7ii; lane 4 =
+test/game/coop_feel_test.rb, 12 lanes):** `data/balance/coop.json`
+`{"seats":{"2":{respawn_delay_scale 2.0, human_hp_scale 1.25,
+ally_flee_hp_pct 0.35}}}` — the "1" key ABSENT by design and
+test-pinned: `World#initialize` reads `@coop = coop[:seats][:"#{seats}"]`
+once; seats=1 ⇒ nil block ⇒ ZERO scalar arithmetic anywhere (7ii — the
+post-increment canary sweep is the structural proof). Scalars: human hp
+at SPAWN inside `add_human` via new `Creature#scale_max_hp!` (explicit
+`.round` Integer; ceiling rescales and fills; the BOSS flows through the
+same path — every human spawn does); respawn relief at SCHEDULE time in
+`schedule_human_respawn` (`(respawn_frames × scale).round` — owner Q3a's
+walk-back). Third-body caution in AiController at the PINNED precedence:
+seizure (unchanged, first) → flee → mark/aggro/target selection — an
+UNCONTROLLED pack body with hp < pct×max starts NO new swings, ignores
+the mark/taunt/aggro classes wholesale, and moves toward the follow
+anchor; committed in-flight actions FINISH body-owned (controllers only
+issue NEW verbs); the threshold rides `World#ally_flee_hp_pct` (nil at
+seats=1 — the guard never evaluates; the transient Float compare is the
+lowhp_switch_pct precedent). Lane pins: scaled-Integer units (boss
+included) + seats=1 identity on both scalars + strict `<` threshold
+(hp==pct×max FIGHTS) + fleeing-ignores-mark + seized-doesn't-flee
+(answers the seizer's voice) + committed-swing-finishes-then-no-new-
+swings + seats=1-never-flees + two-sim digest identity with the block
+ACTIVE + knob-set pin (a deleted knob or a materialized "1" block fails
+the data-contract test).
+
+**MEASURED evidence (increment 4):** suite 737 green (13781 assertions;
++14 over increment 3's 723); full canary sweep 17/17 byte-identical
+(`tmp/canary_sweep_v18_inc4.log`, DONE 17:52:56 — THE 7ii proof:
+sim-touching change, walled line untouched); netplay gates re-run 3/3
+PASS with critic (the coop block ACTIVE in both scene worlds —
+determinism halves byte-identical); perf p95 0.202ms (budget 16.6).
+
+**NEXT — increment 5: sustain sim** (spec decision 9 + 15, lane 5,
+headless; SIM-TOUCHING — canary sweep + perf after): provisions as pack
+state (`Pack#provisions` digest field exists since increment 1) +
+`data/balance/economy.json` gains provision_cost 5 / provision_cap 3 /
+provision_heal 30 + the EDGE-TRIGGERED sustain verb (joins
+`EDGE_TRIGGERED` + swap-rearm law; bit 10 already rides the v2 mask,
+unbound until increment 6's bindings row): press ON the bank station
+buys via `spend!`, elsewhere consumes 1 charge and heals every LIVING
+member `provision_heal` clamped (dead untouched — the vat's monopoly);
+REFUSALS cue + spend nothing: at-cap / broke / zero charges /
+ZERO-EFFECTIVE (all living at full hp); same-tick seat race =
+first-success-per-tick in seat order (deterministic both machines);
+`TELEMETRY sustain bought/used/refused`; events registered (Rule 4).
+Then 6: sustain presentation + `sustain_run.json` + FULL Rule-2 gate
+(blocking; ADD-ONLY checks); 7: rake map (decision 13, lane 6); 8: docs
++ close (JUNIOR.md custody contract PT-BR-first incl. the --fresh
+notice, AGENTS.md Commands: rake map / --fresh / saves/ / coop block,
+PARKING_LOT custody-handoff entry, SEVENTEENTH protocol confirm).
+Canary baselines: `tmp/canary_baseline/` (17 dirs) — if tmp/ was
+cleaned, re-bank BEFORE any sim change
 (`tmp/bank_canary_v18_resume.sh` protocol). Junior: pull — protocol v2
-lands here; a stale seat refuses at HELLO naming “protocol version”.
++ the coop block land here; a stale seat refuses at HELLO naming
+“protocol version”; his PT-BR lane (PROVISÃO + cues) opens at
+increment 6.
 
 ## 2026-08-17 v18 TDD session 1 (increments 0-2 GREEN + PUSHED — canary baselines banked, SaveState + THE ROUND-TRIP LANE, persistence IO + solo wiring; next = increment 3: protocol v2 + SESSION save transfer)
 

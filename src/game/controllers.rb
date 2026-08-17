@@ -133,6 +133,18 @@ module Game
         view.seized_step(creature)
         return
       end
+      # v18 decision 12 — third-body caution at the PINNED precedence:
+      # seizure (above, unchanged) -> flee -> mark/aggro/target selection.
+      # A fleeing body ignores the mark AND every target class below;
+      # committed in-flight actions FINISH on their own clock (controllers
+      # only issue NEW verbs — nothing here touches attack state). Fleeing
+      # = no new attacks + move toward the follow anchor. Seat-gated: the
+      # view's threshold is nil at seats=1, so the guard never evaluates.
+      if fleeing?(creature, view)
+        anchor = follow_anchor(creature, view)
+        follow(creature, anchor, view) if anchor
+        return
+      end
       bound = creature.taunted_target || anchor_victim_for(creature, view)
       marked = marked_target_for(creature, view)
       target = bound || marked || nearest(creature, view.hostiles_for(creature))
@@ -145,6 +157,17 @@ module Game
     end
 
     private
+
+    # v18 decision 12: an UNCONTROLLED living pack body below the seat-
+    # gated hp fraction disengages. The Float compare is transient (the
+    # lowhp_switch_pct precedent) — nothing scaled is ever stored.
+    def fleeing?(creature, view)
+      return false unless creature.faction == :pack
+      return false if controlled_by_view?(creature, view)
+      pct = view.respond_to?(:ally_flee_hp_pct) ? view.ally_flee_hp_pct : nil
+      return false unless pct
+      creature.hp < creature.max_hp * pct
+    end
 
     # v17 decision 11: AI drives every living body NOT controlled by a
     # seat; the free ally follows the NEAREST controlled body (Chebyshev,
