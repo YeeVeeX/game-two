@@ -14,7 +14,7 @@ require "json"
 class NetplayIntegrationTest < Minitest::Test
   DATA = Core::DataStore.new(File.expand_path("../../data", __dir__))
   CFG = DATA["netplay"]
-  HELLO = { version: 1, ruby: "3.4.10", platform: "test", fingerprint: "c" * 32,
+  HELLO = { version: 2, ruby: "3.4.10", platform: "test", fingerprint: "c" * 32,
             digest_version: 1 }.freeze
 
   def sessions(epoch:, seed: 7)

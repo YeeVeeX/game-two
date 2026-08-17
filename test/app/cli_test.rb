@@ -24,6 +24,25 @@ class CliTest < Minitest::Test
     assert_match(/usage:/, err.message)
   end
 
+  # v18 increment 3 (spark order): --fresh composes with --host — host
+  # custody is live, so the shared world resets AT the host launch (the
+  # backup law still fires first). Order-insensitive; never with --join
+  # (the joiner owns no save to reset).
+  def test_fresh_composes_with_host_in_either_order
+    assert_equal({ mode: :host, port: DEFAULT, fresh: true }, parse("--fresh", "--host"))
+    assert_equal({ mode: :host, port: DEFAULT, fresh: true }, parse("--host", "--fresh"))
+    assert_equal({ mode: :host, port: 5000, fresh: true }, parse("--host", "5000", "--fresh"))
+    assert_equal({ mode: :host, port: 5000, fresh: true }, parse("--fresh", "--host", "5000"))
+    assert_equal({ mode: :host, port: 5000, fresh: true }, parse("--host", "--fresh", "5000"),
+                 "--fresh is an order-free modifier, never a port")
+  end
+
+  def test_fresh_never_composes_with_join
+    err = assert_raises(ArgumentError) { parse("--join", "1.2.3.4", "--fresh") }
+    assert_match(/usage:/, err.message)
+    assert_raises(ArgumentError) { parse("--fresh", "--join", "1.2.3.4") }
+  end
+
   # v18 decision 16: one seed derivation for solo AND host — 32-bit
   # masked, fresh per call (the fixed-seed-0 solo field is the dead bug).
   def test_new_seed_is_masked_and_varies
@@ -80,6 +99,18 @@ class CliTest < Minitest::Test
   def test_exit_status_refusal_is_one_regardless_of_reason
     assert_equal 1, App::Cli.exit_status(reason: :fingerprint, refusal: "peer refused: fingerprint")
     assert_equal 1, App::Cli.exit_status(reason: :conn_lost, refusal: "peer refused: fingerprint")
+  end
+
+  def test_exit_status_save_refusals_are_one_never_a_rehost
+    # v18 decision 6b RC-matrix extension: every save refusal reason ends
+    # with a refusal text on BOTH seats -> exit 1 -> the coop launchers
+    # stop (rehost/rejoin fires ONLY on 2).
+    ["REFUSED — save schema: theirs 99 / ours 1",
+     "REFUSED — save digest: declared \"abc\" / received bytes def",
+     "REFUSED — save facts unparseable: unexpected token",
+     "REFUSED — save home_zone: unknown zone \"attic\""].each do |text|
+      assert_equal 1, App::Cli.exit_status(reason: :protocol, refusal: text), text
+    end
   end
 
   def test_exit_status_conn_lost_is_two

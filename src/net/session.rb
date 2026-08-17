@@ -1,5 +1,6 @@
 require "socket"
 require "json"
+require "digest"
 require "fileutils"
 require "core/input"
 require "net/protocol"
@@ -24,10 +25,24 @@ module Net
   # probe_count RTTs measured host-side; SESSION carries d/digest_every
   # (+ link_slow as an OPTIONAL field — decode validates required shape
   # only, so the pinned vocabulary is untouched).
+  #
+  # v18 increment 3 (spec decisions 5/6): SESSION also carries the save —
+  # save_schema + save_digest + save (the canonical FACTS string EXACTLY
+  # as digested, or null for a fresh world). The host passes the string
+  # AS LOADED (never re-serialized past the pinned canonicalizer); the
+  # joiner digests the RECEIVED bytes BEFORE parsing (a parse→re-serialize
+  # round-trip can never enter the verdict), then strict-decodes via the
+  # injected save_validator — Net stays game-agnostic. Refusals are BYEs
+  # with the named text riding the optional `detail` field so BOTH seats
+  # print the SAME refusal and exit 1 (decision 6b).
   class Session
     ROOT = File.expand_path("../..", __dir__)
     PRECEDENCE = { quit: 0, conn_lost: 1, protocol: 2, desync: 3 }.freeze
     BYE_REASONS = { "quit" => :quit, "conn_lost" => :conn_lost, "desync" => :desync }.freeze
+    # BYE reasons that are REFUSALS (need a human; exit 1 — the coop
+    # launchers never rehost on these): the refusing seat's named text
+    # rides the optional `detail` field.
+    REFUSAL_REASONS = %w[fingerprint save_schema save_digest save_invalid].freeze
     ALLOWED = {
       listen: [],
       hello: %i[hello bye],
@@ -38,28 +53,62 @@ module Net
       draining: %i[input digest desync bye]
     }.freeze
 
-    Params = Data.define(:session_id, :seed, :d, :digest_every, :link_slow)
+    Params = Data.define(:session_id, :seed, :d, :digest_every, :link_slow,
+                         :save_schema, :save_digest, :save)
 
     attr_reader :seat, :phase, :reason, :params, :refusal, :fault_message,
                 :artifact_path, :digest_log, :lockstep, :link_slow
 
-    def self.host(port:, config:, seed:, bind: "0.0.0.0", epoch: Time.now.to_i, hello: nil)
-      new(role: :host, config:, hello:) do |s|
+    def self.host(port:, config:, seed:, bind: "0.0.0.0", epoch: Time.now.to_i, hello: nil,
+                  save_facts: nil, save_canonical: nil, save_digest: nil, save_schema: nil)
+      new(role: :host, config:, hello:,
+          save_facts:, save_canonical:, save_digest:, save_schema:) do |s|
         s.listen(bind, port, seed:, epoch:)
       end
     end
 
-    def self.join(host:, port:, config:, hello: nil)
-      new(role: :join, config:, hello:) do |s|
+    def self.join(host:, port:, config:, hello: nil, save_schema: nil, save_validator: nil)
+      new(role: :join, config:, hello:, save_schema:, save_validator:) do |s|
         s.connect(host, port)
       end
     end
 
-    def initialize(role:, config:, hello: nil)
+    # v18 decision 6c: the wire preflight — at HOST START the ACTUAL
+    # encoded SESSION line (real canonical save string + real digest;
+    # worst-case stand-ins for the handshake-derived fields, which are
+    # bounded and tiny) must fit wire_budget_bytes. Refused NAMED at the
+    # console BEFORE the socket opens — never a mid-handshake Oversize
+    # fault. -> nil | print-ready refusal.
+    def self.session_wire_refusal(save_canonical:, save_digest:, save_schema:, config:, budget:)
+      line = Protocol.encode(:session,
+                             session_id: "ffffffff", seed: 0xffff_ffff,
+                             d: config.fetch(:delay).fetch(:max),
+                             digest_every: config.fetch(:digest_every),
+                             link_slow: true,
+                             save_schema:, save_digest:, save: save_canonical)
+      return nil if line.bytesize <= budget
+      "REFUSED — save too large for the wire: SESSION line #{line.bytesize} bytes " \
+        "> wire_budget_bytes #{budget} — the save cannot transfer to a joiner"
+    rescue Protocol::Oversize
+      "REFUSED — save too large for the wire: SESSION line exceeds protocol " \
+        "MAX_LINE_BYTES (#{Protocol::MAX_LINE_BYTES}) — the save cannot transfer to a joiner"
+    end
+
+    def initialize(role:, config:, hello: nil, save_facts: nil, save_canonical: nil,
+                   save_digest: nil, save_schema: nil, save_validator: nil)
       @role = role
       @seat = role == :host ? 1 : 2
       @config = config
       @hello = hello || Fingerprint.hello(root: ROOT)
+      # Host side: the VALIDATED tree it will apply (never re-parsed from
+      # its own wire string) + the canonical bytes it transmits. Joiner
+      # side: schema + strict-decoder lambda; its tree arrives on the wire.
+      @save_facts = save_facts
+      @save_canonical = save_canonical
+      @save_digest = save_digest
+      @save_schema = save_schema
+      @save_validator = save_validator
+      @received_save = nil
       @phase = :listen
       @phase_started = nil
       @drain = nil
@@ -291,19 +340,38 @@ module Net
         @link_slow = derived.link_slow
         @params = Params.new(session_id: format("%08x", @seed ^ @epoch), seed: @seed,
                              d: derived.d, digest_every: @config.fetch(:digest_every),
-                             link_slow: derived.link_slow)
+                             link_slow: derived.link_slow,
+                             save_schema: @save_schema, save_digest: @save_digest,
+                             save: @save_facts)
         send_msg(:session, session_id: @params.session_id, seed: @params.seed,
                  d: @params.d, digest_every: @params.digest_every,
-                 link_slow: @params.link_slow)
+                 link_slow: @params.link_slow,
+                 save_schema: @save_schema, save_digest: @save_digest,
+                 save: @save_canonical)
         set_phase(:session)
       end
     end
 
     def handle_session(msg)
       raise Protocol::Fault, "SESSION received by the host" if host?
+      if (refused = save_refusal(msg))
+        bye_reason, text = refused
+        @refusal = text
+        conclude(:protocol)
+        send_msg(:bye, reason: bye_reason, detail: text)
+        finish!
+        return
+      end
       @link_slow = msg[:link_slow] ? true : false
+      received = msg[:save]
       @params = Params.new(session_id: msg[:session_id], seed: msg[:seed], d: msg[:d],
-                           digest_every: msg[:digest_every], link_slow: @link_slow)
+                           digest_every: msg[:digest_every], link_slow: @link_slow,
+                           save_schema: msg[:save_schema],
+                           # RECOMPUTED from the received bytes (decision 5
+                           # — verified == declared by save_refusal above);
+                           # a loaded digest is never an echo.
+                           save_digest: received && Digest::MD5.hexdigest(received),
+                           save: @received_save)
       # Now awaiting the caller's attach (the READY -> START barrier gates
       # on both seats holding a constructed sim).
       set_phase(:session)
@@ -354,11 +422,48 @@ module Net
         finish!
       else
         reason = BYE_REASONS.fetch(msg[:reason], :protocol)
-        @refusal ||= "peer refused: #{msg[:reason]}" if msg[:reason] == "fingerprint"
+        # Decision 6b: refusal text recorded for ALL refusal reasons — the
+        # peer's named detail when it rides the BYE, else a named fallback
+        # — so BOTH seats print the same refusal and exit 1 (RC-matrix law:
+        # the launchers never rehost on a refusal).
+        if REFUSAL_REASONS.include?(msg[:reason])
+          @refusal ||= msg[:detail] || "peer refused: #{msg[:reason]}"
+        end
         conclude(reason)
         send_msg(:bye, reason: "quit") if reason == :quit # ack a clean Esc
         finish!
       end
+    end
+
+    # Decision 6 ladder, joiner-side, order PINNED: schema (names the
+    # git-pull fix first — W7) -> digest over the RECEIVED bytes
+    # (integrity) -> parse -> strict decode (validity, via the injected
+    # validator). A null save (fresh world) skips the ladder entirely.
+    # -> [bye_reason, named_text] | nil.
+    def save_refusal(msg)
+      received = msg[:save]
+      return nil if received.nil?
+      unless msg[:save_schema] == @save_schema
+        return ["save_schema",
+                "REFUSED — save schema: theirs #{msg[:save_schema].inspect} / " \
+                "ours #{@save_schema.inspect}\n  hint: git pull on BOTH seats " \
+                "(same commit), then relaunch"]
+      end
+      computed = Digest::MD5.hexdigest(received)
+      unless computed == msg[:save_digest]
+        return ["save_digest",
+                "REFUSED — save digest: declared #{msg[:save_digest].inspect} / " \
+                "received bytes #{computed} (the save changed in flight or on disk)"]
+      end
+      begin
+        @received_save = JSON.parse(received)
+      rescue JSON::ParserError => e
+        return ["save_invalid", "REFUSED — save facts unparseable: #{e.message}"]
+      end
+      if @save_validator && (text = @save_validator.call(@received_save))
+        return ["save_invalid", "REFUSED — #{text}"]
+      end
+      nil
     end
 
     # --- the run loop (one lockstep tick per update, or a stall) ----------------

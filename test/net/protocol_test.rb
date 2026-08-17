@@ -12,12 +12,20 @@ class ProtocolTest < Minitest::Test
 
   # --- codec ---------------------------------------------------------------
 
+  def test_protocol_version_is_two
+    # v18 decision 8: ONE bump for the cycle — 11-bit mask (:sustain) +
+    # SESSION save transfer. A THIRD version inside v18 is a spec breach.
+    assert_equal 2, Net::Protocol::VERSION
+  end
+
   def test_every_message_type_round_trips
     examples = {
-      hello: { version: 1, ruby: "3.4.10", platform: "x64-mingw-ucrt",
+      hello: { version: 2, ruby: "3.4.10", platform: "x64-mingw-ucrt",
                fingerprint: "abc123", digest_version: 1 },
       probe: { n: 3 }, probe_ack: { n: 3 },
-      session: { session_id: "s-42", seed: 42, d: 8, digest_every: 60 },
+      session: { session_id: "s-42", seed: 42, d: 8, digest_every: 60,
+                 save_schema: 1, save_digest: "a" * 32,
+                 save: '{"banked":7}' },
       ready: {}, start: {},
       input: { t: 120, bits: 517 },
       digest: { t: 60, md5: "a4150c43669b9783e59cb6c39c322b67" },
@@ -36,8 +44,39 @@ class ProtocolTest < Minitest::Test
   end
 
   def test_input_line_stays_tiny
-    line = Net::Protocol.encode(:input, t: 999_999, bits: 1023)
+    line = Net::Protocol.encode(:input, t: 999_999, bits: 2047) # all 11 v2 bits held
     assert_operator line.bytesize, :<=, 40, "per-tick cost is the whole transport bet"
+  end
+
+  def test_session_carries_the_save_vocabulary_and_null_save_for_fresh
+    # v2 FINAL vocabulary pin (decision 8): a second silent bump cannot
+    # happen — save_schema/save_digest/save are REQUIRED keys (null for a
+    # fresh world; JSON null keeps the key present).
+    assert_equal %i[session_id seed d digest_every save_schema save_digest save],
+                 Net::Protocol::MESSAGES[:session]
+    line = Net::Protocol.encode(:session, session_id: "abc", seed: 1, d: 8,
+                                digest_every: 60, save_schema: nil,
+                                save_digest: nil, save: nil)
+    decoded = Net::Protocol.decode(line.chomp)
+    assert_nil decoded[:save]
+    assert_nil decoded[:save_digest]
+    assert_raises(Net::Protocol::Fault, "missing save keys must fault") do
+      Net::Protocol.encode(:session, session_id: "abc", seed: 1, d: 8, digest_every: 60)
+    end
+  end
+
+  def test_bye_detail_is_optional_and_round_trips
+    # Decision 6b: refusal BYEs carry the named refusal text so BOTH seats
+    # print the SAME message; detail stays optional (link_slow precedent —
+    # decode validates required shape only).
+    plain = Net::Protocol.decode(Net::Protocol.encode(:bye, reason: "quit").chomp)
+    assert_nil plain[:detail]
+    detailed = Net::Protocol.decode(
+      Net::Protocol.encode(:bye, reason: "save_digest",
+                           detail: "save digest: theirs abc / computed def").chomp
+    )
+    assert_equal "save_digest", detailed[:reason]
+    assert_match(/save digest/, detailed[:detail])
   end
 
   def test_decode_faults_on_garbage_unknown_and_missing_fields
@@ -82,14 +121,16 @@ class ProtocolTest < Minitest::Test
   # --- action mask + SampledInput (sampling law) -----------------------------
 
   def test_bit_order_is_pinned
-    assert_equal %i[left right up down attack dodge special mark interact swap],
+    # v2: :sustain APPENDS at bit 10 (decision 8) — the existing ten bits
+    # never move. A regression here is a protocol version bump, never a
+    # silent edit.
+    assert_equal %i[left right up down attack dodge special mark interact swap sustain],
                  Net::Protocol::ACTIONS
-    # left = bit 0, attack = bit 4, swap = bit 9 — a regression here is a
-    # protocol version bump, never a silent edit.
     assert_equal (1 << 0) | (1 << 4) | (1 << 9),
                  Net::Protocol.mask(Held.new(%i[left attack swap]))
+    assert_equal 1 << 10, Net::Protocol.mask(Held.new([:sustain]))
     assert_equal 0, Net::Protocol.mask(Held.new([]))
-    assert_equal 1023, Net::Protocol.mask(Held.new(Net::Protocol::ACTIONS))
+    assert_equal 2047, Net::Protocol.mask(Held.new(Net::Protocol::ACTIONS))
   end
 
   def test_sampled_input_mirrors_the_sampled_source_and_stays_frozen

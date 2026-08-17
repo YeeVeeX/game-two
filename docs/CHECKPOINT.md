@@ -1,5 +1,132 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-17 v18 TDD session 2a (increment 3 GREEN — protocol v2, SESSION save transfer, refusal taxonomy, wire preflight, THE TWO-SESSION LANE + live loopback E2E; next in-session target = increment 4: coop feel)
+
+**Protocol v2, ONE bump for the cycle (spec decision 8):** `VERSION = 2`;
+`ACTIONS` appends `:sustain` at bit 10 (existing ten bits unmoved — the
+BIT rides now, the verb is increment 5; unbound actions read false on
+every input source so the bit stays 0); SESSION vocabulary grows
+`save_schema`/`save_digest`/`save` as REQUIRED keys (null for a fresh
+world — JSON null keeps the key present); BYE gains an OPTIONAL `detail`
+field (link_slow precedent). Suite pins the FINAL v2 vocabulary: a
+VERSION==2 pin, the 11-action order pin (mask 2047), the SESSION
+required-keys pin, INPUT ≤40B at bits=2047.
+
+**SESSION save transfer (decisions 5/6, both refutations built on):**
+the save rides Params — `Session.host(save_facts:, save_canonical:,
+save_digest:, save_schema:)` transmits the canonical facts STRING
+exactly as loaded (never re-serialized past the pinned canonicalizer;
+the host carries the tree it VALIDATED at load and never re-parses its
+own wire bytes); `Session.join(save_schema:, save_validator:)` keeps Net
+game-agnostic (main.rb injects `SaveState.refusal_for` — the SAME strict
+decoder as file loads). Joiner ladder in `save_refusal`, order PINNED:
+schema (W7: names the git-pull fix) → md5 over the RECEIVED string
+BEFORE parsing (QW-Q4: a parse→re-serialize can never enter the verdict)
+→ parse → strict decode; any rung = BYE{reason, detail} + conclude
+:protocol + finish (params never known → main.rb aborts pre-window,
+exit 1, the bindings-error precedent). Params.save_digest joiner-side is
+RECOMPUTED from received bytes (never an echo); both Worlds construct
+`World.new(…, seats: 2, save: params.save)` at the attach barrier
+(window.rb — the frozen-snapshot refutation as built design).
+
+**Refusal taxonomy (decision 6b):** `REFUSAL_REASONS = fingerprint |
+save_schema | save_digest | save_invalid` — `handle_bye` records the
+peer's `detail` (fallback `peer refused: <reason>`) for ALL of them, so
+BOTH seats print the SAME named refusal and exit 1; status 2 stays
+link-fault-only (RC-matrix rows extended in cli_test — launchers never
+rehost on a refusal).
+
+**Host launch order (decision 6c) in main.rb:** [--fresh backup →]
+load → strict decode (console refusal, exit 1, pre-listen) → persist
+`loaded … source=file` / `fresh` line → wire preflight
+`Session.session_wire_refusal` — the ACTUAL `Protocol.encode(:session)`
+line with the real canonical string + real digest (worst-case stand-ins
+for the bounded handshake fields: session_id 8-hex, seed 0xffffffff,
+d=delay.max, link_slow=true) vs `wire_budget_bytes` 3072, refused NAMED
+before the socket opens (encode Oversize rescues into the same named
+family) → listen. Host owns a SaveCoordinator (owner: true); the joiner
+gets NONE and prints `loaded … source=handshake` after the pre-window
+pump. `Window#close` re-ordered: session end resolves FIRST (X-button
+quits), then the coordinator gates on `@session.reason` — the
+increment-2 solo-only `reason: :quit` hardcode is dead (the spark's
+named TRAP); desync/conn_lost/protocol write NOTHING (lane-tested).
+`--fresh` now COMPOSES with `--host` as an order-free modifier (spark
+order overriding the session's own earlier solo-only lean): backup law
+fires at the custody seat before the load; `--join --fresh` refuses
+(no custody); usage string updated.
+
+**THE LANE (test/net/netplay_persistence_test.rb, lane 3):** two real
+session PAIRS over real loopback in one process, per-seat tmpdir save
+roots, fake clock. Pair 1 (fresh, save=null) runs 300+ ticks with
+scripted fights; carried facts staged by IDENTICAL API mutations on both
+sims at an ASSERTED-equal tick (bank 75 + restore_breach! — the
+divergence test proves one-sided pokes desync; symmetric staging held:
+desyncs=0, digest logs identical); host coordinator writes the REAL file
+at quit (sessions=1 stamped AT the write). Pair 2 loads the file,
+preflights, transfers: joiner's RECOMPUTED digest == host's file-load
+digest == pair-1's saved digest VERBATIM (the chain), carried fact
+banked₂start == banked₁end on BOTH constructed worlds, breach open on
+both, `digest_snapshot` equal at construction, 600+ further ticks
+desyncs=0 with identical digest streams; pair 2 ends by JOINER quit →
+host concludes :quit and writes sessions=2 (the DS-Q4 refutation as a
+test); joiner save root asserted EMPTY after both sessions; host root
+carries exactly world.json. Negative custody lane: a REAL mid-run
+divergence (one-sided poke) → reason=desync → coordinator writes
+NOTHING, no file exists. v1-peer lane: HELLO version skew refuses NAMED
+(“protocol version”) with exit 1 on both seats. session_test grows the
+unit half: transfer + fresh-null + schema-skew/tampered/unparseable/
+invalid-facts ladders (same text on BOTH seats each time) + preflight
+lanes incl. the W4 tripwire — worst-case facts derived FROM DATA (every
+seal in data/zones + 2^31-1 counters) fit the budget.
+
+**MEASURED evidence:** suite 723 green (13562 assertions; was 706);
+netplay gates 3/3 PASS WITH critic (session/desync/conn_lost —
+determinism half byte-identical, 12/4/4 captures); full canary sweep
+17/17 byte-identical post-increment (`tmp/canary_sweep_v18_inc3.log`,
+DONE 17:10:52 — protocol/net/app-layer change, sim untouched; run
+anyway per spark); perf p95 0.223ms (budget 16.6); LIVE two-seat
+loopback E2E on real windows (PostMessage Esc by PID): host loaded
+`digest=5691…d624df source=file` (session-1's solo chain digest — the
+chain crossed the solo→netplay boundary), joiner printed the SAME
+digest `source=handshake`, JOINER-initiated Esc → both seats
+`reason=quit desyncs=0` (ticks 2431/2434 — BYE-in-flight skew, SIXTEENTH
+precedent), host wrote `saved digest=d63f… sessions=2` (file verified),
+joiner wrote nothing.
+
+**Micro-decisions recorded (smallest faithful deviations):** (1) the
+preflight uses worst-case stand-ins for handshake-derived SESSION fields
+(session_id/seed/d/link_slow are bounded and tiny; the SAVE is the only
+unbounded field and rides verbatim) — the “ACTUAL encoded line” law is
+satisfied on the field that matters. (2) `save_validator` is an injected
+lambda (Net stays game-agnostic; StateDigest world: precedent) rather
+than session.rb requiring game/save_state. (3) The host passes
+`save_facts` (its validated tree) alongside the canonical string — it
+never parses its own wire bytes; symmetry with the joiner is guaranteed
+by the digest law, and a live mismatch would surface at the first digest
+window. (4) `--fresh` composition implemented as order-free flag
+extraction (“--host --fresh 5000” legal); `--join --fresh` is a named
+usage error. (5) Lane-3 staging mutates BOTH sims at an asserted-equal
+tick instead of scripting station walks (the netplay staging law from
+project memory; input-driven banking stays lane-1/wall territory).
+
+**NEXT (this session if room, else session 3) — increment 4: coop feel**
+(spec decisions 11/12, lane 4; SIM-TOUCHING — full canary sweep + gates
++ perf): `data/balance/coop.json` `{"seats":{"2":{respawn_delay_scale
+2.0, human_hp_scale 1.25, ally_flee_hp_pct 0.35}}}`; seats=1 = block NOT
+READ, zero arithmetic (decision 7ii — no Float may enter the digest;
+scaled values explicit `.round`); respawn scale at SCHEDULE time, hp
+scale at SPAWN; third-body flee at the PINNED AiController precedence
+(seizure → flee → mark/aggro; committed swings FINISH; fleeing = no new
+attacks + move toward follow anchor; seats≥2 only). Lane 4: scalar
+units, nothing-evaluates-at-seats=1 pin, flee precedence lanes,
+two-sim digest identity with the block active. Then 5: sustain sim; 6:
+sustain presentation + Rule-2 gate; 7: rake map; 8: docs + close
+(JUNIOR.md custody contract PT-BR-first, AGENTS.md commands, SEVENTEENTH
+protocol confirm). Canary baselines: `tmp/canary_baseline/` (17 dirs) —
+if tmp/ was cleaned, re-bank BEFORE any sim change
+(`tmp/bank_canary_v18_resume.sh` protocol). Junior: pull — protocol v2
+lands here; a stale seat refuses at HELLO naming “protocol version”.
+
 ## 2026-08-17 v18 TDD session 1 (increments 0-2 GREEN + PUSHED — canary baselines banked, SaveState + THE ROUND-TRIP LANE, persistence IO + solo wiring; next = increment 3: protocol v2 + SESSION save transfer)
 
 **Increment 0 — baselines banked BEFORE any sim change:** one capture

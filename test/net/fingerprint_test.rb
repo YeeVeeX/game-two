@@ -9,7 +9,7 @@ require "tmpdir"
 # print that NAMES the differing field (W6: the error reaches the person
 # who must act).
 class FingerprintTest < Minitest::Test
-  HELLO = { version: 1, ruby: "3.4.10", platform: "x64-mingw-ucrt",
+  HELLO = { version: 2, ruby: "3.4.10", platform: "x64-mingw-ucrt",
             fingerprint: "a" * 32, digest_version: 1 }.freeze
 
   def build_tree(root)
@@ -108,9 +108,9 @@ class FingerprintTest < Minitest::Test
   end
 
   def test_mismatch_names_every_differing_field
-    theirs = HELLO.merge(version: 2, ruby: "3.3.0")
+    theirs = HELLO.merge(version: 1, ruby: "3.3.0") # a stale v1 seat
     msg = Net::Fingerprint.mismatch(HELLO, theirs)
-    assert_match(/protocol version: ours 1 \/ theirs 2/, msg)
+    assert_match(/protocol version: ours 2 \/ theirs 1/, msg)
     assert_match(/Ruby version: ours 3\.4\.10 \/ theirs 3\.3\.0/, msg)
     refute_match(/sim fingerprint/, msg, "matching fields stay out of the print")
   end

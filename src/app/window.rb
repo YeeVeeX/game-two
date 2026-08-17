@@ -48,8 +48,9 @@ module App
       # v17 session mode: the two-seat World waits for handshake params
       # (seed comes from the host); solo mode constructs it now with the
       # per-session seed + validated save facts from main.rb (v18
-      # decisions 4/16). @saver is the save coordinator — solo only until
-      # the protocol-v2 increment wires host custody.
+      # decisions 4/16). @saver is the save coordinator — solo player or
+      # netplay HOST (the joiner carries none: it never persists the
+      # shared world).
       @session = session
       @relaunch = relaunch
       @saver = saver
@@ -83,7 +84,11 @@ module App
     def update_session
       now = Process.clock_gettime(Process::CLOCK_MONOTONIC) * 1000.0
       if @world.nil? && @session.params_known?
-        @world = Game::World.new(@data, seed: @session.params.seed, seats: 2)
+        # v18 decision 4: BOTH seats construct from the handshake-frozen
+        # Params — the host's validated tree IS the joiner's parsed wire
+        # bytes (digest law), so the two sims start identical.
+        @world = Game::World.new(@data, seed: @session.params.seed, seats: 2,
+                                 save: @session.params.save)
         @telemetry = Game::Telemetry.new(@world.bus, world: @world)
         @session.attach(@world)
       end
@@ -120,14 +125,19 @@ module App
     def close
       puts @telemetry.summary if @telemetry
       # v18 decision 2: the coordinator writes IFF this seat owns the save
-      # and the end is clean — solo close IS the clean quit (Esc or the
-      # window X). Idempotent: a double close writes once. Session mode
-      # carries no @saver until the protocol-v2 increment.
-      if @world && (line = @saver&.close(world: @world, reason: :quit))
+      # AND the end is clean. Solo close IS the clean quit (Esc or the
+      # window X). Session mode: resolve the session end FIRST (the X
+      # path quits here), then gate the write on the session's OWN reason
+      # — either seat's Esc lands :quit on both seats; desync/conn_lost/
+      # protocol write NOTHING. Idempotent: a double close writes once.
+      if @session && !@session.ended?
+        @session.quit!(Process.clock_gettime(Process::CLOCK_MONOTONIC) * 1000.0)
+      end
+      reason = @session ? @session.reason : :quit
+      if @world && (line = @saver&.close(world: @world, reason:))
         puts line
       end
       if @session
-        @session.quit!(Process.clock_gettime(Process::CLOCK_MONOTONIC) * 1000.0) unless @session.ended?
         puts @session.telemetry_line
         puts "desync report: #{@session.artifact_path}" if @session.artifact_path
         puts "relaunch: #{@relaunch}" if @relaunch

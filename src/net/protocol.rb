@@ -17,21 +17,29 @@ module Net
     class Fault < StandardError; end
     class Oversize < Fault; end
 
-    VERSION = 1
+    VERSION = 2
 
     # Bit i of an input mask = ACTIONS[i] held. PINNED — changing this
-    # order is a protocol version bump, never a silent edit.
-    ACTIONS = %i[left right up down attack dodge special mark interact swap].freeze
+    # order is a protocol version bump, never a silent edit. v2 (v18
+    # decision 8): :sustain APPENDS at bit 10 — the BIT rides now, the
+    # verb lands in the sustain increment; an unbound action reads false
+    # on every input source, so the bit stays 0 until then.
+    ACTIONS = %i[left right up down attack dodge special mark interact swap sustain].freeze
 
     MAX_LINE_BYTES = 4096
 
     # Message vocabulary + required fields (beyond the "m" type tag).
     # Field names spell themselves except tick = "t" (the spec's INPUT{t}).
+    # v2 (v18 decisions 5/8): SESSION carries the save — save_schema +
+    # save_digest + save (the canonical FACTS string EXACTLY as digested,
+    # or null for a fresh world; the joiner digests the RECEIVED string
+    # before parsing). BYE may carry an optional `detail` (the named
+    # refusal text — both seats print the SAME refusal, decision 6b).
     MESSAGES = {
       hello: %i[version ruby platform fingerprint digest_version],
       probe: %i[n],
       probe_ack: %i[n],
-      session: %i[session_id seed d digest_every],
+      session: %i[session_id seed d digest_every save_schema save_digest save],
       ready: [],
       start: [],
       input: %i[t bits],
@@ -42,7 +50,7 @@ module Net
 
     module_function
 
-    # Sample an input source into the 10-bit mask — called exactly ONCE
+    # Sample an input source into the 11-bit mask — called exactly ONCE
     # per EXECUTED tick (sampling law, decision 1); the mask is the
     # authoritative record of what this seat held.
     def mask(input)

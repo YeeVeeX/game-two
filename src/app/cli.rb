@@ -5,7 +5,7 @@ module App
   # usage — main.rb aborts to the console, nonzero (the bindings-error
   # precedent: the message reaches the person who typed the command).
   module Cli
-    USAGE = "usage: bin/play [locale] [--fresh | --host [port] | --join <ip[:port]>]".freeze
+    USAGE = "usage: bin/play [locale] [--fresh | --host [port] [--fresh] | --join <ip[:port]>]".freeze
 
     # Exit-status seam (v17 SIXTEENTH support): the coop launchers relaunch
     # ONLY on link faults — a clean Esc or an honest desync/protocol end
@@ -17,23 +17,26 @@ module App
 
     module_function
 
-    # argv -> nil | {mode: :solo, fresh: true} | {mode: :host, port:} |
+    # argv -> nil | {mode: :solo, fresh: true} | {mode: :host, port:[, fresh: true]} |
     #         {mode: :join, host:, port:}
     def parse(argv, default_port:)
       args = argv.dup
       return nil if args.empty?
+      # v18: --fresh is an ORDER-FREE modifier — start a fresh world; the
+      # existing save backs up FIRST (decision 14's irreversibility
+      # guard). Solo resets the solo-owned save; with --host it resets
+      # the SHARED world at the custody seat (increment-3 spark order).
+      # Never with --join: the joiner owns no save to reset.
+      fresh = !args.reject! { |a| a == "--fresh" }.nil?
+      return { mode: :solo, fresh: true } if fresh && args.empty?
       case (flag = args.shift)
-      when "--fresh"
-        # v18: start a fresh world; the existing save backs up FIRST
-        # (decision 14's irreversibility guard). Solo-only until the
-        # netplay increments wire host persistence.
-        raise ArgumentError, "--fresh takes no arguments\n#{USAGE}" unless args.empty?
-        { mode: :solo, fresh: true }
       when "--host"
         port = args.shift
         raise ArgumentError, "--host takes at most a port\n#{USAGE}" unless args.empty?
-        { mode: :host, port: port ? parse_port(port) : default_port }
+        out = { mode: :host, port: port ? parse_port(port) : default_port }
+        fresh ? out.merge(fresh: true) : out
       when "--join"
+        raise ArgumentError, "--fresh cannot join (no save custody)\n#{USAGE}" if fresh
         addr = args.shift
         raise ArgumentError, "--join needs the host address\n#{USAGE}" if addr.nil? || addr.start_with?("-")
         raise ArgumentError, "--join takes one address\n#{USAGE}" unless args.empty?

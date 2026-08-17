@@ -2,7 +2,10 @@ require_relative "../test_helper"
 require "core/data_store"
 require "core/input"
 require "game/world"
+require "game/save_state"
 require "net/session"
+require "app/cli"
+require "digest"
 
 # v17 increment 5 — the handshake over REAL 127.0.0.1 sockets (explicit:
 # no firewall prompt, CI-safe), synchronous pumps, NO THREADS (decision
@@ -11,16 +14,37 @@ require "net/session"
 class SessionTest < Minitest::Test
   DATA = Core::DataStore.new(File.expand_path("../../data", __dir__))
   CFG = DATA["netplay"]
-  HELLO = { version: 1, ruby: "3.4.10", platform: "test", fingerprint: "a" * 32,
+  HELLO = { version: 2, ruby: "3.4.10", platform: "test", fingerprint: "a" * 32,
             digest_version: 1 }.freeze
+  VALIDATOR = ->(facts) { Game::SaveState.refusal_for(facts, data: DATA) }
 
-  def host_session(seed: 7, hello: HELLO, epoch: 4242)
+  # The joiner is always constructed the way main.rb constructs it (real
+  # schema + real strict decoder — no mocks); hosts opt into a save via
+  # save_kw. valid_facts mirrors save_state_test's fixture (real zone +
+  # roster names from data/).
+  def valid_facts
+    {
+      "banked" => 12, "provisions" => 1, "home_zone" => "nest",
+      "breached" => [["district", [42, 13]]],
+      "members" => [
+        { "kit" => "striker", "hp" => 80, "inscribed" => false },
+        { "kit" => "blocker", "hp" => 0, "inscribed" => true },
+        { "kit" => "lobber", "hp" => 33, "inscribed" => false }
+      ],
+      "counters" => { "boss_1_defeats" => 2, "sessions" => 5 }
+    }
+  end
+
+  def host_session(seed: 7, hello: HELLO, epoch: 4242, **save_kw)
     @host = Net::Session.host(bind: "127.0.0.1", port: 0, config: CFG,
-                              seed:, epoch:, hello: hello.dup)
+                              seed:, epoch:, hello: hello.dup, **save_kw)
   end
 
   def join_session(port, hello: HELLO)
-    @join = Net::Session.join(host: "127.0.0.1", port:, config: CFG, hello: hello.dup)
+    @join = Net::Session.join(host: "127.0.0.1", port:, config: CFG,
+                              hello: hello.dup,
+                              save_schema: Game::SaveState::SCHEMA,
+                              save_validator: VALIDATOR)
   end
 
   def teardown
@@ -227,5 +251,150 @@ class SessionTest < Minitest::Test
     h.update(CFG[:abort_stall_ms] * 3)
     refute h.ended?, "hosting waits for a partner indefinitely (Esc cancels)"
     assert_equal :listen, h.phase
+  end
+
+  # --- v18 increment 3: SESSION save transfer (spec decisions 5/6) ------------
+
+  def canonical_save
+    Game::SaveState.canonical_bytes(valid_facts)
+  end
+
+  def host_with_save(canonical: canonical_save, digest: nil, schema: Game::SaveState::SCHEMA,
+                     facts: valid_facts)
+    host_session(save_facts: facts, save_canonical: canonical,
+                 save_digest: digest || Digest::MD5.hexdigest(canonical),
+                 save_schema: schema)
+  end
+
+  def test_session_transfers_the_save_and_the_joiner_recomputes_the_digest
+    canonical = canonical_save
+    h = host_with_save(canonical:)
+    j = join_session(h.port)
+    pump_until(h, j, what: "params") { h.params_known? && j.params_known? }
+    assert_equal valid_facts, j.params.save, "the joiner parsed the received canonical string"
+    assert_equal valid_facts, h.params.save, "the host carries the tree it validated at load"
+    assert_equal Digest::MD5.hexdigest(canonical), j.params.save_digest,
+                 "joiner digest RECOMPUTED from received bytes == declared"
+    assert_equal h.params.save_digest, j.params.save_digest
+    assert_equal Game::SaveState::SCHEMA, j.params.save_schema
+  end
+
+  def test_fresh_world_session_carries_null_save
+    h = host_session # no save kwargs = fresh
+    j = join_session(h.port)
+    pump_until(h, j, what: "params") { h.params_known? && j.params_known? }
+    assert_nil j.params.save
+    assert_nil j.params.save_digest
+    assert_nil h.params.save
+  end
+
+  def test_schema_skew_refuses_named_on_both_seats_before_any_params
+    h = host_with_save(schema: 99)
+    j = join_session(h.port)
+    pump_until(h, j, what: "both ended") { h.ended? && j.ended? }
+    refute j.params_known?, "a refused save never yields params (no window opens)"
+    [h, j].each do |s|
+      assert_equal :protocol, s.reason
+      assert_match(/save schema/, s.refusal)
+      assert_match(/git pull/, s.refusal, "W7: the refusal names the fix")
+      assert_equal 1, App::Cli.exit_status(reason: s.reason, refusal: s.refusal)
+    end
+    assert_equal j.refusal, h.refusal, "decision 6b: BOTH seats print the SAME named refusal"
+  end
+
+  def test_tampered_save_refuses_save_digest_on_both_seats
+    canonical = canonical_save
+    tampered = canonical.sub('"banked":12', '"banked":9999')
+    h = host_with_save(canonical: tampered, digest: Digest::MD5.hexdigest(canonical))
+    j = join_session(h.port)
+    pump_until(h, j, what: "both ended") { h.ended? && j.ended? }
+    refute j.params_known?
+    [h, j].each do |s|
+      assert_match(/save digest/, s.refusal)
+      assert_equal 1, App::Cli.exit_status(reason: s.reason, refusal: s.refusal)
+    end
+    assert_equal j.refusal, h.refusal
+  end
+
+  def test_unparseable_save_with_a_true_digest_refuses_save_invalid
+    garbage = "{this is not json"
+    h = host_with_save(canonical: garbage, digest: Digest::MD5.hexdigest(garbage), facts: nil)
+    j = join_session(h.port)
+    pump_until(h, j, what: "both ended") { h.ended? && j.ended? }
+    assert_match(/save facts unparseable/, j.refusal)
+    assert_equal j.refusal, h.refusal
+  end
+
+  def test_invalid_facts_refuse_through_the_strict_decoder_with_the_named_text
+    bad = valid_facts
+    bad["home_zone"] = "district" # not a hub — a NAMED strict-decoder refusal
+    canonical = Game::SaveState.canonical_bytes(bad)
+    h = host_with_save(canonical:, digest: Digest::MD5.hexdigest(canonical))
+    j = join_session(h.port)
+    pump_until(h, j, what: "both ended") { h.ended? && j.ended? }
+    refute j.params_known?
+    assert_match(/home_zone/, j.refusal, "the strict decoder's named refusal reaches the console")
+    assert_equal j.refusal, h.refusal, "detail rides the BYE — same text on both seats"
+    assert_equal 1, App::Cli.exit_status(reason: j.reason, refusal: j.refusal)
+  end
+
+  # --- v18 decision 6c: the wire preflight -------------------------------------
+
+  def test_wire_preflight_passes_a_real_save_under_budget
+    canonical = canonical_save
+    assert_nil Net::Session.session_wire_refusal(
+      save_canonical: canonical, save_digest: Digest::MD5.hexdigest(canonical),
+      save_schema: Game::SaveState::SCHEMA, config: CFG,
+      budget: DATA["persistence"][:wire_budget_bytes]
+    )
+  end
+
+  def test_wire_preflight_refuses_named_over_budget_and_past_protocol_max
+    big = %({"pad":"#{'x' * 3300}"})
+    refusal = Net::Session.session_wire_refusal(
+      save_canonical: big, save_digest: Digest::MD5.hexdigest(big),
+      save_schema: 1, config: CFG, budget: 3072
+    )
+    assert_match(/save too large for the wire/, refusal)
+    assert_match(/3072/, refusal, "the refusal names the budget")
+
+    huge = %({"pad":"#{'x' * 5000}"})
+    refusal = Net::Session.session_wire_refusal(
+      save_canonical: huge, save_digest: Digest::MD5.hexdigest(huge),
+      save_schema: 1, config: CFG, budget: 3072
+    )
+    assert_match(/MAX_LINE_BYTES/, refusal, "encode Oversize maps to the same named family")
+  end
+
+  def test_wire_preflight_passes_the_worst_case_save
+    # W4 tripwire (spec watched risks): the ENCODED line for a maximal
+    # save — EVERY seal in data/ breached, counters at 32-bit max — must
+    # clear wire_budget_bytes with room. Derived from data, never
+    # hardcoded: new seals grow this test's save automatically.
+    all_seals = Dir[File.expand_path("../../data/zones/*.json", __dir__)].flat_map do |f|
+      zone = File.basename(f, ".json")
+      DATA["zones/#{zone}"].fetch(:stations, [])
+          .select { |s| s[:type] == "seal" }
+          .map { |s| [zone, s[:opens]] }
+    end.sort
+    refute_empty all_seals, "staging: the world lost its seals"
+    worst = valid_facts.merge(
+      "breached" => all_seals,
+      "banked" => 2**31 - 1, "provisions" => 2**31 - 1,
+      "counters" => { "boss_1_defeats" => 2**31 - 1, "sessions" => 2**31 - 1 }
+    )
+    canonical = Game::SaveState.canonical_bytes(worst)
+    assert_nil Net::Session.session_wire_refusal(
+      save_canonical: canonical, save_digest: Digest::MD5.hexdigest(canonical),
+      save_schema: Game::SaveState::SCHEMA, config: CFG,
+      budget: DATA["persistence"][:wire_budget_bytes]
+    ), "the worst-case save must fit the wire budget (W4)"
+  end
+
+  def test_wire_preflight_passes_a_fresh_world
+    assert_nil Net::Session.session_wire_refusal(
+      save_canonical: nil, save_digest: nil, save_schema: nil,
+      config: CFG, budget: DATA["persistence"][:wire_budget_bytes]
+    )
   end
 end
