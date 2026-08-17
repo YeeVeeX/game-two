@@ -479,16 +479,18 @@ Infra items, not game features; each needs a maintenance window, not a cycle.
   pass (same surface, one review). Literals stay as emergency fallback only.
 - **Telemetry retirement rule** — when a cycle's verdict closes a lane, its counters
   leave `Telemetry` (or move under a retired section). 429 lines and growing without it.
-- **world.rb growth cap** — line-cap test beside the orchestrator cap (world.rb is 1,522;
-  cap ~1,800) + extract-on-touch: the next cycle that materially edits a subsystem
-  (drops/corpses are the cleanest seam) moves it to a plain object with explicit call
-  order. NO bus-mediation inside the sim (determinism + debuggability).
+- ~~**world.rb growth cap**~~ **SHIPPED (`5eeef2a`)** — executable 1,800-line
+  ceiling lives beside the orchestrator cap in `test/app/line_caps_test.rb`.
+  Extract-on-touch remains the action when a subsystem next changes (plain object,
+  explicit call order, NO in-sim bus mediation). Current count 2026-08-17: 1,791.
 - **Check-set amendment policy** — codify what v15.5(d) does ad hoc: ADD-ONLY stays the
   default; exemptions/retirements need an owner-ratified entry in a checks changelog.
-- **Headless CI** — GitHub Actions running the pure-sim majority of the suite
-  (GL-dependent tests skip loudly). Catches machine-local rot; the wall stays local.
-- **README.md** — ten lines + one capture, for humans landing on the repo (Junior
-  clones for the multiplayer era).
+- ~~**Headless CI**~~ **SHIPPED (`5eeef2a`, checkout v5 `0df0114`)** — GitHub
+  Actions runs the suite under xvfb on `junior-tibia`/`main`; the GL capture wall
+  correctly stays local. Verified green through `483e773` on 2026-08-17.
+- ~~**README.md**~~ **SHIPPED (`77ed763`, completed `483e773`)** — concise human
+  landing page, current gameplay capture, co-op quickstart, exact Ruby setup; image
+  vision 4/4 and text accuracy/presentation PASS.
 - ~~**v16 recommendation ON RECORD (owner decides at the fourteenth)**~~
   **FIRED at the v16 debate (2026-08-15): owner ratified the
   presentation/identity cycle; multiplayer → v17 behind triggers.**
