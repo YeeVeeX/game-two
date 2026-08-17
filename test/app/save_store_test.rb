@@ -235,6 +235,9 @@ class SaveStoreTest < Minitest::Test
   end
 
   def test_coordinator_replace_failure_reports_named_never_silent
+    # Same Windows-only pin as the open-handle test above: POSIX replaces
+    # an open file, so the coordinator's ERROR lane never fires on Linux.
+    skip "Windows-only rename-over-open-file semantics" unless Gem.win_platform?
     with_store do |store, _|
       store.write(facts, saved_at_ms: 1)
       w = world
