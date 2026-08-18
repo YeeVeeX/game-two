@@ -152,6 +152,39 @@ multiplayer; (b) o corpo pilotado pela IA "se matando por nada"
 (atrito de corpo da IA). Ambos são matéria do dev/dono, registrados
 aqui apenas.
 
+## Wall completo com crítico de visão neste assento (2026-08-17, 19:53–21:43)
+
+Primeira varredura integral do wall (17 scripts, `harness/run_wall.sh
+junior_critic`) com o gate CHEIO — determinismo + veredito de visão via
+Bedrock (perfil `junior-dev`, fix `e61b9ad`) — fora da máquina do dono.
+
+**Resultado: 16/17 PASS · 1 FAIL (`specials_chain`, gate de visão).**
+Determinismo e manifest passaram em TODOS os 17 (specials_chain: 14
+capturas byte-idênticas, manifest special_started=6 taunted=2).
+
+Checks reprovados no specials_chain (verbatim do crítico):
+
+    [FAIL] ledger_beat_reads: frame_0029 tally is tiny in-world text with no dark panel, nowhere near zone banner scale.
+    [FAIL] ledger_negative_reads: Loss line -8 is present but no red negative net reads; the -8 renders in positive magenta.
+    [FAIL] ledger_prominence: The frame_0029 tally reads as a small footnote annotation, trivially missable next to the ZONE banner.
+
+Contexto para a adjudicação (do log, não interpretação):
+
+- `ledger_loop` (o script da superfície) PASSOU os três no mesmo sweep:
+  "large magenta glyph plus 4 on a dark center panel, unmissable" /
+  "hollow -7 with red = -7 net" / "dominates screen center at banner
+  scale". A superfície dedicada lê certa NESTA máquina.
+- O frame_0029 do specials_chain mostra um "-8" pequeno in-world — a
+  dúvida do roteamento é se os checks de ledger deveriam disparar nesses
+  frames (calibração do reel) ou se há beat de perda mal-apresentado no
+  meio da cadeia de specials.
+- VARIÂNCIA do crítico observada no mesmo log: uma tentativa reprovou os
+  3, outra tentativa sobre o MESMO diretório passou tudo — o gate ficou
+  honestamente no FAIL.
+- Logs completos: `tmp/wall/*_junior_critic.log` (local desta máquina).
+
+Decisão é do dev (calibração vs apresentação); evidência daqui é neutra.
+
 ## Roteamento
 
 - Job 2/3 do close-out (W6): as duas quedas conn_lost + o diagnóstico de
