@@ -38,6 +38,11 @@ end
 autopilot = nil
 if (bot = opts&.dig(:bot))
   require "app/autopilot"
+  # Soak logs are read while the process runs (heartbeats) and must
+  # survive a timeout kill — unbuffer, bot lanes only (a buffered seat
+  # killed by the orchestrator's fuse would leave an EMPTY log and the
+  # episode bundle would lose all forensics). Human paths untouched.
+  $stdout.sync = true
   autopilot = App::Autopilot.new(seed: bot[:seed] || App::Cli.new_seed,
                                  quit_tick: bot[:ticks] || App::Autopilot::DEFAULT_QUIT_TICK)
   puts autopilot.banner
