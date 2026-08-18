@@ -224,6 +224,10 @@
     {
       "id": "sustain_refusal_cue_reads",
       "check": "A refused sustain press (at cap, broke, or at full health) shows a dark-red X-bar drawn OVER the presser's body plus a REFUSED text line above the tile - the refusal must never read as nothing-happened. If the script never stages a sustain refusal, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "burst_legibility_budget",
+      "check": "In frames where a burst or AoE effect is active (striker ring burst, blocker ring shock / challenge pulse, lobber volley impacts, kill-pop shards), the spectacle stays inside its legibility budget: actor silhouettes (pack bodies, humans, the possessed's white ring) and the ground state around the effect (floor tiles, drops, pips, corpses, telegraphs, gold ways) remain readable. An effect may briefly cover its own tiles, but it must never white-out or flood the play-space so that you cannot tell where bodies stand or what lies on the ground under or beside it. The wipe veil and the boss writ-frame darkening are NOT bursts and are exempt. If no burst/AoE frame is present, pass with why='not exercised by this script'."
     }
   ]
 }
