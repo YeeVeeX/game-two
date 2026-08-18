@@ -45,6 +45,7 @@ mkdir -p "$RUN"
 SAVE="$RUN/world.json"
 
 save_md5() { [ -f saves/world.json ] && md5sum saves/world.json | cut -d' ' -f1 || echo absent; }
+logsize() { [ -f "$1" ] && wc -c < "$1" || echo 0; }
 temp_logs() { ls /tmp/game_two_session_*.log 2>/dev/null | wc -l; }
 REAL_MD5=$(save_md5)
 TEMP_COUNT=$(temp_logs)
@@ -88,7 +89,7 @@ for i in $(seq 1 "$N"); do
     [ -n "$JPID" ] && kill -0 "$JPID" 2>/dev/null && alive=1
     [ "$alive" -eq 0 ] && break
     [ $((s % 60)) -eq 0 ] && [ "$s" -gt 0 ] && \
-      echo "EP$i heartbeat ${s}s host=$(wc -c < "$EP/host.log" 2>/dev/null || echo 0)B joiner=$(wc -c < "$EP/joiner.log" 2>/dev/null || echo 0)B"
+      echo "EP$i heartbeat ${s}s host=$(logsize "$EP/host.log")B joiner=$(logsize "$EP/joiner.log")B"
     sleep 1
     s=$((s + 1))
   done
