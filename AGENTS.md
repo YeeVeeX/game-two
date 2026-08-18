@@ -156,8 +156,8 @@ scope for this repo. (Historical pipeline: see git history of this file.)
 - **Persistence (v18):** the shared world lives in `saves/world.json` — host-authoritative,
   gitignored, written at clean quit ONLY (never hand-edit; strict decode refuses NAMED).
   `--fresh` = start over, composes with solo and `--host` (the existing save moves to
-  `.bak-<ts>` FIRST — the backup law); `--join --fresh` refuses (the joiner has no save
-  custody). Coop pacing scalars: `data/balance/coop.json` (per-seat-count block; seats=1 =
+  `.bak-<ts>` FIRST — the backup law); `--join --fresh` refuses (the joiner never keeps
+  the save). Coop pacing scalars: `data/balance/coop.json` (per-seat-count block; seats=1 =
   no block = no arithmetic).
 - `rake capture SCRIPT=harness/scripts/<name>.json` — deterministic replay + frame capture.
   One script per regression surface lives in `harness/scripts/` (the wall); trust the

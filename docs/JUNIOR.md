@@ -163,7 +163,7 @@ a 17ª vem aí).
 O mundo não zera mais a cada partida: banco, selos rompidos, marcas,
 suprimentos e o contador de sessões sobrevivem entre sessões.
 
-**De quem é o save (o contrato, sem letra miúda):**
+**De quem é o save (como funciona, sem pegadinha):**
 
 - O mundo compartilhado mora na máquina do **host** (o Gabriel). Ele
   avança quando o Gabriel joga — sozinho ou hospedando — e quando VOCÊ
@@ -190,15 +190,15 @@ suprimentos e o contador de sessões sobrevivem entre sessões.
 
 **O aviso do `--fresh` (recomeçar do zero):**
 
-- Se o host recomeça (`--host --fresh`), a cadeia MOSTRA: o save
+- Se o host recomeça (`--host --fresh`), o histórico MOSTRA: o save
   antigo vira `saves/world.json.bak-<data>` (nada se perde em
   silêncio), o console do host imprime `persist fresh source=fresh`, e
   o contador `sessions=` das linhas seguintes recomeça baixo. Naquela
   primeira sessão o seu console não mostra linha `loaded` nenhuma —
   mundo novo, nada a carregar.
 - `--fresh` também funciona no SEU solo (recomeça o SEU mundo, com o
-  mesmo backup). Com `--join` ele RECUSA — quem entra não tem a
-  custódia do save.
+  mesmo backup). Com `--join` ele RECUSA — o save mora com o host,
+  não com quem entra.
 
 **Pull antes de jogar agora é CRÍTICO:**
 
@@ -279,7 +279,7 @@ next).
 
 Persistence (v18, LIVE): the world no longer resets — banked value,
 breached seals, marks, provisions and the sessions counter survive
-across sessions. Custody contract: the shared world lives on the
+across sessions. Who keeps the save: the shared world lives on the
 HOST's machine (Gabriel); it advances when he plays (solo or hosting)
 and when you JOIN him. You playing solo on your own machine = your OWN
 separate world (your `saves/world.json`); merging divergent world
@@ -294,7 +294,7 @@ continuity (they live in the session log,
 save moves to `.bak-<ts>` first — nothing is lost silently; the host
 prints `persist fresh source=fresh`, that session shows no `loaded`
 line (new world), and `sessions=` restarts low. `--join --fresh`
-refuses — the joiner has no save custody. Pull is now schema-critical:
+refuses — the joiner never keeps the save. Pull is now schema-critical:
 v18 bumped the protocol to v2 and gave the save a schema — a stale
 seat is REFUSED at the handshake naming the exact field (e.g.
 `protocol version`) plus the git-pull hint.

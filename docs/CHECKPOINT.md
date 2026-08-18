@@ -1,5 +1,39 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-18 register cleanup (owner order — foreclosure-case legal jargon out of live human surfaces; docs-only, `90c75e6` + this commit)
+
+**Owner order (same day as increment 8):** his knowledgebase had
+unintentionally carried a personal foreclosure case (quarantined
+system-wide 2026-08-16); its notarial/judicial register had drifted
+into our es/pt human-facing text. Audit run over data/strings (CLEAN —
+zero legal terms), src/ + data (CLEAN), and the live docs: every real
+hit was in THIS session's increment-8 prose. Cleaned in place:
+`docs/JUNIOR.md` ("o contrato, sem letra miúda" → "como funciona, sem
+pegadinha"; "custódia do save" → "o save mora com o host"; "a cadeia
+MOSTRA" → "o histórico MOSTRA"; EN mirror "custody contract / no save
+custody" → "who keeps the save / never keeps the save"), the
+SEVENTEENTH run sheet (árbitro → chequeo; cadena de evidencia → la
+cadena + el chequeo; hecho citado en el veredicto → dato mencionado en
+el resultado; adjudicador/adjudicación → quien evalúa / esa decisión;
+contrato de alcance → regla del ciclo), and my AGENTS.md Commands
+bullet ("no save custody" → "never keeps the save").
+
+**Kept, on purpose:** (1) the spec-closed question lines — "4.
+Veredicto libre." / "4. Veredicto livre." — panel-checked de-primed
+wording, pre-registered; changing them re-opens that loop — FLAGGED to
+the owner for a one-word override if he wants it; (2) English internal
+process vocabulary and spec cross-reference names (fork F2 "save
+custody", "Half A arbiter", "custody handoff" in PARKING_LOT — quoted
+spec terms) — renaming those means reopening the CLOSED spec and
+rewriting history, not a register fix; (3) archival entries below this
+one stay as written (evidence, never rewritten). KB re-probed live:
+the only foreclosure hit is the quarantine law itself
+(game-research/es-match-register … note, verified 2026-08-16) — the
+vault layers stay clean; the drift vector was output register, and the
+fix is the standing audit-your-own-output rule now backed by a project
+memory line. Es/pt human surfaces use everyday gamer words from here
+on — this includes owner-queue messages.
+
 ## 2026-08-18 v18 TDD session 4 (increment 8 GREEN — docs + close; BUILD PHASE CLOSED, increments 0–8; cycle WAITING on the SEVENTEENTH)
 
 **Increment 8 — docs + close (DOCS-ONLY; spec item 8; no code/data/

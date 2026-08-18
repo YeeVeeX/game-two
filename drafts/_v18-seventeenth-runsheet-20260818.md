@@ -2,8 +2,8 @@
 
 2026-08-18 · protocolo pre-registrado y CERRADO en la spec
 (`docs/superpowers/specs/2026-08-17-v18-persistent-world-design.md`,
-§Fun-verify). Esta hoja TRANSCRIBE — no rediseña preguntas, árbitro ni
-ruteo.
+§Fun-verify). Esta hoja TRANSCRIBE — no cambia las preguntas, los
+chequeos ni el ruteo.
 
 ## El ritual (dos sesiones REALES, en días DISTINTOS)
 
@@ -25,12 +25,12 @@ ruteo.
    respaldo que salvó a la DECIMOSEXTA).
 4. **Entre las dos sesiones usted PUEDE jugar solo** — eso avanza el
    mundo (así se diseñó); guarde también esos logs: sus líneas persist
-   se suman a la cadena de evidencia.
+   se suman a la cadena y cuentan para el chequeo.
 5. Cerrada la sesión 2 y cosechadas las líneas: haga las preguntas de
    abajo, POR SEPARADO a cada jugador, sin changelog ni contexto — las
    preguntas llegan vírgenes o no cuentan.
 
-## Media A — PERSISTIÓ (árbitro mecánico; se cumplen TODAS o no pasa)
+## Media A — PERSISTIÓ (chequeo mecánico; se cumplen TODAS o no pasa)
 
 - **Cadena de digests:** el `persist loaded digest=...` de la sesión 2
   (asiento host) es IGUAL al último `persist saved digest=...` anterior
@@ -38,10 +38,10 @@ ruteo.
   coincide con el digest del host en LAS DOS sesiones.
 - **`desyncs=0` y `reason=quit` en las cuatro líneas netplay**; ticks
   ≥ 36000 en cada sesión.
-- **Un hecho acarreado, estrictamente positivo y NOMBRADO:** la línea
-  persist de la sesión 2 muestra el estado acumulado
-  (banked/seals/marks/sessions) igual al cierre de la sesión 1 — al
-  menos un hecho > 0 citado en el veredicto.
+- **Algo que cruzó de una sesión a la otra, mayor que cero y
+  NOMBRADO:** la línea persist de la sesión 2 muestra el estado
+  acumulado (banked/seals/marks/sessions) igual al cierre de la sesión
+  1 — al menos un dato > 0 mencionado en el resultado.
 
 ## Media B — SE SINTIÓ (por separado, preguntas VERBATIM de la spec)
 
@@ -61,15 +61,15 @@ ruteo.
 3. O terceiro corpo (a IA) — como se comportou?
 4. Veredicto livre.
 
-## Nota de ruteo (solo el adjudicador; se lee DESPUÉS de los veredictos, nunca antes de las preguntas)
+## Nota de ruteo (solo para quien evalúa; se lee DESPUÉS de las respuestas, nunca antes de las preguntas)
 
 - Señal lateral ya registrada
   (`drafts/_junior-specials-chain-retry-20260818.md`): en su primera
-  sesión Junior "não entendeu o que a provisão era" — evidencia
-  pre-registrada para la fila "sustain sin usar (`bought=0`) →
-  discoverability primero" de la tabla de ruteo de la spec. No es
-  veredicto; se pondera junto con las respuestas, después.
-- El veredicto se arma en `drafts/` (precedente de nombre:
+  sesión Junior "não entendeu o que a provisão era" — cuenta, ya
+  registrada, para la fila "sustain sin usar (`bought=0`) →
+  discoverability primero" de la tabla de ruteo de la spec. No decide
+  nada por sí sola; se lee junto con las respuestas, después.
+- La decisión final se escribe en `drafts/` (precedente de nombre:
   `_v17-fun-verify-skeleton-20260816.md`); la tabla de ruteo de la
-  spec decide qué abre cada resultado — nada nuevo arranca antes de la
-  adjudicación (contrato de alcance).
+  spec dice qué abre cada resultado — nada nuevo arranca antes de esa
+  decisión (regla del ciclo).
