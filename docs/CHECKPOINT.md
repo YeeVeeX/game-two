@@ -1,5 +1,70 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-18 v18 session 7 — interlude (Junior away): baseline green ×4, burst-legibility rubric LANDED, owner map artifact, solo sheet; SEVENTEENTH still PARTIAL/STANDBY
+
+**Evidence gate (Job 0):** nothing new at session start — newest
+`game_two_session_*.log` in both temp dirs still 2026-08-17 11:15
+(`ticks=0` idle host, verbatim = the skeleton's banked line); no new
+solo logs → nothing to bank, skeleton untouched (Job 4 empty).
+Mid-session pull brought Junior's `621fa5b` (11:00) — agent-sessions
+ratification WITH amendment (session start also reads CHECKPOINT top;
+two agent-proposed rules declined, recorded in
+`drafts/_junior-agent-rules-amendment-20260818.md`). NOT ritual
+evidence; consumed. It IS his seat's first push to `main` → bridge
+plan executed: `junior-tibia` deleted local+origin (ancestor-verified
+`origin/junior-tibia` ⊂ `main` first).
+
+**Baseline (all four surfaces, promoted mainline):** suite 761 runs /
+13889 assertions green · wall 18/18 tag `interlude-20260818` (17 via
+runner; the dev-shell 2h timeout clipped the runner mid-critic on the
+last script, orphaned procs killed, `world_loop` completed standalone
+with the runner's exact commands — log complete in `tmp/wall/`) ·
+netplay gates 3/3 GATE PASS (vision + determinism) · perf p95 0.194ms
+(budget 16.6).
+
+**Rubric line LANDED (Job 1, green-or-revert → GREEN, `948024c`):**
+`burst_legibility_budget` appended to `harness/gate_checks.json` (57th
+check; triage 2.9 FOLD-NOW rubric candidate, Itexo addendum 2.9,
+era-tagged 2019; wipe veil + writ-frame explicitly exempt). Full wall
+re-run tag `interlude-rubric-20260818`: 18/18 with the new line PASS
+everywhere, exercised non-vacuously on 10 scripts (striker burst,
+kill-pop shards, pulses). One FAIL in-sweep: `nest_advance`
+`ledger_negative_reads` — an EXISTING check, net-zero edge
+(frame_10310 wipe tally `+6 / -6 / = +0` magenta; morning baseline
+PASSED the same byte-identical frame calling +0 "arithmetically and
+chromatically consistent"). Adjudicated critic variance per the
+`0d9433a` precedent: standalone retry PASS ("net +0 correctly
+subtracts the hollow -6, sign and color agree"); both verdicts in
+`drafts/_gate-verdicts.log`. RECORDED, not fixed (existing checks
+frozen): `ledger_negative_reads` doesn't define the net==0 case —
+candidate one-phrase clarification post-ritual.
+
+**God-view artifact (Job 2):** map gate first — probes 5/5 + critique
+6/6 (`harness/map_checks.json`, `tmp/map_gate_critic.log`; critic
+globs `frame_*.png`, probe artifact copied beside itself per the 3c
+pattern). Then the owner's map:
+`captures/map/world_d63fd8ea_1787076228.png` (876×408) — filename
+digest8 == play-path strict-decode digest
+`d63fd8ea72551208fc03bf7e4b1b65cd` == the skeleton's chain anchor;
+sessions=2; header BANKED 0 · MARKS 0 · PROVISIONS 0 · BOSS 1 DEFEATS
+0; ZONE 1 · HOME marked. `saves/` untouched (read-only path; NOTE:
+`src/map_main.rb` takes ENV vars, not argv — bare `OUT=… PROBES=1`
+args are silently ignored).
+
+**Solo sheet (Job 3):** `drafts/_v18-solo-sheet-20260818.md` — es-CR
+ustedeo, 10 lines, everyday gamer words; every claim verified against
+`src/main.rb` / `src/app/window.rb` / `bin/play.cmd` this session;
+language critique accuracy + presentation both PASS. Ritual surfaces
+(run sheet, JUNIOR.md, skeleton adjudication) untouched.
+
+**Junior (when he pulls):** nothing owed from your seat this session —
+your `621fa5b` amendment is adopted as written; `junior-tibia` is
+retired, `main` is the only branch now.
+
+**RESUME POINT:** unchanged — ritual sessions owner-paced; when both
+sessions + answers exist, the FULL harvest re-runs spark `7224819`.
+Nothing new starts.
+
 ## 2026-08-18 v18 session 6 — Itexo corpus intake + triage (docs-only); SEVENTEENTH re-checked = still PARTIAL/STANDBY
 
 **Mainline:** evidence gate re-run this session — NOTHING NEW (newest
