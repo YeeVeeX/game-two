@@ -80,8 +80,9 @@ Se você usa um agente de código (pi, Claude, etc.) neste repo, o combinado é:
 - **Uma janela por repo.** Nunca dois agentes escrevendo no mesmo repo ao
   mesmo tempo — feche a sessão antiga antes de abrir outra.
 - **Começo de sessão:** `git pull` primeiro, sempre; o agente lê o
-  `AGENTS.md` antes de mexer em qualquer coisa (o arquivo vale mais que a
-  memória dele).
+  `AGENTS.md` e as entradas novas no topo do `docs/CHECKPOINT.md` antes
+  de mexer em qualquer coisa (os arquivos valem mais que a memória dele —
+  é no checkpoint que o Gabriel deixa recados para este assento).
 - **Fim de sessão:** testes verdes, um resumo curto em
   `drafts/_junior-<assunto>-<data>.md` (o que fez, o que falta, onde estão
   as provas) e push.
@@ -280,7 +281,8 @@ tests are `bundle exec rake` (the push hook runs them automatically).
 
 Agent sessions (agreed 2026-08-18): one agent window per repo (never two
 writers at once); `git pull` first and have the agent read `AGENTS.md`
-before touching anything; close every session with green tests, a short
+plus the newest entries at the top of `docs/CHECKPOINT.md` before
+touching anything (seat-addressed notes land there); close every session with green tests, a short
 handoff note in `drafts/_junior-<topic>-<date>.md`, and a push; evidence =
 the `TELEMETRY` lines in `%TEMP%\game_two_session_*.log` (keep the files);
 bugs found mid-task get noted and routed, not fixed inline; sibling-repo
