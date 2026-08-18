@@ -94,23 +94,25 @@ module Core
 
     # v18 sustain strings (presentation spec): functional dictionary words
     # only — the label translates, the register stays flat mechanics.
-    # pt-br values are FLAGGED for Junior's ratification (his lane).
+    # pt-br values RATIFIED by Junior 2026-08-18 (his lane): PROVISÃO →
+    # SUPRIMENTO ("suprimentos" is the natural BR gamer word for hunt
+    # supplies; RECUSADO now also agrees in gender with the noun).
     def test_sustain_strings_resolve_per_locale
       en = Strings.new(DATA, locale: "en")
       es = Strings.new(DATA, locale: "es")
       pt = Strings.new(DATA, locale: "pt-br")
       assert_equal "provision", en.t("overlay.sustain")
       assert_equal "provisión", es.t("overlay.sustain")
-      assert_equal "provisão", pt.t("overlay.sustain")
+      assert_equal "suprimentos", pt.t("overlay.sustain")
       assert_equal "PROVISION", en.t("hud.provisions")
       assert_equal "PROVISIÓN", es.t("hud.provisions")
-      assert_equal "PROVISÃO", pt.t("hud.provisions")
+      assert_equal "SUPRIMENTOS", pt.t("hud.provisions")
       assert_equal "PROVISION BOUGHT", en.t("cue.provision_bought")
       assert_equal "PROVISIÓN COMPRADA", es.t("cue.provision_bought")
-      assert_equal "PROVISÃO COMPRADA", pt.t("cue.provision_bought")
+      assert_equal "SUPRIMENTO COMPRADO", pt.t("cue.provision_bought")
       assert_equal "PROVISION USED", en.t("cue.provision_used")
       assert_equal "PROVISIÓN USADA", es.t("cue.provision_used")
-      assert_equal "PROVISÃO USADA", pt.t("cue.provision_used")
+      assert_equal "SUPRIMENTO USADO", pt.t("cue.provision_used")
       assert_equal "REFUSED", en.t("cue.provision_refused")
       assert_equal "RECHAZADO", es.t("cue.provision_refused")
       assert_equal "RECUSADO", pt.t("cue.provision_refused")

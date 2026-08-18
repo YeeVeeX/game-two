@@ -42,10 +42,26 @@ NÃO reproduziu.
   de ledger (calibração), é emenda ADD-ONLY com ratificação do dono.
 - Log completo (machine-local): `tmp/gate_specials_chain_retry_20260818.log`.
 
-## Strings PT-BR do sustain — ratificação PENDENTE (revisão em jogo)
+## Strings PT-BR do sustain — RATIFICADAS COM EMENDA (2026-08-18)
 
-O Junior foi consultado sobre os valores FLAGGED (PROVISÃO / PROVISÃO
-COMPRADA / PROVISÃO USADA / RECUSADO / overlay "provisão") e escolheu
-**revisar jogando antes de ratificar** — vai rodar `bin\play.cmd pt-br`,
-comprar/usar provisão (U/R) e confirmar os cues em contexto. Nenhum
-valor foi alterado; a lane segue "his lane, not blocked".
+O Junior revisou em jogo (`bin/play pt-br`, sessão de 2026-08-18) e
+ratificou com UMA troca de palavra: **PROVISÃO → SUPRIMENTO** —
+"suprimentos" é o termo natural do vocabulário gamer BR para consumível
+de caçada (o jogador de Tibia BR fala "supplies/suprimentos");
+"provisão" lê contábil. Valores finais (pt-br.json + pins do
+strings_test atualizados juntos):
+
+    overlay.sustain        = "suprimentos"   (rótulo/estoque: plural,
+                             você carrega até 3 — escolha do Junior)
+    hud.provisions         = "SUPRIMENTOS"
+    cue.provision_bought   = "SUPRIMENTO COMPRADO"  (cue por carga:
+                             singular)
+    cue.provision_used     = "SUPRIMENTO USADO"
+    cue.provision_refused  = "RECUSADO"  (inalterado; agora concorda
+                             em gênero com o substantivo)
+
+en/es intocados; harness pina locale=en, então a wall não é afetada.
+Sinal lateral para o SEVENTEENTH (registrado, NÃO é veredito): na
+primeira sessão o Junior não entendeu o que a provisão ERA a partir do
+jogo — corrobora a rota pré-registrada "sustain bought=0 →
+discoverability primeiro".
