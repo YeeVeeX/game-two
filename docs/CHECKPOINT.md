@@ -1,5 +1,56 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-18 v18 session 5 — the SEVENTEENTH: PARTIAL (ritual not yet played; skeleton banked STANDBY; mainline promoted)
+
+**Mode (spark `7224819`, evidence gate):** PARTIAL. No ritual evidence
+exists — newest launcher logs 2026-08-17 11:15, all `ticks=0` idle
+host attempts; no Junior-side paste/file/commit (his latest =
+`0873c31`); no answers; owner confirmed live "nothing on my end for
+now". Expected shape: the run sheet only opened at `90c75e6` (02:09
+same night) and the ritual needs two DIFFERENT days. Banked what
+exists, named the gaps, stopped — no adjudication.
+
+**Skeleton:** `drafts/_v18-fun-verify-skeleton-20260818.md` (v17
+naming precedent) — STANDBY: ritual restated, telemetry slots empty,
+Half A checks + Half B questions PENDING, routing = spec pointer
+(CLOSED, not restated — drift risk), gaps named (8 items).
+
+**Forensics banked there (attributions machine-verified):**
+(1) `saves/world.json` (sessions=2, banked=0, saved 17:12:50 Aug 17)
+= dev e2e loopback smoke (`tmp/e2e_host.log`/`e2e_join.log`, 2434/2431
+ticks), NOT ritual play; chain anchor digest `d63fd8ea…`
+integrity-checked live through the game's own strict-decode path (==
+the logged `saved digest`); the `.bak` = the 15:29:04 `--fresh`
+backup-law artifact. Ritual session 1 will open from `sessions=2`.
+(2) `tmp/netplay/` desync artifacts: 3× SUITE residue (manifest
+`platform: "test"`, fingerprint `dddd…` — regenerate on every hook
+rake run; proven live: the 02:53 pre-push run rewrote all three, same
+session ids) + 1× `netplay_desync` GATE residue (run 20260817-175509,
+`_gate-verdicts.log:67704`; `diverge_at_tick: 40` → tick-60 digest
+compare). None is live-session evidence; future harvests judge by
+session LOGS only. (3) `sessions` counter = +1 per clean-quit save
+(`save_store.rb:156`).
+
+**Mainline promotion (owner ask mid-session; zero file changes):**
+`main` fast-forwarded `fff5e18..7224819` (clean ancestor verified, 183
+commits, content byte-identical); this checkout now on `main` tracking
+`origin/main`; CI already triggers on both branches (`ci.yml:13`).
+BRIDGE until Junior runs `git switch main`: every push from this seat
+updates BOTH `main` and `junior-tibia` (handshake fingerprint =
+same-commit law, so either branch stays safe meanwhile); after his
+first push to `main`, delete `junior-tibia`. All old feature branches
+verified fully merged (`--no-merged` empty) — prune later. JUNIOR.md
+"branch = main" one-liner → next docs spark (no-changes law).
+
+No code/data/harness/strings moved. AGENTS.md untouched (PARTIAL = no
+decision line). pt-br lane stays CLOSED; side-signal stays HELD.
+
+**RESUME POINT:** when both ritual sessions + all answers exist →
+rerun spark `7224819`'s FULL path: harvest into the skeleton's slots →
+four Half A checks (quoted lines) → Half B verbatim → walk EVERY
+routing row → decide + AGENTS.md status line + owner queue. Nothing
+new starts (owner-paced; scope contract).
+
 ## 2026-08-18 register cleanup (owner order — foreclosure-case legal jargon out of live human surfaces; docs-only, `90c75e6` + this commit)
 
 **Owner order (same day as increment 8):** his knowledgebase had
