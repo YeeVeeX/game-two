@@ -203,6 +203,14 @@ scope for this repo. (Historical pipeline: see git history of this file.)
 - **Process artifacts are tracked**: `drafts/` (verdicts, reviews, calibration history)
   lives in git — commit at cycle close. Only `drafts/_tibia-videos/` (media corpus) stays
   ignored. The wall runner is `harness/run_wall.sh`, never a tmp/ scratch copy.
+- **Orchestration (owner-adopted 2026-08-18)**: the dev-of-record chat is the HUB — the
+  humans manage everything through that one chat. Sibling-repo fan-outs (lore / assets /
+  audio — banking-only while their standing orders hold) run as bounded headless sessions
+  per the `seat-orchestration` skill: routes decided in a drafts/ triage doc FIRST,
+  prompts digest-stamped (md5), free seats only, one pass per spoke, `RECEIPT:` paths
+  harvested back into the routing doc. Spokes surface exactly two things for humans: seat
+  conflicts and failed receipts. Junior's agent-session protocol: docs/JUNIOR.md
+  §"Sessões com agente".
 
 ## Controls
 

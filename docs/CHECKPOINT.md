@@ -1,5 +1,45 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-18 v18 session 6 — Itexo corpus intake + triage (docs-only); SEVENTEENTH re-checked = still PARTIAL/STANDBY
+
+**Mainline:** evidence gate re-run this session — NOTHING NEW (newest
+launcher log still 2026-08-17 11:15 `ticks=0`; no Junior paste/commit
+past `0873c31`; no answers). STANDBY holds, cycle stays owner-paced;
+session-5 skeleton untouched (no evidence = nothing to adjudicate).
+
+**Intake (owner-approved spark, gamesmith Itexo addendum):**
+- Addendum copied to `docs/design-corpus/gamesmith/addenda/` — md5
+  `cabd71a8…` verified byte-identical to source, `git check-ignore`
+  confirmed untracked (drop's `*` gitignore); `_PROVENANCE.md` stub
+  written (post-GATE-4 product, sealed drop undisturbed).
+- Triage table `drafts/_itexo-intake-triage-20260818.md`: every 2.1–2.11
+  section + recommendation 1–9 dispositioned (FOLD-NOW as evidence-input
+  semantics only — build phase CLOSED; BANK = BOSS-1 exposure notes;
+  PARK with triggers; ROUTE-SIBLING). Two overrules of the spark's
+  pre-triage, reasons in the draft: 2.6 minted-marker ≠ SEVENTEENTH
+  carried fact (arbiter CLOSED + in flight → PARK v19); 2.7 rate/ETA
+  not oracle-serving (→ PARK).
+- PARKING_LOT: new §"Itexo corpus triage" (minted marker, gate grammar
+  + generational rider, rate+ETA readout, ledger-attacker v19 flag) +
+  corpus cite added to the v19 item/backpack rider (2.8).
+- Sibling banking sessions launched headless from this seat (pi -p, one
+  per free sibling seat, digest-stamped prompts): game-two-lore,
+  game-two-assets, game-two-audio. ALL THREE closed same session — md5
+  gates passed, DoDs met, receipts + hub quarantine spot-check recorded
+  in the triage draft §Route receipts. (Windows trap hit + memorized:
+  write-tool `/tmp` = `C:\tmp`, bash `/tmp` = `%TEMP%`.)
+- **Orchestration pattern ADOPTED (owner, this session):** hub-and-spoke
+  codified — new `seat-orchestration` skill (launch.sh/status.sh +
+  receipts protocol; canonical copy pushed to pi-setup `fda1ae8`),
+  AGENTS.md §Enforcement orchestration block, docs/JUNIOR.md §"Sessões
+  com agente" (pt-br + en mirror — additive; Junior's ratification lane
+  may amend his wording).
+- Assets seat mail `from-game-two-assets-v7-repins-banked.md` read —
+  explicit "no action needed" (v7 banked, repins verified); consumed.
+
+**Resume point:** unchanged from session 5 — the ritual sessions are
+the only mainline work left; FULL harvest re-runs the session-5 spark.
+
 ## 2026-08-18 v18 session 5 — the SEVENTEENTH: PARTIAL (ritual not yet played; skeleton banked STANDBY; mainline promoted)
 
 **Mode (spark `7224819`, evidence gate):** PARTIAL. No ritual evidence

@@ -73,6 +73,28 @@ conflito e cada máquina pode ter o seu:
   frequência.
 - Os testes rodam com `bundle exec rake` (o hook de push roda sozinho).
 
+### Sessões com agente (combinado 2026-08-18)
+
+Se você usa um agente de código (pi, Claude, etc.) neste repo, o combinado é:
+
+- **Uma janela por repo.** Nunca dois agentes escrevendo no mesmo repo ao
+  mesmo tempo — feche a sessão antiga antes de abrir outra.
+- **Começo de sessão:** `git pull` primeiro, sempre; o agente lê o
+  `AGENTS.md` antes de mexer em qualquer coisa (o arquivo vale mais que a
+  memória dele).
+- **Fim de sessão:** testes verdes, um resumo curto em
+  `drafts/_junior-<assunto>-<data>.md` (o que fez, o que falta, onde estão
+  as provas) e push.
+- **Provas são as linhas `TELEMETRY`** dos logs de sessão
+  (`%TEMP%\game_two_session_*.log`) — guarde os arquivos; sem log, a
+  partida não conta para os testes rituais.
+- **Achou um bug no meio de outra tarefa?** Anota no rascunho e segue —
+  consertar vira tarefa própria depois (assim ninguém quebra o que o outro
+  está fazendo).
+- **Trabalho nos repos vizinhos** (lore / assets / audio) sai do chat do
+  Gabriel (ele orquestra tudo de um chat só); pede por um rascunho em
+  `drafts/` que ele roteia.
+
 ### Assistir às partidas um do outro (replays determinísticos)
 
 O jogo é 100% determinístico: um script de replay reproduz uma partida
@@ -255,6 +277,15 @@ are positional (US layout), so `;` may sit elsewhere physically — remap
 Collaboration: never push `main` (Gabriel's backup line); `junior-tibia`
 is the shared line — work there or PR into it; `git fetch` before starting;
 tests are `bundle exec rake` (the push hook runs them automatically).
+
+Agent sessions (agreed 2026-08-18): one agent window per repo (never two
+writers at once); `git pull` first and have the agent read `AGENTS.md`
+before touching anything; close every session with green tests, a short
+handoff note in `drafts/_junior-<topic>-<date>.md`, and a push; evidence =
+the `TELEMETRY` lines in `%TEMP%\game_two_session_*.log` (keep the files);
+bugs found mid-task get noted and routed, not fixed inline; sibling-repo
+work (lore / assets / audio) is dispatched from Gabriel's hub chat — ask
+via a drafts/ note.
 
 Replays: the sim is fully deterministic; `rake capture
 SCRIPT=harness/scripts/world_loop.json` replays a recorded run tick-for-tick

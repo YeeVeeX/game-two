@@ -645,6 +645,10 @@ re-shape what comes AFTER it.
   both as touchstones; the shelf is Tibia-heavy and has neither).
   Also gated on: assets pipeline maturity for item ART (sprites cycle,
   v16 leftover) — items can ship glyph-first if the debate decides so.
+  Corpus cite (2026-08-18, Itexo addendum 2.8): progression-as-carried-object
+  (death-droppable growth) read naturally in the ancestor — evidence FOR this
+  cycle's wager-weld when the debate opens (triage:
+  `drafts/_itexo-intake-triage-20260818.md`).
 - **AWS staging path (owner re-ask: "el servidor no debería estar en mi
   computadora si no en AWS").** Architecture honesty, recorded: there
   is NO server today — lockstep is peer-to-peer simulation on both
@@ -673,3 +677,32 @@ re-shape what comes AFTER it.
   different-time play / a third player becoming real (→ stage 3, the
   original trigger). Stage 1 (S3 backup) remains the v18.1 first
   candidate at dev discretion.
+
+## Itexo corpus triage (2026-08-18 — footage-derived, era-tagged 2019 Tibia-12; consume via `drafts/_itexo-intake-triage-20260818.md`)
+
+Source: gamesmith addendum (untracked copy `docs/design-corpus/gamesmith/addenda/`,
+md5 `cabd71a8…`). Full dispositions + BOSS-1 exposure bank live in the triage draft;
+only the PARKED items are restated here, each with its named trigger. FLAGGED-number
+law applies to every figure (nothing reaches `data/` without re-verification).
+
+- **Minted persistent marker (2.6 mechanical half)** — milestone mints a
+  placeholder-named world object into the save (MARKER N style; "the world
+  writes the player into itself"). Trigger: **v19 brainstorm** (owner-vision
+  tailwind: "trabajar sobre el mismo mundo"). Deliberately NOT the
+  SEVENTEENTH's carried fact — the arbiter is CLOSED and in flight; ruling in
+  the triage draft §Overrules.
+- **Gate grammar, mechanical half (2.5)** — world-object threshold readable on
+  inspect (examine → named criterion), fits seals/tolls. Rider from 2.11: a
+  generational-tier gate needs a QUESTION behind it or a deliberately staged
+  trophy, never a shrug. Trigger: **v19 brainstorm** (world-readability item).
+- **Rate+ETA readout on self-set targets (2.7)** — throughput math on a pinned
+  goal (progress + rate + ETA). Trigger: **a pinned-goal/progression readout
+  lane opening (v19+)**; new HUD surface = new Rule-2 wall script when it does.
+- **Carryable progression objects (2.8)** — no new entry: evidence cite ADDED to
+  the existing v19 item/backpack lead-candidate rider above (advancement as a
+  riskable carried stake read naturally in the ancestor).
+- **Ledger-attacking enemy (2.4)** — BANKED with the BOSS-1 exposure notes but
+  flagged into the **v19 candidate pool** on its own: post-v18 the economy
+  persists, so an enemy that attacks the ledger attacks the world's savefile —
+  the corpus's "ledger is the antagonist" made literal. Trigger: any cycle
+  opening an enemy-roster or BOSS-1-redesign lane.
