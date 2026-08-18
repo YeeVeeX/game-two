@@ -89,6 +89,95 @@ class CliTest < Minitest::Test
     assert_raises(ArgumentError) { parse("--join", "1.2.3.4", "extra") }
   end
 
+  # v18 session-8 soak — the save-quarantine seam (brief D3): --save
+  # overrides the save file (solo/host lanes, order-free); --bot in a
+  # save-owning role REFUSES without it; the joiner never keeps a save,
+  # so --join --save refuses and --join --bot needs no --save.
+  def test_save_parses_solo_override
+    assert_equal({ mode: :solo, save: "tmp/x.json" }, parse("--save", "tmp/x.json"))
+  end
+
+  def test_save_composes_with_host_in_either_order
+    assert_equal({ mode: :host, port: DEFAULT, save: "tmp/x.json" },
+                 parse("--host", "--save", "tmp/x.json"))
+    assert_equal({ mode: :host, port: 5000, save: "tmp/x.json" },
+                 parse("--save", "tmp/x.json", "--host", "5000"))
+  end
+
+  def test_save_composes_with_fresh
+    assert_equal({ mode: :host, port: DEFAULT, fresh: true, save: "tmp/x.json" },
+                 parse("--host", "--fresh", "--save", "tmp/x.json"))
+  end
+
+  def test_save_needs_a_value
+    err = assert_raises(ArgumentError) { parse("--save") }
+    assert_match(/usage:/, err.message)
+    assert_raises(ArgumentError) { parse("--save", "--host") }
+  end
+
+  def test_save_never_composes_with_join
+    err = assert_raises(ArgumentError) { parse("--join", "1.2.3.4", "--save", "tmp/x.json") }
+    assert_match(/never keeps the save/, err.message)
+  end
+
+  def test_bot_with_seed_parses
+    assert_equal({ mode: :solo, save: "tmp/x.json", bot: { seed: 5, ticks: nil } },
+                 parse("--bot", "5", "--save", "tmp/x.json"))
+  end
+
+  def test_bot_seed_is_optional
+    assert_equal({ mode: :solo, save: "tmp/x.json", bot: { seed: nil, ticks: nil } },
+                 parse("--bot", "--save", "tmp/x.json"))
+  end
+
+  def test_bot_ticks_parses
+    assert_equal({ mode: :solo, save: "tmp/x.json", bot: { seed: 5, ticks: 7200 } },
+                 parse("--bot", "5", "--bot-ticks", "7200", "--save", "tmp/x.json"))
+  end
+
+  def test_bot_composes_with_host
+    assert_equal({ mode: :host, port: DEFAULT, save: "tmp/x.json", bot: { seed: 7, ticks: nil } },
+                 parse("--host", "--bot", "7", "--save", "tmp/x.json"))
+  end
+
+  # D3: the refusal that makes bots shippable — a bot that would OWN the
+  # save (solo or host) must be pointed at a scratch file, mechanically.
+  def test_bot_solo_without_save_refuses_named
+    err = assert_raises(ArgumentError) { parse("--bot", "5") }
+    assert_match(/--bot needs --save/, err.message)
+    assert_match(/never touches the real save/, err.message)
+  end
+
+  def test_bot_host_without_save_refuses_named
+    err = assert_raises(ArgumentError) { parse("--host", "--bot") }
+    assert_match(/--bot needs --save/, err.message)
+  end
+
+  def test_bot_joiner_needs_no_save
+    assert_equal({ mode: :join, host: "1.2.3.4", port: DEFAULT, bot: { seed: 9, ticks: nil } },
+                 parse("--join", "1.2.3.4", "--bot", "9"))
+  end
+
+  def test_bot_ticks_without_bot_refuses
+    err = assert_raises(ArgumentError) { parse("--bot-ticks", "7200") }
+    assert_match(/--bot-ticks needs --bot/, err.message)
+  end
+
+  def test_bad_bot_ticks_raises
+    assert_raises(ArgumentError) { parse("--bot", "--bot-ticks", "zero", "--save", "x") }
+    assert_raises(ArgumentError) { parse("--bot", "--bot-ticks", "0", "--save", "x") }
+  end
+
+  # The absence pin (D2): without --bot no :bot key exists, so the
+  # guarded AUTOPILOT banner print site in main.rb cannot fire — non-bot
+  # output stays byte-identical.
+  def test_no_bot_key_without_the_flag
+    refute parse("--host").key?(:bot)
+    refute parse("--join", "1.2.3.4").key?(:bot)
+    refute parse("--save", "tmp/x.json").key?(:bot)
+    assert_nil parse
+  end
+
   # v17 SIXTEENTH support — exit-status seam: launchers loop ONLY on link
   # faults (2). Clean quit (0) and refusals/desync (1/0) stop the loop —
   # honest ends stay honest (etapa-1 law: end LOUDLY, never mask).
