@@ -5,6 +5,7 @@ require "core/input"
 require "core/binding_map"
 require "game/world"
 require "app/controls_overlay"
+require "app/key_table"
 
 # v14 controls overlay (spec Presentation 1): a quiet bottom strip naming
 # the possessed vessel (placeholders: player 1/2/3) + key:verb pairs, with a
@@ -18,11 +19,12 @@ class ControlsOverlayTest < Minitest::Test
   DISPLAY = DATA["display"]
 
   Possessed = Struct.new(:kit_name)
+  PackStub = Struct.new(:provisions)
 
-  def world_stub(kit, frame: 0, first: nil)
+  def world_stub(kit, frame: 0, first: nil, provisions: 0)
     w = Object.new
     class << w
-      attr_accessor :frame, :kit_first_possessed
+      attr_accessor :frame, :kit_first_possessed, :pack
       attr_writer :possessed
       # The real World#possessed takes an optional seat (v17 seat map);
       # the stub mirrors the API — the overlay reads its local seat.
@@ -31,6 +33,7 @@ class ControlsOverlayTest < Minitest::Test
     w.possessed = Possessed.new(kit)
     w.frame = frame
     w.kit_first_possessed = first || { kit => 0 }
+    w.pack = PackStub.new(provisions)
     w
   end
 
@@ -97,6 +100,48 @@ class ControlsOverlayTest < Minitest::Test
     w.possessed = Possessed.new(:striker)
     assert_equal "player 1", o.vessel_line(w)[:vessel],
                  "the strip reads the possessed kit every draw"
+  end
+
+  # --- v18 sustain row + provisions counter (decision 7iii: the wall pin) ---
+
+  def test_sustain_pair_joins_the_strip_only_with_provisions
+    o = overlay
+    zero = o.vessel_line(world_stub(:striker))[:pairs]
+    refute zero.any? { |p| p[:label] == "provision" },
+           "provisions=0 draws NOTHING — no sustain row (7iii)"
+    some = o.vessel_line(world_stub(:striker, provisions: 2))[:pairs]
+    assert_equal({ glyphs: %w[U R], label: "provision" }, some.last,
+                 "the sustain row appears once a provision exists, U/R pair grammar")
+    assert_equal zero.length + 1, some.length, "add-only — the six stay"
+  end
+
+  def test_provisions_counter_gated_and_localized
+    o = overlay
+    assert_nil o.provisions_line(world_stub(:striker)),
+               "provisions=0 draws NOTHING — no counter (7iii)"
+    assert_equal "PROVISION 2", o.provisions_line(world_stub(:striker, provisions: 2))
+    es = overlay(locale: "es").provisions_line(world_stub(:striker, provisions: 1))
+    assert_equal "PROVISIÓN 1", es, "the counter label translates (functional word)"
+  end
+
+  def test_sustain_glyphs_ride_the_canonical_binding_map
+    map = Core::BindingMap.load(DATA, key_table: App::KEY_TABLE, local: false)
+    assert_equal %w[U R], map.glyphs(:sustain),
+                 "data/bindings.json carries the sustain row (decision 10)"
+    o = App::ControlsOverlay.new(display: DISPLAY,
+                                 strings: Core::Strings.new(DATA, locale: "en"),
+                                 bindings: map)
+    pairs = o.vessel_line(world_stub(:blocker, provisions: 1))[:pairs]
+    assert_includes pairs, { glyphs: %w[U R], label: "provision" },
+                    "one source feeds KeyboardInput and the strip (v15 law)"
+  end
+
+  def test_provisions_surfaces_absent_on_a_fresh_real_world
+    w = Game::World.new(DATA, seed: 42)
+    o = overlay
+    assert_nil o.provisions_line(w), "fresh world: no counter (7iii, real World)"
+    refute o.vessel_line(w)[:pairs].any? { |p| p[:label] == "provision" },
+           "fresh world: no sustain row (7iii, real World)"
   end
 
   # --- pulse ---------------------------------------------------------------

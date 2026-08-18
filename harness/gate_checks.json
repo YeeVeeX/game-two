@@ -212,6 +212,18 @@
     {
       "id": "writ_frame_reads",
       "check": "While the boss's chant runs, a thin chant-blue square writ-frame centers on him and the world OUTSIDE that frame darkens hard while everything INSIDE (the chant ring, the boss, nearby bodies, the possessed's white ring) stays fully readable — dread without unfairness: no threat inside the writ may be obscured, and the HUD/controls strip stay legible over the darkening. If no chant frame is present, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "provisions_counter_reads",
+      "check": "When the pack holds at least one provision, a small PROVISION N counter reads at the right edge of the bottom controls strip and a U/R provision pair joins the strip; in frames where the pack holds zero provisions (including any frame before the first buy), NEITHER the counter NOR the strip's provision pair appears anywhere. If the reel never shows a provision bought, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "sustain_success_cue_reads",
+      "check": "A provision buy or use flashes the bright 1-tile pulse ring at the presser's tile with a functional text line (PROVISION BOUGHT / PROVISION USED) one row above it, readable against the floor. If the script never buys or uses a provision, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "sustain_refusal_cue_reads",
+      "check": "A refused sustain press (at cap, broke, or at full health) shows a dark-red X-bar drawn OVER the presser's body plus a REFUSED text line above the tile - the refusal must never read as nothing-happened. If the script never stages a sustain refusal, pass with why='not exercised by this script'."
     }
   ]
 }

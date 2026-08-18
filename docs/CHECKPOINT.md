@@ -1,5 +1,79 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-18 v18 TDD session 3b (increment 6 GREEN — sustain presentation + THE Rule-2 gate PASSED with the real critic; next = increment 7: god-view v0 / rake map)
+
+**Increment 6 — sustain presentation (decisions 10 + 7iii + presentation
+spec):** `data/bindings.json` gains `"sustain": ["U", "R"]` (pair grammar;
+KEY_TABLE already covered A–Z; BindingMap flows it to KeyboardInput AND
+the strip — one source, v15 law). ControlsOverlay: the sustain pair joins
+`vessel_line` ONLY when `world.pack.provisions > 0` (appended after swap)
+and a `provisions_line` counter ("PROVISION N") right-aligns on the strip
+under the SAME condition — provisions=0 draws NOTHING (7iii, the wall
+pin; pure-content lanes + a real-World lane in controls_overlay_test).
+Station cues: `Renderer#station_cue_text` (public, pure) resolves text
+for the provision kinds ONLY — `:provision_bought`/`:provision_used`
+draw the OK ring + a localized line at y-32 (one row CLEAR of the
+station-ledger line at y-18 — a pilot capture caught the bank-count
+collision); every pre-v18 kind stays byte-exact (station_cue_text_test
+pins nil). Strings ×3 locales: `overlay.sustain`
+(provision/provisión/provisão), `hud.provisions`, `cue.provision_bought`
+/ `_used` / `_refused` — functional dictionary words, flat register;
+**pt-br values FLAGGED for Junior's ratification** (PROVISÃO /
+PROVISÃO COMPRADA / PROVISÃO USADA / RECUSADO — his lane, not blocked).
+
+**Refusal-cue deviation (recorded):** increment 5 shipped sustain
+refusals on the shared `:refused` cue kind — the pilot reel showed the
+X-bar is INVISIBLE when the presser stands on the refusing tile (bodies
+draw after cues at z=0; true of every station refusal since D1b).
+Smallest walled-safe fix: sustain refusals moved to their OWN cue kind
+`:provision_refused` (world.rb one-liner; cue kinds are digest-excluded
+presentation) drawing the X-bar at z=9 — ABOVE the body — plus a REFUSED
+text line; the walled `:refused` draw is UNTOUCHED (add-only by
+construction, sweep-proven). The pre-existing under-body X-bar on
+altar/vat/seal refusals is NAMED here as a known cosmetic debt — fixing
+it moves walled bytes, so it waits for a deliberate re-bank cycle.
+
+**The wall exerciser** `harness/scripts/sustain_run.json` (11531 ticks,
+seed 7, 8 captures) was authored through `rake pilot` (NAME=sustain,
+reset-once; export) and JOINS the wall by directory law: broke refusal
+at tick 61 (banked 0) → earn → buy×2 (counter + strip row appear) →
+clamp-heal use → full-hp refusal (charge kept) → wounded mid-swarm →
+second use (counter 2→1→0, row vanishes — 7iii live in-capture) →
+earn → buy×3 → at-cap refusal. Manifest pins the beats:
+provision_bought≥10 / used≥4 / refused≥6 per double replay (the three
+provision events joined `Harness::EventLog::EVENTS` — no walled script
+fires them, sim-identity md5s pinned green). Checks ADD-ONLY in
+gate_checks.json (53→56): provisions_counter_reads /
+sustain_success_cue_reads / sustain_refusal_cue_reads.
+
+**MEASURED evidence (increment 6):** suite 754 green (13871 assertions);
+FULL `rake gate SCRIPT=harness/scripts/sustain_run.json` PASS —
+determinism 8/8 byte-identical + REAL vision critic 56/56 (new checks:
+counter/pair vanish at zero ✓, cue texts read ✓, X-over-body + REFUSED
+"unmistakable" ✓); `rake manifest` PASS (bought=10 used=4 refused=6);
+18th baseline banked (`tmp/canary_baseline/sustain_run/`, from gate_a);
+full sweep 18/18 byte-identical (`tmp/canary_sweep_v18_inc6.log`, DONE
+22:18:38 — the 17 pre-v18 baselines untouched: the 7iii proof); perf
+p95 0.215ms (budget 16.6). Human-facing text: accuracy axis — labels
+name exactly the mechanic (bought/used/refused, count); presentation
+axis — critic-verified readable; register — placeholder-functional per
+standing order; language critique satisfied at the gate.
+
+**NEXT — increment 7: god-view v0 (decision 13, lane 6, ONLY with room
+to finish the critique):** `rake map [SAVE=] [OUT=]` — capture window
+(GL law), every zone's grid from the SAME palette data the renderer
+reads (structural test pins the source), one PNG: labeled zone grid
+(ZONE 1..5, HUB 1), station glyphs, SEALED/OPEN stamps from the save,
+home marker, header `BANKED N · MARKS K · PROVISIONS P · BOSS 1 DEFEATS
+D`, filename `world_<digest8>_<ts>.png`; landmark pixel probes +
+`harness/map_checks.json`; gate = capture + critique (no replay half);
+NOT sim-touching (sweep only if src/game or harness-loaded files move).
+Then 8: docs + close (JUNIOR.md custody PT-BR-first + --fresh notice,
+AGENTS.md Commands, PARKING_LOT custody-handoff, SEVENTEENTH confirm).
+Junior: pull — pt-br sustain strings await his ratification; protocol
+v2 + bindings row land here (stale seat refuses at HELLO naming
+“protocol version”).
+
 ## 2026-08-18 v18 TDD session 3 (increment 5 GREEN — the sustain verb, sim half; next = increment 6: sustain presentation + THE Rule-2 gate)
 
 **Increment 5 — sustain sim (decisions 9/15 + Codex #16; lane 5 =

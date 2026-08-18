@@ -267,6 +267,7 @@ module Harness
         possessed: { name: p.name, kit: p.kit_name, tile: p.tile,
                      hp: p.hp, carried: p.carried },
         banked: world.pack.banked,
+        provisions: world.pack.provisions,
         pack: world.pack.members.map { |m| creature_brief(m) },
         humans: world.humans.map { |h| creature_brief(h) },
         drops: world.drops.map { |d| { tile: d[:tile], amount: d[:amount],

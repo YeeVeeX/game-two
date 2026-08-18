@@ -14,7 +14,7 @@ class BindingMapTest < Minitest::Test
     "A" => 1, "D" => 2, "W" => 3, "S" => 4, "J" => 5, "K" => 6, "L" => 7,
     ";" => 8, "H" => 9, "Q" => 10, "E" => 11, "F" => 12, "Space" => 13,
     "Tab" => 14, "LShift" => 15, "Up" => 16, "Down" => 17, "Left" => 18,
-    "Right" => 19, "X" => 20
+    "Right" => 19, "X" => 20, "U" => 21, "R" => 22
   }.freeze
 
   def fake_data(bindings, local: nil)
@@ -33,7 +33,8 @@ class BindingMapTest < Minitest::Test
     assert_equal %w[J Space], map.glyphs(:attack)
     assert_equal [5, 13], map.codes[:attack]
     assert_equal %w[Tab], map.glyphs(:swap)
-    assert_equal 10, map.actions.length, "the six combat actions + four directions"
+    assert_equal %w[U R], map.glyphs(:sustain), "v18 decision 10: the sustain pair"
+    assert_equal 11, map.actions.length, "the seven combat actions + four directions"
   end
 
   def test_codes_resolve_through_the_injected_table_only

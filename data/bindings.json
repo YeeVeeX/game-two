@@ -8,5 +8,6 @@
   "special": ["L", "E"],
   "mark": [";", "Q"],
   "interact": ["H", "F"],
+  "sustain": ["U", "R"],
   "swap": ["Tab"]
 }

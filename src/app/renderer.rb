@@ -164,6 +164,21 @@ module App
       Gosu.draw_rect(target.x + SIZE / 2 - 2, target.y - 9, 4, 4, MARK_GLYPH)
     end
 
+    # v18 sustain cues (presentation spec): ONLY the provision kinds carry
+    # a text line — every pre-v18 cue kind stays ring/X-bar-only, so the
+    # walled captures cannot move (7iii family; the canary sweep is the
+    # proof). Pure content resolution; EN fallbacks keep a strings-less
+    # construct drawable (the ControlsOverlay precedent).
+    CUE_TEXT_FALLBACK = { provision_bought: "PROVISION BOUGHT",
+                          provision_used: "PROVISION USED",
+                          provision_refused: "REFUSED" }.freeze
+
+    def station_cue_text(kind)
+      fallback = CUE_TEXT_FALLBACK[kind]
+      return nil unless fallback
+      @strings ? @strings.t("cue.#{kind}", fallback) : fallback
+    end
+
     private
 
     def color(rgb, alpha = 255) = Gosu::Color.new(alpha, rgb[0], rgb[1], rgb[2])
@@ -388,6 +403,18 @@ module App
         # Dark-red X-bar
         Gosu.draw_rect(x + 6, y + ts / 2 - 2, ts - 12, 4, CUE_REFUSED)
         Gosu.draw_rect(x + ts / 2 - 2, y + 6, 4, ts - 12, CUE_REFUSED)
+      elsif cue[:kind] == :provision_refused
+        # v18 sustain refusal: its OWN kind (add-only — the walled :refused
+        # draw above is untouched). The presser STANDS on the refusing
+        # tile, so the X-bar rides z=9 (above bodies, below the z=10 text
+        # line) and the text names the beat — a refusal must never read as
+        # nothing (decision 9: cue, never a silent eat).
+        Gosu.draw_rect(x + 6, y + ts / 2 - 2, ts - 12, 4, CUE_REFUSED, 9)
+        Gosu.draw_rect(x + ts / 2 - 2, y + 6, 4, ts - 12, CUE_REFUSED, 9)
+        if (text = station_cue_text(cue[:kind]))
+          hud_font.draw_text(text, x + (ts - hud_font.text_width(text)) / 2,
+                             y - 32, 10, 1, 1, CUE_REFUSED)
+        end
       else
         # Bright 1-tile pulse ring
         t = 3
@@ -395,6 +422,15 @@ module App
         Gosu.draw_rect(x, y + ts - t, ts, t, CUE_OK)
         Gosu.draw_rect(x, y, t, ts, CUE_OK)
         Gosu.draw_rect(x + ts - t, y, t, ts, CUE_OK)
+        # v18 provision kinds add a functional text line above the tile —
+        # one row clear of the station-ledger line at y-18, so a buy cue
+        # never collides with the bank's banked count (pilot capture
+        # caught the overlap). Pre-v18 kinds resolve nil and keep their
+        # exact ring-only draw.
+        if (text = station_cue_text(cue[:kind]))
+          hud_font.draw_text(text, x + (ts - hud_font.text_width(text)) / 2,
+                             y - 32, 10, 1, 1, CUE_OK)
+        end
       end
     end
 

@@ -125,7 +125,7 @@ class SustainTest < Minitest::Test
     assert_equal ECO[:provision_cap], w.pack.provisions
     assert_equal banked_before, w.pack.banked, "a refusal never spends"
     assert_equal [:at_cap], refused.map { |e| e[:reason] }
-    assert_equal :refused, w.station_cue[:kind], "never a silent eat"
+    assert_equal :provision_refused, w.station_cue[:kind], "never a silent eat"
   end
 
   def test_buy_broke_refuses_and_spends_nothing
@@ -146,7 +146,7 @@ class SustainTest < Minitest::Test
     w.possessed.walker.teleport(5, 5)
     drive(w, 2, inputs: hold(:sustain))
     assert_equal [:none], refused.map { |e| e[:reason] }
-    assert_equal :refused, w.station_cue[:kind]
+    assert_equal :provision_refused, w.station_cue[:kind]
   end
 
   def test_use_with_every_living_member_at_full_hp_refuses_and_keeps_the_charge

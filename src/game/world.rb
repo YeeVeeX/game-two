@@ -1340,12 +1340,15 @@ module Game
       false
     end
 
-    # Sustain refusal (decision 9) = cue + event + NOTHING spent. The cue
-    # rides the existing station-cue channel at the PRESSER's tile, pinned
-    # at press time (use refusals happen anywhere; the cue-drag law).
+    # Sustain refusal (decision 9) = cue + event + NOTHING spent. Its OWN
+    # cue kind (never :refused): the provision X-bar draws ABOVE the
+    # presser's body with a text line — add-only, so the walled station
+    # refusals keep their exact draw. The cue rides the station-cue channel
+    # at the PRESSER's tile, pinned at press time (use refusals happen
+    # anywhere; the cue-drag law).
     def sustain_refuse!(source, reason)
       @bus.emit(:provision_refused, actor: source, reason:)
-      station_cue!(:refused, source.tile)
+      station_cue!(:provision_refused, source.tile)
       false
     end
 

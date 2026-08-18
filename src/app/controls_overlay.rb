@@ -19,14 +19,16 @@ module App
     ACTIONS = %i[attack dodge special mark interact swap].freeze
     GLYPH_FALLBACK = { attack: %w[J Space], dodge: %w[K LShift],
                        special: %w[L E], mark: [";", "Q"],
-                       interact: %w[H F], swap: %w[Tab] }.freeze
+                       interact: %w[H F], swap: %w[Tab],
+                       sustain: %w[U R] }.freeze
 
     # EN fallbacks keep a bare strings-less construct drawable (the
     # draw_wipe_overlay precedent) — canonical text lives in data/strings.
     VESSEL_FALLBACK = { striker: "player 1", blocker: "player 2", lobber: "player 3" }.freeze
     VERB_FALLBACK = { striker: "spin", blocker: "shout", lobber: "lob" }.freeze
     LABEL_FALLBACK = { attack: "attack", dodge: "dodge", mark: "mark",
-                       interact: "interact", swap: "swap" }.freeze
+                       interact: "interact", swap: "swap",
+                       sustain: "provision" }.freeze
 
     # Kit identity colors (Renderer::KIT_BODY family) + quiet text tones.
     VESSEL_RGB = { striker: [235, 120, 40], blocker: [190, 80, 35],
@@ -50,7 +52,11 @@ module App
     # speaks the kit's own verb.
     def vessel_line(world)
       kit = world.possessed(@local_seat).kit_name
-      pairs = ACTIONS.map do |action|
+      # v18 decision 7iii (the wall pin): the sustain row exists ONLY while
+      # a provision does — provisions=0 adds nothing to the strip, so every
+      # walled capture renders the six-pair line byte-identically.
+      actions = ACTIONS + (world.pack.provisions.positive? ? [:sustain] : [])
+      pairs = actions.map do |action|
         label =
           if action == :special
             tr("overlay.verb.#{kit}", VERB_FALLBACK[kit])
@@ -61,6 +67,15 @@ module App
         { glyphs:, label: }
       end
       { vessel: tr("overlay.vessel.#{kit}", VESSEL_FALLBACK[kit]), pairs: }
+    end
+
+    # v18 provisions counter (decision 7iii): nil at zero — the counter
+    # draws ONLY while a provision exists. Functional label + count,
+    # placeholder register (owner order 2026-08-16).
+    def provisions_line(world)
+      n = world.pack.provisions
+      return nil unless n.positive?
+      "#{tr('hud.provisions', 'PROVISION')} #{n}"
     end
 
     # Backing alpha now: resting, or lifted while the possessed kind is
@@ -106,6 +121,12 @@ module App
         x += glyph_gap
         font.draw_text(pair[:label], x, ty, 0, 1, 1, label_col)
         x += font.text_width(pair[:label]) + section_gap
+      end
+      # The provisions counter sits at the strip's right edge, same quiet
+      # band — absent entirely at zero (7iii).
+      if (counter = provisions_line(world))
+        cx = world.camera(@local_seat).view_w - x_start - font.text_width(counter)
+        font.draw_text(counter, cx, ty, 0, 1, 1, glyph_col)
       end
     end
 
