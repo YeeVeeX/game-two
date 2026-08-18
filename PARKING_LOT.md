@@ -667,7 +667,9 @@ re-shape what comes AFTER it.
   recomiendes... aprobado").** The dev raises the recommendation when a
   named artifact warrants it — candidate artifacts: a SEVENTEENTH-class
   verdict naming save-loss/host-dependency pain (→ stage 1), Junior
-  asking to advance the shared world without the owner (→ stage 2), or
+  asking to advance the shared world without the owner (= the custody
+  handoff ask — the SEVENTEENTH's pre-registered routing table maps
+  exactly this Half-B answer onto this trigger family; → stage 2), or
   different-time play / a third player becoming real (→ stage 3, the
   original trigger). Stage 1 (S3 backup) remains the v18.1 first
   candidate at dev discretion.

@@ -153,6 +153,12 @@ scope for this repo. (Historical pipeline: see git history of this file.)
   (both seats print `TELEMETRY netplay ...` + the relaunch command). Exit statuses
   (`App::Cli.exit_status`): 0 clean end · 1 crash/refusal · 2 link fault — the coop
   launchers (`bin/host-coop.cmd`, `bin/join-coop.cmd`) auto-rehost/rejoin ONLY on 2.
+- **Persistence (v18):** the shared world lives in `saves/world.json` — host-authoritative,
+  gitignored, written at clean quit ONLY (never hand-edit; strict decode refuses NAMED).
+  `--fresh` = start over, composes with solo and `--host` (the existing save moves to
+  `.bak-<ts>` FIRST — the backup law); `--join --fresh` refuses (the joiner has no save
+  custody). Coop pacing scalars: `data/balance/coop.json` (per-seat-count block; seats=1 =
+  no block = no arithmetic).
 - `rake capture SCRIPT=harness/scripts/<name>.json` — deterministic replay + frame capture.
   One script per regression surface lives in `harness/scripts/` (the wall); trust the
   directory, not an inline list here (an inline list went stale once). Canonical entry
@@ -169,6 +175,11 @@ scope for this repo. (Historical pipeline: see git history of this file.)
   Sessions over loopback inside the replay window (scene: `harness/scenes/netplay_scene.rb`;
   now_ms is a pure function of the frame — determinism law in the scene header). These live
   OUTSIDE `harness/scripts/` on purpose: the wall stays single-player.
+- `rake map [SAVE=path] [OUT=dir] [PROBES=1]` — god-view v0: OFFLINE full-map PNG from
+  data+save through the play-path strict decoder (refusal aborts NAMED; missing save =
+  honest fresh state); filename carries digest provenance (`world_<digest8>_<ts>.png`).
+  `PROBES=1` renders staged facts + pixel asserts — this surface's gate is probes +
+  vision critique (`harness/map_checks.json`), no replay half (decision 13).
 - `rake perf` — perf smoke (machine-local): district scenario, aborts if p95 tick >= 16.6 ms.
 - `rake pilot NAME=<n> SEED=<s>` — interactive pilot session: append commands
   (`printf 'cmd\n' >>`, NEVER Write) to `tmp/pilot/<n>/inbox.txt`, read `log.txt`; idle =

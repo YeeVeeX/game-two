@@ -1,5 +1,72 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-18 v18 TDD session 4 (increment 8 GREEN — docs + close; BUILD PHASE CLOSED, increments 0–8; cycle WAITING on the SEVENTEENTH)
+
+**Increment 8 — docs + close (DOCS-ONLY; spec item 8; no code/data/
+harness file moved — assets-seat pins untouched by construction):**
+`docs/JUNIOR.md` gains the v18 persistence/custody section (PT-BR first
++ EN mirror, after the v17 co-op section, file voice kept): the custody
+contract in player terms (the shared world lives on the HOST's machine;
+Junior solo = HIS own world on HIS machine; only joining advances the
+shared one — F2/F4 verbatim; joiner never persists), the `--fresh`
+notice (backup `.bak-<ts>`, host prints `persist fresh source=fresh`,
+`sessions=` restarts low; `--join --fresh` refuses — no custody),
+pull-is-schema-critical (v2 HELLO refusal names `protocol version` +
+git-pull hint), save location + never-hand-edit + `TELEMETRY persist`
+continuity proof (session-log path named), and sustain in HIS ratified
+vocabulary (SUPRIMENTOS family, U/R, buy-at-bank/use-anywhere, 7iii
+vanish-at-zero). **The PT-BR section is FLAGGED for Junior's
+ratification** (strings-flow precedent — his lane, never blocked on
+him). The stale "16º veredito" close of the v17 co-op section updated
+to every-verify wording (both halves) — smallest faithful fix, recorded
+here. `AGENTS.md` Commands only: Persistence (v18) bullet
+(`saves/world.json` custody + `--fresh` composition + backup law +
+`data/balance/coop.json` pointer) + `rake map [SAVE=] [OUT=] [PROBES=1]`
+line (decision 13). `PARKING_LOT.md`: custody-handoff = smallest delta
+on the EXISTING AWS-staging stage-2 candidate artifact (named "custody
+handoff" + the SEVENTEENTH routing cross-ref) — no duplicate entry (the
+stage-2 wording already carried the trigger). Run sheet:
+`drafts/_v18-seventeenth-runsheet-20260818.md` — owner half es-CR
+ustedeo (ritual: two REAL sessions, DIFFERENT days, ≥10 sim-min /
+≥36000 ticks, Esc exit; harvest all four `TELEMETRY netplay` + every
+`TELEMETRY persist` line BEFORE any question; solo between sessions
+allowed, its persist lines join the chain), spec questions transcribed
+VERBATIM (es owner / pt-br Junior — de-primed wording untouched), Half
+A arbiter restated (digest chain + desyncs=0/reason=quit ×4 + one named
+strictly-positive carried fact), routing-context footnote (Junior's
+discoverability side-signal → "sustain unused → discoverability first"
+row; adjudicator reads AFTER verdicts).
+
+**Docs-found observations (RECORDED, not fixed — docs-only law):**
+(1) Spec-prose imprecision: "Junior sees source=fresh" — in code the
+joiner prints NO persist line when the host's world is fresh (null save
+skips the refusal ladder AND the loaded line, `src/main.rb` guard); the
+joiner-side fresh signal is the ABSENT `loaded` line that session + the
+reset `sessions=` counter on later handshake loads. JUNIOR.md documents
+the REAL behavior. Candidate one-liner if the SEVENTEENTH surfaces it
+as a felt gap: joiner prints `persist fresh source=handshake` on a null
+save — post-adjudication only. (2) Launcher filter gap: `bin/play` +
+`bin/play.cmd` echo only `TELEMETRY netplay`/desync/relaunch on a clean
+end — `TELEMETRY persist` lines live ONLY in the session log
+(`%TEMP%\game_two_session_*.log` / `/tmp/game_two_session_*.log`). Not
+blocking (the logs are the pre-registered backup; the run sheet points
+the harvest there); candidate one-line findstr/grep addition after the
+SEVENTEENTH.
+
+**State: v18 BUILD PHASE CLOSED — increments 0–8 all green + pushed.**
+Suite 761 runs / 13889 assertions green at close (Job 0 re-verified
+live); 18 canary baselines banked; wall 18 scripts. Cycle state =
+WAITING on the SEVENTEENTH (owner-paced; the owner queue fired at
+session close: two sessions on different days per the run sheet).
+**Nothing new starts until it adjudicates** (scope contract).
+
+**RESUME POINT (next session):** harvest per the run sheet → adjudicate
+per the spec's pre-registered §Fun-verify routing table → verdict
+skeleton in drafts/ (naming precedent: `_v18-fun-verify-skeleton-
+<date>.md` after `_v17-fun-verify-skeleton-20260816.md`). Junior: pull
+— the JUNIOR.md pt-br persistence section awaits his ratification (the
+sustain strings themselves are already his, `a51b06e`).
+
 ## 2026-08-18 v18 TDD session 3c (increment 7 GREEN — god-view v0: rake map + probes + critique PASSED; next = increment 8: docs + close, then the SEVENTEENTH)
 
 **Increment 7 — god-view v0 (decision 13, lane 6):** `rake map [SAVE=]

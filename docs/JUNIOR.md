@@ -153,9 +153,76 @@ mesmas apostas — e vocês só trocam de zona juntos.
 - Depois de qualquer fim, o console imprime o comando exato para
   relançar dos dois lados.
 
-**Depois da primeira partida:** cole a sua linha `TELEMETRY netplay ...`
-do console (em drafts/ ou mensagem) e responda as 4 perguntas
-pré-registradas — é o 16º veredito.
+**Depois de cada partida:** cole a sua linha `TELEMETRY netplay ...`
+do console (em drafts/ ou mensagem) e responda as perguntas quando o
+Gabriel fizer — é o ritual de toda verificação (a 16ª fechou assim;
+a 17ª vem aí).
+
+### O mundo agora continua (v18 — persistência)
+
+O mundo não zera mais a cada partida: banco, selos rompidos, marcas,
+suprimentos e o contador de sessões sobrevivem entre sessões.
+
+**De quem é o save (o contrato, sem letra miúda):**
+
+- O mundo compartilhado mora na máquina do **host** (o Gabriel). Ele
+  avança quando o Gabriel joga — sozinho ou hospedando — e quando VOCÊ
+  entra com `--join`. Jogar junto conta: é assim que você move o mundo
+  compartilhado.
+- Você jogando solo na SUA máquina = o SEU próprio mundo, separado, no
+  SEU `saves/world.json`. Ele não se mistura com o compartilhado —
+  juntar linhas de mundo divergentes é assunto da era "sempre online"
+  (estacionada, com gatilho nomeado).
+- Quem entra (`--join`) NUNCA grava o mundo compartilhado no próprio
+  disco: você recebe o mundo pelo aperto de mão, joga nele, e ele
+  volta a dormir na máquina do host.
+
+**Onde vive e como se prova:**
+
+- O save é `saves/world.json` (ignorado pelo git). Nunca edite à mão —
+  o jogo recusa um save inválido NOMEANDO o problema no console.
+- O jogo grava SÓ na saída limpa (**Esc**). Desync, queda de conexão
+  ou crash não gravam nada — um mundo suspeito nunca envenena o save.
+- As linhas `TELEMETRY persist ...` provam a continuidade (digest do
+  save + banked/seals/marks/sessions). Elas ficam no log da sessão
+  (`%TEMP%\game_two_session_*.log` no `.cmd`); quando você entra numa
+  partida, a sua linha diz `source=handshake`.
+
+**O aviso do `--fresh` (recomeçar do zero):**
+
+- Se o host recomeça (`--host --fresh`), a cadeia MOSTRA: o save
+  antigo vira `saves/world.json.bak-<data>` (nada se perde em
+  silêncio), o console do host imprime `persist fresh source=fresh`, e
+  o contador `sessions=` das linhas seguintes recomeça baixo. Naquela
+  primeira sessão o seu console não mostra linha `loaded` nenhuma —
+  mundo novo, nada a carregar.
+- `--fresh` também funciona no SEU solo (recomeça o SEU mundo, com o
+  mesmo backup). Com `--join` ele RECUSA — quem entra não tem a
+  custódia do save.
+
+**Pull antes de jogar agora é CRÍTICO:**
+
+- O v18 mudou o protocolo (v2) e deu schema ao save. Um assento
+  desatualizado é RECUSADO no aperto de mão com o campo exato no
+  console (ex.: `protocol version: ours ... / theirs ...`) e a
+  sugestão do fix: `git pull` nos DOIS lados, mesmo commit, e
+  relançar. Proteção, não defeito — igual ao aviso de build do v17.
+
+**Suprimentos (v18 — a cura de caçada, nas SUAS palavras):**
+
+| O quê | Como |
+|---|---|
+| Comprar | parado numa estação de banco, tecla **U** (ou R) — 5 do banco por carga, até 3 |
+| Usar | em QUALQUER outro lugar, mesma tecla — cura quem estiver vivo no trio |
+| Recusa | `RECUSADO` na tela: sem saldo, no limite, sem carga, ou ninguém ferido |
+
+- O par de teclas entra na barra de baixo (`suprimentos`) e o contador
+  `SUPRIMENTOS N` aparece à direita — só enquanto você TEM carga; no
+  zero, some tudo.
+- `SUPRIMENTO COMPRADO` / `SUPRIMENTO USADO` piscam na hora, em cima
+  da estação ou de quem usou.
+- Nunca é de graça e não regenera: é valor do banco virando fôlego de
+  caçada — gaste com intenção.
 
 ---
 
@@ -205,6 +272,38 @@ living controlled body co-located; a bodyless seat spectates until
 auto-repossession. Ends: Esc always (both seats record + flush
 telemetry); DESYNC freezes honestly and points at the `tmp/netplay/`
 artifact — keep and share yours; after any end the console prints the
-exact relaunch command. After the first session: paste your
-`TELEMETRY netplay` line and answer the four pre-registered questions
-(the SIXTEENTH verify).
+exact relaunch command. After each session: paste your `TELEMETRY
+netplay` line and answer the questions when Gabriel asks — the ritual
+of every verify (the SIXTEENTH closed this way; the SEVENTEENTH is
+next).
+
+Persistence (v18, LIVE): the world no longer resets — banked value,
+breached seals, marks, provisions and the sessions counter survive
+across sessions. Custody contract: the shared world lives on the
+HOST's machine (Gabriel); it advances when he plays (solo or hosting)
+and when you JOIN him. You playing solo on your own machine = your OWN
+separate world (your `saves/world.json`); merging divergent world
+lines belongs to the parked always-online era. The joiner NEVER
+persists the shared world to disk. The save is `saves/world.json`
+(gitignored — never hand-edit; an invalid save is refused with the
+problem NAMED); it writes on clean quit (Esc) ONLY — desync,
+conn_lost, or a crash write nothing. `TELEMETRY persist` lines prove
+continuity (they live in the session log,
+`%TEMP%\game_two_session_*.log`); a joiner's line reads
+`source=handshake`. `--fresh` starts over (solo or `--host`): the old
+save moves to `.bak-<ts>` first — nothing is lost silently; the host
+prints `persist fresh source=fresh`, that session shows no `loaded`
+line (new world), and `sessions=` restarts low. `--join --fresh`
+refuses — the joiner has no save custody. Pull is now schema-critical:
+v18 bumped the protocol to v2 and gave the save a schema — a stale
+seat is REFUSED at the handshake naming the exact field (e.g.
+`protocol version`) plus the git-pull hint.
+
+Sustain (v18): SUPRIMENTOS — buy standing on a bank station (**U** or
+R; 5 banked per charge, cap 3), use anywhere else (same key) for a
+heal of every living pack member; refusals flash `RECUSADO` (broke /
+at cap / no charge / nobody hurt). The strip pair (`suprimentos`) and
+the `SUPRIMENTOS N` counter appear only while you carry charges —
+at zero they vanish; buys/uses flash `SUPRIMENTO COMPRADO` /
+`SUPRIMENTO USADO`. Never free, never regenerating — banked value
+becoming hunt endurance.
