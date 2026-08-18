@@ -269,6 +269,18 @@ module Game
           @vk[:swap_escapes] += 1 if @chant_open || @seizure_open
         end
       end
+
+      # v18 sustain (decision 9): the SEVENTEENTH's routing arbiter — a
+      # bought=0 session routes to discoverability FIRST (the tuning-lever
+      # order is pre-registered in the spec), never to a verb redesign.
+      # Guarded: pre-v18 test buses lack the events; the line still prints
+      # zeros (subscriber-alive law).
+      @sustain = Hash.new(0)
+      if bus.registered?(:provision_bought)
+        bus.subscribe(:provision_bought) { @sustain[:bought] += 1 }
+        bus.subscribe(:provision_used) { @sustain[:used] += 1 }
+        bus.subscribe(:provision_refused) { @sustain[:refused] += 1 }
+      end
     end
 
     def summary
@@ -286,7 +298,14 @@ module Game
         "#{v13_summary}\n" \
         "#{drift_summary}\n" \
         "#{v14_summary}\n" \
-        "#{v15_summary}"
+        "#{v15_summary}\n" \
+        "#{sustain_summary}"
+    end
+
+    # Format pinned by the v18 spec: sustain bought/used/refused.
+    def sustain_summary
+      "TELEMETRY sustain bought=#{@sustain[:bought]} used=#{@sustain[:used]} " \
+        "refused=#{@sustain[:refused]}"
     end
 
     # v15: quay + varekka in one line pair — the thirteenth's arbiters.

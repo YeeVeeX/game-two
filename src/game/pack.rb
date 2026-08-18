@@ -15,9 +15,8 @@ module Game
       @stagger_frames = stagger_frames
       @banked = 0
       # v18 decision 15: field charges bought at the bank for banked value
-      # — pack state beside @banked, persisted (F1). The guarded buy/use
-      # verbs land with the sustain increment; until then only save-apply
-      # writes this.
+      # — pack state beside @banked, persisted (F1). Gameplay writes go
+      # through the guarded buy_provision!/use_provision! verbs only.
       @provisions = 0
       first = members.find { |m| m.kit_name.to_s == initial_kit.to_s } || members.first
       @possessed = { 1 => first }
@@ -63,6 +62,30 @@ module Game
       return false if amount > @banked
       @banked -= amount
       true
+    end
+
+    # v18 decision 9 buy (player-initiated at the bank via the sustain
+    # press — banked reduces through spend!, the never-taxed law holds).
+    # Guards return a refusal symbol and mutate NOTHING; nil = success.
+    # Pure state: no bus, no world knowledge — numbers arrive from data
+    # (Rule 3).
+    def buy_provision!(cost:, cap:)
+      return :at_cap if @provisions >= cap
+      return :broke unless spend!(cost)
+      @provisions += 1
+      nil
+    end
+
+    # v18 decision 9 use: consumes ONE charge, heals every LIVING member
+    # clamped at its ceiling — dead flesh untouched (the vat keeps its
+    # regrowth monopoly). :none/:no_effect refuse BEFORE the charge is
+    # eaten — a charge can never burn for nothing.
+    def use_provision!(heal:)
+      return :none if @provisions.zero?
+      return :no_effect if living.none? { |m| m.hp < m.max_hp }
+      @provisions -= 1
+      living.each { |m| m.heal!(heal) }
+      nil
     end
 
     # Judgment-time pointer move (post-wipe possession snap): plain, no

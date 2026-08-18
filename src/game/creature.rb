@@ -413,6 +413,15 @@ module Game
       @hp = @max_hp
     end
 
+    # Provision heal (v18 decision 9, Pack#use_provision! only): partial
+    # flesh heal clamped at the ceiling — dead flesh untouched (the vat
+    # keeps regrowth; heal_full! keeps the station). Same flesh-only law
+    # as heal_full!: clocks, exhaust, iframes, carried all untouched.
+    def heal!(amount)
+      return if dead?
+      @hp = [@hp + amount, @max_hp].min
+    end
+
     def revive!(map:, tile:)
       @hp = @max_hp
       interrupt_action!

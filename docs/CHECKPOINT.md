@@ -1,5 +1,75 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-18 v18 TDD session 3 (increment 5 GREEN — the sustain verb, sim half; next = increment 6: sustain presentation + THE Rule-2 gate)
+
+**Increment 5 — sustain sim (decisions 9/15 + Codex #16; lane 5 =
+test/game/sustain_test.rb, 10 lanes):** numbers were already in
+`data/balance/economy.json` (cost 5 / cap 3 / heal 30 — landed with
+increment 1; no JSON edit this increment). `Pack#buy_provision!(cost:,
+cap:)` / `use_provision!(heal:)` — guarded, pure state (no bus, no world
+knowledge): refusal symbol or nil; buy spends through the existing
+`spend!` INSIDE the verb (guard+mutation atomic in Pack; player-initiated
+at the bank — the never-taxed law holds); use consumes ONE charge and
+heals every LIVING member via the new `Creature#heal!` (clamped at
+max_hp, dead untouched — flesh-only like heal_full!). `:sustain` joined
+`PossessedController::ACTIONS` + `EDGE_TRIGGERED` (swap-rearm law rides
+the existing mask; protocol v2 bit 10 was already riding since increment
+3, unbound until increment 6's bindings row). World's sustain path
+(`World#sustain`, the controller's view API beside `interact`): ONE
+`map.station_at` lookup — on the bank BUYS, anywhere else USES;
+refusals (at_cap / broke / none / no_effect / seat_race) emit
+`:provision_refused` + the existing `:refused` cue at the PRESSER's tile
+and spend NOTHING. Events registered: `:provision_bought` /
+`:provision_used` / `:provision_refused` (Rule 4). `TELEMETRY sustain
+bought=N used=N refused=N` joined `Telemetry#summary` (guarded
+subscriptions — subscriber-alive law, line prints zeros on pre-v18
+buses; telemetry_test's full-summary pin extended).
+
+**Micro-decisions recorded (increment 5):** (1) **seizure × sustain =
+hands-verb**: a seized body MAY buy/use — the seized branch suppresses
+feet and keeps hands (interact precedent), tested in the lane. (2) The
+seat-race latch `@sustain_done` is a PER-TICK transient reset in
+`tick_world` beside `@slot_claims`, never digest state (its only read is
+intra-tick; frame monotonicity makes a cross-tick read impossible — the
+classification table stays untouched, provisions was already PERSISTED).
+(3) The buy emits `:banked_spent` with `sink: :provision` from the
+sustain path (banked_end tracking rides it; the d1b line still prints
+inscribe/tribute only — sustain has its own line). (4) Success cue kinds
+`:provision_bought`/`:provision_used` ride the existing generic OK pulse
+until increment 6 gives them labels; refusal reuses `:refused`. (5)
+Sustain mirrors interact's action gate (controlled? / dead / staggered /
+mid-action = silent false, exactly like interact — the universal action
+law, not an economy refusal; the five economy refusals always cue). (6)
+The save_state mutation sweep now stages provisions through the REAL buy
+verb (closes increment-1 micro-decision 2); rich_world keeps
+`load_provisions!` as its staging shortcut (noted, same family as its
+`bank!(200)`).
+
+**MEASURED evidence (increment 5):** suite 747 green (13823 assertions;
++10 lanes over increment 4's 737); full canary sweep 17/17
+byte-identical (`tmp/canary_sweep_v18_inc5.log`, DONE 20:49:13 — the
+W3 proof: sim-touching increment, no walled script presses sustain);
+perf p95 0.178ms (budget 16.6).
+
+**NEXT — increment 6: sustain presentation + THE Rule-2 gate (7iii +
+decision 10 + presentation spec):** `data/bindings.json` gains
+`"sustain": ["U", "R"]` (pair grammar; strip label derives from the
+binding map — v15 law); provisions counter + strip sustain row render
+ONLY when provisions > 0 (7iii — the wall-safety pin, structural test);
+strings en/es (dev) + pt-br (land + FLAG for Junior); cue labels for
+buy/use on the existing station-cue channel; new wall exerciser
+`harness/scripts/sustain_run.json` (buy 2 → walk out → damage → use
+both → over-cap + broke + full-hp refusals, captures at each beat) +
+ADD-ONLY checks in `harness/gate_checks.json`; FULL `rake gate` with the
+REAL critic (blocking); after PASS bank
+`tmp/canary_baseline/sustain_run/` (sweep goes to 18) and re-run the
+sweep — the other 17 byte-identical. Then 7: rake map (decision 13,
+lane 6); 8: docs + close (JUNIOR.md custody PT-BR-first + --fresh
+notice, AGENTS.md Commands, PARKING_LOT custody-handoff, SEVENTEENTH
+confirm). Canary baselines: `tmp/canary_baseline/` (17 dirs; re-bank
+protocol `tmp/bank_canary_v18_resume.sh` if tmp/ cleaned). Junior: pull
+— his PT-BR lane (PROVISÃO + cue verbs) opens at increment 6.
+
 ## 2026-08-17 v18 TDD session 2 (increments 3+4 GREEN — protocol v2 + SESSION save transfer + THE TWO-SESSION LANE + live loopback E2E; coop feel: seat scalars + third-body caution; next = increment 5: sustain sim)
 
 **Protocol v2, ONE bump for the cycle (spec decision 8):** `VERSION = 2`;

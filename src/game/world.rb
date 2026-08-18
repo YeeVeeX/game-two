@@ -28,6 +28,7 @@ module Game
       corpse_loaded corpse_looted fight_resolved
       human_retargeted human_leashed human_respawned
       inscribed banked_spent tribute_paid body_regrown body_dissolved mark_consumed vessel_kept
+      provision_bought provision_used provision_refused
       seal_breached home_rehomed respawn_telegraphed
       challenger_engaged challenger_chant_started chant_interrupted vessel_seized seizure_ended
       inscription_burned
@@ -573,6 +574,44 @@ module Game
       end
     end
 
+    # v18 decision 9 — the sustain verb (owner law 2026-08-11: priced,
+    # portable, banked-funded — never a free cooldown). One edge-press,
+    # one resolution through the SAME station lookup interact uses:
+    # standing ON the bank station BUYS (banked reduces through the pack's
+    # guarded verb — player-initiated at a station, the never-taxed law
+    # holds); anywhere else USES (one charge, every living member healed
+    # clamped; dead untouched — the vat keeps its regrowth monopoly).
+    # Refusals cue + spend NOTHING (at_cap/broke/none/no_effect/seat_race
+    # — never a silent eat). @sustain_done is the first-success-per-tick
+    # latch (a per-tick transient reset in tick_world beside @slot_claims,
+    # never digest state): the seat-ordered controller loop resolves seat 1
+    # first on both machines, so a same-tick race deterministically awards
+    # the action to seat 1 and refuses seat 2 THAT tick.
+    def sustain(source)
+      return false unless controlled?(source)
+      return false if source.dead? || source.staggered? || source.attack_state != :idle
+      return sustain_refuse!(source, :seat_race) if @sustain_done
+      station = map.station_at(*source.tile)
+      if station && station[:type] == "bank"
+        refusal = @pack.buy_provision!(cost: @economy[:provision_cost],
+                                       cap: @economy[:provision_cap])
+        return sustain_refuse!(source, refusal) if refusal
+        @sustain_done = true
+        @bus.emit(:banked_spent, actor: source, amount: @economy[:provision_cost],
+                  sink: :provision, banked: @pack.banked)
+        @bus.emit(:provision_bought, actor: source,
+                  provisions: @pack.provisions, banked: @pack.banked)
+        station_cue!(:provision_bought, source.tile)
+      else
+        refusal = @pack.use_provision!(heal: @economy[:provision_heal])
+        return sustain_refuse!(source, refusal) if refusal
+        @sustain_done = true
+        @bus.emit(:provision_used, actor: source, provisions: @pack.provisions)
+        station_cue!(:provision_used, source.tile)
+      end
+      true
+    end
+
     # --- v17 digest lane (spec decision 6) ------------------------------
     # The authoritative desync-detection snapshot: every gameplay-affecting
     # field, as [group, [[name, scalar], ...]] with stable actor ids
@@ -629,6 +668,7 @@ module Game
     def tick_world(inputs)
       @slot_claims = {}
       @pressure_claims = {}
+      @sustain_done = false
       @seats.each { |seat| handle_swap(seat, seat_input(inputs, seat)) }
       # Forced swap happens at bus-process time (no input in scope there), so
       # the edge-trigger re-arm is deferred to the next tick — law 2 applies
@@ -1297,6 +1337,15 @@ module Game
 
     def station_refuse!(tile)
       station_cue!(:refused, tile)
+      false
+    end
+
+    # Sustain refusal (decision 9) = cue + event + NOTHING spent. The cue
+    # rides the existing station-cue channel at the PRESSER's tile, pinned
+    # at press time (use refusals happen anywhere; the cue-drag law).
+    def sustain_refuse!(source, reason)
+      @bus.emit(:provision_refused, actor: source, reason:)
+      station_cue!(:refused, source.tile)
       false
     end
 

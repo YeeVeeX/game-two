@@ -9,8 +9,8 @@ module Game
   # what the hand expects; masking it made every Tab a micro-stall (M2.1
   # fix 3).
   class PossessedController
-    ACTIONS = %i[left right up down attack dodge special mark interact].freeze
-    EDGE_TRIGGERED = %i[attack dodge special mark interact].freeze
+    ACTIONS = %i[left right up down attack dodge special mark interact sustain].freeze
+    EDGE_TRIGGERED = %i[attack dodge special mark interact sustain].freeze
 
     def initialize
       @masked = []
@@ -27,16 +27,21 @@ module Game
       special_pressed = pressed?(input, :special)
       mark_pressed = pressed?(input, :mark)
       interact_pressed = pressed?(input, :interact)
+      sustain_pressed = pressed?(input, :sustain)
       return if creature.dead?
 
       # v15 seizure: the feet are his, the hands are yours. Direction and
       # dodge are suppressed (the edge bookkeeping above ran regardless —
       # a dodge pressed during seizure must not ghost-fire on expiry,
       # spec controller-ordering pin); aim + verbs stay the player's.
+      # Sustain is a hands-verb like interact (v18 recorded micro-decision:
+      # a seized body may still buy or use — the feet are his, the hands
+      # are yours).
       if creature.seized_by && view.respond_to?(:seized_step)
         view.seized_step(creature)
         creature.face(held_direction(input)) # re-aim allowed; steps are not
         view.interact(creature) if interact_pressed && view.respond_to?(:interact)
+        view.sustain(creature) if sustain_pressed && view.respond_to?(:sustain)
         creature.start_special(blocked: @blocked || []) if special_pressed
         creature.start_attack if down?(input, :attack)
         view.set_mark(creature) if mark_pressed && view.respond_to?(:set_mark)
@@ -51,8 +56,10 @@ module Game
         creature.step(dir[0], dir[1], blocked: @blocked || [])
       end
       # Interact resolves before attack/special: a same-frame pickup or bank
-      # must not lose the tie to a held attack starting a swing.
+      # must not lose the tie to a held attack starting a swing. Sustain
+      # follows in the same station-verb family (v18 decision 9).
       view.interact(creature) if interact_pressed && view&.respond_to?(:interact)
+      view.sustain(creature) if sustain_pressed && view&.respond_to?(:sustain)
       creature.start_special(blocked: @blocked || []) if special_pressed
       creature.start_attack if down?(input, :attack)
       view.set_mark(creature) if mark_pressed && view&.respond_to?(:set_mark)

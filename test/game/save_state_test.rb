@@ -378,7 +378,15 @@ class SaveStateTest < Minitest::Test
         read: ->(w) { w.pack.banked }
       },
       "provisions" => {
-        mutate: ->(w) { w.pack.load_provisions!(2) },
+        # Staged through the REAL buy verb (v18 increment 5 closes the
+        # increment-1 deviation): fund the exact cost, stand on the nest
+        # bank, one sustain press. banked nets to its pre-value, so the
+        # byte change this leaf proves is provisions' own.
+        mutate: lambda { |w|
+          w.pack.bank!(ECO[:provision_cost])
+          w.possessed.walker.teleport(12, 8) # the nest bank station
+          raise "staging: buy refused" unless w.sustain(w.possessed)
+        },
         read: ->(w) { w.pack.provisions }
       },
       "home_zone" => {
