@@ -1,5 +1,19 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-18 RECADO PARA O ASSENTO DO JUNIOR (sessão 8 em andamento — soak em dupla)
+
+Junior: tem trabalho pronto para você AGORA. `git pull` (o push chegou
+às ~14:50), depois abra `drafts/_v18-soak-runsheet-junior-20260818.md`
+(md5 `78601600d82ea6901057fd4f7d46f345`) e siga o passo a passo — é UM
+comando (`JOIN_ONLY=1 HOST_ADDR=100.127.52.49 N=1 TICKS=36000 bash
+soak/run_soak.sh`), mas SÓ DISPARE depois que o Gabriel avisar "listo"
+no chat (o host dele precisa estar de pé primeiro). É o robô de teste
+jogando — NÃO é partida do ritual e não vale como evidência; o que
+voltar de você é o `report.txt` + `ep1/joiner.log` (cole no chat ou
+commit em `drafts/_junior-soak-<data>.md`). Depois disso: nada mais
+pendente do seu lado — as duas sessões do ritual continuam no ritmo de
+vocês dois.
+
 ## 2026-08-18 v18 session 7 — interlude (Junior away): baseline green ×4, burst-legibility rubric LANDED, owner map artifact, solo sheet; SEVENTEENTH still PARTIAL/STANDBY
 
 **Evidence gate (Job 0):** nothing new at session start — newest
