@@ -1,18 +1,86 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-18 RECADO PARA O ASSENTO DO JUNIOR (sessão 8 em andamento — soak em dupla)
+## 2026-08-18 v18 session 8 — autonomous coop soak SHIPPED (bot+orchestrator+checker); loopback 2×36000 green, cross-machine Tailscale episode green BOTH seats; SEVENTEENTH untouched (soak ≠ oracle)
 
-Junior: tem trabalho pronto para você AGORA. `git pull` (o push chegou
-às ~14:50), depois abra `drafts/_v18-soak-runsheet-junior-20260818.md`
-(md5 `78601600d82ea6901057fd4f7d46f345`) e siga o passo a passo — é UM
-comando (`JOIN_ONLY=1 HOST_ADDR=100.127.52.49 N=1 TICKS=36000 bash
-soak/run_soak.sh`), mas SÓ DISPARE depois que o Gabriel avisar "listo"
-no chat (o host dele precisa estar de pé primeiro). É o robô de teste
-jogando — NÃO é partida do ritual e não vale como evidência; o que
-voltar de você é o `report.txt` + `ep1/joiner.log` (cole no chat ou
-commit em `drafts/_junior-soak-<data>.md`). Depois disso: nada mais
-pendente do seu lado — as duas sessões do ritual continuam no ritmo de
-vocês dois.
+**Evidence gate (Job 0):** no ritual evidence (newest launcher log in
+both temp dirs still 2026-08-17 11:15 `ticks=0`; no Junior commit past
+`621fa5b` at session start; owner silent), no v19 list — spark
+continued. Baseline green ×4 (suite 761, net gates 3/3, perf p95
+0.207ms, wall deferred to close). `saves/world.json` md5
+`a249aec13c9af947c93641a63b2d77ea` recorded for the quarantine proof.
+
+**Built (TDD, one concern per commit):** `3b52e38` cli (`--save`
+override + `--bot [seed]` + `--bot-ticks`; D3 refusal named, exit 1,
+proven live; `--join --save` refuses; absent flags leave parse shapes
+byte-identical) · `394cd2e` `App::Autopilot` (pure (seed, tick)→actions
+on the core input seam; RNG only at burst boundaries; all 11 action
+bits on fixed cadences; banner = episode replay identity) · `bf72045`
+wiring (window swaps keyboard→bot at the same seam, quits via the Esc
+path at quit_tick, never holds an end screen; real-loopback session
+test pins desync-free bot masks) · `9f115c5` soak infra (`rake soak`,
+`soak/run_soak.sh` + `soak/chain_check.rb`, 18 fixture-log tests;
+host_only/join_only seams; mechanical breach checks: real-save md5 +
+temp-log count) · fixes found by running it: `c355cb2` stdout
+unbuffered under --bot only (a fuse-killed seat left an EMPTY log),
+`ff0be73` single-side heartbeat noise, JOIN_WAIT_S join race. Suite
+761→804 runs / 17005 assertions.
+
+**Validation (Job 3):** canary 1×1800 PASS · smoke 3×7200 PASS (chain
+`fresh→56913068→e4c89c27→2d2982b1`, sessions 1→3) · ritual-floor burst
+2×36000 PASS (ticks 36120/36123 + 36120/36118, desyncs=0 all four
+seats, chain sessions 1→2). **Accidental crash-lane proof:** a real
+power cut killed burst #1 mid-EP2 — EP1's save survived intact,
+parseable, no torn write (decision 14's integrity law held on real
+hardware); commits/working tree unharmed, burst re-run green.
+
+**Cross-machine (Job 4, Junior's seat LIVE):** runsheet
+`drafts/_v18-soak-runsheet-junior-20260818.md` (pt-br, md5
+`78601600…`) + seat-addressed note (consumed — receipt `f9192fd`, note
+removed at close). Episode over real Tailscale (DERP relay ~200ms, no
+direct path — the known CGNAT trap): MY seat `SOAK PASS` host_only
+36120 ticks desyncs=0 stalls=3703 stall_ms_max=522 (well under the 45s
+abort) · HIS seat `SOAK PASS` join_only 36121 ticks desyncs=0 stalls=0
+(his draft `_junior-soak-20260818.md`, verbatim logs). Zero divergence
+across machines through real jitter. His attempt-1 connect-timeout =
+D7 scheduling fail, correctly re-run after a fresh "listo".
+
+**Recorded, not fixed (routing law):** joiner seat prints only at
+CLOSE, so a joiner heartbeat can't distinguish playing/hung mid-episode
+(the fuse covers; project memory line added — judge in-flight soaks by
+nothing) · bot `sustain refused=27` = expected dumb-bot noise · bots
+never co-locate at gates, so soak coverage = ZONE 1 only (accepted:
+zone transitions are wall-covered deterministically; netplay/persist
+endurance is zone-agnostic) · never edit a script a live run is
+executing (bash misparse killed the checker mid-run; salvaged by
+running chain_check manually — memory line added).
+
+**Close gates:** wall tag `soak-20260818` — 18 scripts, 17 in-sweep
+PASS + `ledger_loop` `tribute_beat_reads` FAIL adjudicated critic
+variance by standalone retry PASS (`0d9433a` precedent; no sim/render
+file moved this session; both verdicts in `drafts/_gate-verdicts.log`)
+· suite 804 green · perf p95 0.213ms · net gates 3/3. **Quarantine
+proof at close:** `saves/world.json` md5 unchanged
+(`a249aec13c9af947c93641a63b2d77ea`), temp dirs virgin (newest
+`game_two_session_*.log` still 2026-08-17 11:15, count 22 — zero soak
+leakage).
+
+**The law, restated:** soak green ≠ oracle progress. Bots never
+adjudicate; `AUTOPILOT`-tagged logs and `tmp/soak/**` are never
+session evidence (skeleton residue-trap line added). The SEVENTEENTH
+still requires two REAL human sessions on different days + both
+players' verbatim answers.
+
+**v19 intake slot (Job 5):** Junior's ideas list did NOT arrive — slot
+stays open; when it lands it banks verbatim + triages Itexo-style.
+Nothing new starts until the SEVENTEENTH adjudicates.
+
+**Overnight soak, either seat (one command, Git Bash):**
+`export PATH="/c/Ruby34-x64/bin:$PATH" && N=40 TICKS=36000 rake soak`
+(~7h, ~40 episodes; report in `tmp/soak/<run>/report.txt`).
+
+**RESUME POINT:** unchanged — ritual sessions owner-paced; when both
+sessions + answers exist, the FULL harvest re-runs spark `7224819`.
+Junior's side: nothing pending.
 
 ## 2026-08-18 v18 session 7 — interlude (Junior away): baseline green ×4, burst-legibility rubric LANDED, owner map artifact, solo sheet; SEVENTEENTH still PARTIAL/STANDBY
 
