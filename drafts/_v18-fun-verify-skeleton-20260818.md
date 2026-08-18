@@ -55,6 +55,28 @@ session RE-RUNS, owner-paced. Never waive a check, never fudge a pass.
 - **Answers:** none gathered (owner confirmed live).
 - ⇒ **PARTIAL mode.**
 
+**Re-check 2026-08-18 17:22–17:33 (session 9, spark r2 — the standing
+harvest vehicle, `drafts/_v18-seventeenth-harvest-spark-r2-20260818.md`,
+which supersedes `7224819`): EMPTY — nothing new.** Launcher logs still
+22/22 in both temp dirs (count == session-8 close), newest still
+2026-08-17 11:15 `ticks=0` idle host, zero `AUTOPILOT` lines in any
+launcher log (bot-disqualification law applied — nothing to classify).
+Save quarantine holds: `saves/world.json` mtime 2026-08-17 17:12, md5
+`a249aec13c9af947c93641a63b2d77ea` == session-8 close, play-path strict
+decode LOADED `digest=d63fd8ea72551208fc03bf7e4b1b65cd` sessions=2
+banked=0 — the chain anchor is untouched. Junior side: no commit past
+`766cfa2` (origin/junior/ci tip still 2026-08-16, `junior-tibia`
+retired), no new `_junior-*` draft (newest 15:58 = his soak return,
+consumed session 8), no paste. Answers 0/8. Residue classified per the
+laws below: tmp/netplay desync artifacts 17:10–17:13 = the net-gates
+close run (`=== 20260818-171110 captures\netplay_desync_gate_a ===`,
+real fingerprint `b39f7a31…` INSIDE the gate window) + the `766cfa2`
+pre-push hook rake (commit 17:13:18; three `platform:"test"`
+artifacts 17:13:48–58); tmp/soak runs all ≤15:16 = session-8's own
+validation (incl. the report-less power-cut burst dir `20260818-135217`)
+— no overnight run. Skeleton stays PARTIAL/STANDBY; gaps 1–8 unchanged;
+adjudication stays EMPTY.
+
 ## Pre-session evidence banked (verbatim, with provenance)
 
 ### World-save chain anchor (dev-smoke provenance — NOT ritual evidence)
