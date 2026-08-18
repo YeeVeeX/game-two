@@ -13,6 +13,8 @@
 #   HOST_ONLY=1       spawn only the host seat (cross-machine: the peer
 #                     runs JOIN_ONLY=1 HOST_ADDR=<this machine>)
 #   JOIN_ONLY=1 HOST_ADDR=100.x.y.z   joiner-only against a remote host
+#   JOIN_WAIT_S=10    join_only: seconds to wait before each join (give
+#                     the remote host time to bind/rebind between episodes)
 #   ALLOW_LINK_FAULTS=1   Tailscale posture (D7): exit 2 = recorded
 #                     finding, not a hard fail. Loopback default: hard.
 #   TIMEOUT_S=...     per-episode kill fuse (default TICKS/60 + 180)
@@ -71,6 +73,7 @@ for i in $(seq 1 "$N"); do
     sleep 2
   fi
   if [ "$MODE" != "host_only" ]; then
+    [ "$MODE" = "join_only" ] && sleep "${JOIN_WAIT_S:-10}"
     ruby -Isrc src/main.rb --join "$HOST_ADDR:$PORT" --bot "$JSEED" \
       --bot-ticks $((TICKS + 3720)) > "$EP/joiner.log" 2>&1 &
     JPID=$!
