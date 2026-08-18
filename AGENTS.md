@@ -140,6 +140,8 @@ scope for this repo. (Historical pipeline: see git history of this file.)
 - `src/app/` — Gosu-facing: window orchestrator (≤300 lines), rendering
 - `data/` — all JSON configs (`balance/`, `zones/`, `display.json`)
 - `harness/` — Rule 2 replay runner + input scripts
+- `soak/` — autonomous two-seat soak: orchestrator + log/chain checker (never under
+  `harness/` — the wall stays single-player and persistence-blind)
 - `captures/` — frame captures (gitignored)
 - `test/` — minitest; `rake` = run all
 
@@ -159,6 +161,13 @@ scope for this repo. (Historical pipeline: see git history of this file.)
   `.bak-<ts>` FIRST — the backup law); `--join --fresh` refuses (the joiner never keeps
   the save). Coop pacing scalars: `data/balance/coop.json` (per-seat-count block; seats=1 =
   no block = no arithmetic).
+- **Soak (v18 session 8):** `rake soak [N=episodes] [TICKS=min] [SEED=base]` — two
+  seeded bots (host+joiner, real processes over loopback/Tailscale) play N episodes on a
+  SCRATCH save under `tmp/soak/<run>/`; `soak/chain_check.rb` judges LOGS + exit codes
+  only (reason=quit, desyncs=0, ticks≥target, digest chain, sessions +1). Quarantine is
+  mechanical: `--bot` in a save-owning seat refuses without `--save`, and the run fails
+  NAMED if `saves/world.json`'s md5 or the temp-dir log count moves. **A bot session is
+  never oracle evidence** — fun-verify harvests judge human launcher logs only.
 - `rake capture SCRIPT=harness/scripts/<name>.json` — deterministic replay + frame capture.
   One script per regression surface lives in `harness/scripts/` (the wall); trust the
   directory, not an inline list here (an inline list went stale once). Canonical entry

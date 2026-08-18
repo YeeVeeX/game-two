@@ -128,6 +128,11 @@ live-session evidence:
 tmp/netplay artifact is candidate live evidence only if it appears
 OUTSIDE suite/gate run windows AND carries the real fingerprint.
 
+**Soak residue (added session 8, same law):** `tmp/soak/**` (scratch
+saves, `AUTOPILOT`-tagged logs, reports) and any log carrying an
+`AUTOPILOT seed=` line are bot artifacts — NEVER session evidence; the
+harvest judges human launcher logs (`game_two_session_*.log`) only.
+
 ### Side-signal (HELD — enters only after both answer sets are recorded)
 
 `drafts/_junior-specials-chain-retry-20260818.md`: in his first sustain
