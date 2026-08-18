@@ -1,5 +1,52 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-18 v18 session 9 — SEVENTEENTH evidence gate re-run: EMPTY (no ritual evidence, 0/8 answers, no v19 list, no new soak runs); PARTIAL/STANDBY holds, cycle owner-paced
+
+**Mode: EMPTY** (spark banked + committed:
+`drafts/_v18-seventeenth-harvest-spark-r2-20260818.md` — supersedes
+`7224819` as the harvest vehicle; folds the soak-era residue laws and
+the bot-disqualification law: any log with an `AUTOPILOT seed=` line is
+never session evidence). Full inventory 17:22–17:33, findings verbatim
+in the skeleton's new re-check block:
+
+- **Launcher logs:** 22/22 both temp dirs (count == session-8 close),
+  newest still 2026-08-17 11:15 `ticks=0` idle host; zero `AUTOPILOT`
+  lines in any launcher log — nothing to classify, zero SEVENTEENTH
+  sessions played.
+- **Quarantine holds:** `saves/world.json` md5
+  `a249aec13c9af947c93641a63b2d77ea` == session-8 close; play-path
+  strict decode (real `Core::DataStore` + `App::SaveStore#load`)
+  LOADED `digest=d63fd8ea72551208fc03bf7e4b1b65cd` sessions=2 banked=0
+  — chain anchor untouched.
+- **Junior side:** no commit past `766cfa2` (origin/junior/ci still
+  2026-08-16), no new `_junior-*` draft (newest 15:58 soak return,
+  consumed s8), no paste. **Answers 0/8.**
+- **Residue classified, laws held:** tmp/netplay desync artifacts
+  17:10–17:13 = net-gates close run (`20260818-171110`, real
+  fingerprint inside the gate window) + `766cfa2` pre-push hook rake
+  (17:13:18); tmp/soak all ≤15:16 = session-8's own validation.
+
+**Job 5 (soak side harvest):** no new `tmp/soak/*/report.txt` since
+session-8 close — the overnight command hasn't been run. Nothing to
+read, no tripwire, no code touched.
+
+**Job 6 (v19 intake):** Junior's ideas list still not arrived — slot
+stays open (banks verbatim to `drafts/_junior-v19-ideas-<date>.md` +
+Itexo-style triage when it lands; if it arrives bundled with his ritual
+answers, SPLIT: answers → skeleton verbatim, ideas → intake).
+
+**Close:** docs-only; suite green 804 runs / 17005 assertions, 0
+failures. No code, no wall owed. Skeleton gained the dated re-check
+block (gate-result section); adjudication still EMPTY, gaps 1–8
+unchanged; oracle surface untouched.
+
+**RESUME POINT:** ritual sessions owner-paced; when both sessions + all
+eight answers exist, the FULL harvest re-runs the r2 spark
+(`drafts/_v18-seventeenth-harvest-spark-r2-20260818.md`). Sessions
+without answers = PARTIAL: bank verbatim + hand the owner the run-sheet
+POINTERS for the asking step (wording stays virgin). Junior's side:
+nothing pending.
+
 ## 2026-08-18 v18 session 8 — autonomous coop soak SHIPPED (bot+orchestrator+checker); loopback 2×36000 green, cross-machine Tailscale episode green BOTH seats; SEVENTEENTH untouched (soak ≠ oracle)
 
 **Evidence gate (Job 0):** no ritual evidence (newest launcher log in
