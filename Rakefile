@@ -31,6 +31,13 @@ task :pilot do
   sh "ruby -Isrc harness/pilot.rb"
 end
 
+desc "Autonomous two-seat soak on a SCRATCH save (v18 session 8). N=episodes TICKS=min SEED=base; see soak/run_soak.sh header"
+task :soak do
+  # Bots are a test driver, never oracle evidence — the SEVENTEENTH's
+  # arbiter reads human launcher logs only.
+  sh "bash", "soak/run_soak.sh"
+end
+
 desc "Perf smoke (BLOCKING, machine-local): district scenario, abort if p95 tick >= 16.6ms"
 task :perf do
   ruby_code = <<~'RUBY'
