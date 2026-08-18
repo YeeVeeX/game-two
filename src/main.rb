@@ -31,11 +31,25 @@ rescue ArgumentError => e
   abort e.message
 end
 
+# v18 soak (brief D1/D2/D3): the seeded autopilot + the save override.
+# The banner is the ONE new output line and prints ONLY under --bot
+# (parse yields no :bot key otherwise — pinned); Cli.parse already
+# refused any bot in a save-owning seat without --save.
+autopilot = nil
+if (bot = opts&.dig(:bot))
+  require "app/autopilot"
+  autopilot = App::Autopilot.new(seed: bot[:seed] || App::Cli.new_seed,
+                                 quit_tick: bot[:ticks] || App::Autopilot::DEFAULT_QUIT_TICK)
+  puts autopilot.banner
+end
+save_path = opts&.dig(:save)
+save_path = File.expand_path(save_path) if save_path
+
 if opts.nil? || opts[:mode] == :solo
   require "app/window"
   require "app/save_store"
   store = App::SaveStore.new(
-    path: File.expand_path("../#{data['persistence'][:save_path]}", __dir__)
+    path: save_path || File.expand_path("../#{data['persistence'][:save_path]}", __dir__)
   )
   if opts && opts[:fresh] && data["persistence"][:backup_on_fresh]
     bak = store.backup_fresh!
@@ -57,7 +71,7 @@ if opts.nil? || opts[:mode] == :solo
   seed = App::Cli.new_seed
   puts "TELEMETRY session seed=#{seed}"
   saver = App::SaveCoordinator.new(store:, owner: true)
-  App::Window.new(seed:, save: save_facts, saver:).show
+  App::Window.new(seed:, save: save_facts, saver:, bot: autopilot).show
   exit
 end
 
@@ -67,7 +81,7 @@ require "game/save_state"
 config = data["netplay"]
 now_ms = -> { Process.clock_gettime(Process::CLOCK_MONOTONIC) * 1000.0 }
 store = App::SaveStore.new(
-  path: File.expand_path("../#{data['persistence'][:save_path]}", __dir__)
+  path: save_path || File.expand_path("../#{data['persistence'][:save_path]}", __dir__)
 )
 
 session, relaunch, saver =
@@ -139,6 +153,6 @@ if !session.host? && session.params_known? && session.params.save
 end
 
 require "app/window"
-App::Window.new(session:, relaunch:, saver:).show
+App::Window.new(session:, relaunch:, saver:, bot: autopilot).show
 warn session.refusal if session.refusal
 exit App::Cli.exit_status(reason: session.reason, refusal: session.refusal)

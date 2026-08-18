@@ -35,7 +35,7 @@ module App
 
     attr_reader :scale, :view_width, :view_height
 
-    def initialize(session: nil, relaunch: nil, seed: 0, save: nil, saver: nil)
+    def initialize(session: nil, relaunch: nil, seed: 0, save: nil, saver: nil, bot: nil)
       data = Core::DataStore.new(File.expand_path("../../data", __dir__))
       display = data["display"]
       @view_width = display[:view_width]
@@ -64,7 +64,10 @@ module App
         @telemetry = Game::Telemetry.new(@world.bus, world: @world)
       end
       bindings = Core::BindingMap.load(data, key_table: KEY_TABLE, local: true)
-      @input = Core::KeyboardInput.new(bindings: bindings.codes)
+      # v18 soak (brief D1): a bot seat swaps the keyboard for the seeded
+      # autopilot at the SAME seam — sim and session code never know.
+      @autopilot = bot
+      @input = @autopilot || Core::KeyboardInput.new(bindings: bindings.codes)
       @renderer = Renderer.new(display: display, strings:, bindings: bindings,
                                local_seat: @session ? @session.seat : 1)
       @overruns = 0
@@ -73,7 +76,15 @@ module App
 
     def update
       t0 = Gosu.milliseconds
-      @session ? update_session : @world.tick(@input)
+      if @session
+        update_session
+      else
+        # Uniform sampling law: the caller updates the source (no-op for
+        # a keyboard, the tick function for a bot/script).
+        @input.update(@world.frame)
+        @world.tick(@input)
+      end
+      autopilot_watch if @autopilot
       @overruns += 1 if Gosu.milliseconds - t0 > FRAME_BUDGET_MS
     end
 
@@ -107,11 +118,33 @@ module App
       end
     end
 
+    # Bot seat (v18 soak): quit through the SAME Esc path at quit_tick,
+    # and never hold an end screen — a bot reads logs, not screens (a
+    # held DESYNC/CONNECTION LOST screen would hang every episode).
+    def autopilot_watch
+      return if @bot_done
+      if @session
+        if @session.ended? && !@quitting
+          @bot_done = true
+          close
+        elsif !@quitting && @autopilot.quit?(@session.ticks)
+          request_quit
+        end
+      elsif @autopilot.quit?(@world.frame)
+        @bot_done = true
+        close
+      end
+    end
+
+    def request_quit
+      @quitting = true # quit! begins the BYE drain; update closes at ended?
+      @session.quit!(Process.clock_gettime(Process::CLOCK_MONOTONIC) * 1000.0)
+    end
+
     def button_down(id)
       return super unless id == Gosu::KB_ESCAPE
       if @session && !@session.ended? && !@quitting
-        @quitting = true # quit! begins the BYE drain; update closes at ended?
-        @session.quit!(Process.clock_gettime(Process::CLOCK_MONOTONIC) * 1000.0)
+        request_quit
       else
         close
       end
