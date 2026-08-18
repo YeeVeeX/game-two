@@ -1,0 +1,29 @@
+{
+  "scope": "These checks judge the OFFLINE god-view map artifact (one composed PNG: a labeled grid of every zone's full tile map, a header strip of persisted counters, seal-state stamps, a home marker). It is a reference artifact, not a gameplay frame: no creatures, no HUD bars, no controls strip are expected. Judge legibility and honesty of the world state it claims to show.",
+  "checks": [
+    {
+      "id": "map_all_zones_present",
+      "check": "Six labeled zone panels are present (ZONE 1 through ZONE 5 and HUB 1), each showing a full tile grid distinct from the dark backing - no panel is empty, cropped, or duplicated."
+    },
+    {
+      "id": "map_zone_grids_read",
+      "check": "Within each panel, walls read darker/denser against floor tiles and each zone's palette differs from its neighbors (the same warm clay/bone family as the game, one hue family per zone) - the panels read as six different places, not six copies."
+    },
+    {
+      "id": "map_seal_stamps_read",
+      "check": "Every seal-gated way carries a SEALED or OPEN text stamp; OPEN stamps sit in the gate-gold family and SEALED stamps in the plain chrome tone, and at least one of each state is legible in this artifact."
+    },
+    {
+      "id": "map_home_marker_reads",
+      "check": "Exactly ONE panel is framed with the bright white home border and its label carries the HOME suffix - the home zone is unambiguous at a glance."
+    },
+    {
+      "id": "map_header_reads",
+      "check": "The top header strip reads BANKED N / MARKS K / PROVISIONS P / BOSS 1 DEFEATS D with legible numerals, matching flat placeholder register (no fiction names anywhere in the artifact)."
+    },
+    {
+      "id": "no_render_garbage",
+      "check": "No tearing, no corrupted tiles, no text drawn over text illegibly, no obviously missing glyphs."
+    }
+  ]
+}

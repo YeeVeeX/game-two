@@ -135,6 +135,11 @@ module Game
 
     def map = @zones.fetch(@zone_name)
 
+    # v18 decision 13 (god-view artifact): read-only view of every zone's
+    # TileMap — the offline map composite renders ALL zones from the same
+    # objects the renderer draws. No sim system iterates this.
+    def zone_maps = @zones
+
     # Focused-scene start (v15 harness `start` param): begin the session in
     # a named zone. Same arrival path as any gate crossing — enter_zone owns
     # the banner/home/leash law. No in-game system calls this.

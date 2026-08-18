@@ -1,5 +1,66 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-18 v18 TDD session 3c (increment 7 GREEN — god-view v0: rake map + probes + critique PASSED; next = increment 8: docs + close, then the SEVENTEENTH)
+
+**Increment 7 — god-view v0 (decision 13, lane 6):** `rake map [SAVE=]
+[OUT=] [PROBES=1]` → `src/map_main.rb` (entry point beside main.rb)
+opens a real 320×180 GL window (Gosu.render law), constructs
+`World(data, seed: 0, save: facts)` through the SAME strict-decode path
+as play (App::SaveStore load; refusal aborts NAMED; missing file =
+honest fresh zero-state), composes ONE PNG via `App::MapArtifact` and
+closes. Artifact: header `BANKED N · MARKS K · PROVISIONS P · BOSS 1
+DEFEATS D` → six zone panels in a labeled grid sorted by display label
+(HUB 1, ZONE 1..5 — strings table, en pinned), full tile grids at 6px/
+tile with colors resolved EXACTLY as the renderer resolves them (zone
+`palette` floor/wall/transition/station ladder + `Renderer::SEAL_SLAB`
+for sealed ways — no second color table; structural lanes pin the
+source), SEALED/OPEN text stamps per seal-gated way from the save,
+possession-white frame + `· HOME` suffix on the home panel, filename
+`world_<digest8>_<ts>.png` where digest8 = the world's OWN facts digest.
+Content resolution (layout/cell_rgb/stamps/header/filename) is PURE —
+7 headless lanes in test/app/map_artifact_test.rb; `#compose` is the
+only Gosu-touching method.
+
+**Micro-decisions recorded (increment 7):** (1) GL pixel probes live in
+the TASK (`PROBES=1` renders STAGED facts — non-default home camp, one
+breach, marks/counters nonzero — then asserts breached≠sealed cell +
+breached==gate-gold + home-marker-on-home + no-marker-elsewhere +
+header-present) rather than in minitest: Junior's CI runs `rake` on a
+headless runner, and a suite that opens GL windows would kill it — the
+map gate is `rake map PROBES=1` + the critique, per decision 13's "no
+replay half". (2) The map tool moved OUT of harness/ to `src/map_main.rb`
+when the decision-7i wall pins fired (harness sources are save-BLIND by
+structural test; the map tool is save-aware BY SPEC — it is an app entry
+point, not a wall surface; the pin stays fully intact, zero exemptions).
+(3) `World#zone_maps` reader added (read-only @zones view) — the
+composite renders all zones from the same TileMap objects the renderer
+draws; no sim system iterates it (sweep-proven inert). (4) The critic
+globs `frame_*.png`, so the gate copies the provenance-named artifact to
+`frame_0000.png` beside itself — same bytes, both names kept.
+
+**MEASURED evidence (increment 7):** suite 761 green (13889 assertions;
++7 map lanes); `rake map PROBES=1` — MAP PROBES PASS 5/5; vision
+critique on the staged artifact PASS 6/6 (`harness/map_checks.json`:
+all-zones/grids-distinct/stamps/home-marker/header/no-garbage — real
+critic); artifact `captures/map/world_2f56ab53_*.png` 876×408; full
+canary sweep 18/18 byte-identical post-world.rb-reader
+(`tmp/canary_sweep_v18_inc7.log`, DONE 01:25:38); perf p95 0.194ms
+(budget 16.6).
+
+**NEXT — increment 8: docs + close:** JUNIOR.md persistence/custody
+section PT-BR-first (player-terms custody contract: the shared world
+lives on the host's machine, Junior solo = his own world, only joining
+advances the shared one — panel Kimi-Q6; the `--fresh` notice: host
+fresh → sessions counter resets, joiner sees source=fresh; pull cadence
+is schema-critical — stale seat refuses NAMED at HELLO); AGENTS.md
+Commands block (rake map / --fresh composition / saves/ / coop block);
+PARKING_LOT custody-handoff entry under the always-online trigger;
+SEVENTEENTH protocol confirm (two sessions, different days, ≥10 sim-min
+each, Half A digest-chain + Half B de-primed questions — pre-registered
+in the spec); pt-br sustain strings still FLAGGED for Junior. Then the
+cycle WAITS on the two-day fun-verify — nothing new starts (scope
+contract).
+
 ## 2026-08-18 v18 TDD session 3b (increment 6 GREEN — sustain presentation + THE Rule-2 gate PASSED with the real critic; next = increment 7: god-view v0 / rake map)
 
 **Increment 6 — sustain presentation (decisions 10 + 7iii + presentation

@@ -8,6 +8,11 @@ end
 
 task default: :test
 
+desc "God-view v0 (v18 decision 13): offline full-map PNG from data+save. [SAVE=path] [OUT=dir] [PROBES=1]"
+task :map do
+  sh "ruby -Isrc src/map_main.rb"
+end
+
 desc "Launch the game"
 task :run do
   sh "ruby -Isrc src/main.rb"
