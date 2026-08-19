@@ -41,8 +41,9 @@ block (gate-result section); adjudication still EMPTY, gaps 1–8
 unchanged; oracle surface untouched.
 
 **RESUME POINT:** ritual sessions owner-paced; when both sessions + all
-eight answers exist, the FULL harvest re-runs the r2 spark
-(`drafts/_v18-seventeenth-harvest-spark-r2-20260818.md`). Sessions
+eight answers exist, the FULL harvest re-runs the r3 spark
+(`drafts/_v18-seventeenth-harvest-spark-r3-20260818.md` — supersedes r2
+with the post-solo-link baselines + the live-launch protocol). Sessions
 without answers = PARTIAL: bank verbatim + hand the owner the run-sheet
 POINTERS for the asking step (wording stays virgin). Junior's side:
 nothing pending.
