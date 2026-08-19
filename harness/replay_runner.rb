@@ -45,9 +45,20 @@ module Harness
       @scene = SCENES.fetch(raw.fetch(:scenario)).new(**scene_kwargs)
       @input = Core::ScriptedInput.new(frames: Harness.expand_script(raw))
       @captures = raw.fetch(:captures, []).to_a
+      # Video mode (quality-flywheel lane 2, 2026-08-19): VIDEO_EVERY=<n>
+      # dumps every nth rendered frame into <out_dir>/video/ for ffmpeg
+      # assembly (harness/make_clip.sh). Env-gated and OFF by default —
+      # gate captures, manifests, and the wall stay byte-identical (the
+      # wall never sets it). Frames land in a SEPARATE subdir so
+      # manifest checks over the captures dir never see them.
+      @video_every = ENV["VIDEO_EVERY"]&.to_i
+      @video_every = nil if @video_every && @video_every < 1
+      @video_count = 0
       @run_until = raw.fetch(:run_until)
       @out_dir = out_dir_override || raw.fetch(:out_dir)
       FileUtils.mkdir_p(@out_dir)
+      @video_dir = File.join(@out_dir, "video")
+      FileUtils.mkdir_p(@video_dir) if @video_every
       @frame = 0
     end
 
@@ -59,9 +70,15 @@ module Harness
         Harness.save_opaque(Gosu.render(width, height) { @scene.draw }, path)
         puts "captured #{path}"
       end
+      if @video_every && (@frame % @video_every).zero?
+        vpath = File.join(@video_dir, format("v_%06d.png", @video_count))
+        Harness.save_opaque(Gosu.render(width, height) { @scene.draw }, vpath)
+        @video_count += 1
+      end
       @frame += 1
       if @frame >= @run_until
         puts @scene.summary if @scene.respond_to?(:summary)
+        puts "video frames: #{@video_count} -> #{@video_dir}" if @video_every
         close
       end
     end
