@@ -1,0 +1,12 @@
+{
+  "_comment": "M5a runtime audio manifest — OWNER ORIGINALS ONLY (owner order 2026-08-18: 'make sure you replace all possible placeholder audios or remove them and only use the intended originally created ones'). Every entry is a file-type fixture: PCM16 mono 48 kHz converted (24->16, rounded, clamped) from the owner's Reaper/VST renders in game-two-audio/handoff/audio-v1/ — each source sha256-verified against THAT manifest before conversion (provenance chain in drafts/_m5a-verdict-20260818.md). sha256 below pins the CONVERTED file; the loader refuses on mismatch. No generated tones, no third-party audio, ever. LUFS conformance at the game-two-assets exports gate is STILL OWED (recorded debt) — these are interim direct conversions under the same owner order.",
+  "tones": {
+    "mstem_calm_6s":     { "type": "file", "path": "files/mstem_calm_6s.wav",     "sha256": "5395f924dac043f3bd969a16211677aa08a8726f039ab2a49d25a7cffc5d47a5", "dur_s": 6.0 },
+    "mstem_combat_6s":   { "type": "file", "path": "files/mstem_combat_6s.wav",   "sha256": "dc4984a34081f5491e20581bf27d3ef9f7c2842f6bc0e55400f6beb9d21c7965", "dur_s": 6.0 },
+    "msfx_drone_4s":     { "type": "file", "path": "files/msfx_drone_4s.wav",     "sha256": "0bf47f96b50392980a0912cdd9ed632012bda8d8bb45115a315fbb426ec4153e", "dur_s": 4.0 },
+    "msfx_stinger_2s":   { "type": "file", "path": "files/msfx_stinger_2s.wav",   "sha256": "7f2fbddc8c4541e7a2b8aacb3aa004bcceed7c240ac7c0f088cee8c44feb56dd", "dur_s": 2.0 },
+    "msfx_swarmpip_4s":  { "type": "file", "path": "files/msfx_swarmpip_4s.wav",  "sha256": "4aaca8cd78ab84ec20abf4837ef8c0e14533b3ad61dfca366899a73ddb5b0a8d", "dur_s": 4.0 },
+    "mui_confirm_200ms": { "type": "file", "path": "files/mui_confirm_200ms.wav", "sha256": "dda8d5ed828287f7e4f3777734fdae8a71231aa6b419a88894713e9ad4a4dcd1", "dur_s": 0.2 },
+    "mui_ping_1200ms":   { "type": "file", "path": "files/mui_ping_1200ms.wav",   "sha256": "31c204db61b6da43f03859a371d4945c745d280b385d2a387bb1bdc2eab98a4c", "dur_s": 1.2 }
+  }
+}

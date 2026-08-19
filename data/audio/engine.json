@@ -1,0 +1,6 @@
+{
+  "_comment": "M5a: game-two's OWN audio tables (custody moved game-side 2026-08-18 owner order: no placeholder tones — owner originals or silence). Engine/timebase mirror of the library's proven values: 48000 Hz / 60 fps = 800 frames per sim tick.",
+  "sample_rate": 48000,
+  "channels": 2,
+  "tick_frames": 800
+}

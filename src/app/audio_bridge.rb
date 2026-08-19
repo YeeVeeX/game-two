@@ -13,14 +13,16 @@
 #   3. The sim tick is the only clock fed to audio (frame = tick *
 #      tick_frames; the engine clock is read ONLY at drift anchor points,
 #      never per-command, never in the per-event path).
-#   4. Cue ids stay mechanical; the event->cue mapping tables live in the
-#      AUDIO repo's data/ (custody: its seat lands cue entries behind its
-#      gate). This repo defines NO cues — it forwards events and the sink
-#      ignores unmapped ones BY DESIGN.
-#   5. Runtime audio files: the library's generated-tone fixtures or
-#      game-two-assets exports ONLY. The evaluation stems
-#      (data/audio_listen/) are FORBIDDEN at runtime — nothing here can
-#      reference them (fixture_dir renders from data/audio/fixtures.json).
+#   4. Cue ids stay mechanical; the event->cue mapping now lives in THIS
+#      repo's data/audio/*.json (custody moved game-side 2026-08-18, owner
+#      order: owner originals or silence — no placeholder tones). The
+#      tables are validated by the library's own AudioData loader.
+#   5. Runtime audio files: the owner's original renders ONLY (fixture
+#      manifest data/audio/fixtures.json — file-type entries, sha-pinned,
+#      converted from game-two-audio/handoff/audio-v1 with source shas
+#      verified against THAT manifest). The library's evaluation stems
+#      (data/audio_listen/) remain FORBIDDEN at runtime; the assets-lane
+#      LUFS gate is a recorded debt (verdict doc).
 #
 # D1 — how game-two loads the library (dev of record, M5a): a $LOAD_PATH
 # path dependency on the sibling checkout (LIB_ROOT below). Rationale: the
@@ -42,6 +44,7 @@ require "json"
 module App
   module AudioBridge
     LIB_ROOT = File.expand_path("../../../game-two-audio", __dir__)
+    DATA_DIR = File.expand_path("../../data/audio", __dir__)
     FIXTURE_DIR = File.expand_path("../../tmp/audio_fixtures", __dir__)
 
     # Drift probe cadence (contract §3 open item — measurement, not a
@@ -49,16 +52,16 @@ module App
     # 30 s of play, control thread only, printed at close.
     DRIFT_SAMPLE_TICKS = 1800
 
-    # Dev smoke choreography (--audio-smoke; tooling, below the sim — these
-    # events are the library's identity-mapped placeholders, NOT bus
-    # events): tick => [event, payload]. Proves on the real device: ui cue,
-    # sfx stinger + music duck, music state machine both ways.
+    # Dev smoke choreography (--audio-smoke; tooling, below the sim — fired
+    # by DIRECT handle_event, so music derivation is exercised via explicit
+    # music_set_state entries): tick => [event, payload]. Proves on the real
+    # device: ui confirm, stinger + music duck, music state machine both ways.
     SMOKE_SCRIPT = {
-      120 => ["toll_paid", nil],
-      300 => ["boss1_spawn", nil],
+      120 => ["banked", nil],
+      300 => ["challenger_engaged", nil],
       1200 => ["music_set_state", { state: "combat" }],
       2400 => ["music_set_state", { state: "calm" }],
-      3000 => ["toll_paid", nil]
+      3000 => ["zone_entered", nil]
     }.freeze
 
     module_function
@@ -84,7 +87,7 @@ module App
       $LOAD_PATH.unshift(src) unless $LOAD_PATH.include?(src)
       require "gta/audio_system"
       require "gta/fixtures"
-      data_dir = File.join(lib_root, "data/audio")
+      data_dir = DATA_DIR # game-two's own tables (owner originals only)
       engine_cfg = JSON.parse(File.read(File.join(data_dir, "engine.json")))
       GTA::Fixtures.ensure!(File.join(data_dir, "fixtures.json"), FIXTURE_DIR,
                             sample_rate: engine_cfg.fetch("sample_rate"))
@@ -117,6 +120,9 @@ module App
     end
 
     class Bridge
+      # Diagnostics-only reader (tests + drift probe); the sim never sees it.
+      attr_reader :audio
+
       def initialize(engine:, audio:, tick_frames:, smoke:, out:)
         @engine = engine
         @audio = audio
@@ -132,11 +138,18 @@ module App
       def active? = true
 
       # One-way wiring: EVERY registered event forwards into the sink
-      # (unmapped = nil by design — the mapping lives audio-side). The
-      # world reference is read for its frame counter only.
+      # (unmapped = nil by design — the mapping lives in data/audio). The
+      # world reference is read for its frame counter only. Music derivation
+      # (music.json state_events — data-driven, contract recommendation (a)):
+      # the named sim events request music states; the sink itself still
+      # only knows music_set_state.
       def attach(bus:, world:)
         bus.registered_types.each do |type|
           bus.subscribe(type) { |ev| @audio.handle_event(world.frame, ev.type, ev.payload) }
+        end
+        (@audio.config.music["state_events"] || {}).each do |event, state|
+          payload = { state: }.freeze
+          bus.subscribe(event.to_sym) { |_ev| @audio.handle_event(world.frame, "music_set_state", payload) }
         end
         nil
       end

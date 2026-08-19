@@ -61,20 +61,37 @@ class AudioBridgeTest < Minitest::Test
 
   # -- real-library paths (noDevice — the library's own gate mode) ---------
 
-  def test_boot_maps_placeholder_cue_and_tears_down_clean
+  def test_boot_maps_owner_cue_and_tears_down_clean
     skip "game-two-audio library not present — bridge device tests untestable here" unless lib_present?
     bridge, out = boot
     assert bridge.active?, out.string
     assert_match(/\AAUDIO on: device=0 sha=/, out.string)
     # unmapped real event: nil by design (audio is a sink)
     assert_nil bridge.handle_event(10, :attack_started, { pan: 0.5 })
-    # identity-mapped placeholder cue starts a voice
-    bridge.handle_event(20, "toll_paid")
+    # owner-approved v1 cues start voices (owner originals only — no tones)
+    bridge.handle_event(20, "banked")
     bridge.update(20)
+    assert_equal 1, bridge.audio.active_voices
+    # music boots into the owner's calm stem
+    assert_equal "calm", bridge.audio.music_state
     # shutdown is idempotent and prints the teardown receipt
     bridge.shutdown
     bridge.shutdown
     assert_match(/AUDIO teardown clean/, out.string)
+  end
+
+  # Music derivation (music.json state_events): a real World bus emit of
+  # challenger_engaged must request the combat state — data-driven, no code
+  # mapping; fight_resolved returns to calm.
+  def test_music_derivation_from_real_bus_events
+    skip "game-two-audio library not present — bridge device tests untestable here" unless lib_present?
+    world = Game::World.new(data, seed: 99)
+    bridge, = boot
+    bridge.attach(bus: world.bus, world: world)
+    world.bus.emit(:challenger_engaged, actor: nil)
+    world.bus.process
+    assert bridge.audio.music_pending?, "challenger_engaged must request combat"
+    bridge.shutdown
   end
 
   # -- pure-sink proof: attached audio changes NOTHING in the sim ----------
