@@ -1,0 +1,20 @@
+AUDIO on: device=1 sha=15f03e0219d6 lib=C:/Users/gabri/workspace/game-two-audio
+TELEMETRY persist loaded digest=602e94bbf7d417d845c73e3702fd4675 schema=1 banked=20 provisions=0 seals=2 marks=3 sessions=3 source=file
+TELEMETRY session seed=990352822
+TELEMETRY d1_fired carrying_deaths=0 wipes=0 corpse_looted=0 carried_lost=0 banked_events=0 fights=0 recovery_fights=0 negative_fights=0
+TELEMETRY a2_fired wipes=0 body_deaths=0 retargets{hate=0 lowhp=0 proximity=2 acquired=4 challenged=0} leashes=0 deepest_band=0 banked=0
+TELEMETRY d1b_fired inscriptions=0 marks_consumed=0 dissolved=0 regrown=0 tributes=0 floor_fired=0 banked_spent{inscribe=0 tribute=0} banked_end=0
+TELEMETRY q6_cadence banks{n=0 mean=0 max=0} kills_by_band{b0=4 b1=0 b2=0}
+TELEMETRY density pockets{mean=0.0 max=0} arrivals{pocket=0 seed=0 home=0} singles_pct=0
+TELEMETRY arc breach{fired=0 first_frame=0 banked_after=0} rehomed=0 camp_visits=1 d2{entered=1 kills=4} seal2_breached=0
+TELEMETRY q6_margins banks{n=0 pure=0} amount{mean=0 max=0} hp{mean=0.00} dead{mean=0.0} wounded{mean=0.0} gap{mean_s=0}
+TELEMETRY v13 whirl{casts=0 hits{1=0 2=0 3=0 4=0 5plus=0} kills=0} challenge{casts=0 retargets=0}
+TELEMETRY drift thirds{k1=0 k2=0 k3=4} pockets{p1=0.0 p2=0.0 p3=0.0} span_thirds{k1=1 k2=2 k3=1 span=182}
+TELEMETRY v14 telegraphs_shown=2 first_special{striker=never blocker=never lobber=never}
+TELEMETRY quay entries=0 frames=0 kills=0 deaths=0 banked_after{events=0 amount=0}
+TELEMETRY varekka engaged=0 chants=0 interrupted=0 seized=0 swap_escapes=0 slain=0 deaths_while_seized=0 burns=0 ends{expired=0 slain=0 died=0 zone_left=0 wiped=0}
+TELEMETRY sustain bought=0 used=0 refused=0
+TELEMETRY persist saved digest=38f1bc6233ff4a1a39f5e01f99310c85 schema=1 banked=20 provisions=0 seals=2 marks=3 sessions=4
+AUDIO drift anchor tick=1800 engine_pcm=1429920 tick_frames=800
+AUDIO drift tick=1800 engine_pcm=1429920 expected=1429920 drift_frames=0
+AUDIO teardown clean (dropped_cues=0)

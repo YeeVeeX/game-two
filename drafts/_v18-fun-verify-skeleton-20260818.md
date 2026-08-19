@@ -237,6 +237,45 @@ play moves it again first (each such log joins the chain the same
 way). Diagnostic context, not one of the four checks; NOT a ritual
 session (solo, pre-session-1 — it advances the shared world per F4).
 
+### Solo chain links #2a/#2b (2026-08-18 22:03–04 — DOUBLE-LAUNCH INCIDENT, dev fault, recorded NAMED)
+
+Dev session 12 (M5a in-game listen) double-launched `bin/play es
+--audio-smoke`: a failed pre-launch `tasklist` was masked by its
+pipeline rc (`tasklist | tail` — the $?-after-a-pipe trap, hit live
+AGAIN) so the background chain launched anyway (pid 20528, 22:03:34);
+the deliberate retry launched pid 15392 (22:03:49). TWO solo instances
+ran concurrently on the same save; the owner played one (~1 min, 4
+kills, no persisted-fact changes) and closed both cleanly ~22:04:33/39.
+Both wrote the save (clean quit law) — the chain FORKED at
+`602e94bb…`:
+
+- **#2a `game_two_session_5861.log`** (22:04:33, md5
+  `64c2abc93225bccf47dc89f2dca0cb4d`, banked in
+  `drafts/_v18-seventeenth-evidence/`) — the owner-PLAYED instance:
+  `loaded digest=602e94bbf7d417d845c73e3702fd4675 … sessions=3` →
+  `saved digest=38f1bc6233ff4a1a39f5e01f99310c85 … sessions=4`.
+  **ORPHANED**: clobbered 6 s later by #2b; `38f1bc62…` was never
+  loaded by anyone. `sustain bought=0 used=0 refused=0` (HELD).
+- **#2b `game_two_session_5847.log`** (22:04:39, md5
+  `cac30d3a25c47f9f558f4a14edf9eb30`, banked same dir) — the idle
+  window: `loaded digest=602e94bb… sessions=3` → `saved
+  digest=822b2e98814439b6295883f573f09451 … banked=20 provisions=0
+  seals=2 marks=3 sessions=4`. **SURVIVOR** — disk verified at
+  banking (play-path strict decode): LOADED `822b2e98…` sessions=4
+  banked=20 seals=2 marks=3 boss_1_defeats=1; save md5
+  `15568e1b266a3342c26ca56525c80b49`.
+
+**Chain law status:** both save moves have matching banked human logs
+(no unexplained anomaly); the fork is NAMED here so tomorrow's chain
+walk reads two `loaded 602e94bb…` lines as this incident, not as a
+breach. **The anchor moves: ritual session 1's host `persist loaded
+digest=` should now equal `822b2e98…`** (unless more solo play moves
+it again — each such log banks the same way). Fix applied same
+session: launches are now single-instance-checked with the pipeline rc
+trap avoided (verify by printed output, not `$?`). Both logs carry
+`AUDIO on/teardown clean` lines — first audio-carrying chain links
+(audio is save-blind: facts changed only by the sessions counter).
+
 ### tmp/netplay/ — the residue trap, defused for future harvesters
 
 Four `desync_*_tick60.json` artifacts existed at gate time. NONE is
