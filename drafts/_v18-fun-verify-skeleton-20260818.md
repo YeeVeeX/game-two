@@ -231,6 +231,43 @@ harvest: `AUDIO on:/off:/refused:` + drift + teardown lines are NORMAL
 context, never oracle lines; Junior's seat prints `AUDIO off: library
 not present` by design.
 
+**Re-check 2026-08-19 05:04–05:1x (session 15, spark r7 — the standing
+harvest vehicle, `drafts/_v18-seventeenth-harvest-spark-r7-20260819.md`,
+which supersedes r6): EMPTY — fifth empty gate, expected (the crashed
+session-1 attempt closed 00:06 the same night; the RE-RUN is
+owner-paced).** Launcher logs 29/29 in both temp-dir patterns, newest
+still `game_two_session_7196.log` 00:06 = the crashed attempt, CONSUMED
+(banked + classified s14, block below); zero `AUTOPILOT` lines in any
+launcher log; the only coop console remains
+`tmp/coop_console_20260818-234037.log` (banked). Save quarantine holds
+at the link-#4 values (crash saved nothing): `saves/world.json` md5
+`30ff315dc36ee183c42eb040c08e6030` mtime 22:36; play-path strict decode
+(pinned call shape) LOADED `digest=189a80723c87b90f27bc8436533d8cc1`
+sessions=6 banked=20 seals=2 marks=0 boss_1_defeats=1 provisions=0
+notices=[] — the moving anchor sits exactly where link #4 left it;
+ritual session 1's host `loaded` expectation stays `189a8072…`. Junior
+side: tip = `b155bcb` (his crash receipt, in main), nothing past main
+on any remote ref, no new `_junior-*` draft (newest = the s14-consumed
+crash/setup/v19 files, 00:10–00:20), no paste; **his seat must pull ≥
+`b6c110f` before rejoining.** **Answers 0/8.** Seat mail inbox empty
+(done/ only). Residue classified per the laws below:
+`_gate-verdicts.log` grew +18 verdict entries 00:47:14→02:29:01 = the
+s14 PAID wall (17 in-sweep verdicts — low_quay's in-sweep critic was
+killed by the timeout disruption, no verdict written — plus the
+standalone low_quay re-gate PASS at 02:29:01, the file's last entry),
+correlated with the 18 teed `tmp/wall/*_seventeenth-20260819.log`
+(00:47–02:20); the entries out-raced the `6a3e1f3` close commit
+(02:31:11) and are committed THIS session as banking, not live-session
+evidence. Suite trio `desync_00000064`/`000008a9`/`00000bf7` rewritten
+02:31 (`platform:"test"`, `dddd…`/`cccc…` fingerprints verified
+in-file) = the `6a3e1f3` close commit's hook rake. tmp/soak: newest
+report mtime 15:16:05.122993 = the session-8 report ITSELF (the
+"≤ 15:16:05" baseline was written at second precision; fractional
+boundary, same file, consumed s8) — no new runs, Job 5 empty. v19
+intake: nothing new arrived (file stays at idea 1). Skeleton stays
+PARTIAL/STANDBY; session 1 still RE-RUNS owner-paced; adjudication
+stays EMPTY.
+
 ## Pre-session evidence banked (verbatim, with provenance)
 
 ### World-save chain anchor (dev-smoke provenance — NOT ritual evidence)
