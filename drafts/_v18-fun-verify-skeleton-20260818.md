@@ -67,6 +67,42 @@ recorded BEFORE the sessions run:
    new game), temporal premise only. Recorded in the runsheet
    amendment section; any use is noted beside his answer.
 
+**Owner amendment 2 (2026-08-18 ~23:00, live in chat — dev session 13).**
+Owner verbatim (es): "yo quiero que él tenga el audio on y los assets
+que creamos ya en la versión de él para que lo testee". Effects,
+recorded BEFORE the sessions run:
+
+1. **Junior's seat runs the ritual with audio ON (intended).** No
+   game-two code change needed — the bridge boots audio on every human
+   seat; his silence was only the missing sibling library checkout.
+   Setup (docs/JUNIOR.md §"Som no jogo"): clone
+   `https://github.com/YeeVeeX/game-two-audio.git` BESIDE his game-two
+   folder + `bundle install` (ffi arrives prebuilt, lock pins
+   `1.17.4-x64-mingw-ucrt`). Both repos verified PUBLIC — no access
+   grant needed. The owner-original renders themselves already travel
+   in game-two (`data/audio/files/`, sha-pinned) — his `git pull`
+   carries them; the clone adds only the engine (DLL + src, vendor-sha
+   law enforced at his boot too).
+2. **Pre-registered caveat 2 (novelty/ASYMMETRY) is AMENDED:** intended
+   state = both seats sounded — the silent-seat asymmetry dissolves and
+   the confound becomes SYMMETRIC novelty (both hear the owner-original
+   audio during the ritual; first exposure for Junior, first coop
+   exposure for the owner). FALLBACK recorded: if his console prints
+   `AUDIO off`/`AUDIO refused` (clone missing, sha mismatch, device
+   fail), his seat plays silent, the session STAYS VALID (audio is
+   optional by design), and the ORIGINAL asymmetry caveat stands
+   unchanged. **Which branch applied is read at harvest from the
+   `AUDIO on:/off:/refused:` line in each seat's session log** — never
+   assumed.
+3. **Origin bootability PROVEN on this machine (2026-08-18 22:58):**
+   fresh `git clone --depth 1` of origin/master (`c1123af`, == the
+   audio seat's local HEAD) booted the bridge in noDevice mode, cue
+   played, teardown clean — verbatim:
+   `AUDIO on: device=0 sha=15f03e0219d6 lib=C:/Users/gabri/workspace/game-two/tmp/audio_clone_check`
+   + `AUDIO teardown clean (dropped_cues=0)`. What Junior clones is
+   what booted. Oracle checks unchanged; audio stays a pure sink;
+   `data/**` and TELEMETRY wording untouched by this amendment.
+
 ## Evidence gate result (2026-08-18 ~02:47–03:05, this machine)
 
 - **Launcher session logs:** newest `game_two_session_*.log` in BOTH

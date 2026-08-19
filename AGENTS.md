@@ -62,7 +62,11 @@ sessions in a single day"; ritual moves to TOMORROW). Half A is
 mechanically intact (two separate launches; session 2 must load
 session 1's save). Two RECORDED adjudication caveats: the felt-half
 "return later" weakens at same-day spacing, and the ritual now runs
-on an audio-carrying build (M5a below) with host-only sound.
+on an audio-carrying build (M5a below) — BOTH seats sounded by owner
+order (2026-08-18 ~23:00, verbatim in the skeleton: Junior clones the
+audio library repo, JUNIOR.md §"Som no jogo"; his console's `AUDIO
+on/off/refused` line decides at harvest whether the caveat reads
+symmetric-novelty or the original silent-seat asymmetry).
 
 **Seat:** dev of record = the main session. Working language: English.
 Junior's seat is ACTIVE (CI, PT-BR functional labels, playtesting) —

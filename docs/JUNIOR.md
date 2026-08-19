@@ -181,6 +181,28 @@ do console (em drafts/ ou mensagem) e responda as perguntas quando o
 Gabriel fizer — é o ritual de toda verificação (a 16ª fechou assim;
 a 17ª vem aí).
 
+### Som no jogo (novo — os sons que o Gabriel criou)
+
+O jogo agora toca os sons que o Gabriel gravou (música, aviso de
+chefe, confirmações). Para OUVIR na sua máquina, uma preparação única:
+
+1. **Clone a biblioteca de som DO LADO da pasta do jogo** (mesma pasta
+   mãe — o jogo procura por `../game-two-audio`):
+   ```
+   cd ..
+   git clone https://github.com/YeeVeeX/game-two-audio.git
+   cd game-two
+   ```
+2. **`bundle install`** (entra uma gem nova, `ffi` — já vem pronta,
+   não compila nada).
+3. **Jogue normal.** No log da partida aparece `AUDIO on: ...` = som
+   ligado.
+
+Se aparecer `AUDIO off` ou `AUDIO refused`: o jogo roda normal, em
+silêncio, e a partida VALE do mesmo jeito — só mande a linha que
+apareceu. O som nunca mexe na partida em si (não afeta o co-op nem o
+mundo salvo); é só o que sai na caixa.
+
 ### O mundo agora continua (v18 — persistência)
 
 O mundo não zera mais a cada partida: banco, selos rompidos, marcas,

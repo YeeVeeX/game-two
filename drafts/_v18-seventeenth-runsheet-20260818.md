@@ -88,8 +88,14 @@ segundo dia, ..." — misma sustancia, solo la premisa temporal; si se
 usa, se anota junto a su respuesta.
 
 Además: las sesiones de mañana corren sobre una build CON audio
-(integración M5a, orden del dueño en vivo) y el sonido sale SOLO en la
-máquina del dueño (la de Junior no tiene la librería — su juego corre
-en silencio, igual que siempre). El que evalúa registra ese contexto
-como salvedad junto a las respuestas; los chequeos de la Media A no
-cambian en nada.
+(integración M5a, orden del dueño en vivo) y el dueño ordenó esa misma
+noche que Junior TAMBIÉN tenga el sonido ("yo quiero que él tenga el
+audio on y los assets que creamos ya en la versión de él para que lo
+testee" — verbatim, en el chat del dev). Preparación del lado de
+Junior: docs/JUNIOR.md §"Som no jogo" (clonar la librería de sonido al
+lado de la carpeta del juego + `bundle install`). La consola de él dice
+cuál salvedad aplica — `AUDIO on:` = sonido en las DOS máquinas (la
+salvedad pasa a ser novedad simétrica: los dos oyen el material nuevo
+durante el ritual); `AUDIO off`/`AUDIO refused` = su máquina sigue en
+silencio y la salvedad original de asimetría queda tal cual. En los dos
+casos la partida VALE y los chequeos de la Media A no cambian en nada.

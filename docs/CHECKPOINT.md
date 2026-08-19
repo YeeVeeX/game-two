@@ -51,7 +51,32 @@ owner run-sheet POINTERS (wording stays virgin). Owner asks to play
 mid-session → r5's live-launch protocol (single-instance guard FIRST
 in a separate call judged by printed output, no `--fresh`, detached
 launch, judge by the log at close, priming quarantine while answers
-pend). Junior's side: nothing pending.
+pend).
+
+**Addendum (same night, ~23:00 — owner order live in chat): Junior's
+seat goes AUDIO ON for the ritual.** Owner verbatim (es): "yo quiero
+que él tenga el audio on y los assets que creamos ya en la versión de
+él para que lo testee" — recorded as owner amendment 2 in the skeleton
+(caveat 2 amended: symmetric novelty if his boot lands; original
+asymmetry stands if his console prints `AUDIO off/refused` — his log's
+AUDIO line decides at harvest, never assumed). No game-two code change
+(the bridge boots audio on every human seat; only the sibling library
+checkout was missing on his machine). Shipped: JUNIOR.md §"Som no
+jogo" (pt-br setup: clone `game-two-audio` beside the game +
+`bundle install`; ffi prebuilt in the lock); runsheet amendment
+paragraph updated (both-seats sound, which-caveat-applies rule);
+AGENTS.md scope line "host-only sound" → both-seats-by-order. Both
+repos verified PUBLIC (no access grant). **Origin bootability PROVEN:**
+fresh `--depth 1` clone of audio origin/master (`c1123af`) booted the
+bridge noDevice — `AUDIO on: device=0 sha=15f03e0219d6` + clean
+teardown, verbatim in the skeleton. Receipt mailed to
+`mail/game-two-audio/from-game-two-junior-audio-distribution.md` (their
+no-second-copy law holds: Junior gets a checkout of THEIR repo; DLL
+never copied into game-two). Oracle surface: TELEMETRY/bin/play*/
+questions/`data/**` untouched; JUNIOR.md + runsheet + AGENTS.md edits
+are the owner-ordered amendment, recorded NAMED here and in the
+skeleton. **Junior's side NOW PENDING: the one-time audio setup before
+tomorrow's ritual (owner relays; steps in his doc).**
 
 ## 2026-08-18 v18 session 12 — M5a AUDIO INTEGRATION SHIPPED same night (owner override + owner-originals order); ritual moved to TOMORROW (same-day pair allowed); four solo chain links banked; anchor now 189a8072
 
