@@ -43,6 +43,15 @@ Dev reading (flagged in chat): "without threads on some radio" =
 - **D4 — Holes are ONE-WAY** (owner-ratified): falling commits you;
   rope spots (station-type interact) are the way back up. Rope = free
   interact v0; whether a rope is an ITEM waits for the items cycle.
+  **Amendment (owner, same day — revisitability):** a hole may declare
+  `stairs_unlocked_by: <fact>` — when that breach-family persistent
+  fact is set, the hole renders and behaves as two-way stairs (the
+  shortcut-unlock pattern: Zelda dungeon shortcuts / Souls elevator;
+  the quest era later re-skins the unlock beat). Backtracking comfort
+  is a designed loop, not an accident: towns/zones stay revisitable
+  (materials, future NPCs/quests) per the owner's WoW/TES framing.
+  Schema lands in T2; DUNGEON 1 MAY use one if authoring time allows
+  (optional, not owed in the pilot).
 - **D5 — No cross-floor effects, ever** (council fold): projectiles,
   AoE, AI pursuit, targeting never cross a transition. Structurally
   true today; now law so nothing gets designed against it.

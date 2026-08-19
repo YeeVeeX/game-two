@@ -130,6 +130,44 @@ top-down 2D survival sim, grid world, legible survival UI.
 - **Effort when built:** the UI alone M–L; rides the items cycle,
   never alone.
 
+## Idea 4 — leveling/XP + skill/spell system + level-gated world (owner, 2026-08-19)
+
+**Provenance:** owner, live chat 2026-08-19 (world-builder grill close,
+mid-revisitability idea). Owner verbatim (English):
+
+> oh true! We need to start thinking on a leveling up/experience and
+> skill/spell system too! … just to enable the game areas to be
+> re-visiteable and unlock different level zones/dungeons across the
+> world like for example WoW does or other MMORPGs, even The Elder
+> Scrolls do
+
+**Triage: BANK (v19 brainstorm input) — likely THE headline debate of
+the next cycle beside items/backpack.** Pre-banked evidence so the
+brainstorm starts real, not from scratch:
+
+- **Verified shelf note ready:** `rpg-xp-curves-and-leveling-formulas`
+  (game-research KB, verified 2026-08-09) — XP curve shapes, death-
+  penalty-as-XP-fraction framing, instrumentation advice. Query it at
+  the debate, never re-derive.
+- **Connects to banked intake idea 3** (CryoFall skills tally panel —
+  presumes a skill system; now the owner names one) and to the parked
+  Kethral lane (skill-through-use progression) and the v11 arc/purpose
+  wishlist ("progress, leveling" — owner verbatim 2026-08-12).
+- **Touchstones named:** WoW / MMORPGs / The Elder Scrolls (level-
+  gated zones); Tibia's skill-through-use + no-level-cap model is the
+  in-genre alternative (KB note `tibia-mechanics-lore-and-virtual-
+  world` §4.1) — the brainstorm's first fork is Tibia-style
+  use-based vs XP-level-based, and it interacts with possession
+  (WHOSE level: the pack, the body, the player-soul?).
+- **Level-gated zones = fact-gated transitions** — the machinery
+  ships in the world-builder lane TODAY (boss_1_defeats gate, D12/
+  well-drain pattern); a future `level ≥ N` gate is the same shape
+  reading a progression fact. Zero pre-build owed.
+- **Save impact:** progression facts grow the save vocabulary =
+  schema-v2-class work; braids with items/backpack chain step 5.
+- **Sim class, obviously** — nothing ships pre-verdict; measurement
+  hygiene untouched.
+
 ## Slot status
 
 Nothing else arrived (no paste, no drafts file beyond this relay, no

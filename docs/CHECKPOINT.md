@@ -1,5 +1,65 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-19 session 18 (hub, owner LIVE) — WORLD-BUILDER LANE opened, grilled, spec'd (D1–D12 + T1–T5), T1 spark staged; council consult folded; 3 sibling mails out; intake +2 ideas; ritual state UNTOUCHED
+
+**Owner-directed day (same calendar day as session 17's flywheel
+fixes; wall `flywheel1-20260819` still sweeping at close — 12/18 PASS,
+zero failures; receipt harvest = next session's Job 0).** The owner
+co-designed live in the hub chat; everything ratified is RECORDED:
+
+- **Lane 3 opened (AGENTS.md `2471b5d`):** existing six-zone world =
+  the game's INTRODUCTION ARC (owner framing); expansion via an
+  authoring pipeline — LDtk front-end + strict importer + floors
+  (typed transitions) + region layer + tile-type grammar (safe vs
+  sim-class split). Live god-mode stays the staged later rung.
+- **Grill CLOSED → spec CLOSED:**
+  `docs/superpowers/specs/2026-08-19-world-builder-pipeline.md`
+  (D1–D12 + tickets T1–T5; `fdc6c57` + amendment). Owner ratified:
+  post-verdict merge law (D12) · one-way holes + same-day
+  shortcut-unlock amendment (`stairs_unlocked_by` fact, D4) ·
+  footsteps+ambience as first SAFE family (framed as polish; the
+  aliveness bet = first hazard tile at the verdict gate, D8's
+  10-minute rule) · pilot vision VERBATIM in the spec: ZONE 7
+  (peaceful open zone) + TOWN 1 (houses/basements/depot-v0/slots) +
+  THE WELL (drain = breach-family fact) → one-way hole → DUNGEON 1,
+  gated on `boss_1_defeats ≥ 1` (Kakariko touchstone).
+- **Council consult (2 asks, $0.01, receipts
+  `tmp/council_ds_worldbuilder.json` / `tmp/council_qw_direction.json`,
+  folds committed `f7120c5`):** 7 hardenings adopted (LDtk version
+  PIN · wall-scales-by-SURFACE · no-cross-floor-effects law ·
+  save-stays-facts-only · respawn-untouched-by-floors · no-runtime-
+  variant-randomness · the 10-minute tile admission rule). REFUTEDs
+  re-verified and named (audio-leak claim false — pure sink holds;
+  "no juice" claim false — codebase disproves; hidden-instakill-tile
+  pitch REJECTED on legibility law).
+- **Sibling mails dispatched (informational, receipts expected):**
+  assets (tile-sized modular sheets + per-tile material metadata
+  constraint + owner style signals — CryoFall charm) · audio (two
+  future cue families: footstep materials + region ambience; nothing
+  owed) · lore (world grows, placeholder law unchanged). Assets
+  repin receipt `from-game-two-assets-repin-1360b272` consumed →
+  done/ (their baseline moved to `1360b27` clean).
+- **Intake grew (equal peer standing):** idea 3 = CryoFall
+  inventory/stats menu touchstone (+6 reference images banked
+  untracked, md5s in the grill record) · idea 4 = leveling/XP +
+  skill/spell system + level-gated world (WoW/TES framing; verified
+  KB note `rpg-xp-curves-and-leveling-formulas` pre-staged; braids
+  with items/backpack at the v19 brainstorm). PARKING_LOT banks:
+  housing · dimensions/time · fishing family · live select-and-place
+  god mode · ambient fauna · town system SLOTS.
+- **Ritual state UNTOUCHED (measurement hygiene absolute):** anchor
+  `189a8072…` (save md5 `30ff315d…`, sessions=6), answers 0/8,
+  newest temp log `7196` CONSUMED, count 29/29. Nothing this lane
+  ships touches the measured world until D12 fires post-verdict.
+
+**RESUME POINT:** next dev session = **T1 spark**
+`drafts/_wb-t1-ldtk-spike-spark-20260819.md` (wall receipt harvest +
+compressed standing gate + LDtk spike → GO/NO-GO findings). Junior
+pulls CURRENT main. Owner-pending unchanged (ambient ear-check · his
+7 attack renders · the ritual when Junior is available) — never nag.
+The SEVENTEENTH still outranks everything the moment its evidence
+appears.
+
 ## 2026-08-19 v18 session 17 — SEVENTEENTH gate re-run (spark r9): EMPTY (seventh) — then flywheel job 1 EXECUTED: all 10 critique claims verified against code + exact frames, 3 renderer fixes SHIPPED behind the gate (+0 beat suppression · enemy strike tiles · possessed hurt vignette), 7 items RECORDED; wall sweep detached at close
 
 **Mode: EMPTY at the gate (13:47–13:53, seventh — expected, ritual
