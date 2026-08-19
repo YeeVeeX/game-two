@@ -185,9 +185,11 @@ module Game
         frame = @world ? @world.frame : 0
         @margin_gaps << frame - @last_bank_frame if @last_bank_frame
         @last_bank_frame = frame
+        # A seat waiting for body (v17 decision 3) has possessed == nil —
+        # sample hp 0.0, same fallback as no-world (ritual crash 2026-08-19).
         @margin_samples << {
           amount: e[:amount],
-          hp: @world ? @world.possessed.hp / @world.possessed.max_hp.to_f : 0.0,
+          hp: (body = @world&.possessed) ? body.hp / body.max_hp.to_f : 0.0,
           dead: @world ? @world.pack.members.count(&:dead?) : 0,
           wounded: @world ? @world.pack.living.count { |m| m.hp < m.max_hp } : 0
         }

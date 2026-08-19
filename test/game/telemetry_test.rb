@@ -378,6 +378,31 @@ class TelemetryTest < Minitest::Test
                  t.q6_margins_summary
   end
 
+  # v18 ritual crash (2026-08-19, host log game_two_session_7196): in coop,
+  # a seat whose body died while the partner holds the last living flesh has
+  # possessed == nil (v17 decision 3 — WAITING FOR BODY). A :banked fired in
+  # that window crashed the sampler (NoMethodError on nil.hp) and killed the
+  # session on both seats. A fleshless seat samples hp=0.0 — same honest
+  # fallback as the no-world case.
+  def test_q6_margins_bank_while_seat_waits_for_body_does_not_crash
+    bus = Core::EventBus.new.register(*ALL_TELEMETRY_EVENTS)
+    w = Object.new
+    w.define_singleton_method(:frame) { 600 }
+    w.define_singleton_method(:zone_name) { "district" }
+    pack = Object.new
+    pack.define_singleton_method(:members) { [] }
+    pack.define_singleton_method(:living) { [] }
+    w.define_singleton_method(:pack) { pack }
+    w.define_singleton_method(:possessed) { nil } # seat is waiting for body
+    t = Game::Telemetry.new(bus, world: w)
+
+    bus.emit(:banked, actor: nil, amount: 10, banked: 10)
+    bus.process
+
+    assert_match(/banks\{n=1 pure=1\}/, t.q6_margins_summary)
+    assert_match(/hp\{mean=0\.00\}/, t.q6_margins_summary)
+  end
+
   def test_arc_and_margins_lines_appear_in_full_summary
     bus = Core::EventBus.new.register(*ALL_TELEMETRY_EVENTS)
     t = Game::Telemetry.new(bus)
