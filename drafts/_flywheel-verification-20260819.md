@@ -76,6 +76,20 @@ the critique's re-check list items 2/5, wall sweep detached.
   exist as data (`pop_frames`, `kill_pop_flash_frames`) — only if the
   owner asks for more punch after seeing the next clip.
 
-## Re-check results (post-fix, same script)
+## Re-check results (post-fix, same script — clip `low_quay_run_20260819-152230`, 4306 frames, deterministic re-cut)
 
-Filled after the re-cut below.
+| Site | Pre-fix | Post-fix | Verdict |
+|------|---------|----------|---------|
+| v_000729 (t=0:24.30) | solo "+0" panel over HUB 1 + TOLL PAID | panel GONE; HUB 1 + TOLL PAID intact | fix 1 works |
+| v_002492 (t=1:23.07) | solo "+0" panel over ZONE 1 banner | panel GONE | fix 1 works |
+| v_003836 (t=2:07.87) | solo "+0" panel over live field | panel GONE | fix 1 works |
+| v_001565 (t=0:52.17) | "+6" real beat | "+6" STILL SHOWS | suppression didn't over-reach |
+| v_000404–406 (t=13.47 hit) | telegraph only; landed hit invisible; hurt read = body flicker only | **enemy ring-strike tiles in hostile red around the attacker (pixel scan: 68→**1000–1196** strike-family px) + crimson edge vignette on all four edges (v_000404–407 = 8 sim frames, exactly the hurt window) + body flicker** — cause and effect in one frame | fixes 2+3 work |
+| v_000437–439, v_000467–469 | — | further enemy strike windows visible (spikes 1148/806–858 px) | fix 2 fires on every enemy strike |
+
+Gate receipts: fix 1 `48cf0db` gate PASS (re-run; first run's critic
+FAIL on `possession_ring_moves` was factually wrong — frame_1457 rings
+the rust blocker, frame_2750 the ember striker, verified by eye; the
+re-run critic confirmed with the same two frames named; determinism
+11/11 both runs). Fix 3 `abc9f53` gate PASS. Fix 2 `1360b27` gate
+PASS. Wall sweep `flywheel1-20260819` detached at session close.
