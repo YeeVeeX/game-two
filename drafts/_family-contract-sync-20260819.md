@@ -65,3 +65,14 @@ only on owner go (free seats only).
 Spot-check (hub, read-only): audio + lore applied blocks re-extracted and
 md5-verified == canonical. Spokes: 3/3 one-pass, drift=none, budgets held
 (docs-only, $0).
+
+## Adjacent assessment — portfolio-spine (2026-08-19, owner ask)
+
+Scanned read-only: bootstrap NOT needed (model-shape AGENTS.md + CLAUDE.md
+already a pointer — it pioneered the pattern we rolled out today); the
+game-two family block does NOT apply (personal multi-project infrastructure,
+sovereign contract). Leverage route = register the family's DOC surfaces as
+sync sources through ITS own human-confirmed loop (AI-proposes law: preview
+uploads nothing, only the owner's approve moves bytes). Owner card staged:
+`drafts/_portfolio-spine-onboarding-20260819.md` (commands + include_globs;
+lore excluded while dormant; Junior-as-reports-reader = owner call).
