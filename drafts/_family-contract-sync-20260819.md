@@ -55,9 +55,13 @@ only on owner go (free seats only).
     session: (1) read AGENTS.md fully; (2) `git pull` before working
     and before every push.
 
-## Receipts (harvested back here)
+## Receipts (harvested 2026-08-19, spokes family-audio/gamesmith/lore + assets by mail)
 
-- [ ] game-two-audio: RECEIPT pending
-- [ ] game-two-assets: RECEIPT pending
-- [ ] gamesmith: RECEIPT pending
-- [ ] game-two-lore: RECEIPT pending
+- [x] game-two-audio: `RECEIPT: family-block applied md5=e047569834a75e4073834ebf9705d715 repo=game-two-audio commit=d3bd03121bbd0cddcc7faea99deb5186f4a77d18 claude_md=created | drift=none`
+- [ ] game-two-assets: mail pending (seat HELD by a live session — applies at its own pace)
+- [x] gamesmith: `RECEIPT: family-block applied md5=e047569834a75e4073834ebf9705d715 repo=gamesmith commit=e13de13 claude_md=created | drift=none`
+- [x] game-two-lore: `RECEIPT: family-block applied md5=e047569834a75e4073834ebf9705d715 repo=game-two-lore commit=bd45462 claude_md=demoted-to-pointer | drift=none`
+
+Spot-check (hub, read-only): audio + lore applied blocks re-extracted and
+md5-verified == canonical. Spokes: 3/3 one-pass, drift=none, budgets held
+(docs-only, $0).
