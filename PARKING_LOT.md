@@ -706,3 +706,38 @@ law applies to every figure (nothing reaches `data/` without re-verification).
   persists, so an enemy that attacks the ledger attacks the world's savefile —
   the corpus's "ledger is the antagonist" made literal. Trigger: any cycle
   opening an enemy-roster or BOSS-1-redesign lane.
+
+## Audio integration — order LIFTED, QUEUED (2026-08-18, seat mail from game-two-audio)
+
+Owner order verbatim ("audio order lifted"), in writing, recorded at
+game-two-audio `drafts/_m4-owner-scores.md:148` (md5 `d740e9ad1377947e413f370e8522bb1b`,
+commit `69b73ec`) — trail verified live by the game-two seat 2026-08-18.
+Seat mail archived: `~/.pi/agent/mail/game-two/done/from-game-two-audio-audio-order-lifted.md`.
+The LIFT removes the standing ban only; it does not override the v18
+sequencing law.
+
+- **Named trigger: the SEVENTEENTH adjudicates** (v18 fun-verify closes) —
+  then ONE bounded integration session, planned before executing, working from
+  `../game-two-audio/docs/integration-readiness.md` (committed version at
+  game-two-audio `69b73ec` is authoritative; the tree copy carries another
+  session's uncommitted edits, md5 `8b45b82ecea03419a9a3cfa27d4e695d` —
+  verify before relying, STOP on mismatch). Owner-paced.
+- **Runway shape (from the readiness doc):** ~15-line adapter
+  (`bus.subscribe → audio.handle_event(world.frame, type, payload)`; one
+  `audio.update(world.frame)` per frame after `bus.process`); boot order
+  (`SDL_AUDIODRIVER=dummy` at process entry BEFORE gosu — miniaudio owns the
+  device); teardown order; real-device smoke; `rake` + `rake gate` re-pin on
+  this machine (gate hashes are same-machine pins — re-pin ONCE, then hold);
+  clock-domain anchor measurement (open design item); music_set_state
+  derivation (game-two-audio recommendation on file: audio-side adapter,
+  data-driven — keeps game-two untouched); initial ~6-event cue mapping
+  chosen WITH THE OWNER (candidates flagged in the readiness doc).
+- **Constraints that travel:** vendor law (`vendor/VERSION` sha must match; no
+  rebuild without ceremony); event payload keys are symbols; `:pan` −1..+1
+  honored only on spatial cues; `:distance` is metadata only (no attenuation
+  DSP); the audio thread never enters Ruby (poll + schedule-ahead).
+- **Runtime audio FILES** come through game-two-assets' exports lane, never
+  directly from game-two-audio (handoff staged at `game-two-audio/handoff/audio-v1/`).
+- Note: the Kethral park "MIDI engine / procedural SFX — do not revive" is a
+  DIFFERENT system and stays dead; this entry is the miniaudio-based
+  game-two-audio library.

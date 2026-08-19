@@ -69,8 +69,13 @@ appearance; item/equipment system; in-game chat/channels; >2 players;
 assets integration (gated on game-two-assets pipeline maturity);
 rollback/resync; open-internet play (Tailscale = trusted overlay
 only); BOSS-1-dread iteration (OPEN-FOR-EXPOSURE — zero code owed);
-all lore/creative writing (standing order above); audio (owner order);
-in-game rebind UI.
+all lore/creative writing (standing order above); audio integration
+(owner order LIFTED in writing 2026-08-18 — trail:
+`../game-two-audio/drafts/_m4-owner-scores.md` @ `69b73ec`; STILL out
+of v18 — the bounded integration session is QUEUED in PARKING_LOT.md
+behind the SEVENTEENTH per the nothing-new-starts law; contract:
+`../game-two-audio/docs/integration-readiness.md`, committed version
+authoritative); in-game rebind UI.
 **Nothing new starts until v18 is fun-verified (the SEVENTEENTH ask).**
 
 ## Human-facing surfaces
@@ -213,8 +218,9 @@ scope for this repo. (Historical pipeline: see git history of this file.)
   lives in git — commit at cycle close. Only `drafts/_tibia-videos/` (media corpus) stays
   ignored. The wall runner is `harness/run_wall.sh`, never a tmp/ scratch copy.
 - **Orchestration (owner-adopted 2026-08-18)**: the dev-of-record chat is the HUB — the
-  humans manage everything through that one chat. Sibling-repo fan-outs (lore / assets /
-  audio — banking-only while their standing orders hold) run as bounded headless sessions
+  humans manage everything through that one chat. Sibling-repo fan-outs (lore / assets — banking-only
+  while their standing orders hold; audio — order LIFTED 2026-08-18, integration queued
+  behind the SEVENTEENTH) run as bounded headless sessions
   per the `seat-orchestration` skill: routes decided in a drafts/ triage doc FIRST,
   prompts digest-stamped (md5), free seats only, one pass per spoke, `RECEIPT:` paths
   harvested back into the routing doc. Spokes surface exactly two things for humans: seat
