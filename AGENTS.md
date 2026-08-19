@@ -97,6 +97,23 @@ verdict: assets LUFS lane · audio-seat clock-anchor fix (drift ≈800
 frames/s measured 2×) · drone/swarmpip placement · level tuning.
 **Nothing ELSE new starts until v18 is fun-verified (the SEVENTEENTH
 ask)** — M5a is the one owner-ordered exception.
+**Owner direction 2026-08-19 (live, session 16 — M5a-precedent
+override): the tuning/build freeze is LIFTED while the SEVENTEENTH
+stays pending.** The quality-flywheel program runs owner-directed
+(contract: `drafts/_quality-flywheel-plan-20260819.md`): soak
+zone-coverage (bot-gated `--start-zone`, seeded scratch saves,
+SOAK_AUDIO), deterministic clips + self-eval critique
+(`harness/make_clip.sh` / `harness/self_eval.py`; every critique claim
+VERIFIED against code + exact frames before becoming a work item —
+sampling-artifact law), audio retunes on owner ask (drone ambient +
+−6 dB shipped `d91281a`; attack-cue spec staged). **Measurement
+hygiene is UNTOUCHED and absolute:** ritual questions virgin, TELEMETRY
+oracle wording / runsheet / JUNIOR.md frozen, bot logs never
+fun-evidence, respawn/difficulty/sustain SIM numbers wait for the
+verdict (they ARE the measured questions); flywheel fixes ship
+renderer/data surfaces only, each behind the Rule 2 gate; sim-touching
+candidates are v19-class, RECORDED. The ritual + adjudication protocol
+is unchanged.
 
 ## Human-facing surfaces
 
