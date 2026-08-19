@@ -1,9 +1,12 @@
 # SPARK: v18 session 17 — the SEVENTEENTH: full harvest + adjudication (or honest PARTIAL/EMPTY) + flywheel job 1: critique verification pass + verified renderer fixes
 
 You are the dev of record in game-two (cwd `~/workspace/game-two`).
-Read `AGENTS.md` FIRST (rule 8) — the scope block now carries the
-owner's 2026-08-19 flywheel override, RECORDED; the live file beats
-this spark on any drift. Ruby per shell:
+Read `AGENTS.md` FIRST (rule 8) — RESTRUCTURED 2026-08-19: operating
+model (peer model: Gabriel + Junior co-direct with equal creative
+standing; each seat's agent = dev of record for ITS session; owner
+overrides = law, recorded in one line) + the two permanent red lines
+(quality gates · measurement hygiene) + current-cycle lanes; the live
+file beats this spark on any drift. Ruby per shell:
 `export PATH="/c/Ruby34-x64/bin:$PATH"`. Working language English;
 owner surfaces es-CR ustedeo; Junior pt-br; everyday gamer words
 (register law — the foreclosure-register audit applies to your own
@@ -72,6 +75,15 @@ owner pivot + post-power-cut continuation):**
 - **v19 intake: idea 2 banked** (owner: safe zones vs battle zones —
   Tibia PZ touchstone INCLUDING the combat-lock trap; BANK,
   post-verdict class). Intake file now carries 2 ideas.
+- **AGENTS.md RESTRUCTURED (`c972044`) + peer model + CLAUDE.md
+  (`099e440`, owner order):** the cycle block is now operating-model +
+  current-lanes (v17/M5a history moved to checkpoint + git log);
+  Gabriel + Junior are PEERS — both contribute design/code/creative
+  with equal standing, neither is the other's worker; `CLAUDE.md` is a
+  thin pointer so Junior's Claude sessions load the SAME contract
+  (AGENTS.md wins on any disagreement). Soak env vars
+  (ZONES/SEED_SAVE/SOAK_AUDIO) + clip/critique commands are now
+  documented in AGENTS.md §Commands.
 
 The moving anchor is UNCHANGED since link #4:
 `189a80723c87b90f27bc8436533d8cc1` (sessions=6, save md5
@@ -82,7 +94,8 @@ never nag the humans to play.
 
 ## Read first, in order
 
-1. `AGENTS.md` — whole file (the scope block moved: flywheel override).
+1. `AGENTS.md` — whole file (restructured: operating model + peer
+   seats + current lanes; CLAUDE.md is Junior's pointer to it).
 2. `docs/CHECKPOINT.md` — top TWO entries (s16 double entry; s15).
 3. `drafts/_v18-fun-verify-skeleton-20260818.md` — THE working file:
    ritual + owner-amendment blocks (now including the 2026-08-19
@@ -111,10 +124,11 @@ never nag the humans to play.
 
 ## Job 0 — evidence inventory (three-mode gate; ~30 min, blocking; runs FIRST no matter what)
 
-Baselines at session-16 close (2026-08-19 ~13:1x; s16 commits =
+Baselines at session-16 close (2026-08-19 ~14:0x; s16 commits =
 `2786754` · `d91281a` · `fd006f9` · `1917cca` · `34c9939` · `4bebc37`
-· `8cff809` · `9e4be7f` · the AGENTS/r9 close commit = HEAD; `git log`
-disambiguates):
+· `8cff809` · `9e4be7f` · `0af91b9` (r9 + override paragraph) ·
+`c972044` (AGENTS restructure) · `099e440` (peer model + CLAUDE.md) ·
+the r9-update commit = HEAD; `git log` disambiguates):
 
 - **Launcher logs: 29/29 both patterns**
   (`/tmp/game_two_session_*.log` AND
@@ -145,13 +159,16 @@ disambiguates):
 - **Junior baseline:** tip `b155bcb`; anything past it arrives by
   paste, drafts file, or commit. **His seat must pull CURRENT main
   before joining** (the audio retune moved tree content → stale seat =
-  named handshake refusal; plain `git pull` fixes). His AUDIO
-  `on:/off:/refused:` line is read VERBATIM at harvest — it decides
-  the Half-B caveat branch (on = symmetric novelty; off/refused =
-  original asymmetry). Never assume; read the line.
+  named handshake refusal; plain `git pull` fixes) — the same pull
+  hands his Claude the peer contract (CLAUDE.md → AGENTS.md). His
+  AUDIO `on:/off:/refused:` line is read VERBATIM at harvest — it
+  decides the Half-B caveat branch (on = symmetric novelty;
+  off/refused = original asymmetry). Never assume; read the line.
+  Peer law: his ideas/commits/creative contributions get the same
+  intake standing as the owner's.
 - **Residue baselines:** suite desync trio
   (`desync_00000064`/`000008a9`/`00000bf7`, `platform:"test"`,
-  `dddd…`/`cccc…`) rewritten by EVERY hook rake — s16 made 9 commits;
+  `dddd…`/`cccc…`) rewritten by EVERY hook rake — s16 made 12 commits;
   correlate mtimes with `git log` commit times.
   `drafts/_gate-verdicts.log` last entry still
   `=== 20260819-022901 captures\pilot\quay8_r10_replay_gate_a ===`
@@ -312,12 +329,12 @@ bash-call timeout).
 
 ## Job 8 — v19 intake slot (docs-only)
 
-New ideas (paste/drafts/commit; SPLIT bundled answers→skeleton,
-ideas→intake): append verbatim to
+New ideas from EITHER peer (paste/drafts/commit; SPLIT bundled
+answers→skeleton, ideas→intake): append verbatim to
 `drafts/_junior-v19-ideas-20260819.md` (2 ideas banked), Itexo-style
 triage (FOLD-NOW only as adjudication evidence / BANK / PARK+trigger /
-ROUTE-SIBLING). v19 does NOT open. Nothing arrived → one checkpoint
-line.
+ROUTE-SIBLING). Equal standing regardless of which peer it came from.
+v19 does NOT open. Nothing arrived → one checkpoint line.
 
 ## Job 9 — close
 
