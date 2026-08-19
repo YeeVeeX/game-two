@@ -71,6 +71,18 @@ Append freely; promoting an item requires updating the scope contract in AGENTS.
   (source: gamesmith `docs/round5-synthesis-threads.md` @ `72c02b0`,
   md5 `a044f986fa3fbebdd1bdc8481939a41c`). Mechanics only — no-lore order respected.
 
+- **Corpus round-6 demand adjudication (gamesmith, 2026-08-19) — pointer.** The corpus read
+  this repo's CLOSED v18 positions and adjudicated every deferred paid item against actual
+  demand: zero live pulls (the forks closed 2026-08-17 on this repo's own telemetry +
+  research shelf, before the corpus brief existed — convergence recorded as corroboration,
+  consumption deferred by the priming quarantine). Everything stays dormant with named
+  triggers: extract / Gate-4 re-synthesis fire only if a post-SEVENTEENTH routing row pulls
+  on them; the gamesmith-assisted fun-verify memo shape stands at measured $0.54–0.74/min
+  when a session recording is ever handed. Full adjudication + consumption map: gamesmith
+  `docs/round6-pull-adjudication.md` @ `7cc4944` (md5 `6d8bf07fb25444b27986de46ee4b4171`);
+  dossiê §12. Mechanics only — nothing is owed from this repo; dormancy is an acceptable
+  end-state.
+
 ## World mythology — ADOPTED at v12 (2026-08-13, owner fork: full adoption)
 
 - `docs/lore/world-bible.md` — standalone Egyptian×Fantasy world bible (Tibia-method: original
