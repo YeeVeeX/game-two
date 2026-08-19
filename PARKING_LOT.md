@@ -34,6 +34,23 @@ Append freely; promoting an item requires updating the scope contract in AGENTS.
   owner ever notices it; the fix (orthogonal-neighbor check in commit/commit_through)
   changes movement feel, so it waits for an owner verdict rather than shipping silently.
 
+- **Session-ledger / carried-fact shape (gamesmith corpus, 2026-08-19).** The genre's
+  survived-run ledger, frame-cited: itemized result rows with an explicit Death Penalty row
+  that stays BLANK on survival, and a fee debit that closes exactly across the session
+  boundary (stash 14,594 → 100g entry fee → 14,494 → next sale credits 15,605). Shape
+  candidate for persistence v1's oracle fact and for any future results surface (the ledger
+  lane's five-verify history applies). Evidence:
+  `docs/design-corpus/gamesmith/addenda/corpus-to-v18-evidence-brief-20260819.md`
+  (source: gamesmith `docs/corpus-to-v18-evidence-brief.md` @ `f5a2b07`,
+  md5 `23c64c855b7d17934b5691008024bc0c`). Mechanics only — no-lore order respected.
+
+- **Corpus → v18 evidence brief (pointer).** Same citation as the entry above. Maps corpus
+  rounds 1–4 onto forks F1/F3/F5/F6/F7 — one obs-cited evidence block per fork question, each
+  with what it CANNOT settle — consume at position-decision time, positions stay the dev's.
+  §5 carries the trigger-gated items: gamesmith-assisted fun-verify readiness (measured
+  $0.54–0.74/min, silent footage proven), the grave-fee UI owner decision, and dossiê §11
+  threads 1–3 as the feeding analysis backlog.
+
 ## World mythology — ADOPTED at v12 (2026-08-13, owner fork: full adoption)
 
 - `docs/lore/world-bible.md` — standalone Egyptian×Fantasy world bible (Tibia-method: original
