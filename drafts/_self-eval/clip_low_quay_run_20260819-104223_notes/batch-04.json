@@ -1,0 +1,113 @@
+{
+  "readability": [
+    {
+      "observation": "Player entity stays highly trackable throughout the descent: the white-outlined orange square is unique on screen and camera keeps it centered, so ownership never gets lost even in the 8+ enemy swarm.",
+      "evidence": "t=1:17.53 through t=1:20.90",
+      "severity": "good"
+    },
+    {
+      "observation": "Enemy state signaling via outline changes reads well as a system: neutral pale squares vs. gray-boxed aggro/elite variants (t=1:17.53, t=1:19.30) and orange/yellow-boxed 'hot' enemies (t=1:14.27, t=1:16.57, t=1:19.30). But the meaning of each outline color is not self-evident from motion alone — I cannot tell whether orange box = about to attack, targeted, or damaged.",
+      "evidence": "t=1:14.27, t=1:16.57, t=1:19.30",
+      "severity": "minor"
+    },
+    {
+      "observation": "Major damage-attribution gap: player HP (top white-outlined bar) collapses from ~70% at t=1:13.23 to a sliver by t=1:15.83, but no frame shows a clear hit flash on the player, incoming projectile, or damage number in-world. In the hub, floating text exists ('1776', '-4' at t=1:09.97), yet the ZONE 2 fight frames show none. The player's biggest resource loss of the clip is invisible at the point of contact.",
+      "evidence": "t=1:13.23 vs t=1:15.83, contrast with t=1:09.97",
+      "severity": "major"
+    },
+    {
+      "observation": "Player attacks are nearly unreadable: the only evidence a hit landed is a single enemy turning red/pink at t=1:16.57. No visible attack arc, direction indicator, or swing footprint appears in any frame, so J/Space attacks (per the HUD legend) leave no trace on screen.",
+      "evidence": "t=1:16.57",
+      "severity": "major"
+    },
+    {
+      "observation": "The hub trade/banking panel occludes live playfield tiles and an enemy/NPC sits half under it (tan-outlined square at t=1:09.97 left edge of panel; panel repositions by t=1:10.07 but still covers the lower-right room).",
+      "evidence": "t=1:09.97, t=1:10.07",
+      "severity": "minor"
+    }
+  ],
+  "feel_juice": [
+    {
+      "observation": "Enemy hit-flash exists (enemy flushed red/pink at t=1:16.57) — this is the correct primitive and should be preserved through the asset pass.",
+      "evidence": "t=1:16.57",
+      "severity": "good"
+    },
+    {
+      "observation": "No visible knockback on hit: the flashed enemy at t=1:16.57 occupies essentially the same cluster position at t=1:16.90. Grid-stepped knockback (1-tile shove) would sell impact enormously in this tile system.",
+      "evidence": "t=1:16.57 vs t=1:16.90",
+      "severity": "major"
+    },
+    {
+      "observation": "Death feedback is ambiguous: enemies present at t=1:16.57 (cluster of 3 near player) are gone by t=1:17.27 with no visible corpse, particle burst, or pickup drop in the sampled frames — kills evaporate silently.",
+      "evidence": "t=1:16.57 → t=1:17.27",
+      "severity": "major"
+    },
+    {
+      "observation": "Player damage feedback absent: the HP bar drains sharply (t=1:14.27→t=1:15.83) with no player flash, screen shake, or hitstop detectable across adjacent frames. Getting hurt currently feels like a spreadsheet event.",
+      "evidence": "t=1:14.27, t=1:15.83",
+      "severity": "major"
+    },
+    {
+      "observation": "Floating combat numbers work in the hub ('1776' over player, '-4' near green square at t=1:09.97) — extending this consistently to the dungeon fights is low-cost, high-yield.",
+      "evidence": "t=1:09.97",
+      "severity": "minor"
+    }
+  ],
+  "fluidity_pacing": [
+    {
+      "observation": "Hub-to-zone transition is fast — banking UI at t=1:10.07, already fighting in ZONE 2 by t=1:13.23. Roughly 3 seconds of downtime between loop phases is excellent cadence.",
+      "evidence": "t=1:10.07 → t=1:13.23",
+      "severity": "good"
+    },
+    {
+      "observation": "Movement cadence through the zone is brisk and continuous — camera scrolls steadily every sampled frame from t=1:16.90 to t=1:19.70 with no dead-air standing, and enemy density keeps re-populating the screen.",
+      "evidence": "t=1:16.90–t=1:19.70",
+      "severity": "good"
+    },
+    {
+      "observation": "Pressure escalation is well-paced: 2-3 scattered enemies at t=1:14.27, growing to a coordinated pack of 8+ converging by t=1:19.70–t=1:20.90. The zone ramps rather than dumping everything at once.",
+      "evidence": "t=1:14.27, t=1:19.70, t=1:20.90",
+      "severity": "good"
+    },
+    {
+      "observation": "Fight rhythm risks blur: with tile-stepped enemies all moving at similar cadence and no visible attack windups, the swarm phase (t=1:19.70+) may read as constant undifferentiated pressure rather than beats of threat/opening. Unknown from stills whether enemies telegraph before striking — if not, this is the pacing fix.",
+      "evidence": "t=1:19.70–t=1:22.33",
+      "severity": "minor"
+    }
+  ],
+  "loop_engagement": [
+    {
+      "observation": "The full macro loop is on-screen in this segment: banking/trade math in hub (+12/-6=+12 panel at t=1:09.97), descent, combat, and low-HP retreat — the possession-party economy structure is legible.",
+      "evidence": "t=1:09.97, t=1:13.23, t=1:22.33",
+      "severity": "good"
+    },
+    {
+      "observation": "Genuine visible decision-making: at critically low HP (sliver bar), the player disengages and kites left away from the 8-enemy pack rather than trading — position at screen center t=1:19.70, retreated to far-left wall by t=1:22.33 with the swarm strung out behind. This is real risk-management, not churn.",
+      "evidence": "t=1:19.70 → t=1:20.90 → t=1:22.33",
+      "severity": "good"
+    },
+    {
+      "observation": "Corridor-and-block level layout creates real kiting geometry — the player uses the horizontal lane between tile blocks to funnel the pack (t=1:19.30–t=1:20.20), so positioning matters. Structure under the placeholder tiles is sound.",
+      "evidence": "t=1:19.30–t=1:20.20",
+      "severity": "good"
+    },
+    {
+      "observation": "Party swap (Tab, per HUD) is never visibly used in this segment despite three HP bars and near-death on the active character — either swap isn't tempting during pressure or the player forgot it exists. Party bars 2 and 3 stay healthy throughout (t=1:13.23–t=1:22.33). Worth investigating why the swap wasn't the answer to low HP here.",
+      "evidence": "t=1:15.83–t=1:22.33 (HUD bars top-left)",
+      "severity": "minor"
+    }
+  ],
+  "asset_leverage": [
+    "Attack VFX first: a directional swing arc/slash sprite for the player attack — currently kills happen with zero visible cause (t=1:16.57→t=1:17.27), and this single asset would make every fight in the clip legible.",
+    "Player hurt feedback bundle: white/red flash on the player square + 2-3 frame hitstop + small shake, so the HP collapse at t=1:14.27–1:15.83 is felt at the moment of contact.",
+    "Enemy death burst (4-6 particle shatter of the enemy's own color) + grid-step knockback on hit — converts silent evaporation into satisfying kills.",
+    "Enemy attack telegraph frame (windup pose or flash 200ms before strike) — the swarm at t=1:19.70+ needs threat beats to read as dodgeable rather than ambient damage.",
+    "Silhouette pass distinguishing enemy tiers: aggro-boxed vs neutral vs elite currently differ only by outline color (t=1:19.30); distinct shapes would carry the tier system for free.",
+    "Port hub floating damage numbers ('-4' style, t=1:09.97) into dungeon combat consistently."
+  ],
+  "standout_moments": [
+    "The low-HP kiting retreat at t=1:19.70–t=1:22.33: a sliver of health, an 8-enemy pack strung out in pursuit through corridor geometry, and a deliberate run for the exit — this already reads as a tense, story-worthy escape and proves the core loop generates drama without any art.",
+    "The escalation curve from lone skirmishes (t=1:14.27) to converging swarm (t=1:19.70) gives the descent a genuine 'it's getting worse the deeper I go' feeling.",
+    "Hub banking panel with explicit +12/-6=+12 arithmetic (t=1:09.97) makes the risk/bank decision concrete and immediate — good structural bones for the roguelite loop."
+  ]
+}

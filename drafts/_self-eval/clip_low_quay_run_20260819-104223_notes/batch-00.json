@@ -1,0 +1,116 @@
+```json
+{
+  "readability": [
+    {
+      "observation": "Active party member is consistently marked with a white selection outline, and possession swaps are legible both on-sprite and in the footer ('player 2' at t=0:00 → 'player 3' at t=0:02.50 → 'player 2' at t=0:05.33). You can always tell who you are.",
+      "evidence": "t=0:00.00, t=0:02.50, t=0:05.33",
+      "severity": "good"
+    },
+    {
+      "observation": "Enemy hit-confirm reads clearly: struck enemies flash a yellow/orange outline distinct from their base color, so hits register even in a crowd.",
+      "evidence": "t=0:15.53, t=0:17.93, t=0:18.47, t=0:20.67",
+      "severity": "good"
+    },
+    {
+      "observation": "ZONE 2 enemies are pale beige/off-white squares on tan wall tiles and brown floor — silhouette-vs-terrain contrast is weak, and stationary enemies are easy to lose against the wall blocks (this is a palette/value problem in the structure, not the placeholder art per se).",
+      "evidence": "t=0:11.27, t=0:16.73, t=0:17.63",
+      "severity": "major"
+    },
+    {
+      "observation": "Player takes damage (HP bar shows dark depletion chunks) but no visible enemy attack telegraph or hit-source indicator appears in-frame — it is unclear WHAT hit the player or from which tile.",
+      "evidence": "t=0:13.47 (bar chunk appears), t=0:14.37, t=0:15.53",
+      "severity": "major"
+    },
+    {
+      "observation": "Damage numbers are small, purple, and low-contrast against the dark floor ('-8' at spawn, '-40' at the right edge); the '-8' floater also appears across ~5s of frames, making it ambiguous whether it's one long-lived floater or repeated ticks.",
+      "evidence": "t=0:00.00, t=0:02.50, t=0:05.33, t=0:22.37",
+      "severity": "minor"
+    },
+    {
+      "observation": "Several small colored squares (pink, magenta-outlined, teal, green) coexist with enemies and it's not obvious which are pickups, projectiles, or hazards — e.g. the pink squares near the player's retreat path.",
+      "evidence": "t=0:18.47, t=0:20.10, t=0:00.00 (green square)",
+      "severity": "minor"
+    },
+    {
+      "observation": "Zone transitions are announced with a clear centered label ('ZONE 1', 'ZONE 2'), giving instant spatial orientation.",
+      "evidence": "t=0:00.00, t=0:11.27",
+      "severity": "good"
+    }
+  ],
+  "feel_juice": [
+    {
+      "observation": "HP bars use a two-layer damage model (bright fill + dark 'recently lost' chunk), which sells incoming damage even without on-sprite feedback.",
+      "evidence": "t=0:13.47, t=0:15.53, t=0:20.67",
+      "severity": "good"
+    },
+    {
+      "observation": "Enemy hit flash (yellow/orange outline) is present and effective, but there is no visible knockback displacement on struck enemies between adjacent frames, and no death effect — enemies appear to simply vanish (crowd at t=0:20.67 thins by t=0:22.37 with no corpse/pop/particles in any sampled frame).",
+      "evidence": "t=0:17.93 → t=0:18.47, t=0:20.67 → t=0:22.37",
+      "severity": "major"
+    },
+    {
+      "observation": "No player-hurt feedback is visible on the sprite itself when HP drops — no flash, shake, or knockback readable in the frames around the damage events. Hitstop presence is unknown at this sampling rate.",
+      "evidence": "t=0:13.47, t=0:14.37",
+      "severity": "major"
+    },
+    {
+      "observation": "Attack visuals themselves are not readable in any frame — no visible swing arc, hitbox flash, or directional cue beyond the tiny facing pixel; kills read as 'proximity happened' rather than 'I struck'.",
+      "evidence": "t=0:15.53, t=0:18.97, t=0:20.67",
+      "severity": "major"
+    }
+  ],
+  "fluidity_pacing": [
+    {
+      "observation": "Traversal cadence is brisk — the camera covers multiple screens between t=0:16.00 and t=0:22.37 while fighting, with no visible stutter or grid-step hitching in the sampled motion.",
+      "evidence": "t=0:16.00 → t=0:17.63 → t=0:19.37 → t=0:22.37",
+      "severity": "good"
+    },
+    {
+      "observation": "There is a quiet stretch between the ZONE 1 skirmish and ZONE 2 contact (~t=0:05.33 to t=0:13.47, ~8s of transition/walking with no threats engaged) — acceptable as a breather but close to dead air at this clip's density.",
+      "evidence": "t=0:05.33 → t=0:11.27 → t=0:13.47",
+      "severity": "minor"
+    },
+    {
+      "observation": "Enemy pressure escalates well through the descent: 2 contacts at t=0:13.47, ~4 by t=0:17.20, a genuine swarm of 8+ by t=0:20.67–0:22.37 — a readable difficulty ramp within 10 seconds.",
+      "evidence": "t=0:13.47, t=0:17.20, t=0:20.67, t=0:22.37",
+      "severity": "good"
+    }
+  ],
+  "loop_engagement": [
+    {
+      "observation": "Visible kiting/retreat decision-making: the player disengages from the forming cluster and pulls east across open lanes (t=0:16.73 → 0:17.63), then re-engages as enemies string out (t=0:17.93), which is exactly the positioning play the grid should produce.",
+      "evidence": "t=0:16.73 → t=0:17.93",
+      "severity": "good"
+    },
+    {
+      "observation": "Party-swap is used purposefully at the ZONE 1 pickup moment (player 2 → 3 → 2 with the '2000' value on screen), suggesting swap has mechanical meaning beyond flavor; the exact reason (bank interaction vs. combat role) is not confirmable from frames.",
+      "evidence": "t=0:00.00, t=0:02.50, t=0:05.33",
+      "severity": "good"
+    },
+    {
+      "observation": "Banking is implied by the '2000' and '-40' numeric events but the banking act itself — where value is deposited, what's at risk — is not visually legible anywhere in these frames; the risk/reward stakes of the descent are invisible.",
+      "evidence": "t=0:00.00, t=0:22.37",
+      "severity": "major"
+    },
+    {
+      "observation": "The swarm fight risks button-mash churn: with no visible attack arcs, knockback, or death feedback, the crowd engagement at t=0:20.67 reads as overlapping squares rather than a sequence of discrete tactical exchanges.",
+      "evidence": "t=0:20.67, t=0:22.37",
+      "severity": "minor"
+    }
+  ],
+  "asset_leverage": [
+    "Enemy palette/value separation from terrain first: darken or saturate ZONE 2 enemy squares so they never share value with tan wall tiles (t=0:17.63 is the worst case) — this fixes the biggest readability issue for zero animation cost.",
+    "A 2-3 frame attack arc/slash VFX on the player's strike direction would convert every kill from 'proximity' to 'action', multiplying the already-good hit-flash system.",
+    "Death feedback (1-frame white pop + 2-3 particle burst) — enemies currently vanish silently between t=0:20.67 and t=0:22.37; this is the cheapest juice with the highest payoff in swarm fights.",
+    "Player-hurt flash (red tint 2 frames) + a directional damage tick pointing at the attacker, addressing the unattributed HP loss at t=0:13.47.",
+    "Larger, higher-contrast damage numbers with short arc motion — current purple floaters are nearly invisible on the dark floor (t=0:22.37 '-40').",
+    "A visible bank/deposit VFX or carried-value indicator over the active character so the descent's risk/reward stakes read on screen."
+  ],
+  "standout_moments": [
+    "The swarm ramp from t=0:16.00 to t=0:22.37 — enemy count roughly quadruples while the player kites east and picks off stragglers; the escalation curve already feels like a real dungeon descent.",
+    "Multi-enemy hit-flash at t=0:20.67 (two enemies flashing simultaneously in the cluster) — the crowd-clearing moment reads as satisfying even in placeholder geometry.",
+    "The two-layer HP bar depletion at t=0:13.47–0:15.53 — damage feels consequential at a glance without any sprite work.",
+    "Clean possession-swap legibility at t=0:00–0:05.33 — the white outline plus footer label makes the three-character party structure instantly understandable."
+  ]
+}
+```

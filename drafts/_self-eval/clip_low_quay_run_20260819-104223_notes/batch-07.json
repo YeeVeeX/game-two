@@ -1,0 +1,93 @@
+```json
+{
+  "readability": [
+    {
+      "observation": "Player avatar is consistently findable: the white outline on the possessed character keeps it separable from the ~15 similar-sized squares on screen at all times, even during the crowded right-side mob.",
+      "evidence": "t=2:10.50, t=2:14.87, t=2:17.13",
+      "severity": "good"
+    },
+    {
+      "observation": "Yellow/orange outlines on specific enemies appear and disappear (aggro or targeting state?) but their meaning is not legible from motion alone — outlined enemies at far right never act differently from un-outlined ones before the player leaves the screen.",
+      "evidence": "t=2:10.50 (three yellow-outlined units bottom-right), t=2:11.47, t=2:13.97",
+      "severity": "minor"
+    },
+    {
+      "observation": "An enemy flashes red at bottom-right roughly 20 tiles from the player with no visible player attack, projectile, or ally near it — cannot tell who or what damaged it. If it's a status/aggro flash instead, that's colliding with the damage-flash language.",
+      "evidence": "t=2:11.77 (red square right edge), t=2:17.13 (red unit bottom-right)",
+      "severity": "major"
+    },
+    {
+      "observation": "The '+0' pickup/bank popup sits center-screen for ~2.5 seconds announcing literally nothing gained — it trains the player to ignore the popup channel, which then has to carry the real '+5' at zone transition.",
+      "evidence": "t=2:07.87 through t=2:10.03 ('+0' persists), contrast t=2:18.00 ('+5')",
+      "severity": "major"
+    },
+    {
+      "observation": "Party HUD (3 bars + swap pips, top-left) stays stable and readable through the transition; the '5' counter next to the pips updates and persists across zones.",
+      "evidence": "t=2:08.67, t=2:18.00",
+      "severity": "good"
+    }
+  ],
+  "feel_juice": [
+    {
+      "observation": "No visible hitstop, shake, knockback, or death burst anywhere in this 13-second segment despite a large enemy pack being on-screen — the entire clip reads as damage-free traversal. If combat happened at the right edge (red flash at t=2:17.13), it produced zero screen-level feedback.",
+      "evidence": "t=2:10.50–2:17.87",
+      "severity": "major"
+    },
+    {
+      "observation": "The zone transition is a hard cut with no wipe, fade, or arrival beat — one frame the player is at the left edge in the corridor, the next they are at the right edge of ZONE 1. The '+5' bank popup and 'ZONE 1' title do fire immediately, which partially sells the arrival.",
+      "evidence": "t=2:17.87 → t=2:18.00",
+      "severity": "minor"
+    },
+    {
+      "observation": "The '+5' banking popup pairing an outlined ghost icon with a solid pickup icon is a nice proto-'deposit' read — the structure of the feedback is right even in placeholder form.",
+      "evidence": "t=2:18.00",
+      "severity": "good"
+    }
+  ],
+  "fluidity_pacing": [
+    {
+      "observation": "Camera and tile-stepped movement scroll smoothly and quickly — the player crosses roughly a full screen-width in ~2 seconds with no visible hitching between steps.",
+      "evidence": "t=2:09.13 → t=2:11.17",
+      "severity": "good"
+    },
+    {
+      "observation": "The last ~5 seconds before the exit are pure unthreatened walking: the enemy pack collapses into the bottom-right corner and never closes distance, so the run-out to the zone edge is dead air rather than an escape.",
+      "evidence": "t=2:12.73 (nearest enemies 3+ tiles behind and passive) through t=2:17.87 (pack still clustered bottom-right, player at left edge)",
+      "severity": "major"
+    },
+    {
+      "observation": "Enemy pursuit appears to fail or give up — 8+ units bunch into a diagonal clump against the wall/each other instead of chasing, suggesting pathing congestion around the pillar rooms. Kiting is trivially safe as a result.",
+      "evidence": "t=2:16.03, t=2:17.87 (clump barely moved between frames)",
+      "severity": "major"
+    }
+  ],
+  "loop_engagement": [
+    {
+      "observation": "There IS a visible macro-decision here: player disengages from a growing spawn wave, runs the corridor to the zone exit, and banks +5 on arrival — that is a legible risk/bank loop, structurally the right idea.",
+      "evidence": "t=2:10.03 (enemies converging) → t=2:17.87 (deliberate exit) → t=2:18.00 (+5 bank)",
+      "severity": "good"
+    },
+    {
+      "observation": "But because pursuit never pressures the retreat, the 'bank or push' decision carries no tension in practice — the escape is a formality, not a close call. The +0 earlier also suggests a previous bank attempt yielded nothing, which undercuts the reward beat (unknown why it was zero from frames alone).",
+      "evidence": "t=2:07.87 ('+0'), t=2:14.87–2:17.13 (zero pressure on retreat)",
+      "severity": "major"
+    },
+    {
+      "observation": "No attack, dodge, shout, mark, or swap input visibly used in the entire sampled window despite the full verb list on the HUD hint bar — this segment showcases movement only, so the moment-to-moment loop can't be assessed as more than kiting here.",
+      "evidence": "hint bar t=2:07.87; no ability VFX any frame through t=2:20.40",
+      "severity": "minor"
+    }
+  ],
+  "asset_leverage": [
+    "Facing/walk-cycle frames on enemies (even 2-frame) so a pursuing pack reads as CHASING vs idling — right now the bottom-right clump (t=2:17.87) is ambiguous between 'hunting you' and 'stuck', and animation would expose the pathing bug instantly too.",
+    "A distinct hit-react language: white damage-flash + 2px knockback + tiny particle puff would make the mystery red flash at t=2:11.77/2:17.13 self-explanatory.",
+    "Directional trail or dust motes behind the player during fast traversal — the corridor run (t=2:12.73–2:17.87) would feel like fleeing instead of strolling.",
+    "Zone-transition treatment (4-frame fade or slide) plus a bigger banking celebration for '+5' — the hard cut at t=2:18.00 wastes the segment's one reward beat.",
+    "Suppress or restyle zero-value popups: '+0' should never occupy the hero feedback slot for 2.5s (t=2:07.87–2:10.03)."
+  ],
+  "standout_moments": [
+    "The escalating spawn wave is genuinely readable as growing pressure — screen goes from 3 visible enemies (t=2:08.67) to 12+ (t=2:11.47) and the instinct to run left is communicated by layout alone.",
+    "Arrival beat at t=2:18.00: hard cut aside, landing in the calmer, differently-palettes ZONE 1 room with '+5' popping and colored party markers waiting reads as 'made it home with the goods' — the loop's emotional shape already exists."
+  ]
+}
+```

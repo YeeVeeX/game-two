@@ -43,6 +43,47 @@ session, all receipts committed:
 - **Ritual caveat addendum (skeleton owner-direction block):** the
   re-run now carries the retuned audio — rides the SAME pre-registered
   audio-novelty caveat; Junior's AUDIO line still decides the branch.
+- **Gamesmith round-5/6 banking EXECUTED (owner-pasted spark-up,
+  sibling-delivery rules satisfied):** threads doc copied
+  byte-identical (addenda, untracked, md5 `a044f986…` verified) +
+  provenance bullet; PARKING_LOT +2 entries (round-5 threads `34c9939`,
+  round-6 pointer `4bebc37`); priming quarantine held (copy without
+  consumption); RECEIPTs handed to the owner in chat. SEVENTEENTH
+  observation for their round 7: pending, fired-rows none.
+- **Deterministic clips CUT (flywheel lane 2 live):** VIDEO_EVERY
+  bridge committed `1917cca`; moving_square smoke + world_loop (21 s)
+  + varekka_duel (45 s) + low_quay_run (144 s) in `captures/clips/`
+  (gitignored media).
+- **First self-eval critique BANKED (≤$5 pilot, spend rails held):**
+  `drafts/_self-eval/clip_low_quay_run_20260819-104223_critique.md` —
+  readability 5 / juice 4 / fluidity 7 / loop 7; strengths (identity
+  layer, hit-flash, death ledger, loop cadence) + 10 ranked issues
+  with timestamps + a re-check list keyed to the SAME script.
+  **Tool lesson (verified live): the critic saw ~160 of 4306 frames —
+  brief effects escape it; its #1 finding ("kills evaporate silently")
+  is at least partly sampling artifact — kill_pop EXISTS (5-frame
+  flash, `data/display.json`). Law: every critique claim is VERIFIED
+  against code + a dense clip before becoming a work item; renderer
+  fixes (digest-blind) may ship this era under the owner's lift,
+  sim-touching fixes (knockback/telegraph/pursuit AI) are v19-class.**
+- **Zone-coverage soak run 1 (seeded, SOAK_AUDIO, one zone per
+  episode): POWER CUT mid-EP4** (run `tmp/soak/20260819-105759`).
+  Post-crash protocol: HEAD==origin, real save md5 `30ff315d…` intact,
+  temp logs 29/29, no zombie processes. chain_check on the partial:
+  **EP1 nest PASS (fights=0, hub-exempt by design) · EP2 district PASS
+  (fights=4 wipes=1 carried_lost=1 sustain used=3 — first bot
+  provision use ever) · EP3 district_two PASS (fights=2 wipes=2) · EP4
+  camp FAIL named (no netplay line = the power cut, not the game)**.
+  The coverage lane WORKS — first bot combat in soak history.
+  Remaining zones (camp, low_quay, slow_door) relaunched fresh.
+- **Assets audio-v1 exports delivery BANKED on hash (seat mail,
+  post-cut):** seven sha256s verified bit-exact from this seat (assets
+  `811031c`); ZERO in-tree change (same renders already pinned under
+  `data/audio/files/`); LUFS report-only heads-up recorded (M5a
+  verdict §Mails: calm/combat/stinger/ping below KB bands, drone in
+  band — consistent with the owner's +12 dB/−6 dB asks); level
+  questions route audio-repo/owner, game-two never compensates. Mail
+  → done/.
 
 **Quarantine spot (unchanged):** save md5
 `30ff315dc36ee183c42eb040c08e6030`, digest `189a8072…`, sessions=6,

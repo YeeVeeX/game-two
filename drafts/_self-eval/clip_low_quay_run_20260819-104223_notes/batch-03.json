@@ -1,0 +1,120 @@
+```json
+{
+  "readability": [
+    {
+      "observation": "Enemy hit/damage state reads clearly even in pure geometry: struck enemies flash red (t=0:51.20) and aggroed/damaged enemies get a hot orange-yellow outline distinct from the neutral grey outline (t=0:51.67, t=0:56.60). Who-hit-whom is legible from color state alone.",
+      "evidence": "t=0:51.20, t=0:51.67, t=0:56.60",
+      "severity": "good"
+    },
+    {
+      "observation": "'BOSS 1 SPAWNED' banner displays for ~1s with no boss visible anywhere in frame, and the player immediately transitions to ZONE 4 (t=0:52.17). No directional indicator, arrow, or map ping tells the player WHERE the boss is; the banner is orphaned information.",
+      "evidence": "t=0:51.13–0:52.17",
+      "severity": "major"
+    },
+    {
+      "observation": "The '+6' pickup panel persists mid-screen for multiple seconds and carries across a zone transition, occluding the exact center of the playfield while enemies are active around it (t=0:54.20–0:54.33). Loot toasts should live in a screen corner or fade within ~1s.",
+      "evidence": "t=0:52.17–0:54.33",
+      "severity": "major"
+    },
+    {
+      "observation": "Death attribution is weak: at t=0:56.60 the player is adjacent to 3 flashing enemies plus 5+ converging ones; by t=0:56.90 the player sprite is simply gone and the tally appears. There is no death pose, burst, or freeze frame identifying the killing blow.",
+      "evidence": "t=0:56.60–0:56.90",
+      "severity": "major"
+    },
+    {
+      "observation": "Zone label flips ZONE 4 → ZONE 3 between t=0:54.33 and t=0:54.67 on what appears to be the same continuous map with no visual seam, door, or palette shift at the boundary. Player has no spatial sense of having crossed anything.",
+      "evidence": "t=0:54.33 vs t=0:54.67",
+      "severity": "minor"
+    },
+    {
+      "observation": "Player silhouette (saturated orange + white outline) stays instantly findable against every zone palette shown (dark teal, purple, blue-grey, brown).",
+      "evidence": "t=0:51.13, t=0:54.67, t=1:02.57",
+      "severity": "good"
+    },
+    {
+      "observation": "Static pink enemies (t=0:54.20, left cluster) never move or engage across 2+ seconds of frames; unclear if they are turrets, dormant spawns, or props. Their role is unreadable.",
+      "evidence": "t=0:54.20–0:56.60",
+      "severity": "minor"
+    }
+  ],
+  "feel_juice": [
+    {
+      "observation": "Death produces a full-screen ledger receipt (+0 held / -6 banked = -6) with the total in red (t=0:56.90). This is excellent structural death feedback — the cost is explicit and emotional. It just needs a beat of hitstop/flash BEFORE it to sell the kill itself.",
+      "evidence": "t=0:56.90",
+      "severity": "good"
+    },
+    {
+      "observation": "Enemy hit flash (red) and outline-state changes exist, but at this sample rate no hitstop, screen shake, knockback displacement, or hit particles are visible on any impact — enemies flash in place (t=0:51.20, t=1:04.77). If these systems exist their magnitude is below detection; if not, impacts will feel weightless.",
+      "evidence": "t=0:51.20, t=0:56.60, t=1:04.77",
+      "severity": "major"
+    },
+    {
+      "observation": "Enemy deaths leave no trace: the two red-flashing enemies at t=0:51.20 are simply absent by t=0:51.67 with no corpse, burst, or coin scatter visible. Kills currently read as deletion, not destruction.",
+      "evidence": "t=0:51.20 → t=0:51.67",
+      "severity": "major"
+    },
+    {
+      "observation": "HP bar drains visibly across the swarm sequence (full at t=0:55.27, ~half at t=0:56.13, near-empty white shell at t=0:56.90 top-left), giving a legible doom ramp — but there is no low-HP screen-edge warning or bar pulse.",
+      "evidence": "t=0:55.27–0:56.90",
+      "severity": "minor"
+    }
+  ],
+  "fluidity_pacing": [
+    {
+      "observation": "The death→respawn→re-engaged loop is tight: dead at t=0:56.90, back in combat-capable state in ZONE 2 at t=1:02.57, fighting by t=1:04.77, and at HUB 1 banking by t=1:08.00. Roughly 6s of visible dead time is a healthy corpse-run cadence (exact respawn flow between samples unknown).",
+      "evidence": "t=0:56.90 → t=1:02.57 → t=1:08.00",
+      "severity": "good"
+    },
+    {
+      "observation": "ZONE 2 traversal shows long stretches of empty corridor with only distant idle enemies (t=1:05.83–1:06.13): ~2+ seconds of pure walking with no threat, decision, or pickup in reach. Mild dead air on the return leg.",
+      "evidence": "t=1:05.83–1:06.13",
+      "severity": "minor"
+    },
+    {
+      "observation": "Zone transition at t=0:52.17 is a hard cut into a small dark room with the viewport clipped to a partial region — abrupt but fast; no loading dead time visible.",
+      "evidence": "t=0:52.17–0:52.80",
+      "severity": "minor"
+    },
+    {
+      "observation": "The swarm escalation has real rhythm: 2–3 scattered enemies at t=0:55.27 builds to 8+ converging from all sides by t=0:56.37–0:56.60, then death at t=0:56.90. That ~1.5s pressure ramp is genuinely tense pacing.",
+      "evidence": "t=0:55.27–0:56.90",
+      "severity": "good"
+    }
+  ],
+  "loop_engagement": [
+    {
+      "observation": "The banking economy is doing visible work: +6 collected mid-run (t=0:52.17), death receipt shows +0 held / -6 lost (t=0:56.90), and the run ends banking +6 at HUB 1 (t=1:08.00). The risk/deposit decision loop is legible from the HUD alone — this is the strongest structural element in the clip.",
+      "evidence": "t=0:52.17, t=0:56.90, t=1:08.00",
+      "severity": "good"
+    },
+    {
+      "observation": "The death itself looks like positional error, not churn: the player pushed into the center of a converging swarm with escape lanes closing on both sides (t=0:56.37–0:56.60). The failure is attributable to a readable decision, which is what you want — but no dodge or retreat attempt is visible in the sampled frames (dodge usage unknown).",
+      "evidence": "t=0:56.37–0:56.60",
+      "severity": "minor"
+    },
+    {
+      "observation": "Boss spawn creates no visible behavioral response — the player leaves the boss's zone immediately after the banner (t=0:51.13 → t=0:52.17). Whether this is deliberate avoidance or the player not knowing where the boss is cannot be distinguished, which itself indicates the boss needs a presence signal (map marker, audio sting, screen tint).",
+      "evidence": "t=0:51.13–0:52.17",
+      "severity": "major"
+    },
+    {
+      "observation": "Party HP bars top-left show a second character at partial HP (t=0:51.13) but no possession swap occurs during the entire swarm death — the swap mechanic (Tab, per footer) isn't visibly pulling weight in the loop in this segment.",
+      "evidence": "t=0:51.13, t=0:56.60",
+      "severity": "minor"
+    }
+  ],
+  "asset_leverage": [
+    "Enemy death burst VFX (even 4-frame geometric shatter) — kills currently vanish (t=0:51.20→51.67); this is the single highest feel multiplier",
+    "2-frame walk/attack cycle + facing indicator on the player square so attack direction and commitment read at a glance (currently only a tiny notch, t=0:55.27)",
+    "Distinct silhouettes per enemy archetype — static pink vs chasing beige are only separable by color, not shape (t=0:54.20)",
+    "Boss spawn presence kit: screen-edge directional arrow + brief camera nudge toward the boss, so the banner (t=0:51.13) points somewhere",
+    "Death-blow freeze/flash frame before the ledger screen (t=0:56.90) to attribute the kill",
+    "Relocate loot toast to a corner with slide-in/fade so it stops occluding combat (t=0:54.20)"
+  ],
+  "standout_moments": [
+    "The death ledger '+0 / -6 = -6' (t=0:56.90) — a genuinely elegant, instantly-understood death cost screen that makes the banking loop emotional; keep it exactly this blunt",
+    "The swarm convergence from t=0:55.27 to t=0:56.60 — 8+ enemies closing from all sides reads as real, escalating pressure using nothing but motion, and the death feels earned",
+    "The full economy arc across the clip — collect (t=0:52.17), lose (t=0:56.90), recover, bank at hub (t=1:08.00) — proves the moment-to-moment loop has stakes even in placeholder form"
+  ]
+}
+```

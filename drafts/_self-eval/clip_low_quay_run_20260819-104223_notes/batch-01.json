@@ -1,0 +1,119 @@
+```json
+{
+  "readability": [
+    {
+      "observation": "Active character is consistently marked with a white outline box, and possessable/party allies (brown tones) separate cleanly from enemies (cream/white blobs) by palette alone — even at placeholder fidelity you can always find yourself.",
+      "evidence": "t=0:32.10, t=0:34.70, t=0:36.70",
+      "severity": "good"
+    },
+    {
+      "observation": "Hit confirmation on enemies reads well: struck enemies flash with a yellow/orange outline, and at t=0:38.10 three units flash simultaneously from what appears to be the spin attack — multi-hit feedback is legible without any sprite art.",
+      "evidence": "t=0:32.10, t=0:35.90, t=0:38.10",
+      "severity": "good"
+    },
+    {
+      "observation": "Combat is happening at the extreme right screen edge with the player half-framed against the HUD-less border and a '-40' number clipping at the edge — camera is not leading into the fight, so the threat that dealt that 40 damage is barely on screen.",
+      "evidence": "t=0:23.60",
+      "severity": "major"
+    },
+    {
+      "observation": "An outlined (recently hit) enemy present at t=0:35.90 is simply absent by t=0:36.13 — enemy deaths appear to be instant despawns with no visible death state, so 'did I kill it or did it move?' is ambiguous.",
+      "evidence": "t=0:35.90 vs t=0:36.13",
+      "severity": "major"
+    },
+    {
+      "observation": "Party HP bars 2 and 3 in the HUD are draining while those allies are far off to the bottom-left of the action — damage attribution for off-screen/off-focus party members is invisible; nothing in-world tells you they're being hit.",
+      "evidence": "t=0:36.13, t=0:37.13",
+      "severity": "major"
+    },
+    {
+      "observation": "A pink square with a dotted/dashed outline appears adjacent to the player — if this is a projectile or spawn telegraph it is a good instinct, but it is visually near-identical to the pink pickup squares seen at t=0:36.70, so hazard vs. loot is conflated.",
+      "evidence": "t=0:38.10 vs t=0:36.70",
+      "severity": "minor"
+    },
+    {
+      "observation": "Damage numbers exist ('-40' at t=0:23.60) but no other damage number appears across ~15 seconds of continuous combat — either they're inconsistent or too brief for the sample rate; unknown which, but the player-facing result is intermittent feedback.",
+      "evidence": "t=0:23.60 vs t=0:32.10–0:38.10",
+      "severity": "minor"
+    }
+  ],
+  "feel_juice": [
+    {
+      "observation": "Hit flash outline on enemies is the strongest juice element present and it carries the combat readably on its own.",
+      "evidence": "t=0:35.90, t=0:38.10",
+      "severity": "good"
+    },
+    {
+      "observation": "No visible knockback, hitstop, or screen shake can be confirmed from these frames — struck enemies at t=0:38.10 remain in tight grid formation after a multi-hit. Impacts register visually (flash) but not physically. Unknown whether hitstop exists between sampled frames.",
+      "evidence": "t=0:38.10",
+      "severity": "major"
+    },
+    {
+      "observation": "Enemy death has zero payoff: no burst, no corpse, no particle, no lingering frame — kills evaporate. This is the single cheapest feel win available.",
+      "evidence": "t=0:35.90 → t=0:36.13",
+      "severity": "major"
+    },
+    {
+      "observation": "The 'TOLL PAID' banner plus '+0' popup on hub entry is a good ceremony structure (banner + itemized result), but paying a toll and then being shown '+0' banked reads as a punishment with a shrug — the moment where the run's earnings resolve has no weight, no count-up, no distinct framing between 'toll taken' and 'nothing left'.",
+      "evidence": "t=0:24.30, t=0:24.87",
+      "severity": "minor"
+    }
+  ],
+  "fluidity_pacing": [
+    {
+      "observation": "The hub turnaround is tight: bank/toll resolution at t=0:24.30, full-health party heading back out by t=0:30.50, in ZONE 3 by t=0:31.30 — roughly 7 seconds of downtime between combat segments. Excellent loop cadence, no dead air.",
+      "evidence": "t=0:24.30 → t=0:31.30",
+      "severity": "good"
+    },
+    {
+      "observation": "Zone transition is instant with an immediate 'ZONE 3' title card and a strong palette shift (warm brown hub → cold blue-dark dungeon) — you always know you crossed a boundary.",
+      "evidence": "t=0:30.50 → t=0:31.30",
+      "severity": "good"
+    },
+    {
+      "observation": "Party follow AI lags badly: by t=0:37.13 both allies are stranded at the far bottom-left (near the pink pickups) while the player has pushed two screens right and is engaging alone — the party de-syncs from the fight within ~4 seconds of forward movement.",
+      "evidence": "t=0:36.70, t=0:37.13, t=0:38.10",
+      "severity": "major"
+    },
+    {
+      "observation": "Enemy pressure in ZONE 3 is low: the cream enemies are dense but largely static — the player traverses from t=0:33.80 to t=0:37.73 mostly unimpeded, and player HP (bar 1) stays near-full throughout while only the trailing allies bleed. Threat is ambient rather than active.",
+      "evidence": "t=0:33.80 → t=0:37.73, HP bars at t=0:36.13",
+      "severity": "minor"
+    }
+  ],
+  "loop_engagement": [
+    {
+      "observation": "The macro loop is visibly legible even from raw frames: dungeon fight → hub toll/bank → heal (full bars at t=0:30.50) → descend to next zone. That's a real risk/banking structure, not churn.",
+      "evidence": "t=0:23.60 → t=0:24.30 → t=0:30.50 → t=0:31.30",
+      "severity": "good"
+    },
+    {
+      "observation": "The '+0' bank result means the player descended having gained nothing from the prior segment (or the toll consumed it all) — if intended, the loop's reward beat is landing empty at exactly the moment it should motivate; if a bug, it's masking the loop entirely. Needs a design pass either way.",
+      "evidence": "t=0:24.30",
+      "severity": "major"
+    },
+    {
+      "observation": "Moment-to-moment ZONE 3 combat shows advance-and-strafe movement with selective engagement (player picks off flashed targets at t=0:35.90 and t=0:38.10 while bypassing others), so there is decision-making — but because enemies don't pursue or punish, skipping and fighting look nearly identical in cost.",
+      "evidence": "t=0:35.90, t=0:36.13–0:37.13, t=0:38.10",
+      "severity": "minor"
+    },
+    {
+      "observation": "Pickups (pink squares) drop behind the player and are left uncollected as the player advances — either they auto-collect later (unknown) or the loot loop is leaking rewards with no pull-back incentive.",
+      "evidence": "t=0:36.70, t=0:38.10",
+      "severity": "minor"
+    }
+  ],
+  "asset_leverage": [
+    "Enemy death VFX (a 2-4 frame burst/dissolve) — the instant-despawn at t=0:35.90→36.13 is the biggest feel leak and needs zero new sprite art, just a particle poof.",
+    "Distinct silhouettes per enemy behavior class — every ZONE 3 enemy is the same cream blob (t=0:36.13), so static/chaser/shooter are indistinguishable until they act; 2-3 shape variants would multiply threat readability more than any animation.",
+    "A visible attack arc/swing sprite for the player's melee and spin — right now hits are inferred purely from enemy flashes (t=0:38.10); one swipe frame would connect cause to effect.",
+    "Off-screen ally damage indicator (edge-of-screen ping or portrait flash) — party bars drain invisibly at t=0:36.13–37.13.",
+    "Differentiate pickup vs. hazard telegraph shapes/colors — pink pickup (t=0:36.70) vs pink dotted telegraph (t=0:38.10) currently share a visual identity."
+  ],
+  "standout_moments": [
+    "The bank-heal-descend turnaround (t=0:24.30 → t=0:31.30, ~7s hub round trip with 'TOLL PAID' banner and full-HP re-entry into ZONE 3) — this loop cadence already feels like a finished roguelite rhythm.",
+    "The triple hit-flash at t=0:38.10, with three enemies outlined orange in a vertical line off one spin, plus the dotted-telegraph square appearing simultaneously — the densest, most readable combat beat in the clip and a preview of how good this can look with knockback and death FX layered on.",
+    "The hub→dungeon palette snap at t=0:30.50→0:31.30 — warm brown to cold blue is doing real zonal storytelling with placeholder tiles alone."
+  ]
+}
+```

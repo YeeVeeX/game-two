@@ -1,0 +1,120 @@
+```json
+{
+  "readability": [
+    {
+      "observation": "Hit confirmation reads well even in abstract form: struck enemies flash with a yellow/orange outline distinct from idle enemies, so 'who I just hit' is legible in the melee scrum.",
+      "evidence": "t=0:38.37 (two outlined enemies adjacent to player), t=0:38.67, t=0:39.63, t=0:49.07",
+      "severity": "good"
+    },
+    {
+      "observation": "Enemies stack/overlap on the same tiles during the chase, collapsing 4+ units into one unreadable blob — you cannot count threats or see individual states inside the pile.",
+      "evidence": "t=0:39.30 (4 beige squares overlapping left of player), t=0:40.57 (cluster of ~7 partially overlapped), t=0:41.83",
+      "severity": "major"
+    },
+    {
+      "observation": "A '-150' floating number appears attached to the orange gate object at the right edge, far from the player and the actual fight on the left. Its meaning (toll cost? gate damage?) is not inferable from position or context, and it persists ~1s.",
+      "evidence": "t=0:43.20 through t=0:44.13, right edge",
+      "severity": "major"
+    },
+    {
+      "observation": "'BOSS 1 SPAWNED' is announced purely by banner text with no visible boss, spawn VFX, camera pan, or directional indicator; the only candidates on screen are a small purple flashing square and generic enemies with new yellow dot markers. The player has no idea where the threat is.",
+      "evidence": "t=0:49.83 (banner, no distinguishable boss), t=0:50.20 (yellow dots appear over all enemies, purple flash at mid-left)",
+      "severity": "major"
+    },
+    {
+      "observation": "Zone transition banner is contradictory/confusing: 'ZONE 4 / TOLL PAID / +0' shows while transitioning, then the destination is labeled 'ZONE 5'. 'TOLL PAID +0' reads as a bug or meaningless reward — was something deducted (the -150?) or gained?",
+      "evidence": "t=0:44.57–0:45.83 (ZONE 4 / TOLL PAID / +0), t=0:48.63 (ZONE 5 label)",
+      "severity": "major"
+    },
+    {
+      "observation": "Party HP bars top-left with three swap slots are clean and always legible; player-1 bar visibly drains across the fight, so incoming damage is trackable at a glance.",
+      "evidence": "t=0:38.37 vs t=0:43.20 (top bar shortened)",
+      "severity": "good"
+    }
+  ],
+  "feel_juice": [
+    {
+      "observation": "Hit flashes exist (outline flash on enemies and a red-white flash on player when struck), which is a solid baseline for placeholder-era feedback.",
+      "evidence": "t=0:43.50 (enemy adjacent to player flashing red/white), t=0:49.07",
+      "severity": "good"
+    },
+    {
+      "observation": "Small particle burst around the player during the attack (orange dots radiating) gives the swing some presence.",
+      "evidence": "t=0:43.20 (orange particles around player cluster), t=0:44.13, t=0:50.20 (purple flash with particles)",
+      "severity": "good"
+    },
+    {
+      "observation": "No visible death feedback: enemy counts drop between frames with no burst, corpse, fade or number visible in any sampled frame — kills read as objects silently vanishing. (If a 1-frame effect exists it's too brief to register at this sampling; unknown, but nothing is captured.)",
+      "evidence": "t=0:41.83 (~9 enemies) vs t=0:43.73 (~5 near player) with no death VFX in intermediate frames",
+      "severity": "major"
+    },
+    {
+      "observation": "Damage numbers exist for at least one interaction (-150 at the gate) but do not appear for the ordinary melee hits in the same clip, so hit weight is inconsistent — either commit to numbers everywhere or nowhere.",
+      "evidence": "t=0:43.20 (-150 at gate) vs t=0:38.37–0:43.73 (no numbers on melee hits)",
+      "severity": "minor"
+    },
+    {
+      "observation": "Cannot confirm hitstop or screenshake from these samples — no frame shows camera offset or freeze artifacts. Unknown; if absent, it's the cheapest next win.",
+      "evidence": "t=0:38.37–0:44.13 (no observable shake between adjacent frames)",
+      "severity": "minor"
+    }
+  ],
+  "fluidity_pacing": [
+    {
+      "observation": "The segment has a real rhythm arc: sustained running fight (~6s), zone transition beat, a quiet ~4s traversal breather in Zone 5, then a boss-spawn spike. That's a healthy pressure/release cadence for a descent.",
+      "evidence": "fight t=0:38.37–0:44.13, transition t=0:44.57, calm t=0:45.83–0:49.07, spike t=0:49.83",
+      "severity": "good"
+    },
+    {
+      "observation": "The zone transition is an abrupt hard cut (half the screen black mid-frame) with the banner doing all the work; there's no wipe/fade motion, which makes the seam feel like a glitch rather than travel.",
+      "evidence": "t=0:44.57 (right half of screen solid black), t=0:45.13",
+      "severity": "minor"
+    },
+    {
+      "observation": "After the transition the player sits idle at the far-left screen edge (partially under the 'player 1' HUD text) for ~4s while banners play; camera framing gives no forward pull into the new zone.",
+      "evidence": "t=0:45.83–0:49.83, player at x≈80 left edge",
+      "severity": "minor"
+    },
+    {
+      "observation": "Tile-stepped movement itself reads smooth at this sampling — the retreat across the corridor covers ground at a consistent, snappy cadence with enemies keeping believable pursuit spacing.",
+      "evidence": "player position progression t=0:39.63 → 0:41.37 → 0:43.20",
+      "severity": "good"
+    }
+  ],
+  "loop_engagement": [
+    {
+      "observation": "Clear kiting/fighting-retreat decision-making is visible: the player backs left across the corridor while turning to trade hits, thinning the pack rather than mashing in place. This is real positioning play, not churn.",
+      "evidence": "t=0:38.67 (engaged center) → t=0:41.37 (retreated left, pack strung out) → t=0:43.50 (turning to fight at left wall)",
+      "severity": "good"
+    },
+    {
+      "observation": "The pink square pickups scattered along the retreat path create a pickup-while-fleeing micro-decision, and several are collected during the run (count drops from 3-4 to 1).",
+      "evidence": "t=0:38.37 (pink squares at 110,430 / 428,368) vs t=0:44.13 (player adjacent to pink squares) vs t=0:41.83 (one remaining)",
+      "severity": "good"
+    },
+    {
+      "observation": "The banking/toll beat is mechanically present (TOLL PAID banner, gate interaction) but emotionally empty: '+0' means the player banked nothing, and there's no framing of what was risked or lost — the core roguelite tension of the return loop isn't communicated.",
+      "evidence": "t=0:44.57–0:45.83 (+0 result)",
+      "severity": "major"
+    },
+    {
+      "observation": "Boss spawn immediately re-marks all field enemies with yellow indicators, hinting at a state change tied to the boss — potentially interesting escalation, but with no boss visible the stakes don't land yet.",
+      "evidence": "t=0:50.20 (yellow dots on all enemies)",
+      "severity": "minor"
+    }
+  ],
+  "asset_leverage": [
+    "Death VFX first: a 4-6 frame burst/shatter + brief corpse fade would fix the biggest feedback hole (kills currently vanish silently, e.g. t=0:41.83→0:43.73) and multiply the satisfaction of the entire kiting fight.",
+    "Enemy silhouette differentiation + hard tile-occupancy or offset jitter so pursuing packs don't collapse into one blob (t=0:39.30, 0:40.57) — readability of threat count is the top structural risk.",
+    "Boss spawn presentation kit: camera pan or off-screen directional arrow + spawn telegraph VFX so 'BOSS 1 SPAWNED' (t=0:49.83) points at something physical.",
+    "Zone transition wipe/fade (even a 200ms color wipe) to replace the hard black cut at t=0:44.57.",
+    "Consistent floating combat numbers (or none): the lone -150 at t=0:43.20 proves the system exists — extend to hits/heals with clear color coding, and anchor them to the correct actor.",
+    "Distinct palette/glyph for pickups vs hazards: the pink squares read as collectibles only by inference; a pulse or sparkle would make the flee-and-grab decision pop."
+  ],
+  "standout_moments": [
+    "The fighting retreat across the corridor (t=0:38.67–0:43.50) already reads as genuinely tactical — pack pursuit spacing, turn-and-hit trades, and pickup grabs mid-flee. This is a working core loop under the placeholders.",
+    "The escalation beat of dropping into Zone 5 calm (t=0:48.63) and having 'BOSS 1 SPAWNED' land ~1s later (t=0:49.83) is a strong pacing hook — it just needs a body and a camera move to cash it in.",
+    "Hit-flash outlines in the opening scrum (t=0:38.37) make a three-body melee fully parseable with zero animation frames — evidence the feedback layer is on the right track."
+  ]
+}
+```

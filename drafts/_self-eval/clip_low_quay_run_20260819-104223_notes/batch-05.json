@@ -1,0 +1,114 @@
+```json
+{
+  "readability": [
+    {
+      "observation": "Active character is consistently findable: white selection outline on the possessed unit persists through fights and swaps (orange square t=1:36.27–1:40.40, tan square after swap t=1:41.77), and the HUD outlines the active HP bar to match (bar 1 at t=1:22.67, bar 2 at t=1:28.50, bar 3 at t=1:41.77).",
+      "evidence": "t=1:22.67, 1:28.50, 1:36.27, 1:41.77",
+      "severity": "good"
+    },
+    {
+      "observation": "Hit confirmation on enemies reads clearly even in placeholder form: struck enemies flash with an orange/yellow outline distinct from idle white (t=1:38.23, 1:38.57, 1:40.03, 1:40.40). Who-hit-whom is legible at melee range.",
+      "evidence": "t=1:38.23, 1:38.57, 1:40.03, 1:40.40",
+      "severity": "good"
+    },
+    {
+      "observation": "Incoming damage source is NOT legible. At t=1:40.40 the player square flashes red and HP bar 2 has dropped (compare t=1:39.57), but there is no visible enemy attack telegraph, lunge, or projectile in the surrounding frames — damage appears to be silent contact/adjacency. You cannot tell what killed you or which of the 4+ adjacent enemies to fear.",
+      "evidence": "t=1:39.57 → 1:40.40",
+      "severity": "major"
+    },
+    {
+      "observation": "Ambiguous entity taxonomy: static pink-outlined squares (t=1:36.27, 1:38.23), gold-outlined squares (t=1:39.03, 1:40.93), and small yellow dots atop enemies (t=1:36.87, 1:37.60) coexist with active enemies. Which are pickups, spawners, or hazards is unknown from motion alone — the pink squares near the melee at t=1:40.03 read as combatants until they don't move.",
+      "evidence": "t=1:36.27, 1:38.23, 1:40.03",
+      "severity": "major"
+    },
+    {
+      "observation": "Zone transition banners (ZONE 1 at t=1:23.07, ZONE 2 at t=1:31.97) plus a full palette shift between zones (dusty pink-walled arena vs tan checker dungeon) clearly communicate progression through the descent.",
+      "evidence": "t=1:23.07, 1:31.97",
+      "severity": "good"
+    },
+    {
+      "observation": "Pickup feedback shows '+0' with a magenta icon on zone entry — a reward popup that awards nothing is worse than none; it either signals a bug or an empty bank, and the player can't tell which.",
+      "evidence": "t=1:23.07",
+      "severity": "major"
+    }
+  ],
+  "feel_juice": [
+    {
+      "observation": "Enemy hit-flash (orange outline) and player damage-flash (square turns red at t=1:40.40) exist and fire at the right moments — the core feedback skeleton is in place.",
+      "evidence": "t=1:38.23, 1:40.40",
+      "severity": "good"
+    },
+    {
+      "observation": "No visible hitstop, knockback, or screen shake on any hit: enemy positions are unchanged across the hit-flash frames (compare struck enemy at t=1:38.23 vs 1:38.57 — flashes but does not displace). Hits register logically but carry no weight.",
+      "evidence": "t=1:38.23–1:38.57, 1:40.03",
+      "severity": "major"
+    },
+    {
+      "observation": "No death feedback observed. Enemy count fluctuates between t=1:40.40 and t=1:41.93 but no corpse, pop, particle, or fade is visible in any sampled frame — kills are indistinguishable from off-screen despawns. (If deaths occur between samples, this is unknown, but zero residue frames is itself the problem.)",
+      "evidence": "t=1:40.40–1:41.93",
+      "severity": "major"
+    },
+    {
+      "observation": "Player attack has no visible representation: no swing arc, hitbox flash, or directional cue appears in any frame despite confirmed enemy hit-flashes. The attack is inferred only from its result.",
+      "evidence": "t=1:38.23, 1:40.03",
+      "severity": "major"
+    }
+  ],
+  "fluidity_pacing": [
+    {
+      "observation": "Traversal cadence is brisk — the camera covers multiple screens of Zone 2 in ~1.3s (t=1:36.27 → 1:37.60) with clean tile-stepped scrolling, so walk-back/descent time feels short, not padded.",
+      "evidence": "t=1:36.27–1:37.60",
+      "severity": "good"
+    },
+    {
+      "observation": "Good pressure ramp: Zone 2 escalates from 2 visible enemies (t=1:36.27) to a converging swarm of ~10 (t=1:39.43–1:41.93) with the pincer closing from both flanks. The descent has a rising intensity curve rather than flat encounters.",
+      "evidence": "t=1:36.27, 1:39.43, 1:41.93",
+      "severity": "good"
+    },
+    {
+      "observation": "Dead air pocket in Zone 1: t=1:28.50–1:30.97 (~2.5s) is empty-room walking with two brown props and no threat or interaction — short here, but if representative of every inter-zone connector it will accumulate.",
+      "evidence": "t=1:28.50–1:30.97",
+      "severity": "minor"
+    },
+    {
+      "observation": "Zone 1 was crossed in ~9s (banner t=1:23.07 to Zone 2 banner t=1:31.97) with no fight — fine as a breather between the Zone-entry melee at t=1:22.67 and the Zone 2 swarm, giving the clip a fight/rest/fight rhythm.",
+      "evidence": "t=1:23.07–1:31.97",
+      "severity": "good"
+    }
+  ],
+  "loop_engagement": [
+    {
+      "observation": "Visible decision-making under pressure: as the swarm converges the player repositions rather than trading blows in place (player drifts right/down through t=1:39.43–1:40.03, taking fights at the cluster's edge), which reads as deliberate kiting, not churn.",
+      "evidence": "t=1:39.43–1:40.03",
+      "severity": "good"
+    },
+    {
+      "observation": "The possession-swap is used tactically mid-fight: control passes from player 2 (red-flashing, HP bar 2 damaged, surrounded at t=1:40.93) to player 3 (t=1:41.77, HP bar 3 full and active) — swapping off a hurt body while boxed in is exactly the loop the mechanic promises.",
+      "evidence": "t=1:40.93 → 1:41.77",
+      "severity": "good"
+    },
+    {
+      "observation": "The '+0' bank/pickup event undermines the banking loop this clip is meant to showcase — the reward moment of the descent produced a null payout with no explanation, so the risk/deposit tension is invisible in this segment.",
+      "evidence": "t=1:23.07",
+      "severity": "major"
+    },
+    {
+      "observation": "Enemy behavior appears to be pure homing convergence (all white squares beeline toward the player from t=1:37.60 onward) — with contact damage and no telegraphs, the counterplay space is only 'don't be adjacent,' which will trend toward mash-and-backpedal monotony as counts rise.",
+      "evidence": "t=1:37.60–1:41.93",
+      "severity": "major"
+    }
+  ],
+  "asset_leverage": [
+    "A 2–3 frame attack swing/arc VFX on the player — the single highest multiplier, since enemy hit-flashes already work but the cause is invisible (t=1:38.23).",
+    "Enemy attack telegraph (windup flash or lunge frame) before contact damage — converts the illegible HP loss at t=1:40.40 into dodgeable, readable threat.",
+    "Death pop/particle burst + brief corpse fade for enemies, so kills during the t=1:40–1:42 swarm feel earned instead of entities silently vanishing.",
+    "Distinct silhouettes per entity class: chaser enemies vs pink static objects vs gold pickups currently share 'small square' shapes (t=1:38.23, 1:39.03) — even placeholder geometry variants (triangle/diamond/circle) would fix this before real art.",
+    "2–4px knockback nudge + 2-frame hitstop on melee connect — pure code juice, no art needed, and it would make the existing hit-flash land."
+  ],
+  "standout_moments": [
+    "The mid-swarm possession swap at t=1:40.93→1:41.77 — bailing out of a damaged, surrounded body into a fresh character is the game's signature move and it already reads as a clutch play.",
+    "The Zone 2 pincer at t=1:39.43–1:40.93: enemies converging from four directions while the player kites through the gap is genuinely tense with zero real art — the encounter structure carries it.",
+    "Zone banner + full palette swap on descent (t=1:23.07, 1:31.97) gives the run a real sense of 'going deeper' even at placeholder fidelity."
+  ]
+}
+```

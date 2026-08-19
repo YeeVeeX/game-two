@@ -1,0 +1,129 @@
+```json
+{
+  "readability": [
+    {
+      "observation": "Player identity is consistently clear: the white-outlined orange square reads instantly against both enemies (grey, thin outline) and terrain, even during the densest swarm.",
+      "evidence": "t=1:42.03, t=1:43.23",
+      "severity": "good"
+    },
+    {
+      "observation": "The fatal dogpile is unreadable: between t=1:42.63 and t=1:43.23 six-plus enemies collapse into an overlapping blob adjacent to the player, HP drains from ~2/3 to near-zero, and there is no per-hit flash, knockback or damage number on the player — the death at t=1:43.73 arrives with no legible 'what killed me' chain.",
+      "evidence": "t=1:42.93, t=1:43.23, t=1:43.73",
+      "severity": "major"
+    },
+    {
+      "observation": "Enemies stack on/near the same tile (tight cluster at t=1:42.93 where 6 squares occupy a 3x2 blob), making threat COUNT impossible to read; the player likely believed they faced 3 enemies, not 8.",
+      "evidence": "t=1:42.93",
+      "severity": "major"
+    },
+    {
+      "observation": "There IS an attack telegraph — the red/yellow outline flash on the striking enemy — which is the right idea but far too subtle at one enemy in a stack; it drowns in the clump.",
+      "evidence": "t=1:42.63, t=1:43.23",
+      "severity": "minor"
+    },
+    {
+      "observation": "The death tally overlay (+5 / -11 / = -6 in large colored text on a dimmed panel) is the most readable moment in the clip: cause of loss and net result communicated in one glance.",
+      "evidence": "t=1:43.73",
+      "severity": "good"
+    },
+    {
+      "observation": "Damage taken during the ZONE 2 walk registers only as a tiny pink tick in the HUD bar with no visible on-character feedback in the world — player 2 is being chipped and the screen doesn't say so.",
+      "evidence": "t=2:05.63, t=2:06.30",
+      "severity": "major"
+    },
+    {
+      "observation": "Hub NPC labels ('1776', '-8', '-24' floating over outlined squares) are legible as numbers but their meaning (banked total? cost? debt?) is not decodable from the scene alone — unknown without more context.",
+      "evidence": "t=1:50.90",
+      "severity": "minor"
+    },
+    {
+      "observation": "Zone transition is clearly announced with the 'ZONE 2' title card while the player enters from the left edge — good orientation.",
+      "evidence": "t=1:58.40",
+      "severity": "good"
+    }
+  ],
+  "feel_juice": [
+    {
+      "observation": "The death sequence has real weight: screen dim, world de-saturates, large tally text — this is the one juiced moment and it lands.",
+      "evidence": "t=1:43.73",
+      "severity": "good"
+    },
+    {
+      "observation": "No visible hitstop, screenshake, knockback or player hurt-flash during the 1.2s in which the player loses two-thirds of their HP and dies — the most important feedback moment in the clip (taking lethal damage) is silent.",
+      "evidence": "t=1:42.63 through t=1:43.23",
+      "severity": "major"
+    },
+    {
+      "observation": "No knockback separation on hits means the swarm stays glued to the player, compounding both the feel problem and the readability problem — a 1-tile shove per hit would fix two issues at once.",
+      "evidence": "t=1:42.93, t=1:43.23",
+      "severity": "major"
+    },
+    {
+      "observation": "The pursuing enemies in ZONE 2 land chip damage with zero world-space feedback — no flash on the player, no floating number; only the HUD tick betrays it.",
+      "evidence": "t=2:05.13, t=2:05.63",
+      "severity": "major"
+    },
+    {
+      "observation": "Enemy attack wind-up (outline color shift) exists as a hook to hang juice on — flash + slight scale pulse would multiply it cheaply.",
+      "evidence": "t=1:42.63",
+      "severity": "minor"
+    }
+  ],
+  "fluidity_pacing": [
+    {
+      "observation": "Death-to-playable turnaround is fast: dead at t=1:43.73, back in the hub with full HP and NPCs by t=1:50.90 (~7s). No punishing respawn friction — good.",
+      "evidence": "t=1:43.73 → t=1:50.90",
+      "severity": "good"
+    },
+    {
+      "observation": "The walk-back is dead air: from hub departure (t=1:56.13) through ZONE 2 entry (t=1:58.40) to t=2:07.30, the clip is ~11 seconds of tile-stepping through wide empty corridors with no decision, no pickup, no fight — the trailing enemies never force an engagement.",
+      "evidence": "t=2:00.90, t=2:03.73, t=2:06.73, t=2:07.30",
+      "severity": "major"
+    },
+    {
+      "observation": "The two brown pursuers shadow the player for ~7 seconds without ever closing (visible trailing at t=2:00.90, still trailing at t=2:07.30) — chase pressure that never resolves reads as noise, not threat.",
+      "evidence": "t=2:00.90 → t=2:07.30",
+      "severity": "minor"
+    },
+    {
+      "observation": "Pressure curve is spiky: total overwhelm (8-enemy dogpile, death in ~1.5s) immediately followed by long zero-pressure traversal. The mid-band — 2-3 enemies demanding positioning — is absent from this segment.",
+      "evidence": "t=1:42.93 vs t=2:03.73",
+      "severity": "major"
+    }
+  ],
+  "loop_engagement": [
+    {
+      "observation": "The bank/risk economy is structurally visible and working: death costs a concrete tally (+5 earned, -11 lost, net -6), and the hub bank NPC shows a persistent 1776 total — the corpse-run stakes loop exists and is quantified.",
+      "evidence": "t=1:43.73, t=1:50.90",
+      "severity": "good"
+    },
+    {
+      "observation": "Party variety is real: the footer verb changes across possessions — player 3 'lob' (t=1:42.03), player 1 'spin' (t=1:52.10), player 2 'shout' (t=1:56.13) — and the player deliberately swapped after the death, which is visible decision-making.",
+      "evidence": "t=1:52.10, t=1:56.13",
+      "severity": "good"
+    },
+    {
+      "observation": "The fatal fight shows no visible kiting, retreat, or dodge use — the player holds position while the swarm converges from t=1:42.03 to t=1:43.23. Whether this is player error or the swarm arrived too fast to counter is unknown, but the death reads as churn, not an outplayed decision.",
+      "evidence": "t=1:42.03 → t=1:43.23",
+      "severity": "major"
+    },
+    {
+      "observation": "The ZONE 2 return leg presents no decisions: one path, pursuers ignorable, stationary pink/magenta enemies bypassed without interaction — the loop's traversal phase currently contributes nothing.",
+      "evidence": "t=2:03.73, t=2:06.73",
+      "severity": "major"
+    }
+  ],
+  "asset_leverage": [
+    "Player hurt feedback pack first: white/red hurt flash + 1-tile knockback + floating damage numbers on the player character — this single upgrade fixes the biggest readability failure (t=1:42.63–1:43.23) and the invisible chip damage (t=2:05.63) simultaneously.",
+    "Enemy anti-stacking + distinct silhouettes per enemy type: the grey squares are interchangeable and overlap freely (t=1:42.93); even 2-3 placeholder shapes (triangle/diamond/square) with tile-occupancy rules would make swarm composition countable.",
+    "Amplified attack telegraph: the existing outline-flash (t=1:42.63) upgraded to a full-body color pulse + 2-frame wind-up scale would let players parse who is about to strike inside a group.",
+    "Traversal-phase content markers: even placeholder pickups or a visible shortcut/gate in ZONE 2's corridors (t=2:00.90–2:07.30) would convert dead-air walk-back into route decisions before any art lands.",
+    "Label the hub economy nodes: one-word placeholder captions over the bank/cost squares (t=1:50.90) so '1776 / -8 / -24' reads as bank/fee/debt at a glance."
+  ],
+  "standout_moments": [
+    "The death tally card (t=1:43.73) — '+5 / -11 / = -6' on a dimmed screen is genuinely satisfying feedback; the structure of a roguelite death receipt is already fully working with zero art.",
+    "The 7-second death-to-hub turnaround (t=1:43.73 → t=1:50.90) keeps momentum through failure — respawn friction is already tuned better than many shipped games.",
+    "Deliberate post-death character swap with distinct verbs (lob → spin → shout, t=1:42.03 / t=1:52.10 / t=1:56.13) shows the possession-party fantasy is functioning: the player answered a death with a build change, which is exactly the loop you want visible."
+  ]
+}
+```
