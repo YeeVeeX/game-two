@@ -1,5 +1,71 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-18 v18 session 11 — SEVENTEENTH evidence gate re-run (spark r4): EMPTY (third) — nothing new past solo link #1; AUDIO ORDER LIFTED handled docs-only (integration QUEUED behind the SEVENTEENTH); cycle owner-paced
+
+**Mode: EMPTY** (harvest vehicle: r4 spark
+`drafts/_v18-seventeenth-harvest-spark-r4-20260818.md`, committed
+`74fb3b8` — still the standing vehicle for the next re-run). Full
+inventory 21:24–21:33, findings verbatim in the skeleton's third dated
+re-check block:
+
+- **Launcher logs:** 23/23 both temp dirs (== r4 baseline), newest
+  still `game_two_session_6508.log` 18:00:31 = solo chain link #1
+  (banked session 9); zero `AUTOPILOT` lines in any launcher log —
+  zero ritual sessions, zero new solo links.
+- **Quarantine holds (post-link values):** `saves/world.json` md5
+  `213076c540cc9eed846172748aae2e10` mtime 18:00:31; play-path strict
+  decode (pinned call shape) LOADED
+  `digest=602e94bbf7d417d845c73e3702fd4675` sessions=3 banked=20
+  seals=2 marks=3 boss_1_defeats=1 — anchor exactly where link #1 left
+  it. Ritual session 1's host `loaded` expectation stays `602e94bb…`.
+- **Junior side:** no commit past the 2026-08-16 `origin/junior/ci`
+  tip (`057fb03`), no new `_junior-*` draft (newest 15:58 soak return,
+  consumed s8), no paste. **Answers 0/8.**
+- **Residue classified, laws held:** desync trio rewritten
+  21:21:52–21:22:01 (`platform:"test"`/`dddd…` verified in-file) =
+  the `74fb3b8` r4-spark commit's pre-push hook rake (commit
+  21:21:17); `_gate-verdicts.log` unchanged since 17:11.
+
+**Seat mail (game-two-audio): AUDIO ORDER LIFTED — handled, docs-only.**
+Trail verified live before acting: owner verbatim "audio order lifted"
+at game-two-audio `drafts/_m4-owner-scores.md:148` (md5
+`d740e9ad1377947e413f370e8522bb1b`), commit `69b73ec`; readiness-doc
+TREE md5 `8b45b82ecea03419a9a3cfa27d4e695d` == the mail's declared
+foreign-edit state (committed version at `69b73ec` stays authoritative
+for the future session). **Ask 1 DONE:** AGENTS.md OUT-list entry +
+orchestration line updated (lift recorded, still out of v18);
+PARKING_LOT.md gained the queued-integration entry — **named trigger:
+the SEVENTEENTH adjudicates** (the owner lifted the audio ban, not the
+nothing-new-starts law). **Ask 2 (bounded integration session) NOT
+started — queued.** Receipt mailed to `mail/game-two-audio/`; inbox
+mail moved to `done/`. Oracle surface untouched by all of it.
+
+**Job 5 (soak side harvest):** no `tmp/soak/*/report.txt` newer than
+15:16:05 (session-8's own validation) — the overnight one-liner still
+hasn't been run. Nothing to read, no tripwire, no code touched.
+
+**Job 6 (v19 intake):** nothing arrived (no paste, no drafts file, no
+commit) — slot stays open; banks verbatim to
+`drafts/_junior-v19-ideas-<date>.md` + Itexo-style triage when it
+lands; bundled-with-answers arrivals get SPLIT (answers → skeleton,
+ideas → intake).
+
+**Close:** docs-only; suite green via commit hooks (tally in the
+commit run). No code, no wall owed. Skeleton gained the dated
+session-11 re-check block; adjudication still EMPTY, gaps 1–8
+unchanged; oracle surface untouched.
+
+**RESUME POINT:** unchanged — ritual sessions owner-paced; when both
+sessions + all eight answers exist, the FULL harvest runs the r4 spark
+(`drafts/_v18-seventeenth-harvest-spark-r4-20260818.md`). Sessions
+without answers = PARTIAL: bank verbatim + hand the owner the
+run-sheet POINTERS for the asking step (wording stays virgin). Owner
+asks to play mid-session → r4's live-launch protocol (no `--fresh`,
+detached launch, judge by the log at close, priming quarantine while
+answers are pending). Junior's side: nothing pending. FIRST item after
+adjudication closes: the audio integration session (PARKING_LOT
+trigger, owner-paced) alongside whatever the routing walk records.
+
 ## 2026-08-18 v18 session 10 — SEVENTEENTH evidence gate re-run (spark r3): EMPTY — nothing new past solo link #1; PARTIAL/STANDBY holds, cycle owner-paced
 
 **Mode: EMPTY** (harvest vehicle: r3 spark
