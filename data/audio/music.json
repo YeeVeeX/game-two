@@ -15,8 +15,8 @@
     "silent": { "stem": null }
   },
   "stems": {
-    "stem_calm": { "freq_hz": 0.0, "loop": true, "file": "mstem_calm_6s", "gain": 1.0 },
-    "stem_combat": { "freq_hz": 0.0, "loop": true, "file": "mstem_combat_6s", "gain": 1.0 }
+    "stem_calm": { "freq_hz": 0.0, "loop": true, "file": "mstem_calm_6s", "gain": 4.0 },
+    "stem_combat": { "freq_hz": 0.0, "loop": true, "file": "mstem_combat_6s", "gain": 4.0 }
   },
   "state_events": {
     "challenger_engaged": "combat",

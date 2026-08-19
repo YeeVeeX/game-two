@@ -1,5 +1,5 @@
 {
-  "_comment": "M5a v1 cue table — the owner-approved six-event mapping (verbatim approval 2026-08-18: 'approved, proceed now'), OWNER ORIGINALS ONLY. Buses/pool/duck envelopes mirror the library's gate-proven values (sfx -10 dB headroom law, duck hold >= tick_frames). All v1 cues non-spatial, center pan; payload fields deliberately unread (v1 contract — spatial variants are a later iteration). fight_resolved has NO cue by design: music-state change only (see music.json state_events).",
+  "_comment": "M5a v1 cue table — the owner-approved six-event mapping (verbatim approval 2026-08-18: 'approved, proceed now'), OWNER ORIGINALS ONLY. Buses/pool/duck envelopes mirror the library's gate-proven values (sfx -10 dB headroom law, duck hold >= tick_frames). v1 gains carry +12.04 dB (linear 4.0; drop_confirm keeps its -4.4 dB offset at 2.4) — owner listen verdict 2026-08-18 (his renders sat ~12 dB low vs the tone-era levels); interim until the assets LUFS lane normalizes, then gains re-center toward 1.0. All v1 cues non-spatial, center pan; payload fields deliberately unread (v1 contract — spatial variants are a later iteration). fight_resolved has NO cue by design: music-state change only (see music.json state_events).",
   "buses": {
     "master": { "children": ["music", "sfx", "ui"] },
     "music": { "volume_db": -6.0 },
@@ -17,7 +17,7 @@
       "file": "msfx_stinger_2s",
       "bus": "sfx",
       "priority": 90,
-      "gain": 1.0,
+      "gain": 4.0,
       "pan": 0.0,
       "spatial": false,
       "duck": {
@@ -33,7 +33,7 @@
       "file": "msfx_stinger_2s",
       "bus": "sfx",
       "priority": 85,
-      "gain": 1.0,
+      "gain": 4.0,
       "pan": 0.0,
       "spatial": false,
       "duck": {
@@ -49,7 +49,7 @@
       "file": "mui_ping_1200ms",
       "bus": "ui",
       "priority": 45,
-      "gain": 1.0,
+      "gain": 4.0,
       "pan": 0.0,
       "spatial": false
     },
@@ -58,7 +58,7 @@
       "file": "mui_confirm_200ms",
       "bus": "ui",
       "priority": 50,
-      "gain": 1.0,
+      "gain": 4.0,
       "pan": 0.0,
       "spatial": false
     },
@@ -67,7 +67,7 @@
       "file": "mui_confirm_200ms",
       "bus": "ui",
       "priority": 40,
-      "gain": 0.6,
+      "gain": 2.4,
       "pan": 0.0,
       "spatial": false
     }
