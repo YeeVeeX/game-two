@@ -1,5 +1,64 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-19 session 19 (hub, owner LIVE mid-session) — T1 LDtk spike: **GO** · wall receipt 18/18 · eighth EMPTY gate · owner drops banked (ZONE 7 reveal grammar + projection/style preview intake)
+
+**Job 0:** wall `flywheel1-20260819` receipt CLOSED — **18/18 PASS,
+zero failures** (`WALL SWEEP DONE 17:20:18 — 18 scripts, fails:
+none`, tmp/wall_flywheel1.log; the s17 renderer fixes hold across the
+full wall). Standing SEVENTEENTH gate: **EMPTY (eighth)** — dated
+re-check block in the skeleton; logs 29/29 (newest `7196` consumed),
+save md5 `30ff315dc36ee183c42eb040c08e6030` mtime 2026-08-18 22:36,
+strict decode `digest=189a80723c87b90f27bc8436533d8cc1` sessions=6
+banked=20 boss_1_defeats=1, Junior 0 past main (`junior/ci 057fb03`),
+mail done/=7, answers 0/8. Quarantine RE-VERIFIED after the spike's
+worktree walk: save md5+mtime unmoved.
+
+**T1 — LDtk spike: GO** (findings:
+`drafts/_ldtk-spike-findings-20260819.md`; T2 lands the pin into D1).
+**LDtk 1.5.3 pinned** (pin on `jsonVersion` only — appBuildId churns
+per resave, observed). Evidence tiers: schema both ways (generated
+project loads+renders in the real GUI; LDtk re-saved through its own
+writer) · round-trip semantic identity (throwaway importer → all 11
+district keys equal, generated AND resaved bytes) · **in-game
+byte-identity: 9/9 district_hunt frames md5-equal worktree-vs-real**
+· pilot walk nest→district (ZONE 2 banner, 15 spawns at authored
+tiles, combat live, clean quit; real save untouched; worktree
+removed). 10 mapping wrinkles catalogued as T2 refusal cases — the
+big one: **1.5.3 loads field values from `realEditorValues`, not
+`__value`** (hit live). Sidecar contract proposed for non-spatial
+scalars (T2 ratifies in D2 wording). UX read: pro-grade palette/
+field editing, values render in-world; owner's own drawing session =
+T4's true test.
+
+**Owner drops (LIVE, banked — measurement hygiene untouched):**
+1. **ZONE 7 reveal grammar** — New World Aeternum intro ingested
+   (video verified frame-by-frame from 03:18; local
+   tmp/nw_intro/) → `drafts/_zone7-reveal-intro-arc-20260819.md`:
+   G1–G8 transferable grammar (color SCRIPT · overexposed threshold ·
+   banner-at-vista · elevation==D3 floors · tension→release ·
+   constriction earns opening · audio carries the cut · teach in quiet
+   pockets) + owner chronology clarification RATIFIED (ours: BOSS 1
+   BEFORE the reveal — reward-for-victory, Kakariko pattern). T4
+   authoring implications listed; 2 renderer candidates RECORDED (not
+   owed). Gamesmith mailed for full-pipeline treatment
+   (`from-game-two-nw-intro-video-ingest.md`).
+2. **Projection/style preview** — v19 intake **idea 5** (owner: iso
+   "even more appealing", then "grimmer/realistic … HD Tibia/
+   RavenDawn"): refs banked (`wb-gnomoria-iso-style.jpg` 5c965f63…,
+   `wb-ravendawn-34-detail.png` 5215ea49… — KEY read: RavenDawn is
+   3/4 top-down, NOT true iso; three independent dials
+   projection/fidelity/tone). Spike shape: three projections side by
+   side, same replay, owner's eyes pick; combat-clean law
+   non-negotiable; sim untouched (8-dir already real,
+   grid_walker.rb:76). Assets seat mailed the style signals.
+
+**RESUME POINT:** T2 (importer + schema v2, FRESH session) with the
+findings doc as input — D1 pin + sidecar wording land there. Owner
+queue updated es-CR. Owner-pending unchanged (ambient ear-check · his
+7 attack renders · the ritual when Junior is available) — never nag.
+The SEVENTEENTH still outranks everything the moment its evidence
+appears.
+
 ## 2026-08-19 session 18 (hub, owner LIVE) — WORLD-BUILDER LANE opened, grilled, spec'd (D1–D12 + T1–T5), T1 spark staged; council consult folded; 3 sibling mails out; intake +2 ideas; ritual state UNTOUCHED
 
 **Owner-directed day (same calendar day as session 17's flywheel
