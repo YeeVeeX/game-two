@@ -77,6 +77,30 @@ validation (incl. the report-less power-cut burst dir `20260818-135217`)
 — no overnight run. Skeleton stays PARTIAL/STANDBY; gaps 1–8 unchanged;
 adjudication stays EMPTY.
 
+**Re-check 2026-08-18 20:39–20:43 (session 10, spark r3 — the standing
+harvest vehicle, `drafts/_v18-seventeenth-harvest-spark-r3-20260818.md`,
+which supersedes r2): EMPTY — nothing new past the solo-link-#1
+baseline.** Launcher logs 23/23 in both temp dirs (count == the r3
+baseline), newest still `game_two_session_6508.log` 2026-08-18
+18:00:31 = solo chain link #1, already banked below; zero `AUTOPILOT`
+lines in any launcher log. Save quarantine holds at the post-link
+values: `saves/world.json` mtime 18:00:31, md5
+`213076c540cc9eed846172748aae2e10`, play-path strict decode LOADED
+`digest=602e94bbf7d417d845c73e3702fd4675` sessions=3 banked=20 seals=2
+marks=3 boss_1_defeats=1 — the moving anchor sits exactly where link
+#1 left it (every save move has its matching banked log; no anomaly).
+Junior side: no commit past the 2026-08-16 `origin/junior/ci` tip
+(`057fb03`, ancestor of main), no new `_junior-*` draft (newest 15:58
+soak return, consumed s8), no paste, no v19 ideas list. **Answers
+0/8.** Residue classified per the laws below: the suite trio
+`desync_00000064`/`000008a9`/`00000bf7` rewritten 20:38:06–09
+(`platform:"test"`, `dddd…`/`cccc…` fingerprints) = the `0aaa986`
+spark commit's pre-commit/pre-push hook rake (commit 20:37:34);
+`_gate-verdicts.log` unchanged since 17:11; tmp/soak reports all
+≤15:16:05 = session-8's own validation — still no overnight run.
+Skeleton stays PARTIAL/STANDBY; gaps 1–8 unchanged; adjudication
+stays EMPTY.
+
 ## Pre-session evidence banked (verbatim, with provenance)
 
 ### World-save chain anchor (dev-smoke provenance — NOT ritual evidence)
