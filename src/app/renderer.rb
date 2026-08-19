@@ -47,6 +47,7 @@ module App
     STAGGER_VEIL   = Gosu::Color.new(90, 20, 8, 8)
     LEDGER_NEG     = Gosu::Color.new(255, 200, 40, 40) # wipe-red family
     LEDGER_DARK    = Gosu::Color.new(255, 26, 13, 30)  # expiry-flash family
+    ENEMY_STRIKE   = Gosu::Color.new(210, 255, 80, 60) # hostile red — the landed hit's WHERE
     BEAT_PANEL     = [10, 6, 12].freeze                 # near-black panel RGB
     BEAT_FLASH     = [255, 240, 220].freeze             # warm-white arrival flash RGB
     BEAT_GLYPH     = 20                                 # tally glyph square, px
@@ -102,6 +103,14 @@ module App
         draw_respawn_tells(world)
         world.humans.each { |h| draw_creature(h, world) }
         world.pack.living.each { |m| draw_creature(m, world) }
+        # Flywheel fix (2026-08-19, critique issue 2 — the verified gap):
+        # draw_attack is pack-gated, so an enemy's ACTIVE strike rendered
+        # nothing — the landed hit had no WHERE. Enemy strike tiles draw in
+        # their own pass AFTER both body loops (a strike must read OVER its
+        # victim, and pack bodies draw after humans), before projectiles/
+        # pops/HUD. Windup stays the body swell — a landing-tile PREVIEW is
+        # recorded as difficulty-adjacent, deliberately NOT drawn here.
+        world.humans.each { |h| draw_enemy_strike(h, world.map.tile_size) }
         world.projectiles.each { |p| draw_projectile(p) }
         draw_taunt_pulses(world)
         draw_kill_pops(world)
@@ -588,6 +597,17 @@ module App
 
     def draw_projectile(p)
       Gosu.draw_rect(p.x, p.y, Game::Projectile::SIZE, Game::Projectile::SIZE, PROJECTILE)
+    end
+
+    # Hostile-red flash on the enemy's action tiles for the active window
+    # only (1–6 sim frames by kit). Same inset grammar as the pack SLASH,
+    # hostile family (telegraph-edge red, never the pack's white-cyan) —
+    # attribution, not warning: by the active window the hit is landing.
+    def draw_enemy_strike(c, ts)
+      return unless c.faction == :human && c.attack_state == :active
+      c.action_tiles.each do |(tx, ty)|
+        Gosu.draw_rect(tx * ts + 4, ty * ts + 4, ts - 8, ts - 8, ENEMY_STRIKE)
+      end
     end
 
     # Taunt victim tell (A0.6): rust underline pinned BELOW the telegraph
