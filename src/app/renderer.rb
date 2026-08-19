@@ -125,6 +125,7 @@ module App
       # one owned draw-order decision; review M1-codefit).
       draw_ledger_beat(world)
       draw_stagger_veil(world) if world.possessed(@local_seat)&.staggered?
+      draw_hurt_vignette(world) if world.possessed(@local_seat)&.hurt?
     end
 
     def draw_impacts(world)
@@ -863,6 +864,25 @@ module App
     # Forced swap lands with a one-beat red edge so losing a body FEELS lost.
     def draw_stagger_veil(world)
       Gosu.draw_rect(0, 0, view_width(world), view_height(world), STAGGER_VEIL)
+    end
+
+    # Flywheel fix (2026-08-19, critique issue 2 — verified PARTIAL): the
+    # possessed body's own hurt window (creature.rb take_hit, 8 sim frames)
+    # already flickers the body crimson, but at body scale it escapes a
+    # player watching the whole fight. A thin crimson EDGE frame carries
+    # the same state at screen scale: "that hit landed on ME". Edge bars
+    # only — the full-screen flood stays the stagger veil's read (and the
+    # wipe veil's). Crimson stays in the pack-hurt family (never white —
+    # walled check). Pure reader of hurt? — replay determinism holds.
+    def draw_hurt_vignette(world)
+      w = view_width(world)
+      h = view_height(world)
+      t = @display.fetch(:hurt_vignette_px, 8)
+      col = Gosu::Color.new(@display.fetch(:hurt_vignette_alpha, 110), 220, 45, 35)
+      Gosu.draw_rect(0, 0, w, t, col)
+      Gosu.draw_rect(0, h - t, w, t, col)
+      Gosu.draw_rect(0, t, t, h - t * 2, col)
+      Gosu.draw_rect(w - t, t, t, h - t * 2, col)
     end
 
     # Registration beat (fight-ledger spec; presentation iteration 2026-08-11):

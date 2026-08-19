@@ -12,6 +12,8 @@
  "ledger_block_y": 160,
  "ledger_wipe_y": 340,
  "pressure_outline_alpha": 140,
+ "hurt_vignette_px": 8,
+ "hurt_vignette_alpha": 110,
  "station_cue_frames": 30,
  "breach_banner_frames": 150,
  "respawn_tell_edge_rgb": [
