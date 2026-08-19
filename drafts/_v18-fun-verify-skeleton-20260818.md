@@ -349,6 +349,34 @@ Skeleton stays PARTIAL/STANDBY; session 1 still RE-RUNS owner-paced;
 adjudication stays EMPTY. **Per r9: Job 6 (flywheel critique
 verification) is the session.**
 
+**Re-check 2026-08-19 16:53–16:56 (session 19, T1 spark — compressed
+r9 Job 0 gate): EMPTY — eighth empty gate, expected (ritual
+owner-paced; wall `flywheel1-20260819` still sweeping live at gate
+time, 13/13 PASS zero failures, script 14/18 in flight).** Launcher
+logs 29/29 in both temp-dir patterns, newest still
+`game_two_session_7196.log` 00:06 = the crashed attempt, CONSUMED
+(banked + classified s14). Save quarantine holds at the link-#4
+values: `saves/world.json` md5 `30ff315dc36ee183c42eb040c08e6030`
+mtime 2026-08-18 22:36; play-path strict decode (pinned call shape)
+LOADED `digest=189a80723c87b90f27bc8436533d8cc1` sessions=6 banked=20
+breached=2 (district + district_two — the seals) marks=0
+boss_1_defeats=1 provisions=0 notices=[] — the moving anchor sits
+exactly where link #4 left it. Junior side: `origin/main` == this
+seat's `772c914` (s18 hub docs), `origin/junior/ci` still `057fb03`,
+0 commits past main, no new `_junior-*` draft (newest = the
+s16-consumed v19-ideas file), no paste; **his seat must pull CURRENT
+main before rejoining** (same-commit handshake law). **Answers 0/8.**
+Seat mail inbox EMPTY (done/ = 7 — the assets family-sync/repin
+receipt `from-game-two-assets-repin-1360b272` arrived and was
+consumed s18; no new arrivals). Residue classified:
+`_gate-verdicts.log` growing with PASS entries = the LIVE wall sweep
+appending (launched s17 detached, expected); tmp/soak newest report
+still `20260819-120805` (consumed s16); no new soak consoles. v19
+intake: file stays at 4 ideas (ideas 3–4 banked s18, hub-live).
+Skeleton stays PARTIAL/STANDBY; session 1 still RE-RUNS owner-paced;
+adjudication stays EMPTY. **Per the T1 spark: the LDtk spike
+(world-builder T1) is the session.**
+
 ## Pre-session evidence banked (verbatim, with provenance)
 
 ### World-save chain anchor (dev-smoke provenance — NOT ritual evidence)
