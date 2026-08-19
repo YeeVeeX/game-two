@@ -168,6 +168,62 @@ brainstorm starts real, not from scratch:
 - **Sim class, obviously** — nothing ships pre-verdict; measurement
   hygiene untouched.
 
+## Idea 5 — projection + style preview: 3/4 vs isometric, grim-detail register (owner drops, 2026-08-19 mid-T1, hub chat)
+
+- **Owner verbatim:** "this style of isometric pixel art which is
+  simple but well detailed and beautifully designed looks even more
+  appealing to my eye instead of the plain top view, how can we adapt
+  something like it? Or at least run a small test/preview sometime to
+  test it out, I really liked that example" + follow-ups: "it is
+  almost the same movement set, 8 directions but in a different
+  perspective" · "diamond sets of 4 squares + its diagonals, as of top
+  down which is kinda like 'crosses' shape movement" · "we can adapt
+  it to an even grimmer or 'realistic' view/detailed view such as HD
+  Tibia, or RavenQuest/RavenDawn for that sort, but with the isometric
+  perspective".
+- **Refs banked:** `drafts/_refs/wb-gnomoria-iso-style.jpg` (md5
+  `5c965f63de37a1465352ece6be736ffc`) + `drafts/_refs/
+  wb-ravendawn-34-detail.png` (md5 `5215ea4966acbdcbd5b2e2a4b44e7ae0`)
+  (untracked — gamesmith-addenda precedent). KEY read: the two refs
+  use DIFFERENT projections — Gnomoria is true 2:1 iso; RavenDawn is
+  Tibia-style 3/4 top-down (orthogonal ground grid + drawn wall/height
+  faces + painterly materials). What the owner's eye tracks across
+  both: material richness + visible height + lived-in detail.
+  Gnomoria style notes: 3-face block shading · material palette
+  families · 2-tone floor checker (== our grid modulation) · decor
+  sprites · z-levels (rhymes with D3 floors).
+- **Dev read (verified against code + refs):** THREE independent
+  dials — projection (flat top-down now · 3/4-with-height · true 2:1
+  iso) · fidelity (placeholder → chunky pixel → painterly HD) · tone
+  (current palette is already grim-adjacent; the owner's register
+  target fits the existing vibe). Sim untouched under ANY projection:
+  8-dir movement already real (`grid_walker.rb:76` diagonal √2
+  duration); grid cardinals ↔ screen diagonals under true iso (the
+  owner's cross↔diamond rotation). Dev position (defended): 3/4 is
+  the cost/beauty sweet spot (same camera/mapping, no depth-sort or
+  occlusion rewrite, LDtk identical, ~80% of the RavenDawn feel);
+  true iso is the big jump (occlusion decision + combat-legibility
+  re-verify under Rule 2 + input-mapping fork world- vs
+  screen-relative). Fidelity is an ASSET-ERA dial that applies to
+  whichever projection wins. **Combat-clean law (non-negotiable in
+  any register):** environment may go rich, but telegraphs/enemies/
+  drops stay high-contrast — legibility beats texture (RavenDawn can
+  afford density because its combat is slow tile-by-tile; ours is a
+  fast ARPG).
+- **Spike shape (updated):** T1-style throwaway session — worktree,
+  placeholder geometry, deterministic captures of the SAME replay in
+  all THREE projections side by side (flat · 3/4 front-faces · iso
+  diamonds+prisms), input toggle for iso (world- vs screen-relative).
+  Owner's eyes pick the projection BEFORE the asset era paints over
+  it. No gate owed (nothing ships). god-view map stays top-down
+  (truth artifact).
+- **Class:** renderer-only preview = spikeable anytime as its own
+  session (owner-paced); ADOPTION is a v19-brainstorm decision
+  (braids with the asset era + the style board: CryoFall charm ·
+  Gnomoria iso · RavenDawn/HD-Tibia grim painterly detail). Asset
+  cost if painterly wins: every material needs painted variants +
+  edge blends — the D7 registry's sprite-id seam carries it.
+
 ## Slot status
 
 Nothing else arrived (no paste, no drafts file beyond this relay, no

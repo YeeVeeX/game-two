@@ -61,6 +61,8 @@ the intake file + PARKING_LOT; building starts at T1.**
 | wb-behavioral-terrain-octet.png | 99eff372… | grass/sand/stone/cave/water/ice/lava/wood — the behavioral-tile idea in one image |
 | wb-seamless-texture-atlas.png | e15f4a20… | tileable ground/wall texture families (stock ref, watermarked — style ref only) |
 | wb-cryofall-inventory-stats.png | 4cc2f267… | CryoFall player menu: paper-doll + skills tally + grid inventory + hotbar (v19 intake idea 3) |
+| wb-gnomoria-iso-style.jpg | 5c965f63… | Gnomoria 2:1 pixel isometric — owner style signal ("even more appealing than plain top view"); v19 intake idea 5 (projection preview) |
+| wb-ravendawn-34-detail.png | 5215ea49… | RavenDawn 3/4 top-down painterly detail — owner register target ("grimmer/realistic, HD Tibia"); NOT true iso (orthogonal ground + drawn height faces); idea 5 companion ref |
 
 ## Routed to siblings (mails dispatched this session)
 
