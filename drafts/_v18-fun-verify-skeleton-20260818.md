@@ -103,6 +103,13 @@ recorded BEFORE the sessions run:
    what booted. Oracle checks unchanged; audio stays a pure sink;
    `data/**` and TELEMETRY wording untouched by this amendment.
 
+**Owner timing shift (2026-08-18 ~23:05, live in chat — dev session
+13).** Owner verbatim (es): "en vez de mañana que sea hoy, él está
+esperando (ya corregí el mensaje)" — the ritual runs TONIGHT, not
+tomorrow; Junior is waiting live. The same-day pair stands as recorded;
+if the two sessions straddle midnight, the spacing caveat still rides
+(it reads SPACING between sessions, not the calendar line).
+
 ## Evidence gate result (2026-08-18 ~02:47–03:05, this machine)
 
 - **Launcher session logs:** newest `game_two_session_*.log` in BOTH

@@ -76,7 +76,19 @@ never copied into game-two). Oracle surface: TELEMETRY/bin/play*/
 questions/`data/**` untouched; JUNIOR.md + runsheet + AGENTS.md edits
 are the owner-ordered amendment, recorded NAMED here and in the
 skeleton. **Junior's side NOW PENDING: the one-time audio setup before
-tomorrow's ritual (owner relays; steps in his doc).**
+tomorrow's ritual (owner relays; steps in his doc).** Ritual-morning
+contingency (recorded here, relayed in the queue): `origin/junior-tibia`
+is DELETED — if Junior's local branch still tracks it, his `git pull`/
+`join-coop.cmd` pull fails → fix is `git switch main` + `git pull`
+(ten seconds, no doc needed). JUNIOR.md's collaboration section still
+says clone `-b junior-tibia` / never-push-main — STALE since the
+mainline promotion; recorded as post-adjudication cleanup (frozen
+surface, not tonight's order). **Timing shift (~23:05, owner live):
+"en vez de mañana que sea hoy" — the ritual runs TONIGHT; Junior
+waiting; owner relayed the corrected setup message himself. Sessions
+may straddle midnight — the spacing caveat reads spacing, not the
+calendar line. Next vehicle: r6 spark
+(`drafts/_v18-seventeenth-harvest-spark-r6-20260819.md`).**
 
 ## 2026-08-18 v18 session 12 — M5a AUDIO INTEGRATION SHIPPED same night (owner override + owner-originals order); ritual moved to TOMORROW (same-day pair allowed); four solo chain links banked; anchor now 189a8072
 
