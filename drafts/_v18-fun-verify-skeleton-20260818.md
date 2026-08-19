@@ -153,6 +153,41 @@ classified per the laws below: the suite trio
 Skeleton stays PARTIAL/STANDBY; gaps 1–8 unchanged; adjudication
 stays EMPTY.
 
+**Re-check 2026-08-18 22:47–22:56 (session 13, spark r5 — the standing
+harvest vehicle, `drafts/_v18-seventeenth-harvest-spark-r5-20260819.md`,
+which supersedes r4): EMPTY — fourth empty gate, expected by the
+calendar (the owner-amended ritual is scheduled for TOMORROW,
+2026-08-19; this gate ran nine minutes after the r5 spark commit
+`51814f3`, 22:45:51).** Launcher logs 28/28 in both temp-dir patterns
+(same dir both ways), newest still `game_two_session_6240.log` 22:36 =
+solo chain link #4, banked below; zero `AUTOPILOT` lines in any
+launcher log. **Baseline arithmetic slip resolved NAMED:** the r5
+spark carried "29 per temp dir" from the session-12 checkpoint — that
+tally double-counted `6508` (link #1, already inside session-11's 23)
+when it added six session-12 logs; disk truth is 23 + 5 = 28, every
+log classified (links #1–#4 + scratch `5949` + 22 pre-session-12
+logs), none missing, none unconsumed. Save quarantine holds at the
+link-#4 values: `saves/world.json` md5
+`30ff315dc36ee183c42eb040c08e6030` mtime 22:36 == log close; play-path
+strict decode (pinned call shape) LOADED
+`digest=189a80723c87b90f27bc8436533d8cc1` sessions=6 banked=20 seals=2
+marks=0 boss_1_defeats=1 provisions=0 notices=[] — the moving anchor
+sits exactly where link #4 left it (every save move has its matching
+banked log; no anomaly). Junior side: no commit past the 2026-08-16
+`origin/junior/ci` tip (`057fb03`), no new `_junior-*` draft (newest
+15:58 soak return, consumed s8), no paste, no v19 ideas list.
+**Answers 0/8.** Seat mail inbox empty (done/ only) — no audio-seat or
+assets-lane receipts. Residue classified per the laws below: the suite
+trio `desync_00000064`/`000008a9`/`00000bf7` rewritten 22:46 = the
+`51814f3` r5-spark commit's pre-push hook rake; `_gate-verdicts.log`
+unchanged since 17:11; tmp/soak reports all ≤15:16:05 — still no
+overnight run. Skeleton stays PARTIAL/STANDBY; gaps 1–8 unchanged;
+adjudication stays EMPTY. Ritual session 1's host `loaded` expectation
+stays `189a8072…`; audio-era log rules (r5 spark) in force for the
+harvest: `AUDIO on:/off:/refused:` + drift + teardown lines are NORMAL
+context, never oracle lines; Junior's seat prints `AUDIO off: library
+not present` by design.
+
 ## Pre-session evidence banked (verbatim, with provenance)
 
 ### World-save chain anchor (dev-smoke provenance — NOT ritual evidence)

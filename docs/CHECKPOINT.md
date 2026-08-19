@@ -1,5 +1,58 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-18 v18 session 13 — SEVENTEENTH evidence gate re-run (spark r5): EMPTY (fourth) — expected by the calendar (ritual is TOMORROW); baseline-29 tally slip resolved NAMED (disk truth 28); cycle owner-paced
+
+**Mode: EMPTY** (harvest vehicle: r5 spark
+`drafts/_v18-seventeenth-harvest-spark-r5-20260819.md`, committed
+`51814f3` at session-12 close — still the standing vehicle). Gate ran
+22:47–22:56, nine minutes after the r5 commit; the owner-amended
+ritual (same-day pair allowed) is scheduled for 2026-08-19, so zero
+ritual evidence is the expected state, not a stall. Findings verbatim
+in the skeleton's fourth dated re-check block:
+
+- **Launcher logs:** 28/28 both temp-dir patterns, newest still
+  `game_two_session_6240.log` 22:36 = solo chain link #4 (banked
+  s12); zero `AUTOPILOT` lines in any launcher log. **Baseline slip
+  resolved:** r5's "29 per temp dir" (from the s12 checkpoint)
+  double-counted `6508` — link #1 was already inside s11's 23;
+  23 + 5 new s12 logs = 28. All 28 classified, none missing, none
+  unconsumed.
+- **Quarantine holds (link-#4 values):** `saves/world.json` md5
+  `30ff315dc36ee183c42eb040c08e6030` mtime 22:36; play-path strict
+  decode (pinned call shape) LOADED
+  `digest=189a80723c87b90f27bc8436533d8cc1` sessions=6 banked=20
+  seals=2 marks=0 boss_1_defeats=1 — anchor exactly where link #4
+  left it. Ritual session 1's host `loaded` expectation stays
+  `189a8072…`.
+- **Junior side:** no commit past `057fb03` (2026-08-16), no new
+  `_junior-*` draft (newest 15:58 soak return, consumed s8), no
+  paste. **Answers 0/8.** Seat mail inbox empty (done/ only) — no
+  audio/assets receipts.
+- **Residue classified, laws held:** desync trio rewritten 22:46 =
+  the `51814f3` r5-spark commit's pre-push hook rake (commit
+  22:45:51); `_gate-verdicts.log` unchanged since 17:11; tmp/soak
+  reports all ≤15:16:05 — no overnight run (Job 5: nothing to read).
+
+**Job 6 (v19 intake):** nothing arrived — slot stays open (banks
+verbatim to `drafts/_junior-v19-ideas-<date>.md` + Itexo-style triage
+when it lands; bundled-with-answers arrivals get SPLIT).
+
+**Close:** docs-only; suite green via commit hooks. No code, no wall
+owed. Skeleton gained the dated session-13 re-check block (incl. the
+audio-era log rules note for the harvest); adjudication still EMPTY,
+gaps 1–8 unchanged; oracle surface untouched.
+
+**RESUME POINT:** ritual TOMORROW (2026-08-19, same-day pair allowed):
+owner hosts, Junior joins (pull first — his seat prints `AUDIO off`,
+plays silent); host session-1 `loaded` must equal `189a8072…`. When
+both sessions + all eight answers exist, the FULL harvest runs the r5
+spark. Sessions without answers = PARTIAL: bank verbatim + hand the
+owner run-sheet POINTERS (wording stays virgin). Owner asks to play
+mid-session → r5's live-launch protocol (single-instance guard FIRST
+in a separate call judged by printed output, no `--fresh`, detached
+launch, judge by the log at close, priming quarantine while answers
+pend). Junior's side: nothing pending.
+
 ## 2026-08-18 v18 session 12 — M5a AUDIO INTEGRATION SHIPPED same night (owner override + owner-originals order); ritual moved to TOMORROW (same-day pair allowed); four solo chain links banked; anchor now 189a8072
 
 **Owner overrides (both verbatim in the skeleton + runsheet):** (1)
