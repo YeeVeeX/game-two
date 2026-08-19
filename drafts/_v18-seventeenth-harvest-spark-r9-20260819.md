@@ -84,6 +84,23 @@ owner pivot + post-power-cut continuation):**
   (AGENTS.md wins on any disagreement). Soak env vars
   (ZONES/SEED_SAVE/SOAK_AUDIO) + clip/critique commands are now
   documented in AGENTS.md §Commands.
+- **Family contract sync EXECUTED (owner-approved, 3 spokes + 1
+  mail):** audio `d3bd031` · gamesmith `e13de13` · lore `bd45462`
+  applied the canonical family block (md5 `e0475698…`) + CLAUDE.md
+  pointers; receipts harvested drift=none, blocks re-extracted and
+  md5-verified from the hub; **assets pending by mail** (seat HELD by
+  a live session — applies at its own pace). Routing doc + receipts:
+  `drafts/_family-contract-sync-20260819.md`. Sibling commits are
+  docs-only — zero handshake/fingerprint impact on game-two.
+- **portfolio-spine assessed (owner ask):** NO bootstrap owed (it
+  already carries the model AGENTS.md + pointer CLAUDE.md; the family
+  block is out of scope — sovereign personal infrastructure). Owner
+  onboarding card staged:
+  `drafts/_portfolio-spine-onboarding-20260819.md` (sync-loop commands
+  + include_globs; the approve stays human-confirmed by that repo's
+  own law). Nothing owed from game-two; if the owner runs the loop,
+  weekly briefs + cited Q&A + `pspine-mcp` become available over the
+  program's docs.
 
 The moving anchor is UNCHANGED since link #4:
 `189a80723c87b90f27bc8436533d8cc1` (sessions=6, save md5
@@ -124,11 +141,13 @@ never nag the humans to play.
 
 ## Job 0 — evidence inventory (three-mode gate; ~30 min, blocking; runs FIRST no matter what)
 
-Baselines at session-16 close (2026-08-19 ~14:0x; s16 commits =
-`2786754` · `d91281a` · `fd006f9` · `1917cca` · `34c9939` · `4bebc37`
-· `8cff809` · `9e4be7f` · `0af91b9` (r9 + override paragraph) ·
-`c972044` (AGENTS restructure) · `099e440` (peer model + CLAUDE.md) ·
-the r9-update commit = HEAD; `git log` disambiguates):
+Baselines at session-16 close (2026-08-19 ~14:4x; s16 made 16 commits
+— `git log` disambiguates; the spine: `2786754` EMPTY gate · `d91281a`
+audio retune · `1917cca` video bridge · `34c9939`/`4bebc37` gamesmith
+banking · `8cff809` continuation · `9e4be7f` idea 2 · `0af91b9` r9 ·
+`c972044` AGENTS restructure · `099e440` peer+CLAUDE.md · `63462a6` r9
+update · `1fb6117`/`0bde689` family sync + receipts · `e4a8a5c` spine
+card · the r9-update-2 commit = HEAD):
 
 - **Launcher logs: 29/29 both patterns**
   (`/tmp/game_two_session_*.log` AND
@@ -168,7 +187,7 @@ the r9-update commit = HEAD; `git log` disambiguates):
   intake standing as the owner's.
 - **Residue baselines:** suite desync trio
   (`desync_00000064`/`000008a9`/`00000bf7`, `platform:"test"`,
-  `dddd…`/`cccc…`) rewritten by EVERY hook rake — s16 made 12 commits;
+  `dddd…`/`cccc…`) rewritten by EVERY hook rake — s16 made 16 commits;
   correlate mtimes with `git log` commit times.
   `drafts/_gate-verdicts.log` last entry still
   `=== 20260819-022901 captures\pilot\quay8_r10_replay_gate_a ===`
@@ -182,9 +201,12 @@ the r9-update commit = HEAD; `git log` disambiguates):
   consoles `tmp/soak_console_20260819-s16*.log` = consumed bot
   artifacts.
 - **Seat mail:** `~/.pi/agent/mail/game-two/` inbox EMPTY at close
-  (done/ = 3). Expected arrivals: audio-seat receipts (clock-anchor
-  fix, cue-spec replies) · gamesmith round-7 (keys on our SEVENTEENTH
-  state: pending, fired-rows none) · assets (nothing owed).
+  (done/ = 6). Expected arrivals: **assets family-sync receipt** (their
+  held session consumes the mail — on arrival: verify the RECEIPT
+  line, tick its checkbox in `drafts/_family-contract-sync-20260819.md`,
+  move the mail to done/; pre-approved docs-only banking) · audio-seat
+  receipts (clock-anchor fix, cue-spec replies) · gamesmith round-7
+  (keys on our SEVENTEENTH state: pending, fired-rows none).
   Sibling-delivery rules (r8, unchanged): a delivery EXECUTES only if
   ALL of owner-approved + digest-grounded (md5 verified, STOP on
   mismatch) + docs-only banking + zero code/data/oracle touch;
