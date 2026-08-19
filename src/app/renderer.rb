@@ -179,6 +179,20 @@ module App
       @strings ? @strings.t("cue.#{kind}", fallback) : fallback
     end
 
+    # Flywheel fix (2026-08-19, verified vs clip low_quay_run 104223
+    # frames v_000729/2492/3836): a kills-only window resolves with zero
+    # loot movement and rendered a solo "+0" for 150 frames — a reward
+    # beat carrying no information trains players to ignore the slot
+    # that later carries real "+N" (critique issue 5). All-zero non-wipe
+    # beats are suppressed at DRAW time (the sim record and the
+    # fight_resolved event are untouched — renderer-only, digest-blind).
+    # Wipe recaps keep their "+0 held" format by design (praised; the
+    # veil is the punch and the zeros are the receipt).
+    def self.silent_beat?(beat)
+      beat[:kind] != :wipe && beat[:gained].zero? &&
+        beat[:pip_amount].zero? && beat[:dark_amount].zero?
+    end
+
     private
 
     def color(rgb, alpha = 255) = Gosu::Color.new(alpha, rgb[0], rgb[1], rgb[2])
@@ -865,6 +879,7 @@ module App
     def draw_ledger_beat(world)
       beat = world.ledger_beat
       return unless beat
+      return if self.class.silent_beat?(beat)
       frac = beat[:beat_left].fdiv(beat[:beat_frames])
       a = frac < (1 / 3.0) ? (255 * frac * 3).clamp(60, 255).round : 255
       age = beat[:beat_frames] - beat[:beat_left]
