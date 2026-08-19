@@ -43,10 +43,13 @@ re-check block; adjudication still EMPTY, gaps 1–8 unchanged; oracle
 surface untouched.
 
 **RESUME POINT:** unchanged — ritual sessions owner-paced; when both
-sessions + all eight answers exist, the FULL harvest runs the r3
-spark. Sessions without answers = PARTIAL: bank verbatim + hand the
+sessions + all eight answers exist, the FULL harvest runs the r4
+spark (`drafts/_v18-seventeenth-harvest-spark-r4-20260818.md` —
+supersedes r3 with the s10-close baselines, the residue-correlation
+baseline and the pinned strict-decode call shape). Sessions without
+answers = PARTIAL: bank verbatim + hand the
 owner the run-sheet POINTERS for the asking step (wording stays
-virgin). Owner asks to play mid-session → r3's live-launch protocol
+virgin). Owner asks to play mid-session → r4's live-launch protocol
 (no `--fresh`, detached launch, judge by the log at close, priming
 quarantine while answers are pending). Junior's side: nothing pending.
 
