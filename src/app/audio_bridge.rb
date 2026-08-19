@@ -71,7 +71,15 @@ module App
     # device: 1 = real default device (runtime), 0 = noDevice (tests — the
     # library's own gate mode; real DLL, real render graph, no hardware).
     def boot(lib_root: LIB_ROOT, bot: false, smoke: false, device: 1, out: $stdout)
-      return null(out, "AUDIO off: bot seat") if bot
+      # Lane-1 coverage override (2026-08-19): SOAK_AUDIO=1 boots bot
+      # seats in noDevice mode — the real DLL + full render graph process
+      # an hour of cue traffic with zero hardware contention (two bot
+      # processes must never fight over the device). Default stays off:
+      # bot seats are silent and cheap.
+      if bot
+        return null(out, "AUDIO off: bot seat") unless ENV["SOAK_AUDIO"]
+        device = 0
+      end
       dll = File.join(lib_root, "vendor/miniaudio.dll")
       version = File.join(lib_root, "vendor/VERSION")
       unless File.exist?(dll) && File.exist?(version)

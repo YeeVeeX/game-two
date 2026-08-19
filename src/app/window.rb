@@ -35,7 +35,8 @@ module App
 
     attr_reader :scale, :view_width, :view_height
 
-    def initialize(session: nil, relaunch: nil, seed: 0, save: nil, saver: nil, bot: nil, audio: nil)
+    def initialize(session: nil, relaunch: nil, seed: 0, save: nil, saver: nil, bot: nil,
+                   audio: nil, start_zone: nil)
       data = Core::DataStore.new(File.expand_path("../../data", __dir__))
       display = data["display"]
       @view_width = display[:view_width]
@@ -55,6 +56,10 @@ module App
       @relaunch = relaunch
       @saver = saver
       @audio = audio # M5a: pure sink; attach where the world is born
+      # Lane 1 (2026-08-19): bot-gated coverage start (World#start_in, the
+      # harness primitive) — applied at world birth on BOTH paths; netplay
+      # seats receive the same zone by construction (run_soak.sh).
+      @start_zone = start_zone
       @data = data
       strings = Core::Strings.new(data)
       if @session
@@ -64,6 +69,7 @@ module App
         @world = Game::World.new(data, seed:, save:)
         @telemetry = Game::Telemetry.new(@world.bus, world: @world)
         @audio&.attach(bus: @world.bus, world: @world)
+        @world.start_in(@start_zone) if @start_zone
       end
       bindings = Core::BindingMap.load(data, key_table: KEY_TABLE, local: true)
       # v18 soak (brief D1): a bot seat swaps the keyboard for the seeded
@@ -105,6 +111,7 @@ module App
                                  save: @session.params.save)
         @telemetry = Game::Telemetry.new(@world.bus, world: @world)
         @audio&.attach(bus: @world.bus, world: @world)
+        @world.start_in(@start_zone) if @start_zone
         @session.attach(@world)
       end
       @session.update(now, @input)

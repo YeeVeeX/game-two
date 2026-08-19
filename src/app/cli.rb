@@ -6,7 +6,8 @@ module App
   # precedent: the message reaches the person who typed the command).
   module Cli
     USAGE = "usage: bin/play [locale] [--fresh | --host [port] | --join <ip[:port]>] " \
-            "[--save <path>] [--bot [seed] [--bot-ticks <n>]] [--audio-smoke]".freeze
+            "[--save <path>] [--bot [seed] [--bot-ticks <n>] [--start-zone <zone>]] " \
+            "[--audio-smoke]".freeze
 
     # Exit-status seam (v17 SIXTEENTH support): the coop launchers relaunch
     # ONLY on link faults — a clean Esc or an honest desync/protocol end
@@ -38,6 +39,14 @@ module App
       # no --save (F2).
       save = extract_value!(args, "--save")
       bot = extract_bot!(args)
+      # Quality-flywheel lane 1 (2026-08-19): --start-zone begins the
+      # session in a named zone (World#start_in, the harness primitive).
+      # BOT-GATED by law: on a human seat this would be a teleport cheat
+      # on the real save (the in-game map/teleport lane stays parked).
+      # Both netplay seats must receive the SAME zone (lockstep identity;
+      # run_soak.sh passes it to both by construction).
+      start_zone = extract_value!(args, "--start-zone")
+      raise ArgumentError, "--start-zone needs --bot\n#{USAGE}" if start_zone && !bot
       # M5a: --audio-smoke is an order-free dev modifier — the audio bridge
       # plays its fixed cue choreography (ear-check tooling; sim untouched).
       smoke = !args.reject! { |a| a == "--audio-smoke" }.nil?
@@ -45,6 +54,7 @@ module App
       mods[:fresh] = true if fresh
       mods[:save] = save if save
       mods[:bot] = bot if bot
+      mods[:start_zone] = start_zone if start_zone
       mods[:audio_smoke] = true if smoke
       if args.empty?
         require_bot_save!(mods)

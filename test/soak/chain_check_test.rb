@@ -29,23 +29,32 @@ class ChainCheckTest < Minitest::Test
   end
 
   def host_log(seed:, ticks:, saved: nil, sessions: nil, loaded: nil,
-               fresh: false, desyncs: 0, reason: "quit", banner: true, error: nil)
+               fresh: false, desyncs: 0, reason: "quit", banner: true, error: nil,
+               start_zone: nil, fights: nil)
     lines = []
     lines << "AUTOPILOT seed=#{seed} quit_tick=#{ticks + 120}" if banner
+    lines << "START_ZONE zone=#{start_zone}" if start_zone
     lines << persist("fresh", source: "fresh") if fresh
     lines << persist("loaded", digest: loaded, sessions: [sessions.to_i - 1, 1].max, source: "file") if loaded
     lines << "hosting on port 43218 (Esc cancels)"
     lines << "EVENT arena_pulse zone=1"
     lines << "persist ERROR #{error}" if error
+    if fights
+      lines << "TELEMETRY d1_fired carrying_deaths=0 wipes=0 corpse_looted=0 " \
+               "carried_lost=0 banked_events=0 fights=#{fights} recovery_fights=0 " \
+               "negative_fights=0"
+    end
     lines << persist("saved", digest: saved, sessions:) if saved
     lines << netplay(seat: 1, ticks:, desyncs:, reason:)
     lines << "relaunch: bin/play --host 43218"
     lines.join("\n") + "\n"
   end
 
-  def joiner_log(seed:, ticks:, loaded: nil, desyncs: 0, reason: "quit", banner: true)
+  def joiner_log(seed:, ticks:, loaded: nil, desyncs: 0, reason: "quit", banner: true,
+                 start_zone: nil)
     lines = []
     lines << "AUTOPILOT seed=#{seed} quit_tick=#{ticks + 3720}" if banner
+    lines << "START_ZONE zone=#{start_zone}" if start_zone
     lines << persist("loaded", digest: loaded, sessions: 1, source: "handshake") if loaded
     lines << netplay(seat: 2, ticks:, desyncs:, reason:)
     lines << "relaunch: bin/play --join 127.0.0.1:43218"
@@ -66,8 +75,10 @@ class ChainCheckTest < Minitest::Test
         joiner_log(seed: 106, ticks: 36_190, loaded: D2))]
   end
 
-  def check(eps, min_ticks: 36_000, mode: "both", allow_link_faults: false)
-    Soak::ChainCheck.check(eps, min_ticks:, mode:, allow_link_faults:)
+  def check(eps, min_ticks: 36_000, mode: "both", allow_link_faults: false,
+            seed_digest: nil, zones: nil)
+    Soak::ChainCheck.check(eps, min_ticks:, mode:, allow_link_faults:,
+                           seed_digest:, zones:)
   end
 
   def test_green_three_episode_run_passes_with_intact_chain
@@ -247,5 +258,86 @@ class ChainCheckTest < Minitest::Test
     report = lines.join("\n")
     assert pass, report
     assert_match(/SKIP.*host/, report)
+  end
+
+  # --- Quality-flywheel lane 1 (2026-08-19): seeded chain + zone coverage ---
+
+  SEED = "eeee9999eeee9999eeee9999eeee9999".freeze
+
+  def seeded_run
+    [ep(1, host_log(seed: 101, ticks: 36_050, loaded: SEED, saved: D1, sessions: 1),
+        joiner_log(seed: 102, ticks: 36_047, loaded: SEED)),
+     ep(2, host_log(seed: 103, ticks: 36_101, loaded: D1, saved: D2, sessions: 2),
+        joiner_log(seed: 104, ticks: 36_098, loaded: D1))]
+  end
+
+  def test_seeded_chain_first_episode_loads_the_seed_digest
+    pass, lines = check(seeded_run, seed_digest: SEED)
+    report = lines.join("\n")
+    assert pass, report
+    assert_match(/CHAIN intact: seeded:eeee9999/, report)
+  end
+
+  def test_seeded_chain_fails_when_episode_one_starts_fresh
+    eps = seeded_run
+    eps[0][:host_log] = host_log(seed: 101, ticks: 36_050, fresh: true,
+                                 saved: D1, sessions: 1)
+    pass, lines = check(eps, seed_digest: SEED)
+    refute pass
+    assert_match(/seeded save/, lines.join("\n"))
+  end
+
+  def zoned_run(host_zone: "district", joiner_zone: "district", fights: 9)
+    [ep(1, host_log(seed: 101, ticks: 36_050, fresh: true, saved: D1, sessions: 1,
+                    start_zone: host_zone, fights:),
+        joiner_log(seed: 102, ticks: 36_047, start_zone: joiner_zone))]
+  end
+
+  def test_zone_coverage_green_passes
+    pass, lines = check(zoned_run, zones: ["district"])
+    assert pass, lines.join("\n")
+  end
+
+  def test_zone_coverage_fails_when_start_zone_line_is_missing
+    eps = zoned_run(host_zone: nil)
+    pass, lines = check(eps, zones: ["district"])
+    refute pass
+    assert_match(/START_ZONE/, lines.join("\n"))
+  end
+
+  def test_zone_coverage_fails_when_joiner_zone_differs
+    eps = zoned_run(joiner_zone: "nest")
+    pass, lines = check(eps, zones: ["district"])
+    refute pass
+    assert_match(/START_ZONE/, lines.join("\n"))
+  end
+
+  def test_zone_coverage_non_hub_requires_combat
+    eps = zoned_run(fights: 0)
+    pass, lines = check(eps, zones: ["district"])
+    refute pass
+    assert_match(/no combat/i, lines.join("\n"))
+  end
+
+  def test_zone_coverage_hub_zones_are_combat_exempt
+    eps = [ep(1, host_log(seed: 101, ticks: 36_050, fresh: true, saved: D1, sessions: 1,
+                          start_zone: "camp", fights: 0),
+              joiner_log(seed: 102, ticks: 36_047, start_zone: "camp"))]
+    pass, lines = check(eps, zones: ["camp"])
+    assert pass, lines.join("\n")
+  end
+
+  def test_zones_cycle_across_episodes
+    eps = [ep(1, host_log(seed: 101, ticks: 36_050, fresh: true, saved: D1, sessions: 1,
+                          start_zone: "district", fights: 3),
+              joiner_log(seed: 102, ticks: 36_047, start_zone: "district")),
+           ep(2, host_log(seed: 103, ticks: 36_101, loaded: D1, saved: D2, sessions: 2,
+                          start_zone: "low_quay", fights: 5),
+              joiner_log(seed: 104, ticks: 36_098, loaded: D1, start_zone: "low_quay")),
+           ep(3, host_log(seed: 105, ticks: 36_200, loaded: D2, saved: D3, sessions: 3,
+                          start_zone: "district", fights: 2),
+              joiner_log(seed: 106, ticks: 36_190, loaded: D2, start_zone: "district"))]
+    pass, lines = check(eps, zones: %w[district low_quay])
+    assert pass, lines.join("\n")
   end
 end

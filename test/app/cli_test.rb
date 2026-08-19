@@ -158,6 +158,31 @@ class CliTest < Minitest::Test
                  parse("--join", "1.2.3.4", "--bot", "9"))
   end
 
+  # Quality-flywheel lane 1 (2026-08-19): --start-zone is soak coverage
+  # tooling — bot-gated by law (a human start-zone would be a teleport
+  # cheat on the real save; the in-game map/teleport lane stays parked).
+  def test_start_zone_parses_with_bot
+    assert_equal({ mode: :solo, save: "tmp/x.json", start_zone: "low_quay",
+                   bot: { seed: 5, ticks: nil } },
+                 parse("--bot", "5", "--save", "tmp/x.json", "--start-zone", "low_quay"))
+  end
+
+  def test_start_zone_composes_with_host_and_join
+    host = parse("--host", "--bot", "7", "--save", "tmp/x.json", "--start-zone", "district")
+    assert_equal "district", host[:start_zone]
+    join = parse("--join", "1.2.3.4", "--bot", "9", "--start-zone", "district")
+    assert_equal "district", join[:start_zone]
+  end
+
+  def test_start_zone_without_bot_refuses_named
+    err = assert_raises(ArgumentError) { parse("--start-zone", "district") }
+    assert_match(/--start-zone needs --bot/, err.message)
+  end
+
+  def test_start_zone_needs_a_value
+    assert_raises(ArgumentError) { parse("--bot", "--save", "tmp/x.json", "--start-zone") }
+  end
+
   def test_bot_ticks_without_bot_refuses
     err = assert_raises(ArgumentError) { parse("--bot-ticks", "7200") }
     assert_match(/--bot-ticks needs --bot/, err.message)

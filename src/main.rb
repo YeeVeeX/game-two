@@ -53,6 +53,11 @@ if (bot = opts&.dig(:bot))
                                  quit_tick: bot[:ticks] || App::Autopilot::DEFAULT_QUIT_TICK)
   puts autopilot.banner
 end
+# Quality-flywheel lane 1 (2026-08-19): bot-gated start zone (Cli refused
+# it without --bot). The line is soak-oracle surface: chain_check asserts
+# it per zoned episode on BOTH seats.
+start_zone = opts&.dig(:start_zone)
+puts "START_ZONE zone=#{start_zone}" if start_zone
 save_path = opts&.dig(:save)
 save_path = File.expand_path(save_path) if save_path
 
@@ -89,7 +94,8 @@ if opts.nil? || opts[:mode] == :solo
   seed = App::Cli.new_seed
   puts "TELEMETRY session seed=#{seed}"
   saver = App::SaveCoordinator.new(store:, owner: true)
-  App::Window.new(seed:, save: save_facts, saver:, bot: autopilot, audio:).show
+  App::Window.new(seed:, save: save_facts, saver:, bot: autopilot, audio:,
+                  start_zone:).show
   exit
 end
 
@@ -171,6 +177,7 @@ if !session.host? && session.params_known? && session.params.save
 end
 
 require "app/window"
-App::Window.new(session:, relaunch:, saver:, bot: autopilot, audio:).show
+App::Window.new(session:, relaunch:, saver:, bot: autopilot, audio:,
+                start_zone:).show
 warn session.refusal if session.refusal
 exit App::Cli.exit_status(reason: session.reason, refusal: session.refusal)

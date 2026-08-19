@@ -16,15 +16,35 @@ module Soak
     NETPLAY = /^TELEMETRY netplay seat=(\d+) ticks=(\d+) desyncs=(\d+) stalls=\d+ stall_ms_max=\d+ reason=(\w+)/
     PERSIST = /^TELEMETRY persist (fresh|loaded|saved)(?: digest=(\h{32}))?(?: schema=\d+ banked=\d+ provisions=\d+ seals=\d+ marks=\d+)?(?: sessions=(\d+))?(?: source=(\w+))?/
     BANNER = /^AUTOPILOT seed=(\d+) quit_tick=(\d+)/
+    START_ZONE = /^START_ZONE zone=(\S+)/
+    FIGHTS = /^TELEMETRY d1_fired .*\bfights=(\d+)/
+    # Coverage law (lane 1, 2026-08-19): hub zones are combat-exempt —
+    # their spawns sit far from pack_spawn by design. Re-derive from
+    # data/zones/*.json hub flags if the zone set ever changes.
+    HUB_ZONES = %w[nest camp].freeze
 
     module_function
 
     # episodes: [{index:, host_log:, joiner_log:, host_exit:, joiner_exit:,
     # timeout:}, ...] (logs/exits nil when absent). -> [pass, report_lines]
-    def check(episodes, min_ticks:, mode: "both", allow_link_faults: false)
-      lines = ["SOAK CHECK mode=#{mode} min_ticks=#{min_ticks} episodes=#{episodes.length}"]
+    # seed_digest: a pre-seeded scratch chain (soak/seed_save.rb) — ep1
+    # must LOAD it (a fresh ep1 = the seed never applied, named).
+    # zones: per-episode start-zone cycle (episode i gets zones[(i-1) %
+    # len]); each zoned episode must show START_ZONE on BOTH present
+    # seats, and non-hub zones must show combat (fights > 0).
+    def check(episodes, min_ticks:, mode: "both", allow_link_faults: false,
+              seed_digest: nil, zones: nil)
+      lines = ["SOAK CHECK mode=#{mode} min_ticks=#{min_ticks} episodes=#{episodes.length}" \
+               "#{seed_digest ? " seeded=#{seed_digest[0, 8]}" : ''}" \
+               "#{zones && !zones.empty? ? " zones=#{zones.join(',')}" : ''}"]
       failures = 0
-      chain = { last_saved: nil, last_sessions: 0, links: ["fresh"] }
+      chain = if seed_digest
+                { last_saved: seed_digest, last_sessions: 0,
+                  links: ["seeded:#{seed_digest[0, 8]}"], seeded: true }
+              else
+                { last_saved: nil, last_sessions: 0, links: ["fresh"] }
+              end
+      zone_cycle = zones && !zones.empty? ? zones : nil
       sides = { "both" => %i[host joiner], "host_only" => [:host], "join_only" => [:joiner] }
               .fetch(mode)
       episodes.each do |ep|
@@ -66,6 +86,7 @@ module Soak
           end
         end
         fails << "timeout — seats killed by the orchestrator" if ep[:timeout]
+        check_zone(ep, zone_cycle, lines, fails, sides) if zone_cycle
         check_persistence(ep, chain, lines, fails, sides, link_fault:)
         if fails.empty?
           lines << "EP#{ep[:index]} PASS"
@@ -82,6 +103,28 @@ module Soak
       lines << (pass ? "SOAK PASS episodes=#{episodes.length}" :
                        "SOAK FAIL episodes=#{episodes.length} failed=#{failures}")
       [pass, lines]
+    end
+
+    # Lane 1 coverage: the zoned episode must PROVE it started there (both
+    # seats print START_ZONE) and, outside hubs, that combat actually ran.
+    def check_zone(ep, zones, lines, fails, sides)
+      zone = zones[(ep[:index] - 1) % zones.length]
+      lines << "EP#{ep[:index]} zone=#{zone}"
+      %i[host joiner].each do |side|
+        next unless sides.include?(side)
+        log = ep[:"#{side}_log"]
+        next if log.nil? # already failed above
+        got = log[START_ZONE, 1]
+        if got != zone
+          fails << "#{side} START_ZONE #{got ? "zone=#{got}" : 'line missing'} " \
+                   "(expected zone=#{zone})"
+        end
+      end
+      return if HUB_ZONES.include?(zone)
+      return if ep[:host_log].nil? || !sides.include?(:host)
+      fights = ep[:host_log][FIGHTS, 1].to_i
+      fails << "no combat in #{zone} (fights=#{fights}) — coverage episode " \
+               "must exercise the sim, not idle" unless fights.positive?
     end
 
     # The persistence chain lives host-side (the joiner never persists —
@@ -103,9 +146,18 @@ module Soak
         fails << "expected a fresh start (scratch save), got none" unless fresh || loaded
         fails << "loaded #{loaded[:digest]} but no prior save exists" if loaded
       elsif loaded.nil?
-        fails << "no persist loaded line (previous saved digest #{chain[:last_saved]})"
+        fails << if chain[:seeded] && chain[:links].length == 1
+                   "episode 1 did not load the seeded save (expected #{chain[:last_saved]})"
+                 else
+                   "no persist loaded line (previous saved digest #{chain[:last_saved]})"
+                 end
       elsif loaded[:digest] != chain[:last_saved]
-        fails << "chain break: loaded #{loaded[:digest]} != previous saved #{chain[:last_saved]}"
+        fails << if chain[:seeded] && chain[:links].length == 1
+                   "episode 1 did not load the seeded save: loaded #{loaded[:digest]} " \
+                   "!= seeded #{chain[:last_saved]}"
+                 else
+                   "chain break: loaded #{loaded[:digest]} != previous saved #{chain[:last_saved]}"
+                 end
       end
       check_joiner_persist(ep, chain, fails, sides, host_loaded: loaded)
       if link_fault
@@ -190,7 +242,9 @@ if $PROGRAM_NAME == __FILE__
     episodes,
     min_ticks: Integer(meta.fetch("ticks")),
     mode: meta.fetch("mode", "both"),
-    allow_link_faults: meta["allow_link_faults"] ? true : false
+    allow_link_faults: meta["allow_link_faults"] ? true : false,
+    seed_digest: meta["seed_digest"],
+    zones: meta["zones"]
   )
   report = lines.join("\n") + "\n"
   File.write(File.join(run_dir, "report.txt"), report)
