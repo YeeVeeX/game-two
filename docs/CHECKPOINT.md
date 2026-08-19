@@ -1,44 +1,59 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-19 v18 session 16 — SEVENTEENTH gate re-run (spark r8): EMPTY (sixth) — expected (gate ran ~7 min after the r8 spark commit; session-1 RE-RUN owner-paced, nothing new since s15 close); docs-only
+## 2026-08-19 v18 session 16 — SEVENTEENTH gate re-run (spark r8): EMPTY (sixth) — then OWNER-DIRECTED PIVOT live: crash-class audit CLEAN + ritual-length soak PASS 3/3 + audio retune executed (asks 1+3) + attack-cue spec drafted (ask 2); ritual re-run still owner-paced
 
-**Mode: EMPTY** (vehicle: r8 spark
-`drafts/_v18-seventeenth-harvest-spark-r8-20260819.md` — still the
-standing vehicle for the next gate). Gate ran 08:20–08:24, seven
-minutes after the r8 spark commit itself (`86c5748`, 08:17:03); zero
-new evidence is the expected state, not a stall. Findings verbatim in
-the skeleton's sixth dated re-check block:
+**Mode: EMPTY at the gate (08:20–08:24), then the owner redirected the
+session live** (es, verbatim in the skeleton's owner-direction block):
+"juega en automático mientras tanto … debemos seguir avanzando,
+depurando y mejorando" + "no te cierres ni te limites, nosotros somos
+dueños de este proyecto". The dev-side tuning freeze is LIFTED by owner
+order (M5a-override precedent); measurement hygiene stands (questions
+virgin, bot logs never evidence, verbatim harvest). Second half of the
+session, all receipts committed:
 
-- **Launcher logs:** 29/29 both temp-dir patterns, newest still
-  `game_two_session_7196.log` 00:06 = the crashed attempt (CONSUMED
-  s14); zero `AUTOPILOT` lines; only coop console remains the banked
-  `20260818-234037` one.
-- **Quarantine holds (link-#4 values):** `saves/world.json` md5
-  `30ff315dc36ee183c42eb040c08e6030` mtime 22:36; strict decode
-  (pinned shape) LOADED `digest=189a80723c87b90f27bc8436533d8cc1`
-  sessions=6 banked=20 seals=2 marks=0 boss_1_defeats=1 provisions=0
-  notices=[]. Ritual session-1 host `loaded` expectation stays
-  `189a8072…`.
-- **Junior side:** tip `b155bcb` (in main), `origin/junior/ci` still
-  `057fb03`, no new draft, no paste. **Answers 0/8.** Seat mail inbox
-  empty (done/ = the two consumed mails).
-- **Residue classified:** suite desync trio rewritten 08:17:27–35 =
-  the `86c5748` r8-spark commit's hook rake (`platform:"test"`,
-  `dddd…`/`cccc…` verified in-file); `_gate-verdicts.log` unchanged
-  since 02:29:01 (`…quay8_r10…` still the last entry); tmp/soak newest
-  report still 15:16:05.122993 (s8's own, sub-second compare) — Job 5
-  empty.
-- **v19 intake:** nothing arrived —
-  `drafts/_junior-v19-ideas-20260819.md` stays at idea 1 (BANK).
+- **Gate result (unchanged):** sixth EMPTY — 29/29 logs (newest `7196`
+  CONSUMED), anchor `189a8072…` holds at link #4 (md5
+  `30ff315dc36ee183c42eb040c08e6030`, strict decode sessions=6
+  banked=20 seals=2 marks=0), answers 0/8, Junior tip `b155bcb`, mail
+  empty, residue classified (trio 08:17 = `86c5748` hook rake;
+  gate-verdicts log unchanged; no new soak pre-pivot). Commit `2786754`.
+- **Crash-class audit CLEAN:** every `possessed` deref site checked
+  (controls_overlay guard, save_state nil-by-design, renderer `&.`,
+  world.rb `next unless body`, audio bridge reads only `world.frame`,
+  netplay_overlay computes no_body) — the b6c110f site was the ONLY
+  unguarded one. No sibling defects; nothing to fix.
+- **Soak PASS 3/3 at ritual length** (`tmp/soak/20260819-084538`,
+  N=3 TICKS=36000 SEED=20260819, autopilot exercises interact/swap/
+  sustain — the crash-class path re-exercised on the fixed build):
+  all six netplay lines desyncs=0 reason=quit ticks≥36116; bot save
+  chain intact `fresh → 56913068 → 33ecfc93 → 40bc50e9` sessions 1→3;
+  quarantine verified (real save md5 + temp-log count unmoved, guard
+  clean before/after). Bot evidence — never oracle input.
+- **Audio retune EXECUTED (owner asks 1+3, data-only, `d91281a`):**
+  calm ambient → the owner's own `msfx_drone_4s` (unplaced render, 4 s
+  = 2 bars bar-exact); stem gains 4.0→2.0 (−6.02 dB interim until his
+  Reaper re-render). AudioData.load validated + suite green (the
+  bridge test loads the edited tables through the real DLL). Owner
+  ear-check PENDING his next session (listen-verdict precedent).
+- **Attack/effects cue spec DRAFTED (ask 2):**
+  `drafts/_audio-cue-spec-attacks-20260819.md` — 7-render Reaper list
+  (es-CR) handed to the owner in chat + ready mapping rows
+  (payload-blind, one cue per event, all events verified on the bus).
+  Blocked only on his renders.
+- **Ritual caveat addendum (skeleton owner-direction block):** the
+  re-run now carries the retuned audio — rides the SAME pre-registered
+  audio-novelty caveat; Junior's AUDIO line still decides the branch.
 
-**RESUME POINT:** unchanged from s14/s15 — session 1 RE-RUNS
-owner-paced (Junior pulls ≥ `b6c110f` first; host `loaded` must equal
-`189a8072…`; both-seats AUDIO lines read VERBATIM at harvest —
-Junior's line decides the Half-B caveat branch). Vehicle: the r8 spark
-(this session ran it; it stands until superseded). Priming quarantine
-in force until all eight answers are in. Audio asks + Ctrl-facing idea
-stay RECORDED lanes; `data/audio/**` frozen; the gamesmith corpus
-brief stays priming-quarantined until position-decision time.
+**Quarantine spot (unchanged):** save md5
+`30ff315dc36ee183c42eb040c08e6030`, digest `189a8072…`, sessions=6,
+newest temp log `7196` (CONSUMED), count 29/29. Answers 0/8.
+
+**RESUME POINT:** session 1 RE-RUNS owner-paced on the retuned build
+(Junior pulls ≥ `d91281a` now — same-commit handshake law; host
+`loaded` must equal `189a8072…`). Vehicle: r8 spark + this entry.
+Owner-side pending: (a) ear-check of the new ambient (his next play,
+any time), (b) the 7 Reaper renders (his pace — spec in the drafts
+file), (c) the ritual when Junior is back.
 
 ## 2026-08-19 v18 session 15 — SEVENTEENTH gate re-run (spark r7): EMPTY (fifth) — expected (the crashed attempt closed 00:06 the same night; session-1 RE-RUN owner-paced); s14 wall verdicts banked (out-raced the close commit); cycle owner-paced
 
