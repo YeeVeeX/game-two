@@ -21,52 +21,61 @@ writing ever restarts, it restarts OUTSIDE this repo (from the archive
 folder) — never here. Placeholder
 changes are still Rule-2 visual changes (wall + recalibration apply).
 
-v18 (2026-08-17, owner ratified — "yes approved"): **THE PERSISTENT
-WORLD CYCLE — etapa 1.** v17 closed the same day: the SIXTEENTH
-adjudicated **CUMPLIDO** on both halves (Half A: 89575/89577 ticks,
-desyncs=0 both seats, reason=quit both; Half B: "juntos" sí/sim asked
-separately, verdicts "muy divertido"/"muito bom jogo"; verdict file
-`drafts/_v16-fun-verify-skeleton-20260816.md`'s successor
-`drafts/_v17-fun-verify-skeleton-20260816.md`). Owner vision drop
-(persistent shared world, editor/god view, character persistence)
-routed in PARKING_LOT.md; always-online = architecture fork, PARKED
-with a named trigger (different-time play or a third player).
+## Operating model (owner-set 2026-08-19 — "no te cierres ni te limites")
 
-**IN scope (three lanes, one increment — foundation:
-`drafts/_v18-foundation-20260817.md`):**
-- **Coop feel** — respawn/pacing/difficulty made seat-count aware
-  (SIXTEENTH Q3a + Junior's "não parece tão dificil" + AI third-body
-  suicides = one item); **priced mid-hunt sustain** (owner law
-  2026-08-11: spend banked value, portable, never a free cooldown).
-- **Persistence v1** — world+character state survives sessions:
-  host-authoritative save, transferred + digest-checked at the
-  handshake (fingerprint-law extension); save/load round-trips the
-  deterministic sim; schema-versioned, mismatch = named refusal.
-  Re-opens D0's "banked session-only" BY OWNER ASK.
-- **God-view v0** — OFFLINE full-map artifact only (rake task → PNG
-  from data+save; Rule 2 applies to the artifact). In-game map/
-  teleport/editing stay parked.
-- **Design forks close at the brainstorm** (dev recommendation + owner
-  veto, v13 precedent): F1 what persists · F2 save custody · F3 banked
-  persists · F4 solo advances the shared world · F5 pacing shape ·
-  F6 sustain verb · F7 god-view scope — positions in the foundation.
+- The owner + Junior DIRECT the project (creative vision, priorities, what
+  gets built next); the dev of record PROPOSES, DEFENDS, and EXECUTES
+  (design calls argued with touchstones, never rubber-stamped). Owner
+  overrides are LAW the moment they land in chat — recorded in ONE line
+  (here or the checkpoint), never re-litigated (precedents: M5a 2026-08-18,
+  flywheel 2026-08-19).
+- TWO things never relax, under any override:
+  1. **Deterministic quality gates** — suite green via hooks; every visual
+     change through the blocking Rule 2 gate; wall owed when visual
+     surfaces move; bots/critics advise, gates decide.
+  2. **Measurement hygiene while a fun-verify is pending** — ritual
+     questions virgin, TELEMETRY oracle wording + runsheet + JUNIOR.md
+     frozen, bot logs never fun-evidence, verbatim means verbatim, and the
+     SIM numbers the pending ritual measures (respawn/difficulty/sustain)
+     wait for its verdict.
+- Everything else is steerable at the owner's word: lane order, freezes,
+  scope promotions. Less rigidity ≠ less order: one-concern commits,
+  evidence banks, forks close at brainstorms (dev recommendation + owner
+  veto, v13 precedent).
 
-**Oracle (the SEVENTEENTH ask, two halves):** (A) PERSISTED — two real
-sessions on different days, session 2 provably resumes the same world
-(save digest chain + zero desyncs across both + a carried fact in
-telemetry); (B) FELT — both players asked separately: did the world
-feel continued, did the respawn/sustain frictions disappear.
-**Owner amendment (2026-08-18 late, live in chat — verbatim in the
-skeleton):** the two ritual sessions MAY share one day ("we can do 2
-sessions in a single day"; ritual moves to TOMORROW). Half A is
-mechanically intact (two separate launches; session 2 must load
-session 1's save). Two RECORDED adjudication caveats: the felt-half
-"return later" weakens at same-day spacing, and the ritual now runs
-on an audio-carrying build (M5a below) — BOTH seats sounded by owner
-order (2026-08-18 ~23:00, verbatim in the skeleton: Junior clones the
-audio library repo, JUNIOR.md §"Som no jogo"; his console's `AUDIO
-on/off/refused` line decides at harvest whether the caveat reads
-symmetric-novelty or the original silent-seat asymmetry).
+## Current cycle — v18 (persistent world, etapa 1) + the quality flywheel
+
+**v18 state:** all three lanes SHIPPED (coop feel · persistence v1 ·
+god-view v0; foundation `drafts/_v18-foundation-20260817.md`; forks F1–F7
+closed 2026-08-17). What remains is the SEVENTEENTH ask — the fun-verify.
+
+**Lane 1 — the SEVENTEENTH (owner-paced):** two real coop sessions
+(same-day pair allowed — owner amendment; both seats ≥36000 ticks, Esc
+quit) + eight answers asked separately, then adjudication on the spec's
+CLOSED terms (§Fun-verify: four Half-A checks + routing table). Vehicle:
+`drafts/_v18-seventeenth-harvest-spark-r9-20260819.md` (r9, supersedes
+r8). Working file: `drafts/_v18-fun-verify-skeleton-20260818.md` (anchor,
+chain links, caveats, EMPTY re-checks). Junior pulls CURRENT main before
+joining (same-commit handshake law).
+
+**Lane 2 — quality flywheel (owner-directed 2026-08-19; contract:
+`drafts/_quality-flywheel-plan-20260819.md`):** soak zone-coverage (all
+six zones, seeded scratch saves, bot audio) · deterministic clips +
+self-eval critique · verified renderer/data fixes ONLY (sampling-artifact
+law: every critique claim verified against code + exact frames before
+becoming a work item; sim-touching candidates = v19-class, RECORDED) ·
+audio tuning on owner ask (drone ambient + −6 dB shipped `d91281a`;
+attack-cue spec staged: `drafts/_audio-cue-spec-attacks-20260819.md`).
+
+**Owner-pending (never nag):** ambient ear-check (his next solo listen —
+also chain link #5) · his 7 attack renders (Reaper) · the ritual when
+Junior is available.
+
+**Audio (M5a, SHIPPED 2026-08-18):** pure sink (never sim/saves/netplay),
+OPTIONAL at boot (absent/refused = one named line, game runs silent),
+owner originals only. Verdict + deferred lanes:
+`drafts/_m5a-verdict-20260818.md`. Cycle history (v17 close, M5a story,
+ritual amendments): checkpoint + `git log --follow -- AGENTS.md`.
 
 **Seat:** dev of record = the main session. Working language: English.
 Junior's seat is ACTIVE (CI, PT-BR functional labels, playtesting) —
@@ -81,39 +90,8 @@ assets integration (gated on game-two-assets pipeline maturity);
 rollback/resync; open-internet play (Tailscale = trusted overlay
 only); BOSS-1-dread iteration (OPEN-FOR-EXPOSURE — zero code owed);
 all lore/creative writing (standing order above); in-game rebind UI.
-**Audio integration M5a is IN (owner override, 2026-08-18 live):** the
-owner overrode the queue order in chat ("I would like to integrate
-the audio now") — M5a runs BEFORE the SEVENTEENTH. **SHIPPED same
-night** (verdict: `drafts/_m5a-verdict-20260818.md`; owner: "acceptable
-for now"): bridge + boot seam (`src/app/audio_bridge.rb`, pure-sink
-proven by StateDigest equality), OWNER ORIGINALS ONLY at runtime
-(`data/audio/` — game-side table custody, 7 sha-chained Reaper renders,
-zero placeholder tones, owner order), v1 six-event mapping + data-driven
-music derivation, +12 dB owner level pass. Audio stays a PURE SINK
-(never sim/saves/netplay) and OPTIONAL at boot — library absent or
-vendor-sha mismatch = one named `AUDIO off/refused` line, game runs
-silent (Junior's machine plays unchanged). Deferred, recorded in the
-verdict: assets LUFS lane · audio-seat clock-anchor fix (drift ≈800
-frames/s measured 2×) · drone/swarmpip placement · level tuning.
-**Nothing ELSE new starts until v18 is fun-verified (the SEVENTEENTH
-ask)** — M5a is the one owner-ordered exception.
-**Owner direction 2026-08-19 (live, session 16 — M5a-precedent
-override): the tuning/build freeze is LIFTED while the SEVENTEENTH
-stays pending.** The quality-flywheel program runs owner-directed
-(contract: `drafts/_quality-flywheel-plan-20260819.md`): soak
-zone-coverage (bot-gated `--start-zone`, seeded scratch saves,
-SOAK_AUDIO), deterministic clips + self-eval critique
-(`harness/make_clip.sh` / `harness/self_eval.py`; every critique claim
-VERIFIED against code + exact frames before becoming a work item —
-sampling-artifact law), audio retunes on owner ask (drone ambient +
-−6 dB shipped `d91281a`; attack-cue spec staged). **Measurement
-hygiene is UNTOUCHED and absolute:** ritual questions virgin, TELEMETRY
-oracle wording / runsheet / JUNIOR.md frozen, bot logs never
-fun-evidence, respawn/difficulty/sustain SIM numbers wait for the
-verdict (they ARE the measured questions); flywheel fixes ship
-renderer/data surfaces only, each behind the Rule 2 gate; sim-touching
-candidates are v19-class, RECORDED. The ritual + adjudication protocol
-is unchanged.
+v19 intake (2 ideas banked): `drafts/_junior-v19-ideas-20260819.md` —
+v19 opens at the post-verdict brainstorm, not before.
 
 ## Human-facing surfaces
 
@@ -203,13 +181,28 @@ scope for this repo. (Historical pipeline: see git history of this file.)
   `.bak-<ts>` FIRST — the backup law); `--join --fresh` refuses (the joiner never keeps
   the save). Coop pacing scalars: `data/balance/coop.json` (per-seat-count block; seats=1 =
   no block = no arithmetic).
-- **Soak (v18 session 8):** `rake soak [N=episodes] [TICKS=min] [SEED=base]` — two
-  seeded bots (host+joiner, real processes over loopback/Tailscale) play N episodes on a
-  SCRATCH save under `tmp/soak/<run>/`; `soak/chain_check.rb` judges LOGS + exit codes
-  only (reason=quit, desyncs=0, ticks≥target, digest chain, sessions +1). Quarantine is
-  mechanical: `--bot` in a save-owning seat refuses without `--save`, and the run fails
-  NAMED if `saves/world.json`'s md5 or the temp-dir log count moves. **A bot session is
-  never oracle evidence** — fun-verify harvests judge human launcher logs only.
+- **Soak (v18 session 8; zone coverage 2026-08-19):** `rake soak [N=episodes]
+  [TICKS=min] [SEED=base]` — two seeded bots (host+joiner, real processes over
+  loopback/Tailscale) play N episodes on a SCRATCH save under `tmp/soak/<run>/`;
+  `soak/chain_check.rb` judges LOGS + exit codes only (reason=quit, desyncs=0,
+  ticks≥target, digest chain, sessions +1). Env extensions (run_soak.sh header):
+  `ZONES=a,b,c` = episode i starts both seats in zones[(i-1)%len] (bot-gated
+  `--start-zone`; chain_check asserts START_ZONE both seats + combat outside
+  hubs) · `SEED_SAVE=1` = pre-seed the scratch save (banked=60, provisions=3 —
+  real sustain buys) · `SOAK_AUDIO=1` = bots boot the real mixer in noDevice
+  mode. Quarantine is mechanical: `--bot` in a save-owning seat refuses without
+  `--save`, and the run fails NAMED if `saves/world.json`'s md5 or the temp-dir
+  log count moves. **A bot session is never oracle evidence** — fun-verify
+  harvests judge human launcher logs only.
+- **Flywheel clips + critique (2026-08-19):** `harness/make_clip.sh
+  harness/scripts/<name>.json [every_n] [out.mp4]` — deterministic MP4 from a
+  wall script (env-gated VIDEO_EVERY frame dump; the wall never sets it — gate
+  behavior byte-identical; never run beside a live seat or soak). Critique:
+  `python harness/self_eval.py tmp/clip_<…>/video ["<focus>"]` →
+  `drafts/_self-eval/<clip>_critique.md` (structure-vs-asset persona, spend
+  rails ~$2-5/clip). **Sampling-artifact law:** critics see ~4% of frames —
+  every claim is verified against code + exact frames (read the PNGs) before
+  it becomes a work item.
 - `rake capture SCRIPT=harness/scripts/<name>.json` — deterministic replay + frame capture.
   One script per regression surface lives in `harness/scripts/` (the wall); trust the
   directory, not an inline list here (an inline list went stale once). Canonical entry
