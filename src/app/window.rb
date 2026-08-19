@@ -35,7 +35,7 @@ module App
 
     attr_reader :scale, :view_width, :view_height
 
-    def initialize(session: nil, relaunch: nil, seed: 0, save: nil, saver: nil, bot: nil)
+    def initialize(session: nil, relaunch: nil, seed: 0, save: nil, saver: nil, bot: nil, audio: nil)
       data = Core::DataStore.new(File.expand_path("../../data", __dir__))
       display = data["display"]
       @view_width = display[:view_width]
@@ -54,6 +54,7 @@ module App
       @session = session
       @relaunch = relaunch
       @saver = saver
+      @audio = audio # M5a: pure sink; attach where the world is born
       @data = data
       strings = Core::Strings.new(data)
       if @session
@@ -62,6 +63,7 @@ module App
       else
         @world = Game::World.new(data, seed:, save:)
         @telemetry = Game::Telemetry.new(@world.bus, world: @world)
+        @audio&.attach(bus: @world.bus, world: @world)
       end
       bindings = Core::BindingMap.load(data, key_table: KEY_TABLE, local: true)
       # v18 soak (brief D1): a bot seat swaps the keyboard for the seeded
@@ -85,6 +87,7 @@ module App
         @world.tick(@input)
       end
       autopilot_watch if @autopilot
+      @audio&.update(@world.frame) if @world # after the tick; bus already flushed
       @overruns += 1 if Gosu.milliseconds - t0 > FRAME_BUDGET_MS
     end
 
@@ -101,6 +104,7 @@ module App
         @world = Game::World.new(@data, seed: @session.params.seed, seats: 2,
                                  save: @session.params.save)
         @telemetry = Game::Telemetry.new(@world.bus, world: @world)
+        @audio&.attach(bus: @world.bus, world: @world)
         @session.attach(@world)
       end
       @session.update(now, @input)
@@ -175,6 +179,7 @@ module App
         puts "desync report: #{@session.artifact_path}" if @session.artifact_path
         puts "relaunch: #{@relaunch}" if @relaunch
       end
+      @audio&.shutdown # contract §3 teardown: sink -> engine -> window close
       super
     end
   end

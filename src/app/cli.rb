@@ -6,7 +6,7 @@ module App
   # precedent: the message reaches the person who typed the command).
   module Cli
     USAGE = "usage: bin/play [locale] [--fresh | --host [port] | --join <ip[:port]>] " \
-            "[--save <path>] [--bot [seed] [--bot-ticks <n>]]".freeze
+            "[--save <path>] [--bot [seed] [--bot-ticks <n>]] [--audio-smoke]".freeze
 
     # Exit-status seam (v17 SIXTEENTH support): the coop launchers relaunch
     # ONLY on link faults — a clean Esc or an honest desync/protocol end
@@ -38,10 +38,14 @@ module App
       # no --save (F2).
       save = extract_value!(args, "--save")
       bot = extract_bot!(args)
+      # M5a: --audio-smoke is an order-free dev modifier — the audio bridge
+      # plays its fixed cue choreography (ear-check tooling; sim untouched).
+      smoke = !args.reject! { |a| a == "--audio-smoke" }.nil?
       mods = {}
       mods[:fresh] = true if fresh
       mods[:save] = save if save
       mods[:bot] = bot if bot
+      mods[:audio_smoke] = true if smoke
       if args.empty?
         require_bot_save!(mods)
         return { mode: :solo }.merge(mods)

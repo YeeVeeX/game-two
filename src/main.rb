@@ -1,3 +1,9 @@
+# M5a audio (contract §3): SDL's audio-driver hint is read at SDL audio-
+# subsystem init — set at PROCESS ENTRY, before any gosu require, so Gosu's
+# audio lands on the dummy backend and miniaudio owns the real device.
+# Every launcher funnels through this file, so this IS process entry.
+ENV["SDL_AUDIODRIVER"] = "dummy"
+
 $LOAD_PATH.unshift(__dir__)
 require "core/data_store"
 require "app/cli"
@@ -50,6 +56,13 @@ end
 save_path = opts&.dig(:save)
 save_path = File.expand_path(save_path) if save_path
 
+# M5a: audio boots per contract §3 (engine + sink before the window; ONE
+# engine per process). Optional by law — absent library / bot seat = one
+# named line + silent game; failures never kill the game (Junior's
+# machine has no library and must play unchanged).
+require "app/audio_bridge"
+audio = App::AudioBridge.boot(bot: !autopilot.nil?, smoke: !opts&.dig(:audio_smoke).nil?)
+
 if opts.nil? || opts[:mode] == :solo
   require "app/window"
   require "app/save_store"
@@ -76,7 +89,7 @@ if opts.nil? || opts[:mode] == :solo
   seed = App::Cli.new_seed
   puts "TELEMETRY session seed=#{seed}"
   saver = App::SaveCoordinator.new(store:, owner: true)
-  App::Window.new(seed:, save: save_facts, saver:, bot: autopilot).show
+  App::Window.new(seed:, save: save_facts, saver:, bot: autopilot, audio:).show
   exit
 end
 
@@ -158,6 +171,6 @@ if !session.host? && session.params_known? && session.params.save
 end
 
 require "app/window"
-App::Window.new(session:, relaunch:, saver:, bot: autopilot).show
+App::Window.new(session:, relaunch:, saver:, bot: autopilot, audio:).show
 warn session.refusal if session.refusal
 exit App::Cli.exit_status(reason: session.reason, refusal: session.refusal)
