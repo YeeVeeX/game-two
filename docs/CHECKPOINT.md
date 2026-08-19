@@ -1,5 +1,55 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-18 v18 session 10 — SEVENTEENTH evidence gate re-run (spark r3): EMPTY — nothing new past solo link #1; PARTIAL/STANDBY holds, cycle owner-paced
+
+**Mode: EMPTY** (harvest vehicle: r3 spark
+`drafts/_v18-seventeenth-harvest-spark-r3-20260818.md`, committed
+`0aaa986` at session-9 close — still the standing vehicle for the next
+re-run). Full inventory 20:39–20:43, findings verbatim in the
+skeleton's new dated re-check block:
+
+- **Launcher logs:** 23/23 both temp dirs (== r3 baseline), newest
+  still `game_two_session_6508.log` 18:00:31 = solo chain link #1
+  (banked session 9); zero `AUTOPILOT` lines in any launcher log —
+  zero ritual sessions, zero new solo links.
+- **Quarantine holds (post-link values):** `saves/world.json` md5
+  `213076c540cc9eed846172748aae2e10` mtime 18:00:31; play-path strict
+  decode LOADED `digest=602e94bbf7d417d845c73e3702fd4675` sessions=3
+  banked=20 seals=2 marks=3 boss_1_defeats=1 — the moving anchor sits
+  exactly where link #1 left it (every save move has its matching
+  banked log; no anomaly). Ritual session 1's host `loaded`
+  expectation stays `602e94bb…`.
+- **Junior side:** no commit past the 2026-08-16 `origin/junior/ci`
+  tip (`057fb03`, ancestor of main), no new `_junior-*` draft (newest
+  15:58 soak return, consumed s8), no paste. **Answers 0/8.**
+- **Residue classified, laws held:** desync trio rewritten 20:38:06–09
+  (`platform:"test"` fingerprints) = the `0aaa986` spark commit's
+  pre-commit/pre-push hook rake (commit 20:37:34);
+  `_gate-verdicts.log` unchanged since 17:11.
+
+**Job 5 (soak side harvest):** no `tmp/soak/*/report.txt` newer than
+15:16:05 (session-8's own validation) — the overnight one-liner still
+hasn't been run. Nothing to read, no tripwire, no code touched.
+
+**Job 6 (v19 intake):** nothing arrived (no paste, no drafts file, no
+commit) — slot stays open; banks verbatim to
+`drafts/_junior-v19-ideas-<date>.md` + Itexo-style triage when it
+lands; bundled-with-answers arrivals get SPLIT (answers → skeleton,
+ideas → intake).
+
+**Close:** docs-only; suite green 804 runs / 17005 assertions, 0
+failures. No code, no wall owed. Skeleton gained the dated session-10
+re-check block; adjudication still EMPTY, gaps 1–8 unchanged; oracle
+surface untouched.
+
+**RESUME POINT:** unchanged — ritual sessions owner-paced; when both
+sessions + all eight answers exist, the FULL harvest runs the r3
+spark. Sessions without answers = PARTIAL: bank verbatim + hand the
+owner the run-sheet POINTERS for the asking step (wording stays
+virgin). Owner asks to play mid-session → r3's live-launch protocol
+(no `--fresh`, detached launch, judge by the log at close, priming
+quarantine while answers are pending). Junior's side: nothing pending.
+
 ## 2026-08-18 v18 session 9 — SEVENTEENTH evidence gate re-run: EMPTY (no ritual evidence, 0/8 answers, no v19 list, no new soak runs); PARTIAL/STANDBY holds, cycle owner-paced
 
 **Mode: EMPTY** (spark banked + committed:
