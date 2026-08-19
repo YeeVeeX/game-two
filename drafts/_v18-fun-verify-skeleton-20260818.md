@@ -126,6 +126,41 @@ legitimately moves it — this anchor is DIAGNOSTIC context for the
 chain walk, not one of the four checks). Note for the chain reading:
 the ritual will open with `sessions=` starting from 2, `banked=0`.
 
+### Solo chain link #1 (2026-08-18 18:00 — owner solo session, HUMAN)
+
+Launched by the dev seat at the owner's live ask ("abre el juego para
+mi para jugarlo en solo, en el mundo persistente"), played and Esc-quit
+by the owner. Log `/tmp/game_two_session_6508.log` (mtime 2026-08-18
+18:00:31, 1791 bytes, NO `AUTOPILOT` line — human; launcher console
+empty = clean exit 0), full copy preserved md5-identical
+(`cf3e4af052774bd69c4abf203ccc2572`) at
+`drafts/_v18-seventeenth-evidence/game_two_session_6508.log`. Chain
+lines verbatim:
+
+```
+TELEMETRY persist loaded digest=d63fd8ea72551208fc03bf7e4b1b65cd schema=1 banked=0 provisions=0 seals=0 marks=0 sessions=2 source=file
+TELEMETRY persist saved digest=602e94bbf7d417d845c73e3702fd4675 schema=1 banked=20 provisions=0 seals=2 marks=3 sessions=3
+```
+
+Sustain line (recorded VERBATIM for the post-answers reading only —
+enters with the HELD side-signal, never before):
+
+```
+TELEMETRY sustain bought=0 used=0 refused=4
+```
+
+`loaded` == the anchor above (`d63fd8ea…`) — the first real link in
+the chain. Disk verified at harvest (18:05, play-path strict decode):
+LOADED `digest=602e94bbf7d417d845c73e3702fd4675`, sessions=3,
+banked=20, provisions=0, boss_1_defeats=1; save md5 now
+`213076c540cc9eed846172748aae2e10` (mtime 18:00:31 == log close — the
+`a249aec…` quarantine value is superseded by LEGITIMATE owner play,
+not a breach). **The anchor moves:** ritual session 1's host `persist
+loaded digest=` should now equal `602e94bb…` — unless more solo/smoke
+play moves it again first (each such log joins the chain the same
+way). Diagnostic context, not one of the four checks; NOT a ritual
+session (solo, pre-session-1 — it advances the shared world per F4).
+
 ### tmp/netplay/ — the residue trap, defused for future harvesters
 
 Four `desync_*_tick60.json` artifacts existed at gate time. NONE is

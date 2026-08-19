@@ -1,0 +1,16 @@
+TELEMETRY persist loaded digest=d63fd8ea72551208fc03bf7e4b1b65cd schema=1 banked=0 provisions=0 seals=0 marks=0 sessions=2 source=file
+TELEMETRY session seed=1392728856
+TELEMETRY d1_fired carrying_deaths=9 wipes=5 corpse_looted=8 carried_lost=0 banked_events=10 fights=40 recovery_fights=4 negative_fights=7
+TELEMETRY a2_fired wipes=5 body_deaths=33 retargets{hate=95 lowhp=131 proximity=27 acquired=613 challenged=170} leashes=280 deepest_band=2 banked=10
+TELEMETRY d1b_fired inscriptions=13 marks_consumed=9 dissolved=5 regrown=23 tributes=18 floor_fired=1 banked_spent{inscribe=104 tribute=330} banked_end=20
+TELEMETRY q6_cadence banks{n=10 mean=64 max=164} kills_by_band{b0=92 b1=101 b2=128}
+TELEMETRY density pockets{mean=2.7 max=26} arrivals{pocket=212 seed=106 home=0} singles_pct=23
+TELEMETRY arc breach{fired=2 first_frame=24556 banked_after=40} rehomed=3 camp_visits=11 d2{entered=1 kills=97} seal2_breached=1
+TELEMETRY q6_margins banks{n=10 pure=0} amount{mean=64 max=164} hp{mean=0.23} dead{mean=1.6} wounded{mean=1.3} gap{mean_s=87}
+TELEMETRY v13 whirl{casts=2 hits{1=0 2=0 3=0 4=2 5plus=0} kills=5} challenge{casts=44 retargets=170}
+TELEMETRY drift thirds{k1=96 k2=117 k3=108} pockets{p1=5.9 p2=6.1 p3=8.4} span_thirds{k1=100 k2=113 k3=108 span=62817}
+TELEMETRY v14 telegraphs_shown=262 first_special{striker=56308 blocker=2398 lobber=44961}
+TELEMETRY quay entries=4 frames=7455 kills=47 deaths=10 banked_after{events=0 amount=0}
+TELEMETRY varekka engaged=1 chants=3 interrupted=0 seized=3 swap_escapes=0 slain=1 deaths_while_seized=3 burns=1 ends{expired=0 slain=0 died=3 zone_left=0 wiped=0}
+TELEMETRY sustain bought=0 used=0 refused=4
+TELEMETRY persist saved digest=602e94bbf7d417d845c73e3702fd4675 schema=1 banked=20 provisions=0 seals=2 marks=3 sessions=3
