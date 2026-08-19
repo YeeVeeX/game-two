@@ -1,5 +1,100 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-19 v18 session 17 — SEVENTEENTH gate re-run (spark r9): EMPTY (seventh) — then flywheel job 1 EXECUTED: all 10 critique claims verified against code + exact frames, 3 renderer fixes SHIPPED behind the gate (+0 beat suppression · enemy strike tiles · possessed hurt vignette), 7 items RECORDED; wall sweep detached at close
+
+**Mode: EMPTY at the gate (13:47–13:53, seventh — expected, ritual
+owner-paced), then Job 6 owned the session per r9.** Gate findings
+verbatim in the skeleton's seventh dated re-check block: launcher logs
+29/29 (newest still `7196`, consumed), anchor `189a8072…` holds at
+link #4 (save md5 `30ff315dc36ee183c42eb040c08e6030`, strict decode
+sessions=6 banked=20 seals=2 marks=0), answers 0/8, Junior baseline
+unchanged (`origin/main` == this seat's commits, `junior/ci` `057fb03`,
+no drafts/paste), mail inbox EMPTY (done/ = 6 — assets family-sync
+receipt still pending, their held seat), residue classified (trio
+13:44 = `dde2039` hook rake; gate-verdicts log unchanged at gate time;
+tmp/soak newest still `120805`). Re-verified at close (~15:3x):
+logs/save/mail all still unmoved. Skeleton commit `37dc427`.
+
+**Flywheel job 1 — critique verification pass (the sampling-artifact
+law applied to all 10 claims; full table:
+`drafts/_flywheel-verification-20260819.md`):**
+
+- **EXISTS-SAMPLING-ARTIFACT:** #1 silent kills (kill pop verified
+  live in frames v_001141/1143/1548/1551 — flash + shards + corpse +
+  drop; the critique's cited windows were enemy MOVES, no deaths);
+  #3 player attacks (SLASH found by pixel scan at v_001169/1170 —
+  active=4 sim frames ≈ 7% catch rate at the critic's stride).
+- **CONFIRMED-DEFECT (presentation):** #5 "+0" beats (mechanism:
+  zone_entered force-resolve + kills-qualify + gained=0; economics
+  INTENDED — the "-150" is `breach_cost_2`'s price tag; carried
+  indicator already exists) — FIXED; #6 boss banner points at nothing
+  (v_001497–1551) — RECORDED (R1, M effort, camera seam).
+- **PARTIAL:** #2 damage attribution (telegraphs + crimson flicker +
+  shake all EXIST; the real gap: `draw_attack` was pack-gated — enemy
+  strikes rendered NOTHING) — gap FIXED, windup landing-preview
+  RECORDED (R2, difficulty-adjacent); #8 zone-2 palette (contrast
+  weak near tan walls, not "disappear") — RECORDED for the asset-era
+  palette pass (R5); #9 taxonomy (grammar exists + walled) — RECORDED
+  asset era (R6); #10 toast anchoring (the "toast" IS the designed
+  player-anchored ledger panel; harm was the +0 instances — covered
+  by fix 1) — placement question RECORDED for the brainstorm (R7).
+- **SIM-CLASS, RECORDED (v19 pool, frozen while the ritual pends):**
+  #4 knockback (EXISTS as attacker kit stat by design — blocker 1/2,
+  striker special 1) (R3); #7 pursuit (partly the pressure-stance
+  system working — outlines visible in v_004081–4130) (R4).
+
+**Fixes SHIPPED (renderer-only, digest-blind; each own commit +
+blocking Rule 2 gate on `low_quay_run`):**
+
+1. `48cf0db` +0 beat suppression (`Renderer.silent_beat?` pure +
+   6 tests; wipe recaps untouched). Gate: first run's critic FAILed
+   `possession_ring_moves` on a FACTUALLY WRONG claim (frame_1457
+   rings the rust blocker, frame_2750 the ember striker — verified by
+   eye; the check had never failed in 434 logged runs; a pre-fix
+   worktree replay proved only 3 frames changed, all +0-panel
+   removals) → gate RE-RUN standalone: determinism 11/11 + vision
+   PASS, the re-run critic naming the same two frames correctly.
+   Critic nondeterminism, not a regression — the gate decided.
+2. `abc9f53` possessed hurt vignette (thin crimson edge frame during
+   the existing 8-frame hurt window; keys `hurt_vignette_px`/`_alpha`
+   in display.json). Gate PASS.
+3. `1360b27` enemy strike tiles (hostile-red flash on the enemy's
+   action tiles, active window only; own pass after both body loops).
+   Gate PASS.
+
+**Re-check on the re-cut clip (deterministic,
+`clip_low_quay_run_20260819-152230`, 4306 frames):** all three +0
+sites CLEAN (v_000729/2492/3836) · "+6" control INTACT (v_001565) ·
+strike tiles + vignette pixel-verified at the t=13.47 hit
+(v_000404–407: strike px 68→1196, vignette spans exactly the 8-frame
+hurt window; frame v_000405 shows attacker ring-strike + all-edge
+vignette + body flicker in ONE frame). Table + receipts in the
+verification doc (`4148f52`).
+
+**Wall sweep `flywheel1-20260819` DETACHED at close** (18 scripts,
+~90 min; log `tmp/wall_flywheel1.log`; renderer changes re-judge every
+visual surface). Judge per memory law: per-script rc lines, re-run any
+disrupted gate standalone. `drafts/_gate-verdicts.log` grew this
+session from MY runs (4 gate runs + the wall) — self-classified, not
+live-session evidence; commit it at a future close, never mid-wall.
+
+**v19 intake:** nothing arrived (file stays at 2 ideas). Soak/side
+lanes: no new runs, no mail. Bedrock spend: $0 (no re-critique — the
+owner can ask for the scored comparison when he wants it).
+
+**Quarantine spot (unchanged):** save md5
+`30ff315dc36ee183c42eb040c08e6030`, digest `189a8072…`, sessions=6,
+newest temp log `7196` (CONSUMED), count 29/29. Answers 0/8.
+
+**RESUME POINT:** ritual session 1 RE-RUNS owner-paced — **Junior now
+pulls ≥ `1360b27`** (three renderer commits moved tree content —
+same-commit handshake law; host `loaded` must equal `189a8072…`).
+Owner-pending (never nag): (a) ambient ear-check (his next solo
+listen = chain link #5), (b) his 7 attack renders (spec staged),
+(c) the ritual when Junior is available. Next dev session: harvest
+the wall receipt first (`tmp/wall_flywheel1.log`), then the standing
+gate per the r9 spark (or its successor).
+
 ## 2026-08-19 v18 session 16 — SEVENTEENTH gate re-run (spark r8): EMPTY (sixth) — then OWNER-DIRECTED PIVOT live: crash-class audit CLEAN + ritual-length soak PASS 3/3 + audio retune executed (asks 1+3) + attack-cue spec drafted (ask 2); ritual re-run still owner-paced
 
 **Mode: EMPTY at the gate (08:20–08:24), then the owner redirected the
