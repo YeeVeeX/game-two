@@ -426,7 +426,12 @@ before the re-run** (same-commit fingerprint law — a stale seat gets a
 named handshake refusal). **Wall debt recorded:** the fix touched
 `src/game/telemetry.rb` → `harness/run_wall.sh seventeenth-20260819`
 owed before session-14 close (runs AFTER the humans' sessions — never
-beside a live seat).
+beside a live seat). **PAID same session (02:20–02:3x):** 17/18 PASS
+in-sweep; `low_quay_run` gate_rc=1 was a bash-timeout DISRUPTION (the
+supervising shell's kill hit the vision critic mid-gate — `Command
+failed with status ()`; determinism 11/11 byte-identical + manifest
+PASS had already printed) — re-gated standalone: `GATE PASS` by
+printed output.
 
 **Both-seats audio state for the re-run:** owner seat `AUDIO on:
 device=1 sha=15f03e0219d6` (verbatim above); Junior's seat booted

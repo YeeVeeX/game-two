@@ -1,5 +1,73 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-19 v18 session 14 — SEVENTEENTH gate (spark r6): PARTIAL — ritual session 1 ATTEMPT crashed BOTH seats (telemetry nil-possessed at :banked); fix SHIPPED `b6c110f` + wall PAID; three owner audio asks recorded; v19 intake OPENED; session 1 RE-RUNS owner-paced (vehicle: r7 spark)
+
+**Mode: PARTIAL** (vehicle: r6 spark `drafts/_v18-seventeenth-harvest-spark-r6-20260819.md`).
+Gate at 23:37 ran EMPTY as expected pre-ritual (28/28 logs, anchor
+`189a8072…` held, answers 0/8, mail empty, no soak) — then the night
+produced real evidence:
+
+- **Live launch per protocol** (owner "procede por favor"): guard
+  printed 0 · pull clean at `dfc7697` · detached host 23:40:37 (PID
+  8692, console `tmp/coop_console_20260818-234037.log`). Junior joined
+  — his handshake PASSED on the audio-on build.
+- **CRASH ~00:06, BOTH seats, lockstep-symmetric:** `NoMethodError
+  nil.hp` at `src/game/telemetry.rb:190` — the `:banked` margin
+  sampler dereferenced `possessed` while seat 1 was WAITING FOR BODY
+  (v17 decision 3) and a bank fired. Joiner: same line in HIS tick +
+  rejoin retries died `IO::TimeoutError session.rb:143` (host dead —
+  correct refusal); his receipt = commit `b155bcb` (logs stay on his
+  machine, pointers there; he correctly shipped no fix). Host evidence
+  banked md5-identical in `drafts/_v18-seventeenth-evidence/`:
+  `game_two_session_7196.log` (`34cb7e3a…`) + console (`aae11808…`).
+  **Classified: unclean attempt (`loaded` without `saved`), world
+  UNMOVED — session 1 RE-RUNS, owner-paced.** Skeleton carries the
+  full block; the attempt DID prove host loaded the anchor exactly +
+  joiner digest-matched at handshake.
+- **Fix (tripwire: small + mechanical, TDD red-green): `b6c110f`** —
+  nil-guard in the sampler (fleshless seat samples hp=0.0), regression
+  test reproduces the exact live trace; suite 811/17035; pushed.
+  **Junior must pull ≥ `b6c110f` before rejoining** (same-commit
+  handshake law) — relayed in the owner queue.
+- **Wall debt PAID, tag `seventeenth-20260819`:** 17/18 PASS in-sweep;
+  `low_quay_run` gate_rc=1 was a DISRUPTION (this session's 2400s
+  bash-call timeout killed the vision critic mid-gate — `Command
+  failed with status ()`; determinism 11/11 + manifest PASS already
+  printed) → re-gated standalone: `GATE PASS`. Lesson appended to
+  project memory (wall runs DETACHED, never under a call timeout;
+  judge disrupted gates by re-running).
+- **Three owner audio asks RECORDED** (verbatim,
+  `drafts/_m5a-verdict-20260818.md` §post-close): smoother ambient ·
+  attack/effect cues · main-theme instruments −6 dB. Frozen surface —
+  audio lane, post-adjudication. "Too repetitive"/"too high"
+  fragments + "it was fun" (crash report) HELD in the skeleton
+  side-signals — pre-questions, enter only WITH the answer sets.
+- **v19 intake OPENED:** `drafts/_junior-v19-ideas-20260819.md` —
+  idea 1 (Tibia Ctrl+direction stationary facing, Junior via owner,
+  owner "approved" the handling) triaged BANK with a next-spark shape
+  (input-layer FACE intent, lockstep-additive, S effort). v19 stays
+  CLOSED until adjudication.
+- **Junior receipts processed:** `168f28d` (audio setup COMPLETE
+  pre-ritual) + `b155bcb` (crash receipt). His seat proved `AUDIO on`
+  capable at the attempt boot — the Half-B caveat branch still reads
+  from his RE-RUN log at harvest, never assumed.
+
+**Quarantine spot:** save md5 `30ff315dc36ee183c42eb040c08e6030`,
+strict decode `digest=189a80723c87b90f27bc8436533d8cc1` sessions=6
+banked=20 seals=2 marks=0 boss_1_defeats=1 (crash saves nothing —
+anchor UNCHANGED at link #4); newest temp log
+`game_two_session_7196.log` (00:06, CONSUMED); count 29/29 both
+patterns. Answers 0/8.
+
+**RESUME POINT:** session 1 RE-RUN owner-paced (Junior pulls ≥
+`b6c110f` first — stale seat = named refusal; host session-1 `loaded`
+expectation stays `189a8072…`). Vehicle for the next dev session: **r7
+spark** `drafts/_v18-seventeenth-harvest-spark-r7-20260819.md` (also
+handed to the owner via clipboard at his ask) — carries the crash-era
+rules (unclean-attempt precedent, crash protocol, detached-wall law,
+audio-asks freeze, v19 intake file). Priming quarantine in force until
+all eight answers are in.
+
 ## 2026-08-18 v18 session 13 — SEVENTEENTH evidence gate re-run (spark r5): EMPTY (fourth) — expected by the calendar (ritual is TOMORROW); baseline-29 tally slip resolved NAMED (disk truth 28); cycle owner-paced
 
 **Mode: EMPTY** (harvest vehicle: r5 spark
