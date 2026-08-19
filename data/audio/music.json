@@ -1,5 +1,5 @@
 {
-  "_comment": "M5a music state machine — owner's Reaper stems (calm/combat loops, bar-exact at 120 bpm 4/4 per the handoff manifest; bar = 96000 frames @ 48 kHz). state_events is game-two's data-driven music derivation (contract recommendation (a), custody game-side): the bridge subscribes to these sim events and requests the named state — the sink itself still only knows music_set_state. Timing/transition values mirror the library's gate-proven numbers.",
+  "_comment": "M5a music state machine — owner's Reaper stems. RETUNE 2026-08-19 (owner asks, live chat, recorded in drafts/_m5a-verdict-20260818.md §post-close): (1) 'too repetitive' ambient → calm state now plays the owner's msfx_drone_4s (4 s = 2 bars at 120 bpm, bar-exact loop) instead of the 6 s melodic calm stem — owner-originals law holds (his render, previously unplaced); (2) 'main theme -6 dB' → stem gains 4.0 -> 2.0 (-6.02 dB game-side, INTERIM until his Reaper instrument re-render lands; then re-center). state_events is game-two's data-driven music derivation (contract recommendation (a), custody game-side): the bridge subscribes to these sim events and requests the named state — the sink itself still only knows music_set_state. Timing/transition values mirror the library's gate-proven numbers (bar = 96000 frames @ 48 kHz).",
   "timing": {
     "bpm": 120,
     "beats_per_bar": 4,
@@ -15,8 +15,8 @@
     "silent": { "stem": null }
   },
   "stems": {
-    "stem_calm": { "freq_hz": 0.0, "loop": true, "file": "mstem_calm_6s", "gain": 4.0 },
-    "stem_combat": { "freq_hz": 0.0, "loop": true, "file": "mstem_combat_6s", "gain": 4.0 }
+    "stem_calm": { "freq_hz": 0.0, "loop": true, "file": "msfx_drone_4s", "gain": 2.0 },
+    "stem_combat": { "freq_hz": 0.0, "loop": true, "file": "mstem_combat_6s", "gain": 2.0 }
   },
   "state_events": {
     "challenger_engaged": "combat",

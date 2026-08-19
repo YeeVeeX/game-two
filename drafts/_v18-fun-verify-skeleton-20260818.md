@@ -110,6 +110,20 @@ tomorrow; Junior is waiting live. The same-day pair stands as recorded;
 if the two sessions straddle midnight, the spacing caveat still rides
 (it reads SPACING between sessions, not the calendar line).
 
+**Owner direction (2026-08-19, live chat — dev session 16, recorded
+BEFORE the ritual sessions run).** Owner verbatim (es): "debemos seguir
+avanzando, depurando y mejorando lo que tenemos hasta ahora" + "no te
+cierres ni te limites, nosotros somos dueños de este proyecto y podemos
+dirigirlo como queramos". Effects: the dev-side adjudication freeze on
+tuning lanes is lifted BY THE OWNER (M5a-override precedent); his three
+audio asks execute early (ambient → his drone render; −6 dB interim;
+attack-cue spec drafted — details in `_m5a-verdict-20260818.md`
+§post-close). RITUAL CAVEAT ADDENDUM: the re-run now carries the
+2026-08-19 retuned audio — this rides the SAME pre-registered audio
+novelty caveat (both branches unchanged; Junior's AUDIO line still
+decides which). Measurement hygiene stands undisturbed: questions
+virgin, bot logs never evidence, verbatim harvest.
+
 ## Evidence gate result (2026-08-18 ~02:47–03:05, this machine)
 
 - **Launcher session logs:** newest `game_two_session_*.log` in BOTH
