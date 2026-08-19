@@ -67,6 +67,59 @@ when the open questions below close).
   standing order UNCHANGED; if naming/fiction ever restarts it
   restarts in their repo. No action owed.
 
+## Council consult (2026-08-19, 2 asks ≤900 tok, receipts: tmp/council_ds_worldbuilder.json · tmp/council_qw_direction.json)
+
+DeepSeek (adversarial-technical) + Qwen3-next (design). Every REFUTED
+re-verified against the codebase before acceptance (council
+fabrication memory applies). What SURVIVED review → folded as spec
+lines; what didn't → named.
+
+**Folded into the spec (7 corrections/hardenings):**
+1. **Non-goal, stated:** no cross-floor effects — projectiles/AoE/AI
+   never cross transitions (already structurally true; now law so no
+   one designs an arrow-through-hole). [DS-Q1, partial]
+2. **Respawn/home rules unchanged by floors;** depth lengthens the
+   corpse-run walk-back — a watched design knob (depth-pricing debate
+   only if playtests name it). [DS-Q1, partial]
+3. **LDtk version PIN** + importer refuses `jsonVersion` drift NAMED
+   (vendor-sha law pattern) — schema churn was DS's "bites first"
+   CONFIRMED. [DS-Q2]
+4. **Tile variants are authored data only** — no runtime variant
+   randomness, ever (determinism hygiene). The audio-leak half of
+   DS-Q3 was REFUTED on re-verify: material cues are pure reads of
+   deterministic tile data feeding a proven sink; and the md5 gate
+   compares run-A-vs-run-B of the SAME build, never golden frames —
+   visual variants can't "break the wall", they just re-judge it.
+5. **Wall scales by SURFACE, never by zone** (DS-Q4 CONFIRMED: the
+   gate is the first thing 30 zones break): new zones get importer
+   validation + a probe-based render gate (god-view/decision-13
+   pattern) + sampled soak rotation — NOT a dedicated wall script
+   each; the canonical wall stays ~18 surface scripts.
+6. **Save stays facts-only (F1 re-seed law)** — builder content adds
+   ZERO save vocabulary; DS-Q5's cross-floor-save risk is structurally
+   absent (field state never persists), now stated as an inherited
+   invariant.
+7. **Queue + rhetoric correction (Qwen-Q2, the round's best catch):**
+   footstep materials + ambience stay the first SAFE ship but are
+   POLISH, not the aliveness bet — reactivity beats ambiance. The
+   aliveness bet = the FIRST sim-class tile behavior at the verdict:
+   a telegraphed hazard tile (lava — readable per our fairness laws;
+   the council's "hidden instakill tile" pitch is REJECTED as-is, it
+   violates every legibility law this project runs on). **Tile-grammar
+   admission test adopted ("the 10-minute rule"):** every tile type
+   must alter a tactical decision or emotional state within 10 minutes
+   of play, or it doesn't ship — harmonizes with the standing
+   every-commit-is-felt law. [Qwen-Q1 edge-tell + Q2 synthesis]
+
+**Named and set aside:** Qwen-Q3 ("you have no juice: no hitstop, no
+shake, no audio") is FACTUALLY REFUTED by the codebase (hitstop 3/8
+frames, three shake channels, kill pops, hurt flashes, owner-composed
+cue set — all gate-verified); the surviving kernel — outside players
+meet the ASSET era's first impression before any system — is already
+the recorded asset-era understanding. Qwen Q4/Q5 lost to max_tokens;
+not re-asked (budget: one round; housing-trap reasoning already
+banked in PARKING_LOT with its trigger).
+
 ## Open grill questions (spec waits on these)
 
 - **Q-merge:** new floors/zones merge into the LIVE world only after
