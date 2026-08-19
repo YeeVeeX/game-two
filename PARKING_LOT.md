@@ -51,6 +51,26 @@ Append freely; promoting an item requires updating the scope contract in AGENTS.
   $0.54–0.74/min, silent footage proven), the grave-fee UI owner decision, and dossiê §11
   threads 1–3 as the feeding analysis backlog.
 
+- **Corpus round-5 synthesis threads (gamesmith, 2026-08-19) — brainstorm input for F5/F6
+  (+F3 telemetry line).** Dossiê §11 threads 1–3 executed against the already-paid corpus
+  ($0 round), every claim obs/say-cited and era-tagged: (1) faucet/sink sheet — five
+  fixed-rule valve families that regulate an economy WITHOUT a floating market; single-player
+  inflation ≡ ledger saturation, with a cheap telemetry line (per-hour sink/faucet ratio;
+  death-stake fraction of banked trending toward zero = the failure telegraph) that F3
+  banked-persists can log from day one; (2) death loss×recovery matrix (5 loss dimensions ×
+  5 lived-or-ruled cases) — F5 failure pricing shape: supplies + walk-back time, progression
+  intact, visible retry count; insurance works where pre-purchased and load-priced; the
+  poverty floor and the destruction clock are designed beats, not edge cases; (3) ran-dry
+  telegraph ladder — six ledger-native rungs (ordering = argued synthesis, never filmed
+  sequence); exhaustion exits need rung-2/3 signals legible BEFORE the constraint binds;
+  exit-share fractions and session lengths REFUSED by the corpus (creator-edited) — our
+  replay logs + SEVENTEENTH telemetry own those numbers. Grave-fee ruling recorded
+  gamesmith-side (Option B: rules-sheet-final — no lived fee capture is coming; the OSRS
+  fee-band sheet is final coverage). Evidence:
+  `docs/design-corpus/gamesmith/addenda/round5-synthesis-threads-20260819.md`
+  (source: gamesmith `docs/round5-synthesis-threads.md` @ `72c02b0`,
+  md5 `a044f986fa3fbebdd1bdc8481939a41c`). Mechanics only — no-lore order respected.
+
 ## World mythology — ADOPTED at v12 (2026-08-13, owner fork: full adoption)
 
 - `docs/lore/world-bible.md` — standalone Egyptian×Fantasy world bible (Tibia-method: original
