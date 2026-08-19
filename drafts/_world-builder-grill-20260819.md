@@ -38,6 +38,13 @@ when the open questions below close).
    a time ("build our game as a jigsaw puzzle" — owner). The parked
    elemental dossier legs A/C/E are the natural behavior engine for
    hazard tiles when they land.
+
+**GRILL CLOSED 2026-08-19: owner ratified Q-merge / Q-holes /
+Q-first-behavior as recommended; Q-pilot answered with the ZONE 7 +
+TOWN 1 + well-dungeon vision (verbatim in the spec). Spec:
+`docs/superpowers/specs/2026-08-19-world-builder-pipeline.md` (D1–D12
++ tickets T1–T5). Dev-of-record stop-call exercised: ideation moves to
+the intake file + PARKING_LOT; building starts at T1.**
 5. **Region data layer:** named rects bound to rules (town/dungeon/
    guard) — UO/Tibia note: "worth their own lightweight editor". The
    LAYER ships with the builder; protection RULES (safe/battle zones,

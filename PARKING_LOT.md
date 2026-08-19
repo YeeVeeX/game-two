@@ -827,3 +827,13 @@ sequencing law.
   live world mutation while seats play = server-authoritative family (named
   trigger unchanged). The offline LDtk palette loop delivers the select-and-
   place FEEL now; this entry is the in-game half only.
+- **Ambient fauna (passive creature faction)** (dev idea at the world-builder
+  grill close, 2026-08-19): harmless wandering critters in ZONE 7 (birds that
+  scatter when sprinted through — cheapest emotional aliveness). New AI
+  faction = sim-class → post-verdict increment; passes the 10-minute rule on
+  the emotional axis. Flora ships first as tile grammar (safe class).
+- **Town system SLOTS** (spec `2026-08-19-world-builder-pipeline.md` §Pilot):
+  TOWN 1 is built as a stage with empty slots — stores (items cycle), NPCs
+  (NPC cycle), quest net (quest cycle; the well-drain unlock re-skins from
+  toll to questline then), session-ledger board (results surface), map table
+  (= the PARKED in-game map view; promotion candidate named, not promoted).
