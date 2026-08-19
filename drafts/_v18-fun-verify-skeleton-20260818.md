@@ -375,8 +375,63 @@ proof). Logs md5-banked in `drafts/_v18-seventeenth-evidence/`:
 should now equal `189a80723c87b90f27bc8436533d8cc1`** (unless more solo
 play moves it — same banking). The ritual build carries owner-original
 audio at +12 dB (AGENTS M5a block; the Half-B caveat pre-registered in
-the owner-amendment block covers it — asymmetry note: Junior's seat
-stays silent, library absent).
+the owner-amendment block covers it — asymmetry note superseded by
+amendment 2: Junior's seat set up for AUDIO on, receipt `168f28d`).
+
+### Ritual session 1 ATTEMPT (2026-08-18 23:40 → 2026-08-19 00:06 — CRASH on both seats; shortfall, RE-RUNS; world UNMOVED)
+
+Launch per the live-launch protocol (owner ask "procede por favor"):
+single-instance guard printed 0 · `git pull --ff-only` clean at
+`dfc7697` · detached host `bin/play es --host`, console
+`tmp/coop_console_20260818-234037.log`, PID 8692 sole instance. Owner
+hosted, Junior joined (his handshake PASSED — receipt `b155bcb`:
+"clean AUDIO on + handshake loaded 189a8072").
+
+**Crash ~00:06 on BOTH seats, same line — lockstep-symmetric:**
+`NoMethodError undefined method 'hp' for nil` at
+`src/game/telemetry.rb:190` (`:banked` margin sampler dereferenced
+`@world.possessed` while seat 1 was WAITING FOR BODY — v17 decision 3:
+partner held the last living flesh — and a bank fired). Host evidence
+banked md5-identical in `drafts/_v18-seventeenth-evidence/`:
+`game_two_session_7196.log` (md5 `34cb7e3abd780267901410e9fdb28350`) +
+`coop_console_20260818-234037.log` (md5
+`aae118089eaf85570604b842b5a12d62`, wrapper line `game exited with
+code 1`). Joiner: same trace in HIS tick, then rejoin retries died
+`IO::TimeoutError session.rb:143` (host dead — correct refusal); his
+logs live on his machine, pointers in `b155bcb`; he correctly shipped
+NO fix (routing law).
+
+Host log key lines verbatim (stdout partially lost at crash — stderr
+carried the trace; NO netplay line, NO `saved` line):
+
+```
+AUDIO on: device=1 sha=15f03e0219d6 lib=C:/Users/gabri/workspace/game-two-audio
+TELEMETRY persist loaded digest=189a80723c87b90f27bc8436533d8cc1 schema=1 banked=20 provisions=0 seals=2 marks=0 sessions=6 source=file
+hosting on port 43117 (Esc cancels)
+```
+
+**Classification (spark tree): unclean attempt — `loaded` without
+`saved`, NAMED, world unmoved** (save md5 `30ff315dc36ee183c42eb040c08e6030`
+intact post-crash, strict decode re-verified: `189a8072…` sessions=6).
+Shortfall law → **session 1 RE-RUNS, owner-paced**; this attempt is
+NOT a ritual session and never enters the four checks. Positive
+diagnostic context it DOES give: host loaded the anchor exactly, and
+the joiner handshake digest-matched on the amendment-2 audio-on build.
+
+**Defect fixed same night (tripwire: small + mechanical, TDD
+red-green):** commit `b6c110f` — nil-guard in the `:banked` sampler
+(fleshless seat samples hp=0.0), regression test reproduces the exact
+live trace; suite 811/17035 green; pushed. **Junior must `git pull`
+before the re-run** (same-commit fingerprint law — a stale seat gets a
+named handshake refusal). **Wall debt recorded:** the fix touched
+`src/game/telemetry.rb` → `harness/run_wall.sh seventeenth-20260819`
+owed before session-14 close (runs AFTER the humans' sessions — never
+beside a live seat).
+
+**Both-seats audio state for the re-run:** owner seat `AUDIO on:
+device=1 sha=15f03e0219d6` (verbatim above); Junior's seat booted
+`AUDIO on` this attempt per his receipt — the caveat branch is still
+read from HIS RE-RUN session log at harvest, never assumed.
 
 ### tmp/netplay/ — the residue trap, defused for future harvesters
 
@@ -414,6 +469,15 @@ session Junior "não entendeu o que a provisão era" — pre-registered
 context for the routing row "sustain unused (`bought=0`) →
 discoverability first". It decides nothing alone; it is read WITH the
 answers, after them.
+
+**Owner spontaneous fragments (2026-08-19, live chat, pre-questions —
+HELD the same way, verbatim):** beside the crash report: "it crashed
+for some reason **but it was fun**"; beside the audio asks (full asks
+recorded in `drafts/_m5a-verdict-20260818.md` §post-close): "the
+ambient music that is always playing is **too repetitive**", "the main
+theme instruments themselves can be 6db lower, **its too high**".
+Volunteered, not asked; they enter the reading only WITH the answer
+sets (the audio fragments ride the Half-B audio-caveat reading).
 
 ### pt-br lane
 

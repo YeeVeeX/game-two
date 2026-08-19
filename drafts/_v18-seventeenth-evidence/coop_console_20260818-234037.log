@@ -1,0 +1,18 @@
+game exited with code 1 — log: /tmp/game_two_session_7196.log
+C:/Users/gabri/workspace/game-two/src/game/telemetry.rb:190:in 'block in Game::Telemetry#initialize': undefined method 'hp' for nil (NoMethodError)
+
+          hp: @world ? @world.possessed.hp / @world.possessed.max_hp.to_f : 0.0,
+                                       ^^^
+	from C:/Users/gabri/workspace/game-two/src/core/event_bus.rb:57:in 'block in Core::EventBus#process'
+	from C:/Users/gabri/workspace/game-two/src/core/event_bus.rb:57:in 'Array#each'
+	from C:/Users/gabri/workspace/game-two/src/core/event_bus.rb:57:in 'Core::EventBus#process'
+	from C:/Users/gabri/workspace/game-two/src/game/world.rb:302:in 'Game::World#tick'
+	from C:/Users/gabri/workspace/game-two/src/net/session.rb:481:in 'Net::Session#run_tick'
+	from C:/Users/gabri/workspace/game-two/src/net/session.rb:217:in 'Net::Session#update'
+	from C:/Users/gabri/workspace/game-two/src/app/window.rb:110:in 'App::Window#update_session'
+	from C:/Users/gabri/workspace/game-two/src/app/window.rb:82:in 'App::Window#update'
+	from C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/gosu-1.4.6/lib/gosu/patches.rb:64:in 'Gosu::Window#tick'
+	from src/main.rb:174:in '<main>'
+AUDIO on: device=1 sha=15f03e0219d6 lib=C:/Users/gabri/workspace/game-two-audio
+TELEMETRY persist loaded digest=189a80723c87b90f27bc8436533d8cc1 schema=1 banked=20 provisions=0 seals=2 marks=0 sessions=6 source=file
+hosting on port 43117 (Esc cancels)
