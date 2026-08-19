@@ -276,6 +276,30 @@ trap avoided (verify by printed output, not `$?`). Both logs carry
 `AUDIO on/teardown clean` lines — first audio-carrying chain links
 (audio is save-blind: facts changed only by the sessions counter).
 
+### Solo chain links #3/#4 (2026-08-18 22:2x–22:4x — owner M5a verify listens, HUMAN, single-instance)
+
+Owner verify sessions for the owner-originals audio swap (M5a; launches
+single-instance-checked, judged by printed output). Real world, real
+save; smoke choreography is direct-injection and sim-blind (pure-sink
+proof). Logs md5-banked in `drafts/_v18-seventeenth-evidence/`:
+
+- **#3 `game_two_session_6087.log`** (md5
+  `f6d6e7c00e67273d0687f28c6c0e1409`): `loaded 822b2e98… sessions=4` →
+  `saved digest=c4b8df2bd9cecb0b887578b7ec0e80a1 … banked=20 seals=2
+  marks=0 sessions=5` (marks 3→0 = owner play). Chain intact.
+- **#4 `game_two_session_6240.log`** (md5
+  `493c94901bb49172bdbf3c7e2ae3ff99`): `loaded c4b8df2b… sessions=5` →
+  `saved digest=189a80723c87b90f27bc8436533d8cc1 … banked=20 seals=2
+  marks=0 sessions=6`. Chain intact; disk md5
+  `30ff315dc36ee183c42eb040c08e6030` at banking.
+
+**The anchor moves: ritual session 1's host `persist loaded digest=`
+should now equal `189a80723c87b90f27bc8436533d8cc1`** (unless more solo
+play moves it — same banking). The ritual build carries owner-original
+audio at +12 dB (AGENTS M5a block; the Half-B caveat pre-registered in
+the owner-amendment block covers it — asymmetry note: Junior's seat
+stays silent, library absent).
+
 ### tmp/netplay/ — the residue trap, defused for future harvesters
 
 Four `desync_*_tick60.json` artifacts existed at gate time. NONE is

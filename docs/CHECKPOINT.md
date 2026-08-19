@@ -1,5 +1,62 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-18 v18 session 12 — M5a AUDIO INTEGRATION SHIPPED same night (owner override + owner-originals order); ritual moved to TOMORROW (same-day pair allowed); four solo chain links banked; anchor now 189a8072
+
+**Owner overrides (both verbatim in the skeleton + runsheet):** (1)
+"integrate the audio now", ritual → tomorrow, "2 sessions in a single
+day" (spec oracle amended; Half-B caveats pre-registered: same-day
+spacing + audio novelty/asymmetry; Junior Q1 premise variant authorized).
+(2) "replace all possible placeholder audios ... only use the intended
+originally created ones" — executed same night.
+
+**M5a shipped (commits `822a7a5`…`1443325`+, all pushed):** audio bridge
++ boot seam per contract §3 (SDL dummy at process entry; ONE engine;
+vendor-sha law at boot; optional — absent/mismatch/bot = named line +
+silent game; Junior's seat unchanged); PURE SINK proven mechanically
+(StateDigest windows identical with/without audio); table custody moved
+GAME-SIDE (`data/audio/`), owner-approved v1 six-event mapping +
+data-driven music derivation (`state_events`); ALL SEVEN owner Reaper
+renders sha-verified → 24→16-bit converted → manifest-pinned — ZERO
+placeholder tones in the runtime path; +12 dB owner pass (gain 4.0).
+Owner listen verdicts (4, verbatim in `drafts/_m5a-verdict-20260818.md`):
+ear-check PASS · tones = "generic placeholder" FAIL · "too low ...
+12+dB" · **"acceptable for now"** = M5a verdict of record. Suite 810
+runs / 17031 assertions green; wall not run — REASONED: no wall script
+executes App::Window/main.rb/cli.rb (harness has its own runner; header
+law), no visual surface touched; determinism evidence = the pure-sink
+digest test.
+
+**Incident (recorded NAMED, skeleton links #2a/#2b):** double-launch —
+$?-after-a-pipe masked a failed pre-launch tasklist; two instances, both
+clean-quit, chain forked at `602e94bb…`, survivor `822b2e98…`, no fact
+loss. Fix: single-instance check judged by printed output.
+
+**Chain (all logs md5-banked in `drafts/_v18-seventeenth-evidence/`):**
+#2a orphaned `38f1bc62…` · #2b `602e94bb→822b2e98` (sessions=4) · #3
+`822b2e98→c4b8df2b` (5) · #4 `c4b8df2b→189a8072` (6). **Ritual session
+1 host `loaded` expectation = `189a80723c87b90f27bc8436533d8cc1`**; save
+md5 `30ff315dc36ee183c42eb040c08e6030`. Scratch-save drift run
+(`game_two_session_5949.log`, fresh sessions=1 on tmp — NOT a chain
+link). Newest temp log `game_two_session_6240.log`; count 23+6=29.
+
+**Clock drift (contract §3 item, CLOSED as measured):** ≈800 frames/s
+linear, replicated 2× (−48000/−49920 @ 90 s) — anchor fix flagged to
+the audio seat WITH numbers (their custody; re-anchor clause
+load-bearing). Audible impact: none named.
+
+**Mails:** assets status ask (LUFS lane = recorded debt) · audio
+cue-spec r2 (custody change + drift numbers; r1 cue ask WITHDRAWN) ·
+audio listen-verdict (4 verbatims). Deferred, recorded in the verdict
+doc: LUFS lane · anchor fix · drone/swarmpip placement · spatial
+payloads · 44-row iteration · level tuning.
+
+**RESUME POINT:** ritual TOMORROW (same-day pair allowed): owner hosts,
+Junior joins (pull first — his seat prints `AUDIO off`, plays silent);
+harvest per the r4 spark; host session-1 `loaded` must equal
+`189a8072…`; adjudication carries the pre-registered caveats. v19 still
+closed until the SEVENTEENTH adjudicates (M5a was the one owner-ordered
+exception).
+
 ## 2026-08-18 v18 session 11 — SEVENTEENTH evidence gate re-run (spark r4): EMPTY (third) — nothing new past solo link #1; AUDIO ORDER LIFTED handled docs-only (integration QUEUED behind the SEVENTEENTH); cycle owner-paced
 
 **Mode: EMPTY** (harvest vehicle: r4 spark

@@ -79,13 +79,18 @@ only); BOSS-1-dread iteration (OPEN-FOR-EXPOSURE — zero code owed);
 all lore/creative writing (standing order above); in-game rebind UI.
 **Audio integration M5a is IN (owner override, 2026-08-18 live):** the
 owner overrode the queue order in chat ("I would like to integrate
-the audio now") — M5a runs BEFORE the SEVENTEENTH. Contract:
-`../game-two-audio/docs/integration-readiness.md` @ `69b73ec`; the
-library is a read-only sibling (adapter + boot seam live HERE); audio
-is a PURE SINK (never sim/saves/netplay) and OPTIONAL at boot —
-library absent or vendor-sha mismatch = one named `AUDIO off/refused`
-line, game runs silent (Junior's machine has no library and must play
-tomorrow unchanged).
+the audio now") — M5a runs BEFORE the SEVENTEENTH. **SHIPPED same
+night** (verdict: `drafts/_m5a-verdict-20260818.md`; owner: "acceptable
+for now"): bridge + boot seam (`src/app/audio_bridge.rb`, pure-sink
+proven by StateDigest equality), OWNER ORIGINALS ONLY at runtime
+(`data/audio/` — game-side table custody, 7 sha-chained Reaper renders,
+zero placeholder tones, owner order), v1 six-event mapping + data-driven
+music derivation, +12 dB owner level pass. Audio stays a PURE SINK
+(never sim/saves/netplay) and OPTIONAL at boot — library absent or
+vendor-sha mismatch = one named `AUDIO off/refused` line, game runs
+silent (Junior's machine plays unchanged). Deferred, recorded in the
+verdict: assets LUFS lane · audio-seat clock-anchor fix (drift ≈800
+frames/s measured 2×) · drone/swarmpip placement · level tuning.
 **Nothing ELSE new starts until v18 is fun-verified (the SEVENTEENTH
 ask)** — M5a is the one owner-ordered exception.
 
