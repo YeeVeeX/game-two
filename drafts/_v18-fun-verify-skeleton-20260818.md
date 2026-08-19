@@ -313,6 +313,42 @@ itself (sub-second compare) — no new runs, Job 5 empty. v19 intake:
 nothing arrived (file stays at idea 1). Skeleton stays PARTIAL/STANDBY;
 session 1 still RE-RUNS owner-paced; adjudication stays EMPTY.
 
+**Re-check 2026-08-19 13:47–13:53 (session 17, spark r9 — the standing
+harvest vehicle, `drafts/_v18-seventeenth-harvest-spark-r9-20260819.md`,
+which supersedes r8): EMPTY — seventh empty gate, expected (this gate
+ran ~10 minutes after the r9-update-2 commit `dde2039`, 13:43:42; the
+session-1 RE-RUN is owner-paced and has not happened).** Launcher logs
+29/29 in both temp-dir patterns, newest still
+`game_two_session_7196.log` 00:06 = the crashed attempt, CONSUMED
+(banked + classified s14); zero `AUTOPILOT` lines in any launcher log;
+the only coop console remains `tmp/coop_console_20260818-234037.log`
+(banked). Save quarantine holds at the link-#4 values:
+`saves/world.json` md5 `30ff315dc36ee183c42eb040c08e6030` mtime 22:36;
+play-path strict decode (pinned call shape) LOADED
+`digest=189a80723c87b90f27bc8436533d8cc1` sessions=6 banked=20 seals=2
+marks=0 boss_1_defeats=1 provisions=0 notices=[] — the moving anchor
+sits exactly where link #4 left it; ritual session 1's host `loaded`
+expectation stays `189a8072…`. Junior side: `origin/main` == `dde2039`
+(this seat's own s16/hub docs commits — nothing from his machine),
+`origin/junior/ci` still `057fb03`, tip `b155bcb` in main, no new
+`_junior-*` draft (newest = the s16-consumed v19-ideas file), no
+paste; **his seat must pull CURRENT main before rejoining** (audio
+retune `d91281a` moved tree content — same-commit handshake law).
+**Answers 0/8.** Seat mail inbox empty (done/ = 6 — the assets
+family-sync receipt has NOT arrived; their held session applies at its
+own pace). Residue classified per the laws below: suite trio
+`desync_00000064`/`000008a9`/`00000bf7` rewritten 13:44
+(`platform:"test"`, `dddd…`/`cccc…` fingerprints verified in-file) =
+the `dde2039` r9-update-2 commit's hook rake (commit 13:43:42);
+`_gate-verdicts.log` unchanged (last entry still
+`=== 20260819-022901 captures\pilot\quay8_r10_replay_gate_a ===`);
+tmp/soak newest report still `20260819-120805/report.txt`
+(12:37:55.308, consumed s16); soak consoles all `s16*`-tagged and
+consumed. v19 intake: nothing arrived (file stays at 2 ideas).
+Skeleton stays PARTIAL/STANDBY; session 1 still RE-RUNS owner-paced;
+adjudication stays EMPTY. **Per r9: Job 6 (flywheel critique
+verification) is the session.**
+
 ## Pre-session evidence banked (verbatim, with provenance)
 
 ### World-save chain anchor (dev-smoke provenance — NOT ritual evidence)
