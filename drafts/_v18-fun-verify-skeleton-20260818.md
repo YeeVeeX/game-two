@@ -268,6 +268,37 @@ intake: nothing new arrived (file stays at idea 1). Skeleton stays
 PARTIAL/STANDBY; session 1 still RE-RUNS owner-paced; adjudication
 stays EMPTY.
 
+**Re-check 2026-08-19 08:20–08:24 (session 16, spark r8 — the standing
+harvest vehicle, `drafts/_v18-seventeenth-harvest-spark-r8-20260819.md`,
+which supersedes r7): EMPTY — sixth empty gate, expected (this gate ran
+~7 minutes after the r8 spark commit `86c5748`, 08:17:03; the session-1
+RE-RUN is owner-paced and has not happened).** Launcher logs 29/29 in
+both temp-dir patterns, newest still `game_two_session_7196.log` 00:06
+= the crashed attempt, CONSUMED (banked + classified s14); zero
+`AUTOPILOT` lines in any launcher log; the only coop console remains
+`tmp/coop_console_20260818-234037.log` (banked). Save quarantine holds
+at the link-#4 values: `saves/world.json` md5
+`30ff315dc36ee183c42eb040c08e6030` mtime 22:36; play-path strict decode
+(pinned call shape) LOADED `digest=189a80723c87b90f27bc8436533d8cc1`
+sessions=6 banked=20 seals=2 marks=0 boss_1_defeats=1 provisions=0
+notices=[] — the moving anchor sits exactly where link #4 left it;
+ritual session 1's host `loaded` expectation stays `189a8072…`. Junior
+side: tip = `b155bcb` (in main), `origin/junior/ci` still `057fb03`,
+nothing past main on any remote ref, no new `_junior-*` draft (newest =
+the s14-consumed 00:10–00:20 files), no paste; **his seat must pull ≥
+`b6c110f` before rejoining.** **Answers 0/8.** Seat mail inbox empty
+(done/ holds the two consumed mails: assets audio-v1 ingest reply +
+audio order-lifted). Residue classified per the laws below: suite trio
+`desync_00000064`/`000008a9`/`00000bf7` rewritten 08:17:27–35
+(`platform:"test"`, `dddd…`/`cccc…` fingerprints verified in-file) =
+the `86c5748` r8-spark commit's hook rake (commit 08:17:03);
+`_gate-verdicts.log` unchanged since 02:29:01 (last entry still
+`=== 20260819-022901 captures\pilot\quay8_r10_replay_gate_a ===`);
+tmp/soak newest report still 15:16:05.122993 = the session-8 report
+itself (sub-second compare) — no new runs, Job 5 empty. v19 intake:
+nothing arrived (file stays at idea 1). Skeleton stays PARTIAL/STANDBY;
+session 1 still RE-RUNS owner-paced; adjudication stays EMPTY.
+
 ## Pre-session evidence banked (verbatim, with provenance)
 
 ### World-save chain anchor (dev-smoke provenance — NOT ritual evidence)

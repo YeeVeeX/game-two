@@ -1,5 +1,45 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-19 v18 session 16 — SEVENTEENTH gate re-run (spark r8): EMPTY (sixth) — expected (gate ran ~7 min after the r8 spark commit; session-1 RE-RUN owner-paced, nothing new since s15 close); docs-only
+
+**Mode: EMPTY** (vehicle: r8 spark
+`drafts/_v18-seventeenth-harvest-spark-r8-20260819.md` — still the
+standing vehicle for the next gate). Gate ran 08:20–08:24, seven
+minutes after the r8 spark commit itself (`86c5748`, 08:17:03); zero
+new evidence is the expected state, not a stall. Findings verbatim in
+the skeleton's sixth dated re-check block:
+
+- **Launcher logs:** 29/29 both temp-dir patterns, newest still
+  `game_two_session_7196.log` 00:06 = the crashed attempt (CONSUMED
+  s14); zero `AUTOPILOT` lines; only coop console remains the banked
+  `20260818-234037` one.
+- **Quarantine holds (link-#4 values):** `saves/world.json` md5
+  `30ff315dc36ee183c42eb040c08e6030` mtime 22:36; strict decode
+  (pinned shape) LOADED `digest=189a80723c87b90f27bc8436533d8cc1`
+  sessions=6 banked=20 seals=2 marks=0 boss_1_defeats=1 provisions=0
+  notices=[]. Ritual session-1 host `loaded` expectation stays
+  `189a8072…`.
+- **Junior side:** tip `b155bcb` (in main), `origin/junior/ci` still
+  `057fb03`, no new draft, no paste. **Answers 0/8.** Seat mail inbox
+  empty (done/ = the two consumed mails).
+- **Residue classified:** suite desync trio rewritten 08:17:27–35 =
+  the `86c5748` r8-spark commit's hook rake (`platform:"test"`,
+  `dddd…`/`cccc…` verified in-file); `_gate-verdicts.log` unchanged
+  since 02:29:01 (`…quay8_r10…` still the last entry); tmp/soak newest
+  report still 15:16:05.122993 (s8's own, sub-second compare) — Job 5
+  empty.
+- **v19 intake:** nothing arrived —
+  `drafts/_junior-v19-ideas-20260819.md` stays at idea 1 (BANK).
+
+**RESUME POINT:** unchanged from s14/s15 — session 1 RE-RUNS
+owner-paced (Junior pulls ≥ `b6c110f` first; host `loaded` must equal
+`189a8072…`; both-seats AUDIO lines read VERBATIM at harvest —
+Junior's line decides the Half-B caveat branch). Vehicle: the r8 spark
+(this session ran it; it stands until superseded). Priming quarantine
+in force until all eight answers are in. Audio asks + Ctrl-facing idea
+stay RECORDED lanes; `data/audio/**` frozen; the gamesmith corpus
+brief stays priming-quarantined until position-decision time.
+
 ## 2026-08-19 v18 session 15 — SEVENTEENTH gate re-run (spark r7): EMPTY (fifth) — expected (the crashed attempt closed 00:06 the same night; session-1 RE-RUN owner-paced); s14 wall verdicts banked (out-raced the close commit); cycle owner-paced
 
 **Mode: EMPTY** (vehicle: r7 spark
