@@ -46,6 +46,51 @@ real touchstone.
 - **Effort:** S. **Risks:** none structural; interplay with attack
   aiming is the point, watch balance in playtest.
 
+## Idea 2 — safe zones vs battle zones (owner, 2026-08-19)
+
+**Provenance:** owner, live chat 2026-08-19 mid-day (dev session 16,
+post-power-cut). Owner verbatim (English):
+
+> I just had an idea (nothing groundbreaking, more like a thought), we
+> should separate battle areas from safe areas, so players can't
+> attack or inflict damage to others while in a safe zone (like depots
+> at temples in Tibia) so when the world opens up to more players
+> later on or we add any specific mission/quest/NPC related task, we
+> can also play with those definitions, what do you recommend? Maybe
+> it is too soon for thinking about that but I just had that in my
+> mind so I wanted to share so I don't forget
+
+**Triage: BANK (v19 brainstorm input), with one pre-recorded design
+trap.** Cites a real touchstone (Tibia protection zones — depots/
+temples); serves the parked multiplayer-expansion and NPC/quest lanes.
+
+- **Touchstone (reference wall):** Tibia PZ — two halves, and the
+  second is the load-bearing one: (a) no damage resolves inside a
+  protection zone; (b) **the combat lock** — a battle-flagged player
+  CANNOT enter the PZ until the flag expires. Without (b), safe zones
+  become the exploit (dive into the depot to drop aggro/escape
+  retaliation). Any future spec must carry both halves.
+- **Current-era fit:** co-op has NO player-to-player damage today, so
+  the only feelable v18-era version would be "enemies never pursue/
+  damage into safe areas" — that is a SIM change (lockstep/replay
+  identity) = post-verdict by class. Nothing ships now.
+- **Cheap shape when it lands (data-driven law):** zones already carry
+  `hub: true`; `safe:` is the natural sibling attribute (zone-level
+  first; per-tile only if a real need appears). Systems READ the flag
+  (damage resolution, AI pursuit, later PvP/quest givers) — zero
+  constants in code. Hubs nest/camp are the obvious first carriers —
+  note today's soak observed camp DOES host combat (fights=4), so
+  formalizing `safe` would visibly change camp's character: an owner
+  fork at the brainstorm, not a default.
+- **What it unlocks later (the owner's own framing):** PvP rules by
+  area when >2 players unparks; NPC/quest/mission placement (parked
+  Kethral lanes) gets a sanctioned "town" surface; composes with the
+  banking ritual (banks live in hubs — "sanctuary" reading).
+- **Effort when built:** S–M (flag + damage/pursuit gates + Rule 2
+  visual language for the boundary — players must SEE where safety
+  starts; unmarked safe borders are a readability defect, not a
+  mystery).
+
 ## Slot status
 
 Nothing else arrived (no paste, no drafts file beyond this relay, no
