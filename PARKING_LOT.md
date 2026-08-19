@@ -709,6 +709,14 @@ law applies to every figure (nothing reaches `data/` without re-verification).
 
 ## Audio integration — order LIFTED, QUEUED (2026-08-18, seat mail from game-two-audio)
 
+**2026-08-18 late: the trigger below was OVERRIDDEN by the owner, live in
+chat ("I would like to integrate the audio now") — M5a executed ahead of
+the SEVENTEENTH** (AGENTS.md scope block carries the override; the ritual
+moved to tomorrow, two sessions one day). This entry stays as the runway
+record; audio work PAST M5a (full 44-row mapping, assets-exports manifest
+swap, drift fix if measured) is owner-paced and routes per the M5a verdict
+doc.
+
 Owner order verbatim ("audio order lifted"), in writing, recorded at
 game-two-audio `drafts/_m4-owner-scores.md:148` (md5 `d740e9ad1377947e413f370e8522bb1b`,
 commit `69b73ec`) — trail verified live by the game-two seat 2026-08-18.

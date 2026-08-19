@@ -40,6 +40,33 @@ named; adjudication stays EMPTY until a FULL harvest.
 non-quit `reason=`, or a lost log is NOT a routing failure — that
 session RE-RUNS, owner-paced. Never waive a check, never fudge a pass.
 
+**Owner amendment (2026-08-18 late, live in chat — dev session 12).**
+Owner verbatim (English, in chat): "I would like to integrate the
+audio now, and move the testing sessions to tomorrow, not monday or
+anything like that, we can do 2 sessions in a single day". Effects,
+recorded BEFORE the sessions run:
+
+1. **Ritual step 3 amended:** sessions 1 and 2 MAY share one day
+   (tomorrow). Half A is mechanically intact — two separate launches,
+   session 2's host `loaded` must still equal the latest prior `saved`
+   digest. CAVEAT pre-registered: the felt-half "coming back later"
+   spacing weakens at same-day; adjudication reads Half B with that
+   named beside it.
+2. **The ritual runs on an audio-carrying build** (M5a integration,
+   owner override — AGENTS.md scope block). Audio is a pure sink
+   (never sim/saves/netplay; lockstep and the digest chain are
+   audio-blind by construction) and HOST-ONLY tomorrow (Junior's
+   machine has no library — his seat prints `AUDIO off` and plays
+   silent). CAVEAT pre-registered: Half B answers carry a
+   novelty/asymmetry confound — owner hears new audio mid-ritual,
+   Junior does not; adjudication reads both answer sets with that
+   named.
+3. **Junior Q1 premise variant authorized** (wording-virgin law
+   otherwise intact): if both sessions land the same day, "No segundo
+   dia" may read "Na segunda sessão" — same substance (returned vs
+   new game), temporal premise only. Recorded in the runsheet
+   amendment section; any use is noted beside his answer.
+
 ## Evidence gate result (2026-08-18 ~02:47–03:05, this machine)
 
 - **Launcher session logs:** newest `game_two_session_*.log` in BOTH

@@ -7,6 +7,9 @@ chequeos ni el ruteo.
 
 ## El ritual (dos sesiones REALES, en días DISTINTOS)
 
+(**Enmienda 2026-08-18:** mismo día permitido — vea la sección al
+final; todo lo demás de esta hoja queda igual.)
+
 1. **Antes de cada sesión:** `git pull` en los DOS asientos (un asiento
    desactualizado queda RECHAZADO en el saludo — la consola nombra el
    campo exacto y sugiere el fix). Usted hospeda (`bin\host-coop.cmd`),
@@ -73,3 +76,20 @@ chequeos ni el ruteo.
   `_v17-fun-verify-skeleton-20260816.md`); la tabla de ruteo de la
   spec dice qué abre cada resultado — nada nuevo arranca antes de esa
   decisión (regla del ciclo).
+
+## Enmienda del dueño (2026-08-18, en vivo — registrada verbatim en el skeleton)
+
+El dueño movió el ritual a MAÑANA y permitió las dos sesiones el MISMO
+día ("we can do 2 sessions in a single day" — verbatim, en inglés, en
+el chat del dev). Las preguntas NO cambian, con UNA variante de
+premisa permitida: si las dos sesiones caen el mismo día, la pregunta
+1 de Junior puede decir "Na segunda sessão, ..." en lugar de "No
+segundo dia, ..." — misma sustancia, solo la premisa temporal; si se
+usa, se anota junto a su respuesta.
+
+Además: las sesiones de mañana corren sobre una build CON audio
+(integración M5a, orden del dueño en vivo) y el sonido sale SOLO en la
+máquina del dueño (la de Junior no tiene la librería — su juego corre
+en silencio, igual que siempre). El que evalúa registra ese contexto
+como salvedad junto a las respuestas; los chequeos de la Media A no
+cambian en nada.

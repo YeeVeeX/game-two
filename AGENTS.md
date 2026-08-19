@@ -56,6 +56,13 @@ sessions on different days, session 2 provably resumes the same world
 (save digest chain + zero desyncs across both + a carried fact in
 telemetry); (B) FELT — both players asked separately: did the world
 feel continued, did the respawn/sustain frictions disappear.
+**Owner amendment (2026-08-18 late, live in chat — verbatim in the
+skeleton):** the two ritual sessions MAY share one day ("we can do 2
+sessions in a single day"; ritual moves to TOMORROW). Half A is
+mechanically intact (two separate launches; session 2 must load
+session 1's save). Two RECORDED adjudication caveats: the felt-half
+"return later" weakens at same-day spacing, and the ritual now runs
+on an audio-carrying build (M5a below) with host-only sound.
 
 **Seat:** dev of record = the main session. Working language: English.
 Junior's seat is ACTIVE (CI, PT-BR functional labels, playtesting) —
@@ -69,14 +76,18 @@ appearance; item/equipment system; in-game chat/channels; >2 players;
 assets integration (gated on game-two-assets pipeline maturity);
 rollback/resync; open-internet play (Tailscale = trusted overlay
 only); BOSS-1-dread iteration (OPEN-FOR-EXPOSURE — zero code owed);
-all lore/creative writing (standing order above); audio integration
-(owner order LIFTED in writing 2026-08-18 — trail:
-`../game-two-audio/drafts/_m4-owner-scores.md` @ `69b73ec`; STILL out
-of v18 — the bounded integration session is QUEUED in PARKING_LOT.md
-behind the SEVENTEENTH per the nothing-new-starts law; contract:
-`../game-two-audio/docs/integration-readiness.md`, committed version
-authoritative); in-game rebind UI.
-**Nothing new starts until v18 is fun-verified (the SEVENTEENTH ask).**
+all lore/creative writing (standing order above); in-game rebind UI.
+**Audio integration M5a is IN (owner override, 2026-08-18 live):** the
+owner overrode the queue order in chat ("I would like to integrate
+the audio now") — M5a runs BEFORE the SEVENTEENTH. Contract:
+`../game-two-audio/docs/integration-readiness.md` @ `69b73ec`; the
+library is a read-only sibling (adapter + boot seam live HERE); audio
+is a PURE SINK (never sim/saves/netplay) and OPTIONAL at boot —
+library absent or vendor-sha mismatch = one named `AUDIO off/refused`
+line, game runs silent (Junior's machine has no library and must play
+tomorrow unchanged).
+**Nothing ELSE new starts until v18 is fun-verified (the SEVENTEENTH
+ask)** — M5a is the one owner-ordered exception.
 
 ## Human-facing surfaces
 
