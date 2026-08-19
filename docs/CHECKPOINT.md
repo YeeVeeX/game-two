@@ -38,10 +38,24 @@ dated re-check block:
 **RESUME POINT:** unchanged from s14 — session 1 RE-RUNS owner-paced
 (Junior pulls ≥ `b6c110f` first; host `loaded` must equal
 `189a8072…`; both-seats AUDIO lines read VERBATIM at harvest —
-Junior's line decides the Half-B caveat branch). Vehicle: the r7
-spark. Priming quarantine in force until all eight answers are in.
-Audio asks + Ctrl-facing idea stay RECORDED lanes; `data/audio/**`
-frozen.
+Junior's line decides the Half-B caveat branch). Vehicle: the **r8
+spark** (`drafts/_v18-seventeenth-harvest-spark-r8-20260819.md`,
+supersedes r7; handed to the owner via clipboard). Priming quarantine
+in force until all eight answers are in. Audio asks + Ctrl-facing idea
+stay RECORDED lanes; `data/audio/**` frozen.
+
+**Post-close addendum (same morning, hub chat):** two sibling
+deliveries banked — (1) assets-seat reply (`7e9b252`): audio-v1 ingest
+is their NEXT spark, no blocker; delivery contract (absolute paths +
+sha256s, consume on hash) recorded in the M5a verdict doc §Mails; mail
+moved to done/. (2) gamesmith corpus→v18 evidence brief (`112036a`,
+owner-approved spark-up executed per its own rails): PARKING_LOT +2
+entries (session-ledger shape + pointer), untracked addenda copy
+md5-verified `23c64c85…` + provenance bullet; fork-evidence for
+F1/F3/F5/F6/F7, consumed POST-adjudication at position-decision time,
+priming-quarantined meanwhile. Seat-lease lesson recorded in the r8
+spark: file-ops sourcing from a LIVE sibling tree trip the guard —
+read tool → write tool + md5 arbiter.
 
 ## 2026-08-19 v18 session 14 — SEVENTEENTH gate (spark r6): PARTIAL — ritual session 1 ATTEMPT crashed BOTH seats (telemetry nil-possessed at :banked); fix SHIPPED `b6c110f` + wall PAID; three owner audio asks recorded; v19 intake OPENED; session 1 RE-RUNS owner-paced (vehicle: r7 spark)
 
