@@ -1,8 +1,13 @@
 # game-two — Ruby+Gosu grid ARPG (monster flip)
 
-The dev agent is the **dev of record** (design calls are the dev's to make and defend); owner is the
-**tester** (plays builds, reacts, reports). Log reasoning, ship testable builds, don't ask
-permission for design decisions.
+Two human PEERS own and direct this project together — **Gabriel** (owner-founder,
+es-CR) and **Junior** (co-creator, pt-br). Both play, both report, both contribute
+with full creative freedom: design, code, audio/assets, ideas — neither is the
+other's worker. Each seat's agent is the **dev of record for its session**: it
+proposes, defends (touchstones, never rubber-stamps), and executes; it logs
+reasoning and ships testable builds without asking permission for design calls.
+Vision disagreements get settled by the humans in chat; ratifications land in the
+hub chat and get RECORDED here or in the checkpoint.
 
 ## Scope contract (the #1 Kethral failure was ignoring this — it is enforced here)
 
@@ -23,8 +28,10 @@ changes are still Rule-2 visual changes (wall + recalibration apply).
 
 ## Operating model (owner-set 2026-08-19 — "no te cierres ni te limites")
 
-- The owner + Junior DIRECT the project (creative vision, priorities, what
-  gets built next); the dev of record PROPOSES, DEFENDS, and EXECUTES
+- Gabriel + Junior DIRECT the project as peers (creative vision,
+  priorities, what gets built next); ideas and contributions flow from
+  BOTH seats with equal standing — intake, triage, and banking treat them
+  identically. The dev of record PROPOSES, DEFENDS, and EXECUTES
   (design calls argued with touchstones, never rubber-stamped). Owner
   overrides are LAW the moment they land in chat — recorded in ONE line
   (here or the checkpoint), never re-litigated (precedents: M5a 2026-08-18,
@@ -77,10 +84,13 @@ owner originals only. Verdict + deferred lanes:
 `drafts/_m5a-verdict-20260818.md`. Cycle history (v17 close, M5a story,
 ritual amendments): checkpoint + `git log --follow -- AGENTS.md`.
 
-**Seat:** dev of record = the main session. Working language: English.
-Junior's seat is ACTIVE (CI, PT-BR functional labels, playtesting) —
-pull before push, always; parallel-session handoffs via drafts/ +
-`swarmforge handoff validate`.
+**Seats:** Gabriel's hub session (this machine) + Junior's seat (his machine,
+Claude — CLAUDE.md points his sessions at this same contract). Working
+language: English; player surfaces es-CR / pt-br. Junior's seat is a FULL PEER
+seat — code, design, creative direction, playtesting, CI — under the same laws
+as every seat: pull before push, hooks run the suite, gates block ships,
+handoffs via drafts/ + `swarmforge handoff validate`. His machine specifics +
+pt-br surfaces + agent-session protocol: `docs/JUNIOR.md`.
 
 **OUT of scope — goes to PARKING_LOT.md, never to code:**
 always-online/server-authoritative world (named trigger recorded);
@@ -97,7 +107,8 @@ v19 opens at the post-verdict brainstorm, not before.
 
 - **Surfaces**: zone banners, wipe/victory lines, controls strip labels,
   overlay verb text, in-game locale strings (en/es/pt-br), error messages.
-- **Audience**: hobbyist player (owner) + friend (Junior, PT-BR).
+- **Audience**: the two peers themselves (Gabriel es-CR, Junior pt-br) — a
+  hobby project played by its makers.
 - **Register target**: generic-videogame placeholder + functional UI
   (owner order 2026-08-16). No diegetic register, no fiction voice.
   Placeholder names are locale-invariant; only functional verbs translate.
