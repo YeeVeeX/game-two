@@ -74,6 +74,24 @@ becoming a work item; sim-touching candidates = v19-class, RECORDED) ·
 audio tuning on owner ask (drone ambient + −6 dB shipped `d91281a`;
 attack-cue spec staged: `drafts/_audio-cue-spec-attacks-20260819.md`).
 
+**Lane 3 — world-builder pipeline (owner-directed 2026-08-19, ratified
+in chat — "Approved, I agree"):** the existing six-zone world is the
+game's INTRODUCTION ARC (owner framing — the "tutorial dungeon");
+expansion grows outward from it through an authoring pipeline: external
+pro editor front-end (LDtk lead, Tiled fallback) + strict importer to
+zone JSON + hot-reload preview loop + floors (typed transitions:
+stairs/holes/rope; zones ARE floors) + region data layer + tile-type
+registry (tile grammar: render + footstep audio + behavior hooks).
+SAFE behaviors (decorative variants, footstep materials, region
+ambience) ship in this era; SIM-CLASS tile behaviors (lava, water,
+tile-gated spawns) are post-verdict increments, one gated piece at a
+time. Live in-game god-mode editing stays the staged later rung (2026-
+08-17 vision-drop staging unchanged). Grill record:
+`drafts/_world-builder-grill-20260819.md`; spec lands after the open
+grill answers close. New content merges into the LIVE world only per
+the recorded merge-timing decision (open grill question — default:
+post-verdict).
+
 **Owner-pending (never nag):** ambient ear-check (his next solo listen —
 also chain link #5) · his 7 attack renders (Reaper) · the ritual when
 Junior is available.

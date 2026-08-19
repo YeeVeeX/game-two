@@ -798,3 +798,32 @@ sequencing law.
 - Note: the Kethral park "MIDI engine / procedural SFX — do not revive" is a
   DIFFERENT system and stays dead; this entry is the miniaudio-based
   game-two-audio library.
+
+## Banked at the world-builder grill (2026-08-19, owner idea drops — recorded, NOT promoted)
+
+- **Housing system** (owner, self-flagged "I know its too soon for it, just
+  mentioning the idea"): player-owned placeable structures/rooms. Family:
+  regions data layer + persistence + (multi-player era) ownership rules.
+  Trigger: post items/backpack cycle AND a second real player inhabiting the
+  world (Junior era) — housing without possessions or neighbors is furniture.
+  Touchstones named at drop: Valheim/Conan building, The Sims buy-and-place.
+- **Dimension/time layers** (owner, same drop: "layers up/down/dimension/time"):
+  up/down = the floors lane (Lane 3, opening). A "dimension" is topologically a
+  parallel zone stack reachable by typed transitions — the floors machinery
+  generalizes to it with zero new engine; palette/ambience carry the otherness.
+  Time-of-day/weather stays the Kethral park (own cycle when the alive-world
+  era opens). Trigger: a concrete dimension/time design need named at a
+  brainstorm — record content ideas here meanwhile.
+- **Fishing / aquatic content family** (owner reference sheet: ~60-sprite
+  aquatic pack — `drafts/_refs/wb-aquatic-content-pack.png` md5 `30ffbecf…`,
+  untracked): the model "behavior family" — water tiles + water creatures +
+  a tool verb + catch tables. Item-shaped (rod, fish, tables) → rides the
+  items/backpack cycle; water TILE behavior itself is a sim-class tile-grammar
+  increment (post-verdict). Tibia fishing = the in-genre touchstone.
+- **Live in-game select-and-place god mode** (owner: Valheim/Conan/Sims
+  building UX "as admins/gods of the server, Game Masters if so") — already
+  staged by the 2026-08-17 vision drop as the rung AFTER the offline authoring
+  loop; re-affirmed at this grill. The lockstep desync-mine honesty stands:
+  live world mutation while seats play = server-authoritative family (named
+  trigger unchanged). The offline LDtk palette loop delivers the select-and-
+  place FEEL now; this entry is the in-game half only.

@@ -91,6 +91,45 @@ temples); serves the parked multiplayer-expansion and NPC/quest lanes.
   starts; unmarked safe borders are a readability defect, not a
   mystery).
 
+## Idea 3 — CryoFall-style inventory/stats menu + asset style signal (owner, 2026-08-19)
+
+**Provenance:** owner, live chat 2026-08-19 (~16:0x, world-builder
+grill thread). Owner verbatim (English):
+
+> a player inventory/stats menu like the one on cryofall would be a
+> nice fit for our game I think, and the asset style is pretty
+> charming on my opinion
+
+**Reference screenshot (described + banked):** CryoFall in-game player
+menu — paper-doll equipment panel (armor/device/implant slots with
+charge LEDs), a SKILLS panel (8 icon rows with segmented tally-style
+progress bars), a ~10×4 grid inventory with stack counts + hover
+tooltip ("Copper ingot — …industry to electronics"), a 0–9 hotbar,
+HP/stamina + food/water bars, quest tracker. Local untracked copy
+(gamesmith-addenda precedent — never `git add`):
+`drafts/_refs/wb-cryofall-inventory-stats.png` md5
+`4cc2f26746646254edda7f282252379e`.
+
+**Triage: BANK (v19 brainstorm input) — it attaches to the DECLARED
+v19 lead.** The items/backpack cycle (PARKING_LOT, owner rider
+2026-08-17) already carries the dependency chain; this idea is the UI/
+UX touchstone for chain step (2) inventory/backpack UI and step (3)
+equipment slots + stats layer. CryoFall is a strong-fit touchstone:
+top-down 2D survival sim, grid world, legible survival UI.
+
+- **What it decides early (worth carrying into the brainstorm):**
+  paper-doll + grid + hotbar is a THREE-surface family, each its own
+  Rule 2 wall scripts; skills-with-tally panel presumes a skill system
+  (does NOT exist — own fork, Tibia skill-through-use is parked from
+  Kethral); hotbar presumes usable items (chain step 1).
+- **Style signal (routed to assets seat):** "the asset style is pretty
+  charming" — recorded as an owner style-direction data point beside
+  the earlier tile/material reference sheets; the assets seat consumes
+  style direction, this repo stays placeholder-rect until the
+  integration cycle.
+- **Effort when built:** the UI alone M–L; rides the items cycle,
+  never alone.
+
 ## Slot status
 
 Nothing else arrived (no paste, no drafts file beyond this relay, no
