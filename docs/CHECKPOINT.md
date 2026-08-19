@@ -47,6 +47,19 @@ without answers = PARTIAL: bank verbatim + hand the owner the run-sheet
 POINTERS for the asking step (wording stays virgin). Junior's side:
 nothing pending.
 
+**Addendum (same day, 18:00 — owner solo session #1, world advanced):**
+owner asked live; dev seat launched `bin/play es` (no `--fresh`), owner
+played and Esc-quit. Log `game_two_session_6508.log` (HUMAN — no
+`AUTOPILOT` line; full md5-identical copy tracked in
+`drafts/_v18-seventeenth-evidence/`): `loaded d63fd8ea… sessions=2` →
+`saved 602e94bb… banked=20 seals=2 marks=3 sessions=3`; disk
+strict-decode matches the saved digest byte-exact (boss_1_defeats=1).
+Save md5 now `213076c540cc9eed846172748aae2e10` — the `a249aec…`
+quarantine value is superseded by legitimate owner play, NOT a breach.
+First real chain link banked in the skeleton; ritual session 1's host
+`loaded` should now equal `602e94bb…` (unless more solo play moves it
+first). Still zero ritual sessions, 0/8 answers — gaps 1–8 unchanged.
+
 ## 2026-08-18 v18 session 8 — autonomous coop soak SHIPPED (bot+orchestrator+checker); loopback 2×36000 green, cross-machine Tailscale episode green BOTH seats; SEVENTEENTH untouched (soak ≠ oracle)
 
 **Evidence gate (Job 0):** no ritual evidence (newest launcher log in
