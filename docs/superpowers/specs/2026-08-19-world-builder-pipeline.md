@@ -31,10 +31,29 @@ Dev reading (flagged in chat): "without threads on some radio" =
   LDtk; a strict importer converts to zone JSON. The importer refuses
   `jsonVersion` drift NAMED (vendor-sha ceremony pattern). Tiled is
   the recorded fallback if the spike fails. Git stays the world store.
+  **T2 pin (2026-08-19, T1 evidence):** LDtk **1.5.3** — refusal key
+  `jsonVersion == "1.5.3"` ONLY (`appBuildId` churns per resave,
+  observed 473702→473703, and is explicitly NOT pinned); installer md5
+  `11f9057d5889c0e51eee2ed43e8096cf` (Windows, per-user, silent `/S`).
+  Pin ceremony: decline in-app update prompts; an upgrade is a
+  deliberate re-pin of this line + importer + fixtures, never an
+  accident.
 - **D2 — Importer is the only door.** LDtk output never ships raw; the
   importer emits our zone JSON (ASCII rows + entities) and REFUSES
   invalid content with named errors (save-decoder pattern). Round-trip
   property: import(export(zone)) byte-stable for authored zones.
+  **T2 wording (2026-08-19, ratifying the T1 sidecar proposal):** LDtk
+  owns SPATIAL truth (IntGrid tiles, entities, `display_name`/`floor`
+  level fields); the per-zone sidecar (`<zone>.sidecar.json`) owns
+  presentation/tuning scalars — `palette` (incl. alpha),
+  `drop_gradient`, `gradient_anchor`, `tile_size` — and NOTHING else
+  (unknown sidecar keys refuse NAMED; hub/decor mapping is T4's
+  deliberate extension if a pipeline zone ever needs them). The
+  importer's emitter defines the CANONICAL zone-JSON byte format; the
+  round-trip property is the import→emit→import fixpoint
+  (byte-stable), enforced by test. Shipped: `tools/import_ldtk.rb`
+  (every T1 wrinkle a named refusal) + `test/tools/import_ldtk_test.rb`
+  (real 1.5.3 vendor-byte fixture, md5-pinned, `.gitattributes -text`).
 - **D3 — Floors = zones + typed transitions.** New transition types:
   `stairs_up` / `stairs_down` / `hole` / `rope_spot`; zones gain
   `floor:` depth metadata (0 = surface, negative = down). Placeholder
@@ -51,7 +70,10 @@ Dev reading (flagged in chat): "without threads on some radio" =
   is a designed loop, not an accident: towns/zones stay revisitable
   (materials, future NPCs/quests) per the owner's WoW/TES framing.
   Schema lands in T2; DUNGEON 1 MAY use one if authoring time allows
-  (optional, not owed in the pilot).
+  (optional, not owed in the pilot). **T2 note (2026-08-19):**
+  `stairs_unlocked_by` schema + loader validation SHIPPED (TileMap v2:
+  hole-only, non-empty fact name, refusals named); behavior wiring
+  stays T4/T5.
 - **D5 — No cross-floor effects, ever** (council fold): projectiles,
   AoE, AI pursuit, targeting never cross a transition. Structurally
   true today; now law so nothing gets designed against it.

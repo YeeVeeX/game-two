@@ -4,6 +4,16 @@
 T2 lands the pin into D1 and builds the production importer with the
 refusal cases catalogued here.
 
+**T2 landed (2026-08-19, session 20):** pin → spec D1 amendment;
+sidecar contract → spec D2 wording; wrinkle table →
+`tools/import_ldtk.rb` refusal register, enforced by
+`test/tools/import_ldtk_test.rb`; the resaved project bytes salvaged
+to `test/fixtures/spike_district.ldtk` (md5 `59363c…` intact,
+`.gitattributes -text` so EOL normalization can never break the
+provenance). One post-spike observation folded: level `worldX/worldY`
+is **-1** in the vendor resave (LinearHorizontal auto-layout), so the
+pinned convention is `{-1, 0}`, refusing anything else NAMED.
+
 ## Pin (D1 candidate)
 
 - **LDtk 1.5.3** (Windows installer `LDtk-1.5.3-installer.exe`,
