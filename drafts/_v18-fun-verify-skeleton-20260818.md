@@ -565,6 +565,34 @@ digest=` should now equal `9890bb5ed431b4094106983196381f62`**
 is superseded by this link — the #1–#4 pattern law ("unless more solo
 play moves it") applied.
 
+### Solo chain link #6 (2026-08-19 20:44 — owner cue+rotation EAR-CHECK listen, HUMAN, single-instance)
+
+Same-day verify listen for audio v1.1 (23 attack-take cues `f228df8`)
++ ambient v2 (calm-family rotation `3d20b93`), owner ask "probémoslo
+ya". Launch per protocol (guard printed no-tasks; detached solo
+`bin/play es`; judged by launcher log after Esc). Log
+`game_two_session_7461.log` (31st both patterns; md5-banked copy
+`ab7e961fdcf6ee072e1cd6a73a958371`):
+
+- `AUDIO on: device=1 sha=15f03e0219d6`; real combat (wipes=3,
+  challenges=13, quay+varekka entered, marks_consumed=2, tribute
+  economy moved banked 20→12); `AUDIO teardown clean
+  (dropped_cues=0)`; zero AUTOPILOT; reason=quit.
+- `loaded digest=9890bb5ed431b4094106983196381f62 … sessions=7` →
+  `saved digest=66784a92f268776eeb917efb655449c6 … sessions=8` —
+  chain intact off link #5. Disk verified: save md5
+  `8e94dcb8237b729eaa17222ae234d44d` (mtime 20:44:17), strict decode
+  == saved digest, sessions=8, notices=[].
+- **Ear-check verdict (owner verbatim, es-CR): "se oye muy bien!"**
+  + four tuning asks volunteered FOR TOMORROW (banked in the M5a
+  verdict asks 5–7 + ask 4 amendment — owner: "dejémos la nota y lo
+  arreglamos todo mañana con más calma"). Owner-initiated audio lane;
+  ritual quarantine held (no routing-row topics touched).
+
+**The anchor moves again: ritual session 1's host `persist loaded
+digest=` should now equal `66784a92f268776eeb917efb655449c6`**
+(sessions=8) — same supersession law as above.
+
 ### Ritual session 1 ATTEMPT (2026-08-18 23:40 → 2026-08-19 00:06 — CRASH on both seats; shortfall, RE-RUNS; world UNMOVED)
 
 Launch per the live-launch protocol (owner ask "procede por favor"):

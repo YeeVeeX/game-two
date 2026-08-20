@@ -53,11 +53,27 @@ T4's true test.
    grid_walker.rb:76). Assets seat mailed the style signals.
 
 **RESUME POINT:** T2 (importer + schema v2, FRESH session) with the
-findings doc as input — D1 pin + sidecar wording land there. Owner
-queue updated es-CR. Owner-pending unchanged (ambient ear-check · his
-7 attack renders · the ritual when Junior is available) — never nag.
-The SEVENTEENTH still outranks everything the moment its evidence
-appears.
+findings doc as input — D1 pin + sidecar wording land there.
+**Session 19 grew a same-day AUDIO ARC after T1 closed (owner live,
+all owner-directed):** ambient ear-check CLOSED ("me gusta como
+suena!") = chain link #5 (log 6739, anchor → `9890bb5e…` s7) · the 7
+attack renders EXECUTED same session in Reaper 7.79 (agent reascript
+scaffolds: project + regions + MIDI gestures + matrix render; owner
+VSTs; his anti-repetition takes: hit×4 dodge×8 wipe×4 throw×4 = 23
+renders) → ingested sha-pinned + deterministic take rotation in the
+bridge (`f228df8`, variants.json + VariantRotor, library untouched) ·
+ambient v2: 3 owner drone variants → calm-family rotation, 1920-tick
+cadence, bar crossfades (`3d20b93`) · ear-check 2 PASS ("se oye muy
+bien!") = chain link #6 (log 7461, anchor → `66784a92…` sessions=8)
+· 4 tuning asks banked for TOMORROW (M5a verdict asks 5–7 + ask 4
+amended: ONE 32-bar evolving loop is the real intent — rotation is
+tonight's interim) · near-miss recorded (owner cancelled a
+fire-everything re-render with FX off; matrix rebound drone-only) ·
+audio-seat provenance mail out (26 masters). Suite 835/0 at close.
+Owner-pending now: the ritual when Junior is available · his 7
+attack renders DONE · ear-check DONE · tomorrow's audio-tuning list
+(asks 5–8). Never nag. The SEVENTEENTH still outranks everything the
+moment its evidence appears.
 
 ## 2026-08-19 session 18 (hub, owner LIVE) — WORLD-BUILDER LANE opened, grilled, spec'd (D1–D12 + T1–T5), T1 spark staged; council consult folded; 3 sibling mails out; intake +2 ideas; ritual state UNTOUCHED
 
