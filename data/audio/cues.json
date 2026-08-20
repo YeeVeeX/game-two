@@ -98,7 +98,14 @@
       "priority": 30,
       "gain": 2.5,
       "pan": 0.0,
-      "spatial": false
+      "spatial": false,
+      "duck": {
+        "bus": "music",
+        "duck_db": -4.0,
+        "attack_frames": 800,
+        "hold_frames": 2400,
+        "release_frames": 9600
+      }
     },
     "msfx_hit_200ms_b": {
       "event": "attack_hit__b",
@@ -107,7 +114,14 @@
       "priority": 30,
       "gain": 2.5,
       "pan": 0.0,
-      "spatial": false
+      "spatial": false,
+      "duck": {
+        "bus": "music",
+        "duck_db": -4.0,
+        "attack_frames": 800,
+        "hold_frames": 2400,
+        "release_frames": 9600
+      }
     },
     "msfx_hit_200ms_c": {
       "event": "attack_hit__c",
@@ -116,7 +130,14 @@
       "priority": 30,
       "gain": 2.5,
       "pan": 0.0,
-      "spatial": false
+      "spatial": false,
+      "duck": {
+        "bus": "music",
+        "duck_db": -4.0,
+        "attack_frames": 800,
+        "hold_frames": 2400,
+        "release_frames": 9600
+      }
     },
     "msfx_hit_200ms_d": {
       "event": "attack_hit__d",
@@ -125,7 +146,14 @@
       "priority": 30,
       "gain": 2.5,
       "pan": 0.0,
-      "spatial": false
+      "spatial": false,
+      "duck": {
+        "bus": "music",
+        "duck_db": -4.0,
+        "attack_frames": 800,
+        "hold_frames": 2400,
+        "release_frames": 9600
+      }
     },
     "msfx_special_600ms": {
       "event": "special_started",
@@ -134,7 +162,14 @@
       "priority": 60,
       "gain": 2.5,
       "pan": 0.0,
-      "spatial": false
+      "spatial": false,
+      "duck": {
+        "bus": "music",
+        "duck_db": -4.0,
+        "attack_frames": 800,
+        "hold_frames": 2400,
+        "release_frames": 9600
+      }
     },
     "msfx_dodge_150ms_a": {
       "event": "dodged__a",
@@ -143,7 +178,14 @@
       "priority": 25,
       "gain": 2.5,
       "pan": 0.0,
-      "spatial": false
+      "spatial": false,
+      "duck": {
+        "bus": "music",
+        "duck_db": -4.0,
+        "attack_frames": 800,
+        "hold_frames": 2400,
+        "release_frames": 9600
+      }
     },
     "msfx_dodge_150ms_b": {
       "event": "dodged__b",
@@ -152,7 +194,14 @@
       "priority": 25,
       "gain": 2.5,
       "pan": 0.0,
-      "spatial": false
+      "spatial": false,
+      "duck": {
+        "bus": "music",
+        "duck_db": -4.0,
+        "attack_frames": 800,
+        "hold_frames": 2400,
+        "release_frames": 9600
+      }
     },
     "msfx_dodge_150ms_c": {
       "event": "dodged__c",
@@ -161,7 +210,14 @@
       "priority": 25,
       "gain": 2.5,
       "pan": 0.0,
-      "spatial": false
+      "spatial": false,
+      "duck": {
+        "bus": "music",
+        "duck_db": -4.0,
+        "attack_frames": 800,
+        "hold_frames": 2400,
+        "release_frames": 9600
+      }
     },
     "msfx_dodge_150ms_d": {
       "event": "dodged__d",
@@ -170,7 +226,14 @@
       "priority": 25,
       "gain": 2.5,
       "pan": 0.0,
-      "spatial": false
+      "spatial": false,
+      "duck": {
+        "bus": "music",
+        "duck_db": -4.0,
+        "attack_frames": 800,
+        "hold_frames": 2400,
+        "release_frames": 9600
+      }
     },
     "msfx_death_400ms": {
       "event": "actor_died",
@@ -261,7 +324,14 @@
       "priority": 20,
       "gain": 2.5,
       "pan": 0.0,
-      "spatial": false
+      "spatial": false,
+      "duck": {
+        "bus": "music",
+        "duck_db": -4.0,
+        "attack_frames": 800,
+        "hold_frames": 2400,
+        "release_frames": 9600
+      }
     },
     "msfx_throw_1800ms_b": {
       "event": "projectile_fired__b",
@@ -270,7 +340,14 @@
       "priority": 20,
       "gain": 2.5,
       "pan": 0.0,
-      "spatial": false
+      "spatial": false,
+      "duck": {
+        "bus": "music",
+        "duck_db": -4.0,
+        "attack_frames": 800,
+        "hold_frames": 2400,
+        "release_frames": 9600
+      }
     },
     "msfx_throw_1800ms_c": {
       "event": "projectile_fired__c",
@@ -279,7 +356,14 @@
       "priority": 20,
       "gain": 2.5,
       "pan": 0.0,
-      "spatial": false
+      "spatial": false,
+      "duck": {
+        "bus": "music",
+        "duck_db": -4.0,
+        "attack_frames": 800,
+        "hold_frames": 2400,
+        "release_frames": 9600
+      }
     },
     "msfx_throw_1800ms_d": {
       "event": "projectile_fired__d",
@@ -288,7 +372,14 @@
       "priority": 20,
       "gain": 2.5,
       "pan": 0.0,
-      "spatial": false
+      "spatial": false,
+      "duck": {
+        "bus": "music",
+        "duck_db": -4.0,
+        "attack_frames": 800,
+        "hold_frames": 2400,
+        "release_frames": 9600
+      }
     }
   }
 }
