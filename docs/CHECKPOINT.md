@@ -1,5 +1,35 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-20 session 25 (hub) — gamesmith Round-7B intake BANKED (docs-only; deduplicating triage, no adoption)
+
+**Intake per `drafts/_gamesmith-round7-intake-spark-20260820.md` (banked
+verbatim at session-24 close):** source gamesmith
+`docs/round7-synthesis-threads.md` @ `c4e49f3` md5
+`8f0ac085bf77f5a00b9def7f40454049` == copy md5 (byte-identical, verified) →
+`docs/design-corpus/gamesmith/addenda/round7-synthesis-threads-20260820.md`,
+ignored by design (`git check-ignore` ✓), provenance block appended to the
+addenda `_PROVENANCE.md` (title split Lanternvale/MARROWFEN recorded not
+resolved; NW-Aeternum = reference study outside the 13-game corpus; FR ids
+provenance-only, non-binding; citation gate 96 obs + 4 say reproduced on the
+copy). **Dispositions** (`drafts/_gamesmith-round7-intake-triage-20260820.md`
++ one PARKING pointer): T4 front events BANK/NO ACTION (payoff never
+observed, no baseline) · T6 screen-cap DEDUPE/BANK METHOD (Itexo 2.9 already
+consumed; bank the replay-sweep method only, no number invented) · T7
+instrumentation BANK/ZERO TELEMETRY CHANGE (v18 closed + pre-registered) ·
+T8 DaD wager map DEDUPE/BANK MAP (session-ledger pointer stands; bank the
+observed-vs-[SYNTHESIS] map).
+Round 5 verified existing (md5 `a044f986fa3fbebdd1bdc8481939a41c` ✓), not
+replayed. Active queue unchanged
+(session-25 spark's: intake → lag ticket T4 vsync spike → v19 docket — the
+lag "T4" is a different namespace than gamesmith thread T4); v19 NOT opened
+by intake; no tuning number transfers. Receipt: Kimi text gate (≤$0.20,
+accuracy/presentation split, 2 calls) ran on this exact tracked diff
+pre-commit — call 1 quoted defects (fixed in place: citation-count notation,
+T4-namespace collision, disposition casing, this receipt's wording), call 2
+verdicted the corrected text; verdict + commit hash in the gamesmith receipt
+mail (`~/.pi/agent/mail/gamesmith/from-game-two-round7-intake-receipt.md`);
+hooks ran the suite at commit; pushed same session.
+
 ## 2026-08-20 session 24 (hub) — **AUDIO POLISH SHIPPED: cue dup-fix (same-tick coalescing) + −4 dB percussive music duck (data-only)** · T3 lag verdict WRITTEN from banked bytes · coop pre-flight DONE, session owner-paced · gamesmith Round-7B intake QUEUED for a fresh session · v19 still NOT open
 
 **T-A dup bug (owner: "duplicación de triggering") — evidence FIRST, fix

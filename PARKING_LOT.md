@@ -83,6 +83,18 @@ Append freely; promoting an item requires updating the scope contract in AGENTS.
   dossiê §12. Mechanics only — nothing is owed from this repo; dormancy is an acceptable
   end-state.
 
+- **Corpus round-7 completion threads (gamesmith, 2026-08-20) — evidence pointer, no active
+  task.** Owner-fired completion against the finished 13-game corpus; no game-two demand was
+  manufactured. Dispositions: T4 BANK/no payoff baseline; T6 DEDUPE the already-consumed
+  readability finding and bank only the target-renderer replay-sweep method; T7 BANK with ZERO
+  change to closed v18 telemetry; T8 DEDUPE the existing session-ledger pointer and bank the full
+  wager map. Gamesmith FR ids remain provenance-only and bind nothing here; no tuning number
+  transfers. Evidence:
+  `docs/design-corpus/gamesmith/addenda/round7-synthesis-threads-20260820.md`
+  (source: gamesmith `docs/round7-synthesis-threads.md` @ `c4e49f3`, md5
+  `8f0ac085bf77f5a00b9def7f40454049`). Intake dispositions:
+  `drafts/_gamesmith-round7-intake-triage-20260820.md`. Mechanics only; no-lore order respected.
+
 ## World mythology — ADOPTED at v12 (2026-08-13, owner fork: full adoption)
 
 - `docs/lore/world-bible.md` — standalone Egyptian×Fantasy world bible (Tibia-method: original
