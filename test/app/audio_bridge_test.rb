@@ -28,6 +28,42 @@ class AudioBridgeTest < Minitest::Test
 
   def data = @data ||= Core::DataStore.new(File.expand_path("../../data", __dir__))
 
+  def scripted_input(frames = {}) = Core::ScriptedInput.new(frames:)
+
+  def drive(world, count, input: scripted_input, bridge: nil)
+    count.times do
+      input.update(world.frame)
+      world.tick(input)
+      bridge&.update(world.frame)
+    end
+  end
+
+  # Real three-target whirlwind staging, matching WhirlwindTest's ring setup.
+  def stage_three_target_whirl(world)
+    step = data["balance/combat"][:kits][:striker][:step_frames]
+    frames = (0...(step * 30)).to_h { |frame| [frame.to_s, ["right"]] }
+    drive(world, step * 30, input: scripted_input(frames))
+    assert_equal "district", world.zone_name
+
+    striker = world.pack.members.find { |member| member.kit_name == :striker }
+    world.pack.swap_next! until world.possessed.equal?(striker)
+    striker.interrupt_action!
+    striker.walker.teleport(12, 12)
+    (world.pack.living - [striker]).each_with_index do |member, index|
+      member.walker.teleport(2, 12 + index)
+    end
+
+    victims = world.humans.first(3)
+    assert_equal 3, victims.length, "district must supply three real targets"
+    world.humans.replace(victims)
+    [[13, 12], [11, 12], [12, 11]].each_with_index do |tile, index|
+      victims[index].heal_full!
+      victims[index].walker.teleport(*tile)
+      victims[index].stagger!(600)
+    end
+    [striker, victims]
+  end
+
   # -- absence / refusal paths (run everywhere; real files only) -----------
 
   def test_absent_library_is_a_named_no_op
@@ -112,6 +148,18 @@ class AudioBridgeTest < Minitest::Test
     assert_equal %w[only only only], Array.new(3) { rotor.next! }
   end
 
+  def test_rotor_coalesces_one_family_per_tick_without_consuming_a_take
+    names = %w[a b c d]
+    expected = App::AudioBridge::VariantRotor.new(names)
+    rotor = App::AudioBridge::VariantRotor.new(names)
+
+    assert_equal expected.next!, rotor.next_for_tick(40)
+    assert_nil rotor.next_for_tick(40), "same family + tick must not consume another take"
+    assert_nil rotor.next_for_tick(40), "every duplicate in that tick stays coalesced"
+    assert_equal expected.next!, rotor.next_for_tick(41),
+                 "the next tick must receive the next deterministic take"
+  end
+
   def test_variants_table_is_fully_backed_by_cues_and_fixtures
     audio_dir = File.expand_path("../../data/audio", __dir__)
     variants = JSON.parse(File.read(File.join(audio_dir, "variants.json"))).fetch("events")
@@ -189,20 +237,49 @@ class AudioBridgeTest < Minitest::Test
     bridge.shutdown
   end
 
-  # Real bus + real library: attack_hit fires exactly one rotated take cue
-  # (raw event maps to nothing; the synthetic name starts the voice).
+  # Real bus + real library: same-tick attack_hit emits coalesce into exactly
+  # one rotated take cue (raw event maps to nothing; the synthetic name
+  # starts the voice).
   def test_variant_rotation_fires_real_cues_through_the_bus
     skip "game-two-audio library not present — bridge device tests untestable here" unless lib_present?
     world = Game::World.new(data, seed: 7)
     bridge, = boot
+    world.bus.process # drain the construction zone_entered emit pre-attach
     bridge.attach(bus: world.bus, world: world)
     3.times do |i|
       world.bus.emit(:attack_hit, actor: nil)
       world.bus.process
       bridge.update(world.frame + i)
     end
-    assert_operator bridge.audio.active_voices, :>=, 1,
-                    "rotated synthetic cues must reach the sink and start voices"
+    assert_equal 1, bridge.audio.active_voices,
+                 "three same-tick hits must reach the sink as ONE coalesced take voice"
+    bridge.shutdown
+  end
+
+  # Regression for the owner's duplicate-trigger report: the sim keeps one
+  # attack_hit fact per connected target, while presentation starts one hit
+  # take for the whole same-family/same-tick batch.
+  def test_real_whirl_keeps_three_hit_events_but_starts_one_hit_voice
+    skip "game-two-audio library not present — bridge device tests untestable here" unless lib_present?
+    world = Game::World.new(data, seed: 24)
+    striker, = stage_three_target_whirl(world)
+    bridge, = boot
+    bridge.attach(bus: world.bus, world: world)
+    hit_ticks = []
+    voices_after_hit = []
+    world.bus.subscribe(:attack_hit) do |_event|
+      hit_ticks << world.frame
+      voices_after_hit << bridge.audio.active_voices
+    end
+
+    assert striker.start_special(blocked: world.blocked_for(striker))
+    special = data["balance/combat"][:kits][:striker][:special]
+    drive(world, special[:windup_frames] + special[:active_frames] + 60, bridge:)
+
+    assert_equal 3, hit_ticks.length, "sim truth remains one hit event per target"
+    assert_equal 1, hit_ticks.uniq.length, "the three connections belong to one tick"
+    assert_equal [2, 2, 2], voices_after_hit,
+                 "one special voice + one coalesced hit voice; duplicates add no voices"
     bridge.shutdown
   end
 

@@ -148,6 +148,7 @@ module App
         @names = names
         @state = names.join.each_byte.reduce(5381) { |a, b| ((a * 33) ^ b) & 0x7fffffff }
         @last = nil
+        @last_tick = nil
       end
 
       def next!
@@ -160,6 +161,15 @@ module App
               end
         @last = idx
         @names[idx]
+      end
+
+      # Presentation density: one take per event family per world tick. A
+      # coalesced event does not advance the rotor, so lockstep seats sample
+      # the same deterministic sequence from the same event/tick stream.
+      def next_for_tick(tick)
+        return if @last_tick == tick
+        @last_tick = tick
+        next!
       end
 
       # Anchor the no-immediate-repeat rule to an externally-known current
@@ -214,11 +224,17 @@ module App
         @music_state = @audio.config.music["initial_state"]
         @rot_rotor&.prime(@rot_states.index(@music_state))
         # Take rotation (v1.1): listed events ALSO fire one synthetic cue
-        # event per hit (the raw forward above maps to nothing by design —
-        # only the synthetic names carry cue rows).
+        # per event-family/tick batch (the raw forward above maps to nothing
+        # by design — only the synthetic names carry cue rows). Multi-target
+        # sim facts stay intact without layering near-identical transients.
         @variants.each do |event, names|
           rotor = VariantRotor.new(names)
-          bus.subscribe(event.to_sym) { |ev| @audio.handle_event(world.frame, rotor.next!, ev.payload) }
+          bus.subscribe(event.to_sym) do |ev|
+            cue = rotor.next_for_tick(world.frame)
+            # First event in the batch carries the payload (v1 cues are
+            # payload-blind; revisit when spatial variants land).
+            @audio.handle_event(world.frame, cue, ev.payload) if cue
+          end
         end
         nil
       end
