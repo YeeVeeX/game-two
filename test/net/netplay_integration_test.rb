@@ -135,6 +135,12 @@ class NetplayIntegrationTest < Minitest::Test
     assert_equal :quit, j.reason
     assert_equal 0, h.lockstep.stall_updates, "in-process alternating pumps never stall"
     assert_match(/desyncs=0/, h.telemetry_line)
+    # Lag P0: the extended line rides the SAME cross-seat coherence — both
+    # seats quit at the same fake-clock t, so d/link_slow/run_ms/stall
+    # fields must all agree (shared handshake + shared window); the masked
+    # equality below now covers them, and this pins their presence.
+    assert_match(/reason=quit d=\d+ link_slow=(?:true|false) run_ms=\d+ stall_run_max=0 stall_worst_run=0\z/,
+                 h.telemetry_line)
     assert_equal h.telemetry_line.sub("seat=1", "seat=X"),
                  j.telemetry_line.sub("seat=2", "seat=X"),
                  "final TELEMETRY identical modulo seat"

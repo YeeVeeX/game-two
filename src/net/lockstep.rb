@@ -150,10 +150,12 @@ module Net
     # on warn (overlay) or abort (conn_lost) is the caller's job.
     # stall_worst_run pairs COHERENTLY with stall_ms_max: it is the update
     # count of the run that set stall_ms_max (the last record of the worst
-    # run wins, since elapsed grows within a run) — ms-per-stalled-update
-    # during the worst freeze separates waiting-while-healthy (≈16.7)
-    # from frozen-locally (≫16.7). stall_run_max alone may come from a
-    # DIFFERENT run and the ratio would lie (lag P0 spec, 2026-08-20).
+    # run wins, since elapsed grows within a run). Read the ratio as
+    # stall_ms_max/(stall_worst_run-1) inter-update gaps (elapsed spans
+    # N-1 gaps for N updates; a 1-update run reads 0/0 — degenerate but
+    # coherent): ≈16.7 separates waiting-while-healthy from frozen-locally
+    # (≫16.7); direction-safe even at small N. stall_run_max alone may
+    # come from a DIFFERENT run and the ratio would lie (lag P0 spec).
     def record_stall(now_ms)
       @stall_started_ms ||= now_ms
       @stall_updates += 1

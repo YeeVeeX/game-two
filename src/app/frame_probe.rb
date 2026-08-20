@@ -9,8 +9,10 @@ module App
   # Pure math: the clock is injected (Window wires CLOCK_MONOTONIC float
   # ms; tests feed scripts). period = ms between consecutive update-begins
   # (the loop pace — vsync-miss doubling reads as a 33 ms mode);
-  # update/draw = bracket costs. Percentiles are nearest-rank on the
-  # sorted samples: sorted[floor(q*n)] clamped. over20/35/100 census on
+  # update/draw = bracket costs. Percentiles are the UPPER nearest-rank
+  # variant on the sorted samples — sorted[floor(q*n)] clamped — which
+  # biases high at small n (p50 of [20,40] reads 40): a diagnostic probe
+  # prefers overstating a budget problem to hiding one. over20/35/100 census on
   # period STRICTLY greater (spike shapes: doubled vblank / dropped
   # frames / freezes). An unclosed bracket (close() prints mid-frame)
   # contributes nothing.
