@@ -1,0 +1,2 @@
+TELEMETRY netplay seat=1 ticks=36079 desyncs=0 stalls=5386 stall_ms_max=3341 reason=quit
+relaunch: bin/play --host 43117

@@ -56,6 +56,33 @@ damage nor heal".
 - **Frozen until the verdict:** netplay delay numbers, tick rate, any
   sim pacing value (measurement hygiene — the ritual measures them).
 
+## Session 2 data (2026-08-19 22:51→23:10 — the "unplayable" run; host log 9048)
+
+- `netplay seat=1 ticks=36079 desyncs=0 stalls=5386 stall_ms_max=3341
+  reason=quit` — stall RATE similar to s1 (14.9% vs 13.2%) but **max
+  stall tripled (1113 → 3341 ms)**: the unplayability was SPIKES
+  (multi-second freezes), not a uniform slowdown. Owner verbatim:
+  "demasiado lag, no se puede jugar con tanta desincronización" —
+  telemetry: desyncs=0 both sessions; felt-desync = stall, lockstep
+  never diverged.
+- Post-session path probe: `tailscale ping` → **direct**
+  (177.35.76.240:41641), 165 ms RTT CR↔BR — plausible-normal for the
+  geography; can't retro-read mid-session path (a DERP flap
+  mid-session remains hypothesis #0 for the 3 s spikes: direct↔relay
+  renegotiation stalls in bursts). NEXT SESSION: sample `tailscale
+  status` DURING play (it names active;direct vs relay live).
+- No code/data delta between s1 and s2 (docs-only commits, outside
+  the fingerprint surface) — build identical; the s1→s2 degradation
+  is environmental (path flap / host hitch / focus), which the
+  instrumentation pass must separate: stall-cause tags (net-wait vs
+  sim-ms vs render-ms) + a tailscale-status sampler beside the
+  session.
+- **Owner severity upgrade: he ended a ritual session on it** — the
+  "earlier if the owner names it a blocker" clause is live; the lag
+  investigation is now the FIRST post-answers work item (still
+  post-answers: instrumentation is code, the ritual is mid-flight
+  until the eight land).
+
 ## E-skill (lobber special) — classified from code+data, NO defect found
 
 `data/balance/combat.json` lobber.special = **volley**: damage=35,

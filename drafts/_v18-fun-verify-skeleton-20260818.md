@@ -687,6 +687,49 @@ digest=` must equal `3a518bccf2b324f9fb1211ed2f7529f0`** (sessions=9)
 — same supersession law; session 2 loading anything else fails the
 spec's continuity check.
 
+### RITUAL SESSION 2 (2026-08-19 22:51→23:10 — HOST SIDE BANKED; host gates ALL GREEN at the wire; owner ended it ON the lag)
+
+Launch per protocol (guard no-tasks; save decode `3a518bcc…`
+sessions=9 pre-launch; detached host, console
+`tmp/coop_console_20260819-225124.log`; NO code/data change between
+sessions — the no-fixes call recorded in chat, docs-only commits
+verified outside the fingerprint surface src/+data/+Gemfile.lock).
+Owner quit on unplayable lag — AFTER crossing the bar. Log
+`game_two_session_9048.log` (34th; md5-banked copy
+`570457dcd11118c540490d1c31e8f27c`):
+
+- `TELEMETRY persist loaded digest=3a518bccf2b324f9fb1211ed2f7529f0
+  schema=1 banked=5 … sessions=9 source=file` — **loads session 1's
+  close EXACTLY (the spec's session-2 continuity check, GREEN).**
+- `TELEMETRY netplay seat=1 ticks=36079 desyncs=0 stalls=5386
+  stall_ms_max=3341 reason=quit` — **ticks 36079 ≥ 36000 (cleared by
+  79) · desyncs=0 · reason=quit (Esc)**; zero AUTOPILOT (grep 0).
+- `TELEMETRY persist saved digest=b5cae357290c01e464f49155bc7f9d13
+  … banked=7 sessions=10` — chain advances off session 1.
+- `TELEMETRY sustain bought=0 used=0 refused=1` (HELD — first
+  refused event in ritual evidence).
+- Disk verified at banking: save md5 `edfebf4accf0abf3aa86bb1170c62714`,
+  strict decode == `b5cae357…` sessions=10 banked=7 notices=[].
+- **Owner verbatim at close (HELD like every fragment): "listo,
+  demasiado lag, no se puede jugar con tanta desincronización".**
+  Telemetry fact beside it: desyncs=0 both sessions — what he felt
+  was STALLS (5386, worst 3.3 s), never divergence. Forensics:
+  stall rate 14.9% vs s1's 13.2% but max stall TRIPLED (1113→3341
+  ms); post-session `tailscale ping` = direct path via
+  177.35.76.240:41641 at 165 ms RTT (CR↔BR normal-high); flap/hitch
+  hypotheses in `drafts/_netplay-lag-forensics-20260819.md`.
+- **PENDING to complete session 2's row:** Junior's seat-2 evidence
+  (handshake digest must equal `3a518bcc…`, ticks ≥ 36000,
+  reason=quit, AUDIO line verbatim).
+
+**With both sessions complete (Junior's s2 banking pending), the
+ritual advances to the EIGHT ANSWERS — owner-paced, asked separately
+from the runsheet (`drafts/_v18-seventeenth-runsheet-20260818.md`
+§questions es + pt-br), after which adjudication runs on the spec's
+closed terms. The lag pain belongs IN the answers — that is the
+instrument working, not a protocol breach. The anchor is now
+`b5cae357290c01e464f49155bc7f9d13` (sessions=10).**
+
 ### Ritual session 1 ATTEMPT (2026-08-18 23:40 → 2026-08-19 00:06 — CRASH on both seats; shortfall, RE-RUNS; world UNMOVED)
 
 Launch per the live-launch protocol (owner ask "procede por favor"):
