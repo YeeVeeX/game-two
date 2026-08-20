@@ -1,5 +1,49 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-20 session 23c (hub, owner live) — **EAR-CHECK VERDICT IN ("suena muy bien") + zone −4 dB + STATIONARY AIM shipped (protocol v3)** · coop with Junior NEXT session · v19 still NOT open
+
+**Owner ear-check (verbatim banked in `dfd3838`'s message):** "suena muy
+bien" overall · zone-change "muy al frente" → −4.08 dB SHIPPED (`dfd3838`,
+gain 4.0→2.5) · named bugs QUEUED next session (FIRST, before/with the
+coop): (1) "sincronización o duplicación de triggering" de cues —
+suspect: multi-hit events firing one cue per connection same tick;
+verify from code + a scripted replay before touching anything; (2)
+ducking/sidechain design — pile-ups "abrumantes"; the duck-envelope
+mechanism EXISTS per-cue (wipe ducks music −12 dB) — design which
+families duck what, data-only candidate. Ideas already banked: stereo
+ambient · region acoustics · projectile-sync (PARKING c835c67).
+
+**Stationary aim (owner order, executed same session, `28017d8`):** hold
+Ctrl + direction = face without stepping (dodge stays live; movement
+stays off the strip). `:aim` = protocol bit 11, VERSION 2→3 —
+**Junior's seat MUST pull before the coop session** (handshake refuses
+mixed builds NAMED, that is the designed failure). TDD ×5 + `aim_hold.json`
+joined the wall (gate PASS) + world_loop canary byte-identical (change
+inert unpressed). Suite 931 green via hooks.
+
+**Session-log harvest (his play, log 837719392):** sessions→13, real
+combat (2 fights/2 wipes, d2 entered, lobber special @955), AUDIO
+teardown clean dropped_cues=0. `sustain bought=0 refused=0` — the R-A2
+behavioral measure stays open (one session, hint live, no buy; NEVER
+re-ask). **Named honestly:** phantom sessions 11-12 = launcher-debug
+clean quits (zero activity, chain sequential, no fork) — background
+launches from pi's bash die instantly (job-control kill); the working
+launcher is Windows-native `Start-Process bin\play.cmd` (checkpoint
+precedent for future in-chat playtests).
+
+**Junior mid-session pushes (his lane, read + banked):** debug-menu
+proposal (`63d7b9d`, awaits Gabriel's validation) · solo playtest
+findings (`f4a331f`) — ally-bot AI verbatim (R-A3-adjacent, stays
+FROZEN), boss killed, bank-placement gap named ("última sala de espera
+não tem como depositar") — all v19-brainstorm inputs, no code owed. His
+findings log ran GAME_FRAME_PROBE=1 but the doc carries no frame_probe
+lines — T2/S0-J evidence NOT yet banked; next session's router checks
+his seat for the probe lines before routing.
+
+**Next session queue (owner-set):** (1) cue duplication investigation +
+fix behind evidence · (2) ducking design · (3) coop session with Junior
+(both seats pull first — protocol v3). Wrap order was the owner's.
+
 ## 2026-08-20 session 23b (hub, owner live) — **AUDIO ASKS 5–9 EXECUTED end-to-end** (owner designing in Reaper, agent driving scaffolds/renders/ingest from the hub — the "yesterday" model, owner-chosen over a spoke) · v19 still NOT open
 
 **Shipped (hooks green each · all pushed):** `b6902b7` ask 5 — 17
