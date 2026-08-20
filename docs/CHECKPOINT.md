@@ -3,14 +3,14 @@
 ## 2026-08-20 session 23 (hub) — **ROUTE P1 EXECUTED: R-A2 sustain discoverability SHIPPED behind every gate** (router: no owner lane open · zero T2 evidence on this machine — no frame_probe/handshake lines in 34/34 launcher logs, no new Junior lag docs → P1) · v19 still NOT open
 
 **Two one-concern commits, hooks green each; fresh-eyes PASS; pushed.**
-(1) `0f62c7f` telemetry: `TELEMETRY sustain` gains fixed-order
+(1) `e36a227 (pre-rebase 0f62c7f)` telemetry: `TELEMETRY sustain` gains fixed-order
 `reasons{at_cap broke none no_effect seat_race}` — ADD-ONLY behind the
 pinned prefix (verdict row 4 sub-item; the SEVENTEENTH's two `refused=1`
 were unreadable); chain_check regex-audited (no sustain pattern);
 unknown-reason guard pinned by test after the review's LOW finding.
 Proved live in the gate's own teed log:
 `reasons{at_cap=1 broke=1 none=0 no_effect=1 seat_race=0}` byte-identical
-across both replays. (2) `4e53e0c` renderer: the bank BUY hint
+across both replays. (2) `d31f579 (pre-rebase 4e53e0c)` renderer: the bank BUY hint
 `U PROVISION -5` / `U PROVISIÓN -5` / `U SUPRIMENTOS -5` — speaks ONLY
 when a buy would succeed (banked>=cost AND under cap), yields the y-32
 slot to live receipts, proximity rides the ledger's radius-3 loop; ZERO
