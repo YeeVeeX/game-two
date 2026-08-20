@@ -1,5 +1,48 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-20 session 23 (hub) — **ROUTE P1 EXECUTED: R-A2 sustain discoverability SHIPPED behind every gate** (router: no owner lane open · zero T2 evidence on this machine — no frame_probe/handshake lines in 34/34 launcher logs, no new Junior lag docs → P1) · v19 still NOT open
+
+**Two one-concern commits, hooks green each; fresh-eyes PASS; pushed.**
+(1) `0f62c7f` telemetry: `TELEMETRY sustain` gains fixed-order
+`reasons{at_cap broke none no_effect seat_race}` — ADD-ONLY behind the
+pinned prefix (verdict row 4 sub-item; the SEVENTEENTH's two `refused=1`
+were unreadable); chain_check regex-audited (no sustain pattern);
+unknown-reason guard pinned by test after the review's LOW finding.
+Proved live in the gate's own teed log:
+`reasons{at_cap=1 broke=1 none=0 no_effect=1 seat_race=0}` byte-identical
+across both replays. (2) `4e53e0c` renderer: the bank BUY hint
+`U PROVISION -5` / `U PROVISIÓN -5` / `U SUPRIMENTOS -5` — speaks ONLY
+when a buy would succeed (banked>=cost AND under cap), yields the y-32
+slot to live receipts, proximity rides the ledger's radius-3 loop; ZERO
+new string keys (glyph from the live BindingMap + ratified
+`hud.provisions` + the altar/vat `-price` grammar); decision 7iii strip
+gate UNTOUCHED. Grill spec + wall costing:
+`drafts/_rA2-grill-spec-20260820.md` (verdict's literal "strip" surface
+argued DOWN — camp/nest spawns sit Chebyshev-2 from their banks, so any
+unconditional surface re-pins the whole wall; the affordability condition
+makes spawn frames byte-identical).
+
+**Wall cost MEASURED, not guessed:** one-replay md5 sweeps before/after
+(`tmp/rA2_base` clean-HEAD worktree · `tmp/rA2_after`): 15/18 scripts
+byte-identical; moved = low_quay_run(4fr)/nest_advance(4fr)/
+vat_economy(1fr), every diff read frame-by-frame = solely the hint.
+Gates: 4/4 rc=0 (moved set + sustain_run with 3 new hint-state captures
+2429/2560/2585) + targeted critique 5/5 PASS
+(`harness/sustain_hint_checks.json`) + language axes PASS (receipts:
+`drafts/_rA2-verify-20260820.md`, review:
+`drafts/_rA2-review-20260820.md`). Netplay gates argued not-owed (scene
+banks at most 1 < cost 5). **Line-cap law fired mid-ticket** (world.rb
+1806/1800) → `Game::PriceSheet` extracted (delegating code motion, call
+sites untouched, 1795/1800). **Process trap hit + banked to project
+memory:** the baseline sweep was contaminated by editing renderer source
+mid-sweep (8/18 re-baselined from a `git worktree` at pre-change HEAD).
+
+**The measure from here (burned-question law):** never re-ask the owners
+about provisions — read `TELEMETRY sustain bought>0` + the reasons split
+in FUTURE session lines; sustain SIM numbers stay frozen until then.
+**Owner-pending unchanged:** audio asks 5–9 · v19 brainstorm · T2 probe
+matrix owner-paced (S0-J decisive; S0-J2 done, never re-run).
+
 ## 2026-08-20 session 22 (hub) — **P0 LAG under grill-and-ticket: the limiter is NAMED from banked bytes (the JOINER seat, ~53.5 Hz both ritual sessions); T1 instrumentation SHIPPED behind the full battery; fresh-eyes PASS; T2 staged** · v19 still NOT open
 
 **Grill ≥ implementation (declared up front; council 0, Bedrock = gate

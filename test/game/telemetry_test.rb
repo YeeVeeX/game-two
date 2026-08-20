@@ -64,6 +64,22 @@ class TelemetryTest < Minitest::Test
 
   # --- A2 telemetry line ---
 
+  # rA2 fresh-eyes finding 1 (LOW): a SIXTH refusal symbol from some future
+  # site counts in refused= but must never invent a bucket — the line shape
+  # stays pinned.
+  def test_sustain_unknown_refusal_reason_counts_without_a_new_bucket
+    bus = Core::EventBus.new.register(*ALL_TELEMETRY_EVENTS,
+                                      :provision_bought, :provision_used,
+                                      :provision_refused)
+    t = Game::Telemetry.new(bus)
+    bus.emit(:provision_refused, actor: nil, reason: :future_reason)
+    bus.process
+    assert_match(
+      /sustain bought=0 used=0 refused=1 reasons\{at_cap=0 broke=0 none=0 no_effect=0 seat_race=0\}/,
+      t.summary
+    )
+  end
+
   def test_a2_counts_retargets_by_cause
     bus = Core::EventBus.new.register(*ALL_TELEMETRY_EVENTS)
     t = Game::Telemetry.new(bus)
