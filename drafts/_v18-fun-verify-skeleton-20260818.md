@@ -730,6 +730,59 @@ closed terms. The lag pain belongs IN the answers — that is the
 instrument working, not a protocol breach. The anchor is now
 `b5cae357290c01e464f49155bc7f9d13` (sessions=10).**
 
+### OWNER ANSWER SET — 4/4 BANKED VERBATIM (2026-08-19 ~23:2x, es-CR, same-day-pair night)
+
+**Administration amendment (owner order, recorded):** "preguntame una
+por una" — the owner directed the dev seat to administer HIS four
+questions one-by-one in the hub chat. Compliance mechanics: each
+question pasted BYTE-VIRGIN from the frozen runsheet, zero
+commentary/changelog between Q&A, zero reaction to answers, next
+question only after the previous answer; wording untouched
+("questions virgin" red line = the WORDING, held by construction).
+Junior's four stay separate (pt-br, runsheet §Para Junior — asked
+away from this chat; same-day premise variant available for his Q1
+per the 2026-08-18 amendment, noted beside his answer if used).
+
+**P1 — "Al volver hoy, ¿sintieron que retomaban donde habían parado,
+o que era una partida nueva?"** R1 (verbatim): "cada vez que
+entrabamos había que revivir a los compañeros, siempre aparecía
+solamente yo (seguramente por ser el host) pero siempre debía matar
+algunos enemigos antes de poder revivir a mis compañeros, pero
+obviamente tambien dependía de mi dinero (lo cual no creo que debería
+al iniciar una sesión) bueno aunque pensandolo bien tambien es una
+mecánica interesante, pero solamente en ciertos momentos o dungeos,
+no sé, hay que analizarlo y definirlo bien, pero sí en general para
+responder a tu pregunta: se sintió bien no tener que abrir todos los
+peajes de nuevo"
+
+**P2 — "¿Cómo se sintió el respawn de los enemigos esta vez?"** R2
+(verbatim): "la verdad no lo noté o no le puse atención"
+
+**P3 — "¿Usaste las provisiones? ¿Cómo cambió la cacería? ¿El
+precio?"** R3 (verbatim, includes his counter-question — recorded AS
+the answer, explanation deferred until all eight are in): "cuales
+provisiones? Te refieres a los 3 recuadros del inicio o de los
+\"nidos\" o \"velos\" para poder curarse y ponerse el cuadrito en la
+cabeza que aun no entiendo muy bien para que es? es como un tipo de
+blessing para no perder una vida? algo así?"
+
+**P4 — "Veredicto libre."** R4 (verbatim): "me gusta mucho el core
+del juego, solamente necesita cierto balanceo y variedad, aparte de
+los fixes mencionados hace un rato"
+
+**Protocol deviations noted beside the set (for the adjudication
+reading):** (a) answers given in the SAME chat that carried tonight's
+logistics/tech clarifications (lag telemetry facts, E-skill
+mechanics) — the runsheet's "sin changelog ni contexto" held for the
+QUESTIONS themselves, but session-night context existed around them
+(same-day-pair caveat territory, pre-registered); (b) R3 contains a
+clarifying counter-question — nothing was explained in response
+(quarantine held); (c) mid-session observation lists (7 items + E/ctrl
+notes, banked earlier tonight §HELD) predate the questions and are
+cross-referenced by R4's "los fixes mencionados hace un rato".
+Analysis/routing WAITS for Junior's four — nothing here is read
+against the routing table yet.
+
 ### Ritual session 1 ATTEMPT (2026-08-18 23:40 → 2026-08-19 00:06 — CRASH on both seats; shortfall, RE-RUNS; world UNMOVED)
 
 Launch per the live-launch protocol (owner ask "procede por favor"):
