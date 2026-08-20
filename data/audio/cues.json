@@ -64,9 +64,9 @@
         "release_frames": 9600
       }
     },
-    "zone_ping": {
+    "mui_zone_change_1200ms": {
       "event": "zone_entered",
-      "file": "mui_ping_1200ms",
+      "file": "mui_zone_change_1200ms",
       "bus": "ui",
       "priority": 45,
       "gain": 4.0,

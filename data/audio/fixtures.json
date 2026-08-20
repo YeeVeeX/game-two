@@ -49,6 +49,12 @@
       "sha256": "31c204db61b6da43f03859a371d4945c745d280b385d2a387bb1bdc2eab98a4c",
       "dur_s": 1.2
     },
+    "mui_zone_change_1200ms": {
+      "type": "file",
+      "path": "files/mui_zone_change_1200ms.wav",
+      "sha256": "91090005d1caf7a51ac815e336f96dac155e370dd87b014d7c5f4331b6c230bd",
+      "dur_s": 1.2
+    },
     "msfx_death_400ms": {
       "type": "file",
       "path": "files/msfx_death_400ms.wav",
