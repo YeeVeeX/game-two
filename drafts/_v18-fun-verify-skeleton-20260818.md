@@ -718,9 +718,18 @@ Owner quit on unplayable lag — AFTER crossing the bar. Log
   ms); post-session `tailscale ping` = direct path via
   177.35.76.240:41641 at 165 ms RTT (CR↔BR normal-high); flap/hitch
   hypotheses in `drafts/_netplay-lag-forensics-20260819.md`.
-- **PENDING to complete session 2's row:** Junior's seat-2 evidence
-  (handshake digest must equal `3a518bcc…`, ticks ≥ 36000,
-  reason=quit, AUDIO line verbatim).
+- **Seat-2 evidence COMPLETE (Junior's banking `aba02af`, verified
+  against banked bytes this side, md5 file
+  `game_two_session_63472464.log`):** `AUDIO on` (same lib sha —
+  symmetric novelty holds BOTH sessions) · `persist loaded
+  digest=3a518bccf2b324f9fb1211ed2f7529f0 … sessions=9
+  source=handshake` — joiner == host, session 2 · `netplay seat=2
+  ticks=36079 desyncs=0 stalls=268 stall_ms_max=843 reason=quit` —
+  bar cleared, clean Esc · stall asymmetry re-confirmed (host 5386 vs
+  joiner 268). **RITUAL SESSION 2 = COMPLETE both seats. HALF A FULLY
+  EVIDENCED: all four netplay lines green, chain continuity proven
+  host-side AND joiner-side, both sessions same night (same-day
+  amendment).**
 
 **With both sessions complete (Junior's s2 banking pending), the
 ritual advances to the EIGHT ANSWERS — owner-paced, asked separately
