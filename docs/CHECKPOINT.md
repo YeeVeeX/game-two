@@ -119,6 +119,16 @@ verdict → ONE fix ticket) · P1-P6 priority list lives in the session-22
 spark (P1 = R-A2 sustain discoverability) · v19 brainstorm at the
 owners' word · audio asks 5-9 owner-pending.
 
+**RATIFIED (owner, 2026-08-20, post-close):** Junior-offer answers —
+Recorte A **SÍ** (his seat = P0 execution/measurement, zero source his
+side) · R-A3 **CONGELADA** until the v19 brainstorm · world.rb touches =
+**DIFF** if the lane is ever assigned · LDtk 1.5.3 GUI install **SÍ**
+(tool ≠ lane). Answers doc for his seat:
+`drafts/_hub-answers-work-split-20260820.md`. Coop-segment samplers
+authorized under Recorte A. Next-session router spark:
+`drafts/_post-t1-router-spark-20260820.md` (T3 if T2 evidence exists,
+else P1).
+
 ## 2026-08-20 session 21 (hub, docs-only) — **ADJUDICATION: THE SEVENTEENTH IS CUMPLIDO — v18 CLOSES** · Half A 5/5 from bytes · Half B 8/8 read with both caveats · routing walked 9/9 (4 triggered) · post-verdict queue RECORDED · v19 NOT opened
 
 **Verdict of record: `drafts/_v18-fun-verify-verdict-20260820.md`**
