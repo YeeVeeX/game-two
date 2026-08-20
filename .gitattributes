@@ -1,0 +1,3 @@
+# LDtk project fixtures are REAL vendor bytes, md5-pinned (T1 spike provenance).
+# Never EOL-normalize them (the v17 W6 cross-machine hash lesson).
+*.ldtk -text
