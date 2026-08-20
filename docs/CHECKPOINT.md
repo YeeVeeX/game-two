@@ -1,5 +1,55 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-20 session 23b (hub, owner live) — **AUDIO ASKS 5–9 EXECUTED end-to-end** (owner designing in Reaper, agent driving scaffolds/renders/ingest from the hub — the "yesterday" model, owner-chosen over a spoke) · v19 still NOT open
+
+**Shipped (hooks green each · all pushed):** `b6902b7` ask 5 — 17
+percussive cue rows −4.08 dB (hit/dodge/throw/special → gain 2.5;
+stingers/wipe/death/ui untouched; surgical 17-line diff after a
+json-redump reflow was caught and reverted). `5ce4414` ask 6 — dodge
+takes curated by the owner's ear 8→4: he deleted a–d and renamed
+e/f/g/h→a–d IN ORDER (mapping verified byte-exact vs git blobs — rename
+preserves size+mtime so git's stat cache missed the content change:
+touch + explicit add forced the hash); pool/cues/fixtures reconciled,
+originals stay banked (audio-v1.1). `34bec50` ask 8 — calm carries the
+owner's evolving 64 s loop (32 bars @120, TWO layers — drone +
+mstem_calm_6s — master-mix mono; matrix stem-mode rendered 2 files
+first, fixed via master-mix-over-time-selection), 24→16 through the
+audio repo's OWN decode law (3,072,000 frames exact), music_rotation
+removed (dormant; bridge untouched); rotation tests grew a dormant
+branch + superset stem-fixture check. `eaf5e9b` ask 7 — zone_entered
+now plays the owner's NEW render (1.2 s, non-silence-guarded −17.9
+dBFS peak); the old zone_ping row LEFT the table, its item-pickup remap
+PARKED with v19 (ping file+fixture stay banked; no placeholder event).
+`dd84010` ask 9 — throws re-rendered with baked reverb tails, owner-set
+1800 ms (tails decay to ≈−55 dBFS; distinct 4/4), renamed HONESTLY
+200ms→1800ms across cues+fixtures (synthetic events + pool untouched);
+dry-cues+engine-reverb NOT built — recorded as the region-acoustics
+increment (library has ZERO DSP today, verified). `c835c67` PARKING —
+owner idea banked: projectile visuals synced to throw audio in
+syncopated pairs (fork (a) presentation-only vs fork (b) sim-class
+cadence; v19 names the fork).
+
+**Banking (spokes per seat-orchestration, receipts harvested +
+re-verified):** `game-two-audio/handoff/audio-v12/` carries all 5
+sources + the loop — spoke 1 `a5eb75a` (loop), spoke 2 `d9534df`
+(zone + 4 throws; 200 ms drafts named superseded, never banked). Mail
+archived to done/.
+
+**Reaper mechanics (the "ayer" model, re-verified):** CLI hand-off into
+the RUNNING instance works (`reaper.exe script.lua`, single process,
+probe receipt from owner_project_001.rpp); silent render = action 42230
+with staged settings; matrix law held (near-miss precedent — strays
+unbound before every fire); every step wrote a tmp/ receipt. Traps hit:
+region-matrix mode renders PER-TRACK STEMS (master mix needs
+RENDER_SETTINGS 0 + time-selection bounds); a rendered-and-ingested
+region left bound re-renders on the NEXT pass (unbind after ingest).
+
+**The measure from here:** the whole v12 batch is EAR-CHECK PENDING on
+the owner's next real play session (loop · zone-change · tails · ask-5
+levels — listen-verdict precedent, his words verbatim when they come).
+Queued on owner word only: stereo ambient stems · region acoustics.
+AGENTS.md §Audio updated this session (asks 5–9 EXECUTED + queue).
+
 ## 2026-08-20 session 23 (hub) — **ROUTE P1 EXECUTED: R-A2 sustain discoverability SHIPPED behind every gate** (router: no owner lane open · zero T2 evidence on this machine — no frame_probe/handshake lines in 34/34 launcher logs, no new Junior lag docs → P1) · v19 still NOT open
 
 **Two one-concern commits, hooks green each; fresh-eyes PASS; pushed.**

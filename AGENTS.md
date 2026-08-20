@@ -91,15 +91,21 @@ grill answers close. New content merges into the LIVE world only per
 the recorded merge-timing decision (open grill question — default:
 post-verdict).
 
-**Owner-pending (never nag):** audio asks 5–9 (his "mañana con más
-calma" list — M5a verdict §Ear-check 2 + ask 9) · the v19 brainstorm at
-the owners' word.
+**Owner-pending (never nag):** EAR-CHECKS of the audio-v12 batch
+(evolving calm loop · zone-change · tailed throws · ask-5 levels) — ride
+his next play session · the v19 brainstorm at the owners' word.
 
 **Audio (M5a, SHIPPED 2026-08-18):** pure sink (never sim/saves/netplay),
 OPTIONAL at boot (absent/refused = one named line, game runs silent),
 owner originals only. Verdict + deferred lanes:
-`drafts/_m5a-verdict-20260818.md`. Cycle history (v17 close, M5a story,
-ritual amendments): checkpoint + `git log --follow -- AGENTS.md`.
+`drafts/_m5a-verdict-20260818.md`. **Asks 5–9 EXECUTED 2026-08-20**
+(cue −4 dB · dodge curation 8→4 · evolving 64 s calm loop, rotation
+dormant · new zone-change render, ping remap PARKED with v19 · throws
+with baked 1800 ms tails); sources banked in
+`game-two-audio/handoff/audio-v12/`. Queued on owner word: stereo
+ambient stems + region-acoustics (dry cues + engine reverb) — library
+increments. Cycle history (v17 close, M5a story, ritual amendments):
+checkpoint + `git log --follow -- AGENTS.md`.
 
 **Seats:** Gabriel's hub session (this machine) + Junior's seat (his machine,
 Claude — CLAUDE.md points his sessions at this same contract). Working
