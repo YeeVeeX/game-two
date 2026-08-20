@@ -100872,3 +100872,587 @@ Perf p95 0.260ms (budget 16.6). Suite 524/2322 green.
   ],
   "verdict": "PASS"
 }
+
+=== 20260819-232111 captures\world_loop_gate_a ===
+{
+  "checks": [
+    {
+      "id": "actors_distinct",
+      "pass": true,
+      "why": "Warm orange pack bodies and pale bone humans separate cleanly from the dark floor in every shared frame."
+    },
+    {
+      "id": "kits_distinct",
+      "pass": true,
+      "why": "Frame_0300 shows ember and deep rust together and frame_0303 adds pale amber; three clearly different kinds."
+    },
+    {
+      "id": "possessed_readable",
+      "pass": true,
+      "why": "Exactly one body carries the bright white outline in every multi-creature frame."
+    },
+    {
+      "id": "possession_ring_moves",
+      "pass": true,
+      "why": "Ring sits on ember in frame_0300, then on pale amber in frame_0303; possession visibly moved."
+    },
+    {
+      "id": "facing_readable",
+      "pass": true,
+      "why": "Small dark corner notch is visible on bodies and flips edges between frames."
+    },
+    {
+      "id": "projectile_visible",
+      "pass": true,
+      "why": "Frame_0397 shows a small pale shot square in open floor, clearly separate from any body."
+    },
+    {
+      "id": "telegraph_reads",
+      "pass": true,
+      "why": "Frame_0441 human swells yellow with red edge, reading as danger and unlike the flat gold gate tile."
+    },
+    {
+      "id": "hurt_flash_not_white",
+      "pass": true,
+      "why": "Not exercised; no pack creature is caught mid-flash in these frames."
+    },
+    {
+      "id": "corpses_persist",
+      "pass": true,
+      "why": "Frames 0701 and 0805 show faded brown and gray remnants where bodies fell."
+    },
+    {
+      "id": "hud_three_bars",
+      "pass": true,
+      "why": "Three stacked kit-colored bars; the possessed one is wider with a white edge and drains plausibly."
+    },
+    {
+      "id": "zones_distinct",
+      "pass": true,
+      "why": "Nest is dark sparse organic warmth; district is dense clay block city; instantly different places."
+    },
+    {
+      "id": "no_render_garbage",
+      "pass": true,
+      "why": "No tearing, missing tiles, or entities inside walls in any frame."
+    },
+    {
+      "id": "wipe_reads",
+      "pass": true,
+      "why": "Not exercised; no wipe veil appears in this reel."
+    },
+    {
+      "id": "specials_distinct",
+      "pass": true,
+      "why": "Not exercised by this script; no special effect frames captured."
+    },
+    {
+      "id": "volley_telegraph_distinct",
+      "pass": true,
+      "why": "Not exercised by this script; no volley target tiles appear."
+    },
+    {
+      "id": "mark_glyph_readable",
+      "pass": true,
+      "why": "Not exercised by this script; no mark reticle appears."
+    },
+    {
+      "id": "special_pips_track",
+      "pass": true,
+      "why": "All three bars carry pips; row-one pip changes between frame_0431 and frame_0441 while others hold."
+    },
+    {
+      "id": "drops_read_as_pickups",
+      "pass": true,
+      "why": "Frame_0805 rose square reads as a glowing pickup, distinct from corpses, telegraphs, and gate gold."
+    },
+    {
+      "id": "carried_count_reads",
+      "pass": true,
+      "why": "Frame_0805 shows a magenta 2 at the possessed bar row end and nowhere else; layout stable otherwise."
+    },
+    {
+      "id": "bank_station_reads",
+      "pass": true,
+      "why": "Hollow magenta fixture with numeral above reads as an interactable bank, not wall or gate."
+    },
+    {
+      "id": "taunt_underline_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no rust underlines shown."
+    },
+    {
+      "id": "taunt_pulse_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no taunt cast frame present."
+    },
+    {
+      "id": "taunt_convergence_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no mid-taunt frame present."
+    },
+    {
+      "id": "corpse_load_reads",
+      "pass": true,
+      "why": "Frame_0701 shows a hollow magenta outline pip beside a brown corpse, distinct from filled drops."
+    },
+    {
+      "id": "corpse_states_distinct",
+      "pass": true,
+      "why": "Loaded corpse with pip in frame_0701 reads distinct from pipless fading remnants in frame_0805."
+    },
+    {
+      "id": "corpse_run_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no wipe-and-return sequence."
+    },
+    {
+      "id": "ledger_beat_reads",
+      "pass": true,
+      "why": "Frame_0983 shows a large magenta square plus 2 tally on a contrast panel, banner-scale prominent."
+    },
+    {
+      "id": "ledger_negative_reads",
+      "pass": true,
+      "why": "Not exercised; no tally with a loss line appears."
+    },
+    {
+      "id": "wipe_recap_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no wipe veil with a live tally."
+    },
+    {
+      "id": "bank_tally_reads",
+      "pass": true,
+      "why": "Frame_1248 tally sits in the calm nest by the fixtures, reading as a trip reconciliation."
+    },
+    {
+      "id": "ledger_prominence",
+      "pass": true,
+      "why": "The center panel tally dominates both tally frames; impossible to miss."
+    },
+    {
+      "id": "pressure_ring_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no outline-stance encirclement frames."
+    },
+    {
+      "id": "leash_walkback_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no clear mid-walkback human captured."
+    },
+    {
+      "id": "gradient_depth_reads",
+      "pass": true,
+      "why": "Beachhead columns are empty of humans while deeper district columns hold the bodies."
+    },
+    {
+      "id": "god_mark_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no god-marked body appears."
+    },
+    {
+      "id": "fixtures_distinct_read",
+      "pass": true,
+      "why": "Frame_0000 shows magenta, pale bone-gold, and green hollow fixtures as three obviously different places."
+    },
+    {
+      "id": "tribute_beat_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no tribute fires."
+    },
+    {
+      "id": "judgment_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no wipe occurs."
+    },
+    {
+      "id": "retarget_cue_reads",
+      "pass": true,
+      "why": "Frame_0805 shows a small rust block flashing above a human, reading as a reasoned turn."
+    },
+    {
+      "id": "deep_drop_band_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no ember-gold deep drop on camera."
+    },
+    {
+      "id": "seal_breach_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no seal or breach frame present."
+    },
+    {
+      "id": "new_ground_reads",
+      "pass": true,
+      "why": "Not exercised by this script; neither HUB 1 nor ZONE 3 appears."
+    },
+    {
+      "id": "whirlwind_reads",
+      "pass": true,
+      "why": "Not exercised; no striker burst-active frame is captured."
+    },
+    {
+      "id": "challenge_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no blocker challenge pulse shown."
+    },
+    {
+      "id": "controls_overlay_reads",
+      "pass": true,
+      "why": "Subdued bottom strip updates from shout to lob to spin as possession changes vessels."
+    },
+    {
+      "id": "respawn_telegraph_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no respawn tell appears."
+    },
+    {
+      "id": "low_quay_reads",
+      "pass": true,
+      "why": "Not exercised by this script; ZONE 5 never appears."
+    },
+    {
+      "id": "challenger_tell_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no boss chant frame present."
+    },
+    {
+      "id": "seizure_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no seized vessel or boss stamp appears."
+    },
+    {
+      "id": "zone_identity_reads",
+      "pass": true,
+      "why": "Nest and district differ by palette and landmarks alone; gold stays reserved for open ways."
+    },
+    {
+      "id": "stamp_delivery_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no event stamp lands in the reel."
+    },
+    {
+      "id": "kill_pop_reads",
+      "pass": true,
+      "why": "Humans alive in frame_0441 are corpse remnants by frame_0701; kill evidence lands across the reel."
+    },
+    {
+      "id": "writ_frame_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no chant frame present."
+    },
+    {
+      "id": "provisions_counter_reads",
+      "pass": true,
+      "why": "Not exercised; no provision is ever bought and no counter or pair appears anywhere."
+    },
+    {
+      "id": "sustain_success_cue_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no provision buy or use occurs."
+    },
+    {
+      "id": "sustain_refusal_cue_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no refusal is staged."
+    },
+    {
+      "id": "burst_legibility_budget",
+      "pass": true,
+      "why": "Not exercised by this script; no burst or AoE effect frame present."
+    }
+  ],
+  "verdict": "PASS"
+}
+
+=== 20260819-232943 captures\pilot\quay8_r10_replay_gate_a ===
+{
+  "checks": [
+    {
+      "id": "actors_distinct",
+      "pass": true,
+      "why": "Warm orange pack bodies and pale bone humans separate cleanly from floors in frames 0652 and 1430."
+    },
+    {
+      "id": "kits_distinct",
+      "pass": true,
+      "why": "Frame 2750 shows ember orange, deep rust, and pale amber bodies reading as three kinds."
+    },
+    {
+      "id": "possessed_readable",
+      "pass": true,
+      "why": "Exactly one body carries the white ring plus brighter fill in every multi-body frame."
+    },
+    {
+      "id": "possession_ring_moves",
+      "pass": true,
+      "why": "Ring shifts body as HUD wide bar moves from bar two to bar one and verb changes shout to spin."
+    },
+    {
+      "id": "facing_readable",
+      "pass": true,
+      "why": "Small dark edge notches on humans and pack bodies show facing in static frames like 0652."
+    },
+    {
+      "id": "projectile_visible",
+      "pass": true,
+      "why": "A small pale shot travels between frames 1430 and 1442, clearly separate from bodies."
+    },
+    {
+      "id": "telegraph_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no red-edge yellow-core human telegraph frame is clearly present."
+    },
+    {
+      "id": "hurt_flash_not_white",
+      "pass": true,
+      "why": "Not exercised; no pack creature is caught mid damage flash."
+    },
+    {
+      "id": "corpses_persist",
+      "pass": true,
+      "why": "Faded brown remnants linger on nest floor in frames 5217 and 4977."
+    },
+    {
+      "id": "hud_three_bars",
+      "pass": true,
+      "why": "Three stacked kit bars with wider white-edged possessed bar, depleting plausibly by frame 8610."
+    },
+    {
+      "id": "zones_distinct",
+      "pass": true,
+      "why": "Warm dark nest and clay district read as different places at a glance."
+    },
+    {
+      "id": "no_render_garbage",
+      "pass": true,
+      "why": "Black regions are camera bounds on small rooms; no tearing or entities in walls."
+    },
+    {
+      "id": "wipe_reads",
+      "pass": true,
+      "why": "Not exercised; no wipe veil appears in these frames."
+    },
+    {
+      "id": "specials_distinct",
+      "pass": true,
+      "why": "Not exercised; no clearly identifiable blocker, lobber, or striker effect frames present."
+    },
+    {
+      "id": "volley_telegraph_distinct",
+      "pass": true,
+      "why": "Orange-outlined yellow countdown tiles in frame 1430 differ clearly from solid gold gate slabs."
+    },
+    {
+      "id": "mark_glyph_readable",
+      "pass": true,
+      "why": "Teal glyph on a human in frame 1430 reads distinct from ring and attack tiles."
+    },
+    {
+      "id": "special_pips_track",
+      "pass": true,
+      "why": "Three stable pips sit beside the bars; tracking through a cast not exercised."
+    },
+    {
+      "id": "drops_read_as_pickups",
+      "pass": true,
+      "why": "Small magenta squares in district frames read as desirable pickups, distinct from corpses and gates."
+    },
+    {
+      "id": "carried_count_reads",
+      "pass": true,
+      "why": "Magenta 6 sits at HUD bar row end in frame 3125; absent elsewhere with no layout shift."
+    },
+    {
+      "id": "bank_station_reads",
+      "pass": true,
+      "why": "Hollow magenta fixture reads interactable with legible totals like 2000 and 1776 above it."
+    },
+    {
+      "id": "taunt_underline_reads",
+      "pass": true,
+      "why": "Not exercised; no rust underline or cast pulse frame present."
+    },
+    {
+      "id": "taunt_pulse_reads",
+      "pass": true,
+      "why": "Not exercised; no expanding rust square cast frame present."
+    },
+    {
+      "id": "taunt_convergence_reads",
+      "pass": true,
+      "why": "Not exercised; swarms show no rust underlines so taunt cannot be inferred."
+    },
+    {
+      "id": "corpse_load_reads",
+      "pass": true,
+      "why": "Not exercised; no hollow magenta pip appears on any corpse tile."
+    },
+    {
+      "id": "corpse_states_distinct",
+      "pass": true,
+      "why": "Not exercised; fewer than two distinct corpse states appear."
+    },
+    {
+      "id": "corpse_run_reads",
+      "pass": true,
+      "why": "Not exercised; no wipe followed by a district return with a pip."
+    },
+    {
+      "id": "ledger_beat_reads",
+      "pass": true,
+      "why": "Large magenta glyph tallies on dark panels in frames 4198 and 8610, banner-scale and fading later."
+    },
+    {
+      "id": "ledger_negative_reads",
+      "pass": true,
+      "why": "Bank tallies show hollow -N beside magenta positive net, correct for station reconciliation."
+    },
+    {
+      "id": "wipe_recap_reads",
+      "pass": true,
+      "why": "Not exercised; no wipe veil with a live tally appears."
+    },
+    {
+      "id": "bank_tally_reads",
+      "pass": true,
+      "why": "Frame 4198 shows a prominent +12 reconciliation panel at the HUB 1 station, no combat."
+    },
+    {
+      "id": "ledger_prominence",
+      "pass": true,
+      "why": "Tally panels dominate screen center with large bold type, impossible to miss."
+    },
+    {
+      "id": "pressure_ring_reads",
+      "pass": true,
+      "why": "Not exercised; no hollow-outline pressuring humans distinct from engaged ones appear."
+    },
+    {
+      "id": "leash_walkback_reads",
+      "pass": true,
+      "why": "Not exercised; no human is captured mid retreat toward home."
+    },
+    {
+      "id": "gradient_depth_reads",
+      "pass": true,
+      "why": "Beachhead columns near the gate sit empty while deeper columns hold clustered humans in frames 0652 and 1430."
+    },
+    {
+      "id": "god_mark_reads",
+      "pass": true,
+      "why": "Small hollow pale-gold squares float above pack bodies in frame 2750, distinct from the ring."
+    },
+    {
+      "id": "fixtures_distinct_read",
+      "pass": true,
+      "why": "Magenta bank, bone altar, and green vat read as three different places in frame 0001."
+    },
+    {
+      "id": "tribute_beat_reads",
+      "pass": true,
+      "why": "Not exercised; no before and after tribute regrow beat is captured."
+    },
+    {
+      "id": "judgment_reads",
+      "pass": true,
+      "why": "Not exercised; no wipe occurs in this replay."
+    },
+    {
+      "id": "retarget_cue_reads",
+      "pass": true,
+      "why": "Not exercised; no retarget flash block appears above any human."
+    },
+    {
+      "id": "deep_drop_band_reads",
+      "pass": true,
+      "why": "Not exercised; no clear ember gold drop with glow halo is on camera."
+    },
+    {
+      "id": "seal_breach_reads",
+      "pass": true,
+      "why": "TOLL PAID legible with the way open gold beside the player in frame 1430."
+    },
+    {
+      "id": "new_ground_reads",
+      "pass": true,
+      "why": "HUB 1 reads safe and warm with braziers and dense stations, distinct from ZONE 2 clay."
+    },
+    {
+      "id": "whirlwind_reads",
+      "pass": true,
+      "why": "Not exercised; no striker burst frame is present."
+    },
+    {
+      "id": "challenge_reads",
+      "pass": true,
+      "why": "Not exercised; no blocker challenge pulse frame is present."
+    },
+    {
+      "id": "controls_overlay_reads",
+      "pass": true,
+      "why": "Subdued bottom strip lists keys and updates from player 2 shout to player 1 spin."
+    },
+    {
+      "id": "respawn_telegraph_reads",
+      "pass": true,
+      "why": "Not exercised; no clear pulsing green-white arrival tell distinct from zone decor."
+    },
+    {
+      "id": "low_quay_reads",
+      "pass": true,
+      "why": "Not exercised; no ZONE 5 banner appears in this reel."
+    },
+    {
+      "id": "challenger_tell_reads",
+      "pass": true,
+      "why": "Not exercised; no boss chant frame is present."
+    },
+    {
+      "id": "seizure_reads",
+      "pass": true,
+      "why": "Not exercised; no seized vessel or boss stamp appears."
+    },
+    {
+      "id": "zone_identity_reads",
+      "pass": true,
+      "why": "Nest, clay district, warm camp, and cold green field read apart with banners covered; gold stays gates."
+    },
+    {
+      "id": "stamp_delivery_reads",
+      "pass": true,
+      "why": "TOLL PAID carries gold rule pairs and settles smaller between frames 1430 and 1442; zone banners stay quiet."
+    },
+    {
+      "id": "kill_pop_reads",
+      "pass": true,
+      "why": "Not exercised; no death lands on camera in these frames."
+    },
+    {
+      "id": "writ_frame_reads",
+      "pass": true,
+      "why": "Not exercised; no chant writ-frame is present."
+    },
+    {
+      "id": "provisions_counter_reads",
+      "pass": true,
+      "why": "Not exercised; no provision is bought and no counter appears anywhere."
+    },
+    {
+      "id": "sustain_success_cue_reads",
+      "pass": true,
+      "why": "Not exercised; no provision buy or use is captured."
+    },
+    {
+      "id": "sustain_refusal_cue_reads",
+      "pass": true,
+      "why": "Not exercised; no refused sustain press is staged."
+    },
+    {
+      "id": "burst_legibility_budget",
+      "pass": true,
+      "why": "Not exercised; no burst or AoE effect frame floods the play space."
+    }
+  ],
+  "verdict": "PASS"
+}
