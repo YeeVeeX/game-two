@@ -103456,3 +103456,75 @@ Perf p95 0.260ms (budget 16.6). Suite 524/2322 green.
   ],
   "verdict": "PASS"
 }
+
+=== 20260820-164004 captures\netplay_session_gate_a ===
+{
+  "checks": [
+    {
+      "id": "hosting_state_reads",
+      "pass": true,
+      "why": "Frame_0015 shows full-black screen with HOSTING text and PORT 43917 line, no world behind."
+    },
+    {
+      "id": "connecting_state_reads",
+      "pass": true,
+      "why": "Frame_0080 is a pure black screen reading CONNECTING with nothing behind it."
+    },
+    {
+      "id": "partner_ring_distinct",
+      "pass": true,
+      "why": "Frame_0160 shows one white-ringed body and one cyan-ringed dimmed body, instantly distinguishable."
+    },
+    {
+      "id": "partner_ring_moves",
+      "pass": true,
+      "why": "White ring travels center to lower-right and cyan ring moves left then up across frame_0160 and frame_0300."
+    },
+    {
+      "id": "link_slow_reads",
+      "pass": true,
+      "why": "LINK SLOW sits cleanly below ZONE 1 top-center with no overlap and strong contrast."
+    },
+    {
+      "id": "stall_overlay_reads",
+      "pass": true,
+      "why": "Frame_0445 shows WAITING FOR PARTNER 733 ms top-center over a live world frame."
+    },
+    {
+      "id": "gate_wait_reads",
+      "pass": true,
+      "why": "Frame_0535 shows WAITING AT GATE while the white-ringed body sits on the gold gate at the right edge."
+    },
+    {
+      "id": "no_body_reads",
+      "pass": true,
+      "why": "Frame_0620 shows NO BODY text with only the cyan partner alive and no bottom controls strip."
+    },
+    {
+      "id": "desync_screen_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "conn_lost_screen_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "netplay_text_legible",
+      "pass": true,
+      "why": "Every overlay line reads clearly against dark backgrounds with no clipping or UI collisions."
+    },
+    {
+      "id": "hud_strip_intact",
+      "pass": true,
+      "why": "Mid-run frames with the white ring alive keep all three HP bars and the controls strip intact."
+    },
+    {
+      "id": "no_render_garbage",
+      "pass": true,
+      "why": "No tearing, missing map, out-of-bounds entities, or corrupted output in any frame."
+    }
+  ],
+  "verdict": "PASS"
+}
