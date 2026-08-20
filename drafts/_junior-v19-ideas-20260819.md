@@ -46,6 +46,14 @@ real touchstone.
 - **Effort:** S. **Risks:** none structural; interplay with attack
   aiming is the point, watch balance in playtest.
 
+**Re-vote (2026-08-19 ~22:40, owner post-ritual-session-1, verbatim
+es-CR):** "nos faltó agregar/arreglar el movimiento en sitio al
+mantener presionado ctrl y presionar teclas direccionales para poder
+apuntar sin caminar". Second vote, both peers now behind it; "nos
+faltó" framing = the owners consider it owed. Still sim-class (input
+intent + facing mutation) — v19 opener candidate, nothing ships
+pre-verdict.
+
 ## Idea 2 — safe zones vs battle zones (owner, 2026-08-19)
 
 **Provenance:** owner, live chat 2026-08-19 mid-day (dev session 16,
@@ -168,6 +176,28 @@ brainstorm starts real, not from scratch:
 - **Sim class, obviously** — nothing ships pre-verdict; measurement
   hygiene untouched.
 
+**Addendum (2026-08-19 ~22:15, owner LIVE mid-ritual-session-1,
+verbatim):** "we need more firepower/damage and be able to level up
+as we kill monsters and increase our stats somehow". Second owner
+vote inside one day, now from live coop play — the headline-debate
+prior strengthens. The "more firepower/damage" half also reads as a
+difficulty signal and is HELD with the ritual side-signals (skeleton)
+until the answers land; the SYSTEM ask banks here.
+
+**Extension (same evening ~22:40, owner verbatim es-CR, post-session):**
+"en el spell de la \"E\" en el personaje de rango: podría ser algo un
+poco más potente o que se pueda expandir el rango después … se podría
+hacer como un mid/late game character tambien que no sea tan OP al
+inicio, entonces es buen balance lo que estás haciendo, pero solo digo
+que al rato tiende a aburrir el gameplay de ese personaje porque se
+siente debil". System material for THIS idea: per-spell progression
+(range/potency that EXPANDS with advancement) + explicit kit
+power-curve positioning (lobber as mid/late-game bloomer) — the
+brainstorm's spell-system fork gains a concrete first spec target
+(volley range `impact_distances` growth is literally data-shaped
+today). The FEEL half of the quote is HELD in the skeleton with the
+other pre-answer signals.
+
 ## Idea 5 — projection + style preview: 3/4 vs isometric, grim-detail register (owner drops, 2026-08-19 mid-T1, hub chat)
 
 - **Owner verbatim:** "this style of isometric pixel art which is
@@ -256,8 +286,44 @@ brainstorm starts real, not from scratch:
   interim relief for the volume pain = ask 5 (−4 dB percussive,
   tomorrow's data-only retune).
 
+## Idea 7 — enemies WALK home instead of teleporting on zone-leave (owner, 2026-08-19 ~22:15, mid-ritual-session-1)
+
+**Provenance:** owner, live chat DURING ritual session 1 (item 7 of
+the mid-session observations, verbatim block in the skeleton §HELD).
+Owner verbatim (English):
+
+> nice to have: enemies should not teleport back to their spawn when
+> the pack leaves the area, they should follow the "persisting world"
+> principle by going back walking regularly
+
+**Triage: BANK (v19 brainstorm input) — the owner names the design
+principle himself (persisting world).**
+
+- **What actually happens today (code-read, not assumption):** zones
+  the pack is NOT in are FROZEN — `tick_world` ticks only
+  `humans[@zone_name]`; leash-walk-home (`flow_home`, v13) runs only
+  in the ACTIVE zone. The "teleport" the owner saw is the freeze:
+  leave mid-chase, return later → the human was re-anchored/respawned
+  meanwhile (respawn machinery) or stands where it froze. So the ask
+  = SIMULATE (at least) walk-home for off-zone humans — a background
+  zone-tick slice or an on-re-enter catch-up interpolation.
+- **Touchstone:** Tibia's persistent hunting grounds (creatures
+  wander/return regardless of player presence); braids DIRECTLY with
+  the world-builder lane's "persistent world" framing (v18 etapa 1)
+  and idea 2 (zone rules).
+- **Determinism/netplay surface:** off-zone ticking must stay inside
+  the lockstep sim (both seats compute it identically) — fine by
+  construction, but it changes the digest lane's cost profile (more
+  actors ticking) → perf-gate at the debate (the lag forensics note
+  is the live prior: we already stall at 44 tps with ONE zone
+  ticking).
+- **Class: SIM, obviously** — v19 debate; interacts with respawn
+  pacing (a MEASURED question) so nothing moves pre-verdict.
+
 ## Slot status
 
-Nothing else arrived (no paste, no drafts file beyond this relay, no
-Junior commit carrying ideas). Answers, when they arrive bundled with
-ideas, get SPLIT per the spark (answers → skeleton, ideas → here).
+Seven ideas banked (1–6 + 7 tonight). Re-votes recorded: idea 1
+(owner, "nos faltó"), idea 4 (addendum + lobber extension), in-game
+chat (PARKING_LOT re-vote note — stays parked, >2-players trigger
+unchanged). Answers, when they arrive bundled with ideas, get SPLIT
+per the spark (answers → skeleton, ideas → here).

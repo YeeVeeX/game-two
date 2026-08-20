@@ -647,7 +647,11 @@ this list; nothing here starts before that debate closes:
   link wart, and a cloud relay only matters post-lockstep). No infra lane now.
 - **In-game chat / Tibia-style channels** — owner himself: "talvez es un poco
   temprano". PARKED; two players have out-of-band voice/chat. Revisit with >2
-  players or the roleplay need.
+  players or the roleplay need. **Re-vote 2026-08-19 (owner, mid-ritual coop,
+  verbatim): "we need an in-game chat to communicate or some system"** —
+  second owner vote, now from live coop pain; stays parked on the recorded
+  trigger, but "or some system" widens it (pings/emotes count as candidate
+  shapes for the v19 debate, cheaper than full chat).
 - **game-two-assets pipeline (parallel repo; owner invites dev contributions
   anytime)** — integration into this repo stays gated on the owner's own
   "una vez esté testeado y depurado" + the parked sprites/art cycle (v16
