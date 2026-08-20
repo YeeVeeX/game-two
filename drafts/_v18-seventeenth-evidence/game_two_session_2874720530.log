@@ -1,0 +1,61 @@
+AUDIO on: device=1 sha=15f03e0219d6 lib=C:/Users/jr/Desktop/projeto-game-two/game-two-audio
+TELEMETRY persist loaded digest=66784a92f268776eeb917efb655449c6 schema=1 banked=12 provisions=0 seals=2 marks=0 sessions=8 source=handshake
+TELEMETRY d1_fired carrying_deaths=15 wipes=9 corpse_looted=11 carried_lost=1 banked_events=12 fights=48 recovery_fights=8 negative_fights=9
+TELEMETRY a2_fired wipes=9 body_deaths=28 retargets{hate=64 lowhp=88 proximity=24 acquired=362 challenged=84} leashes=252 deepest_band=2 banked=12
+TELEMETRY d1b_fired inscriptions=9 marks_consumed=9 dissolved=13 regrown=14 tributes=9 floor_fired=5 banked_spent{inscribe=72 tribute=190} banked_end=5
+TELEMETRY q6_cadence banks{n=12 mean=21 max=46} kills_by_band{b0=25 b1=55 b2=42}
+TELEMETRY density pockets{mean=3.7 max=17} arrivals{pocket=88 seed=28 home=0} singles_pct=30
+TELEMETRY arc breach{fired=0 first_frame=0 banked_after=0} rehomed=0 camp_visits=29 d2{entered=1 kills=109} seal2_breached=0
+TELEMETRY q6_margins banks{n=12 pure=0} amount{mean=21 max=46} hp{mean=0.18} dead{mean=1.6} wounded{mean=1.4} gap{mean_s=91}
+TELEMETRY v13 whirl{casts=2 hits{1=0 2=0 3=0 4=0 5plus=0} kills=0} challenge{casts=30 retargets=84}
+TELEMETRY drift thirds{k1=51 k2=30 k3=41} pockets{p1=4.9 p2=7.3 p3=6.4} span_thirds{k1=52 k2=29 k3=41 span=72587}
+TELEMETRY v14 telegraphs_shown=93 first_special{striker=3473 blocker=858 lobber=5943}
+TELEMETRY quay entries=0 frames=0 kills=0 deaths=0 banked_after{events=0 amount=0}
+TELEMETRY varekka engaged=0 chants=0 interrupted=0 seized=0 swap_escapes=0 slain=0 deaths_while_seized=0 burns=0 ends{expired=0 slain=0 died=0 zone_left=0 wiped=0}
+TELEMETRY sustain bought=0 used=0 refused=0
+TELEMETRY netplay seat=2 ticks=74470 desyncs=0 stalls=136 stall_ms_max=1059 reason=quit
+relaunch: bin/play --join 100.127.52.49:43117
+AUDIO drift anchor tick=0 engine_pcm=150240 tick_frames=800
+AUDIO drift tick=0 engine_pcm=150240 expected=150240 drift_frames=0
+AUDIO drift tick=1800 engine_pcm=1792800 expected=1590240 drift_frames=202560
+AUDIO drift tick=3600 engine_pcm=3307680 expected=3030240 drift_frames=277440
+AUDIO drift tick=5400 engine_pcm=4813920 expected=4470240 drift_frames=343680
+AUDIO drift tick=7200 engine_pcm=6428640 expected=5910240 drift_frames=518400
+AUDIO drift tick=9000 engine_pcm=8013120 expected=7350240 drift_frames=662880
+AUDIO drift tick=10800 engine_pcm=9540960 expected=8790240 drift_frames=750720
+AUDIO drift tick=12600 engine_pcm=11124480 expected=10230240 drift_frames=894240
+AUDIO drift tick=14400 engine_pcm=12828480 expected=11670240 drift_frames=1158240
+AUDIO drift tick=16200 engine_pcm=14438880 expected=13110240 drift_frames=1328640
+AUDIO drift tick=18000 engine_pcm=16034400 expected=14550240 drift_frames=1484160
+AUDIO drift tick=19800 engine_pcm=17617440 expected=15990240 drift_frames=1627200
+AUDIO drift tick=21600 engine_pcm=19113600 expected=17430240 drift_frames=1683360
+AUDIO drift tick=23400 engine_pcm=20602560 expected=18870240 drift_frames=1732320
+AUDIO drift tick=25200 engine_pcm=22198560 expected=20310240 drift_frames=1888320
+AUDIO drift tick=27000 engine_pcm=23718720 expected=21750240 drift_frames=1968480
+AUDIO drift tick=28800 engine_pcm=25222560 expected=23190240 drift_frames=2032320
+AUDIO drift tick=30600 engine_pcm=26829120 expected=24630240 drift_frames=2198880
+AUDIO drift tick=32400 engine_pcm=28442400 expected=26070240 drift_frames=2372160
+AUDIO drift tick=34200 engine_pcm=30015360 expected=27510240 drift_frames=2505120
+AUDIO drift tick=36000 engine_pcm=31619040 expected=28950240 drift_frames=2668800
+AUDIO drift tick=37800 engine_pcm=33210720 expected=30390240 drift_frames=2820480
+AUDIO drift tick=39600 engine_pcm=34762560 expected=31830240 drift_frames=2932320
+AUDIO drift tick=41400 engine_pcm=36322080 expected=33270240 drift_frames=3051840
+AUDIO drift tick=43200 engine_pcm=37908480 expected=34710240 drift_frames=3198240
+AUDIO drift tick=45000 engine_pcm=39575040 expected=36150240 drift_frames=3424800
+AUDIO drift tick=46800 engine_pcm=41547840 expected=37590240 drift_frames=3957600
+AUDIO drift tick=48600 engine_pcm=43144800 expected=39030240 drift_frames=4114560
+AUDIO drift tick=50400 engine_pcm=44821920 expected=40470240 drift_frames=4351680
+AUDIO drift tick=52200 engine_pcm=46466880 expected=41910240 drift_frames=4556640
+AUDIO drift tick=54000 engine_pcm=48679680 expected=43350240 drift_frames=5329440
+AUDIO drift tick=55800 engine_pcm=50285280 expected=44790240 drift_frames=5495040
+AUDIO drift tick=57600 engine_pcm=51933120 expected=46230240 drift_frames=5702880
+AUDIO drift tick=59400 engine_pcm=53442720 expected=47670240 drift_frames=5772480
+AUDIO drift tick=61200 engine_pcm=55037280 expected=49110240 drift_frames=5927040
+AUDIO drift tick=63000 engine_pcm=56665440 expected=50550240 drift_frames=6115200
+AUDIO drift tick=64800 engine_pcm=58237920 expected=51990240 drift_frames=6247680
+AUDIO drift tick=66600 engine_pcm=59777760 expected=53430240 drift_frames=6347520
+AUDIO drift tick=68400 engine_pcm=61420800 expected=54870240 drift_frames=6550560
+AUDIO drift tick=70200 engine_pcm=63038880 expected=56310240 drift_frames=6728640
+AUDIO drift tick=72000 engine_pcm=64711200 expected=57750240 drift_frames=6960960
+AUDIO drift tick=73800 engine_pcm=66377280 expected=59190240 drift_frames=7187040
+AUDIO teardown clean (dropped_cues=0)
