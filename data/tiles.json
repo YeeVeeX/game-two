@@ -1,0 +1,18 @@
+{
+  "types": {
+    "wall": {
+      "char": "#",
+      "int_grid": 1,
+      "render": "wall",
+      "footstep": "stone",
+      "passability": "wall"
+    },
+    "floor": {
+      "char": ".",
+      "int_grid": 2,
+      "render": "floor",
+      "footstep": "stone",
+      "passability": "floor"
+    }
+  }
+}

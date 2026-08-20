@@ -7,9 +7,14 @@ module Core
 
     WALL_CHAR = "#".freeze
 
+    # v2 (world-builder T2): typed transitions + region intents. Absent
+    # type = today's gate/breach shape — every v1 file reads unchanged.
+    TRANSITION_TYPES = %w[stairs_up stairs_down hole rope_spot].freeze
+    REGION_INTENTS = %w[town dungeon guard].freeze
+
     attr_reader :cols, :rows, :tile_size, :pack_spawn, :enemy_spawns,
                 :display_name, :palette, :transitions, :stations, :drop_gradient,
-                :hub, :gradient_anchor, :name, :decor
+                :hub, :gradient_anchor, :name, :decor, :floor, :regions, :tile_types
 
     def initialize(cfg)
       @tile_size = cfg.fetch(:tile_size)
@@ -35,6 +40,16 @@ module Core
       # v16 (b): authored landmark features — RENDER-ONLY (never blocking,
       # never validated against passability: braziers mount on walls).
       @decor = cfg.fetch(:decor, [])
+      # v2 (world-builder T2, D3/D9/D7 — all additive, defaults preserve
+      # every v1 file byte-for-byte): floors are zone metadata (0 =
+      # surface, negative = down); regions are a named-rect DATA LAYER
+      # (no rules read them — D9); tile_types optionally remaps grid
+      # chars onto data/tiles.json type ids (default mapping comes from
+      # the registry). Nothing in the sim consumes any of these yet —
+      # behavior lands in T3/T4/T5, one gated piece at a time.
+      @floor = cfg.fetch(:floor, 0)
+      @regions = (cfg.fetch(:regions, []) || []).map { |r| normalize_region(r) }
+      @tile_types = cfg[:tile_types]&.to_h { |k, v| [k.to_s, v] }
       validate!
     end
 
@@ -70,6 +85,72 @@ module Core
       @transitions.each { |t| check_passable!("transition", t[:at]) }
       @stations.each { |s| check_passable!("station", s[:at]) }
       check_passable!("gradient_anchor", @gradient_anchor) if @gradient_anchor
+      validate_v2!
+    end
+
+    # Schema v2 (T2): shape-only — no behavior reads these fields yet.
+    def validate_v2!
+      raise BadMap, "floor must be an Integer (got #{@floor.inspect})" unless @floor.is_a?(Integer)
+      @transitions.each { |t| validate_transition_type!(t) }
+      validate_regions!
+      validate_tile_types!
+    end
+
+    def validate_transition_type!(t)
+      type = t[:type]
+      if type && !TRANSITION_TYPES.include?(type)
+        raise BadMap, "transition at #{t[:at].inspect}: unknown type #{type.inspect} " \
+                      "(valid: #{TRANSITION_TYPES.join(', ')}; absent = gate)"
+      end
+      unlock = t[:stairs_unlocked_by]
+      return unless unlock
+      unless type == "hole"
+        raise BadMap, "transition at #{t[:at].inspect}: stairs_unlocked_by is legal on " \
+                      "type \"hole\" only (D4 amendment), got type #{type.inspect}"
+      end
+      unless unlock.is_a?(String) && !unlock.empty?
+        raise BadMap, "transition at #{t[:at].inspect}: stairs_unlocked_by must be a " \
+                      "non-empty breach-family fact name"
+      end
+    end
+
+    def validate_regions!
+      seen = {}
+      @regions.each do |r|
+        id = r[:id]
+        raise BadMap, "region id must be a non-empty String (got #{id.inspect})" unless id.is_a?(String) && !id.empty?
+        raise BadMap, "duplicate region id #{id.inspect}" if seen[id]
+        seen[id] = true
+        unless REGION_INTENTS.include?(r[:intent])
+          raise BadMap, "region #{id}: unknown intent #{r[:intent].inspect} (valid: #{REGION_INTENTS.join(', ')})"
+        end
+        rect = r[:rect]
+        unless rect.is_a?(Array) && rect.length == 4 && rect.all? { |v| v.is_a?(Integer) }
+          raise BadMap, "region #{id}: rect must be [x, y, w, h] Integers (got #{rect.inspect})"
+        end
+        x, y, w, h = rect
+        if x.negative? || y.negative? || w < 1 || h < 1 || x + w > @cols || y + h > @rows
+          raise BadMap, "region #{id}: rect #{rect.inspect} outside #{@cols}x#{@rows} map"
+        end
+      end
+    end
+
+    # tile_types: optional char => type-id remap over the registry's
+    # default mapping. SHAPE only here — the cross-reference against the
+    # registry lives in TileRegistry#validate_map! (World wires it; bare
+    # fixture maps stay valid — the name-key precedent).
+    def validate_tile_types!
+      return unless @tile_types
+      @tile_types.each do |ch, type_id|
+        raise BadMap, "tile_types key #{ch.inspect} must be a single character" unless ch.length == 1
+        unless type_id.is_a?(String) && !type_id.empty?
+          raise BadMap, "tile_types[#{ch.inspect}] must be a type id String"
+        end
+      end
+    end
+
+    def normalize_region(r)
+      { id: r[:id], rect: r[:rect], intent: r[:intent] }
     end
 
     def check_passable!(label, (tx, ty))

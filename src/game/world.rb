@@ -1,6 +1,7 @@
 require "core/event_bus"
 require "core/state_stack"
 require "core/tile_map"
+require "core/tile_registry"
 require "core/counting_rng"
 require "core/input"
 require "game/creature"
@@ -39,7 +40,7 @@ module Game
     HOME_ZONE = "nest".freeze # the INITIAL home only — @home_zone advances (v12)
 
     attr_reader :bus, :pack, :feel, :states, :frame, :zone_name, :rng, :respawn_rng,
-                :home_zone, :boss_1_defeats, :sessions, :field_economy
+                :home_zone, :boss_1_defeats, :sessions, :field_economy, :tile_registry
 
     def initialize(data, seed: 0, seats: 1, save: nil)
       # v17 seat map (spec Sim spec): seat ids are PINNED [1..n]; every
@@ -1197,8 +1198,17 @@ module Game
     end
 
     def load_zones
+      # T2 (world-builder D7): the tile-type registry rides the same
+      # data root; every zone's char->type mapping cross-checks against
+      # it at load. Absent file (trimmed fixture data dirs) = no
+      # registry, no cross-check — additive by construction.
+      @tile_registry =
+        @data.keys.include?("tiles") ? Core::TileRegistry.new(@data["tiles"]) : nil
       names = @data.keys.grep(%r{\Azones/}).map { |k| k.sub("zones/", "") }
-      names.each { |n| @zones[n] = Core::TileMap.new(@data["zones/#{n}"]) }
+      names.each do |n|
+        @zones[n] = Core::TileMap.new(@data["zones/#{n}"])
+        @tile_registry&.validate_map!(@zones[n])
+      end
       @arrivals = Hash.new { |h, k| h[k] = [] }
       @zones.each_value do |zmap|
         zmap.transitions.each { |t| @arrivals[t[:to]] << t[:spawn] }
