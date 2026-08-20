@@ -121,29 +121,29 @@
       "sha256": "e438732ea3fe446108a50d10759e81237957eeebe2ff1269af01866b5e0936f9",
       "dur_s": 0.6
     },
-    "msfx_throw_200ms_a": {
+    "msfx_throw_1800ms_a": {
       "type": "file",
-      "path": "files/msfx_throw_200ms_a.wav",
-      "sha256": "3ef77d971772c04cc56d40577ec909bb48ae74e1f06d2363bc5161ebeb3017fd",
-      "dur_s": 0.2
+      "path": "files/msfx_throw_1800ms_a.wav",
+      "sha256": "72c390200ad2aaca572794416e65c63a9560b58d3f67399a6aa45edbce1e5503",
+      "dur_s": 1.8
     },
-    "msfx_throw_200ms_b": {
+    "msfx_throw_1800ms_b": {
       "type": "file",
-      "path": "files/msfx_throw_200ms_b.wav",
-      "sha256": "de7fc29ae752e7c52bf81fe9f9cd4ff50d26019e88e0a2acbf5fb6ef03ffeca8",
-      "dur_s": 0.2
+      "path": "files/msfx_throw_1800ms_b.wav",
+      "sha256": "41c32677a224820f0497b793d9c4d9c4de79c0373352a3f27a3028a18f14b8eb",
+      "dur_s": 1.8
     },
-    "msfx_throw_200ms_c": {
+    "msfx_throw_1800ms_c": {
       "type": "file",
-      "path": "files/msfx_throw_200ms_c.wav",
-      "sha256": "8ad8693e3d1053df55fdd9804f93ac8155231aa80ce3058556dd3a075958176c",
-      "dur_s": 0.2
+      "path": "files/msfx_throw_1800ms_c.wav",
+      "sha256": "3390935e34c637464bc79fa4d6a54b2db30881b0543438f9fa97008005e563ec",
+      "dur_s": 1.8
     },
-    "msfx_throw_200ms_d": {
+    "msfx_throw_1800ms_d": {
       "type": "file",
-      "path": "files/msfx_throw_200ms_d.wav",
-      "sha256": "e57ae81becb2a0a512d69b3a5934d7be29db282d53e6a1c667148c110e2bf63d",
-      "dur_s": 0.2
+      "path": "files/msfx_throw_1800ms_d.wav",
+      "sha256": "e7f7bbc4d21b8d7bd90d289ba3a9b9d3708951bd4b6dddb4e643485638bc40f7",
+      "dur_s": 1.8
     },
     "msfx_wipe_1500ms_a": {
       "type": "file",

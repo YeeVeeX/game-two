@@ -254,36 +254,36 @@
       "pan": 0.0,
       "spatial": false
     },
-    "msfx_throw_200ms_a": {
+    "msfx_throw_1800ms_a": {
       "event": "projectile_fired__a",
-      "file": "msfx_throw_200ms_a",
+      "file": "msfx_throw_1800ms_a",
       "bus": "sfx",
       "priority": 20,
       "gain": 2.5,
       "pan": 0.0,
       "spatial": false
     },
-    "msfx_throw_200ms_b": {
+    "msfx_throw_1800ms_b": {
       "event": "projectile_fired__b",
-      "file": "msfx_throw_200ms_b",
+      "file": "msfx_throw_1800ms_b",
       "bus": "sfx",
       "priority": 20,
       "gain": 2.5,
       "pan": 0.0,
       "spatial": false
     },
-    "msfx_throw_200ms_c": {
+    "msfx_throw_1800ms_c": {
       "event": "projectile_fired__c",
-      "file": "msfx_throw_200ms_c",
+      "file": "msfx_throw_1800ms_c",
       "bus": "sfx",
       "priority": 20,
       "gain": 2.5,
       "pan": 0.0,
       "spatial": false
     },
-    "msfx_throw_200ms_d": {
+    "msfx_throw_1800ms_d": {
       "event": "projectile_fired__d",
-      "file": "msfx_throw_200ms_d",
+      "file": "msfx_throw_1800ms_d",
       "bus": "sfx",
       "priority": 20,
       "gain": 2.5,
