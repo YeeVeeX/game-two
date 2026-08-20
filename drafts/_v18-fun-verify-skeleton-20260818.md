@@ -807,6 +807,16 @@ re-voted intake idea 1 (Ctrl stationary facing — "nos faltó
 agregar/arreglar el movimiento en sitio"): recorded there, sim-class,
 v19.
 
+**Owner spontaneous verdict-fragment (same evening, ~22:50, post
+session 1, volunteered — HELD, verbatim es-CR):** "en general el core
+gameplay me encanta, se siente muy reactivo y conectado el cuerpo a
+la acción, emocionante, ni si quiera me puedo imaginar lo que va a
+ser cuando sea más avanzado/maduro". Unprompted, not an answer to any
+runsheet question (quarantine held — acknowledged without feel
+discussion). Enters the Half-B reading WITH the answer sets like
+every fragment; strongest general-positive signal banked to date
+(pairs with the crash-night "but it was fun").
+
 **Owner mid-session observations (2026-08-19 ~22:15, DURING ritual
 session 1, live chat, volunteered — HELD the same way, verbatim EN):**
 "we are still on the session but I notice a few aspects that are
