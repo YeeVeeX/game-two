@@ -1,5 +1,76 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-20 session 24 (hub) — **AUDIO POLISH SHIPPED: cue dup-fix (same-tick coalescing) + −4 dB percussive music duck (data-only)** · T3 lag verdict WRITTEN from banked bytes · coop pre-flight DONE, session owner-paced · gamesmith Round-7B intake QUEUED for a fresh session · v19 still NOT open
+
+**T-A dup bug (owner: "duplicación de triggering") — evidence FIRST, fix
+behind it (`aa02624`):** headless repro on the REAL World + REAL DLL: a
+3-target whirlwind emits three `:attack_hit` facts in ONE tick and the
+bridge fired three near-identical takes on the same PCM frame — same-frame
+LAYERING; the one-tick-flam "sync" hypothesis was CONTRADICTED (all
+requests same tick, no bridge queue). Fix is presentation-only:
+`VariantRotor#next_for_tick` = one take per event family per world tick;
+coalesced events never advance the rotor (replay/netplay-stable by
+construction — both seats sample the same sequence from the same stream).
+Sim emits/telemetry untouched. Red-first (`[2,3,4]`→`[2,2,2]` whirl
+oracle); rotation test tightened to ==1 — which surfaced a latent fact:
+`World.new` leaves a pending `zone_entered` in the bus queue that the
+first post-attach flush delivers to the sink (test drains pre-attach).
+Netplay session gate PASS, 12/12 byte-identical (verdicts log
+`20260820-164004`). Evidence: `drafts/_audio-polish-grill-20260820.md`.
+
+**T-B ducking (owner: "se acumulan … abrumante") — data-only within the
+duck schema (`3d79787`):** 13 percussive rows (hit/dodge/throw ×4 +
+special) duck `music` −4 dB, attack 800 / hold 2400 / release 9600 frames;
+sfx bus and −12 dB dramatic ducks UNTOUCHED (one lever). **Fresh-eyes
+review (scrubbed pi) returned FAIL** — real finding, verified against the
+library primary: `apply_duck` is last-writer-wins across depths and
+overwrites the bus release unconditionally, so the first draft's 4800
+release would let a stray hit halve a stinger's return. ADJUDICATED
+(`drafts/_audio-polish-review-20260820.md` + grill §6): release aligned
+9600 in data (overwrite now value-identical, pinned by
+`AudioDuckDataTest`); the residual −12→−4 depth-lift inside a stinger
+window is NOT expressible in data — recorded as the **depth-aware-duck
+library increment** (queued beside stereo-ambient/region-acoustics, build
+only on owner word) + an explicit ear-check item. True signal-driven
+sidechain NOT needed — schema held.
+
+**EAR-CHECK PENDING (owner's next listen, never nag):** (1) ¿se acabó la
+duplicación de golpes? (2) ¿la música respira en peleas densas sin
+abrumar? (3) en pelea densa, cuando suena el aviso del BOSS/sello, ¿se
+siente que la música vuelve a subir demasiado pronto? (sí → the recorded
+library increment, not a data tweak).
+
+**T-C coop pre-flight DONE (session owner-paced):** HEAD==origin
+(`f5b4356` after this session's push — BOTH seats must pull before the
+coop; protocol v3 refuses mixed builds NAMED, designed failure) ·
+single-instance guard NONE · Tailscale pong from Junior's seat 167 ms
+direct. Both seats launch with `GAME_FRAME_PROBE=1` — the coop playtest
+DOUBLES as lag segment S1. Harvest checklist + evidence bank:
+`drafts/_lag-t2-evidence/README.md` (bank verbatim: handshake v3 lines,
+netplay close lines, frame_probe, AUDIO drift, TELEMETRY sustain — the
+R-A2 harvest stays SILENT, `bought=0` still open, never re-ask).
+
+**T3 lag verdict from banked bytes (`drafts/_lag-t3-verdict-20260820.md`):**
+S0-J prediction MATCHED (p50 16.8 vs predicted ~16.9) · lockstep limiter =
+Junior's seat, machine-structural: 59 Hz vsync ceiling + 6.8% in-process
+long-frame tail (draw-dominant: draw max 355 ms inside period max 1335 ms);
+network exonerated from his own probes · ONE T4 ticket NAMED, not
+implemented: env-gated vsync-release experiment on the limited seat,
+verified by an S0-J re-run — tail is a separate later ticket, never both
+levers at once. S1/S2/S3 stay open, owner-paced.
+
+**Intake queued (arrived mid-session via chat):** gamesmith Round-7B
+bank+triage spark — runs ONLY in a FRESH game-two session after this seat
+closes (its own preflight: seat FREE + tree CLEAN; this session's audio
+work was the named foreign-dirty blocker). Docs-only intake; active queue
+unchanged by design. Next session: run it before opening new work.
+
+**Session-close state:** suite 936 green ×3 via hooks · pushed
+`6481440..f5b4356` (3 commits: fix/feat/docs) · save untouched (md5
+`98fe75edb6d72deab18cd48eaa88bdaf`, zero launches, guard NONE throughout) ·
+reviewer artifacts under `%TEMP%/audio-polish-review/` (prompt digest
+`fe7ac78f…`, receipt banked in drafts).
+
 ## 2026-08-20 session 23c (hub, owner live) — **EAR-CHECK VERDICT IN ("suena muy bien") + zone −4 dB + STATIONARY AIM shipped (protocol v3)** · coop with Junior NEXT session · v19 still NOT open
 
 **Owner ear-check (verbatim banked in `dfd3838`'s message):** "suena muy
