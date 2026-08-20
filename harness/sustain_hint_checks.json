@@ -1,0 +1,25 @@
+{
+  "scope": "These checks judge the R-A2 bank BUY hint on sustain_run captures. The hint is a short world-space text line ('U PROVISION -5' in EN) centered above the bank station tile, one row ABOVE the banked numeral (the numeral sits directly over the tile; the hint sits above it, in the same slot transaction receipts like PROVISION BOUGHT use). It must speak ONLY when a buy would succeed: pack near the bank AND banked >= 5 AND provision stock under cap AND no live cue on the bank tile. Frames showing other zones or a body far from any bank exercise nothing — pass those with why='not exercised by this frame'.",
+  "checks": [
+    {
+      "id": "hint_speaks_when_buy_would_succeed",
+      "check": "At least one frame shows the hint line (key glyph + PROVISION + minus-price, e.g. 'U PROVISION -5') above the bank tile while the pack stands at/near the bank. If NO frame in the reel shows it, FAIL — the reel was captured to include at least one affordable pre-buy moment."
+    },
+    {
+      "id": "hint_absent_when_it_would_lie",
+      "check": "In frames where the bank is visible but the buy could not succeed (early broke frames, or stock at cap after repeated buys), NO hint line appears — the surface never advertises a refusal. Judge by absence: bank tile visible, numeral may show, no glyph+PROVISION line above it."
+    },
+    {
+      "id": "receipt_owns_the_slot",
+      "check": "In frames where a transaction receipt (PROVISION BOUGHT / PROVISION USED / REFUSED X-bar text) is live at the bank tile, the hint does NOT stack on top of it — one text line in that slot at a time."
+    },
+    {
+      "id": "hint_legible",
+      "check": "Where the hint appears: readable at a glance against the floor (same pale drop-core tone as the banked numeral), not clipped by the viewport, not colliding with the banked numeral below it or with HP bars/bodies."
+    },
+    {
+      "id": "hint_composition_exact",
+      "check": "The hint reads as exactly three tokens: a key glyph (single letter), the stock word (PROVISION in EN captures), and a minus-price ('-5') — no extra words, no truncation, matching the altar/vat '-price' grammar players already know."
+    }
+  ]
+}

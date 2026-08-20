@@ -13,6 +13,7 @@ require "game/camera"
 require "game/flow_field"
 require "game/fight_ledger"
 require "game/field_economy"
+require "game/price_sheet"
 require "game/save_state"
 
 module Game
@@ -112,6 +113,10 @@ module Game
       @rearm_needed = @seats.to_h { |s| [s, false] }
       load_zones
       spawn_pack
+      # Prices are quoted by a plain reader object (line-cap extraction,
+      # 2026-08-20) — constructed after spawn_pack so it holds the live Pack.
+      @price_sheet = PriceSheet.new(economy: @economy, pack: @pack,
+                                    breached: method(:breached?))
       # First-possession registry (v14): cosmetic sim state the sim never
       # reads (taunt_pulses precedent) — the controls overlay derives its
       # one-time pulse from it as a pure function of world state, so both
@@ -245,20 +250,11 @@ module Game
     # kit_name => first frame that kind was possessed (v14 overlay pulse).
     def kit_first_possessed = @kit_first_possessed
 
-    # Renderer-facing price reader (renderer computes nothing): what THIS
-    # station charges right now. Bank has no price (nil).
-    def station_price(station)
-      case station[:type]
-      when "altar" then @economy[:inscribe_cost]
-      when "vat"
-        @economy[:regrow_cost] * @pack.members.count(&:dead?) +
-          @economy[:heal_cost_per_body] * @pack.living.count { |m| m.hp < m.max_hp }
-      when "seal"
-        # A spent seal shows no price — the toll line is the discovery
-        # mechanism while sealed, and noise once the way stands open.
-        breached?(@zone_name, station[:opens]) ? nil : @economy.fetch(station[:price].to_sym)
-      end
-    end
+    # Renderer-facing price readers — one-line delegations to PriceSheet
+    # (the extraction keeps every call site and test byte-identical).
+    def station_price(station) = @price_sheet.station_price(station, @zone_name)
+    def provision_cost = @price_sheet.provision_cost
+    def provision_cap = @price_sheet.provision_cap
 
     def tick(input)
       inputs = input.is_a?(Hash) ? input : { 1 => input }

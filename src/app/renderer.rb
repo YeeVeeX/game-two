@@ -81,6 +81,9 @@ module App
     def initialize(display: {}, strings: nil, bindings: nil, local_seat: 1)
       @display = display
       @strings = strings
+      # R-A2: the bank BUY hint speaks the sustain key's own glyph — ONE
+      # source (Core::BindingMap) feeds input, strip, and hint alike.
+      @bindings = bindings
       @pressure_alpha = @display.fetch(:pressure_outline_alpha, 140)
       # v17 renderer seam (Codex fold #7): every possessed/camera read goes
       # through the LOCAL seat — default 1, so single-player output is
@@ -187,6 +190,33 @@ module App
       fallback = CUE_TEXT_FALLBACK[kind]
       return nil unless fallback
       @strings ? @strings.t("cue.#{kind}", fallback) : fallback
+    end
+
+    # R-A2 (verdict row 4 — the SEVENTEENTH's bought=0 discoverability hole):
+    # the bank BUY hint, "U PROVISION -5". Speaks ONLY when the buy would
+    # succeed (banked >= cost AND provisions < cap) — teaches success, never
+    # a refusal — and yields its slot (the cue's y-32 text line) while a
+    # station cue lives on this bank's tile: idle → hint, press → receipt,
+    # receipt expires → hint recomputed. banked=0 at spawn keeps every walled
+    # spawn frame byte-identical (the 7iii cost lesson; grill spec Q3).
+    # Touchstone: Tibia's sustain is legible because verb + price are visible
+    # AT the vendor (corpus brief §1 — shape, never numbers). Zero new
+    # strings: glyph + ratified hud.provisions + the altar/vat "-price"
+    # grammar. Proximity stays at the draw site (the ledger's radius-3 law).
+    # Pure content resolution — tested headlessly (station_cue_text lane).
+    SUSTAIN_GLYPH_FALLBACK = "U".freeze
+    HUD_STOCK_FALLBACK = "PROVISION".freeze
+
+    def sustain_hint(world, station)
+      return nil unless station[:type] == "bank"
+      pack = world.pack
+      return nil unless pack.banked >= world.provision_cost
+      return nil unless pack.provisions < world.provision_cap
+      cue = world.station_cue
+      return nil if cue && cue[:at] == station[:at]
+      glyph = (@bindings&.glyphs(:sustain)&.first) || SUSTAIN_GLYPH_FALLBACK
+      noun = @strings ? @strings.t("hud.provisions", HUD_STOCK_FALLBACK) : HUD_STOCK_FALLBACK
+      "#{glyph} #{noun} -#{world.provision_cost}"
     end
 
     # Flywheel fix (2026-08-19, verified vs clip low_quay_run 104223
@@ -403,6 +433,12 @@ module App
           text = world.pack.banked.to_s
           hud_font.draw_text(text, tx * ts + (ts - hud_font.text_width(text)) / 2,
                              ty * ts - 18, 10, 1, 1, DROP_CORE)
+          # R-A2 BUY hint in the cue's text slot (y-32, one row above the
+          # numeral) — content + suppression rules live in sustain_hint.
+          if (hint = sustain_hint(world, s))
+            hud_font.draw_text(hint, tx * ts + (ts - hud_font.text_width(hint)) / 2,
+                               ty * ts - 32, 10, 1, 1, DROP_CORE)
+          end
         else
           price = world.station_price(s)
           next unless price && price.positive?
