@@ -1,0 +1,25 @@
+AUDIO on: device=1 sha=15f03e0219d6 lib=C:/Users/gabri/workspace/game-two-audio
+TELEMETRY persist loaded digest=189a80723c87b90f27bc8436533d8cc1 schema=1 banked=20 provisions=0 seals=2 marks=0 sessions=6 source=file
+TELEMETRY session seed=812238113
+TELEMETRY d1_fired carrying_deaths=2 wipes=3 corpse_looted=2 carried_lost=0 banked_events=1 fights=6 recovery_fights=2 negative_fights=2
+TELEMETRY a2_fired wipes=3 body_deaths=3 retargets{hate=0 lowhp=28 proximity=0 acquired=65 challenged=0} leashes=91 deepest_band=1 banked=1
+TELEMETRY d1b_fired inscriptions=1 marks_consumed=0 dissolved=6 regrown=2 tributes=1 floor_fired=3 banked_spent{inscribe=8 tribute=26} banked_end=20
+TELEMETRY q6_cadence banks{n=1 mean=34 max=34} kills_by_band{b0=7 b1=11 b2=0}
+TELEMETRY density pockets{mean=6.3 max=10} arrivals{pocket=18 seed=0 home=0} singles_pct=61
+TELEMETRY arc breach{fired=0 first_frame=0 banked_after=0} rehomed=1 camp_visits=2 d2{entered=1 kills=0} seal2_breached=0
+TELEMETRY q6_margins banks{n=1 pure=0} amount{mean=34 max=34} hp{mean=0.48} dead{mean=2.0} wounded{mean=1.0} gap{mean_s=0}
+TELEMETRY v13 whirl{casts=0 hits{1=0 2=0 3=0 4=0 5plus=0} kills=0} challenge{casts=5 retargets=0}
+TELEMETRY drift thirds{k1=0 k2=9 k3=9} pockets{p1=0.0 p2=1.8 p3=2.6} span_thirds{k1=3 k2=6 k3=9 span=5512}
+TELEMETRY v14 telegraphs_shown=16 first_special{striker=never blocker=4036 lobber=never}
+TELEMETRY quay entries=1 frames=286 kills=0 deaths=1 banked_after{events=0 amount=0}
+TELEMETRY varekka engaged=1 chants=0 interrupted=0 seized=0 swap_escapes=0 slain=0 deaths_while_seized=0 burns=0 ends{expired=0 slain=0 died=0 zone_left=0 wiped=0}
+TELEMETRY sustain bought=0 used=0 refused=0
+TELEMETRY persist saved digest=9890bb5ed431b4094106983196381f62 schema=1 banked=20 provisions=0 seals=2 marks=1 sessions=7
+AUDIO drift anchor tick=1800 engine_pcm=1426560 tick_frames=800
+AUDIO drift tick=1800 engine_pcm=1426560 expected=1426560 drift_frames=0
+AUDIO drift tick=3600 engine_pcm=2839680 expected=2866560 drift_frames=-26880
+AUDIO drift tick=5400 engine_pcm=4252800 expected=4306560 drift_frames=-53760
+AUDIO drift tick=7200 engine_pcm=5665920 expected=5746560 drift_frames=-80640
+AUDIO drift tick=9000 engine_pcm=7077600 expected=7186560 drift_frames=-108960
+AUDIO drift tick=10800 engine_pcm=8491680 expected=8626560 drift_frames=-134880
+AUDIO teardown clean (dropped_cues=0)

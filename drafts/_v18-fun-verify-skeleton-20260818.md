@@ -524,6 +524,47 @@ audio at +12 dB (AGENTS M5a block; the Half-B caveat pre-registered in
 the owner-amendment block covers it — asymmetry note superseded by
 amendment 2: Junior's seat set up for AUDIO on, receipt `168f28d`).
 
+### Solo chain link #5 (2026-08-19 18:07 — owner ambient EAR-CHECK listen, HUMAN, single-instance)
+
+The owner-pending ambient ear-check (M5a verdict ask 1: drone swap
+`msfx_drone_4s` + −6 dB family) executed at the owner's word ("vamos
+lo del ambiente … ahora mismo"), T1-session live chat. Launch per
+protocol: guard printed the no-tasks INFO line (separate call) ·
+detached solo `bin/play es` · judged by the launcher log after Esc.
+Log `game_two_session_6739.log` (30th, both temp patterns; md5-banked
+copy `78296c20d6c26a2f3729779d82b0e0f4` in
+`drafts/_v18-seventeenth-evidence/`):
+
+- `AUDIO on: device=1 sha=15f03e0219d6` (real device, owner listening)
+- `loaded digest=189a80723c87b90f27bc8436533d8cc1 … sessions=6` →
+  `saved digest=9890bb5ed431b4094106983196381f62 schema=1 banked=20
+  provisions=0 seals=2 marks=1 sessions=7` — chain intact off link #4.
+- Real play, not idle: wipes=3, quay entries=1, varekka engaged=1,
+  inscriptions=1; `AUDIO teardown clean (dropped_cues=0)`; zero
+  AUTOPILOT; reason=quit (Esc).
+- Disk verified at banking: `saves/world.json` md5
+  `8be26601ed5be2444c17f7a0145861f5` (mtime 18:07:32), strict decode
+  == saved digest `9890bb5e…` sessions=7 banked=20 boss_1_defeats=1
+  notices=[]. (Log `marks=1` = inscribed-member count; the facts
+  carry it inside `members[].inscribed` — digest equality is the
+  arbiter.)
+- **Ear-check verdict (owner verbatim, es-CR chat): "me gusta como
+  suena! … el sonido de ambiente ahora suena mucho más agradable y
+  los niveles en general se escuchan bien y normalizados" — M5a ask 1
+  CLOSED (recorded in `drafts/_m5a-verdict-20260818.md`).** Two
+  follow-up observations volunteered FOR LATER (owner: "para después,
+  por ahora el juego puede andar así") — recorded in the M5a verdict
+  post-close lane (ask 4: longer/varied ambient loop), NOT
+  fun-verify evidence (owner-initiated audio lane, never bundled with
+  ritual questions; quarantine held — only the allowed audio question
+  was asked).
+
+**The anchor moves again: ritual session 1's host `persist loaded
+digest=` should now equal `9890bb5ed431b4094106983196381f62`**
+(sessions=7). Every earlier expectation block reading `189a8072…`
+is superseded by this link — the #1–#4 pattern law ("unless more solo
+play moves it") applied.
+
 ### Ritual session 1 ATTEMPT (2026-08-18 23:40 → 2026-08-19 00:06 — CRASH on both seats; shortfall, RE-RUNS; world UNMOVED)
 
 Launch per the live-launch protocol (owner ask "procede por favor"):
