@@ -1,12 +1,185 @@
 {
-  "_comment": "M5a runtime audio manifest — OWNER ORIGINALS ONLY (owner order 2026-08-18: 'make sure you replace all possible placeholder audios or remove them and only use the intended originally created ones'). Every entry is a file-type fixture: PCM16 mono 48 kHz converted (24->16, rounded, clamped) from the owner's Reaper/VST renders in game-two-audio/handoff/audio-v1/ — each source sha256-verified against THAT manifest before conversion (provenance chain in drafts/_m5a-verdict-20260818.md). sha256 below pins the CONVERTED file; the loader refuses on mismatch. No generated tones, no third-party audio, ever. LUFS conformance at the game-two-assets exports gate is STILL OWED (recorded debt) — these are interim direct conversions under the same owner order.",
+  "_comment": "M5a runtime audio manifest \u00e2\u20ac\u201d OWNER ORIGINALS ONLY (owner order 2026-08-18: 'make sure you replace all possible placeholder audios or remove them and only use the intended originally created ones'). Every entry is a file-type fixture: PCM16 mono 48 kHz converted (24->16, rounded, clamped) from the owner's Reaper/VST renders in game-two-audio/handoff/audio-v1/ \u00e2\u20ac\u201d each source sha256-verified against THAT manifest before conversion (provenance chain in drafts/_m5a-verdict-20260818.md). sha256 below pins the CONVERTED file; the loader refuses on mismatch. No generated tones, no third-party audio, ever. LUFS conformance at the game-two-assets exports gate is STILL OWED (recorded debt) \u00e2\u20ac\u201d these are interim direct conversions under the same owner order. V1.1 BATCH (2026-08-19): 23 attack/effect cue files \u2014 owner Reaper session (agent-scaffolded MIDI, owner VST/sound design), rendered via region matrix from Downloads/msfx_v11 (source sha256s in drafts/_m5a-verdict-20260818.md v1.1 block + audio-seat mail); same 24->16 rounded/clamped conversion.",
   "tones": {
-    "mstem_calm_6s":     { "type": "file", "path": "files/mstem_calm_6s.wav",     "sha256": "5395f924dac043f3bd969a16211677aa08a8726f039ab2a49d25a7cffc5d47a5", "dur_s": 6.0 },
-    "mstem_combat_6s":   { "type": "file", "path": "files/mstem_combat_6s.wav",   "sha256": "dc4984a34081f5491e20581bf27d3ef9f7c2842f6bc0e55400f6beb9d21c7965", "dur_s": 6.0 },
-    "msfx_drone_4s":     { "type": "file", "path": "files/msfx_drone_4s.wav",     "sha256": "0bf47f96b50392980a0912cdd9ed632012bda8d8bb45115a315fbb426ec4153e", "dur_s": 4.0 },
-    "msfx_stinger_2s":   { "type": "file", "path": "files/msfx_stinger_2s.wav",   "sha256": "7f2fbddc8c4541e7a2b8aacb3aa004bcceed7c240ac7c0f088cee8c44feb56dd", "dur_s": 2.0 },
-    "msfx_swarmpip_4s":  { "type": "file", "path": "files/msfx_swarmpip_4s.wav",  "sha256": "4aaca8cd78ab84ec20abf4837ef8c0e14533b3ad61dfca366899a73ddb5b0a8d", "dur_s": 4.0 },
-    "mui_confirm_200ms": { "type": "file", "path": "files/mui_confirm_200ms.wav", "sha256": "dda8d5ed828287f7e4f3777734fdae8a71231aa6b419a88894713e9ad4a4dcd1", "dur_s": 0.2 },
-    "mui_ping_1200ms":   { "type": "file", "path": "files/mui_ping_1200ms.wav",   "sha256": "31c204db61b6da43f03859a371d4945c745d280b385d2a387bb1bdc2eab98a4c", "dur_s": 1.2 }
+    "mstem_calm_6s": {
+      "type": "file",
+      "path": "files/mstem_calm_6s.wav",
+      "sha256": "5395f924dac043f3bd969a16211677aa08a8726f039ab2a49d25a7cffc5d47a5",
+      "dur_s": 6.0
+    },
+    "mstem_combat_6s": {
+      "type": "file",
+      "path": "files/mstem_combat_6s.wav",
+      "sha256": "dc4984a34081f5491e20581bf27d3ef9f7c2842f6bc0e55400f6beb9d21c7965",
+      "dur_s": 6.0
+    },
+    "msfx_drone_4s": {
+      "type": "file",
+      "path": "files/msfx_drone_4s.wav",
+      "sha256": "0bf47f96b50392980a0912cdd9ed632012bda8d8bb45115a315fbb426ec4153e",
+      "dur_s": 4.0
+    },
+    "msfx_stinger_2s": {
+      "type": "file",
+      "path": "files/msfx_stinger_2s.wav",
+      "sha256": "7f2fbddc8c4541e7a2b8aacb3aa004bcceed7c240ac7c0f088cee8c44feb56dd",
+      "dur_s": 2.0
+    },
+    "msfx_swarmpip_4s": {
+      "type": "file",
+      "path": "files/msfx_swarmpip_4s.wav",
+      "sha256": "4aaca8cd78ab84ec20abf4837ef8c0e14533b3ad61dfca366899a73ddb5b0a8d",
+      "dur_s": 4.0
+    },
+    "mui_confirm_200ms": {
+      "type": "file",
+      "path": "files/mui_confirm_200ms.wav",
+      "sha256": "dda8d5ed828287f7e4f3777734fdae8a71231aa6b419a88894713e9ad4a4dcd1",
+      "dur_s": 0.2
+    },
+    "mui_ping_1200ms": {
+      "type": "file",
+      "path": "files/mui_ping_1200ms.wav",
+      "sha256": "31c204db61b6da43f03859a371d4945c745d280b385d2a387bb1bdc2eab98a4c",
+      "dur_s": 1.2
+    },
+    "msfx_death_400ms": {
+      "type": "file",
+      "path": "files/msfx_death_400ms.wav",
+      "sha256": "a70bb14bf6111526f6cd4b9d6cade5e33dbccd0f6b5fb5b6f10121e5b4a7e205",
+      "dur_s": 0.4
+    },
+    "msfx_dodge_150ms_a": {
+      "type": "file",
+      "path": "files/msfx_dodge_150ms_a.wav",
+      "sha256": "15698d3da218a885aa3c436a6cf386c0904049907a79fd5355fdbfc641298404",
+      "dur_s": 0.15
+    },
+    "msfx_dodge_150ms_b": {
+      "type": "file",
+      "path": "files/msfx_dodge_150ms_b.wav",
+      "sha256": "611cb697486a40229633acd3fd3c777ad0534215dc3d76dddfc23905361f0eb7",
+      "dur_s": 0.15
+    },
+    "msfx_dodge_150ms_c": {
+      "type": "file",
+      "path": "files/msfx_dodge_150ms_c.wav",
+      "sha256": "2ee077b4f8d514052c7cc4a48fef287795dcd7a5b2a1fe7f4be03c9ae17e5926",
+      "dur_s": 0.15
+    },
+    "msfx_dodge_150ms_d": {
+      "type": "file",
+      "path": "files/msfx_dodge_150ms_d.wav",
+      "sha256": "58ad25212fa9a199e43166b75a65855771f5f8eb193e9faa996bfb2ee1f29e0a",
+      "dur_s": 0.15
+    },
+    "msfx_dodge_150ms_e": {
+      "type": "file",
+      "path": "files/msfx_dodge_150ms_e.wav",
+      "sha256": "1f4cd2a9108e7458d9bc5c0d38e03d917f27bd65a32f81cec1b9bc0dfde53232",
+      "dur_s": 0.15
+    },
+    "msfx_dodge_150ms_f": {
+      "type": "file",
+      "path": "files/msfx_dodge_150ms_f.wav",
+      "sha256": "2dab5b3d5bbc4161d63ce6260467f58bf2580b2ee08db1736601d34f15b71a93",
+      "dur_s": 0.15
+    },
+    "msfx_dodge_150ms_g": {
+      "type": "file",
+      "path": "files/msfx_dodge_150ms_g.wav",
+      "sha256": "84ed18dc06621e94fb055582474db8ca33c3c5cf4804d2db1807d776423aeae5",
+      "dur_s": 0.15
+    },
+    "msfx_dodge_150ms_h": {
+      "type": "file",
+      "path": "files/msfx_dodge_150ms_h.wav",
+      "sha256": "e04b50094464e75e5655ae39b5397622dd417a8807fec87f3d84e8d45f050420",
+      "dur_s": 0.15
+    },
+    "msfx_heal_300ms": {
+      "type": "file",
+      "path": "files/msfx_heal_300ms.wav",
+      "sha256": "b233102d9df89f68c40c72cef84135ec4e8b2bf35cbcab3ae0bac49d30b5c1b1",
+      "dur_s": 0.3
+    },
+    "msfx_hit_200ms_a": {
+      "type": "file",
+      "path": "files/msfx_hit_200ms_a.wav",
+      "sha256": "b4ed8ff95d1037321518f4a5241d398ec9e19b16617140cb27bef9b0e76bbabe",
+      "dur_s": 0.2
+    },
+    "msfx_hit_200ms_b": {
+      "type": "file",
+      "path": "files/msfx_hit_200ms_b.wav",
+      "sha256": "8707405a83a358557f27c9e136db1645b1cf03456063e8c4758e6b884f4774df",
+      "dur_s": 0.2
+    },
+    "msfx_hit_200ms_c": {
+      "type": "file",
+      "path": "files/msfx_hit_200ms_c.wav",
+      "sha256": "9e412ea04b92dc092aa4f1c1ba1b601a68c805e8ed4baa86162df40318e50f2b",
+      "dur_s": 0.2
+    },
+    "msfx_hit_200ms_d": {
+      "type": "file",
+      "path": "files/msfx_hit_200ms_d.wav",
+      "sha256": "b3ae44d873b9d86be6404487b97cb688b7631c101f69172b1a75d42169304601",
+      "dur_s": 0.2
+    },
+    "msfx_special_600ms": {
+      "type": "file",
+      "path": "files/msfx_special_600ms.wav",
+      "sha256": "e438732ea3fe446108a50d10759e81237957eeebe2ff1269af01866b5e0936f9",
+      "dur_s": 0.6
+    },
+    "msfx_throw_200ms_a": {
+      "type": "file",
+      "path": "files/msfx_throw_200ms_a.wav",
+      "sha256": "3ef77d971772c04cc56d40577ec909bb48ae74e1f06d2363bc5161ebeb3017fd",
+      "dur_s": 0.2
+    },
+    "msfx_throw_200ms_b": {
+      "type": "file",
+      "path": "files/msfx_throw_200ms_b.wav",
+      "sha256": "de7fc29ae752e7c52bf81fe9f9cd4ff50d26019e88e0a2acbf5fb6ef03ffeca8",
+      "dur_s": 0.2
+    },
+    "msfx_throw_200ms_c": {
+      "type": "file",
+      "path": "files/msfx_throw_200ms_c.wav",
+      "sha256": "8ad8693e3d1053df55fdd9804f93ac8155231aa80ce3058556dd3a075958176c",
+      "dur_s": 0.2
+    },
+    "msfx_throw_200ms_d": {
+      "type": "file",
+      "path": "files/msfx_throw_200ms_d.wav",
+      "sha256": "e57ae81becb2a0a512d69b3a5934d7be29db282d53e6a1c667148c110e2bf63d",
+      "dur_s": 0.2
+    },
+    "msfx_wipe_1500ms_a": {
+      "type": "file",
+      "path": "files/msfx_wipe_1500ms_a.wav",
+      "sha256": "a8d0770c723e3d1d8d8c01389d8317f863a5965fcb9bc051ed6091cebc7767c0",
+      "dur_s": 1.5
+    },
+    "msfx_wipe_1500ms_b": {
+      "type": "file",
+      "path": "files/msfx_wipe_1500ms_b.wav",
+      "sha256": "61240f3e4a44e8f4392e1b96d23d5ecc56f59a5a0f9e4e1902a5e5ba179ebc3d",
+      "dur_s": 1.5
+    },
+    "msfx_wipe_1500ms_c": {
+      "type": "file",
+      "path": "files/msfx_wipe_1500ms_c.wav",
+      "sha256": "b5ba08ee0508662cca1ef5946e3c73fe6e84fb0a1a7715dfa954d2fd0593f540",
+      "dur_s": 1.5
+    },
+    "msfx_wipe_1500ms_d": {
+      "type": "file",
+      "path": "files/msfx_wipe_1500ms_d.wav",
+      "sha256": "b333cc0c0a4a34bd82f9fb686780eac37ba8d5ec2102e7e0db60db544f905d9e",
+      "dur_s": 1.5
+    }
   }
 }

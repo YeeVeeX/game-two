@@ -97,6 +97,7 @@ module App
       require "gta/fixtures"
       data_dir = DATA_DIR # game-two's own tables (owner originals only)
       engine_cfg = JSON.parse(File.read(File.join(data_dir, "engine.json")))
+      variants = load_variants(data_dir)
       GTA::Fixtures.ensure!(File.join(data_dir, "fixtures.json"), FIXTURE_DIR,
                             sample_rate: engine_cfg.fetch("sample_rate"))
       engine = GTA::Native.gta_engine_create(device, engine_cfg.fetch("channels"),
@@ -107,9 +108,19 @@ module App
       audio = GTA::AudioSystem.new(engine:, data_dir:, fixture_dir: FIXTURE_DIR)
       out.puts "AUDIO on: device=#{device} sha=#{actual[0, 12]} lib=#{lib_root}"
       Bridge.new(engine:, audio:, tick_frames: engine_cfg.fetch("tick_frames"),
-                 smoke:, out:)
+                 smoke:, out:, variants:)
     rescue StandardError => e
       null(out, "AUDIO refused: #{e.class}: #{e.message}")
+    end
+
+    # Variant rotation table (v1.1) — game-side custody, OPTIONAL file. The
+    # bridge translates each listed sim event into one synthetic cue event
+    # per fire; the library sees only ordinary cue rows keyed on the
+    # synthetic names. Absent/empty file = no rotation (v1 behavior).
+    def load_variants(data_dir)
+      path = File.join(data_dir, "variants.json")
+      return {} unless File.exist?(path)
+      JSON.parse(File.read(path)).fetch("events", {})
     end
 
     def null(out, line)
@@ -127,16 +138,43 @@ module App
       def shutdown = nil
     end
 
+    # Deterministic take rotation for multi-render cue families (v1.1).
+    # "Random" to the ear, mechanical to the machine: an LCG stepped once
+    # per fire, seeded from the take-name list, with the no-immediate-repeat
+    # rule (next pick always differs from the last when n > 1). Both replay-
+    # and netplay-stable: seats derive picks from the same lockstep event
+    # stream, no sim state is read, nothing flows back (pure-sink law).
+    class VariantRotor
+      def initialize(names)
+        @names = names
+        @state = names.join.each_byte.reduce(5381) { |a, b| ((a * 33) ^ b) & 0x7fffffff }
+        @last = nil
+      end
+
+      def next!
+        return @names.first if @names.length == 1
+        @state = (@state * 1_103_515_245 + 12_345) & 0x7fffffff
+        idx = if @last.nil?
+                @state % @names.length
+              else
+                (@last + 1 + (@state % (@names.length - 1))) % @names.length
+              end
+        @last = idx
+        @names[idx]
+      end
+    end
+
     class Bridge
       # Diagnostics-only reader (tests + drift probe); the sim never sees it.
       attr_reader :audio
 
-      def initialize(engine:, audio:, tick_frames:, smoke:, out:)
+      def initialize(engine:, audio:, tick_frames:, smoke:, out:, variants: {})
         @engine = engine
         @audio = audio
         @tf = tick_frames
         @smoke = smoke
         @out = out
+        @variants = variants
         @anchor_tick = nil
         @anchor_pcm = nil
         @drift = [] # [tick, engine_pcm] pairs, anchor cadence only
@@ -158,6 +196,13 @@ module App
         (@audio.config.music["state_events"] || {}).each do |event, state|
           payload = { state: }.freeze
           bus.subscribe(event.to_sym) { |_ev| @audio.handle_event(world.frame, "music_set_state", payload) }
+        end
+        # Take rotation (v1.1): listed events ALSO fire one synthetic cue
+        # event per hit (the raw forward above maps to nothing by design —
+        # only the synthetic names carry cue rows).
+        @variants.each do |event, names|
+          rotor = VariantRotor.new(names)
+          bus.subscribe(event.to_sym) { |ev| @audio.handle_event(world.frame, rotor.next!, ev.payload) }
         end
         nil
       end

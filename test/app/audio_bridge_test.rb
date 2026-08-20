@@ -4,6 +4,8 @@ require "app/audio_bridge"
 require "app/autopilot"
 require "game/world"
 require "net/state_digest"
+require "digest"
+require "json"
 require "stringio"
 require "fileutils"
 require "tmpdir"
@@ -91,6 +93,63 @@ class AudioBridgeTest < Minitest::Test
     world.bus.emit(:challenger_engaged, actor: nil)
     world.bus.process
     assert bridge.audio.music_pending?, "challenger_engaged must request combat"
+    bridge.shutdown
+  end
+
+  # -- v1.1 take rotation (pure paths — run everywhere) ---------------------
+
+  def test_rotor_is_deterministic_and_never_repeats_adjacent
+    names = %w[a b c d]
+    seq1 = App::AudioBridge::VariantRotor.new(names).then { |r| Array.new(200) { r.next! } }
+    seq2 = App::AudioBridge::VariantRotor.new(names).then { |r| Array.new(200) { r.next! } }
+    assert_equal seq1, seq2, "same list must yield the same sequence (replay/netplay stability)"
+    seq1.each_cons(2) { |a, b| refute_equal a, b, "immediate repeat breaks the anti-repetition ask" }
+    assert_equal names.sort, seq1.uniq.sort, "every take must get airtime"
+  end
+
+  def test_rotor_single_take_is_identity
+    rotor = App::AudioBridge::VariantRotor.new(["only"])
+    assert_equal %w[only only only], Array.new(3) { rotor.next! }
+  end
+
+  def test_variants_table_is_fully_backed_by_cues_and_fixtures
+    audio_dir = File.expand_path("../../data/audio", __dir__)
+    variants = JSON.parse(File.read(File.join(audio_dir, "variants.json"))).fetch("events")
+    cues = JSON.parse(File.read(File.join(audio_dir, "cues.json"))).fetch("cues")
+    tones = JSON.parse(File.read(File.join(audio_dir, "fixtures.json"))).fetch("tones")
+    events_carried = cues.values.map { |c| c.fetch("event") }
+    variants.each do |event, synths|
+      assert_operator synths.length, :>=, 2, "#{event}: rotation needs >= 2 takes"
+      synths.each do |synth|
+        assert_includes events_carried, synth, "#{synth} has no cue row"
+      end
+      refute_includes events_carried, event,
+                      "#{event}: raw event must NOT carry a cue (double-fire would layer takes)"
+    end
+    cues.each_value do |cue|
+      file = cue.fetch("file")
+      assert tones.key?(file), "cue file #{file} missing from fixtures"
+      path = File.join(audio_dir, tones[file].fetch("path"))
+      assert File.exist?(path), "fixture file missing on disk: #{path}"
+      assert_equal tones[file].fetch("sha256"), Digest::SHA256.file(path).hexdigest,
+                   "sha mismatch: #{file}"
+    end
+  end
+
+  # Real bus + real library: attack_hit fires exactly one rotated take cue
+  # (raw event maps to nothing; the synthetic name starts the voice).
+  def test_variant_rotation_fires_real_cues_through_the_bus
+    skip "game-two-audio library not present — bridge device tests untestable here" unless lib_present?
+    world = Game::World.new(data, seed: 7)
+    bridge, = boot
+    bridge.attach(bus: world.bus, world: world)
+    3.times do |i|
+      world.bus.emit(:attack_hit, actor: nil)
+      world.bus.process
+      bridge.update(world.frame + i)
+    end
+    assert_operator bridge.audio.active_voices, :>=, 1,
+                    "rotated synthetic cues must reach the sink and start voices"
     bridge.shutdown
   end
 

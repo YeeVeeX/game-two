@@ -1,15 +1,35 @@
 {
-  "_comment": "M5a v1 cue table — the owner-approved six-event mapping (verbatim approval 2026-08-18: 'approved, proceed now'), OWNER ORIGINALS ONLY. Buses/pool/duck envelopes mirror the library's gate-proven values (sfx -10 dB headroom law, duck hold >= tick_frames). v1 gains carry +12.04 dB (linear 4.0; drop_confirm keeps its -4.4 dB offset at 2.4) — owner listen verdict 2026-08-18 (his renders sat ~12 dB low vs the tone-era levels); interim until the assets LUFS lane normalizes, then gains re-center toward 1.0. All v1 cues non-spatial, center pan; payload fields deliberately unread (v1 contract — spatial variants are a later iteration). fight_resolved has NO cue by design: music-state change only (see music.json state_events).",
+  "_comment": "M5a v1 cue table \u00e2\u20ac\u201d the owner-approved six-event mapping (verbatim approval 2026-08-18: 'approved, proceed now'), OWNER ORIGINALS ONLY. Buses/pool/duck envelopes mirror the library's gate-proven values (sfx -10 dB headroom law, duck hold >= tick_frames). v1 gains carry +12.04 dB (linear 4.0; drop_confirm keeps its -4.4 dB offset at 2.4) \u00e2\u20ac\u201d owner listen verdict 2026-08-18 (his renders sat ~12 dB low vs the tone-era levels); interim until the assets LUFS lane normalizes, then gains re-center toward 1.0. All v1 cues non-spatial, center pan; payload fields deliberately unread (v1 contract \u00e2\u20ac\u201d spatial variants are a later iteration). fight_resolved has NO cue by design: music-state change only (see music.json state_events). V1.1 (2026-08-19): seven attack/effect events per drafts/_audio-cue-spec-attacks-20260819.md; multi-take families (hit x4, dodge x8, wipe x4, throw x4) enter as one cue per take keyed on synthetic events (attack_hit__a ...) \u2014 the game-side bridge picks deterministically (no-immediate-repeat rotation, replay/netplay-stable); singles keep their real event. wipe ducks music -12 dB like the stingers.",
   "buses": {
-    "master": { "children": ["music", "sfx", "ui"] },
-    "music": { "volume_db": -6.0 },
-    "sfx": { "volume_db": -10.0 },
-    "ui": { "volume_db": -6.0 }
+    "master": {
+      "children": [
+        "music",
+        "sfx",
+        "ui"
+      ]
+    },
+    "music": {
+      "volume_db": -6.0
+    },
+    "sfx": {
+      "volume_db": -10.0
+    },
+    "ui": {
+      "volume_db": -6.0
+    }
   },
   "voice_pool": {
     "max_voices": 64,
-    "per_category_caps": { "sfx": 48, "ui": 8, "music": 8 },
-    "steal_order": ["lowest_priority", "furthest", "oldest"]
+    "per_category_caps": {
+      "sfx": 48,
+      "ui": 8,
+      "music": 8
+    },
+    "steal_order": [
+      "lowest_priority",
+      "furthest",
+      "oldest"
+    ]
   },
   "cues": {
     "challenger_stinger": {
@@ -68,6 +88,241 @@
       "bus": "ui",
       "priority": 40,
       "gain": 2.4,
+      "pan": 0.0,
+      "spatial": false
+    },
+    "msfx_hit_200ms_a": {
+      "event": "attack_hit__a",
+      "file": "msfx_hit_200ms_a",
+      "bus": "sfx",
+      "priority": 30,
+      "gain": 4.0,
+      "pan": 0.0,
+      "spatial": false
+    },
+    "msfx_hit_200ms_b": {
+      "event": "attack_hit__b",
+      "file": "msfx_hit_200ms_b",
+      "bus": "sfx",
+      "priority": 30,
+      "gain": 4.0,
+      "pan": 0.0,
+      "spatial": false
+    },
+    "msfx_hit_200ms_c": {
+      "event": "attack_hit__c",
+      "file": "msfx_hit_200ms_c",
+      "bus": "sfx",
+      "priority": 30,
+      "gain": 4.0,
+      "pan": 0.0,
+      "spatial": false
+    },
+    "msfx_hit_200ms_d": {
+      "event": "attack_hit__d",
+      "file": "msfx_hit_200ms_d",
+      "bus": "sfx",
+      "priority": 30,
+      "gain": 4.0,
+      "pan": 0.0,
+      "spatial": false
+    },
+    "msfx_special_600ms": {
+      "event": "special_started",
+      "file": "msfx_special_600ms",
+      "bus": "sfx",
+      "priority": 60,
+      "gain": 4.0,
+      "pan": 0.0,
+      "spatial": false
+    },
+    "msfx_dodge_150ms_a": {
+      "event": "dodged__a",
+      "file": "msfx_dodge_150ms_a",
+      "bus": "sfx",
+      "priority": 25,
+      "gain": 4.0,
+      "pan": 0.0,
+      "spatial": false
+    },
+    "msfx_dodge_150ms_b": {
+      "event": "dodged__b",
+      "file": "msfx_dodge_150ms_b",
+      "bus": "sfx",
+      "priority": 25,
+      "gain": 4.0,
+      "pan": 0.0,
+      "spatial": false
+    },
+    "msfx_dodge_150ms_c": {
+      "event": "dodged__c",
+      "file": "msfx_dodge_150ms_c",
+      "bus": "sfx",
+      "priority": 25,
+      "gain": 4.0,
+      "pan": 0.0,
+      "spatial": false
+    },
+    "msfx_dodge_150ms_d": {
+      "event": "dodged__d",
+      "file": "msfx_dodge_150ms_d",
+      "bus": "sfx",
+      "priority": 25,
+      "gain": 4.0,
+      "pan": 0.0,
+      "spatial": false
+    },
+    "msfx_dodge_150ms_e": {
+      "event": "dodged__e",
+      "file": "msfx_dodge_150ms_e",
+      "bus": "sfx",
+      "priority": 25,
+      "gain": 4.0,
+      "pan": 0.0,
+      "spatial": false
+    },
+    "msfx_dodge_150ms_f": {
+      "event": "dodged__f",
+      "file": "msfx_dodge_150ms_f",
+      "bus": "sfx",
+      "priority": 25,
+      "gain": 4.0,
+      "pan": 0.0,
+      "spatial": false
+    },
+    "msfx_dodge_150ms_g": {
+      "event": "dodged__g",
+      "file": "msfx_dodge_150ms_g",
+      "bus": "sfx",
+      "priority": 25,
+      "gain": 4.0,
+      "pan": 0.0,
+      "spatial": false
+    },
+    "msfx_dodge_150ms_h": {
+      "event": "dodged__h",
+      "file": "msfx_dodge_150ms_h",
+      "bus": "sfx",
+      "priority": 25,
+      "gain": 4.0,
+      "pan": 0.0,
+      "spatial": false
+    },
+    "msfx_death_400ms": {
+      "event": "actor_died",
+      "file": "msfx_death_400ms",
+      "bus": "sfx",
+      "priority": 55,
+      "gain": 4.0,
+      "pan": 0.0,
+      "spatial": false
+    },
+    "msfx_wipe_1500ms_a": {
+      "event": "pack_wiped__a",
+      "file": "msfx_wipe_1500ms_a",
+      "bus": "sfx",
+      "priority": 95,
+      "gain": 4.0,
+      "pan": 0.0,
+      "spatial": false,
+      "duck": {
+        "bus": "music",
+        "duck_db": -12.0,
+        "attack_frames": 2400,
+        "hold_frames": 24000,
+        "release_frames": 9600
+      }
+    },
+    "msfx_wipe_1500ms_b": {
+      "event": "pack_wiped__b",
+      "file": "msfx_wipe_1500ms_b",
+      "bus": "sfx",
+      "priority": 95,
+      "gain": 4.0,
+      "pan": 0.0,
+      "spatial": false,
+      "duck": {
+        "bus": "music",
+        "duck_db": -12.0,
+        "attack_frames": 2400,
+        "hold_frames": 24000,
+        "release_frames": 9600
+      }
+    },
+    "msfx_wipe_1500ms_c": {
+      "event": "pack_wiped__c",
+      "file": "msfx_wipe_1500ms_c",
+      "bus": "sfx",
+      "priority": 95,
+      "gain": 4.0,
+      "pan": 0.0,
+      "spatial": false,
+      "duck": {
+        "bus": "music",
+        "duck_db": -12.0,
+        "attack_frames": 2400,
+        "hold_frames": 24000,
+        "release_frames": 9600
+      }
+    },
+    "msfx_wipe_1500ms_d": {
+      "event": "pack_wiped__d",
+      "file": "msfx_wipe_1500ms_d",
+      "bus": "sfx",
+      "priority": 95,
+      "gain": 4.0,
+      "pan": 0.0,
+      "spatial": false,
+      "duck": {
+        "bus": "music",
+        "duck_db": -12.0,
+        "attack_frames": 2400,
+        "hold_frames": 24000,
+        "release_frames": 9600
+      }
+    },
+    "msfx_heal_300ms": {
+      "event": "provision_used",
+      "file": "msfx_heal_300ms",
+      "bus": "ui",
+      "priority": 50,
+      "gain": 4.0,
+      "pan": 0.0,
+      "spatial": false
+    },
+    "msfx_throw_200ms_a": {
+      "event": "projectile_fired__a",
+      "file": "msfx_throw_200ms_a",
+      "bus": "sfx",
+      "priority": 20,
+      "gain": 4.0,
+      "pan": 0.0,
+      "spatial": false
+    },
+    "msfx_throw_200ms_b": {
+      "event": "projectile_fired__b",
+      "file": "msfx_throw_200ms_b",
+      "bus": "sfx",
+      "priority": 20,
+      "gain": 4.0,
+      "pan": 0.0,
+      "spatial": false
+    },
+    "msfx_throw_200ms_c": {
+      "event": "projectile_fired__c",
+      "file": "msfx_throw_200ms_c",
+      "bus": "sfx",
+      "priority": 20,
+      "gain": 4.0,
+      "pan": 0.0,
+      "spatial": false
+    },
+    "msfx_throw_200ms_d": {
+      "event": "projectile_fired__d",
+      "file": "msfx_throw_200ms_d",
+      "bus": "sfx",
+      "priority": 20,
+      "gain": 4.0,
       "pan": 0.0,
       "spatial": false
     }
