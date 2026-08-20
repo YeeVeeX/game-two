@@ -12,10 +12,12 @@ class ProtocolTest < Minitest::Test
 
   # --- codec ---------------------------------------------------------------
 
-  def test_protocol_version_is_two
-    # v18 decision 8: ONE bump for the cycle — 11-bit mask (:sustain) +
-    # SESSION save transfer. A THIRD version inside v18 is a spec breach.
-    assert_equal 2, Net::Protocol::VERSION
+  def test_protocol_version_is_three
+    # v18 decision 8 pinned ONE bump for that cycle (v2, 11-bit mask).
+    # v3 (2026-08-20, post-v18-close owner order): 12-bit mask — :aim
+    # appends at bit 11. Append-only law holds; the handshake refuses
+    # mixed builds by version field, NAMED.
+    assert_equal 3, Net::Protocol::VERSION
   end
 
   def test_every_message_type_round_trips
@@ -121,16 +123,17 @@ class ProtocolTest < Minitest::Test
   # --- action mask + SampledInput (sampling law) -----------------------------
 
   def test_bit_order_is_pinned
-    # v2: :sustain APPENDS at bit 10 (decision 8) — the existing ten bits
-    # never move. A regression here is a protocol version bump, never a
-    # silent edit.
-    assert_equal %i[left right up down attack dodge special mark interact swap sustain],
+    # v2: :sustain APPENDS at bit 10 (decision 8); v3: :aim APPENDS at
+    # bit 11 (2026-08-20) — the existing bits never move. A regression
+    # here is a protocol version bump, never a silent edit.
+    assert_equal %i[left right up down attack dodge special mark interact swap sustain aim],
                  Net::Protocol::ACTIONS
     assert_equal (1 << 0) | (1 << 4) | (1 << 9),
                  Net::Protocol.mask(Held.new(%i[left attack swap]))
     assert_equal 1 << 10, Net::Protocol.mask(Held.new([:sustain]))
+    assert_equal 1 << 11, Net::Protocol.mask(Held.new([:aim]))
     assert_equal 0, Net::Protocol.mask(Held.new([]))
-    assert_equal 2047, Net::Protocol.mask(Held.new(Net::Protocol::ACTIONS))
+    assert_equal 4095, Net::Protocol.mask(Held.new(Net::Protocol::ACTIONS))
   end
 
   def test_sampled_input_mirrors_the_sampled_source_and_stays_frozen

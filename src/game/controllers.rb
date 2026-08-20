@@ -9,7 +9,7 @@ module Game
   # what the hand expects; masking it made every Tab a micro-stall (M2.1
   # fix 3).
   class PossessedController
-    ACTIONS = %i[left right up down attack dodge special mark interact sustain].freeze
+    ACTIONS = %i[left right up down attack dodge special mark interact sustain aim].freeze
     EDGE_TRIGGERED = %i[attack dodge special mark interact sustain].freeze
 
     def initialize
@@ -50,9 +50,13 @@ module Game
 
       dir = held_direction(input)
       creature.face(dir)
+      # Stationary aim (owner order 2026-08-20): held :aim turns direction
+      # keys into pure facing — face(dir) above already pointed the body;
+      # the step branch is simply skipped. Dodge stays LIVE under aim (the
+      # panic button never waits on a modifier).
       if dodge_pressed
         creature.dodge(dir, blocked: @blocked || [])
-      elsif dir != [0, 0]
+      elsif dir != [0, 0] && !down?(input, :aim)
         creature.step(dir[0], dir[1], blocked: @blocked || [])
       end
       # Interact resolves before attack/special: a same-frame pickup or bank

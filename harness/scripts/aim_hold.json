@@ -1,0 +1,17 @@
+{
+  "scenario": "world",
+  "seed": 7,
+  "width": 960,
+  "height": 540,
+  "out_dir": "captures/aim_hold",
+  "captures": [70, 130, 210, 235, 290],
+  "run_until": 320,
+  "hold": {
+    "right": [[5, 60], [80, 140]],
+    "up": [[160, 220]],
+    "aim": [[80, 260]],
+    "attack": [[230, 232]],
+    "down": [[270, 310]]
+  },
+  "manifest": {}
+}

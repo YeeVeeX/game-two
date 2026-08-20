@@ -293,8 +293,10 @@ scope for this repo. (Historical pipeline: see git history of this file.)
 
 ## Controls
 
-WASD / arrows = move · J / Space = attack · K / Shift = dodge · L / E = special ·
-; / Q = mark · H / F = interact · Tab = swap possession · Esc = quit
+WASD / arrows = move · Ctrl (hold) + direction = stationary aim (face without
+stepping; dodge stays live) · J / Space = attack · K / Shift = dodge · L / E = special ·
+; / Q = mark · U / R = provision (buy at bank / use afield) · H / F = interact ·
+Tab = swap possession · Esc = quit
 
 Timebase: `Window#update` = exactly one sim tick (tick-locked; replays deterministic by tick
 count). Under load the game slows rather than skips — the top-right overrun counter makes

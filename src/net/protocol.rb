@@ -17,14 +17,17 @@ module Net
     class Fault < StandardError; end
     class Oversize < Fault; end
 
-    VERSION = 2
+    VERSION = 3
 
     # Bit i of an input mask = ACTIONS[i] held. PINNED — changing this
     # order is a protocol version bump, never a silent edit. v2 (v18
     # decision 8): :sustain APPENDS at bit 10 — the BIT rides now, the
     # verb lands in the sustain increment; an unbound action reads false
-    # on every input source, so the bit stays 0 until then.
-    ACTIONS = %i[left right up down attack dodge special mark interact swap sustain].freeze
+    # on every input source, so the bit stays 0 until then. v3
+    # (2026-08-20 owner order, stationary aim): :aim APPENDS at bit 11 —
+    # same append-only law; the handshake's version field refuses mixed
+    # builds with a NAMED line, so both seats pull before coop.
+    ACTIONS = %i[left right up down attack dodge special mark interact swap sustain aim].freeze
 
     MAX_LINE_BYTES = 4096
 
