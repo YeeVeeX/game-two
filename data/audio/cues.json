@@ -172,42 +172,6 @@
       "pan": 0.0,
       "spatial": false
     },
-    "msfx_dodge_150ms_e": {
-      "event": "dodged__e",
-      "file": "msfx_dodge_150ms_e",
-      "bus": "sfx",
-      "priority": 25,
-      "gain": 2.5,
-      "pan": 0.0,
-      "spatial": false
-    },
-    "msfx_dodge_150ms_f": {
-      "event": "dodged__f",
-      "file": "msfx_dodge_150ms_f",
-      "bus": "sfx",
-      "priority": 25,
-      "gain": 2.5,
-      "pan": 0.0,
-      "spatial": false
-    },
-    "msfx_dodge_150ms_g": {
-      "event": "dodged__g",
-      "file": "msfx_dodge_150ms_g",
-      "bus": "sfx",
-      "priority": 25,
-      "gain": 2.5,
-      "pan": 0.0,
-      "spatial": false
-    },
-    "msfx_dodge_150ms_h": {
-      "event": "dodged__h",
-      "file": "msfx_dodge_150ms_h",
-      "bus": "sfx",
-      "priority": 25,
-      "gain": 2.5,
-      "pan": 0.0,
-      "spatial": false
-    },
     "msfx_death_400ms": {
       "event": "actor_died",
       "file": "msfx_death_400ms",

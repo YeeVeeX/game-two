@@ -52,48 +52,24 @@
     "msfx_dodge_150ms_a": {
       "type": "file",
       "path": "files/msfx_dodge_150ms_a.wav",
-      "sha256": "15698d3da218a885aa3c436a6cf386c0904049907a79fd5355fdbfc641298404",
+      "sha256": "1f4cd2a9108e7458d9bc5c0d38e03d917f27bd65a32f81cec1b9bc0dfde53232",
       "dur_s": 0.15
     },
     "msfx_dodge_150ms_b": {
       "type": "file",
       "path": "files/msfx_dodge_150ms_b.wav",
-      "sha256": "611cb697486a40229633acd3fd3c777ad0534215dc3d76dddfc23905361f0eb7",
+      "sha256": "2dab5b3d5bbc4161d63ce6260467f58bf2580b2ee08db1736601d34f15b71a93",
       "dur_s": 0.15
     },
     "msfx_dodge_150ms_c": {
       "type": "file",
       "path": "files/msfx_dodge_150ms_c.wav",
-      "sha256": "2ee077b4f8d514052c7cc4a48fef287795dcd7a5b2a1fe7f4be03c9ae17e5926",
+      "sha256": "84ed18dc06621e94fb055582474db8ca33c3c5cf4804d2db1807d776423aeae5",
       "dur_s": 0.15
     },
     "msfx_dodge_150ms_d": {
       "type": "file",
       "path": "files/msfx_dodge_150ms_d.wav",
-      "sha256": "58ad25212fa9a199e43166b75a65855771f5f8eb193e9faa996bfb2ee1f29e0a",
-      "dur_s": 0.15
-    },
-    "msfx_dodge_150ms_e": {
-      "type": "file",
-      "path": "files/msfx_dodge_150ms_e.wav",
-      "sha256": "1f4cd2a9108e7458d9bc5c0d38e03d917f27bd65a32f81cec1b9bc0dfde53232",
-      "dur_s": 0.15
-    },
-    "msfx_dodge_150ms_f": {
-      "type": "file",
-      "path": "files/msfx_dodge_150ms_f.wav",
-      "sha256": "2dab5b3d5bbc4161d63ce6260467f58bf2580b2ee08db1736601d34f15b71a93",
-      "dur_s": 0.15
-    },
-    "msfx_dodge_150ms_g": {
-      "type": "file",
-      "path": "files/msfx_dodge_150ms_g.wav",
-      "sha256": "84ed18dc06621e94fb055582474db8ca33c3c5cf4804d2db1807d776423aeae5",
-      "dur_s": 0.15
-    },
-    "msfx_dodge_150ms_h": {
-      "type": "file",
-      "path": "files/msfx_dodge_150ms_h.wav",
       "sha256": "e04b50094464e75e5655ae39b5397622dd417a8807fec87f3d84e8d45f050420",
       "dur_s": 0.15
     },
