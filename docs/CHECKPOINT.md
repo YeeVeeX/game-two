@@ -1,5 +1,120 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-20 session 21 (hub, docs-only) — **ADJUDICATION: THE SEVENTEENTH IS CUMPLIDO — v18 CLOSES** · Half A 5/5 from bytes · Half B 8/8 read with both caveats · routing walked 9/9 (4 triggered) · post-verdict queue RECORDED · v19 NOT opened
+
+**Verdict of record: `drafts/_v18-fun-verify-verdict-20260820.md`**
+(v17 format precedent). Session was docs-only by law: no code, no data,
+no sim numbers, no gates — the verdict is what UNLOCKS the frozen
+numbers, it never touched them. Council 0, Bedrock $0, no fan-outs.
+
+**Job 0 (compressed standing gate, quarantine INTACT):** logs 34/34
+both temp patterns, newest `game_two_session_9048.log` (23:10:17) ·
+save md5 `edfebf4accf0abf3aa86bb1170c62714` mtime 23:10 · strict decode
+(pinned call shape) `digest=b5cae357290c01e464f49155bc7f9d13`
+sessions=10 banked=7 provisions=0 breached=2 (district, district_two)
+boss_1_defeats=1 notices=[] members hp 0/0/60 · `HEAD == origin/main ==
+4b2147a`, 0 new Junior commits · mail done/=11 inbox EMPTY · tmp/soak
+newest `20260819-120805` · gate-verdicts tail unchanged (T2 PASS) ·
+untracked `drafts/_refs/` = the s18/s19 reference images (pre-existing).
+Nothing moved since session 20 → no new chain links, anchor still
+`b5cae357…`. Owner did not open the audio lane (asks 5–9 stay pending,
+never nagged).
+
+**HALF A — CUMPLIDA, 5/5 PASS, every line quoted from the banked log
+FILES (md5s re-verified):** A1 chain host-side `9048:2 loaded
+digest=3a518bcc…` == `8503:17 saved digest=3a518bcc…` **and no log of
+any kind sits between 8503 (22:28:02) and 9048 (23:10:17)** — "latest
+prior" proven mechanically, not assumed · A2 joiner `source=handshake`
+== host BOTH sessions (`66784a92…` s1, `3a518bcc…` s2) · A3 desyncs=0 +
+reason=quit on 4/4, ticks 74469/74470 and 36079/36079 (s2 cleared the
+bar by 79 ticks — NAMED, not softened), `grep -c AUTOPILOT` = 0 in all
+four · A4 carried facts NAMED `banked=5` + `seals=2` (both > 0; also
+sessions=9, boss_1_defeats=1) — **the seals are the same object the
+owner named felt-side ("no tener que abrir todos los peajes de
+nuevo")** · A5 two distinct hosting consoles (215950 s1 / 225124 s2),
+sessions 8→9→10. Full chain walk (12 logs, every `loaded` == a previous
+`saved`; fork #2a/#2b + crash + idle all pre-named) in the verdict.
+
+**HALF B — CUMPLIDA, 8/8 verbatim.** Both caveats attached BEFORE the
+reading (same-day spacing ~23 min → the result is SAME-NIGHT
+continuity, the across-days form stays unmeasured; symmetric audio
+novelty read from both seats' own `AUDIO on … sha=15f03e0219d6` lines,
+both sessions). HELD material admitted only after both sets (sustain
+0/0/0 · 0/0/0 · 0/0/1 · 0/0/1; Junior's provisions + items/difficulty
+notes; the owner's 7 mid-session observations, E/ctrl note, fragments;
+lag forensics as context). **Reading:** the v18 thesis landed twice
+independently (Junior "o mundo continuou"; owner "se sintió bien no
+tener que abrir todos los peajes de nuevo") · both free verdicts
+positive with the SAME correction (balance/variety) · the real friction
+is the session OPENING (banked=5 vs `regrow_cost: 12` per dead body,
+all-or-nothing vat) · provisions do not exist for the players yet
+(bought=0 4/4, "cuales provisiones?") · respawn: P2 "no lo noté" vs
+mid-session "the enemies spawn too fast" — contradiction recorded, and
+tick-lock physics means stalls could only make spawns feel SLOWER, so
+the report is not a lag artifact · AI third body named again by Junior
+· lag is blocker-class but a v17-lane THROUGHPUT defect (desyncs=0),
+not a v18 persistence defect.
+
+**ROUTING — 9/9 rows walked, 0 invented, 0 softened. TRIGGERED (4):**
+row 3 respawn friction → **R-A1** coop.json/pocket-cadence retune +
+data-only re-session (corpus brief §2 first, one scalar per session) ·
+row 4 sustain unused → **R-A2** discoverability FIRST (strip/HUD
+exposure, Rule 2 + wall owed, locale trio), price debate second; the
+owner's provisions question is BURNED for re-asking (explanation
+delivered post-8/8) so the next measure is BEHAVIOR telemetry;
+sub-item: log the refusal REASON · row 6 AI suicides → **R-A3** v18.1
+embodiment/AI debate (must not be bundled with R-A1) · row 9
+under-resourced open + friction → **R-A4** mercy-floor debate (the
+owner asked for it himself: "hay que analizarlo y definirlo bien"; his
+own hedge = maybe context-gated). **NOT TRIGGERED (5):** row 1
+chain/desync (the only row that could have blocked the close) · row 2
+"no continuó" · row 5 price valve (banked_end 20→20→20→20→12→5→7, not
+monotone, real spend) · row 7 custody handoff · row 8 quit-timing
+griefs (closest misses named).
+
+**Docs closed this session:** skeleton telemetry slots FILLED verbatim +
+Half A/B PENDING→resolved + gaps 1–8 CLOSED + adjudication pointer ·
+AGENTS.md current-cycle block carries the ONE adjudication line (stale
+Lane-1 / owner-pending text retired; intake count 2→7) · the verdict doc
+is the narrative home (scope contract).
+
+**NEXT-BRAINSTORM INPUTS (the humans', at their word — v19 is NOT open):**
+1. **Lag instrumentation** — owner-named blocker, FIRST in the queue
+   (`drafts/_netplay-lag-forensics-20260819.md` §Investigation shape:
+   per-tick ms histogram + stall-cause tags behind an env flag + live
+   `tailscale status` sampler; soak bots legal, tech lane).
+2. **R-A2 sustain discoverability** → then the price debate.
+3. **R-A1 respawn/coop pacing retune** (sim numbers now UNFROZEN).
+4. **R-A4 mercy-floor-at-open debate** · 5. **R-A3 third-body AI debate**.
+6. **Audio:** asks 5–9 (−4 dB percussive · dodge take curation ·
+   zone-change render + ping repurpose to item-pickup · 32-bar evolving
+   ambient · ranged-shot cue; MAQUETAS framing recorded) + the audio-lib
+   **clock-anchor intake review** (`08676dc`).
+7. **Flywheel findings R1–R7** (boss-banner camera seam · windup landing
+   preview · palette/taxonomy asset-era · toast placement ·
+   knockback/pursuit sim-class) + the **E-skill telegraph** candidate.
+8. **World-builder T3/T4 lane order vs the lag item** (owner call).
+9. **v19 intake pool: 7 ideas** (`drafts/_junior-v19-ideas-20260819.md`)
+   + Junior's items/equipment reading of the difficulty gap.
+10. **Corpus brief** (`docs/design-corpus/gamesmith/addenda/corpus-to-v18-evidence-brief-20260819.md`)
+    — cited inside the R-A1/R-A2/R-A4 shapes; FLAGGED numbers never land
+    in `data/` without re-verification.
+
+**Owner queue (es-CR, entregada en el chat):** veredicto listo — la
+DECIMOSÉPTIMA se cumplió y v18 CIERRA (las dos sesiones pasaron los
+cuatro chequeos con los bytes en mano, y los dos dijeron por separado
+que el mundo siguió) · lo que abre: los números congelados
+(respawn/dificultad/provisiones) ya se pueden mover, y quedan anotados
+9 items para el brainstorm — el lag va PRIMERO porque usted lo marcó
+bloqueante · de su lado no queda nada pendiente del ritual: solo, cuando
+quieran, el brainstorm de v19 (ustedes dos deciden el orden) y sus asks
+de audio 5–9 cuando tenga calma.
+
+**RESUME POINT:** the v19 brainstorm at the owners' word (dev proposes,
+they decide the order) — or, if they name it first, the lag
+instrumentation pass (item 1). Nothing else is owed.
+
+
 ## 2026-08-19/20 session 20 (hub, owner LIVE all night) — THE SEVENTEENTH RUNS: both ritual sessions + ANSWERS 8/8 banked · T2 importer+schema v2 SHIPPED all gates green · ninth EMPTY gate pre-ritual · adjudication = next fresh session
 
 **Job 0: EMPTY (ninth, 21:10–21:16)** — re-check block in the skeleton

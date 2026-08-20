@@ -54,16 +54,15 @@ changes are still Rule-2 visual changes (wall + recalibration apply).
 
 **v18 state:** all three lanes SHIPPED (coop feel · persistence v1 ·
 god-view v0; foundation `drafts/_v18-foundation-20260817.md`; forks F1–F7
-closed 2026-08-17). What remains is the SEVENTEENTH ask — the fun-verify.
+closed 2026-08-17).
 
-**Lane 1 — the SEVENTEENTH (owner-paced):** two real coop sessions
-(same-day pair allowed — owner amendment; both seats ≥36000 ticks, Esc
-quit) + eight answers asked separately, then adjudication on the spec's
-CLOSED terms (§Fun-verify: four Half-A checks + routing table). Vehicle:
-`drafts/_v18-seventeenth-harvest-spark-r9-20260819.md` (r9, supersedes
-r8). Working file: `drafts/_v18-fun-verify-skeleton-20260818.md` (anchor,
-chain links, caveats, EMPTY re-checks). Junior pulls CURRENT main before
-joining (same-commit handshake law).
+**ADJUDICATED 2026-08-20 — the SEVENTEENTH is CUMPLIDO, v18 CLOSES**
+(Half A 5/5 from banked bytes · Half B 8/8, both seats independently
+reported the world continued · routing rows 3/4/6/9 TRIGGERED as
+RECORDED items, rows 1/2/5/7/8 not · caveats named: same-day spacing +
+symmetric audio novelty · lag = owner-named blocker, FIRST in the
+post-verdict queue): `drafts/_v18-fun-verify-verdict-20260820.md`. v19
+opens at the owners' brainstorm, not here.
 
 **Lane 2 — quality flywheel (owner-directed 2026-08-19; contract:
 `drafts/_quality-flywheel-plan-20260819.md`):** soak zone-coverage (all
@@ -92,9 +91,9 @@ grill answers close. New content merges into the LIVE world only per
 the recorded merge-timing decision (open grill question — default:
 post-verdict).
 
-**Owner-pending (never nag):** ambient ear-check (his next solo listen —
-also chain link #5) · his 7 attack renders (Reaper) · the ritual when
-Junior is available.
+**Owner-pending (never nag):** audio asks 5–9 (his "mañana con más
+calma" list — M5a verdict §Ear-check 2 + ask 9) · the v19 brainstorm at
+the owners' word.
 
 **Audio (M5a, SHIPPED 2026-08-18):** pure sink (never sim/saves/netplay),
 OPTIONAL at boot (absent/refused = one named line, game runs silent),
@@ -118,7 +117,7 @@ assets integration (gated on game-two-assets pipeline maturity);
 rollback/resync; open-internet play (Tailscale = trusted overlay
 only); BOSS-1-dread iteration (OPEN-FOR-EXPOSURE — zero code owed);
 all lore/creative writing (standing order above); in-game rebind UI.
-v19 intake (2 ideas banked): `drafts/_junior-v19-ideas-20260819.md` —
+v19 intake (7 ideas banked): `drafts/_junior-v19-ideas-20260819.md` —
 v19 opens at the post-verdict brainstorm, not before.
 
 ## Human-facing surfaces
