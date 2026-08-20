@@ -51,7 +51,7 @@ module Net
     end
 
     attr_reader :tick, :delay, :stall_updates, :stall_run, :stall_run_max,
-                :stall_ms_max, :desyncs, :boundaries_compared, :desync
+                :stall_ms_max, :stall_worst_run, :desyncs, :boundaries_compared, :desync
 
     def initialize(local_seat:, delay:, digest_every:, stall_warn_ms:, abort_stall_ms:, rtt_ticks: 0)
       raise ArgumentError, "local_seat must be 1 or 2" unless [1, 2].include?(local_seat)
@@ -75,6 +75,7 @@ module Net
       @stall_run = 0
       @stall_run_max = 0
       @stall_ms_max = 0
+      @stall_worst_run = 0
       @stall_started_ms = nil
       @local_windows = {}  # boundary tick => retained Window (awaiting peer md5)
       @peer_md5s = {}      # boundary tick => md5 (awaiting our boundary)
@@ -147,13 +148,22 @@ module Net
     # monotonic clock; the run's elapsed time is measured from the FIRST
     # stalled update after the last advance. Returns the verdict — acting
     # on warn (overlay) or abort (conn_lost) is the caller's job.
+    # stall_worst_run pairs COHERENTLY with stall_ms_max: it is the update
+    # count of the run that set stall_ms_max (the last record of the worst
+    # run wins, since elapsed grows within a run) — ms-per-stalled-update
+    # during the worst freeze separates waiting-while-healthy (≈16.7)
+    # from frozen-locally (≫16.7). stall_run_max alone may come from a
+    # DIFFERENT run and the ratio would lie (lag P0 spec, 2026-08-20).
     def record_stall(now_ms)
       @stall_started_ms ||= now_ms
       @stall_updates += 1
       @stall_run += 1
       @stall_run_max = @stall_run if @stall_run > @stall_run_max
       elapsed = now_ms - @stall_started_ms
-      @stall_ms_max = elapsed if elapsed > @stall_ms_max
+      if elapsed > @stall_ms_max
+        @stall_ms_max = elapsed
+        @stall_worst_run = @stall_run
+      end
       Stall.new(elapsed_ms: elapsed, warn: elapsed >= @stall_warn_ms,
                 abort: elapsed >= @abort_stall_ms)
     end

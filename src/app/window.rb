@@ -113,6 +113,10 @@ module App
         @audio&.attach(bus: @world.bus, world: @world)
         @world.start_in(@start_zone) if @start_zone
         @session.attach(@world)
+        # Lag P0 (2026-08-20): bank the handshake-frozen numbers (d /
+        # link_slow / host probe RTTs) at world birth — the close line
+        # only prints on a clean end; this one survives a dirty death.
+        puts @session.handshake_line
       end
       @session.update(now, @input)
       close if @session.ended? && @quitting

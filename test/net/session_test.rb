@@ -171,9 +171,53 @@ class SessionTest < Minitest::Test
     pump_until(h, j, start_ms: t, what: "both ended") { h.ended? && j.ended? }
     assert_equal :quit, h.reason
     assert_equal :quit, j.reason, "receiver records quit too (no initiator distinction)"
-    assert_match(/\ATELEMETRY netplay seat=1 ticks=\d+ desyncs=0 stalls=\d+ stall_ms_max=\d+ reason=quit\z/,
-                 h.telemetry_line)
+    assert_match(
+      /\ATELEMETRY netplay seat=1 ticks=\d+ desyncs=0 stalls=\d+ stall_ms_max=\d+ reason=quit d=\d+ link_slow=(?:true|false) run_ms=\d+ stall_run_max=\d+ stall_worst_run=\d+\z/,
+      h.telemetry_line
+    )
     assert_match(/seat=2/, j.telemetry_line)
+  end
+
+  # --- lag P0 (2026-08-20): run_ms + the handshake line -------------------------
+
+  def test_run_ms_spans_run_phase_start_to_conclude_excluding_drain
+    h = host_session
+    j = join_session(h.port)
+    run_started = handshake(h, j)
+    t = pump_until(h, j, cap: 30, start_ms: run_started, what: "some executed ticks") do
+      h.ticks > 10 && j.ticks > 10
+    end
+    quit_at = t
+    h.quit!(quit_at)
+    pump_until(h, j, start_ms: t, what: "both ended") { h.ended? && j.ended? }
+    h_run = h.telemetry_line[/run_ms=(\d+)/, 1].to_i
+    assert_operator h_run, :>, 0, "run phase spanned real fake-clock time"
+    assert_operator h_run, :<=, quit_at - run_started + 10,
+                    "drain time (#{CFG[:drain_timeout_ms]}ms deadline) must NOT count into run_ms"
+  end
+
+  def test_run_ms_is_zero_when_the_session_never_ran
+    h = host_session
+    h.update(0)
+    h.quit!(10)
+    assert h.ended?
+    assert_match(/run_ms=0 /, h.telemetry_line, "hosting-screen quit never ran")
+  end
+
+  def test_handshake_line_carries_d_and_host_side_rtt_probes
+    h = host_session
+    j = join_session(h.port)
+    handshake(h, j)
+    assert_match(/\ANETPLAY handshake seat=1 d=4 link_slow=false rtt_ms=\d+(?:,\d+){4}\z/,
+                 h.handshake_line,
+                 "host banks its #{CFG[:probe_count]} probe RTTs (10ms pump rounds)")
+    assert_equal "NETPLAY handshake seat=2 d=4 link_slow=false rtt_ms=-",
+                 j.handshake_line, "probe RTTs are host-side only; nothing new crosses the wire"
+  end
+
+  def test_handshake_line_before_params_raises
+    h = host_session
+    assert_raises(RuntimeError) { h.handshake_line }
   end
 
   def test_quit_while_hosting_alone_ends_immediately_without_a_drain

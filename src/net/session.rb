@@ -123,6 +123,8 @@ module Net
       @ready_received = false
       @link_slow = false
       @stall_warning_ms = nil
+      @run_started_ms = nil
+      @run_ended_ms = nil
       @digest_log = []
       @null_input = Core::NullInput.new
       yield self
@@ -164,7 +166,32 @@ module Net
         "desyncs=#{@lockstep ? @lockstep.desyncs : 0} " \
         "stalls=#{@lockstep ? @lockstep.stall_updates : 0} " \
         "stall_ms_max=#{@lockstep ? @lockstep.stall_ms_max.round : 0} " \
-        "reason=#{@reason}"
+        "reason=#{@reason} " \
+        "d=#{@params ? @params.d : 0} link_slow=#{@link_slow} " \
+        "run_ms=#{run_ms} " \
+        "stall_run_max=#{@lockstep ? @lockstep.stall_run_max : 0} " \
+        "stall_worst_run=#{@lockstep ? @lockstep.stall_worst_run : 0}"
+    end
+
+    # Lag P0 (2026-08-20): wall span of the RUN phase (:run entered -> the
+    # reason concluded), drain excluded — per-seat update rate is
+    # (ticks + stalls) / run_ms with no audio-oracle mining. 0 until the
+    # session actually ran.
+    def run_ms
+      return 0 unless @run_started_ms && @run_ended_ms
+      (@run_ended_ms - @run_started_ms).round
+    end
+
+    # Lag P0 (2026-08-20): the handshake-frozen numbers, banked at world
+    # birth so even a session that dies dirty leaves them in the log. The
+    # probe RTTs exist HOST-side only (@rtts); the joiner prints "-" — the
+    # wire vocabulary is pinned and nothing new crosses it. The caller
+    # prints (Session never writes to stdout).
+    def handshake_line
+      raise "handshake_line before SESSION params are known" unless params_known?
+      rtts = host? && !@rtts.empty? ? @rtts.map(&:round).join(",") : "-"
+      "NETPLAY handshake seat=#{@seat} d=#{@params.d} " \
+        "link_slow=#{@params.link_slow} rtt_ms=#{rtts}"
     end
 
     # The handshake told us seed/d/digest_every; the caller builds the
@@ -280,6 +307,9 @@ module Net
     def set_phase(phase)
       @phase = phase
       @phase_started = @now
+      # Lag P0: the run window opens here; @now is the caller's clock (the
+      # transition always happens inside update/quit!, where @now is set).
+      @run_started_ms = @now if phase == :run && @run_started_ms.nil?
     end
 
     # Handshake phases must move or die honestly: a CONNECTED peer stuck
@@ -499,6 +529,9 @@ module Net
     # --- termination machine (decision 8) ----------------------------------------
 
     def conclude(reason)
+      # Lag P0: the run window closes at the FIRST conclusion while running
+      # (quit/desync/fault/conn_lost) — drain never counts into run_ms.
+      @run_ended_ms ||= @now if @phase == :run
       return if @reason && PRECEDENCE.fetch(@reason) >= PRECEDENCE.fetch(reason)
       @reason = reason
     end

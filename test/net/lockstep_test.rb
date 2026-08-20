@@ -161,6 +161,32 @@ class LockstepTest < Minitest::Test
     assert_equal CFG[:abort_stall_ms], ls.stall_ms_max
   end
 
+  def test_stall_worst_run_pairs_coherently_with_stall_ms_max
+    ls = lockstep(delay: 2)
+    2.times { step(ls) }
+    refute ls.ready?
+    assert_equal 0, ls.stall_worst_run, "virgin counter"
+
+    # run 1: 3 updates over 40 ms (healthy loop briefly waiting)
+    ls.record_stall(1000)
+    ls.record_stall(1020)
+    ls.record_stall(1040)
+    assert_equal 3, ls.stall_worst_run
+
+    ls.receive_remote(2, 0)
+    step(ls)
+
+    # run 2: 2 updates spanning 3000 ms (frozen-loop shape: few updates,
+    # huge elapsed) — the pair must move TOGETHER to stall_ms_max's run
+    # (lag P0 spike discriminator: ms-per-stalled-update during the worst
+    # freeze; stall_run_max alone would pair 3 with 3000 and lie).
+    ls.record_stall(5000)
+    ls.record_stall(8000)
+    assert_equal 3000, ls.stall_ms_max
+    assert_equal 2, ls.stall_worst_run, "pair coherent with stall_ms_max"
+    assert_equal 3, ls.stall_run_max, "run_max is a DIFFERENT run — that is the point"
+  end
+
   # --- boundary retention (decision 8) ---------------------------------------
 
   def test_retention_bound_formula_and_local_overflow_faults
