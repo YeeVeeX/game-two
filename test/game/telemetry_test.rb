@@ -52,7 +52,8 @@ class TelemetryTest < Minitest::Test
                    "TELEMETRY varekka engaged=0 chants=0 interrupted=0 " \
                    "seized=0 swap_escapes=0 slain=0 deaths_while_seized=0 " \
                    "burns=0 ends{expired=0 slain=0 died=0 zone_left=0 wiped=0}"
-    expected_sustain = "TELEMETRY sustain bought=0 used=0 refused=0"
+    expected_sustain = "TELEMETRY sustain bought=0 used=0 refused=0 " \
+                       "reasons{at_cap=0 broke=0 none=0 no_effect=0 seat_race=0}"
     assert_equal "#{expected_d1}\n#{expected_a2}\n#{expected_d1b}\n" \
                  "#{expected_q6}\n#{expected_density}\n" \
                  "#{expected_arc}\n#{expected_margins}\n" \

@@ -219,5 +219,23 @@ class SustainTest < Minitest::Test
     drive(w, 2)
     drive(w, 2, inputs: hold(:sustain)) # refused=1 (:no_effect)
     assert_match(/TELEMETRY sustain bought=2 used=1 refused=1/, t.summary)
+    assert_match(/reasons\{at_cap=0 broke=0 none=0 no_effect=1 seat_race=0\}/,
+                 t.summary, "the refusal REASON rides the line (verdict row 4 sub-item)")
+  end
+
+  # Reason split through the REAL verb paths: a broke buy at the bank and a
+  # stockless use in the field are DIFFERENT confusions — the line must
+  # discriminate them (the SEVENTEENTH's two refused=1 were unreadable).
+  def test_telemetry_sustain_reasons_discriminate_broke_from_none
+    w = world
+    t = Game::Telemetry.new(w.bus, world: w)
+    w.possessed.walker.teleport(*BANK)
+    drive(w, 2, inputs: hold(:sustain)) # banked=0 at bank -> :broke
+    drive(w, 2)
+    w.possessed.walker.teleport(5, 5)
+    drive(w, 2, inputs: hold(:sustain)) # provisions=0 off bank -> :none
+    assert_match(/TELEMETRY sustain bought=0 used=0 refused=2 /, t.summary)
+    assert_match(/reasons\{at_cap=0 broke=1 none=1 no_effect=0 seat_race=0\}/,
+                 t.summary)
   end
 end

@@ -15,6 +15,12 @@ module Game
     D1B_EVENTS = %i[inscribed mark_consumed body_dissolved body_regrown
                     tribute_paid vessel_kept].freeze
 
+    # R-A2 (verdict row 4 sub-item): the five refusal symbols world.rb#sustain
+    # emits (at_cap/broke buy · none/no_effect use · seat_race latch), in a
+    # FIXED order — the line is deterministic and zero-buckets always print
+    # (the ends{...} precedent).
+    SUSTAIN_REASONS = %i[at_cap broke none no_effect seat_race].freeze
+
     def initialize(bus, world: nil)
       @world = world
       @counts = Hash.new(0)
@@ -278,10 +284,16 @@ module Game
       # Guarded: pre-v18 test buses lack the events; the line still prints
       # zeros (subscriber-alive law).
       @sustain = Hash.new(0)
+      @sustain_reasons = SUSTAIN_REASONS.to_h { |r| [r, 0] }
       if bus.registered?(:provision_bought)
         bus.subscribe(:provision_bought) { @sustain[:bought] += 1 }
         bus.subscribe(:provision_used) { @sustain[:used] += 1 }
-        bus.subscribe(:provision_refused) { @sustain[:refused] += 1 }
+        # An unknown reason still counts in refused= but never invents a
+        # bucket — the line shape stays pinned.
+        bus.subscribe(:provision_refused) do |e|
+          @sustain[:refused] += 1
+          @sustain_reasons[e[:reason]] += 1 if @sustain_reasons.key?(e[:reason])
+        end
       end
     end
 
@@ -304,10 +316,13 @@ module Game
         "#{sustain_summary}"
     end
 
-    # Format pinned by the v18 spec: sustain bought/used/refused.
+    # Format pinned by the v18 spec (bought/used/refused), extended ADD-ONLY
+    # 2026-08-20 (R-A2 verdict row 4 sub-item): reasons{...} rides BEHIND the
+    # pinned prefix, so every existing `refused=N` consumer still matches.
     def sustain_summary
+      reasons = SUSTAIN_REASONS.map { |r| "#{r}=#{@sustain_reasons[r]}" }.join(" ")
       "TELEMETRY sustain bought=#{@sustain[:bought]} used=#{@sustain[:used]} " \
-        "refused=#{@sustain[:refused]}"
+        "refused=#{@sustain[:refused]} reasons{#{reasons}}"
     end
 
     # v15: quay + varekka in one line pair — the thirteenth's arbiters.
