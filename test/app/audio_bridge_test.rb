@@ -136,6 +136,37 @@ class AudioBridgeTest < Minitest::Test
     end
   end
 
+  def test_music_rotation_config_is_backed_by_music_states_and_fixtures
+    audio_dir = File.expand_path("../../data/audio", __dir__)
+    rotation = JSON.parse(File.read(File.join(audio_dir, "variants.json"))).fetch("music_rotation")
+    music = JSON.parse(File.read(File.join(audio_dir, "music.json")))
+    tones = JSON.parse(File.read(File.join(audio_dir, "fixtures.json"))).fetch("tones")
+    assert_operator rotation.fetch("period_ticks"), :>, 0
+    assert_operator rotation.fetch("states").length, :>=, 2
+    rotation.fetch("states").each do |state|
+      stem_id = music.fetch("states").fetch(state) { flunk "rotation state #{state} missing from music.json" }.fetch("stem")
+      stem = music.fetch("stems").fetch(stem_id) { flunk "stem #{stem_id} missing" }
+      assert tones.key?(stem.fetch("file")), "stem file #{stem.fetch('file')} missing from fixtures"
+      assert stem.fetch("loop"), "calm-family stems must loop"
+    end
+  end
+
+  # Real library: at the rotation period boundary, a calm-family bridge
+  # requests the next variant (music request pending in the sink).
+  def test_calm_rotation_requests_variant_at_period
+    skip "game-two-audio library not present — bridge device tests untestable here" unless lib_present?
+    world = Game::World.new(data, seed: 11)
+    bridge, = boot
+    bridge.attach(bus: world.bus, world: world)   # @music_state = initial "calm"
+    period = JSON.parse(File.read(File.expand_path("../../data/audio/variants.json", __dir__)))
+             .fetch("music_rotation").fetch("period_ticks")
+    bridge.update(period - 1)
+    refute bridge.audio.music_pending?, "no rotation off-period"
+    bridge.update(period)
+    assert bridge.audio.music_pending?, "period boundary must request a calm variant"
+    bridge.shutdown
+  end
+
   # Real bus + real library: attack_hit fires exactly one rotated take cue
   # (raw event maps to nothing; the synthetic name starts the voice).
   def test_variant_rotation_fires_real_cues_through_the_bus

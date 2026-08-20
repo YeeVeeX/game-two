@@ -113,14 +113,13 @@ module App
       null(out, "AUDIO refused: #{e.class}: #{e.message}")
     end
 
-    # Variant rotation table (v1.1) — game-side custody, OPTIONAL file. The
-    # bridge translates each listed sim event into one synthetic cue event
-    # per fire; the library sees only ordinary cue rows keyed on the
-    # synthetic names. Absent/empty file = no rotation (v1 behavior).
+    # Variant tables (v1.1/v2) — game-side custody, OPTIONAL file. events:
+    # per-fire cue-take rotation. music_rotation: calm-family stem rotation
+    # on a tick cadence. The library never reads this file.
     def load_variants(data_dir)
       path = File.join(data_dir, "variants.json")
       return {} unless File.exist?(path)
-      JSON.parse(File.read(path)).fetch("events", {})
+      JSON.parse(File.read(path))
     end
 
     def null(out, line)
@@ -162,6 +161,13 @@ module App
         @last = idx
         @names[idx]
       end
+
+      # Anchor the no-immediate-repeat rule to an externally-known current
+      # value (ambient v2: the initial music state) — nil index is a no-op.
+      def prime(index)
+        @last = index if index
+        self
+      end
     end
 
     class Bridge
@@ -174,7 +180,12 @@ module App
         @tf = tick_frames
         @smoke = smoke
         @out = out
-        @variants = variants
+        @variants = variants.fetch("events", {})
+        rotation = variants["music_rotation"]
+        @rot_period = rotation&.fetch("period_ticks", nil)
+        @rot_states = rotation&.fetch("states", nil)
+        @rot_rotor = @rot_states && VariantRotor.new(@rot_states)
+        @music_state = nil # last state REQUESTED through this bridge (family gate)
         @anchor_tick = nil
         @anchor_pcm = nil
         @drift = [] # [tick, engine_pcm] pairs, anchor cadence only
@@ -195,8 +206,13 @@ module App
         end
         (@audio.config.music["state_events"] || {}).each do |event, state|
           payload = { state: }.freeze
-          bus.subscribe(event.to_sym) { |_ev| @audio.handle_event(world.frame, "music_set_state", payload) }
+          bus.subscribe(event.to_sym) do |_ev|
+            @music_state = state
+            @audio.handle_event(world.frame, "music_set_state", payload)
+          end
         end
+        @music_state = @audio.config.music["initial_state"]
+        @rot_rotor&.prime(@rot_states.index(@music_state))
         # Take rotation (v1.1): listed events ALSO fire one synthetic cue
         # event per hit (the raw forward above maps to nothing by design —
         # only the synthetic names carry cue rows).
@@ -219,6 +235,7 @@ module App
         if @smoke && (cue = SMOKE_SCRIPT[tick])
           @audio.handle_event(tick, cue[0], cue[1])
         end
+        rotate_music(tick)
         drift_sample(tick) if (tick % DRIFT_SAMPLE_TICKS).zero?
         @audio.update(tick)
         nil
@@ -238,6 +255,24 @@ module App
       end
 
       private
+
+      # Ambient v2: while the last-requested music state sits in the calm
+      # family, request the rotor's next variant every period (tick cadence
+      # — deterministic, replay/netplay-stable; the library's bar-quantized
+      # crossfade makes the seam musical). Combat entry pauses rotation
+      # naturally: state_events moves @music_state out of the family; the
+      # data-driven return lands on "calm" and rotation resumes. A pick
+      # equal to the current state is fired anyway (same-state request is a
+      # sink-side no-op) — simplicity over cleverness.
+      def rotate_music(tick)
+        return unless @rot_rotor && @rot_period
+        return unless tick.positive? && (tick % @rot_period).zero?
+        return unless @rot_states.include?(@music_state)
+        state = @rot_rotor.next!
+        @music_state = state
+        @audio.handle_event(tick, "music_set_state", { state: }.freeze)
+        nil
+      end
 
       # Contract §3 open item: engine clock vs tick clock, sampled at
       # anchor points on the CONTROL thread only (never per-command).

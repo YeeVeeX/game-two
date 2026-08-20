@@ -180,6 +180,24 @@
       "path": "files/msfx_wipe_1500ms_d.wav",
       "sha256": "b333cc0c0a4a34bd82f9fb686780eac37ba8d5ec2102e7e0db60db544f905d9e",
       "dur_s": 1.5
+    },
+    "msfx_drone_b_8s": {
+      "type": "file",
+      "path": "files/msfx_drone_b_8s.wav",
+      "sha256": "ac8aebb049ec36e963d365cc62e1b2e9b2c011aebc08631f3418e7cf6ce58da8",
+      "dur_s": 8.0
+    },
+    "msfx_drone_c_8s": {
+      "type": "file",
+      "path": "files/msfx_drone_c_8s.wav",
+      "sha256": "02758df315f6c35198e3c60653863e9603b7c8e1ac902faf9785a31b4fd30286",
+      "dur_s": 8.0
+    },
+    "msfx_drone_d_8s": {
+      "type": "file",
+      "path": "files/msfx_drone_d_8s.wav",
+      "sha256": "a000d6b392370fc214fe609bfe63de8f8aadad80810e1254604dc9bfde8e6a49",
+      "dur_s": 8.0
     }
   }
 }
