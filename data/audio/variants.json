@@ -1,5 +1,5 @@
 {
-  "_comment": "Game-side variant rotation table (v1.1, 2026-08-19) \u2014 the audio bridge translates each listed sim event into one synthetic cue event per fire (deterministic no-immediate-repeat rotation; replay- and netplay-stable because both derive from the same event stream). The library sees only ordinary cue rows keyed on the synthetic names; this file is bridge custody, never loaded by AudioData. music_rotation (ambient v2): every period_ticks while the last-requested music state is in states[], the bridge requests the rotor's next pick (deterministic, no-immediate-repeat); combat entry pauses rotation naturally (last state leaves the family).",
+  "_comment": "Game-side variant rotation table (v1.1, 2026-08-19) \u2014 the audio bridge translates each listed sim event into one synthetic cue event per fire (deterministic no-immediate-repeat rotation; replay- and netplay-stable because both derive from the same event stream). The library sees only ordinary cue rows keyed on the synthetic names; this file is bridge custody, never loaded by AudioData. music_rotation (ambient v2, DORMANT 2026-08-20 — ask 8's evolving 64 s loop replaced the family rotation; re-add the block to reactivate): every period_ticks while the last-requested music state is in states[], the bridge requests the rotor's next pick (deterministic, no-immediate-repeat); combat entry pauses rotation naturally (last state leaves the family).",
   "events": {
     "attack_hit": [
       "attack_hit__a",
@@ -24,15 +24,6 @@
       "projectile_fired__b",
       "projectile_fired__c",
       "projectile_fired__d"
-    ]
-  },
-  "music_rotation": {
-    "period_ticks": 1920,
-    "states": [
-      "calm",
-      "calm_b",
-      "calm_c",
-      "calm_d"
     ]
   }
 }

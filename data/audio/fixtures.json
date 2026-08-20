@@ -19,6 +19,12 @@
       "sha256": "0bf47f96b50392980a0912cdd9ed632012bda8d8bb45115a315fbb426ec4153e",
       "dur_s": 4.0
     },
+    "msfx_calm_evolving_64s": {
+      "type": "file",
+      "path": "files/msfx_calm_evolving_64s.wav",
+      "sha256": "6fe9a1a805cb0cb644d5c8f4d88a7270377a87a353b46c1d002e2543d60380e4",
+      "dur_s": 64.0
+    },
     "msfx_stinger_2s": {
       "type": "file",
       "path": "files/msfx_stinger_2s.wav",

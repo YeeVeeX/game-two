@@ -138,9 +138,24 @@ class AudioBridgeTest < Minitest::Test
 
   def test_music_rotation_config_is_backed_by_music_states_and_fixtures
     audio_dir = File.expand_path("../../data/audio", __dir__)
-    rotation = JSON.parse(File.read(File.join(audio_dir, "variants.json"))).fetch("music_rotation")
     music = JSON.parse(File.read(File.join(audio_dir, "music.json")))
     tones = JSON.parse(File.read(File.join(audio_dir, "fixtures.json"))).fetch("tones")
+    # Every music stem is fixture-backed — rotation live or dormant (ask 8
+    # widened this to the superset: the rotation walk below only covers
+    # states the rotor can reach).
+    music.fetch("stems").each do |stem_id, stem|
+      next if stem["file"].nil?
+      assert tones.key?(stem.fetch("file")), "stem #{stem_id} file #{stem.fetch('file')} missing from fixtures"
+    end
+    rotation = JSON.parse(File.read(File.join(audio_dir, "variants.json")))["music_rotation"]
+    if rotation.nil?
+      # DORMANT (ask 8, 2026-08-20): the evolving 64 s loop carries calm;
+      # the absent block is the recorded config, not a gap.
+      assert_equal "msfx_calm_evolving_64s",
+                   music.fetch("stems").fetch("stem_calm").fetch("file"),
+                   "rotation dormant is only legal while calm carries the evolving loop"
+      return
+    end
     assert_operator rotation.fetch("period_ticks"), :>, 0
     assert_operator rotation.fetch("states").length, :>=, 2
     rotation.fetch("states").each do |state|
@@ -151,19 +166,26 @@ class AudioBridgeTest < Minitest::Test
     end
   end
 
-  # Real library: at the rotation period boundary, a calm-family bridge
-  # requests the next variant (music request pending in the sink).
+  # Real library: rotation LIVE → the period boundary requests the next
+  # variant; rotation DORMANT (block absent) → no tick may interrupt the
+  # evolving loop — both branches are behavior, never a skip.
   def test_calm_rotation_requests_variant_at_period
     skip "game-two-audio library not present — bridge device tests untestable here" unless lib_present?
     world = Game::World.new(data, seed: 11)
     bridge, = boot
     bridge.attach(bus: world.bus, world: world)   # @music_state = initial "calm"
-    period = JSON.parse(File.read(File.expand_path("../../data/audio/variants.json", __dir__)))
-             .fetch("music_rotation").fetch("period_ticks")
-    bridge.update(period - 1)
-    refute bridge.audio.music_pending?, "no rotation off-period"
-    bridge.update(period)
-    assert bridge.audio.music_pending?, "period boundary must request a calm variant"
+    rotation = JSON.parse(File.read(File.expand_path("../../data/audio/variants.json", __dir__)))["music_rotation"]
+    if rotation.nil?
+      [1919, 1920, 3840].each { |t| bridge.update(t) }
+      refute bridge.audio.music_pending?,
+             "rotation dormant: no tick may request a calm variant (the evolving loop plays uninterrupted)"
+    else
+      period = rotation.fetch("period_ticks")
+      bridge.update(period - 1)
+      refute bridge.audio.music_pending?, "no rotation off-period"
+      bridge.update(period)
+      assert bridge.audio.music_pending?, "period boundary must request a calm variant"
+    end
     bridge.shutdown
   end
 
