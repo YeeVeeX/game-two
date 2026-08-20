@@ -377,6 +377,32 @@ Skeleton stays PARTIAL/STANDBY; session 1 still RE-RUNS owner-paced;
 adjudication stays EMPTY. **Per the T1 spark: the LDtk spike
 (world-builder T1) is the session.**
 
+**Re-check 2026-08-19 21:10–21:16 (session 20, T2 spark — compressed
+r9 Job 0 gate): EMPTY — ninth empty gate, expected (ritual
+owner-paced).** Launcher logs 31/31 in both temp-dir patterns, newest
+still `game_two_session_7461.log` 2026-08-19 20:44 = chain link #6's
+ear-check-2 launch, CONSUMED (banked s19). Save quarantine holds at
+the link-#6 values: `saves/world.json` md5
+`8e94dcb8237b729eaa17222ae234d44d` mtime 2026-08-19 20:44; play-path
+strict decode (pinned call shape) LOADED
+`digest=66784a92f268776eeb917efb655449c6` sessions=8 banked=12
+provisions=0 breached=2 boss_1_defeats=1 notices=[] — the moving
+anchor sits exactly where link #6 left it. Junior side: `main` ==
+`origin/main` (`21690b0` s19 T2-spark staging), `origin/junior/ci`
+still `057fb03`, 0 commits past main; **his seat must pull CURRENT
+main before rejoining** (same-commit handshake law — audio v1.1 +
+ambient v2 moved tree content). **Answers 0/8.** Seat mail inbox
+EMPTY (done/ = 7, no new arrivals — the expected banking acks
+haven't landed yet). Residue classified: `_gate-verdicts.log` tail =
+the flywheel1 wall PASS entries (consumed s19); tmp/soak newest
+report still `20260819-120805` (consumed s16); no new soak consoles;
+untracked `drafts/_refs/` = the s18/s19 banked reference images
+(untracked by design). Owner NOT present at session start → the
+optional audio-morning lane (asks 5–8) did not open; it stays on his
+tomorrow list. Skeleton stays PARTIAL/STANDBY; session 1 still
+RE-RUNS owner-paced; adjudication stays EMPTY. **Per the T2 spark:
+the production importer + zone schema v2 is the session.**
+
 ## Pre-session evidence banked (verbatim, with provenance)
 
 ### World-save chain anchor (dev-smoke provenance — NOT ritual evidence)
