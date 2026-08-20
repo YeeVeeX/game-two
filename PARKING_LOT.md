@@ -841,3 +841,13 @@ sequencing law.
   (NPC cycle), quest net (quest cycle; the well-drain unlock re-skins from
   toll to questline then), session-ledger board (results surface), map table
   (= the PARKED in-game map view; promotion candidate named, not promoted).
+- **Projectile-visual sync to the throw audio, syncopated pairs** (owner idea
+  2026-08-20, ask-9 ear-verdict: "me gustó mucho el estilo... la animación del
+  proyectil se viera sincronizado a como suena en grupos de 2 de manera
+  asincopada, puede ser un efecto muy interesante"). Two forks, classified at
+  intake: (a) presentation-only — projectile RENDER pulses phrased against the
+  cue's rhythm, sim timing untouched (renderer + Rule 2 wall debt); (b) firing
+  CADENCE in syncopated 2-groups — sim-class balance change (attack rhythm =
+  combat pacing), v19-class per the flywheel law. Audio-visual rhythm sync is
+  the interesting axis (Vlambeer: impact reads strongest when eye and ear
+  agree). Owner names the fork at the v19 brainstorm; nothing moves before.
