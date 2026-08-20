@@ -41,11 +41,17 @@ GAME_FRAME_PROBE=1 bin/play pt-br        # jogue normal uns 4 min, lute um pouco
 Depois cole no chat: a linha `TELEMETRY frame_probe ...` + as linhas
 `AUDIO drift ...` (as últimas 5 bastam) do log em `/tmp/game_two_session_*.log`.
 
-## S0-J2 — Junior machine facts (one PowerShell line)
+## S0-J2 — Junior machine facts — **EXECUTED 2026-08-20 by his seat** (do not re-run)
 
-```powershell
-Get-CimInstance Win32_VideoController | Select-Object Name, CurrentRefreshRate, CurrentHorizontalResolution; powercfg /getactivescheme
-```
+Banked: `drafts/_junior-lag-s0j2-machine-facts-20260820.md` — display
+**59 Hz** (1366×768), Intel HD Graphics 3000 (2011, driver 9.17.10.4459),
+i3-2310M 2c/4t, 5.9 GB RAM. Reading: 53.5 Hz ≈ 91% of a 59 Hz vsync
+ceiling — hardware/draw-path shape, not config. CONFOUND declared by his
+seat: Tailscale port/firewall/power tweaks made AFTER the ritual
+baseline (revert: `net-tune-revert.ps1` on his machine). Expected S0-J
+shape on his display: period p50 ≈ 16.9 ms (59 Hz) with a ~33.9 ms
+vsync-miss mode; the draw{} block names whether the 2011 iGPU is the
+eater.
 
 ## S1 — coop baseline, flag ON both seats (~4 min)
 
