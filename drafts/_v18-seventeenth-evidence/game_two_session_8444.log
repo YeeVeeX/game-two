@@ -1,0 +1,6 @@
+AUDIO on: device=1 sha=15f03e0219d6 lib=C:/Users/gabri/workspace/game-two-audio
+TELEMETRY persist loaded digest=66784a92f268776eeb917efb655449c6 schema=1 banked=12 provisions=0 seals=2 marks=0 sessions=8 source=file
+hosting on port 43117 (Esc cancels)
+TELEMETRY netplay seat=1 ticks=0 desyncs=0 stalls=0 stall_ms_max=0 reason=quit
+relaunch: bin/play --host 43117
+AUDIO teardown clean (dropped_cues=0)

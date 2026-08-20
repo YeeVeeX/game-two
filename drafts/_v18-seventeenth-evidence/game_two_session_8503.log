@@ -1,0 +1,152 @@
+AUDIO on: device=1 sha=15f03e0219d6 lib=C:/Users/gabri/workspace/game-two-audio
+TELEMETRY persist loaded digest=66784a92f268776eeb917efb655449c6 schema=1 banked=12 provisions=0 seals=2 marks=0 sessions=8 source=file
+hosting on port 43117 (Esc cancels)
+TELEMETRY d1_fired carrying_deaths=15 wipes=9 corpse_looted=11 carried_lost=1 banked_events=12 fights=48 recovery_fights=8 negative_fights=9
+TELEMETRY a2_fired wipes=9 body_deaths=28 retargets{hate=64 lowhp=88 proximity=24 acquired=362 challenged=84} leashes=252 deepest_band=2 banked=12
+TELEMETRY d1b_fired inscriptions=9 marks_consumed=9 dissolved=13 regrown=14 tributes=9 floor_fired=5 banked_spent{inscribe=72 tribute=190} banked_end=5
+TELEMETRY q6_cadence banks{n=12 mean=21 max=46} kills_by_band{b0=25 b1=55 b2=42}
+TELEMETRY density pockets{mean=3.7 max=17} arrivals{pocket=88 seed=28 home=0} singles_pct=30
+TELEMETRY arc breach{fired=0 first_frame=0 banked_after=0} rehomed=0 camp_visits=29 d2{entered=1 kills=109} seal2_breached=0
+TELEMETRY q6_margins banks{n=12 pure=0} amount{mean=21 max=46} hp{mean=0.18} dead{mean=1.6} wounded{mean=1.4} gap{mean_s=91}
+TELEMETRY v13 whirl{casts=2 hits{1=0 2=0 3=0 4=0 5plus=0} kills=0} challenge{casts=30 retargets=84}
+TELEMETRY drift thirds{k1=51 k2=30 k3=41} pockets{p1=4.9 p2=7.3 p3=6.4} span_thirds{k1=52 k2=29 k3=41 span=72587}
+TELEMETRY v14 telegraphs_shown=93 first_special{striker=3473 blocker=858 lobber=5943}
+TELEMETRY quay entries=0 frames=0 kills=0 deaths=0 banked_after{events=0 amount=0}
+TELEMETRY varekka engaged=0 chants=0 interrupted=0 seized=0 swap_escapes=0 slain=0 deaths_while_seized=0 burns=0 ends{expired=0 slain=0 died=0 zone_left=0 wiped=0}
+TELEMETRY sustain bought=0 used=0 refused=0
+TELEMETRY persist saved digest=3a518bccf2b324f9fb1211ed2f7529f0 schema=1 banked=5 provisions=0 seals=2 marks=0 sessions=9
+TELEMETRY netplay seat=1 ticks=74469 desyncs=0 stalls=9807 stall_ms_max=1113 reason=quit
+relaunch: bin/play --host 43117
+AUDIO drift anchor tick=0 engine_pcm=14321280 tick_frames=800
+AUDIO drift tick=0 engine_pcm=14321280 expected=14321280 drift_frames=0
+AUDIO drift tick=0 engine_pcm=14321760 expected=14321280 drift_frames=480
+AUDIO drift tick=0 engine_pcm=14322720 expected=14321280 drift_frames=1440
+AUDIO drift tick=0 engine_pcm=14323200 expected=14321280 drift_frames=1920
+AUDIO drift tick=0 engine_pcm=14324160 expected=14321280 drift_frames=2880
+AUDIO drift tick=0 engine_pcm=14325120 expected=14321280 drift_frames=3840
+AUDIO drift tick=0 engine_pcm=14325600 expected=14321280 drift_frames=4320
+AUDIO drift tick=0 engine_pcm=14326560 expected=14321280 drift_frames=5280
+AUDIO drift tick=0 engine_pcm=14327040 expected=14321280 drift_frames=5760
+AUDIO drift tick=0 engine_pcm=14328000 expected=14321280 drift_frames=6720
+AUDIO drift tick=0 engine_pcm=14328960 expected=14321280 drift_frames=7680
+AUDIO drift tick=0 engine_pcm=14329440 expected=14321280 drift_frames=8160
+AUDIO drift tick=0 engine_pcm=14330400 expected=14321280 drift_frames=9120
+AUDIO drift tick=0 engine_pcm=14331360 expected=14321280 drift_frames=10080
+AUDIO drift tick=0 engine_pcm=14331840 expected=14321280 drift_frames=10560
+AUDIO drift tick=0 engine_pcm=14332800 expected=14321280 drift_frames=11520
+AUDIO drift tick=0 engine_pcm=14333760 expected=14321280 drift_frames=12480
+AUDIO drift tick=0 engine_pcm=14334240 expected=14321280 drift_frames=12960
+AUDIO drift tick=0 engine_pcm=14335200 expected=14321280 drift_frames=13920
+AUDIO drift tick=0 engine_pcm=14335680 expected=14321280 drift_frames=14400
+AUDIO drift tick=0 engine_pcm=14336640 expected=14321280 drift_frames=15360
+AUDIO drift tick=0 engine_pcm=14337600 expected=14321280 drift_frames=16320
+AUDIO drift tick=0 engine_pcm=14338080 expected=14321280 drift_frames=16800
+AUDIO drift tick=0 engine_pcm=14339040 expected=14321280 drift_frames=17760
+AUDIO drift tick=0 engine_pcm=14340000 expected=14321280 drift_frames=18720
+AUDIO drift tick=0 engine_pcm=14340480 expected=14321280 drift_frames=19200
+AUDIO drift tick=0 engine_pcm=14341440 expected=14321280 drift_frames=20160
+AUDIO drift tick=0 engine_pcm=14341920 expected=14321280 drift_frames=20640
+AUDIO drift tick=0 engine_pcm=14342880 expected=14321280 drift_frames=21600
+AUDIO drift tick=0 engine_pcm=14343840 expected=14321280 drift_frames=22560
+AUDIO drift tick=0 engine_pcm=14344320 expected=14321280 drift_frames=23040
+AUDIO drift tick=0 engine_pcm=14345280 expected=14321280 drift_frames=24000
+AUDIO drift tick=0 engine_pcm=14346240 expected=14321280 drift_frames=24960
+AUDIO drift tick=0 engine_pcm=14346720 expected=14321280 drift_frames=25440
+AUDIO drift tick=0 engine_pcm=14347680 expected=14321280 drift_frames=26400
+AUDIO drift tick=0 engine_pcm=14348160 expected=14321280 drift_frames=26880
+AUDIO drift tick=0 engine_pcm=14349120 expected=14321280 drift_frames=27840
+AUDIO drift tick=0 engine_pcm=14350080 expected=14321280 drift_frames=28800
+AUDIO drift tick=0 engine_pcm=14350560 expected=14321280 drift_frames=29280
+AUDIO drift tick=0 engine_pcm=14351520 expected=14321280 drift_frames=30240
+AUDIO drift tick=0 engine_pcm=14352480 expected=14321280 drift_frames=31200
+AUDIO drift tick=0 engine_pcm=14352960 expected=14321280 drift_frames=31680
+AUDIO drift tick=0 engine_pcm=14353920 expected=14321280 drift_frames=32640
+AUDIO drift tick=0 engine_pcm=14354880 expected=14321280 drift_frames=33600
+AUDIO drift tick=0 engine_pcm=14355360 expected=14321280 drift_frames=34080
+AUDIO drift tick=0 engine_pcm=14356320 expected=14321280 drift_frames=35040
+AUDIO drift tick=0 engine_pcm=14357280 expected=14321280 drift_frames=36000
+AUDIO drift tick=0 engine_pcm=14357760 expected=14321280 drift_frames=36480
+AUDIO drift tick=0 engine_pcm=14358720 expected=14321280 drift_frames=37440
+AUDIO drift tick=0 engine_pcm=14359200 expected=14321280 drift_frames=37920
+AUDIO drift tick=0 engine_pcm=14360160 expected=14321280 drift_frames=38880
+AUDIO drift tick=0 engine_pcm=14361120 expected=14321280 drift_frames=39840
+AUDIO drift tick=0 engine_pcm=14361600 expected=14321280 drift_frames=40320
+AUDIO drift tick=0 engine_pcm=14362560 expected=14321280 drift_frames=41280
+AUDIO drift tick=0 engine_pcm=14363520 expected=14321280 drift_frames=42240
+AUDIO drift tick=0 engine_pcm=14364000 expected=14321280 drift_frames=42720
+AUDIO drift tick=0 engine_pcm=14364960 expected=14321280 drift_frames=43680
+AUDIO drift tick=0 engine_pcm=14365920 expected=14321280 drift_frames=44640
+AUDIO drift tick=0 engine_pcm=14366400 expected=14321280 drift_frames=45120
+AUDIO drift tick=0 engine_pcm=14367360 expected=14321280 drift_frames=46080
+AUDIO drift tick=0 engine_pcm=14367840 expected=14321280 drift_frames=46560
+AUDIO drift tick=0 engine_pcm=14368800 expected=14321280 drift_frames=47520
+AUDIO drift tick=0 engine_pcm=14369760 expected=14321280 drift_frames=48480
+AUDIO drift tick=0 engine_pcm=14370240 expected=14321280 drift_frames=48960
+AUDIO drift tick=0 engine_pcm=14371200 expected=14321280 drift_frames=49920
+AUDIO drift tick=0 engine_pcm=14372160 expected=14321280 drift_frames=50880
+AUDIO drift tick=0 engine_pcm=14372640 expected=14321280 drift_frames=51360
+AUDIO drift tick=0 engine_pcm=14373600 expected=14321280 drift_frames=52320
+AUDIO drift tick=0 engine_pcm=14374080 expected=14321280 drift_frames=52800
+AUDIO drift tick=0 engine_pcm=14375040 expected=14321280 drift_frames=53760
+AUDIO drift tick=0 engine_pcm=14376000 expected=14321280 drift_frames=54720
+AUDIO drift tick=0 engine_pcm=14376480 expected=14321280 drift_frames=55200
+AUDIO drift tick=0 engine_pcm=14377440 expected=14321280 drift_frames=56160
+AUDIO drift tick=0 engine_pcm=14378400 expected=14321280 drift_frames=57120
+AUDIO drift tick=0 engine_pcm=14378880 expected=14321280 drift_frames=57600
+AUDIO drift tick=0 engine_pcm=14379840 expected=14321280 drift_frames=58560
+AUDIO drift tick=0 engine_pcm=14380320 expected=14321280 drift_frames=59040
+AUDIO drift tick=0 engine_pcm=14381280 expected=14321280 drift_frames=60000
+AUDIO drift tick=0 engine_pcm=14382240 expected=14321280 drift_frames=60960
+AUDIO drift tick=0 engine_pcm=14382720 expected=14321280 drift_frames=61440
+AUDIO drift tick=0 engine_pcm=14383680 expected=14321280 drift_frames=62400
+AUDIO drift tick=0 engine_pcm=14384640 expected=14321280 drift_frames=63360
+AUDIO drift tick=0 engine_pcm=14385120 expected=14321280 drift_frames=63840
+AUDIO drift tick=0 engine_pcm=14386080 expected=14321280 drift_frames=64800
+AUDIO drift tick=0 engine_pcm=14386560 expected=14321280 drift_frames=65280
+AUDIO drift tick=0 engine_pcm=14387520 expected=14321280 drift_frames=66240
+AUDIO drift tick=0 engine_pcm=14388480 expected=14321280 drift_frames=67200
+AUDIO drift tick=0 engine_pcm=14388960 expected=14321280 drift_frames=67680
+AUDIO drift tick=0 engine_pcm=14389920 expected=14321280 drift_frames=68640
+AUDIO drift tick=0 engine_pcm=14390880 expected=14321280 drift_frames=69600
+AUDIO drift tick=1800 engine_pcm=16027200 expected=15761280 drift_frames=265920
+AUDIO drift tick=3600 engine_pcm=17541120 expected=17201280 drift_frames=339840
+AUDIO drift tick=5400 engine_pcm=19046400 expected=18641280 drift_frames=405120
+AUDIO drift tick=7200 engine_pcm=20661120 expected=20081280 drift_frames=579840
+AUDIO drift tick=9000 engine_pcm=22246560 expected=21521280 drift_frames=725280
+AUDIO drift tick=10800 engine_pcm=23775360 expected=22961280 drift_frames=814080
+AUDIO drift tick=12600 engine_pcm=25357440 expected=24401280 drift_frames=956160
+AUDIO drift tick=14400 engine_pcm=27062400 expected=25841280 drift_frames=1221120
+AUDIO drift tick=16200 engine_pcm=28671360 expected=27281280 drift_frames=1390080
+AUDIO drift tick=18000 engine_pcm=30269280 expected=28721280 drift_frames=1548000
+AUDIO drift tick=19800 engine_pcm=31854240 expected=30161280 drift_frames=1692960
+AUDIO drift tick=21600 engine_pcm=33350400 expected=31601280 drift_frames=1749120
+AUDIO drift tick=23400 engine_pcm=34839360 expected=33041280 drift_frames=1798080
+AUDIO drift tick=25200 engine_pcm=36435840 expected=34481280 drift_frames=1954560
+AUDIO drift tick=27000 engine_pcm=37954080 expected=35921280 drift_frames=2032800
+AUDIO drift tick=28800 engine_pcm=39459840 expected=37361280 drift_frames=2098560
+AUDIO drift tick=30600 engine_pcm=41065920 expected=38801280 drift_frames=2264640
+AUDIO drift tick=32400 engine_pcm=42679680 expected=40241280 drift_frames=2438400
+AUDIO drift tick=34200 engine_pcm=44252160 expected=41681280 drift_frames=2570880
+AUDIO drift tick=36000 engine_pcm=45855840 expected=43121280 drift_frames=2734560
+AUDIO drift tick=37800 engine_pcm=47448000 expected=44561280 drift_frames=2886720
+AUDIO drift tick=39600 engine_pcm=48998400 expected=46001280 drift_frames=2997120
+AUDIO drift tick=41400 engine_pcm=50559360 expected=47441280 drift_frames=3118080
+AUDIO drift tick=43200 engine_pcm=52144320 expected=48881280 drift_frames=3263040
+AUDIO drift tick=45000 engine_pcm=53812800 expected=50321280 drift_frames=3491520
+AUDIO drift tick=46800 engine_pcm=55784640 expected=51761280 drift_frames=4023360
+AUDIO drift tick=48600 engine_pcm=57382080 expected=53201280 drift_frames=4180800
+AUDIO drift tick=50400 engine_pcm=59058240 expected=54641280 drift_frames=4416960
+AUDIO drift tick=52200 engine_pcm=60703680 expected=56081280 drift_frames=4622400
+AUDIO drift tick=54000 engine_pcm=62916480 expected=57521280 drift_frames=5395200
+AUDIO drift tick=55800 engine_pcm=64522080 expected=58961280 drift_frames=5560800
+AUDIO drift tick=57600 engine_pcm=66170400 expected=60401280 drift_frames=5769120
+AUDIO drift tick=59400 engine_pcm=67680000 expected=61841280 drift_frames=5838720
+AUDIO drift tick=61200 engine_pcm=69274080 expected=63281280 drift_frames=5992800
+AUDIO drift tick=63000 engine_pcm=70899840 expected=64721280 drift_frames=6178560
+AUDIO drift tick=64800 engine_pcm=72474240 expected=66161280 drift_frames=6312960
+AUDIO drift tick=66600 engine_pcm=74014080 expected=67601280 drift_frames=6412800
+AUDIO drift tick=68400 engine_pcm=75657600 expected=69041280 drift_frames=6616320
+AUDIO drift tick=70200 engine_pcm=77274720 expected=70481280 drift_frames=6793440
+AUDIO drift tick=72000 engine_pcm=78948000 expected=71921280 drift_frames=7026720
+AUDIO drift tick=73800 engine_pcm=80614560 expected=73361280 drift_frames=7253280
+AUDIO teardown clean (dropped_cues=0)

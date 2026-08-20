@@ -619,6 +619,65 @@ ya". Launch per protocol (guard printed no-tasks; detached solo
 digest=` should now equal `66784a92f268776eeb917efb655449c6`**
 (sessions=8) — same supersession law as above.
 
+### Idle attempt (2026-08-19 21:58 — accidental close at the hosting screen; world UNMOVED)
+
+First launch of the ritual evening (guard printed no-tasks; save
+anchor verified `8e94dcb8…` pre-launch; main pushed `56440e4` for the
+handshake; detached host, console `tmp/coop_console_20260819-215128.log`).
+Owner closed it by accident BEFORE Junior joined — log
+`game_two_session_8444.log` (32nd; md5-banked copy
+`afdeef35a906411e71e388070cec684a`): `loaded
+digest=66784a92… sessions=8` · `netplay seat=1 ticks=0 … reason=quit`
+· NO `saved` line. Ticks=0 = lockstep never started (r9 tree: idle
+attempt). Disk verified at banking: save md5 `8e94dcb8…` mtime 20:44
+BYTE-UNMOVED — the hosting-cancel path exits before any persist seam.
+Chain untouched; not a session, not a shortfall. Relaunched 21:59.
+
+### RITUAL SESSION 1 (2026-08-19 21:59→22:28 — HOST SIDE BANKED; candidate ritual session, all host gates GREEN)
+
+Second launch same protocol (guard no-tasks separate call; console
+`tmp/coop_console_20260819-215950.log`, md5-banked copy
+`7dd8b7da4b5ff511b4f508c1a119f7e7`). Owner hosted, Junior joined from
+his machine (no new pull owed — main unmoved since 56440e4). Log
+`game_two_session_8503.log` (33rd both patterns; md5-banked copy
+`01e2bbd15051b0374bdc7b27d595c5a0`):
+
+- `AUDIO on: device=1 sha=15f03e0219d6` (host seat, real device).
+- `TELEMETRY persist loaded digest=66784a92f268776eeb917efb655449c6
+  schema=1 banked=12 provisions=0 seals=2 marks=0 sessions=8
+  source=file` — loads EXACTLY the link-#6 anchor.
+- `TELEMETRY netplay seat=1 ticks=74469 desyncs=0 stalls=9807
+  stall_ms_max=1113 reason=quit` — **ticks 74469 ≥ 36000 · desyncs=0
+  · reason=quit (Esc)**; zero `AUTOPILOT` anywhere; ~28 min wall
+  clock.
+- `TELEMETRY persist saved digest=3a518bccf2b324f9fb1211ed2f7529f0
+  schema=1 banked=5 provisions=0 seals=2 marks=0 sessions=9` — chain
+  advances off link #6.
+- Real coop play, heavy: fights=48 · wipes=9 · body_deaths=28 ·
+  d2 entered=1 kills=109 · camp_visits=29 · inscriptions=9 ·
+  tributes=9 (banked_spent tribute=190, banked 12→5) · quay/varekka
+  untouched this run. `TELEMETRY sustain bought=0 used=0 refused=0`
+  (HELD — side-signal law). `AUDIO teardown clean (dropped_cues=0)`.
+- Disk verified at banking: `saves/world.json` md5
+  `1d860e947e14342562fc62cc351b8b99` (mtime 22:28), strict decode ==
+  saved digest `3a518bcc…` sessions=9 banked=5 breached=2
+  boss_1_defeats=1 notices=[].
+- **Forensic note (not fun-evidence): stalls=9807, stall_ms_max=1113,
+  and the AUDIO drift lines grow to ~151 s by tick 73800** — the sim
+  ran ~44 tps average against the 60 tps wall clock; the owner
+  reported lag live (HELD observations below). Tracked in
+  `drafts/_netplay-lag-forensics-20260819.md`; measurement hygiene
+  untouched (no sim/net number moves pre-verdict).
+- **PENDING to complete session 1's Half-A row:** Junior's seat-2
+  evidence (his launcher log lines or receipt — handshake digest must
+  equal `66784a92…`, his ticks ≥ 36000, reason=quit, plus his AUDIO
+  `on:/off:/refused:` line read VERBATIM for the Half-B branch).
+
+**The anchor moves again: ritual session 2's host `persist loaded
+digest=` must equal `3a518bccf2b324f9fb1211ed2f7529f0`** (sessions=9)
+— same supersession law; session 2 loading anything else fails the
+spec's continuity check.
+
 ### Ritual session 1 ATTEMPT (2026-08-18 23:40 → 2026-08-19 00:06 — CRASH on both seats; shortfall, RE-RUNS; world UNMOVED)
 
 Launch per the live-launch protocol (owner ask "procede por favor"):
@@ -724,6 +783,39 @@ ambient music that is always playing is **too repetitive**", "the main
 theme instruments themselves can be 6db lower, **its too high**".
 Volunteered, not asked; they enter the reading only WITH the answer
 sets (the audio fragments ride the Half-B audio-caveat reading).
+
+**Owner post-session addendum (same evening, ~22:40, verbatim es-CR —
+HELD):** "en el spell de la \"E\" en el personaje de rango: podría
+ser algo un poco más potente o que se pueda expandir el rango
+después, bueno entiendo que estamos apenas empezando y que se podría
+hacer como un mid/late game character tambien que no sea tan OP al
+inicio, entonces es buen balance lo que estás haciendo, pero solo
+digo que al rato tiende a aburrir el gameplay de ese personaje porque
+se siente debil". Feel half (lobber "se siente débil" / boring over
+time) HELD like the rest; system half (expandable range = spell
+progression) banked under intake idea 4's addendum. The same message
+re-voted intake idea 1 (Ctrl stationary facing — "nos faltó
+agregar/arreglar el movimiento en sitio"): recorded there, sim-class,
+v19.
+
+**Owner mid-session observations (2026-08-19 ~22:15, DURING ritual
+session 1, live chat, volunteered — HELD the same way, verbatim EN):**
+"we are still on the session but I notice a few aspects that are
+limiting our experience: 1) we need more firepower/damage and be able
+to level up as we kill monsters and increase our stats somehow, 2)
+there is lag, 3) we need an in-game chat to communicate or some
+system, 4) the \"E\" key skill on the ranged character doesn't
+inflict damage nor heal, 5) the lag usually intesifies when only 1 of
+us is alive, 6) the enemies spawn too fast, and nice to have: 7)
+enemies should not teleport back to their spawn when the pack leaves
+the area, they should follow the \"persisting world\" principle by
+going back walking regularly". Quarantine held: no substance
+discussed; items routed — #1/#3/#7 → v19 intake + parking lot
+(design), #2/#5 → lag forensics note (tech), #4 → mechanics
+classification (tech; volley is data-intended, legibility gap
+recorded), #6 → HELD here (respawn pacing IS a measured question; no
+number moves pre-verdict). Items #1 and #6 enter the adjudication
+reading only WITH the answer sets.
 
 ### pt-br lane
 
