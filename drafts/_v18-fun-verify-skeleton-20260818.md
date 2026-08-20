@@ -1,4 +1,14 @@
-# v18 fun-verify — SEVENTEENTH ask, skeleton (2026-08-18, PARTIAL/STANDBY — ritual sessions not yet played)
+# v18 fun-verify — SEVENTEENTH ask, skeleton (2026-08-18; CLOSED 2026-08-20 — mode FULL, adjudicated)
+
+> **STATUS 2026-08-20 (session 21): ADJUDICATED — the SEVENTEENTH is
+> CUMPLIDO and v18 CLOSES.** The decision, the Half-A table, the eight
+> answers read with both caveats, and the row-by-row routing walk live
+> in `drafts/_v18-fun-verify-verdict-20260820.md`. This file stays as
+> the evidence bank (chain links, ritual session blocks, answer sets,
+> HELD side-signals, the nine EMPTY re-check gates) — the mode
+> declaration below is HISTORICAL (it was written at PARTIAL); the
+> slots and the Half-A/Half-B sections at the end were closed at
+> adjudication.
 
 Protocol: spec `2026-08-17-v18-persistent-world-design.md` §Fun-verify
 (CLOSED — pre-registered), transcribed for the owner in
@@ -973,41 +983,63 @@ every push from this seat updates BOTH refs, so the handshake
 fingerprint (same-commit law) is safe on either branch meanwhile.
 After his first push to `main`, `junior-tibia` gets deleted.
 
-## Telemetry slots (fill verbatim at harvest — both seats, both sessions)
+## Telemetry slots — FILLED at adjudication (both seats, both sessions)
+
+FILLED at adjudication (2026-08-20) — every line read out of the
+banked log FILES in `drafts/_v18-seventeenth-evidence/`, md5s
+re-verified that session:
 
 ```
-SESSION 1 — date: ______  (host log file: ______)
-seat 1 (owner, host):  TELEMETRY netplay <pending>
-seat 2 (Junior):       TELEMETRY netplay <pending>
-host   persist loaded: <pending>
-joiner persist loaded (source=handshake): <pending>
-host   persist saved:  <pending>
-sustain lines (if any): <pending>
+SESSION 1 — date: 2026-08-19 21:59→22:28  (host log file: game_two_session_8503.log, md5 01e2bbd15051b0374bdc7b27d595c5a0)
+seat 1 (owner, host):  TELEMETRY netplay seat=1 ticks=74469 desyncs=0 stalls=9807 stall_ms_max=1113 reason=quit
+seat 2 (Junior):       TELEMETRY netplay seat=2 ticks=74470 desyncs=0 stalls=136 stall_ms_max=1059 reason=quit
+                       (joiner log game_two_session_2874720530.log, md5 78c684d654648ca2b55a0a012e2582bf)
+host   persist loaded: TELEMETRY persist loaded digest=66784a92f268776eeb917efb655449c6 schema=1 banked=12 provisions=0 seals=2 marks=0 sessions=8 source=file
+joiner persist loaded (source=handshake): TELEMETRY persist loaded digest=66784a92f268776eeb917efb655449c6 schema=1 banked=12 provisions=0 seals=2 marks=0 sessions=8 source=handshake
+host   persist saved:  TELEMETRY persist saved digest=3a518bccf2b324f9fb1211ed2f7529f0 schema=1 banked=5 provisions=0 seals=2 marks=0 sessions=9
+sustain lines:         host   TELEMETRY sustain bought=0 used=0 refused=0
+                       joiner TELEMETRY sustain bought=0 used=0 refused=0
+AUDIO branch:          host + joiner both `AUDIO on: device=1 sha=15f03e0219d6` → symmetric novelty
+AUTOPILOT:             0 lines in both files
 
-SOLO BETWEEN (if any) — logs: ______
-persist lines: <pending>
+SOLO BETWEEN — logs: NONE. The mtime-ordered launcher-log listing puts
+8503 (22:28:02) immediately before 9048 (23:10:17); no log of any kind
+sits between the two sessions, so "the latest prior saved digest" is
+session 1's. (Solo links #1–#6 all predate session 1 — blocks above.)
 
-SESSION 2 — date: ______ (DIFFERENT day; host log file: ______)
-seat 1 (owner, host):  TELEMETRY netplay <pending>
-seat 2 (Junior):       TELEMETRY netplay <pending>
-host   persist loaded: <pending>   <- must equal the latest prior saved digest
-joiner persist loaded (source=handshake): <pending>
-host   persist saved:  <pending>
-sustain lines (if any): <pending>
+SESSION 2 — date: 2026-08-19 22:51→23:10 (SAME night — owner amendment; host log file: game_two_session_9048.log, md5 570457dcd11118c540490d1c31e8f27c)
+seat 1 (owner, host):  TELEMETRY netplay seat=1 ticks=36079 desyncs=0 stalls=5386 stall_ms_max=3341 reason=quit
+seat 2 (Junior):       TELEMETRY netplay seat=2 ticks=36079 desyncs=0 stalls=268 stall_ms_max=843 reason=quit
+                       (joiner log game_two_session_63472464.log, md5 8931b524183792964213afdf65c18792)
+host   persist loaded: TELEMETRY persist loaded digest=3a518bccf2b324f9fb1211ed2f7529f0 schema=1 banked=5 provisions=0 seals=2 marks=0 sessions=9 source=file   <- == session 1's saved digest
+joiner persist loaded (source=handshake): TELEMETRY persist loaded digest=3a518bccf2b324f9fb1211ed2f7529f0 schema=1 banked=5 provisions=0 seals=2 marks=0 sessions=9 source=handshake
+host   persist saved:  TELEMETRY persist saved digest=b5cae357290c01e464f49155bc7f9d13 schema=1 banked=7 provisions=0 seals=2 marks=0 sessions=10
+sustain lines:         host   TELEMETRY sustain bought=0 used=0 refused=1
+                       joiner TELEMETRY sustain bought=0 used=0 refused=1
+AUDIO branch:          both seats `AUDIO on` again (same lib sha) → symmetric novelty BOTH sessions
+AUTOPILOT:             0 lines in both files
+hosting consoles:      coop_console_20260819-215950.log (s1) · coop_console_20260819-225124.log (s2) — two distinct launches
 ```
 
 ## Half A (PERSISTED) — mechanical arbiter, ALL of (spec verbatim)
 
 1. Digest chain: session 2's `persist loaded digest` == the latest
    prior `persist saved digest` in the host's logs (solo saves
-   included) — **PENDING**
+   included) — **PASS** (`3a518bcc…` both sides; no log between the
+   two sessions)
 2. Joiner's `loaded … source=handshake` digest == the host's digest,
-   BOTH sessions — **PENDING**
+   BOTH sessions — **PASS** (`66784a92…` s1, `3a518bcc…` s2)
 3. `desyncs=0` + `reason=quit` on all four netplay lines; ticks ≥
-   36000 each session — **PENDING**
+   36000 each session — **PASS** (74469/74470 · 36079/36079, cleared
+   by 79 on s2 — named; AUTOPILOT-free 4/4)
 4. Carried fact: session 2's persist line shows the accreted state
    matching session 1's close — at least one strictly-positive carried
-   fact named (banked/seals/marks/sessions) — **PENDING**
+   fact named (banked/seals/marks/sessions) — **PASS** (NAMED:
+   `banked=5` and `seals=2`; also `sessions=9`, decode
+   `boss_1_defeats=1`)
+
+**⇒ Half A CUMPLIDA (quoted lines + the launch-separation clause:
+`drafts/_v18-fun-verify-verdict-20260820.md` §Half A).**
 
 Full chronological chain walk (every `loaded` == previous `saved`) =
 welcome diagnostic context; the four checks alone decide.
@@ -1016,18 +1048,25 @@ welcome diagnostic context; the four checks alone decide.
 
 Owner (es, run-sheet verbatim):
 1. Al volver hoy, ¿sintieron que retomaban donde habían parado, o que
-   era una partida nueva? — **PENDING**
-2. ¿Cómo se sintió el respawn de los enemigos esta vez? — **PENDING**
+   era una partida nueva? — **ANSWERED** (§OWNER ANSWER SET, R1)
+2. ¿Cómo se sintió el respawn de los enemigos esta vez? —
+   **ANSWERED** (R2)
 3. ¿Usaste las provisiones? ¿Cómo cambió la cacería? ¿El precio? —
-   **PENDING**
-4. Veredicto libre. — **PENDING**
+   **ANSWERED** (R3, counter-question recorded AS the answer)
+4. Veredicto libre. — **ANSWERED** (R4)
 
 Junior (pt-br, run-sheet verbatim):
 1. No segundo dia, pareceu que vocês tinham voltado pra onde pararam,
-   ou que era uma partida nova? — **PENDING**
-2. Em dupla, como sentiu a dificuldade dessa vez? — **PENDING**
-3. O terceiro corpo (a IA) — como se comportou? — **PENDING**
-4. Veredicto livre. — **PENDING**
+   ou que era uma partida nova? — **ANSWERED** (same-day premise
+   variant "Na segunda sessão" used, authorized + noted;
+   `drafts/_junior-answer-set-20260820.md`)
+2. Em dupla, como sentiu a dificuldade dessa vez? — **ANSWERED**
+3. O terceiro corpo (a IA) — como se comportou? — **ANSWERED**
+4. Veredicto livre. — **ANSWERED**
+
+**⇒ Half B CUMPLIDA (8/8 verbatim, both caveats attached before the
+reading, HELD signals admitted after both sets:
+`drafts/_v18-fun-verify-verdict-20260820.md` §Half B).**
 
 Answers land here in the players' own words and language — no
 paraphrase, no scoring, no register cleanup of THEIR words. Only after
@@ -1042,23 +1081,35 @@ every row gets walked: quoted, TRIGGERED / NOT, exact evidence lines
 cited. A triggered row = a RECORDED work item with a recommended
 next-spark shape — never an in-session fix.
 
-## Gaps (exactly what PARTIAL is missing)
+## Gaps (exactly what PARTIAL was missing — ALL CLOSED 2026-08-20)
 
-1. Ritual session 1 (coop, ≥36000 ticks, Esc quit) — not played.
-2. Ritual session 2 (different day) — not played.
-3. All four `TELEMETRY netplay` lines (2 sessions × 2 seats).
+1. Ritual session 1 (coop, ≥36000 ticks, Esc quit) — **CLOSED**
+   (2026-08-19 21:59→22:28, 74469/74470 ticks).
+2. Ritual session 2 (different day) — **CLOSED** with the owner's
+   same-day amendment (22:51→23:10, 36079/36079); the spacing caveat
+   rides the Half-B reading.
+3. All four `TELEMETRY netplay` lines (2 sessions × 2 seats) —
+   **CLOSED** (slots above).
 4. All `TELEMETRY persist` lines from the ritual sessions (+ any solo
-   between), host logs saved.
-5. Junior-side lines (his two netplay lines + his
-   `loaded … source=handshake` lines) via paste, drafts file, or
-   commit.
-6. Any `TELEMETRY sustain` lines from the sessions.
-7. Owner's four answers (es) — asked separately, after harvest.
-8. Junior's four answers (pt-br) — asked separately, after harvest.
+   between), host logs saved — **CLOSED** (no solo between; links
+   #1–#6 predate session 1).
+5. Junior-side lines — **CLOSED** (`76fd4f0` / `aba02af`, log bytes
+   banked + md5-verified this side).
+6. Any `TELEMETRY sustain` lines from the sessions — **CLOSED**
+   (0/0/0 · 0/0/0 · 0/0/1 · 0/0/1).
+7. Owner's four answers (es) — **CLOSED** (`f749dc8`).
+8. Junior's four answers (pt-br) — **CLOSED** (`5f276ad`).
 
 ## Adjudication
 
-EMPTY — written only in FULL mode (both sessions + all answers in
-hand): Half A checks each PASS/FAIL with quoted lines, Half B recorded
-verbatim, every routing row walked, then the decision on the spec's
-own terms.
+**DONE — 2026-08-20, session 21:
+`drafts/_v18-fun-verify-verdict-20260820.md`. THE SEVENTEENTH IS
+CUMPLIDO; v18 CLOSES.** Half A 5/5 PASS (four spec checks + the
+launch-separation clause), Half B 8/8 under protocol with both
+pre-registered caveats attached, routing table walked row by row: 4
+TRIGGERED (respawn pacing · sustain discoverability · third-body AI ·
+mercy-floor-at-open), 5 NOT TRIGGERED (chain integrity · session-start
+presentation · price valve · custody handoff · quit-timing griefs), 0
+rows invented, 0 rows softened. Post-verdict queue (lag instrumentation
+FIRST, owner-named blocker) is RECORDED there; v19 opens at the
+owners' brainstorm, not in that document.
