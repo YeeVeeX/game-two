@@ -224,6 +224,38 @@ brainstorm starts real, not from scratch:
   cost if painterly wins: every material needs painted variants +
   edge blends — the D7 registry's sprite-id seam carries it.
 
+## Idea 6 — non-pausing client menu (owner drop, 2026-08-19 ~21:0x, hub chat)
+
+- **Owner verbatim:** "un menú tipo 'pausa' que lógicamente no pause
+  el juego ya que se supone que es un mundo persistente pero que
+  sirva para ajustar configuraciones básicas del cliente (controlar
+  volúmenes de sonidos, ajustar tamaño de la ventana, entre otros) y
+  además para salir del juego, ya que en algún momento se va a
+  necesitar que el botón 'esc' del teclado no cierre el juego ya que
+  sería poco práctico en el entorno del jugador/usuario".
+- **Touchstone:** Tibia/WoW Esc-menu (persistent-world convention:
+  Esc never quits the client; the world never stops).
+- **SCHEDULING CATCH (dev, binding):** Esc=clean-quit is written into
+  the FROZEN ritual runsheet (both seats quit with Esc). The Esc
+  rebehavior ships POST-VERDICT only — banked now, specced at the
+  v19 brainstorm, zero code before the SEVENTEENTH adjudicates.
+- **Dev additions (all client/presentation, zero sim):** menu is a
+  StateStack state OVER the world that does NOT stop ticking (world
+  dimmed-not-hidden — you can die with the menu open; netplay-safe by
+  construction: the seat keeps emitting idle input frames, lockstep
+  unblocked) · per-bus volume sliders + quick mute (mixer buses exist;
+  needs a CLIENT PREFS file separate from the world save — D11
+  save-stays-facts-only; runtime bus-gain set may need a small audio-
+  lib API — mail the audio seat at spec time) · window scale presets +
+  fullscreen · runtime locale switch (es/en/pt-br) · quit = today's
+  clean-quit path (+ courtesy notice to the coop partner) · read-only
+  session-ledger panel (telemetry counters; braids with the TOWN 1
+  results-board slot) · netplay link-status panel · read-only controls
+  sheet (NOT rebind — rebind stays parked by standing order).
+- **Class:** v19 brainstorm input; UI is Rule-2-gated when built;
+  interim relief for the volume pain = ask 5 (−4 dB percussive,
+  tomorrow's data-only retune).
+
 ## Slot status
 
 Nothing else arrived (no paste, no drafts file beyond this relay, no
