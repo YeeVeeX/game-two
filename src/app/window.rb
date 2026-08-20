@@ -7,6 +7,7 @@ require "game/world"
 require "game/telemetry"
 require "app/renderer"
 require "app/netplay_overlay"
+require "app/frame_probe"
 require "app/scale"
 require "app/key_table"
 
@@ -80,9 +81,14 @@ module App
                                local_seat: @session ? @session.seat : 1)
       @overruns = 0
       @overrun_font = Gosu::Font.new(14)
+      # Lag P0 T1b: env-gated frame probe — nil when off, so every site
+      # below is a bare nil-check (no clock read, no allocation, no
+      # branch into sim/draw). Values leave ONLY as the close-time line.
+      @frame_probe = ENV["GAME_FRAME_PROBE"] ? FrameProbe.new : nil
     end
 
     def update
+      @frame_probe&.update_begin
       t0 = Gosu.milliseconds
       if @session
         update_session
@@ -95,6 +101,7 @@ module App
       autopilot_watch if @autopilot
       @audio&.update(@world.frame) if @world # after the tick; bus already flushed
       @overruns += 1 if Gosu.milliseconds - t0 > FRAME_BUDGET_MS
+      @frame_probe&.update_end
     end
 
     # One update = one session pump (and at most one sim tick inside it).
@@ -123,6 +130,7 @@ module App
     end
 
     def draw
+      @frame_probe&.draw_begin
       Gosu.scale(@scale) do
         @renderer.draw(@world) if @world
         @netplay&.draw(@session, @world)
@@ -131,6 +139,7 @@ module App
                                   Gosu::Color.new(200, 255, 120, 120))
         end
       end
+      @frame_probe&.draw_end
     end
 
     # Bot seat (v18 soak): quit through the SAME Esc path at quit_tick,
@@ -171,6 +180,7 @@ module App
     # relaunch command (honest-end friction fold) and the desync artifact
     # path when one exists.
     def close
+      puts @frame_probe.line if @frame_probe
       puts @telemetry.summary if @telemetry
       # v18 decision 2: the coordinator writes IFF this seat owns the save
       # AND the end is clean. Solo close IS the clean quit (Esc or the
