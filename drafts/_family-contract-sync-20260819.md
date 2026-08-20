@@ -58,7 +58,7 @@ only on owner go (free seats only).
 ## Receipts (harvested 2026-08-19, spokes family-audio/gamesmith/lore + assets by mail)
 
 - [x] game-two-audio: `RECEIPT: family-block applied md5=e047569834a75e4073834ebf9705d715 repo=game-two-audio commit=d3bd03121bbd0cddcc7faea99deb5186f4a77d18 claude_md=created | drift=none`
-- [ ] game-two-assets: mail pending (seat HELD by a live session — applies at its own pace)
+- [x] game-two-assets: `RECEIPT: family-block applied md5=e047569834a75e4073834ebf9705d715 repo=game-two-assets commit=258a62a claude_md=created | drift=none` (arrived by mail 2026-08-19 ~22:1x, consumed session 20; md5 == canonical; their note: a sibling session's uncommitted AGENTS.md pointer line excluded via staged-blob surgery, pushed AGENTS.md = HEAD + family block only, pre-push gauntlet green — 4/4 family sync COMPLETE)
 - [x] gamesmith: `RECEIPT: family-block applied md5=e047569834a75e4073834ebf9705d715 repo=gamesmith commit=e13de13 claude_md=created | drift=none`
 - [x] game-two-lore: `RECEIPT: family-block applied md5=e047569834a75e4073834ebf9705d715 repo=game-two-lore commit=bd45462 claude_md=demoted-to-pointer | drift=none`
 
