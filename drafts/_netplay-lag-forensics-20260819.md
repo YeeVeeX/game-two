@@ -22,10 +22,13 @@ damage nor heal".
 - Zero desyncs across all of it: lockstep held; this is a THROUGHPUT
   problem, never a correctness one.
 - **Seat asymmetry (Junior's banked log, session 1): joiner seat=2
-  stalls=136 stall_ms_max=1059 vs host seat=1 stalls=9807** — the
+  stalls=136 stall_ms_max=1059 vs host seat=1 stalls=9807** — ~~the
   starvation is HOST-side (this machine), not the link and not his
   seat. Reweights hypothesis 2/3 toward host CPU pressure (host runs
-  sim + wire duties + audio + the heavier ambient session); hypothesis
+  sim + wire duties + audio + the heavier ambient session)~~
+  **INVERTED — see Correction (2026-08-20) below: `stalls=N` counts
+  updates THIS seat spent waiting for the PEER; the high-stall seat is
+  the waiting seat, the low-stall seat is the limiter.** Hypothesis
   1's focus-throttle applies to whichever seat spectates — measure,
   don't guess.
 
@@ -82,6 +85,73 @@ damage nor heal".
   investigation is now the FIRST post-answers work item (still
   post-answers: instrumentation is code, the ritual is mid-flight
   until the eight land).
+
+## Correction (2026-08-20, session 22) — stall semantics + the banked arithmetic this doc never did
+
+**The 2026-08-19 seat-asymmetry reading above is INVERTED.** Re-derived
+from code:
+
+- `src/net/lockstep.rb:97-100` — `ready?(t)` requires both seats' masks,
+  but the LOCAL mask is present by construction (pre-fill `:71-74`,
+  submit-once-per-executed-tick `:106-118`; stated in the class header).
+  `ready?` therefore gates on the PEER's input.
+- `src/net/session.rb#run_tick` — `record_stall` (`lockstep.rb:150-159`)
+  is called ONLY in the `else` branch, i.e. when the peer's mask for the
+  current tick has not arrived. `stall_ms_max` is measured on the LOCAL
+  seat's monotonic clock from the first stalled update after the last
+  advance (`@stall_started_ms`), per stall RUN.
+- ⇒ `stalls=N` = "this seat waited N updates for the OTHER seat". Both
+  seats CAN stall on the same tick (mutual wait during a path outage) —
+  symmetric stall counts = latency/path signature; asymmetric = one
+  loop outpacing the other (throughput signature).
+
+**Arithmetic from the banked bytes (all four logs, s1+s2):**
+
+- updates-during-run = ticks + stalls (identity — every RUN-phase
+  non-draining update either advances or records a stall). s1: host
+  84,276 vs joiner 74,606 → the host iterated **+12.96%** more updates
+  in the same run window; s2: 41,465 vs 36,347 → **+14.08%**. Counter
+  arithmetic only — no clock assumptions.
+- The `AUDIO drift` lines are a wall-clock oracle (engine_pcm/48000 =
+  wall s; cadence 1800 ticks; both machines carry the lib and their two
+  independent clocks agree within 0.05%): shared sim rate **s1 =
+  53.49 tps** (73,800 ticks / 1379.7 s; worst interval 39.05 tps at
+  ticks 52200-54000), **s2 = 52.63 tps** (36,000 / 684 s; worst at the
+  OPEN — 44.7 and 47.8 tps over the first 75 s, consistent with the
+  under-resourced open: the save carried members hp 0/0/60).
+- Per-seat update rates over the shared window: **host ≈ 60.5 Hz, joiner
+  ≈ 53.6 Hz** (s1); same shape s2. The host also runs **60.75-61.15 tps
+  rock-steady (spread < 0.2%)** in its banked SOLO human sessions (logs
+  6739/7461, device audio on) and **61.1 Hz** in tonight's two-run bot
+  slope probe (3000→9000 ticks, Δ98.18 s / 6000 ticks = 16.36 ms/upd).
+
+**Re-ranked hypotheses:**
+
+1. **The joiner seat's update loop (~53.5 Hz) is the steady-state
+   limiter** — both ritual sessions, provable from counters alone. Cause
+   on his machine UNKNOWN (frame cost slightly over 16.7 ms ~12% of
+   updates = vsync-miss doubling? display pacing? background load?) —
+   that is what the T2 probe matrix + T1b frame probe measure.
+2. **Spike class (0.8-3.3 s freezes) is a separate phenomenon, both
+   directions** (host max 1113/3341 ms; joiner 1059/843 ms): TCP RTO
+   backoff on tunnel loss / DERP flap / machine hitch / window-drag
+   modal loop — current telemetry cannot distinguish; the coherent
+   worst-run pair (T1a) + external samplers (T2) discriminate.
+3. **D adequacy: FINE in steady state** — derived D = 8 (probe median
+   82.5 ms/2/16.67 + margin 3, clamp [4,12]) = 133 ms cover vs ~83 ms
+   one-way; the joiner's near-zero stall rate (0.18%) says host input
+   arrived in time essentially always. A D-undercover would stall BOTH
+   seats. The negotiated d was never LOGGED (T1a fixes that) — 8 is
+   derived, not read.
+4. **Host CPU pressure: DEMOTED/DEAD** for the steady gap (F4 evidence
+   above); host duties remain measurable in S3's role swap.
+
+What the current telemetry cannot distinguish, in one sentence: **it
+names neither whose loop set the pace (no per-seat run-window) nor
+whether the worst freeze was waiting-while-healthy or frozen-locally
+(stall_ms_max and stall_run_max may come from different runs)** — that
+sentence is T1a's spec. Full grill: `drafts/_lag-spec-20260820.md`;
+tickets: `drafts/_lag-tickets-20260820.md`.
 
 ## E-skill (lobber special) — classified from code+data, NO defect found
 

@@ -1,5 +1,115 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-20 session 22 (hub) — **P0 LAG under grill-and-ticket: the limiter is NAMED from banked bytes (the JOINER seat, ~53.5 Hz both ritual sessions); T1 instrumentation SHIPPED behind the full battery; fresh-eyes PASS; T2 staged** · v19 still NOT open
+
+**Grill ≥ implementation (declared up front; council 0, Bedrock = gate
+critics only).** The banked evidence answered WHO before any code:
+(1) stall semantics INVERTED from the forensics doc's reading —
+`stalls=N` = updates THIS seat waited for the peer (`lockstep.rb:97-100`
+ready? gates on the remote queue; correction section written, wrong
+claims struck in place); (2) counter identity updates=ticks+stalls ⇒
+host iterated +12.96%/+14.08% more than the joiner in the same run
+windows — **the joiner's loop paced both sessions at ~53.5 Hz, the host
+ran ~60.5 and WAITED**; (3) the `AUDIO drift` lines are a wall-clock
+oracle (engine_pcm/48000, cadence 1800; both seats' independent clocks
+agree 0.05%): shared rate s1 53.49 / s2 52.63 tps, s2 worst at the OPEN
+(44.7 tps first 75 s); (4) host machine EXONERATED live — banked solo
+human sessions 60.75-61.15 tps steady + tonight's two-run bot slope
+probe 61.1 Hz (zero code); (5) D=8 COVERS the steady path (joiner stall
+rate 0.18% — an undercover stalls BOTH seats; the spark's premise
+falsified); (6) the 0.8-3.3 s spike class is SEPARATE, both directions
+(TCP RTO backoff / DERP flap / machine hitch / title-bar drag —
+undistinguishable today, T1a's coherent pair + T2 samplers
+discriminate). Killed metrics recorded with reasons (remote-queue depth
+aggregate, pump/sim split, per-tick histogram, audio-off segment).
+Spec: `drafts/_lag-spec-20260820.md` · tickets:
+`drafts/_lag-tickets-20260820.md` · forensics correction:
+`drafts/_netplay-lag-forensics-20260819.md` §Correction.
+
+**Shipped (3 commits, hooks green each; hashes post-rebase over Junior's
+two docs commits):** `7629052` T1a — always-on
+`NETPLAY handshake seat d link_slow rtt_ms` line at world birth (banks
+the never-logged negotiated D + host probe RTTs; survives dirty deaths)
++ close-line gains `d link_slow run_ms stall_run_max stall_worst_run`
+(per-seat update rate = (ticks+stalls)/run_ms — WHO in one subtraction
+every session; the worst-run PAIR is coherent with stall_ms_max →
+ms-per-stalled-update separates waiting-while-healthy ≈16.7 from
+frozen-locally ≫16.7). Nothing new crosses the wire. T1b —
+`GAME_FRAME_PROBE=1` → `App::FrameProbe` (pure, injected clock, upper
+nearest-rank percentiles, over20/35/100 period census) bracketing
+Window update/draw; flag-off = nil-checks only; one
+`TELEMETRY frame_probe` line at close; solo AND session modes.
+`f2420d0` review closure (integration presence assertion + two honest
+comments).
+
+**Battery (all PASS, evidence in tmp/lag/ + receipt):** rake ×3 ·
+world_loop gate flag-off RC=0 · netplay gates ×3 RC=0 (scene shows the
+new counters live: seat1 stall_worst_run=91 vs seat2 0) · perf p95
+0.275 ms (sim tick is CHEAP — the budget lives in draw/pacing) ·
+flag-ON soak N=1: SOAK PASS, desyncs=0 over 6120 ticks with the probe on
+BOTH bot windows, and the lines already discriminate (both bot seats
+period p50=31.6 ms, update 0.3 + draw 0.6 ⇒ two-occluded-window desktop
+is PACING-bound — explains the known 2× soak wall-time; equal rates ⇒
+stalls=0 both, the symmetric-limiter arithmetic confirmed live).
+Loopback cannot reproduce the 165 ms path — recorded.
+
+**Fresh-eyes review (scrubbed pi, diff+tickets only): round 1 FAIL
+(ticketed integration-test change was skipped on a wrong prediction —
+closed by f2420d0 + ticket amendment recording the verified reality),
+round 2 PASS** — clock-leak trace CLEAN, flag-off zero-work CLEAN.
+Receipt: `drafts/_lag-t1-review-20260820.md` (round-1 blocker, closures,
+accepted lows). Review ran detached after a 600 s bash timeout killed
+the first re-run attempt (the gate lesson generalizes to every long
+subprocess).
+
+**T2 STAGED, owner-paced (never nag):**
+`drafts/_lag-probe-runsheet-20260820.md` — S0-J Junior SOLO flag-ON =
+the decisive segment (is his machine ~53.5 alone?), S0-J2 display/power
+facts, S1 coop baseline, S2 focus experiment (alive seat minimized
+60 s), S3 role swap (guards: Gabriel save md5 unchanged; Junior scratch
+save never merged), tailscale + netstat retransmit samplers per segment.
+T3 (harvest verdict → ONE fix ticket) and T4 (the fix) are their own
+sessions — never bundled with T1 (before/after law).
+
+**Job 0 / standing-gate deltas, classified:** save md5 UNCHANGED
+(`edfebf4…`, decode digest `b5cae357…` sessions=10) · launcher logs
+STILL 34/34 (probes ran `ruby -Isrc` directly, logs under tmp/lag/ —
+never bin/play) · mail done/ 11→12: the gamesmith NW-intro RECEIPT
+landed and the REVIEWER triaged it into done/ (overreach beyond its
+brief, harm nil — recorded; receipts belong there); its housekeeping ask
+honored by THIS seat: `tmp/nw_intro/` reclaimed (106 MB; corpus is the
+durable home, md5-verified pre-ingest) · `drafts/_gate-verdicts.log`
+grew 4 PASS entries (tonight's gates) · tmp/soak newest
+`20260820-020422` (the flag-ON episode) · **Junior's seat pushed TWO
+docs-only commits mid-session (read, then rebased onto):** `40c137c` a
+work-split OFFER to the hub (lane-based split, capability inventory of
+his machine — suite/soak/clips run there TODAY, vision critic blocked on
+dead AWS creds, LDtk GUI missing; candidate #1 = R-A3 with a file:line
+diagnosis; 4 closed questions, "silêncio não é sim") + `38f27ee` R-A3
+measurement attempt banked (soak PASS 2/2 his machine; finding = a GAP:
+a2_fired has no per-body attribution; stopped at his own declared code
+boundary). **The offer's answers are GABRIEL's to give, not this
+seat's** — queued in the es-CR block below; note Recorte A dovetails
+with T2 (his seat can orchestrate his segments).
+
+**Para el chat (es-CR, ~5 líneas):** «Ya medimos el lag con los datos
+que teníamos guardados: la señal dice que el asiento de Junior marcó el
+paso (~53 fps) en las dos partidas y el host se quedó esperando — la
+conexión estable aguanta bien, y los congelones de 1-3 s son otra cosa
+aparte. El juego ya trae los contadores nuevos para confirmarlo en
+vivo. Cuando puedan, 4 tandas de ~4 min con Junior (la clave: él jugando
+SOLO con `GAME_FRAME_PROBE=1`); comandos en
+`drafts/_lag-probe-runsheet-20260820.md`. Sin prisa — cuando les
+calce.» Y aparte: el asiento de Junior mandó una oferta de reparto de
+trabajo con 4 preguntas cerradas
+(`drafts/_junior-work-split-offer-20260820.md` §6) — esas respuestas
+son suyas, Gabriel.
+
+**Next session resumes at:** T2 harvest when the owners run it (→ T3
+verdict → ONE fix ticket) · P1-P6 priority list lives in the session-22
+spark (P1 = R-A2 sustain discoverability) · v19 brainstorm at the
+owners' word · audio asks 5-9 owner-pending.
+
 ## 2026-08-20 session 21 (hub, docs-only) — **ADJUDICATION: THE SEVENTEENTH IS CUMPLIDO — v18 CLOSES** · Half A 5/5 from bytes · Half B 8/8 read with both caveats · routing walked 9/9 (4 triggered) · post-verdict queue RECORDED · v19 NOT opened
 
 **Verdict of record: `drafts/_v18-fun-verify-verdict-20260820.md`**
