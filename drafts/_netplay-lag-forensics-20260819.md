@@ -21,6 +21,13 @@ damage nor heal".
   of log noise per session — cosmetic logging item, post-verdict.
 - Zero desyncs across all of it: lockstep held; this is a THROUGHPUT
   problem, never a correctness one.
+- **Seat asymmetry (Junior's banked log, session 1): joiner seat=2
+  stalls=136 stall_ms_max=1059 vs host seat=1 stalls=9807** — the
+  starvation is HOST-side (this machine), not the link and not his
+  seat. Reweights hypothesis 2/3 toward host CPU pressure (host runs
+  sim + wire duties + audio + the heavier ambient session); hypothesis
+  1's focus-throttle applies to whichever seat spectates — measure,
+  don't guess.
 
 ## Hypotheses for the "worse when 1 alive" correlate (5) — UNVERIFIED, for the investigation session
 

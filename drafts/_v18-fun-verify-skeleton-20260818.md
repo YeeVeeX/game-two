@@ -668,10 +668,19 @@ his machine (no new pull owed — main unmoved since 56440e4). Log
   reported lag live (HELD observations below). Tracked in
   `drafts/_netplay-lag-forensics-20260819.md`; measurement hygiene
   untouched (no sim/net number moves pre-verdict).
-- **PENDING to complete session 1's Half-A row:** Junior's seat-2
-  evidence (his launcher log lines or receipt — handshake digest must
-  equal `66784a92…`, his ticks ≥ 36000, reason=quit, plus his AUDIO
-  `on:/off:/refused:` line read VERBATIM for the Half-B branch).
+- **Seat-2 evidence COMPLETE (Junior's own banking, `76fd4f0`,
+  verified against the banked log bytes this side, md5
+  `78c684d654648ca2b55a0a012e2582bf`):** `AUDIO on: device=1
+  sha=15f03e0219d6` (SAME lib sha as host → **Half-B branch =
+  symmetric novelty**, his log picked it) · `persist loaded
+  digest=66784a92f268776eeb917efb655449c6 … sessions=8
+  source=handshake` — **joiner handshake digest == host, the Half-A
+  continuity check for session 1 GREEN** · `netplay seat=2
+  ticks=74470 desyncs=0 stalls=136 stall_ms_max=1059 reason=quit` —
+  ticks ≥ 36000, clean Esc · `sustain bought=0 used=0 refused=0`
+  (HELD) · zero AUTOPILOT. **RITUAL SESSION 1 = COMPLETE, all gates
+  green both seats.** Forensic: host stalled 9807 vs joiner 136 → the
+  throughput problem is HOST-side (forensics note updated).
 
 **The anchor moves again: ritual session 2's host `persist loaded
 digest=` must equal `3a518bccf2b324f9fb1211ed2f7529f0`** (sessions=9)
