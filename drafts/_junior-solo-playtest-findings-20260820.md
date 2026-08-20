@@ -18,7 +18,51 @@ qualquer mudança depende da validação do Gabriel.
 
 ---
 
-## ACHADO 1 — a IA aliada é NEGATIVA, não apenas fraca (eleva R-A3)
+## CORREÇÃO DO JUNIOR (mesma noite, depois de eu já ter enviado) — VERBATIM
+
+> deixa eu corrigir algumas coisas antes de voce mandar. eu usei somente 1 personagem no
+> inicio para fazer economia mas depois de ter dinheiro eu usei todo o squad para
+> conseguir passar para a sala do boss usando meus aliados como distração, depois na
+> ultima sala do boss eu usei meus aliados a meu favor para derrotalo e limpar a sala,
+> tendo bastante dinheiro nao tem problema em revivelos a todo momento. eu notei que o
+> aliado que bate de longe está com uma inteligencia de sair de perto do minion para
+> atacar entao isso é otimo, na minha visao o problema esta quando o minion entra no
+> raio de visao deles e eles saem correndo para cima para atacar. o fix do ctrl+setas
+> seque desativado.
+
+**O que esta correção faz com o que está escrito abaixo (leitura do assento, marcada):**
+
+1. **RETIRO a caracterização "a IA é NEGATIVA".** Usar um corpo só foi **fase inicial
+   por economia**, não conclusão sobre o jogo: com dinheiro ele usou **o squad inteiro
+   de propósito** — aliados como **distração** para chegar à sala do boss e como
+   ferramenta para derrotá-lo e limpar a sala ("tendo bastante dinheiro nao tem problema
+   em revivelos a todo momento"). Ou seja, os aliados funcionam como **recurso comprável**
+   (paga-se revive, ganha-se distração/tanque). A premissa do pack de três **não** está
+   invertida. Onde o texto abaixo diz o contrário, vale esta correção.
+2. **RETIRO o argumento dos `first_special=never`.** Nunca acionar o *special* de um
+   corpo **não** prova que o corpo não foi usado — ele usou os três. Erro de inferência
+   meu; mesma classe do caso "confundi as palavras". Regra reforçada: telemetria
+   agregada não prova intenção de jogo; o jogador prova.
+3. **O achado real fica MAIS PRECISO, e o escopo ENCOLHE:** o recuo do aliado de alcance
+   existe e ele **elogia** ("sair de perto do minion para atacar... isso é otimo").
+   O problema é de **aquisição**, antes disso: *"quando o minion entra no raio de visao
+   deles e eles saem correndo para cima para atacar"* — que é exatamente o achado (f)
+   do diagnóstico já bancado: `aggro_tiles: 10` igual para todo o kit, então um corpo
+   de alcance 6 sai correndo para fechar contato. Não é reescrever a IA: é **gatear a
+   aquisição por kit** e/ou separar raio de visão de raio de aproximação.
+4. **Ctrl + setas:** ele registra que "segue desativado". **Verificado no repo:** zero
+   ocorrência de `Ctrl` em `data/bindings.json` e `src/core/input.rb`, nenhum intent de
+   virar-parado em `src/` — **nunca foi implementado**, não foi desativado. Segue como
+   Idea 1 do intake do v19 (`drafts/_junior-v19-ideas-20260819.md`, BANK), re-votada
+   pelo dono ("nos faltó").
+5. **CONTINUA valendo sem alteração:** o achado 2 (banco só em `camp`/`nest`,
+   `low_quay` sem estação e beco sem saída, `quay banked_after{events=0 amount=0}`),
+   o achado 3 (BOSS 1 morto — agora melhor explicado: caiu **com o squad usado de
+   propósito**), e todos os números crus da telemetria (são log, não leitura).
+
+---
+
+## ACHADO 1 — leitura ORIGINAL do assento, agora CORRIGIDA pelo bloco acima
 
 O que a R3 do ritual dizia: *"a IA morre muito, fica correndo pra dentro dos inimigos"*.
 O que este relato acrescenta e **muda de grau**: com os três corpos o combate fica
