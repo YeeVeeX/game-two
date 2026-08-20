@@ -792,6 +792,23 @@ cross-referenced by R4's "los fixes mencionados hace un rato".
 Analysis/routing WAITS for Junior's four — nothing here is read
 against the routing table yet.
 
+### ANSWERS 8/8 — EVIDENCE COMPLETE (2026-08-19/20, same-day-pair night)
+
+Junior's set landed `5f276ad` (`drafts/_junior-answer-set-20260820.md`
+— 4/4 verbatim, seat-administered under the owner's relayed order,
+byte-virgin wording, Q1 same-day premise variant USED and noted, one
+named no-content deviation). With the owner's 4/4 above: **all eight
+answers banked verbatim. Half A fully evidenced. Mode = FULL.**
+Adjudication (Half-A formal table · Half-B reading with BOTH
+pre-registered caveats — same-day spacing + symmetric audio novelty ·
+routing table row-by-row · verdict on the spec's closed terms) runs
+in a FRESH session per the T2 spark's stop condition ("ritual
+evidence landed → banked per r9 + checkpoint → STOP") — the r9
+harvest spark is the vehicle; nothing else opens before that decision
+(cycle rule). Post-questions explanations (provisions/mark mechanics)
+were delivered to the owner AFTER 8/8 — quarantine expired by its own
+terms.
+
 ### Ritual session 1 ATTEMPT (2026-08-18 23:40 → 2026-08-19 00:06 — CRASH on both seats; shortfall, RE-RUNS; world UNMOVED)
 
 Launch per the live-launch protocol (owner ask "procede por favor"):

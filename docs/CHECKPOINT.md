@@ -1,5 +1,100 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-19/20 session 20 (hub, owner LIVE all night) — THE SEVENTEENTH RUNS: both ritual sessions + ANSWERS 8/8 banked · T2 importer+schema v2 SHIPPED all gates green · ninth EMPTY gate pre-ritual · adjudication = next fresh session
+
+**Job 0: EMPTY (ninth, 21:10–21:16)** — re-check block in the skeleton
+(`56440e4`); logs 31/31 newest 7461, save `8e94dcb8…`/s8 decode
+`66784a92…`, Junior 0 past main, mail done/=7, answers 0/8 — then the
+night moved. Audio-morning lane did NOT open (owner arrived asking for
+the ritual instead; asks 5–8 remain owner-pending).
+
+**T2 — world-builder importer + zone schema v2: SHIPPED, done-conditions
+MET.** Commits: `3addeb8` schema v2 (TileMap v2 typed transitions +
+`stairs_unlocked_by` hole-only (D4) + `floor:` + `regions:` (D9) +
+`tile_types`; `Core::TileRegistry` v0 + `data/tiles.json` (D7, v0
+wall law # ⇔ wall enforced); World cross-check wiring; +32 tests) ·
+`a858227` importer `tools/import_ldtk.rb` (D2 sole door; EVERY T1
+wrinkle a NAMED refusal: jsonVersion pin · realEditorValues tamper
+tell · void/unknown IntGrid w/ cell coords · pivot/px/offset/worldXY
+pins · identifierStyle+name shape · externalLevels · unknown
+entity/field/layer · PackSpawn order law · tile overlap · unknown
+transition target · sidecar contract · composed loader gate; emit =
+canonical bytes, fixpoint test-enforced; fixture = REAL 1.5.3 vendor
+bytes md5 `59363c…` + district sidecar; 41 tests, suite 908/0) ·
+`.gitattributes` `*.ldtk -text` (v17 W6 EOL law) · spec amendments
+D1/D2/D4 + findings addendum (worldX=-1 fold). **Verification: six
+zones byte-identical (md5 sweep) · D12 sim-digest probe identical
+(seeds 0/42 × 6000 ticks district combat) · canary ×2 byte-identical
+vs PRE-change baselines · `rake gate` ×2 PASS (world_loop +
+low_quay_run, receipts `tmp/t2_gates_receipt.txt` + gate-verdicts
+log `fec8b06`).** T3 (safe tile behaviors) and T4 (pilot authoring)
+wait post-verdict per lane order.
+
+**THE SEVENTEENTH — the ritual RAN (owner-asked ~21:50; same-day pair
+per amendment):**
+- **Idle attempt 8444** (accidental close at hosting screen, ticks=0,
+  world byte-unmoved) — classified, banked.
+- **SESSION 1 (21:59→22:28):** host 74469 ticks · 0 desyncs · quit ·
+  `66784a92`(s8)→`3a518bcc`(s9), disk verified; Junior seat-2
+  `76fd4f0` verified (74470 ticks, handshake==host, **AUDIO ON →
+  symmetric-novelty branch**). COMPLETE both seats.
+- **SESSION 2 (22:51→23:10):** host 36079 ticks (bar+79) · 0 desyncs
+  · quit · loads s1's close EXACTLY → `b5cae357`(s10), disk verified;
+  owner ended ON the lag (verbatim HELD); Junior seat-2 `aba02af`
+  verified (36079, handshake==`3a518bcc`, quit). COMPLETE both seats.
+  **HALF A FULLY EVIDENCED** (4/4 netplay lines green, chain proven
+  both sides, carried facts > 0).
+- **ANSWERS 8/8 BANKED VERBATIM:** owner set 4/4 administered by THIS
+  seat one-by-one (owner order "preguntame una por una" — amendment
+  recorded; wording byte-virgin; R3 = the provisions counter-question
+  recorded AS the answer; deviations named beside the set). Junior
+  set 4/4 via his seat (`5f276ad`, Q1 same-day variant noted).
+  **Post-8/8 the owed provisions/mark explanation was delivered
+  (U/R sustain verb + altar wipe-insurance) — quarantine expired.**
+- **Mode = FULL. Adjudication runs NEXT SESSION fresh** (r9 vehicle;
+  T2-spark stop condition honored: bank + checkpoint → STOP). Caveats
+  pre-attached: same-day spacing + symmetric audio novelty.
+- **Owner live-drops banked along the way (`38a3ddb`…):** 7
+  mid-session observations HELD verbatim · core-gameplay
+  verdict-fragment ("me encanta … reactivo y conectado") · idea 7
+  (enemies walk home) · idea 1 re-vote (ctrl facing) · idea 4
+  addendum + lobber mid/late positioning · chat re-vote (parked,
+  trigger widened "or some system") · M5a ask 9 (ranged-shot cue +
+  MAQUETAS framing: library = mockup-tier by design, organic
+  re-records = final-version lane) · E-skill classified from code
+  (volley 35 dmg @ tiles 2/3/4 delayed 40f — legibility gap, NOT a
+  defect; flywheel candidate post-verdict).
+- **Lag = the night's defect star (`drafts/_netplay-lag-forensics-20260819.md`):**
+  s1 host stalls 9807/13.2% max 1113 ms vs joiner 136 → HOST-side; s2
+  stalls 5386/14.9% max **3341 ms** (spike-class; owner: "no se puede
+  jugar" — severity = blocker, verbatim HELD); desyncs=0 all four
+  lines (stalls ≠ divergence, told the owner); tailscale post-probe
+  direct 165 ms CR↔BR; hypotheses ranked (DERP flap #0, focus
+  throttle, host CPU) + instrumentation shape (stall-cause tags +
+  tailscale sampler). **FIRST work item post-answers — still
+  post-adjudication: it is code.**
+- **Mail (done/=10):** assets family-block receipt (`258a62a`,
+  md5==canonical — 4/4 family sync COMPLETE) · assets tile-era/style
+  ack · audio v1.1 banked receipt (26/26 masters; 24→16 tie-policy
+  note recorded in the M5a verdict — name it in any future
+  re-conversion spark).
+
+**Quarantine spot at close:** save md5 `edfebf4accf0abf3aa86bb1170c62714`
+(mtime 23:10) decode `b5cae357290c01e464f49155bc7f9d13` sessions=10
+banked=7 provisions=0 breached=2 boss_1_defeats=1 notices=[]; logs
+34/34 both patterns (newest 9048 = ritual s2, CONSUMED/banked); Junior
+tip = origin/main (his seat pushed `76fd4f0`/`aba02af`/`5f276ad`);
+tmp/soak newest still `20260819-120805`; gate-verdicts tail = T2
+spot-gate PASS entries (classified, `fec8b06`).
+
+**RESUME POINT (fresh session): ADJUDICATION** — r9 Jobs 1–4 on the
+spec's closed terms (Half-A table from the banked logs · Half-B all
+eight verbatim + BOTH caveats + HELD side-signals AFTER · routing
+table row-by-row · verdict → AGENTS.md line · v19 pool carry: 7 ideas
++ M5a deferred + flywheel findings + lag-first). Owner-pending: audio
+asks 5–8 (mañana) · his 7 attack renders DONE · nothing else owed
+from the humans — the ritual's player duties are COMPLETE.
+
 ## 2026-08-19 session 19 (hub, owner LIVE mid-session) — T1 LDtk spike: **GO** · wall receipt 18/18 · eighth EMPTY gate · owner drops banked (ZONE 7 reveal grammar + projection/style preview intake)
 
 **Job 0:** wall `flywheel1-20260819` receipt CLOSED — **18/18 PASS,
