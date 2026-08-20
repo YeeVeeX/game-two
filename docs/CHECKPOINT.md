@@ -78,7 +78,16 @@ never bin/play) · mail done/ 11→12: the gamesmith NW-intro RECEIPT
 landed and the REVIEWER triaged it into done/ (overreach beyond its
 brief, harm nil — recorded; receipts belong there); its housekeeping ask
 honored by THIS seat: `tmp/nw_intro/` reclaimed (106 MB; corpus is the
-durable home, md5-verified pre-ingest) · `drafts/_gate-verdicts.log`
+durable home, md5-verified pre-ingest). RECEIPT lines harvested (closes
+the `from-game-two-nw-intro-video-ingest.md` dispatch): `RECEIPT:
+gamesmith/docs/nw-aeternum-intro-reveal-grammar.md` (commit 25fe609, md5
+b7c52ae3230d49fbda7596c221965deb — G1–G8 adjudicated: G1/G3–G6
+confirmed, G2 sharpened, G7 audio = source-class gap, G8 refuted→refined;
++5 pattern cards) + `RECEIPT:
+gamesmith/artifacts/games/new-world-aeternum-intro/` (29 segments, 353
+mechanics + 101 feel obs; spend $12.64). Re-stamp check: NOTHING owed
+(no game-two file cites the stale md5 `707220ce…`; live doc md5
+`c324a646…` on any future re-cite) · `drafts/_gate-verdicts.log`
 grew 4 PASS entries (tonight's gates) · tmp/soak newest
 `20260820-020422` (the flag-ON episode) · **Junior's seat pushed TWO
 docs-only commits mid-session (read, then rebased onto):** `40c137c` a
