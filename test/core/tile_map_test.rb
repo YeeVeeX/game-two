@@ -196,18 +196,29 @@ class TileMapTest < Minitest::Test
     assert_match(/renders palette ref "floor", absent/, e.message)
   end
 
-  def test_six_live_zones_load_under_registry_with_v1_defaults
+  # T2 regression bar, T3 amendment: the five untouched zones stay v1-shaped;
+  # nest carries EXACTLY the footstep-only dirt remap (T3, look byte-stable —
+  # see TileRegistryTest's palette-equality pin); grass_fixture is the T3
+  # authored v2 zone (region + threat-free by data, INERT per D12).
+  def test_live_zones_load_under_registry_with_declared_shapes
     data = Core::DataStore.new("data")
     reg = Core::TileRegistry.new(data["tiles"])
     zones = data.keys.grep(%r{\Azones/})
-    assert_equal 6, zones.length
+    assert_equal 7, zones.length
+    v1 = %w[zones/camp zones/district zones/district_two zones/low_quay zones/slow_door]
     zones.each do |key|
       map = Core::TileMap.new(data[key])
       reg.validate_map!(map)
       assert_equal 0, map.floor, "#{key} must default to floor 0"
-      assert_empty map.regions, "#{key} must default to no regions"
-      assert_nil map.tile_types, "#{key} must carry no tile_types override"
       map.transitions.each { |t| assert_nil t[:type], "#{key} transitions stay untyped v1 gates" }
+      if v1.include?(key)
+        assert_empty map.regions, "#{key} must default to no regions"
+        assert_nil map.tile_types, "#{key} must carry no tile_types override"
+      end
     end
+    assert_equal({ "." => "dirt" }, Core::TileMap.new(data["zones/nest"]).tile_types)
+    fixture = Core::TileMap.new(data["zones/grass_fixture"])
+    assert_equal %w[plaza], fixture.regions.map { |r| r[:id] }
+    assert_empty fixture.enemy_spawns, "the fixture zone is threat-free by data"
   end
 end

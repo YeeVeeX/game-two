@@ -13,8 +13,10 @@
     "station_vat": [90, 150, 60],
     "motif": "chip",
     "motif_rgb": [58, 44, 38],
-    "ambient_rgba": [255, 120, 60, 12]
+    "ambient_rgba": [255, 120, 60, 12],
+    "dirt": [28, 24, 22]
   },
+  "tile_types": { ".": "dirt" },
   "decor": [
     { "kind": "brazier", "at": [3, 2], "rgb": [235, 110, 45], "alpha": 255 },
     { "kind": "brazier", "at": [20, 13], "rgb": [235, 110, 45], "alpha": 255 },

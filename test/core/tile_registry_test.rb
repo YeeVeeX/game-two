@@ -19,11 +19,36 @@ class TileRegistryTest < Minitest::Test
   def test_live_registry_file_loads
     data = Core::DataStore.new("data")
     reg = Core::TileRegistry.new(data["tiles"])
-    assert_equal %w[floor wall], reg.types.keys.sort
+    assert_equal %w[dirt floor grass wall wood], reg.types.keys.sort
     assert_equal "wall", reg.type_for_char("#")
     assert_equal "#", reg.char_for_int_grid(1)
     assert_equal ".", reg.char_for_int_grid(2)
-    assert_equal({ "#" => "wall", "." => "floor" }, reg.default_char_map)
+    assert_equal({ "#" => "wall", "." => "floor", "," => "dirt",
+                   "g" => "grass", "w" => "wood" }, reg.default_char_map)
+    assert_equal %w[grass_b grass_c], reg.type("grass")["variants"]
+    assert_equal %w[dirt grass stone wood], reg.types.values.map { |t| t["footstep"] }.uniq.sort
+  end
+
+  # T3 live-data laws (the two invariants the ship leaned on):
+  # 1. nest's dirt remap is footstep-only — its dirt palette entry equals
+  #    floor, so the renderer's visible-overlay rule draws NOTHING new and
+  #    the zone's look stays byte-identical.
+  # 2. grass_fixture is INERT (D12): no live zone's transition reaches it —
+  #    dev entry via --start-zone only.
+  def test_nest_dirt_remap_is_footstep_only
+    nest = JSON.parse(File.read("data/zones/nest.json"))
+    assert_equal({ "." => "dirt" }, nest["tile_types"])
+    assert_equal nest["palette"]["floor"], nest["palette"]["dirt"],
+                 "nest dirt palette must equal floor (look byte-stability law)"
+  end
+
+  def test_grass_fixture_stays_inert
+    Dir["data/zones/*.json"].each do |path|
+      next if File.basename(path) == "grass_fixture.json"
+      targets = JSON.parse(File.read(path)).fetch("transitions", []).map { |t| t["to"] }
+      refute_includes targets, "grass_fixture",
+                      "#{path}: the live graph must not reach the fixture zone (D12)"
+    end
   end
 
   def test_accepts_symbolized_keys_from_data_store

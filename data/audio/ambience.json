@@ -1,0 +1,10 @@
+{
+  "_comment": "T3 region-ambience keying (D9) — BRIDGE custody, never loaded by the library's AudioData. The bridge resolves the possessed body's ambience KEY each frame: a region containing the tile maps through 'intents' (region intent tag -> bed key); otherwise 'zones' (zone name -> bed key); otherwise none. On key CHANGE it emits the synthetic sink event ambience_<key> (unmapped = silent no-op until owner beds land — cue-spec mail from-game-two-t3-cue-spec.md) and logs 'AUDIO ambience key=...'. Keys are mechanical bed ids; live zones deliberately carry NO defaults yet (each bed is owner recording work, added a line at a time at his pace).",
+  "intents": {
+    "town": "amb_town",
+    "dungeon": "amb_dungeon"
+  },
+  "zones": {
+    "grass_fixture": "amb_meadow"
+  }
+}

@@ -13,6 +13,28 @@
       "render": "floor",
       "footstep": "stone",
       "passability": "floor"
+    },
+    "dirt": {
+      "char": ",",
+      "int_grid": 3,
+      "render": "dirt",
+      "footstep": "dirt",
+      "passability": "floor"
+    },
+    "grass": {
+      "char": "g",
+      "int_grid": 4,
+      "render": "grass",
+      "footstep": "grass",
+      "passability": "floor",
+      "variants": ["grass_b", "grass_c"]
+    },
+    "wood": {
+      "char": "w",
+      "int_grid": 5,
+      "render": "wood",
+      "footstep": "wood",
+      "passability": "floor"
     }
   }
 }

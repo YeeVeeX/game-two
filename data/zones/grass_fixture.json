@@ -1,0 +1,40 @@
+{
+  "name": "grass_fixture",
+  "display_name": "ZONE 6",
+  "tile_size": 32,
+  "palette": {
+    "floor": [42, 42, 46],
+    "grid": [50, 50, 54],
+    "wall": [104, 108, 116],
+    "transition": [235, 190, 90],
+    "grass": [44, 58, 34],
+    "grass_b": [38, 52, 29],
+    "grass_c": [51, 66, 40],
+    "dirt": [56, 44, 32],
+    "wood": [88, 64, 40]
+  },
+  "tiles": [
+    "##########################",
+    "#gggggggg,,,,,,.....wwwww#",
+    "#gggggggg,,,,,,.....wwwww#",
+    "#gggggggg,,,,,,.....wwwww#",
+    "#gggggggg,,,,,,.....wwwww#",
+    "#gggggggg,,,,,,.....wwwww#",
+    "#gggggggg,,,,,,.....wwwww#",
+    "#gggggggg,,,,,,.....wwwww#",
+    "#gggggggg,,,,,,.....wwwww#",
+    "#gggggggg,,,,,,.....wwwww#",
+    "#gggggggg,,,,,,.....wwwww#",
+    "#gggggggg,,,,,,.....wwwww#",
+    "##########################"
+  ],
+  "pack_spawn": [[2, 6], [2, 5], [2, 7]],
+  "enemy_spawns": {},
+  "stations": [],
+  "transitions": [
+    { "at": [24, 2], "to": "district", "spawn": [1, 13] }
+  ],
+  "regions": [
+    { "id": "plaza", "rect": [15, 1, 5, 11], "intent": "town" }
+  ]
+}

@@ -5,6 +5,7 @@
   "zone.district_two.display_name": "ZONE 3",
   "zone.slow_door.display_name": "ZONE 4",
   "zone.low_quay.display_name": "ZONE 5",
+  "zone.grass_fixture.display_name": "ZONE 6",
   "breach.line": "TOLL PAID",
   "overlay.vessel.striker": "player 1",
   "overlay.vessel.blocker": "player 2",
