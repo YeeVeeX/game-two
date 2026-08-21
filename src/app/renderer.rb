@@ -1,6 +1,7 @@
 require "app/controls_overlay"
 require "app/kill_pop"
 require "app/stamp"
+require "app/tile_variants"
 require "app/writ"
 require "app/zone_identity"
 
@@ -246,6 +247,13 @@ module App
       transition = color(map.palette[:transition])
 
       Gosu.draw_rect(0, 0, map.pixel_width, map.pixel_height, floor)
+      # T3 typed-tile overlays (D7 flora variants): under walls/grid like
+      # the floor they vary. Geometry memoized per map — pure function of
+      # immutable zone config + registry; the visible-overlay rule inside
+      # TileVariants keeps footstep-only remaps (nest) at ZERO rects.
+      typed_rects(map, world).each do |(tx, ty, ref)|
+        Gosu.draw_rect(tx * ts, ty * ts, ts, ts, color(map.palette[ref]))
+      end
       map.rows.times do |ty|
         map.cols.times do |tx|
           Gosu.draw_rect(tx * ts, ty * ts, ts, ts, wall) if map.wall?(tx, ty)
@@ -285,6 +293,11 @@ module App
       @identity_cache ||= {}
       @identity_cache[map] ||= [App::ZoneIdentity.motif_rects(map),
                                 App::ZoneIdentity.decor_rects(map)]
+    end
+
+    def typed_rects(map, world)
+      @typed_cache ||= {}
+      @typed_cache[map] ||= App::TileVariants.rects(map, world.tile_registry)
     end
 
     # Drops read as PLACE (v11 rider): size is the primary depth channel —
