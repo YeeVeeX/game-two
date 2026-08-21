@@ -7,7 +7,8 @@ classified expected) · save md5 + 38×2 launcher logs + soak dir + mail
 (inbox 0, done 16) all UNMOVED — no new human play, nothing to harvest,
 R-A2 untouched (`bought=0` still, silent).
 
-**J2 — lag T4 vsync-release spike (`0a8af6c` code, `0c3070b` ticket+review):**
+**J2 — lag T4 vsync-release spike (`ce78bfc` code, `074927d` ticket+review;
+hashes rebased over Junior's `ad517e2` ready-doc):**
 Gosu 1.4.6 hard-codes `SDL_GL_SetSwapInterval(1)` at Window construction
 (gem `src/Window.cpp:111`) — env hints dead on principle; shipped the
 post-construction release: `GAME_VSYNC_OFF` → FFI
@@ -44,7 +45,7 @@ open v19.
 
 **Owner-pending (never nag):** ear-checks (dup · respiración · stinger
 overlap → depth-duck increment si falla · audio-v12 batch) · coop S1 (both
-seats pull `0a8af6c`+ now — protocol v3) · Junior's T4 re-run · the v19
+seats pull `ce78bfc`+ now — protocol v3) · Junior's T4 re-run · the v19
 brainstorm.
 
 ## 2026-08-20 session 25 (hub) — gamesmith Round-7B intake BANKED (docs-only; deduplicating triage, no adoption)
