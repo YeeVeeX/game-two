@@ -3,11 +3,15 @@
   "checks": [
     {
       "id": "map_all_zones_present",
-      "check": "Six labeled zone panels are present (ZONE 1 through ZONE 5 and HUB 1), each showing a full tile grid distinct from the dark backing - no panel is empty, cropped, or duplicated."
+      "check": "Eleven labeled zone panels are present (ZONE 1 through ZONE 7, HUB 1, BASEMENT 1, BASEMENT 2, DUNGEON 1), each showing a full tile grid distinct from the dark backing - no panel is empty, cropped, or duplicated."
     },
     {
       "id": "map_zone_grids_read",
-      "check": "Within each panel, walls read darker/denser against floor tiles and each zone's palette differs from its neighbors (the same warm clay/bone family as the game, one hue family per zone) - the panels read as six different places, not six copies."
+      "check": "Within each panel, walls read against floor tiles and each zone's palette differs from its neighbors - the panels read as different places, not copies. The original surface zones stay the warm clay/bone family; ZONE 7 reads as a green meadow-with-town; the FLOOR -1 panels (BASEMENT 1/2, DUNGEON 1) read darker than the surface zones (depth darkens palettes)."
+    },
+    {
+      "id": "map_pilot_well_reads",
+      "check": "Inside ZONE 7's town half, a small uniform ring of tiles around one gold way reads as a distinct authored feature (the drained well and its opened hole) - a deliberate basin, not corruption or a rendering hole."
     },
     {
       "id": "map_seal_stamps_read",

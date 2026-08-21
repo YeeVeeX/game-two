@@ -22,10 +22,12 @@ require "app/map_artifact"
 module App
   # Staged facts for the probe artifact: every landmark surface exists —
   # non-default home (camp), one breached way beside sealed ones, nonzero
-  # counters. Passes the strict decoder (World applies it like any save).
+  # counters, and (T4) the pilot well DRAINED so the water swap and the
+  # opened hole both render. Passes the strict decoder (World applies it
+  # like any save; zone_7's seal makes the tuple legal — D11).
   PROBE_FACTS = {
     "banked" => 42, "provisions" => 2, "home_zone" => "camp",
-    "breached" => [["district", [42, 13]]],
+    "breached" => [["district", [42, 13]], ["zone_7", [33, 14]]],
     "members" => [
       { "kit" => "striker", "hp" => 80, "inscribed" => true },
       { "kit" => "blocker", "hp" => 160, "inscribed" => false },
@@ -117,7 +119,34 @@ module App
         (0...[w, 400].min).any? { |x| px.call(x, y) != App::MapArtifact::CHROME_BG }
       end
       probe "header strip present", band
-      puts "MAP PROBES PASS (5/5)"
+
+      # 4. T4 pilot zones: ZONE 7's drained well (staged breach) shows the
+      # dry ring + the opened hole; DUNGEON 1's panel carries its own
+      # palette (not an empty slab — the T3 god-view catch, re-pinned).
+      z7 = l[:panels].find { |p| p[:name] == "zone_7" }
+      zx, zy = z7[:origin]
+      z7pal = world.zone_maps.fetch("zone_7").palette
+      ring = px.call(zx + 32 * App::MapArtifact::SCALE + 2,
+                     zy + 14 * App::MapArtifact::SCALE + 2)
+      probe "drained well ring shows the dry look", ring == z7pal[:water_drained]
+      probe "dry ring is not the water look", ring != z7pal[:water]
+      hole = px.call(zx + 33 * App::MapArtifact::SCALE + 2,
+                     zy + 14 * App::MapArtifact::SCALE + 2)
+      probe "drained hole reads gate-gold (walkable law)", hole == z7pal[:transition]
+      grass = px.call(zx + 5 * App::MapArtifact::SCALE + 2,
+                      zy + 5 * App::MapArtifact::SCALE + 2)
+      probe "zone_7 meadow reads a grass family tone",
+            [z7pal[:grass], z7pal[:grass_b], z7pal[:grass_c]].include?(grass)
+      d1 = l[:panels].find { |p| p[:name] == "dungeon_1" }
+      dx, dy = d1[:origin]
+      d1pal = world.zone_maps.fetch("dungeon_1").palette
+      probe "dungeon_1 panel carries its own floor",
+            px.call(dx + 15 * App::MapArtifact::SCALE + 2,
+                    dy + 9 * App::MapArtifact::SCALE + 2) == d1pal[:floor]
+      probe "dungeon_1 rope tile reads gate-gold",
+            px.call(dx + 3 * App::MapArtifact::SCALE + 2,
+                    dy + 16 * App::MapArtifact::SCALE + 2) == d1pal[:transition]
+      puts "MAP PROBES PASS (11/11)"
     end
 
     def probe(name, ok)
