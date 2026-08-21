@@ -19,9 +19,11 @@ module Soak
     START_ZONE = /^START_ZONE zone=(\S+)/
     FIGHTS = /^TELEMETRY d1_fired .*\bfights=(\d+)/
     # Coverage law (lane 1, 2026-08-19): hub zones are combat-exempt —
-    # their spawns sit far from pack_spawn by design. Re-derive from
-    # data/zones/*.json hub flags if the zone set ever changes.
-    HUB_ZONES = %w[nest camp].freeze
+    # their spawns sit far from pack_spawn by design. T4: zone_7 joins as
+    # the town hub (hub:true in data, threat-free by data — the camp
+    # pattern). Re-derive from data/zones/*.json hub flags if the zone
+    # set ever changes.
+    HUB_ZONES = %w[nest camp zone_7].freeze
 
     module_function
 

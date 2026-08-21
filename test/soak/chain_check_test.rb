@@ -327,6 +327,22 @@ class ChainCheckTest < Minitest::Test
     assert pass, lines.join("\n")
   end
 
+  # T4: ZONE 7 is the town hub — threat-free by data, exempt like camp;
+  # DUNGEON 1 is NOT a hub, so an idle episode there still fails.
+  def test_zone_coverage_zone_7_is_hub_exempt_and_dungeon_is_not
+    eps = [ep(1, host_log(seed: 101, ticks: 36_050, fresh: true, saved: D1, sessions: 1,
+                          start_zone: "zone_7", fights: 0),
+              joiner_log(seed: 102, ticks: 36_047, start_zone: "zone_7")),
+           ep(2, host_log(seed: 103, ticks: 36_101, loaded: D1, saved: D2, sessions: 2,
+                          start_zone: "dungeon_1", fights: 0),
+              joiner_log(seed: 104, ticks: 36_098, loaded: D1, start_zone: "dungeon_1"))]
+    pass, lines = check(eps, zones: %w[zone_7 dungeon_1])
+    refute pass
+    report = lines.join("\n")
+    assert_match(/EP1 PASS/, report)
+    assert_match(/no combat in dungeon_1/, report)
+  end
+
   def test_zones_cycle_across_episodes
     eps = [ep(1, host_log(seed: 101, ticks: 36_050, fresh: true, saved: D1, sessions: 1,
                           start_zone: "district", fights: 3),
