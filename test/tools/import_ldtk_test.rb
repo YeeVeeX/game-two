@@ -292,6 +292,71 @@ class ImportLdtkTest < Minitest::Test
     refute parsed.key?("floor")
   end
 
+  # --- T4: hub level field + requires_defeats + water_drained_by ---------
+
+  def bool_field(id, value)
+    { "__identifier" => id, "__type" => "Bool", "__value" => value, "__tile" => nil,
+      "defUid" => 9000 + id.sum, "realEditorValues" => [{ "id" => "V_Bool", "params" => [value] }] }
+  end
+
+  def test_hub_level_field_emits_after_display_name
+    d = doc
+    level(d)["fieldInstances"] << bool_field("hub", true)
+    parsed = JSON.parse(importer.import(d).fetch("district"))
+    assert parsed["hub"]
+    keys = parsed.keys
+    assert_equal keys.index("display_name") + 1, keys.index("hub"),
+                 "hub slots after display_name (camp.json order)"
+  end
+
+  def test_hub_false_is_omitted_as_default
+    d = doc
+    level(d)["fieldInstances"] << bool_field("hub", false)
+    parsed = JSON.parse(importer.import(d).fetch("district"))
+    refute parsed.key?("hub")
+  end
+
+  def test_requires_defeats_transition_field_emits
+    d = doc
+    tr = entity(d, "Transition", 0)
+    tr["fieldInstances"] << int_field("requires_defeats", 1)
+    parsed = JSON.parse(importer.import(d).fetch("district"))
+    gate = parsed["transitions"].find { |t| t["requires_defeats"] }
+    assert_equal 1, gate["requires_defeats"]
+  end
+
+  def test_requires_defeats_zero_refuses_via_loader
+    d = doc
+    tr = entity(d, "Transition", 0)
+    tr["fieldInstances"] << int_field("requires_defeats", 0)
+    # 0 is falsy at the pass-through, so it never lands in the emitted zone
+    # — an authored 0 simply cannot gate; a negative Integer refuses via
+    # the loader gate. Pin the sharper case:
+    tr["fieldInstances"].pop
+    tr["fieldInstances"] << int_field("requires_defeats", -1)
+    assert_match(/requires_defeats must be an Integer >= 1/, refusal(d))
+  end
+
+  def test_water_drained_by_sidecar_key_emits_after_gradient_anchor
+    sc = sidecar
+    sc["palette"]["water_drained"] = [50, 44, 30]
+    sc["water_drained_by"] = [1, 1]
+    parsed = JSON.parse(importer(sidecars: { "district" => sc }).import(doc).fetch("district"))
+    assert_equal [1, 1], parsed["water_drained_by"]
+    keys = parsed.keys
+    assert_operator keys.index("water_drained_by"), :>, keys.index("gradient_anchor"),
+                    "presentation links slot after gradient_anchor"
+  end
+
+  def test_water_drained_by_without_palette_ref_refuses_via_loader
+    sc = sidecar
+    sc["water_drained_by"] = [1, 1]
+    e = assert_raises(Tools::LdtkImporter::Refusal) do
+      importer(sidecars: { "district" => sc }).import(doc)
+    end
+    assert_match(/palette carries no water_drained ref/, e.message)
+  end
+
   def test_typed_hole_transition_with_unlock_fact_emits
     d = doc
     tr = entity(d, "Transition", 1) # the sealed camp transition

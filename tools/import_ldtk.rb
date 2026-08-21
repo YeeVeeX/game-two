@@ -1,10 +1,11 @@
 # World-builder T2 (D2): the PRODUCTION importer — the ONLY door from
 # LDtk output to zone JSON. LDtk owns SPATIAL truth (IntGrid tiles,
-# entities, the display_name/floor level fields); the per-zone sidecar
-# owns presentation/tuning scalars (palette incl. alpha, drop_gradient,
-# gradient_anchor, tile_size). The emitter below defines the CANONICAL
-# zone-JSON byte format; import -> emit -> import is a byte-stable
-# fixpoint (enforced by test/tools/import_ldtk_test.rb).
+# entities, the display_name/floor/hub level fields); the per-zone
+# sidecar owns presentation/tuning scalars (palette incl. alpha,
+# drop_gradient, gradient_anchor, water_drained_by — T4's deliberate
+# extension). The emitter below defines the CANONICAL zone-JSON byte
+# format; import -> emit -> import is a byte-stable fixpoint (enforced
+# by test/tools/import_ldtk_test.rb).
 #
 # Every refusal is NAMED (save-decoder register) and exits nonzero from
 # the CLI. The refusal set implements the T1 findings table
@@ -45,14 +46,15 @@ module Tools
     # (template drift is deliberate re-pinning, never silent).
     ENTITY_FIELDS = {
       "Station" => { required: %w[type], optional: %w[price opens line] },
-      "Transition" => { required: %w[to spawn], optional: %w[sealed type stairs_unlocked_by] },
+      "Transition" => { required: %w[to spawn],
+                        optional: %w[sealed type stairs_unlocked_by requires_defeats] },
       "PackSpawn" => { required: %w[order], optional: [] },
       "EnemySpawn" => { required: %w[kind], optional: [] },
       "Region" => { required: %w[id intent], optional: [] }
     }.freeze
 
     SIDECAR_REQUIRED = %w[palette tile_size].freeze
-    SIDECAR_OPTIONAL = %w[drop_gradient gradient_anchor].freeze
+    SIDECAR_OPTIONAL = %w[drop_gradient gradient_anchor water_drained_by].freeze
 
     # registry: Core::TileRegistry (IntGrid value -> glyph mapping, D7).
     # sidecars: { zone_name => Hash } (plain JSON.parse, string keys).
@@ -150,9 +152,11 @@ module Tools
     end
 
     # Level custom fields: display_name required; floor optional Int
-    # (wrinkle 9 — the natural LDtk home for zone metadata).
+    # (wrinkle 9); hub optional Bool (T4 — zone metadata is level-field
+    # custody, the camp precedent: hub rehoming is existing data-driven
+    # machinery, not new sim vocabulary).
     def level_fields(zone, level)
-      known = { "display_name" => "String", "floor" => "Int" }
+      known = { "display_name" => "String", "floor" => "Int", "hub" => "Bool" }
       out = {}
       (level["fieldInstances"] || []).each do |fi|
         id = fi["__identifier"]
@@ -163,6 +167,9 @@ module Tools
         if !out["display_name"].is_a?(String) || out["display_name"].empty?
       if out.key?("floor") && !out["floor"].nil? && !out["floor"].is_a?(Integer)
         refuse "level #{zone}: floor must be an Int"
+      end
+      if out.key?("hub") && !out["hub"].nil? && ![true, false].include?(out["hub"])
+        refuse "level #{zone}: hub must be a Bool"
       end
       out
     end
@@ -299,6 +306,9 @@ module Tools
       t["sealed"] = true if f["sealed"] == true
       t["type"] = f["type"] if f["type"]
       t["stairs_unlocked_by"] = f["stairs_unlocked_by"] if f["stairs_unlocked_by"]
+      # T4 boss fact-gate: pass through; the loader gate (TileMap v2) owns
+      # the >= 1 Integer refusal — the door composes the loader's law.
+      t["requires_defeats"] = f["requires_defeats"] if f["requires_defeats"]
       t
     end
 
@@ -335,12 +345,14 @@ module Tools
     end
 
     # Canonical key order = the live zone files' order; v2 keys slot in
-    # deterministically (floor after display_name, regions last). Emit
-    # omits defaults (floor 0, empty regions) so a v1-shaped zone emits
+    # deterministically (floor then hub after display_name, presentation
+    # links after gradient_anchor, regions last). Emit omits defaults
+    # (floor 0, hub false, empty regions) so a v1-shaped zone emits
     # v1-shaped bytes.
     def assemble(zone, lf, tiles, ents, sidecar)
       out = { "name" => zone, "display_name" => lf["display_name"] }
       out["floor"] = lf["floor"] if lf["floor"] && lf["floor"] != 0
+      out["hub"] = true if lf["hub"] == true
       out["tile_size"] = sidecar["tile_size"]
       out["palette"] = sidecar["palette"]
       out["tiles"] = tiles
@@ -350,6 +362,7 @@ module Tools
       out["transitions"] = ents[:transitions]
       out["drop_gradient"] = sidecar["drop_gradient"] if sidecar.key?("drop_gradient")
       out["gradient_anchor"] = sidecar["gradient_anchor"] if sidecar.key?("gradient_anchor")
+      out["water_drained_by"] = sidecar["water_drained_by"] if sidecar.key?("water_drained_by")
       out["regions"] = ents[:regions] unless ents[:regions].empty?
       out
     end
