@@ -56,6 +56,26 @@ RENDERS (es-CR list in the cue-spec mail) · coop S1 (Junior READY, both
 seats pull first) · the v19 brainstorm · NEW: the ZONE 7 dev walk
 (recipe above + in the ticket doc).
 
+## 2026-08-21 session 27 CLOSE ADDENDUM — **OWNER WALKED THE PILOT AND RATIFIED ("Aprobado")** · T4's amb_town gap CLOSED live · T5 is the next session job
+
+Launched the dev walk for the owner (seeded scratch, es locale; a double
+launch got caught by the guard — the extra instance was killed BEFORE any
+quit-write, chain clean). His walk log (`game_two_session_2451218385.log`,
+md5 `b26c81aa…`, 72 lines, banked verbatim here): loaded digest
+`9d57d5e4…` → walked ALL five zone_7 materials (dirt/stone/grass/water/
+wood) + stone in dungeon_1 · **`amb_town` ×6 exercised LIVE** (T4's named
+gap closed) + amb_meadow↔amb_town + amb_dungeon + honest `key=none` in
+BOTH basements · paid the 40 toll (banked 60→20), fell, fought (fights=6),
+wiped once and respawned at the town (the hub law live), roped back ·
+clean quit, `AUDIO teardown clean (dropped_cues=0)`, scratch save wrote
+sessions=1. Then: **"Aprobado"** — the owner's word routes T5 (wire-in)
+as the next session job. Note: the shared world already carries
+`boss_1_defeats: 1` (saves/world.json, read-only check) — the moment T5
+wires the gate, the owners' EARNED defeat opens ZONE 7. Launcher logs now
+40×2 (walk log + the killed instance's empty artifact). Seat mail: assets
+re-pin record to c5c146d archived, no action (done/=21). R-A2: his walk
+was SCRATCH play — the live-log `bought=0` measure unchanged.
+
 ## 2026-08-21 session 26 CLOSE ADDENDUM — **LAG T4 ADJUDICATED: REFUTED on the decisive seat, ticket CLOSED no-ship-by-default**
 
 Junior's re-run landed at close (`2e23bd3`, log md5 `1186fe4a…`, table +
