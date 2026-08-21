@@ -1,5 +1,53 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-21 session 31 (hub) — EDGE-VALIDATION HARDENING SHIPPED (s30 nit 6): unknown-target + impassable-spawn zone edges refuse NAMED at world load · extract-on-touch fired (world.rb was at 1800/1800) · v19 still NOT open
+
+**Gate 0 (all baselines unmoved at open AND at close, verified live):**
+origin tip `da5119c` (s31 spark, expected; pull clean, 0 Junior
+commits) · save md5 `98fe75ed…` mtime 08-20 15:51 — **the owners have
+still NOT walked the gate** · launcher logs 40×2 (R-A2 `bought=0`
+stands, silent) · mail inbox 0 / done 22 (T3 cue-spec still unanswered
+in the audio seat's inbox) · soak newest `20260820-232208` · untracked
+`drafts/_refs/` only · tmp/pilot_walk untouched · S1 evidence
+README-only. No override lane fired; no deltas → J1 → docs close.
+
+**J1 SHIPPED — `3c4b988`** (pushed): `Crossing.validated_arrivals` —
+every zone edge validates at WORLD LOAD (the point all consumers
+converge: play, netplay, map, harness, soak, pilot): unknown
+destination / malformed spawn / impassable spawn refuse NAMED with the
+full source/at/to/spawn tuple, killing the crossing-time KeyError and
+the silent in-wall placement (crossing.rb placed spawn
+unconditionally). Classification: lane-3 engine hardening (named-
+refusal doctrine), NOT sim-class — **all 19 real edges across 11 zones
+pre-scanned LEGAL (bad=0), no defect branch**; legal worlds
+byte-identical by construction. Suite 999→1004 (5 new message-asserted
+tests, green first run), no Rule-2 gate owed (zero visual surface).
+**Line-cap story: world.rb sat at EXACTLY 1800/1800 — the first draft
+hit the ceiling test at 1830; extract-on-touch moved the logic into the
+Crossing policy object; world.rb back to 1800 with ZERO headroom (next
+material touch owes another extraction).** Fresh-eyes review (scrubbed
+read-only sub-session): PASS-WITH-NITS — legal-world semantics verified
+byte-identical, reviewer independently re-ran the 19-edge scan (bad=0);
+nits recorded in the ticket (nil `at` pre-existing UNNAMED crash in
+TileMap = next doctrine spot). Importer mirror: NO (name-only universe;
+spawn passability needs destination grids = cross-file pass, not
+trivial; RECORDED follow-up). Preview-claim correction: no dedicated
+preview tool exists — authors boot real Worlds (`--start-zone` / pilot
+/ map), all through load_zones, so the refusal fires at authoring speed
+anyway. Ticket: `drafts/_s31-edge-validation-20260821.md`. Mail dir
+audited after the reviewer run: clean.
+
+**Not landed (honest no-deltas):** Junior's re-measure (newest bank
+still `_junior-pilot-walk-20260821.md` @ `f60d51e`, the PRE-fix probe;
+the pre-declared classes carry to s32 verbatim) · owner play (harvest
+lane stays armed; first-crossing verbatims still ahead) · the v19
+brainstorm. Council 0 · paid calls 0 · sub-agents: the one required
+reviewer. Docket + AGENTS untouched (no verdict landed).
+
+**Owner-pending (unchanged, never nag):** ear-checks + audio-v12 batch
+· T3 footstep/bed renders (frozen cue-spec mail) · coop S1 invite ·
+Junior's re-measure · the v19 brainstorm.
+
 ## 2026-08-21 session 30 (hub) — THE PRE-WALK PIN SHIPPED (owner-approved): T5 open-gate composition suite-pinned BEFORE the owners' walk · map recon clean · brainstorm magazine loaded · v19 still NOT open
 
 **Gate 0 (all baselines unmoved at open AND at close, verified live):**
