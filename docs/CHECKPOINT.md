@@ -1,5 +1,53 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-21 session 30 (hub) — THE PRE-WALK PIN SHIPPED (owner-approved): T5 open-gate composition suite-pinned BEFORE the owners' walk · map recon clean · brainstorm magazine loaded · v19 still NOT open
+
+**Gate 0 (all baselines unmoved at open AND at close, verified live):**
+origin tip `cda7d1c` (s30 spark, expected; pull clean, 0 Junior
+commits) · save md5 `98fe75ed…` mtime 08-20 15:51 — **the owners have
+still NOT walked the gate** · launcher logs 40×2 (R-A2 `bought=0`
+stands, silent) · mail inbox 0 / done 22 (T3 cue-spec still unanswered
+in the audio seat's inbox) · soak newest `20260820-232208` ·
+tmp/pilot_walk untouched · S1 evidence README-only · zero ruby at the
+launch guard. No override lane fired; no deltas → J1→J2→J3 ordering.
+
+**J1 SHIPPED — `03f2601`:** `test/game/open_gate_composition_test.rb`,
+three tests on the REAL pair through the REAL restore path (facts hash
+strict-decoder-asserted): defeats=1 opens low_quay [44,19]→zone_7
+[2,14] · defeats=0 refuses the same slab · the return [1,14]→[43,19]
+is free. **All three green on first run — no defect branch fired; the
+owners' payoff walk cannot fizzle on a composition seam.** Suite
+996→999, hooks green, no Rule-2 gate owed (mechanics-only, s28
+edge-pin class). Fresh-eyes review (scrubbed read-only sub-session):
+PASS-WITH-NITS — nit 6 RECORDED as an engine-hardening candidate
+(transition SPAWN passability validated nowhere: tile_map asserts `at`
+only, crossing places spawn unconditionally), nit 7 noted
+(park_allies_adjacent inert single-seat). Ticket:
+`drafts/_s30-gate-pin-20260821.md`.
+
+**J2 map recon (read-only, after a zero-ruby guard):** god-view v0
+KNOWS the joined world — all four pilot zones render; ZONE 5 stamps
+**OPEN** at [44,19] from the live save's earned fact (seal_stamps
+covers requires_defeats gates); dungeon hole SEALED; header counters
+live; save md5 unmoved after the run. Coverage gap: NONE — no v19
+map-data candidate owed. `captures/map/world_41a9683d_1787347805.png`.
+
+**J3 brainstorm prep:** `drafts/_v19-brainstorm-prep-20260821.md` —
+touchstone pointers per docket row (pointers ONLY, zero positions by
+its own header law); one named SHELF GAP: no curated note covers
+companion/ally AI (Junior finding A / verdict row 6 debate would open
+unloaded).
+
+**Not landed (honest no-deltas):** Junior's re-measure (the s30 spark
+§J4 classes stand pre-declared, adjudicate on his bank only) · owner
+play (harvest lane stays armed) · the v19 brainstorm. Council 0 · paid
+calls 0 · sub-agents: the one required reviewer. Docket + AGENTS
+untouched (no verdict landed).
+
+**Owner-pending (unchanged, never nag):** ear-checks + audio-v12 batch
+· T3 footstep/bed renders (frozen cue-spec mail) · coop S1 invite ·
+Junior's re-measure · the v19 brainstorm.
+
 ## 2026-08-21 session 29 (hub) — NO-DELTA HARVEST GATE: nothing landed (valid short session per the s29 spark) · v19 still NOT open
 
 **Gate 0 (ALL baselines UNMOVED, verified live):** origin tip `8032b1d`
