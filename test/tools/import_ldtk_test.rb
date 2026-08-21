@@ -328,10 +328,10 @@ class ImportLdtkTest < Minitest::Test
   def test_requires_defeats_zero_refuses_via_loader
     d = doc
     tr = entity(d, "Transition", 0)
+    # 0 is TRUTHY in Ruby, so the pass-through emits it and the loader
+    # gate refuses NAMED (>= 1 law) — same for negatives. Pin both.
     tr["fieldInstances"] << int_field("requires_defeats", 0)
-    # 0 is falsy at the pass-through, so it never lands in the emitted zone
-    # — an authored 0 simply cannot gate; a negative Integer refuses via
-    # the loader gate. Pin the sharper case:
+    assert_match(/requires_defeats must be an Integer >= 1/, refusal(d))
     tr["fieldInstances"].pop
     tr["fieldInstances"] << int_field("requires_defeats", -1)
     assert_match(/requires_defeats must be an Integer >= 1/, refusal(d))
