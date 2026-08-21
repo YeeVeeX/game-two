@@ -1,5 +1,92 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-21 session 28 (hub) — **WB T5 SHIPPED: THE WORLD IS JOINED (D12 complete)** · frame-tail trigger FIRED → J1 render fix shipped · FULL WALL PASS 21/21 · v19 still NOT open
+
+**Gate 0:** origin tip `c0dc412` (s28 spark, expected) · save md5
+`98fe75ed…` + 40×2 launcher logs + soak dir + mail (inbox 0, done 21)
+all UNMOVED · untracked drafts/_refs/ only · R-A2 silent (`bought=0`
+stands, no new human logs). Mid-session mail delta: the assets seat's
+mechanical re-pin record to `1b0d3dd` (approve-by-default, no action —
+their audit independently re-verified every pinned render constant
+against the J1 renderer; archived, done/=22).
+
+**J1 — frame-tail draw fix (the FIRED trigger; ticket
+`drafts/_wb-t5-wirein-20260821.md`):** Junior FELT the T4 zones lag and
+banked probe numbers (his walk file §ACHADO: over20 16.8%, draw p95
+15.3 ms ≈ the whole budget, update innocent). Reproduced mechanically
+here: A/B bots (seed 77, 10800 ticks) zone_7 draw p50 2.2× district on
+the same build; static census matched (zone_7 ~1030 draw_rect/frame in
+draw_map, 597 = the T4 typed pass). **Two fix shapes probed and
+REJECTED with banked artifacts** (Gosu.record macro — `Macro#draw`
+illegal inside `Gosu.render` on gosu 1.4.6, the capture harness can
+never rasterize it · rasterized texture — byte-FAILS under the float
+camera's fractional translate, 20/57 frames moved). **Shipped: merged
+static rect runs** (`dd8ff40`) — same primitive, exact-tiling merges
+only, zone_7 static 948→445 / district walls 453→25; draw p50
+2.2→1.2 ms (zone_7) / 1.0→0.6 (district); **57/57 capture PNGs
+md5-equal to pre-change baselines** (rc-guarded verify — the first
+verify run false-passed on stale PNGs, lesson banked in the script).
+Junior's re-measure = the decisive seat (owner-paced; pt-br two-liner
+staged in the ticket).
+
+**J2 — WB T5 wire-in (spec §T5; grill block + evidence in the same
+ticket):** the ratified edge pair joins the live graph — low_quay
+[44,19] (SE corner, past BOSS 1, Chebyshev 4 from the challenger spawn,
+owned consequence named) ↔ zone_7 [1,14] (west road; spawns beside the
+far transition both ways — no auto-fire ping-pong). Gate =
+`requires_defeats: 1` (T4's Crossing#open? + way_locked?, wired into
+zone files for the first time); **the owners' EARNED boss_1_defeats=1
+opens it on their next play**. zone_7 side through the DOOR
+(authoring/pilot.ldtk Transition entity injected byte-surgically —
+round-trip recipe verified — re-imported, deliberate copy; provenance
+pin green); low_quay side one surgical JSON object; basements/dungeon
+emissions cmp-identical; the OTHER five live zones byte-untouched
+(review law L1). INERT pin AMENDED to name the D12 completion
+(RATIFIED_EDGES = exactly the pair, both directions still pinned for
+everything else) + a NEW edge-pin test (gate shape + free return +
+no-ping-pong spawns). zone_identity ZONES list gains the four pilot
+zones (all four pass the contracts — audited before amending).
+HUB_ZONES now DERIVES from zone data (T4-review defect 2 closed,
+`1b0d3dd`). Commits: `371aedd` data · `a639c2b`+`3c0ff6c` wall script ·
+suite 994→996 green via hooks each commit.
+
+**multi_floor_descent.json (D10's one owed surface script):** authored
+through the pilot harness (NAME=mfd2 SEED=7, goto waypoints, export) —
+2912 frames: dungeon_1 fight → rope interact → zone_7 → town road →
+west meadow → HOUSE 1 → stairs down/up → plaza → **cross the free
+return edge into low_quay at defeats=0: the LOCKED slab lands on camera
+(frame_2890, pixel-verified crop banked) and frame_2911 proves the
+mechanical refusal (possessed ON the gate tile, zone unchanged)** — the
+Rule-2 gap (no script framed the slab; varekka's camera never reaches
+the corner — pixel-audited) named and closed. The replay caught the
+challenger engaging at the corner (varekka engaged=1 chants=1
+interrupted=1): the boss guards the door, deterministically. Manifest
+zone_entered>=4. Choreography lesson: an ally parking on the stairs
+tile blocks goto — shuffle the pack first (banked in the commit).
+
+**THE GATE:** FULL WALL `t5` — **PASS 21/21, fails: none** (every
+script gate_rc=0 manifest_rc=0, determinism ×2 + vision critique each;
+tmp/wall/*_t5.log). Spot-gates pre-wall: low_quay_run PASS (11 captures
+additionally byte-identical to PRE-T5 baselines — the slab is off-frame
+for that script's walk) · varekka_duel PASS. Standalone
+multi_floor_descent gate PASS ×2 before joining. Save md5 `98fe75ed…`
+UNMOVED through the whole session (bots on scratch only; the owners'
+tmp/pilot_walk untouched).
+
+**Docs:** SEVENTEENTH verdict doc gains the post-verdict world note
+(the measured six-zone world → one boss-gated exit, dated AFTER the
+adjudication; readings of that verdict cover the six-zone arc only).
+Docket rows: J-1 CLOSED (Junior's re-test receipt) · frame-tail row →
+TRIGGER FIRED + s28 fix pointer · basement-ambience ANSWERED (design
+v0, T4 rider 8; a data row when a bed render exists). AGENTS lane 3
+updated (T5 SHIPPED). Fresh-eyes review: see close addendum.
+
+**Owner-pending (never nag):** ear-checks + audio-v12 batch · T3
+footstep/bed renders (es-CR list in the frozen cue-spec mail) · coop S1
+invite (BOTH seats must pull first — T5 moved live-zone bytes, protocol
+v3 refuses mixed builds) · Junior's frame-probe re-measure (the J1
+decisive seat) · the v19 brainstorm.
+
 ## 2026-08-21 session 27 (hub) — **WB T4 SHIPPED: the pilot world authored in LDtk through the door — ZONE 7 (town hub + THE WELL) · BASEMENT 1/2 · DUNGEON 1, all INERT (D12)** · typed-transition sim wiring · v19 still NOT open
 
 **Gate 0:** origin tip `3fdfae9` (s26-close docs, expected) · save md5

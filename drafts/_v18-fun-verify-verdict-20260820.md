@@ -594,3 +594,17 @@ CLOSES.**
 
 **v19 does NOT open here.** The brainstorm is the two owners', at
 their word, carrying the inputs above.
+
+## Post-verdict world note (2026-08-21, session 28 — T5 wire-in)
+
+The world this ritual measured was the SIX-ZONE world. On 2026-08-21 —
+AFTER this adjudication closed (2026-08-20) and after the owner ratified
+the T4 pilot walk ("Aprobado") — WB T5 wired ONE boss-gated edge into it:
+low_quay [44,19] ↔ zone_7 [1,14] (`requires_defeats: 1`; commit
+`371aedd`). Every number above predates that edge; none of the SIM
+quantities the ritual measured (respawn/difficulty/sustain pacing)
+moved before its close, and the authored content beyond the gate ships
+threat-free (zone_7) or conservative (dungeon_1) with zero balance-file
+changes. Future readings of this verdict cover the six-zone arc only —
+the expanded world is post-verdict content under the D12 completion
+recorded in AGENTS.md lane 3.

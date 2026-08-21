@@ -90,15 +90,22 @@ time. Live in-game god-mode editing stays the staged later rung (2026-
 record `drafts/_world-builder-grill-20260819.md`). Ticket state: T1 GO
 (s19) · T2 importer+schema v2 (s20) · T3 safe behaviors SHIPPED (s26)
 · **T4 pilot authoring SHIPPED (s27)** — ZONE 7 (town hub, THE WELL) +
-BASEMENT 1/2 + DUNGEON 1 authored in LDtk through the importer, INERT
-per D12 (dev walk: seed a scratch save `home=zone_7` — recipe in
-`drafts/_wb-t4-pilot-20260821.md`); typed transitions live (rope =
-interact, holes/stairs auto-fire, `requires_defeats` boss fact-gate
-implemented, wired into ZERO live files) · **T5 wire-in NEXT at the
-owners' word** (its own full-wall gate). New content merges
-into the LIVE world only per the recorded merge-timing decision
-(default: post-verdict — D12; the SEVENTEENTH verdict has landed, the
-wire-in still waits for T5's own gate).
+BASEMENT 1/2 + DUNGEON 1 authored in LDtk through the importer ·
+**T5 wire-in SHIPPED (s28, 2026-08-21) — D12 COMPLETE, THE WORLD IS
+JOINED**: the ratified edge pair low_quay [44,19] ↔ zone_7 [1,14]
+(`requires_defeats: 1` — the owners' EARNED `boss_1_defeats: 1` in the
+shared save opens it on their next play; the return is free). zone_7
+side authored through the door (provenance pin re-emitted); INERT law
+amended to NAME the completion (basements/dungeon_1/grass_fixture stay
+inert both ways); `multi_floor_descent.json` joined the wall (rope +
+stairs both ways + town render + the LOCKED slab on camera + the
+mechanical refusal). FULL WALL PASS 21/21. Ticket:
+`drafts/_wb-t5-wirein-20260821.md`. Same session: the frame-tail
+trigger FIRED (Junior's banked numbers) → draw diagnosed + the
+merged-static-runs render fix shipped (`dd8ff40`, captures
+byte-identical to pre-change baselines; Junior's re-measure pending,
+owner-paced). Typed transitions live (rope = interact under the
+gate-consent law, holes/stairs auto-fire).
 
 **Owner-pending (never nag):** EAR-CHECKS of the audio-v12 batch
 (evolving calm loop · zone-change · tailed throws · ask-5 levels) — ride
