@@ -53,7 +53,9 @@ class TileRegistryTest < Minitest::Test
   # EXACTLY ONE edge pair joins the live graph, low_quay [44,19] <->
   # zone_7 [1,14] (boss fact-gated on the low_quay side; both endpoint
   # zones declare gradient_anchor, so no live gate field re-anchors).
-  # Everything else stays inert BOTH ways — this is the completion the
+  # The other pilot zones stay fully inert; grass_fixture stays
+  # INBOUND-inert (its T3 outbound dev-walk edge to district predates
+  # T5 and is not part of this completion) — this is the completion the
   # law always named, not its deletion.
   INERT_ZONES = %w[grass_fixture zone_7 basement_1 basement_2 dungeon_1].freeze
   RATIFIED_EDGES = { "low_quay" => %w[zone_7], "zone_7" => %w[low_quay] }.freeze

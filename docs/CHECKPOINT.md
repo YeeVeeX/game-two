@@ -42,8 +42,9 @@ round-trip recipe verified — re-imported, deliberate copy; provenance
 pin green); low_quay side one surgical JSON object; basements/dungeon
 emissions cmp-identical; the OTHER five live zones byte-untouched
 (review law L1). INERT pin AMENDED to name the D12 completion
-(RATIFIED_EDGES = exactly the pair, both directions still pinned for
-everything else) + a NEW edge-pin test (gate shape + free return +
+(RATIFIED_EDGES = exactly the pair; basements/dungeon_1 stay pinned
+both directions, grass_fixture inbound — review defect 1 wording fix) +
+a NEW edge-pin test (gate shape + free return +
 no-ping-pong spawns). zone_identity ZONES list gains the four pilot
 zones (all four pass the contracts — audited before amending).
 HUB_ZONES now DERIVES from zone data (T4-review defect 2 closed,
@@ -79,7 +80,16 @@ adjudication; readings of that verdict cover the six-zone arc only).
 Docket rows: J-1 CLOSED (Junior's re-test receipt) · frame-tail row →
 TRIGGER FIRED + s28 fix pointer · basement-ambience ANSWERED (design
 v0, T4 rider 8; a data row when a bed render exists). AGENTS lane 3
-updated (T5 SHIPPED). Fresh-eyes review: see close addendum.
+updated (T5 SHIPPED). **Fresh-eyes review (BLOCKING, scrubbed read-only
+pi): VERDICT PASS — 10/10 laws, 3 note defects, none blocking**
+(receipt `drafts/_wb-t5-review-20260821.md`). Adjudication: defect 1
+(the "grass_fixture inert both ways" wording overclaimed — its T3
+outbound dev edge to district predates T5) FIXED in place across test
+comment + AGENTS + this entry; defect 2 (before-probe logs overwritten
+by the after-run — the before numbers survive in ticket prose) =
+hygiene note for future probes; defect 3 (reviewer seat-blocked from
+re-running the suite — static evidence + hooks + the 21-script wall
+carry it) = satisfied by the pre-push suite re-run.
 
 **Owner-pending (never nag):** ear-checks + audio-v12 batch · T3
 footstep/bed renders (es-CR list in the frozen cue-spec mail) · coop S1

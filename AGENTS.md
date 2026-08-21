@@ -96,8 +96,9 @@ JOINED**: the ratified edge pair low_quay [44,19] ↔ zone_7 [1,14]
 (`requires_defeats: 1` — the owners' EARNED `boss_1_defeats: 1` in the
 shared save opens it on their next play; the return is free). zone_7
 side authored through the door (provenance pin re-emitted); INERT law
-amended to NAME the completion (basements/dungeon_1/grass_fixture stay
-inert both ways); `multi_floor_descent.json` joined the wall (rope +
+amended to NAME the completion (basements/dungeon_1 inert both ways;
+grass_fixture inbound-inert — its T3 outbound dev edge predates T5);
+`multi_floor_descent.json` joined the wall (rope +
 stairs both ways + town render + the LOCKED slab on camera + the
 mechanical refusal). FULL WALL PASS 21/21. Ticket:
 `drafts/_wb-t5-wirein-20260821.md`. Same session: the frame-tail
