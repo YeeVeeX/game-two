@@ -1,5 +1,33 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-21 session 29 (hub) — NO-DELTA HARVEST GATE: nothing landed (valid short session per the s29 spark) · v19 still NOT open
+
+**Gate 0 (ALL baselines UNMOVED, verified live):** origin tip `8032b1d`
+(s29 spark, expected; pull clean + fetch dry-run empty — 0 Junior
+commits) · save md5 `98fe75ed…` mtime 08-20 15:51 — **the owners have
+NOT walked the gate yet**, the arc's payoff moment is still ahead ·
+launcher logs 40×2 (no new human play; R-A2 `bought=0` stands, silent)
+· mail inbox 0 / done 22 (T3 cue-spec still unanswered in the audio
+seat's inbox, md5 re-verified `d556358a…` — nothing owed; no new assets
+re-pin) · soak newest `20260820-232208` · untracked `drafts/_refs/`
+only · tmp/pilot_walk/world.json untouched · coop S1 evidence dir
+README-only (no S1 session) · zero ruby processes. No override lane
+fired.
+
+**Adjudications: none owed.** J1 (Junior's frame-probe re-measure, the
+decisive seat for the `dd8ff40` fix) NOT landed — his newest bank is
+still `_junior-pilot-walk-20260821.md` @ `f60d51e`, the PRE-fix probe
+that FIRED the trigger; the pre-declared classes (CLOSES / PARTIAL /
+REFUTED-ON-SEAT, s29 spark §J1) stand unmoved and adjudication waits
+for his bank (owner-paced, never nag). J2 = zero new human launcher
+logs, nothing to harvest, no harvest note opened. J4 = the v19
+brainstorm did not open. Zero code, zero data, council 0, paid calls 0.
+
+**Owner-pending (unchanged, never nag):** ear-checks + audio-v12 batch
+· T3 footstep/bed renders (es-CR list in the frozen cue-spec mail) ·
+coop S1 invite (both seats pull first) · Junior's re-measure (J1) · the
+v19 brainstorm.
+
 ## 2026-08-21 session 28 (hub) — **WB T5 SHIPPED: THE WORLD IS JOINED (D12 complete)** · frame-tail trigger FIRED → J1 render fix shipped · FULL WALL PASS 21/21 · v19 still NOT open
 
 **Gate 0:** origin tip `c0dc412` (s28 spark, expected) · save md5
