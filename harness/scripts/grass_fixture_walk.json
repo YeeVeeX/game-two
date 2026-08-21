@@ -1,0 +1,16 @@
+{
+ "scenario": "world",
+ "seed": 6,
+ "width": 960,
+ "height": 540,
+ "out_dir": "captures/grass_fixture_walk",
+ "start": { "zone": "grass_fixture" },
+ "hold": {
+  "right": [[0, 320]],
+  "up": [[336, 366]],
+  "left": [[380, 500]],
+  "down": [[512, 546]]
+ },
+ "captures": [150, 210, 270, 330, 390, 450, 510, 550],
+ "run_until": 560
+}

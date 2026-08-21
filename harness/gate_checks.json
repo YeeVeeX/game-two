@@ -166,6 +166,10 @@
       "check": "When the seal is on camera SEALED, it reads as a shut, priced door: a dark slab across the corridor with a thin gold seam, the seal station beside it, and a visible price â€” a stranger could say 'locked, costs money'. When the breach beat is on camera, the way visibly OPENS (the slab turns gold) and the line 'TOLL PAID' is legible in the banner slot. If no seal or breach frame is present in this replay, pass with why='not exercised by this script'."
     },
     {
+      "id": "flora_variants_read",
+      "check": "When frames show the grass fixture zone (ZONE 6: a green tile field on the west side, a brown dirt path, a gray stone plaza, and a warm wood platform east), the grass field reads as AUTHORED variation - at least two visibly different green tones patchworked across the field's tiles (not one flat green fill, and not noise or corruption), and the four ground families (grass, dirt, stone, wood) read as four different materials at a glance. Grid lines stay visible over all of them. If no grass-fixture frame is present, pass with why='not exercised by this script'."
+    },
+    {
       "id": "new_ground_reads",
       "check": "When a camp ('HUB 1') or ZONE 3 (district_two) banner frame is on camera, the banner text is legible and the zone reads distinct from ZONE 2 (district) at a glance: the camp reads safe, station-dense, and warm (warm-gray walls, ember braziers at the wall clusters); ZONE 3 reads cold slate-and-indigo with a denser hostile field. If neither zone appears in this replay, pass with why='not exercised by this script'."
     },
