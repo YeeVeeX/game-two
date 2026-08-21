@@ -14,6 +14,7 @@ require "game/flow_field"
 require "game/fight_ledger"
 require "game/field_economy"
 require "game/price_sheet"
+require "game/crossing"
 require "game/save_state"
 
 module Game
@@ -117,6 +118,11 @@ module Game
       # 2026-08-20) — constructed after spawn_pack so it holds the live Pack.
       @price_sheet = PriceSheet.new(economy: @economy, pack: @pack,
                                     breached: method(:breached?))
+      # Crossing policy (T4 extraction, line-cap law): open/consent/arrival
+      # decisions live in a plain object; World does the moving.
+      @crossing = Crossing.new(zones: @zones, breached: method(:breached?),
+                               defeats: -> { @boss_1_defeats },
+                               living: -> { @pack.living.length })
       # First-possession registry (v14): cosmetic sim state the sim never
       # reads (taunt_pulses precedent) — the controls overlay derives its
       # one-time pulse from it as a pure function of world state, so both
@@ -566,14 +572,25 @@ module Game
         return true
       end
       station = map.station_at(*source.tile)
-      return false unless station
-      case station[:type]
-      when "bank"  then interact_bank(source)
-      when "altar" then interact_altar(source)
-      when "vat"   then interact_vat(source)
-      when "seal"  then interact_seal(source, station)
-      else false
+      if station
+        case station[:type]
+        when "bank"  then interact_bank(source)
+        when "altar" then interact_altar(source)
+        when "vat"   then interact_vat(source)
+        when "seal"  then interact_seal(source, station)
+        else false
+        end
+      else
+        interact_rope(source)
       end
+    end
+
+    # T4 (D4): the way back up — a rope spot is a FREE station-type
+    # interact (v0; rope-as-item waits for the items cycle).
+    def interact_rope(source)
+      t = map.transition_at(*source.tile)
+      return false unless t && t[:type] == "rope_spot"
+      cross_through(source, t)
     end
 
     # v18 decision 9 — the sustain verb (owner law 2026-08-11: priced,
@@ -1100,34 +1117,22 @@ module Game
       end
       return unless trigger
       t = map.transition_at(*trigger.tile)
-      # v12: a sealed door is not a gate until its toll is paid.
-      return if t[:sealed] && !breached?(@zone_name, t[:at])
-      # v17 decision 11 (panel fold, Kimi): the gate fires only with EVERY
-      # LIVING controlled body in the gate group — the trigger body resting
-      # ON the gate tile (any rest counts, knockback included — the law
-      # above), every other seat's living body within Chebyshev 1 of it.
-      # Consent by co-location; dead/waiting seats don't block.
-      others = controlled_bodies.reject { |b| b.equal?(trigger) || b.dead? }
-      unless others.all? { |b| tile_distance(b.tile, t[:at]) <= 1 }
-        # The blocked gate IS the WAITING AT GATE cue (presentation spec):
-        # set for exactly the ticks the block holds.
-        @gate_wait = t[:at]
-        return
-      end
-      enter_zone(t[:to], arrival_tiles(t[:to], t[:spawn]))
+      # T4 (D3/D4): rope spots never auto-fire (climbing is the interact
+      # verb); every other shape keeps the rest-on-tile law BYTE-EXACT.
+      return if t[:type] == "rope_spot"
+      cross_through(trigger, t)
     end
 
-    # The whole pack moves through a gate: possessed lands on the gate spawn,
-    # allies on the nearest passable neighbors (deterministic STEPS order).
-    def arrival_tiles(zone, spawn)
-      zmap = @zones.fetch(zone)
-      tiles = [spawn]
-      FlowField::STEPS.each do |(dx, dy)|
-        break if tiles.length >= @pack.living.length
-        cand = [spawn[0] + dx, spawn[1] + dy]
-        tiles << cand if zmap.passable?(*cand) && !tiles.include?(cand)
+    # ONE crossing grammar for gates and ropes — policy in Game::Crossing;
+    # World does the moving and owns the cue write (the only mutator).
+    def cross_through(trigger, t)
+      return false unless @crossing.open?(@zone_name, t)
+      if (wait = @crossing.group_wait(controlled_bodies, trigger, t))
+        @gate_wait = wait
+        return false
       end
-      tiles
+      enter_zone(t[:to], @crossing.arrival_tiles(t[:to], t[:spawn]))
+      true
     end
 
     def enter_zone(name, tiles)
