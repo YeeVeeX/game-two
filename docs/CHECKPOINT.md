@@ -1,5 +1,50 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-20 session 25 (hub) — gamesmith R7B intake BANKED · **T4 VSYNC RELEASE SHIPPED (env-gated `GAME_VSYNC_OFF`, canary PASS, fresh-eyes PASS)** · v19 intake docket COMMITTED · v19 still NOT open
+
+**Gate 0:** origin delta = the spark's own docs-only bank (`746ee8b`,
+classified expected) · save md5 + 38×2 launcher logs + soak dir + mail
+(inbox 0, done 16) all UNMOVED — no new human play, nothing to harvest,
+R-A2 untouched (`bought=0` still, silent).
+
+**J2 — lag T4 vsync-release spike (`0a8af6c` code, `0c3070b` ticket+review):**
+Gosu 1.4.6 hard-codes `SDL_GL_SetSwapInterval(1)` at Window construction
+(gem `src/Window.cpp:111`) — env hints dead on principle; shipped the
+post-construction release: `GAME_VSYNC_OFF` → FFI
+GetModuleHandleA/GetProcAddress into the LOADED SDL2 (by handle, never
+path — the gem ships a 32-bit vestigial `lib/SDL2.dll` beside the live
+`lib64/` one; the path route died error 193 live and its FAILED line held,
+game ran — never-fatal law proven in anger). Boot line
+`VSYNC off (swap_interval=0 was=1 rc=0)`; `was=1` = same-instance proof.
+Absent flag = nil = zero cost (laziness + one-line-message pinned by
+tests; 4→4 TDD red-first). A/B on scratch save (bot 42, 7200 ticks,
+mechanical perf evidence ONLY): this machine was never vsync-bound (OFF
+p50 16.5) — mechanism proven, delta marginal-directional (over35 3→0,
+max 54.5→28.6); **decisive oracle = Junior's 59 Hz seat, S0-J re-run
+owner-paced** (pt-br two-liner staged in ticket §4; timer-granularity
+judder named as the failure signature to watch). Canary gate flag-ABSENT:
+GATE PASS 12/12 byte-identical + vision PASS. Fresh-eyes (scrubbed pi,
+read-only): PASS, 7/7 laws CONFIRMED, its 3 cheap defects fixed in place
+(`drafts/_lag-t4-review-20260820.md`). Tail ticket stays SEPARATE (T3 §4
+law). NOTE: one suite run at first commit attempt failed 1/940 then
+passed twice with the same seed + at both hooks — detail lost to output
+truncation; if a flake recurs, capture full output and name the test.
+
+**J3 — v19 intake docket (`drafts/_v19-intake-docket-20260820.md`):** one
+row per banked candidate, pointers verified live — Junior's 7 ideas (J-1
+already shipped `28017d8`), his solo findings A/B (+correção verbatim),
+debug-menu `63d7b9d` (awaits Gabriel), ping remap PARKED, projectile-sync
+fork `c835c67`, gamesmith R7 ×4 triggers, assets v12 capture-contract +
+gating rows, depth-aware-duck + stereo/region-acoustics library
+increments, lag T4 result + tail, BOSS-1 dread, R-A2 state, v18 verdict
+TRIGGERED rows 3/6/9. Docket adds no opinions, promotes nothing, does not
+open v19.
+
+**Owner-pending (never nag):** ear-checks (dup · respiración · stinger
+overlap → depth-duck increment si falla · audio-v12 batch) · coop S1 (both
+seats pull `0a8af6c`+ now — protocol v3) · Junior's T4 re-run · the v19
+brainstorm.
+
 ## 2026-08-20 session 25 (hub) — gamesmith Round-7B intake BANKED (docs-only; deduplicating triage, no adoption)
 
 **Intake per `drafts/_gamesmith-round7-intake-spark-20260820.md` (banked
