@@ -1210,10 +1210,10 @@ module Game
         @zones[n] = Core::TileMap.new(@data["zones/#{n}"])
         @tile_registry&.validate_map!(@zones[n])
       end
-      @arrivals = Hash.new { |h, k| h[k] = [] }
-      @zones.each_value do |zmap|
-        zmap.transitions.each { |t| @arrivals[t[:to]] << t[:spawn] }
-      end
+      # s31 (s30 review nit 6): edge legality + arrival geometry through
+      # the crossing policy object — illegal edges refuse NAMED at boot,
+      # never a crossing-time KeyError or an in-wall placement.
+      @arrivals = Crossing.validated_arrivals(@zones)
       # Gate fields anchor on the zone's DECLARED gradient_anchor when it has
       # one — arrival-list order follows sorted zone keys, so adding a zone
       # would otherwise silently re-anchor a neighbor's whole band map (v12

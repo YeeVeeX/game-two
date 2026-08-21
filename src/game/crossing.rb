@@ -2,11 +2,45 @@ require "game/flow_field"
 
 module Game
   # T4 extraction (the world.rb line-cap law, extract-on-touch): the
-  # zone-crossing POLICY — which ways are open, when the gate group
-  # consents, where the pack lands. Plain object, explicit call order,
-  # no bus mediation. World stays the only mutator: nothing here touches
-  # sim state (the waiting cue is RETURNED, written by the caller).
+  # zone-crossing POLICY — which edges are even legal (s31 load-time
+  # law), which ways are open, when the gate group consents, where the
+  # pack lands. Plain object, explicit call order, no bus mediation.
+  # World stays the only mutator: nothing here touches sim state (the
+  # waiting cue is RETURNED, written by the caller).
   class Crossing
+    # s31 (T5 hardening, s30 review nit 6): every zone edge validates at
+    # WORLD LOAD — the one point all consumers converge (play, netplay,
+    # map, harness, soak, pilot). TileMap checks :at in isolation; the
+    # destination zone and its spawn tile only exist as a PAIR once all
+    # zones are built. Illegal data refuses NAMED at boot (the message
+    # carries the full source/at/to/spawn tuple, grep-able) instead of a
+    # crossing-time KeyError (unknown :to) or a silent in-wall placement
+    # (arrival_tiles trusts spawn unconditionally). ArgumentError matches
+    # World's house style for unknown-zone refusals; the malformed-spawn
+    # guard exists because passable?(*nil) would raise an UNNAMED arity
+    # error before the passability check could run. Returns the arrivals
+    # table {to => [spawn, ...]} — the validated edges ARE the arrival
+    # geometry, one pass builds both.
+    def self.validated_arrivals(zones)
+      arrivals = Hash.new { |h, k| h[k] = [] }
+      zones.each do |zname, zmap|
+        zmap.transitions.each do |t|
+          edge = "zone edge #{zname} #{t[:at].inspect} -> #{t[:to]}"
+          unless zones.key?(t[:to])
+            raise ArgumentError, "#{edge}: unknown destination zone #{t[:to].inspect}"
+          end
+          spawn = t[:spawn]
+          unless spawn.is_a?(Array) && spawn.length == 2 && spawn.all? { |v| v.is_a?(Integer) }
+            raise ArgumentError, "#{edge}: spawn must be an [x, y] tile (got #{spawn.inspect})"
+          end
+          unless zones.fetch(t[:to]).passable?(*spawn)
+            raise ArgumentError, "#{edge}: spawn #{spawn.inspect} impassable in #{t[:to]}"
+          end
+          arrivals[t[:to]] << spawn
+        end
+      end
+      arrivals
+    end
     # zones: {name => TileMap}. breached / defeats / living are LIVE
     # readers (the PriceSheet callable pattern) — breach state and the
     # boss counter move mid-session.
