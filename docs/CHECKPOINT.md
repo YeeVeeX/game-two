@@ -26,9 +26,11 @@ judder named as the failure signature to watch). Canary gate flag-ABSENT:
 GATE PASS 12/12 byte-identical + vision PASS. Fresh-eyes (scrubbed pi,
 read-only): PASS, 7/7 laws CONFIRMED, its 3 cheap defects fixed in place
 (`drafts/_lag-t4-review-20260820.md`). Tail ticket stays SEPARATE (T3 §4
-law). NOTE: one suite run at first commit attempt failed 1/940 then
-passed twice with the same seed + at both hooks — detail lost to output
-truncation; if a flake recurs, capture full output and name the test.
+law). NOTE: the 1/940 flake seen at commit/push WAS this session's own
+laziness assertion — order-dependent because the audio library's
+`native.rb` legitimately requires ffi (in-process $LOADED_FEATURES
+pollution when audio tests shuffle first); re-pinned order-independently
+in a clean subprocess (`fix(test)` commit), flake dead at the root.
 
 **J3 — v19 intake docket (`drafts/_v19-intake-docket-20260820.md`):** one
 row per banked candidate, pointers verified live — Junior's 7 ideas (J-1

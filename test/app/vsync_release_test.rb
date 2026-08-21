@@ -27,9 +27,19 @@ class VsyncReleaseTest < Minitest::Test
   def test_absent_flag_is_nil_and_never_touches_sdl
     poison = BasicObject.new # any call = NoMethodError = the test fails loudly
     assert_nil App::VsyncRelease.apply(env: {}, lib: poison)
-    assert(!$LOADED_FEATURES.any? { |f| f.include?("/ffi.rb") },
-           "the absent-flag path must never require ffi (laziness law; " \
-           "nothing else in this suite loads it)")
+  end
+
+  def test_requiring_the_module_alone_never_loads_ffi
+    # The laziness law, pinned ORDER-INDEPENDENTLY: in-process
+    # $LOADED_FEATURES is polluted whenever the audio library's tests run
+    # first (game-two-audio src/gta/native.rb legitimately requires ffi
+    # for miniaudio) — hit live as a shuffled-order flake at push. A clean
+    # subprocess proves the file itself stays lazy. Real ruby, no mock.
+    src = File.expand_path("../../src", __dir__)
+    ok = system(RbConfig.ruby, "-I", src, "-e",
+                'require "app/vsync_release"; ' \
+                'exit($LOADED_FEATURES.none? { |f| f.include?("/ffi.rb") })')
+    assert ok, "requiring app/vsync_release must not load ffi (lazy law)"
   end
 
   def test_flag_on_releases_the_interval_and_prints_the_named_boot_line
