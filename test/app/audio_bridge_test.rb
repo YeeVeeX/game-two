@@ -134,6 +134,112 @@ class AudioBridgeTest < Minitest::Test
 
   # -- v1.1 take rotation (pure paths — run everywhere) ---------------------
 
+  # -- T3 footstep poller + ambience keying (pure paths — run everywhere) --
+
+  def test_poller_fires_on_same_zone_same_body_tile_change_only
+    p = App::AudioBridge::FootstepPoller.new
+    assert_nil p.step(zone: "z", body_id: 1, tile: [2, 2], material: "stone"), "first poll anchors, never fires"
+    assert_nil p.step(zone: "z", body_id: 1, tile: [2, 2], material: "stone"), "standing still is not a step"
+    assert_equal "stone", p.step(zone: "z", body_id: 1, tile: [3, 2], material: "stone")
+    assert_nil p.step(zone: "other", body_id: 1, tile: [9, 9], material: "dirt"), "zone change resets, never fires"
+    assert_equal "dirt", p.step(zone: "other", body_id: 1, tile: [9, 8], material: "dirt")
+    assert_nil p.step(zone: "other", body_id: 2, tile: [4, 4], material: "dirt"), "possession swap resets, never fires"
+    assert_nil p.step(zone: "other", body_id: 2, tile: [5, 4], material: nil), "unregistered char steps are silent"
+  end
+
+  def test_ambience_key_resolves_region_intent_then_zone_default
+    table = JSON.parse(File.read(File.expand_path("../../data/audio/ambience.json", __dir__)))
+    fixture = Core::TileMap.new(data["zones/grass_fixture"])
+    assert_equal "amb_meadow", App::AudioBridge.ambience_key(table, fixture, "grass_fixture", [2, 6])
+    assert_equal "amb_town", App::AudioBridge.ambience_key(table, fixture, "grass_fixture", [15, 1]),
+                 "plaza region (town intent) overrides the zone default"
+    assert_equal "amb_town", App::AudioBridge.ambience_key(table, fixture, "grass_fixture", [19, 11])
+    assert_equal "amb_meadow", App::AudioBridge.ambience_key(table, fixture, "grass_fixture", [20, 6]),
+                 "wood platform sits outside the plaza rect"
+    nest = Core::TileMap.new(data["zones/nest"])
+    assert_nil App::AudioBridge.ambience_key(table, nest, "nest", [5, 5]),
+               "live zones carry no beds yet — silence, not an error"
+  end
+
+  # -- T3 world polling (real library, noDevice; real World) ---------------
+
+  def walk_right(world, bridge, ticks)
+    frames = (0...ticks).to_h { |f| [f.to_s, ["right"]] }
+    input = scripted_input(frames)
+    ticks.times do
+      input.update(world.frame)
+      world.tick(input)
+      bridge&.update(world.frame)
+    end
+  end
+
+  def test_fixture_walk_logs_materials_and_ambience_keys
+    skip "game-two-audio library not present — bridge device tests untestable here" unless lib_present?
+    world = Game::World.new(data, seed: 5)
+    world.start_in("grass_fixture")
+    bridge, out = boot
+    bridge.attach(bus: world.bus, world: world)
+    walk_right(world, bridge, 320) # spawn [2,6] → grass → dirt → stone plaza
+    log = out.string
+    assert_match(/AUDIO ambience key=amb_meadow zone=grass_fixture/, log)
+    assert_match(/AUDIO footstep material=grass zone=grass_fixture/, log)
+    assert_match(/AUDIO footstep material=dirt zone=grass_fixture/, log)
+    assert_match(/AUDIO footstep material=stone zone=grass_fixture/, log)
+    assert_match(/AUDIO ambience key=amb_town zone=grass_fixture/, log)
+    assert log.index("key=amb_meadow") < log.index("key=amb_town"),
+           "meadow (zone default) must precede town (plaza region)"
+    assert log.index("material=grass") < log.index("material=dirt")
+    assert log.index("material=dirt") < log.index("material=stone")
+    bridge.shutdown
+  end
+
+  def test_zone_change_never_fires_a_footstep
+    skip "game-two-audio library not present — bridge device tests untestable here" unless lib_present?
+    world = Game::World.new(data, seed: 5)
+    world.start_in("grass_fixture")
+    bridge, out = boot
+    bridge.attach(bus: world.bus, world: world)
+    3.times { bridge.update(world.frame) } # settle: anchor poll, no movement
+    world.start_in("district") # teleport-class move (zone change)
+    bridge.update(world.frame)
+    refute_match(/AUDIO footstep/, out.string, "a zone jump is not a step")
+    bridge.shutdown
+  end
+
+  # T3 pure-sink extension: the polling lanes (footsteps firing across
+  # material boundaries + ambience keying) must leave the sim byte-blind,
+  # exactly like the v1 event lanes.
+  def test_fixture_walk_with_bridge_is_sim_invisible
+    skip "game-two-audio library not present — bridge device tests untestable here" unless lib_present?
+    digests = [false, true].map do |with_audio|
+      world = Game::World.new(data, seed: 4243)
+      world.start_in("grass_fixture")
+      digest = Net::StateDigest.new(world:, every: 60)
+      bridge = nil
+      if with_audio
+        bridge, = boot
+        assert bridge.active?
+        bridge.attach(bus: world.bus, world: world)
+      end
+      frames = (0...300).to_h { |f| [f.to_s, ["right"]] }
+      input = scripted_input(frames)
+      windows = []
+      300.times do
+        input.update(world.frame)
+        world.tick(input)
+        bridge&.update(world.frame)
+        w = digest.after_tick
+        windows << w.md5 if w
+      end
+      bridge&.shutdown
+      assert_equal 5, windows.size
+      windows
+    end
+    assert_equal digests[0], digests[1]
+  end
+
+  # -- v1.1 rotor laws (pure paths — run everywhere) ------------------------
+
   def test_rotor_is_deterministic_and_never_repeats_adjacent
     names = %w[a b c d]
     seq1 = App::AudioBridge::VariantRotor.new(names).then { |r| Array.new(200) { r.next! } }

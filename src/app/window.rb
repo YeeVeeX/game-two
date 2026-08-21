@@ -125,7 +125,9 @@ module App
         @world = Game::World.new(@data, seed: @session.params.seed, seats: 2,
                                  save: @session.params.save)
         @telemetry = Game::Telemetry.new(@world.bus, world: @world)
-        @audio&.attach(bus: @world.bus, world: @world)
+        # T3: the bridge polls the LOCAL seat's possessed body (footstep
+        # materials — each seat hears its own steps; pure sink, sim blind).
+        @audio&.attach(bus: @world.bus, world: @world, seat: @session.seat)
         @world.start_in(@start_zone) if @start_zone
         @session.attach(@world)
         # Lag P0 (2026-08-20): bank the handshake-frozen numbers (d /

@@ -108,7 +108,7 @@ module App
       audio = GTA::AudioSystem.new(engine:, data_dir:, fixture_dir: FIXTURE_DIR)
       out.puts "AUDIO on: device=#{device} sha=#{actual[0, 12]} lib=#{lib_root}"
       Bridge.new(engine:, audio:, tick_frames: engine_cfg.fetch("tick_frames"),
-                 smoke:, out:, variants:)
+                 smoke:, out:, variants:, ambience: load_ambience(data_dir))
     rescue StandardError => e
       null(out, "AUDIO refused: #{e.class}: #{e.message}")
     end
@@ -122,6 +122,30 @@ module App
       JSON.parse(File.read(path))
     end
 
+    # T3 ambience keying table (D9) — game-side custody, OPTIONAL file.
+    # intents: region intent tag -> bed key; zones: zone name -> default
+    # bed key. The library never reads this file.
+    def load_ambience(data_dir)
+      path = File.join(data_dir, "ambience.json")
+      return {} unless File.exist?(path)
+      JSON.parse(File.read(path))
+    end
+
+    # The possessed body's ambience KEY (T3, D9): the first region whose
+    # rect contains the tile maps through its intent; otherwise the zone
+    # default; otherwise nil (silence — live zones carry no beds yet).
+    # Pure function — unit-tested headlessly.
+    def ambience_key(table, map, zone, (tx, ty))
+      region = map.regions.find do |r|
+        x, y, w, h = r[:rect]
+        tx >= x && tx < x + w && ty >= y && ty < y + h
+      end
+      if region && (key = table.dig("intents", region[:intent]))
+        return key
+      end
+      table.dig("zones", zone.to_s)
+    end
+
     def null(out, line)
       out.puts line
       Null.new
@@ -131,10 +155,27 @@ module App
     # silent and identical (pure-sink law makes the two paths equivalent).
     class Null
       def active? = false
-      def attach(bus:, world:) = nil
+      def attach(bus:, world:, seat: 1) = nil
       def update(_tick) = nil
       def handle_event(_tick, _name, _payload = nil) = nil
       def shutdown = nil
+    end
+
+    # T3 footstep detection (pure; presentation-side). A step is the SAME
+    # body committing a NEW tile in the SAME zone — zone changes,
+    # possession swaps, and respawn teleports reset the anchor without
+    # firing (a jump is not a step). Returns the material to voice, nil
+    # otherwise; materials come from the tile registry (nil = unregistered
+    # char = silence, never an error).
+    class FootstepPoller
+      def initialize = @last = nil
+      def step(zone:, body_id:, tile:, material:)
+        prev = @last
+        @last = [zone, body_id, tile]
+        return nil if prev.nil? || prev[0] != zone || prev[1] != body_id
+        return nil if prev[2] == tile
+        material
+      end
     end
 
     # Deterministic take rotation for multi-render cue families (v1.1).
@@ -184,13 +225,14 @@ module App
       # Diagnostics-only reader (tests + drift probe); the sim never sees it.
       attr_reader :audio
 
-      def initialize(engine:, audio:, tick_frames:, smoke:, out:, variants: {})
+      def initialize(engine:, audio:, tick_frames:, smoke:, out:, variants: {}, ambience: {})
         @engine = engine
         @audio = audio
         @tf = tick_frames
         @smoke = smoke
         @out = out
         @variants = variants.fetch("events", {})
+        @ambience = ambience
         rotation = variants["music_rotation"]
         @rot_period = rotation&.fetch("period_ticks", nil)
         @rot_states = rotation&.fetch("states", nil)
@@ -200,6 +242,14 @@ module App
         @anchor_pcm = nil
         @drift = [] # [tick, engine_pcm] pairs, anchor cadence only
         @dead = false
+        # T3 world polling (footsteps + ambience keying): read-only
+        # presentation reads of the possessed body, renderer-style; set at
+        # attach. Nothing flows back (pure-sink law).
+        @world = nil
+        @seat = 1
+        @poller = FootstepPoller.new
+        @last_material = nil
+        @last_ambience = :unset
       end
 
       def active? = true
@@ -210,7 +260,9 @@ module App
       # (music.json state_events — data-driven, contract recommendation (a)):
       # the named sim events request music states; the sink itself still
       # only knows music_set_state.
-      def attach(bus:, world:)
+      def attach(bus:, world:, seat: 1)
+        @world = world
+        @seat = seat
         bus.registered_types.each do |type|
           bus.subscribe(type) { |ev| @audio.handle_event(world.frame, ev.type, ev.payload) }
         end
@@ -251,6 +303,7 @@ module App
         if @smoke && (cue = SMOKE_SCRIPT[tick])
           @audio.handle_event(tick, cue[0], cue[1])
         end
+        poll_world(tick)
         rotate_music(tick)
         drift_sample(tick) if (tick % DRIFT_SAMPLE_TICKS).zero?
         @audio.update(tick)
@@ -271,6 +324,38 @@ module App
       end
 
       private
+
+      # T3 (D7/D9 SAFE family): footstep materials + ambience keying —
+      # per-frame read-only polling of the local seat's possessed body
+      # (positions are deterministic sim state; emissions go ONLY into the
+      # sink, so replay/netplay digests cannot move — pinned by the
+      # pure-sink test). Synthetic sink names (footstep_<material> /
+      # ambience_<key>) stay unmapped no-ops until the owner's renders
+      # land (cue-spec mail from-game-two-t3-cue-spec.md). The AUDIO log
+      # lines fire on CHANGE only — bounded, and the noDevice walkthrough
+      # evidence the T3 done-condition names.
+      def poll_world(tick)
+        return unless @world
+        body = @world.possessed(@seat)
+        return unless body
+        zone = @world.zone_name
+        tile = body.tile
+        map = @world.map
+        material = @world.tile_registry&.material_at(map, *tile)
+        fired = @poller.step(zone:, body_id: body.object_id, tile:, material:)
+        if fired
+          @audio.handle_event(tick, "footstep_#{fired}", nil)
+          if fired != @last_material
+            @last_material = fired
+            @out.puts "AUDIO footstep material=#{fired} zone=#{zone}"
+          end
+        end
+        key = AudioBridge.ambience_key(@ambience, map, zone, tile)
+        return if key == @last_ambience
+        @last_ambience = key
+        @audio.handle_event(tick, "ambience_#{key}", nil) if key
+        @out.puts "AUDIO ambience key=#{key || 'none'} zone=#{zone}"
+      end
 
       # Ambient v2: while the last-requested music state sits in the calm
       # family, request the rotor's next variant every period (tick cadence
