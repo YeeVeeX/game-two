@@ -88,10 +88,14 @@ time. Live in-game god-mode editing stays the staged later rung (2026-
 08-17 vision-drop staging unchanged). Spec CLOSED:
 `docs/superpowers/specs/2026-08-19-world-builder-pipeline.md` (grill
 record `drafts/_world-builder-grill-20260819.md`). Ticket state: T1 GO
-(s19) · T2 importer+schema v2 (s20) · **T3 safe behaviors SHIPPED
-(s26)** — footstep materials + ambience keying (pure sink, noDevice
-keys logged; owner renders pend at his pace) + flora variants (ZONE 6
-fixture, INERT per D12) · T4 pilot authoring NEXT. New content merges
+(s19) · T2 importer+schema v2 (s20) · T3 safe behaviors SHIPPED (s26)
+· **T4 pilot authoring SHIPPED (s27)** — ZONE 7 (town hub, THE WELL) +
+BASEMENT 1/2 + DUNGEON 1 authored in LDtk through the importer, INERT
+per D12 (dev walk: seed a scratch save `home=zone_7` — recipe in
+`drafts/_wb-t4-pilot-20260821.md`); typed transitions live (rope =
+interact, holes/stairs auto-fire, `requires_defeats` boss fact-gate
+implemented, wired into ZERO live files) · **T5 wire-in NEXT at the
+owners' word** (its own full-wall gate). New content merges
 into the LIVE world only per the recorded merge-timing decision
 (default: post-verdict — D12; the SEVENTEENTH verdict has landed, the
 wire-in still waits for T5's own gate).

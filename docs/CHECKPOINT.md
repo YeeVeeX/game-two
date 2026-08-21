@@ -1,5 +1,61 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-21 session 27 (hub) — **WB T4 SHIPPED: the pilot world authored in LDtk through the door — ZONE 7 (town hub + THE WELL) · BASEMENT 1/2 · DUNGEON 1, all INERT (D12)** · typed-transition sim wiring · v19 still NOT open
+
+**Gate 0:** origin tip `3fdfae9` (s26-close docs, expected) · save md5
+`98fe75ed…` + 38×2 launcher logs + soak dir + mail (inbox 0, done 19,
+cue-spec mail unanswered md5 `d556358a…`) all UNMOVED — no new human
+play, nothing to harvest, R-A2 silent (`bought=0` stands). No override
+lanes fired.
+
+**J1 — WB T4 (spec §T4; ticket + grill `drafts/_wb-t4-pilot-20260821.md`):**
+grill settled the three forks — `authoring/` committed + throwaway
+generator, the importer's refusal set as the "authored in LDtk" arbiter
+(it accepted the hand-built 1.5.3 project FIRST TRY) · the well = sealed
+`hole` + seal station (toll VERBATIM, breach_cost) + water tile type +
+render-only `water_drained_by` swap, ZERO save schema (D11 pinned by
+test) · borders stay `#`. Riders: **zone_7 is hub:true** (camp precedent;
+owner walkthrough rides the hub law — seed home=zone_7, NO cli change,
+--start-zone stays bot-gated) · stairs_unlocked_by stays schema-only
+(authoring used the rope; D4 says optional) · boss gate = transition
+`requires_defeats` (sim+render+importer, shipped in ZERO zone files — T5
+wires the live edge). Ship, one concern per commit (suite 971→994 via
+hooks): `506747f` core · `a6a27af` sim (rope=interact under the gate
+consent law; hole/stairs auto-fire; **the line-cap gate fired 1828/1800
+mid-commit — answered by extracting `Game::Crossing`**, world.rb closed
+AT 1800) · `0628d0a` render (locked slab + drained swap, ONE condition
+source) · `8082bb0` importer v2.1 (hub/requires_defeats/water_drained_by)
+· `f966823`+`8471c04` authored data + provenance/loop/INERT pins ·
+`c6fea00` soak (zone_7 hub-exempt, dungeon still owes combat) · `7ab5612`
+map gate.
+**Evidence:** world_loop 10/10 + grass_fixture 8/8 md5 == pre-change
+baselines · spot-gates ×3 PASS (world_loop · low_quay · grass_fixture;
+determinism + vision) · map gate probes 11/11 + critique 7/7 PASS —
+after an HONEST first FAIL (`map_pilot_well_reads`: basin Δluma too
+subtle at 6px — re-authored water_drained to parched clay in the
+SIDECAR + re-import; check unrelaxed) · soak PASS 2 eps
+`ZONES=zone_7,dungeon_1` seeded chain intact, fights=2 live in dungeon_1,
+quarantine held · noDevice audio: amb_meadow/amb_dungeon + footsteps
+grass/dirt/stone logged from the soak's own bots (amb_town = named gap,
+region→key lane unit-pinned; owner's walk will hit it) · pilot loop
+mechanized on REAL data (`pilot_loop_test`: town → drain → fall → rope →
+way stays open) · owner recipe VERIFIED: `ruby -Isrc soak/seed_save.rb
+tmp/pilot_walk/world.json zone_7 60 3` → `bin/play --save
+tmp/pilot_walk/world.json`.
+**Fresh-eyes review:** PASS, 9/9 laws CONFIRMED (receipt
+`drafts/_wb-t4-review-20260821.md`); its 1 cheap defect (test comment
+claimed Ruby 0 falsy — truthy in fact, refusal fires for real) fixed in
+place; 3 notes banked (HUB_ZONES derive-from-data at T5's touch · probe
+coordinate coupling = accepted pin · quarantine sub-claim mechanism).
+**T5 (wire-in: boss-gate edge + multi_floor_descent.json + full wall) is
+the next ticket, at the owners' word; lane order stays owner-steerable.**
+
+**Owner-pending (never nag):** ear-checks (dup · respiración · stinger
+overlap → depth-duck si falla · audio-v12 batch) · T3 footstep/bed
+RENDERS (es-CR list in the cue-spec mail) · coop S1 (Junior READY, both
+seats pull first) · the v19 brainstorm · NEW: the ZONE 7 dev walk
+(recipe above + in the ticket doc).
+
 ## 2026-08-21 session 26 CLOSE ADDENDUM — **LAG T4 ADJUDICATED: REFUTED on the decisive seat, ticket CLOSED no-ship-by-default**
 
 Junior's re-run landed at close (`2e23bd3`, log md5 `1186fe4a…`, table +
