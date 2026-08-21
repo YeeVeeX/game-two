@@ -23,7 +23,11 @@ class PilotAuthoringTest < Minitest::Test
     emitted = Tools::LdtkImporter.new(registry:, sidecars:, known_zones: known).import(doc)
     assert_equal ZONES.sort, emitted.keys.sort
     ZONES.each do |zone|
-      assert_equal File.read(File.join(ROOT, "data/zones/#{zone}.json")), emitted.fetch(zone),
+      committed = File.read(File.join(ROOT, "data/zones/#{zone}.json"))
+      # autocrlf checkouts materialize CRLF in the working tree; the
+      # emitter's canonical bytes are LF — compare normalized so the pin
+      # judges CONTENT drift, not the clone's eol setting (Junior's seat).
+      assert_equal emitted.fetch(zone), committed.gsub("\r\n", "\n"),
                    "data/zones/#{zone}.json drifted from the authoring emission (re-import or revert)"
     end
   end
