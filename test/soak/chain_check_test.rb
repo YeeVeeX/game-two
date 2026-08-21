@@ -327,6 +327,14 @@ class ChainCheckTest < Minitest::Test
     assert pass, lines.join("\n")
   end
 
+  # T5 (T4-review defect 2 closed): HUB_ZONES derives from zone data.
+  # The pin names today's set — an accidental hub:true in a future zone
+  # file shows up HERE, deliberately, instead of silently widening the
+  # soak's combat exemption.
+  def test_hub_zones_derive_from_zone_data
+    assert_equal %w[camp nest zone_7], Soak::ChainCheck::HUB_ZONES
+  end
+
   # T4: ZONE 7 is the town hub — threat-free by data, exempt like camp;
   # DUNGEON 1 is NOT a hub, so an idle episode there still fails.
   def test_zone_coverage_zone_7_is_hub_exempt_and_dungeon_is_not
