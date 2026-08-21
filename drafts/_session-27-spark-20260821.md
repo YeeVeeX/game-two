@@ -35,23 +35,32 @@ file:line, log line, or UNVERIFIED tag.
 - **Junior is READY for coop S1 and awaits GABRIEL'S INVITE** (his
   `ad517e2`) — the invite is the owner's to send, NEVER nag. Both seats
   pull `ce78bfc`+ first (protocol v3 refuses mixed builds NAMED).
+- **Lag T4 ADJUDICATED at s26 close** (Junior's re-run `2e23bd3`, log md5
+  `1186fe4a…`): hypothesis REFUTED on the decisive 59 Hz seat — p50
+  16,8→16,7, Gosu's update_interval owns cadence; ticket CLOSED
+  no-ship-by-default (verdict: `drafts/_lag-t4-vsync-20260820.md` §6).
+  Remaining lag lever = the ~7% tail, gated on the owners feeling it.
+  His NEW lobber pass-through finding is banked (his file §ACHADO NOVO +
+  docket row) — v19 brainstorm names its class, zero code owed.
 - **Owner-pending (never nag):** ear-checks (¿se acabó la duplicación? ·
   ¿la música respira? · stinger overlap → depth-duck library increment si
-  falla) + audio-v12 batch · Junior's lag-T4 re-run (outcome classes
-  pre-declared in `drafts/_lag-t4-vsync-20260820.md` §4) · **T3
-  footstep/bed renders** (es-CR list lives in the cue-spec mail) · the
-  v19 brainstorm.
+  falla) + audio-v12 batch · **T3 footstep/bed renders** (es-CR list
+  lives in the cue-spec mail) · the coop-S1 invite · the v19 brainstorm.
 - **R-A2 measure (silent, NEVER prime):** `sustain bought=0` on every
   banked HUMAN log. Harvest `TELEMETRY sustain` + frame_probe/handshake
   lines from every NEW human launcher log; bot lines are never evidence.
 
 ## Job 0 — standing gate (~10 min; anything moved = classify in writing FIRST)
 
-Baselines at staging: origin/main `6b829e4` + EXPECTED docs-only delta
-(this spark's own commit) · save `saves/world.json` md5
+Baselines at staging: origin/main tip = the s26-close docs commit
+(lag-T4 adjudication + this spark refresh) — `git log --oneline -4`
+reads: that commit · `039f26d` this spark · `2e23bd3` Junior's lag-T4
+evidence · `6b829e4` T3 close. NO further delta expected beyond the
+EXPECTED list below. Save `saves/world.json` md5
 `98fe75edb6d72deab18cd48eaa88bdaf` mtime 08-20 15:51 (sessions=13
 banked=7 provisions=0 seals=2) · launcher logs 38×2 (`$TEMP` +
-`/tmp` views, pattern `game_two_session_*.log`) · game-two mail inbox
+`/tmp` views, pattern `game_two_session_*.log`; Junior's 947441 log
+lives on HIS machine, only its md5 is banked) · game-two mail inbox
 EMPTY, done/=19 · tmp/soak newest `20260820-020422` · untracked
 `drafts/_refs/` only · tmp/t3/ + captures/grass_fixture* = session-26
 artifacts (expected). EXPECTED deltas: Junior docs-only commits (his
@@ -76,9 +85,6 @@ tmp/<dir>/world.json [--start-zone <z>] &`.
   `footstep_<material>` / `ambience_<key>` + suite + a noDevice re-walk
   banking the now-mapped keys + one es-CR line for the ear-check queue.
   Do it BEFORE J1 if the handoff is waiting at gate 0.
-- **Junior's lag re-run lines** (chat or docs push): bank verbatim into
-  the lag ticket §4, adjudicate against the pre-declared classes, es-CR
-  line to the owner (~30 min, before J1 if waiting).
 - **A live coop session = lag segment S1**: support, harvest verbatim
   per `drafts/_lag-t2-evidence/README.md`, bank md5-stamped.
 

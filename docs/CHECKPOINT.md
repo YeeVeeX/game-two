@@ -1,5 +1,20 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-21 session 26 CLOSE ADDENDUM — **LAG T4 ADJUDICATED: REFUTED on the decisive seat, ticket CLOSED no-ship-by-default**
+
+Junior's re-run landed at close (`2e23bd3`, log md5 `1186fe4a…`, table +
+seat-read verbatim in his findings file): boot line + was=1 proof, **p50
+16,8→16,7 ms — the update_interval timer owns cadence, not the 59 Hz
+swap** (the T4 review's own prediction). Against §4's pre-declared
+classes = a third named negative; verdict block appended
+(`drafts/_lag-t4-vsync-20260820.md` §6): flag stays env-gated
+diagnostic, no default flip ever; the ~7% tail is the only remaining lag
+lever, still gated on the owners FEELING it. His new lobber
+pass-through finding (mechanism read-only at projectile.rb:73) banked →
+docket row, v19 names its class. Session-27 spark refreshed
+(`drafts/_session-27-spark-20260821.md`): WB T4 pilot authoring is the
+next session job.
+
 ## 2026-08-20 session 26 (hub) — **WB T3 SHIPPED: footstep materials + region-ambience keying + flora variants (ZONE 6 fixture)** · cue-spec mail to the audio seat · fresh-eyes PASS 8/8 · v19 still NOT open
 
 **Gate 0:** origin = `20cbad1` + the spark's own `ba912cf` (expected) ·
