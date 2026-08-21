@@ -1,6 +1,7 @@
 require "gosu"
 require "game/save_state"
 require "app/renderer"
+require "app/tile_variants"
 
 module App
   # v18 god-view v0 (spec decision 13): the OFFLINE full-map artifact —
@@ -65,7 +66,9 @@ module App
     # Tile color straight from the zone palette — the structural law.
     # Resolution order mirrors the renderer: transition (sealed = the
     # renderer's own SEAL_SLAB constant, breached/open = gate gold) →
-    # station (the draw_stations key ladder) → wall → floor.
+    # station (the draw_stations key ladder) → wall → typed tile (T3:
+    # the SAME App::TileVariants derivation the renderer draws, variants
+    # included — no second color source, no second selection rule) → floor.
     def cell_rgb(world, name, map, tx, ty)
       t = map.transitions.find { |tr| tr[:at] == [tx, ty] }
       if t
@@ -77,7 +80,15 @@ module App
         key = s[:type] == "bank" ? :station : :"station_#{s[:type]}"
         return map.palette[key] || map.palette[:station] || map.palette[:wall]
       end
-      map.wall?(tx, ty) ? map.palette[:wall] : map.palette[:floor]
+      return map.palette[:wall] if map.wall?(tx, ty)
+      map.palette[typed_ref(map, world, tx, ty) || :floor]
+    end
+
+    def typed_ref(map, world, tx, ty)
+      @typed_cache ||= {}
+      lookup = (@typed_cache[map] ||= App::TileVariants.rects(map, world.tile_registry)
+                                                       .to_h { |(x, y, ref)| [[x, y], ref] })
+      lookup[[tx, ty]]
     end
 
     # SEALED/OPEN stamps for every seal-gated way, state from the save.

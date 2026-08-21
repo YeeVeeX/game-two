@@ -46,6 +46,27 @@ class MapArtifactTest < Minitest::Test
     assert_equal station_key, artifact.cell_rgb(w, "nest", nest, *bank)
   end
 
+  # T3: typed tiles resolve through the SAME TileVariants derivation the
+  # renderer uses — the god-view shows the fixture's materials (variants
+  # included), while nest's footstep-only remap keeps drawing floor (the
+  # visible-overlay law holds on this surface too — the palette-source law
+  # gains no second color source).
+  def test_typed_cells_resolve_through_tile_variants
+    w = fresh_world
+    fixture = w.zone_maps.fetch("grass_fixture")
+    pal = DATA["zones/grass_fixture"][:palette]
+    a = artifact
+    grass_rgbs = (1..8).flat_map { |tx| (1..11).map { |ty| a.cell_rgb(w, "grass_fixture", fixture, tx, ty) } }
+    assert_equal [pal[:grass], pal[:grass_b], pal[:grass_c]].sort, grass_rgbs.uniq.sort,
+                 "the grass field must show all three authored variants in god-view"
+    assert_equal pal[:dirt], a.cell_rgb(w, "grass_fixture", fixture, 10, 6)
+    assert_equal pal[:floor], a.cell_rgb(w, "grass_fixture", fixture, 16, 6), "plaza stone stays floor"
+    assert_equal pal[:wood], a.cell_rgb(w, "grass_fixture", fixture, 21, 6)
+    nest_pal = DATA["zones/nest"][:palette]
+    assert_equal nest_pal[:floor], a.cell_rgb(w, "nest", w.zone_maps.fetch("nest"), 5, 5),
+                 "nest's dirt remap stays invisible here too"
+  end
+
   def test_seal_cells_read_breach_state_from_the_save
     sealed = fresh_world
     open   = saved_world
