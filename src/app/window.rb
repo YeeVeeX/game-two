@@ -8,6 +8,7 @@ require "game/telemetry"
 require "app/renderer"
 require "app/netplay_overlay"
 require "app/frame_probe"
+require "app/vsync_release"
 require "app/scale"
 require "app/key_table"
 
@@ -47,6 +48,13 @@ module App
                                  screen_w: Gosu.screen_width, screen_h: Gosu.screen_height)
       super @view_width * @scale, @view_height * @scale
       self.caption = "game-two"
+      # Lag P0 T4: env-gated vsync release — the ONE site that reads the
+      # flag; absent = nil = zero cost (the wall never sets it). Must run
+      # after super: the GL context exists and Gosu's own
+      # SDL_GL_SetSwapInterval(1) has already run (Window.cpp:111).
+      if (vsync = App::VsyncRelease.apply)
+        puts vsync
+      end
       # v17 session mode: the two-seat World waits for handshake params
       # (seed comes from the host); solo mode constructs it now with the
       # per-session seed + validated save facts from main.rb (v18
