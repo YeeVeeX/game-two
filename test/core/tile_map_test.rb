@@ -243,21 +243,28 @@ class TileMapTest < Minitest::Test
     assert_match(/renders palette ref "floor", absent/, e.message)
   end
 
-  # T2 regression bar, T3 amendment: the five untouched zones stay v1-shaped;
-  # nest carries EXACTLY the footstep-only dirt remap (T3, look byte-stable —
-  # see TileRegistryTest's palette-equality pin); grass_fixture is the T3
-  # authored v2 zone (region + threat-free by data, INERT per D12).
+  # T2 regression bar, T4 amendment: the six live-world zones stay their
+  # recorded shapes; the T3 fixture + the four T4 pilot zones are the
+  # authored v2 surface (typed transitions live ONLY there; the live
+  # graph's gates stay untyped v1 — the byte-exact bar).
   def test_live_zones_load_under_registry_with_declared_shapes
     data = Core::DataStore.new("data")
     reg = Core::TileRegistry.new(data["tiles"])
     zones = data.keys.grep(%r{\Azones/})
-    assert_equal 7, zones.length
+    assert_equal 11, zones.length
     v1 = %w[zones/camp zones/district zones/district_two zones/low_quay zones/slow_door]
+    pilot = %w[zones/zone_7 zones/basement_1 zones/basement_2 zones/dungeon_1]
     zones.each do |key|
       map = Core::TileMap.new(data[key])
       reg.validate_map!(map)
-      assert_equal 0, map.floor, "#{key} must default to floor 0"
-      map.transitions.each { |t| assert_nil t[:type], "#{key} transitions stay untyped v1 gates" }
+      if pilot.include?(key)
+        map.transitions.each do |t|
+          assert_includes Core::TileMap::TRANSITION_TYPES + [nil], t[:type]
+        end
+      else
+        assert_equal 0, map.floor, "#{key} must default to floor 0"
+        map.transitions.each { |t| assert_nil t[:type], "#{key} transitions stay untyped v1 gates" }
+      end
       if v1.include?(key)
         assert_empty map.regions, "#{key} must default to no regions"
         assert_nil map.tile_types, "#{key} must carry no tile_types override"
@@ -267,5 +274,17 @@ class TileMapTest < Minitest::Test
     fixture = Core::TileMap.new(data["zones/grass_fixture"])
     assert_equal %w[plaza], fixture.regions.map { |r| r[:id] }
     assert_empty fixture.enemy_spawns, "the fixture zone is threat-free by data"
+    # T4 pilot shapes: the town hub anchors floor 0; the descent is FLOOR -1.
+    z7 = Core::TileMap.new(data["zones/zone_7"])
+    assert z7.hub, "ZONE 7 is the town anchor (camp precedent)"
+    assert_equal 0, z7.floor
+    assert_equal [33, 14], z7.water_drained_by
+    assert_equal %w[town_1], z7.regions.map { |r| r[:id] }
+    assert_empty z7.enemy_spawns, "ZONE 7 is threat-free by data, not by rules"
+    %w[zones/basement_1 zones/basement_2 zones/dungeon_1].each do |key|
+      assert_equal(-1, Core::TileMap.new(data[key]).floor, "#{key} sits on FLOOR -1")
+    end
+    refute_empty Core::TileMap.new(data["zones/dungeon_1"]).enemy_spawns,
+                 "DUNGEON 1 authors conservative combat"
   end
 end

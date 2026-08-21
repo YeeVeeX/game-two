@@ -5,6 +5,8 @@
     "dungeon": "amb_dungeon"
   },
   "zones": {
-    "grass_fixture": "amb_meadow"
+    "grass_fixture": "amb_meadow",
+    "zone_7": "amb_meadow",
+    "dungeon_1": "amb_dungeon"
   }
 }

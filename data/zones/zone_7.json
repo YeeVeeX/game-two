@@ -1,0 +1,211 @@
+{
+  "name": "zone_7",
+  "display_name": "ZONE 7",
+  "hub": true,
+  "tile_size": 32,
+  "palette": {
+    "floor": [
+      46,
+      40,
+      30
+    ],
+    "grid": [
+      56,
+      50,
+      38
+    ],
+    "wall": [
+      110,
+      128,
+      74
+    ],
+    "transition": [
+      235,
+      190,
+      90
+    ],
+    "station": [
+      185,
+      75,
+      205
+    ],
+    "station_seal": [
+      190,
+      140,
+      60
+    ],
+    "grass": [
+      44,
+      58,
+      34
+    ],
+    "grass_b": [
+      38,
+      52,
+      29
+    ],
+    "grass_c": [
+      51,
+      66,
+      40
+    ],
+    "dirt": [
+      58,
+      48,
+      32
+    ],
+    "wood": [
+      98,
+      72,
+      42
+    ],
+    "water": [
+      38,
+      66,
+      92
+    ],
+    "water_drained": [
+      56,
+      48,
+      34
+    ],
+    "motif": "chip",
+    "motif_rgb": [
+      58,
+      52,
+      40
+    ],
+    "ambient_rgba": [
+      120,
+      200,
+      120,
+      8
+    ]
+  },
+  "tiles": [
+    "############################################",
+    "#ggggggggggggggggggggg#....................#",
+    "#ggggggggggggggggggggg#..######...######...#",
+    "#gggggggggg,gggggggggg#..#wwww#...#wwww#...#",
+    "#gggggggggg,gggggggggg#..#wwww#...#wwww#...#",
+    "#ggggggg##g,gggggggggg#..#wwww#...#wwww#...#",
+    "#ggggggg##g,gggggggggg#..##..##...##..##...#",
+    "#gggggggggg,gggggggggg#....................#",
+    "#gggggggggg,gggggggggg#....................#",
+    "#gggggggggg,gggggggggg#....................#",
+    "#gggggggggg,gggggggggg#....................#",
+    "#gggggggggg,gggggggggg#....................#",
+    "#gggggggggg,gggggggggg#....................#",
+    "#,,,,,,,,,,,,,,,,,,,,,,.........~~~........#",
+    "#,,,,,,,,,,,,,,,,,,,,,,.........~~~........#",
+    "#ggggggggggggggggggggg#.........~~~........#",
+    "#ggggggggggggggggggggg#....................#",
+    "#ggggggggggggggggggggg#....................#",
+    "#ggggggggggggggggggggg#..##..##...##..##...#",
+    "#ggggggggggggg##gggggg#..#wwww#...#wwww#...#",
+    "#ggggggggggggg##gggggg#..#wwww#...#wwww#...#",
+    "#ggggggggggggggggggggg#..#wwww#...#wwww#...#",
+    "#ggggggggggggggggggggg#..######...######...#",
+    "#ggggggggggggggggggggg#....................#",
+    "#ggggggggggggggggggggg#....................#",
+    "#ggggggggggggggggggggg#....................#",
+    "#ggggggggggggggggggggg#....................#",
+    "############################################"
+  ],
+  "pack_spawn": [
+    [
+      4,
+      14
+    ],
+    [
+      4,
+      13
+    ],
+    [
+      4,
+      15
+    ]
+  ],
+  "enemy_spawns": {},
+  "stations": [
+    {
+      "type": "bank",
+      "at": [
+        27,
+        14
+      ]
+    },
+    {
+      "type": "seal",
+      "at": [
+        31,
+        14
+      ],
+      "price": "breach_cost",
+      "opens": [
+        33,
+        14
+      ],
+      "line": "TOLL PAID"
+    }
+  ],
+  "transitions": [
+    {
+      "at": [
+        33,
+        14
+      ],
+      "to": "dungeon_1",
+      "spawn": [
+        15,
+        3
+      ],
+      "sealed": true,
+      "type": "hole"
+    },
+    {
+      "at": [
+        26,
+        3
+      ],
+      "to": "basement_1",
+      "spawn": [
+        4,
+        4
+      ],
+      "type": "stairs_down"
+    },
+    {
+      "at": [
+        35,
+        3
+      ],
+      "to": "basement_2",
+      "spawn": [
+        4,
+        4
+      ],
+      "type": "stairs_down"
+    }
+  ],
+  "gradient_anchor": [
+    4,
+    14
+  ],
+  "water_drained_by": [
+    33,
+    14
+  ],
+  "regions": [
+    {
+      "id": "town_1",
+      "rect": [
+        23,
+        1,
+        20,
+        26
+      ],
+      "intent": "town"
+    }
+  ]
+}

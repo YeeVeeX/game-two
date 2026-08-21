@@ -45,12 +45,26 @@ class TileRegistryTest < Minitest::Test
                  "nest dirt palette must equal floor (look byte-stability law)"
   end
 
-  def test_grass_fixture_stays_inert
-    Dir["data/zones/*.json"].each do |path|
-      next if File.basename(path) == "grass_fixture.json"
+  # T3/T4 (D12): authored content lands INERT — no LIVE zone's transition
+  # may reach the fixture or any pilot zone; the pilot cluster reaches the
+  # live world nowhere (arrivals must not re-anchor a live gate field).
+  # Wiring the boss gate into the live graph is T5, post-verdict.
+  INERT_ZONES = %w[grass_fixture zone_7 basement_1 basement_2 dungeon_1].freeze
+
+  def test_pilot_and_fixture_zones_stay_inert
+    live = Dir["data/zones/*.json"].reject { |p| INERT_ZONES.include?(File.basename(p, ".json")) }
+    live.each do |path|
       targets = JSON.parse(File.read(path)).fetch("transitions", []).map { |t| t["to"] }
-      refute_includes targets, "grass_fixture",
-                      "#{path}: the live graph must not reach the fixture zone (D12)"
+      assert_empty targets & INERT_ZONES,
+                   "#{path}: the live graph must not reach authored INERT zones (D12)"
+    end
+    pilot = %w[zone_7 basement_1 basement_2 dungeon_1]
+    live_names = live.map { |p| File.basename(p, ".json") }
+    pilot.each do |zone|
+      targets = JSON.parse(File.read("data/zones/#{zone}.json")).fetch("transitions", []).map { |t| t["to"] }
+      assert_empty targets & live_names,
+                   "#{zone}: the pilot cluster must not target the live world (arrival re-anchor risk)"
+      assert targets.all? { |t| pilot.include?(t) }, "#{zone}: pilot transitions stay in-cluster"
     end
   end
 

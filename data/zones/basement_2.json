@@ -1,0 +1,85 @@
+{
+  "name": "basement_2",
+  "display_name": "BASEMENT 2",
+  "floor": -1,
+  "tile_size": 32,
+  "palette": {
+    "floor": [
+      28,
+      24,
+      26
+    ],
+    "grid": [
+      36,
+      32,
+      34
+    ],
+    "wall": [
+      98,
+      88,
+      92
+    ],
+    "transition": [
+      235,
+      190,
+      90
+    ],
+    "wood": [
+      70,
+      56,
+      40
+    ],
+    "motif": "plank",
+    "motif_rgb": [
+      38,
+      32,
+      34
+    ],
+    "ambient_rgba": [
+      150,
+      120,
+      200,
+      8
+    ]
+  },
+  "tiles": [
+    "############",
+    "#wwwwwwwwww#",
+    "#wwwwwwwwww#",
+    "#wwwwwwwwww#",
+    "#wwwwwwwwww#",
+    "#wwwwwwwwww#",
+    "#wwwwwwwwww#",
+    "############"
+  ],
+  "pack_spawn": [
+    [
+      5,
+      4
+    ],
+    [
+      6,
+      4
+    ],
+    [
+      7,
+      4
+    ]
+  ],
+  "enemy_spawns": {},
+  "stations": [],
+  "transitions": [
+    {
+      "at": [
+        4,
+        3
+      ],
+      "to": "zone_7",
+      "spawn": [
+        35,
+        4
+      ],
+      "type": "stairs_up"
+    }
+  ]
+}
