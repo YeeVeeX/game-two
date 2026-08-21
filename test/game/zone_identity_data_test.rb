@@ -2,14 +2,20 @@ require_relative "../test_helper"
 require "core/data_store"
 require "core/tile_map"
 
-# v16 (b): the six real zones each carry an identity block, and every
+# v16 (b): every REACHABLE real zone carries an identity block, and every
 # block honors the legibility contracts the spec pins: value structure
 # constant (wall reads LIGHTER than floor, wide spread), motif subtle
 # (between floor and wall, closer to floor), ambient faint, no gold hues
 # off the transition channel (gold = walkable, reserved — W5).
+# T5 (2026-08-21): the four pilot zones joined the live graph through the
+# ratified low_quay<->zone_7 edge — real zones now, same contracts (T4
+# authored them to these laws; a palette failure here is an AUTHORING
+# finding — fix in the sidecar + re-import, never relax the check).
+# grass_fixture stays out: unreachable dev fixture.
 class ZoneIdentityDataTest < Minitest::Test
   DATA = Core::DataStore.new(File.expand_path("../../data", __dir__))
-  ZONES = %w[nest district district_two camp slow_door low_quay].freeze
+  ZONES = %w[nest district district_two camp slow_door low_quay
+             zone_7 basement_1 basement_2 dungeon_1].freeze
 
   def luma((r, g, b)) = 0.299 * r + 0.587 * g + 0.114 * b
 

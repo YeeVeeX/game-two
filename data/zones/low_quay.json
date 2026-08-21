@@ -199,6 +199,18 @@
     7,
     2
    ]
+  },
+  {
+   "at": [
+    44,
+    19
+   ],
+   "to": "zone_7",
+   "spawn": [
+    2,
+    14
+   ],
+   "requires_defeats": 1
   }
  ],
  "drop_gradient": [

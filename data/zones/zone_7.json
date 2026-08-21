@@ -186,6 +186,17 @@
         4
       ],
       "type": "stairs_down"
+    },
+    {
+      "at": [
+        1,
+        14
+      ],
+      "to": "low_quay",
+      "spawn": [
+        43,
+        19
+      ]
     }
   ],
   "gradient_anchor": [

@@ -48,24 +48,54 @@ class TileRegistryTest < Minitest::Test
   # T3/T4 (D12): authored content lands INERT — no LIVE zone's transition
   # may reach the fixture or any pilot zone; the pilot cluster reaches the
   # live world nowhere (arrivals must not re-anchor a live gate field).
-  # Wiring the boss gate into the live graph is T5, post-verdict.
+  # T5 (2026-08-21) COMPLETES D12 deliberately: the SEVENTEENTH verdict
+  # landed 2026-08-20 and the owner ratified the pilot walk ("Aprobado") —
+  # EXACTLY ONE edge pair joins the live graph, low_quay [44,19] <->
+  # zone_7 [1,14] (boss fact-gated on the low_quay side; both endpoint
+  # zones declare gradient_anchor, so no live gate field re-anchors).
+  # Everything else stays inert BOTH ways — this is the completion the
+  # law always named, not its deletion.
   INERT_ZONES = %w[grass_fixture zone_7 basement_1 basement_2 dungeon_1].freeze
+  RATIFIED_EDGES = { "low_quay" => %w[zone_7], "zone_7" => %w[low_quay] }.freeze
 
   def test_pilot_and_fixture_zones_stay_inert
     live = Dir["data/zones/*.json"].reject { |p| INERT_ZONES.include?(File.basename(p, ".json")) }
     live.each do |path|
+      zone = File.basename(path, ".json")
       targets = JSON.parse(File.read(path)).fetch("transitions", []).map { |t| t["to"] }
-      assert_empty targets & INERT_ZONES,
-                   "#{path}: the live graph must not reach authored INERT zones (D12)"
+      stray = (targets & INERT_ZONES) - RATIFIED_EDGES.fetch(zone, [])
+      assert_empty stray,
+                   "#{path}: the live graph must not reach authored zones beyond the T5-ratified edge (D12)"
     end
     pilot = %w[zone_7 basement_1 basement_2 dungeon_1]
     live_names = live.map { |p| File.basename(p, ".json") }
     pilot.each do |zone|
       targets = JSON.parse(File.read("data/zones/#{zone}.json")).fetch("transitions", []).map { |t| t["to"] }
-      assert_empty targets & live_names,
-                   "#{zone}: the pilot cluster must not target the live world (arrival re-anchor risk)"
-      assert targets.all? { |t| pilot.include?(t) }, "#{zone}: pilot transitions stay in-cluster"
+      stray = (targets & live_names) - RATIFIED_EDGES.fetch(zone, [])
+      assert_empty stray,
+                   "#{zone}: the pilot cluster must not target the live world beyond the T5-ratified edge (re-anchor risk)"
+      assert targets.all? { |t| pilot.include?(t) || RATIFIED_EDGES.fetch(zone, []).include?(t) },
+             "#{zone}: pilot transitions stay in-cluster (plus the ratified edge)"
     end
+  end
+
+  # T5 wire-in pin (spec §THE GATE): the ratified edge EXISTS, the gate
+  # reads the persisted boss fact, the return is free, and each spawn
+  # sits beside (never ON) the far transition — no auto-fire ping-pong.
+  def test_the_t5_ratified_edge_is_wired_and_gated
+    gate = JSON.parse(File.read("data/zones/low_quay.json"))["transitions"]
+               .find { |t| t["to"] == "zone_7" }
+    refute_nil gate, "low_quay: the T5 boss gate is missing"
+    assert_equal [44, 19], gate["at"]
+    assert_equal [2, 14], gate["spawn"]
+    assert_equal 1, gate["requires_defeats"],
+                 "the gate must read the persisted boss fact (spec §THE GATE)"
+    ret = JSON.parse(File.read("data/zones/zone_7.json"))["transitions"]
+              .find { |t| t["to"] == "low_quay" }
+    refute_nil ret, "zone_7: the return edge is missing"
+    assert_equal [1, 14], ret["at"]
+    assert_equal [43, 19], ret["spawn"]
+    assert_nil ret["requires_defeats"], "the return is free — the defeat was already earned"
   end
 
   def test_accepts_symbolized_keys_from_data_store

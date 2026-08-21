@@ -1697,6 +1697,102 @@
                   ]
                 }
               ]
+            },
+            {
+              "__identifier": "Transition",
+              "__grid": [
+                1,
+                14
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#5AC8EB",
+              "iid": "00000000-10ad-0a33-2f03-51c93fae44f1",
+              "width": 32,
+              "height": 32,
+              "defUid": 11,
+              "px": [
+                32,
+                448
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "to",
+                  "__type": "String",
+                  "__value": "low_quay",
+                  "__tile": null,
+                  "defUid": 110,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "low_quay"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "__identifier": "spawn",
+                  "__type": "Point",
+                  "__value": {
+                    "cx": 43,
+                    "cy": 19
+                  },
+                  "__tile": null,
+                  "defUid": 111,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "43,19"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "__identifier": "sealed",
+                  "__type": "Bool",
+                  "__value": false,
+                  "__tile": null,
+                  "defUid": 112,
+                  "realEditorValues": [
+                    {
+                      "id": "V_Bool",
+                      "params": [
+                        false
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "__identifier": "type",
+                  "__type": "String",
+                  "__value": null,
+                  "__tile": null,
+                  "defUid": 113,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "stairs_unlocked_by",
+                  "__type": "String",
+                  "__value": null,
+                  "__tile": null,
+                  "defUid": 114,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "requires_defeats",
+                  "__type": "Int",
+                  "__value": null,
+                  "__tile": null,
+                  "defUid": 115,
+                  "realEditorValues": []
+                }
+              ]
             }
           ]
         },
