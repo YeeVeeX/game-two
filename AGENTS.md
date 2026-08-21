@@ -85,11 +85,16 @@ SAFE behaviors (decorative variants, footstep materials, region
 ambience) ship in this era; SIM-CLASS tile behaviors (lava, water,
 tile-gated spawns) are post-verdict increments, one gated piece at a
 time. Live in-game god-mode editing stays the staged later rung (2026-
-08-17 vision-drop staging unchanged). Grill record:
-`drafts/_world-builder-grill-20260819.md`; spec lands after the open
-grill answers close. New content merges into the LIVE world only per
-the recorded merge-timing decision (open grill question — default:
-post-verdict).
+08-17 vision-drop staging unchanged). Spec CLOSED:
+`docs/superpowers/specs/2026-08-19-world-builder-pipeline.md` (grill
+record `drafts/_world-builder-grill-20260819.md`). Ticket state: T1 GO
+(s19) · T2 importer+schema v2 (s20) · **T3 safe behaviors SHIPPED
+(s26)** — footstep materials + ambience keying (pure sink, noDevice
+keys logged; owner renders pend at his pace) + flora variants (ZONE 6
+fixture, INERT per D12) · T4 pilot authoring NEXT. New content merges
+into the LIVE world only per the recorded merge-timing decision
+(default: post-verdict — D12; the SEVENTEENTH verdict has landed, the
+wire-in still waits for T5's own gate).
 
 **Owner-pending (never nag):** EAR-CHECKS of the audio-v12 batch
 (evolving calm loop · zone-change · tailed throws · ask-5 levels) — ride

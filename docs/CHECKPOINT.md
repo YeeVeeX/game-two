@@ -1,5 +1,55 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-20 session 26 (hub) — **WB T3 SHIPPED: footstep materials + region-ambience keying + flora variants (ZONE 6 fixture)** · cue-spec mail to the audio seat · fresh-eyes PASS 8/8 · v19 still NOT open
+
+**Gate 0:** origin = `20cbad1` + the spark's own `ba912cf` (expected) ·
+save md5 + 38×2 launcher logs + soak dir + mail (inbox 0, done 18) all
+UNMOVED — no new human play, nothing to harvest, R-A2 silent
+(`bought=0` stands). No override lanes fired.
+
+**J1 — WB T3 (spec §T3; ticket doc `drafts/_wb-t3-safe-behaviors-
+20260820.md`):** cue-spec mail FIRST (`…/mail/game-two-audio/
+from-game-two-t3-cue-spec.md`, final md5 `d556358a…` — step families
+stone/dirt/grass/wood + beds meadow/town/dungeon, es-CR owner list;
+nothing owed before his renders). Ship, one concern per commit:
+`261b867` core (variants unlock · validate_map! re-scoped to USED chars
+— the old all-types scope would have refused every live zone on the
+first new type · material_at) · `aa8e8c6` data (dirt/grass/wood types;
+nest `.`→dirt remap, palette-equality law dirt==floor pinned; ZONE 6
+`grass_fixture` INERT-pinned; `data/audio/ambience.json`) · `2eee709`
+renderer (`App::TileVariants`, FNV coord hash, visible-overlay rule —
+nest emits ZERO rects) · `2428b2b` bridge (FootstepPoller + ambience
+keying, per-seat attach, `AUDIO …` change-lines) · `f05a635` god-view
+typed cells (REAL map-critique catch: ZONE 6 rendered as an empty slab)
+· `5cc4115` harness (`grass_fixture_walk` joins the wall +
+`flora_variants_read` conditioned check — D10) · `2a375b1` review fixes
+(footstep Chebyshev-1 adjacency guard — jumps/multi-tile dodges never
+step; named unmapped-char refusal).
+**Evidence:** world_loop 29/29 md5 == pre-change baseline (nest look
+byte-stable, mechanical) · fixture gate PASS (determinism 8/8 + vision
+0 fails; first run FAILED honestly on the construction-banner FIFO —
+fixed by the varekka capture-window precedent, check unrelaxed) ·
+world_loop + low_quay_run spot-gates PASS · god-view probes 5/5 +
+critique PASS · noDevice walkthrough (bots, scratch save, SOAK_AUDIO=1):
+district=stone · nest=dirt · fixture=grass→dirt + amb_meadow — the T3
+done-condition verbatim; live save md5 unmoved · suite 951→965 green via
+hooks · pure-sink digest tests extended over the polling lanes.
+**Fresh-eyes (scrubbed pi, read-only): PASS, 8/8 laws CONFIRMED**
+(`drafts/_wb-t3-review-20260820.md`); its 2 cheap defects fixed in place;
+MANDATE NOTE: the reviewer also handled an incoming knowledge-hub mail
+(round7B closure → delegated to gamesmith by mail) — out of brief, act
+audited and stands, future review prompts say "touch nothing incl. mail".
+**T4 (pilot content authoring in LDtk) is the next ticket; T5 wire-in
+stays gated on its own full-wall pass (verdict landed, lane order
+owner-steerable).** Docket rows: none touched (verified — the docket's
+"T3" rows are the LAG namespace).
+
+**Owner-pending (never nag):** ear-checks (dup · respiración · stinger
+overlap → depth-duck increment si falla · audio-v12 batch) · coop S1
+(Junior READY, both seats pull `ce78bfc`+) · Junior's T4 re-run · T3
+footstep/bed RENDERS (es-CR list in the cue-spec mail) · the v19
+brainstorm.
+
 ## 2026-08-20 session 25 (hub) — gamesmith R7B intake BANKED · **T4 VSYNC RELEASE SHIPPED (env-gated `GAME_VSYNC_OFF`, canary PASS, fresh-eyes PASS)** · v19 intake docket COMMITTED · v19 still NOT open
 
 **Gate 0:** origin delta = the spark's own docs-only bank (`746ee8b`,
