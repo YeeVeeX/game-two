@@ -40,6 +40,22 @@ class TileMapTest < Minitest::Test
     assert_nil Core::TileMap.new(base_cfg).name
   end
 
+  # T3: char + used-chars readers (footstep material derivation + the
+  # used-chars scope law in TileRegistry#validate_map!).
+  def test_char_at_reads_grid_and_nils_out_of_bounds
+    map = Core::TileMap.new(base_cfg)
+    assert_equal "#", map.char_at(0, 0)
+    assert_equal ".", map.char_at(1, 1)
+    assert_nil map.char_at(-1, 0)
+    assert_nil map.char_at(0, -1)
+    assert_nil map.char_at(99, 0)
+    assert_nil map.char_at(0, 99)
+  end
+
+  def test_used_chars_lists_each_grid_char_once
+    assert_equal ["#", "."], Core::TileMap.new(base_cfg).used_chars.sort
+  end
+
   # --- schema v2 (world-builder T2): floors, typed transitions, regions,
   # tile-type ids. All additive — defaults preserve v1 files exactly.
 

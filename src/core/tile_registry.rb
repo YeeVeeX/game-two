@@ -1,14 +1,17 @@
 require "core/tile_map"
 
 module Core
-  # Tile-type registry v0 (world-builder D7, T2): data/tiles.json declares
+  # Tile-type registry (world-builder D7). v0 (T2): data/tiles.json declares
   # each tile type's authoring glyph (`char`), LDtk IntGrid value
   # (`int_grid`), render palette ref (`render`), footstep material
-  # (`footstep`, declared only — nothing consumes it until T3), and
-  # `passability` ("wall"/"floor"; "swim" is reserved for a post-verdict
-  # sim-class increment and REFUSED in v0). `hooks` and `variants` are
-  # reserved key names (D7: hazard/spawn_affinity hooks, visual variants)
-  # — their presence refuses NAMED until their gated cycles land.
+  # (`footstep`) and `passability` ("wall"/"floor"; "swim" is reserved for a
+  # post-verdict sim-class increment and REFUSED). T3 (the D7 SAFE-behavior
+  # cycle) unlocks `variants` — an optional list of ALTERNATE render palette
+  # refs for authored visual variety (selection is a pure function of
+  # zone+coord, App::TileVariants; no runtime randomness) — and consumes
+  # `footstep` through #material_at (audio-bridge custody, pure sink).
+  # `hooks` stays a reserved key name (D7 hazard/spawn_affinity) — its
+  # presence refuses NAMED until its gated post-verdict cycle lands.
   #
   # v0 wall law: TileMap#passable? stays the '#' check (byte-identical sim
   # for the live world). The registry therefore ENFORCES that '#' and
@@ -18,7 +21,8 @@ module Core
     class BadRegistry < StandardError; end
 
     REQUIRED_TYPE_KEYS = %w[char int_grid render footstep passability].freeze
-    RESERVED_TYPE_KEYS = %w[hooks variants].freeze
+    OPTIONAL_TYPE_KEYS = %w[variants].freeze
+    RESERVED_TYPE_KEYS = %w[hooks].freeze
     PASSABILITIES = %w[wall floor].freeze
     WALL_CHAR = "#".freeze
 
@@ -47,23 +51,42 @@ module Core
     def default_char_map = @types.to_h { |id, t| [t["char"], id] }
 
     # Cross-reference check for a LOADED zone map (World wires this after
-    # TileMap's own shape validation): every char in the zone's effective
-    # mapping must name a registered type whose render palette ref exists
-    # in the zone's palette. Raises TileMap::BadMap so refusals surface
-    # in the zone-loading register.
+    # TileMap's own shape validation). Scope law (T3): only the chars the
+    # zone's GRID actually uses — plus its tile_types overrides — are
+    # checked, so registering a new type never invalidates zones that don't
+    # use it (the live-world guarantee). Every checked char must name a
+    # registered type whose render ref AND variant refs exist in the zone's
+    # palette. Raises TileMap::BadMap so refusals surface in the
+    # zone-loading register.
     def validate_map!(map)
       effective = default_char_map.merge(map.tile_types || {})
-      effective.each do |ch, type_id|
+      used = (map.used_chars + (map.tile_types || {}).keys).uniq
+      used.each do |ch|
+        type_id = effective[ch]
         spec = @types[type_id]
         unless spec
           raise Core::TileMap::BadMap,
-                "zone #{map.name}: tile_types[#{ch.inspect}] = #{type_id.inspect}: unknown tile type"
+                "zone #{map.name}: tile char #{ch.inspect} maps to #{type_id.inspect}: unknown tile type"
         end
-        next if map.palette.key?(spec["render"].to_sym)
-        raise Core::TileMap::BadMap,
-              "zone #{map.name}: tile type #{type_id} renders palette ref " \
-              "#{spec['render'].inspect}, absent from this zone's palette"
+        ([spec["render"]] + (spec["variants"] || [])).each do |ref|
+          next if map.palette.key?(ref.to_sym)
+          raise Core::TileMap::BadMap,
+                "zone #{map.name}: tile type #{type_id} renders palette ref " \
+                "#{ref.inspect}, absent from this zone's palette"
+        end
       end
+      nil
+    end
+
+    # T3 footstep consumption: the material key under a tile, through the
+    # zone's effective char→type mapping. nil out of bounds or for chars
+    # with no registered type (bare fixture maps) — callers treat nil as
+    # silence, never an error (presentation must not raise mid-frame).
+    def material_at(map, tx, ty)
+      ch = map.char_at(tx, ty)
+      return nil unless ch
+      type_id = (map.tile_types || {})[ch] || default_char_map[ch]
+      @types.dig(type_id, "footstep")
     end
 
     private
@@ -76,9 +99,9 @@ module Core
       reserved = spec.keys & RESERVED_TYPE_KEYS
       unless reserved.empty?
         raise BadRegistry, "tile type #{id}: #{reserved.inspect} are reserved keys " \
-                           "(hooks/variants land in their own gated cycles, not v0)"
+                           "(hooks land in their own gated cycles, not here)"
       end
-      unknown = spec.keys - REQUIRED_TYPE_KEYS
+      unknown = spec.keys - REQUIRED_TYPE_KEYS - OPTIONAL_TYPE_KEYS
       raise BadRegistry, "tile type #{id}: unknown key(s) #{unknown.inspect}" unless unknown.empty?
       unless spec["char"].is_a?(String) && spec["char"].length == 1
         raise BadRegistry, "tile type #{id}: char must be a single character"
@@ -95,7 +118,21 @@ module Core
         raise BadRegistry, "tile type #{id}: passability #{spec['passability'].inspect} not in " \
                            "#{PASSABILITIES.inspect} (\"swim\" is reserved, post-verdict)"
       end
+      validate_variants!(id, spec)
       spec
+    end
+
+    # T3 visual variants: an optional list of ALTERNATE render palette refs
+    # (the base `render` is implicit pick 0). Authored data only — selection
+    # never randomizes at runtime (D7 determinism hygiene).
+    def validate_variants!(id, spec)
+      return unless spec.key?("variants")
+      v = spec["variants"]
+      unless v.is_a?(Array) && !v.empty? && v.all? { |r| r.is_a?(String) && !r.empty? }
+        raise BadRegistry, "tile type #{id}: variants must be a non-empty Array of " \
+                           "palette-ref Strings (authored alternates to render)"
+      end
+      raise BadRegistry, "tile type #{id}: variants carries duplicates" if v.uniq.length != v.length
     end
 
     def validate_uniqueness!

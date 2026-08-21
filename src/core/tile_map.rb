@@ -60,6 +60,17 @@ module Core
 
     def wall?(tx, ty) = !passable?(tx, ty)
 
+    # T3 readers: the grid char under a tile (nil out of bounds — footstep
+    # material derivation) and the distinct chars this zone's grid uses
+    # (TileRegistry#validate_map!'s scope law). Pure readers of the
+    # immutable grid; memoized where derivation costs.
+    def char_at(tx, ty)
+      return nil if tx.negative? || ty.negative? || tx >= @cols || ty >= @rows
+      @grid[ty][tx]
+    end
+
+    def used_chars = @used_chars ||= @grid.flatten.uniq.freeze
+
     def transition_at(tx, ty)
       @transitions.find { |t| t[:at] == [tx, ty] }
     end
