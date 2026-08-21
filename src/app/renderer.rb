@@ -261,35 +261,41 @@ module App
     def draw_map(world)
       map = world.map
       ts = map.tile_size
-      floor = color(map.palette[:floor])
-      grid = color(map.palette[:grid])
-      wall = color(map.palette[:wall])
       transition = color(map.palette[:transition])
 
-      Gosu.draw_rect(0, 0, map.pixel_width, map.pixel_height, floor)
-      # T3 typed-tile overlays (D7 flora variants): under walls/grid like
-      # the floor they vary. Geometry memoized per map — pure function of
-      # immutable zone config + registry; the visible-overlay rule inside
-      # TileVariants keeps footstep-only remaps (nest) at ZERO rects.
-      typed_rects(map, world).each do |(tx, ty, ref)|
-        ref = :water_drained if ref == :water && Renderer.water_drained?(world, world.zone_name, map)
-        Gosu.draw_rect(tx * ts, ty * ts, ts, ts, color(map.palette[ref]))
+      # J1 frame-tail fix (s28, ticket drafts/_wb-t5-wirein-20260821.md):
+      # the static tile pass — typed overlays + walls + motif — draws
+      # MERGED RECT RUNS memoized per map instead of one rect per tile.
+      # zone_7 issued ~1030 rects/frame here (census in the ticket;
+      # Junior's draw p95 15.3 ms ≈ the whole budget); merging abutting
+      # same-color spans cuts the call count ~2× while keeping the exact
+      # primitive (solid opaque draw_rect under the same camera translate
+      # — abutting spans of one color tile the SAME pixels as their union,
+      # so capture bytes are unchanged BY CONSTRUCTION; the banked
+      # baselines are the proof). Texture/macro composition was tried and
+      # REJECTED: Macro#draw is illegal inside Gosu.render on gosu 1.4.6,
+      # and a rasterized layer resamples under the float camera's
+      # fractional offsets — both probes banked in the ticket. Geometry
+      # stays a pure function of zone config + registry (memo per map);
+      # the drained bool swaps water run colors at DRAW time, never in
+      # the cache. Decor, transitions, seal slabs, and ambient stay live
+      # draws (state-dependent or above-grid by design).
+      drained = Renderer.water_drained?(world, world.zone_name, map)
+      tile_runs, motif_runs = static_runs(map, world)
+      Gosu.draw_rect(0, 0, map.pixel_width, map.pixel_height,
+                     color(map.palette[:floor]))
+      tile_runs.each do |(x, y, w, h, ref)|
+        ref = :water_drained if ref == :water && drained
+        Gosu.draw_rect(x, y, w, h, color(map.palette[ref]))
       end
-      map.rows.times do |ty|
-        map.cols.times do |tx|
-          Gosu.draw_rect(tx * ts, ty * ts, ts, ts, wall) if map.wall?(tx, ty)
-        end
-      end
+      grid = color(map.palette[:grid])
       (0..map.cols).each { |tx| Gosu.draw_rect(tx * ts, 0, 1, map.pixel_height, grid) }
       (0..map.rows).each { |ty| Gosu.draw_rect(0, ty * ts, map.pixel_width, 1, grid) }
-      # v16 (b): identity channels — motif texture + authored landmarks
-      # after the grid (floor detail), under transitions (gold stays law).
-      # Geometry memoized per map: pure function of immutable zone config.
-      motif, decor = identity_rects(map)
-      unless motif.empty?
+      unless motif_runs.empty?
         mcol = color(map.palette[:motif_rgb])
-        motif.each { |(x, y, w, h)| Gosu.draw_rect(x, y, w, h, mcol) }
+        motif_runs.each { |(x, y, w, h)| Gosu.draw_rect(x, y, w, h, mcol) }
       end
+      _, decor = identity_rects(map)
       decor.each { |(x, y, w, h, rgb, a)| Gosu.draw_rect(x, y, w, h, color(rgb, a)) }
       map.transitions.each do |t|
         tx, ty = t[:at]
@@ -315,6 +321,68 @@ module App
       @identity_cache ||= {}
       @identity_cache[map] ||= [App::ZoneIdentity.motif_rects(map),
                                 App::ZoneIdentity.decor_rects(map)]
+    end
+
+    # J1 (s28): merged static geometry, memoized per map — a pure
+    # function of zone config + registry (the identity_rects pattern;
+    # state like the drained bool NEVER lands in this cache). Returns
+    # [tile_runs, motif_runs]: tile_runs = typed floor overlays then wall
+    # tiles as [x, y, w, h, ref] pixel rects, horizontally then
+    # vertically merged where spans abut with the same ref; motif_runs
+    # likewise for the motif glyph rects. Merging is byte-safe by
+    # construction: every merged class is a solid alpha-255 color, spans
+    # only merge when they tile EXACTLY (no overlap, no gap), and classes
+    # keep their draw order (typed → walls → grid → motif; within a
+    # class all rects are one color or — for typed — disjoint per tile,
+    # so intra-class order cannot change a pixel).
+    def static_runs(map, world)
+      @static_runs_cache ||= {}
+      @static_runs_cache[map] ||= begin
+        ts = map.tile_size
+        typed = typed_rects(map, world).map do |(tx, ty, ref)|
+          [tx * ts, ty * ts, ts, ts, ref]
+        end
+        walls = []
+        map.rows.times do |ty|
+          map.cols.times do |tx|
+            walls << [tx * ts, ty * ts, ts, ts, :wall] if map.wall?(tx, ty)
+          end
+        end
+        motif, = identity_rects(map)
+        [merge_runs(typed) + merge_runs(walls),
+         merge_runs(motif.map { |(x, y, w, h)| [x, y, w, h, :m] })
+           .map { |(x, y, w, h, _)| [x, y, w, h] }]
+      end
+    end
+
+    # Horizontal pass: extend a run while the next rect abuts it exactly
+    # (same y/h/ref, x == run end). Vertical pass: stack runs of equal
+    # x/w/ref whose y abuts. Input arrives row-major, so both passes are
+    # deterministic — replays and both gate halves see identical lists.
+    def merge_runs(rects)
+      rows = []
+      rects.each do |(x, y, w, h, ref)|
+        last = rows.last
+        if last && last[4] == ref && last[1] == y && last[3] == h &&
+           last[0] + last[2] == x
+          last[2] += w
+        else
+          rows << [x, y, w, h, ref]
+        end
+      end
+      out = []
+      open = {} # [x, w, ref] => index into out for the still-stackable rect
+      rows.each do |(x, y, w, h, ref)|
+        key = [x, w, ref]
+        i = open[key]
+        if i && out[i][1] + out[i][3] == y
+          out[i][3] += h
+        else
+          open[key] = out.length
+          out << [x, y, w, h, ref]
+        end
+      end
+      out
     end
 
     def typed_rects(map, world)
