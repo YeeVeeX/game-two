@@ -19,14 +19,17 @@ class TileRegistryTest < Minitest::Test
   def test_live_registry_file_loads
     data = Core::DataStore.new("data")
     reg = Core::TileRegistry.new(data["tiles"])
-    assert_equal %w[dirt floor grass wall wood], reg.types.keys.sort
+    assert_equal %w[dirt floor grass wall water wood], reg.types.keys.sort
     assert_equal "wall", reg.type_for_char("#")
     assert_equal "#", reg.char_for_int_grid(1)
     assert_equal ".", reg.char_for_int_grid(2)
     assert_equal({ "#" => "wall", "." => "floor", "," => "dirt",
-                   "g" => "grass", "w" => "wood" }, reg.default_char_map)
+                   "g" => "grass", "w" => "wood", "~" => "water" }, reg.default_char_map)
     assert_equal %w[grass_b grass_c], reg.type("grass")["variants"]
-    assert_equal %w[dirt grass stone wood], reg.types.values.map { |t| t["footstep"] }.uniq.sort
+    assert_equal %w[dirt grass stone water wood], reg.types.values.map { |t| t["footstep"] }.uniq.sort
+    # T4: water WALKS in v0 ("swim" stays reserved/refused) — the well's
+    # unmapped footstep_water sink key is a silent no-op until specced.
+    assert_equal "floor", reg.type("water")["passability"]
   end
 
   # T3 live-data laws (the two invariants the ship leaned on):

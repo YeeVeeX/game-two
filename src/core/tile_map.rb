@@ -14,7 +14,8 @@ module Core
 
     attr_reader :cols, :rows, :tile_size, :pack_spawn, :enemy_spawns,
                 :display_name, :palette, :transitions, :stations, :drop_gradient,
-                :hub, :gradient_anchor, :name, :decor, :floor, :regions, :tile_types
+                :hub, :gradient_anchor, :name, :decor, :floor, :regions, :tile_types,
+                :water_drained_by
 
     def initialize(cfg)
       @tile_size = cfg.fetch(:tile_size)
@@ -50,6 +51,11 @@ module Core
       @floor = cfg.fetch(:floor, 0)
       @regions = (cfg.fetch(:regions, []) || []).map { |r| normalize_region(r) }
       @tile_types = cfg[:tile_types]&.to_h { |k, v| [k.to_s, v] }
+      # T4 (the well): OPTIONAL presentation link — when the breach-family
+      # fact [zone, water_drained_by] is set, water-typed tiles RENDER their
+      # drained look (renderer + god-view custody). Pure data here: no sim
+      # system reads it, passability never changes with state (the '#' law).
+      @water_drained_by = cfg.fetch(:water_drained_by, nil)
       validate!
     end
 
@@ -105,6 +111,7 @@ module Core
       @transitions.each { |t| validate_transition_type!(t) }
       validate_regions!
       validate_tile_types!
+      validate_water_drained_by!
     end
 
     def validate_transition_type!(t)
@@ -112,6 +119,14 @@ module Core
       if type && !TRANSITION_TYPES.include?(type)
         raise BadMap, "transition at #{t[:at].inspect}: unknown type #{type.inspect} " \
                       "(valid: #{TRANSITION_TYPES.join(', ')}; absent = gate)"
+      end
+      # T4 (the boss gate): OPTIONAL fact-gate — the way stays shut until the
+      # persisted boss_1_defeats counter reaches this value (World custody;
+      # a breach-variant reading a fact instead of a price — spec §THE GATE).
+      rd = t[:requires_defeats]
+      if rd && !(rd.is_a?(Integer) && rd >= 1)
+        raise BadMap, "transition at #{t[:at].inspect}: requires_defeats must be an " \
+                      "Integer >= 1 (got #{rd.inspect})"
       end
       unlock = t[:stairs_unlocked_by]
       return unless unlock
@@ -162,6 +177,22 @@ module Core
 
     def normalize_region(r)
       { id: r[:id], rect: r[:rect], intent: r[:intent] }
+    end
+
+    # T4 shape law: a drained-look link needs a legal tile AND the palette
+    # ref it swaps to — a missing water_drained key would crash the draw
+    # path mid-frame (presentation must refuse at load, never at draw).
+    def validate_water_drained_by!
+      return unless @water_drained_by
+      w = @water_drained_by
+      unless w.is_a?(Array) && w.length == 2 && w.all? { |v| v.is_a?(Integer) } &&
+             w[0] >= 0 && w[1] >= 0 && w[0] < @cols && w[1] < @rows
+        raise BadMap, "water_drained_by must be an in-bounds [x, y] tile (got #{w.inspect})"
+      end
+      unless @palette.key?(:water_drained)
+        raise BadMap, "water_drained_by declared but palette carries no water_drained ref " \
+                      "(the drained look must be authored)"
+      end
     end
 
     def check_passable!(label, (tx, ty))

@@ -131,6 +131,53 @@ class TileMapTest < Minitest::Test
     assert_match(/non-empty breach-family fact/, e.message)
   end
 
+  # --- T4: the boss fact-gate + the well's drained-look link -------------
+
+  def test_requires_defeats_parses_on_any_transition
+    map = Core::TileMap.new(base_cfg.merge(
+      transitions: [{ at: [2, 2], to: "next", spawn: [1, 1], requires_defeats: 1 }]
+    ))
+    assert_equal 1, map.transition_at(2, 2)[:requires_defeats]
+  end
+
+  def test_requires_defeats_refuses_non_positive_or_non_integer
+    [0, -1, "1", 1.5].each do |bad|
+      e = assert_raises(Core::TileMap::BadMap) do
+        Core::TileMap.new(base_cfg.merge(
+          transitions: [{ at: [2, 2], to: "x", spawn: [1, 1], requires_defeats: bad }]
+        ))
+      end
+      assert_match(/requires_defeats must be an Integer >= 1/, e.message)
+    end
+  end
+
+  def test_water_drained_by_parses_with_authored_palette_ref
+    cfg = base_cfg
+    cfg[:palette] = cfg[:palette].merge(water_drained: [9, 9, 9])
+    map = Core::TileMap.new(cfg.merge(water_drained_by: [2, 2]))
+    assert_equal [2, 2], map.water_drained_by
+  end
+
+  def test_water_drained_by_defaults_nil
+    assert_nil Core::TileMap.new(base_cfg).water_drained_by
+  end
+
+  def test_water_drained_by_refuses_out_of_bounds_or_bad_shape
+    cfg = base_cfg
+    cfg[:palette] = cfg[:palette].merge(water_drained: [9, 9, 9])
+    [[9, 9], [2], ["2", "2"], [-1, 1]].each do |bad|
+      e = assert_raises(Core::TileMap::BadMap) { Core::TileMap.new(cfg.merge(water_drained_by: bad)) }
+      assert_match(/water_drained_by must be an in-bounds \[x, y\] tile/, e.message)
+    end
+  end
+
+  def test_water_drained_by_refuses_without_drained_palette_ref
+    e = assert_raises(Core::TileMap::BadMap) do
+      Core::TileMap.new(base_cfg.merge(water_drained_by: [2, 2]))
+    end
+    assert_match(/palette carries no water_drained ref/, e.message)
+  end
+
   def test_regions_parse_as_data_layer
     map = Core::TileMap.new(base_cfg.merge(
       regions: [{ id: "town_1", rect: [1, 1, 3, 2], intent: "town" }]
