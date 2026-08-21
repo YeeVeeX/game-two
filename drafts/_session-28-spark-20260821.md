@@ -1,4 +1,4 @@
-# SPARK sesión 28 — WB T5 wire-in (ZONE 7 joins the LIVE world) + owner-paced harvest lanes
+# SPARK sesión 28 — frame-tail draw fix (trigger FIRED) + WB T5 wire-in (ZONE 7 joins the LIVE world)
 
 You are the dev of record in game-two (cwd `~/workspace/game-two`). Read
 `AGENTS.md` FIRST (rule 8) — the live file beats this spark on any drift.
@@ -21,20 +21,35 @@ UNVERIFIED tag.
   world.rb AT 1800). Fresh-eyes PASS 9/9; ticket
   `drafts/_wb-t4-pilot-20260821.md`; receipt
   `drafts/_wb-t4-review-20260821.md`.
-- **THE OWNER WALKED THE PILOT AND RATIFIED IT ("Aprobado", 2026-08-21)**
+- **THE OWNER WALKED THE PILOT AND RATIFIED ("Aprobado", 2026-08-21)**
   — his walk log banked at the checkpoint addendum (all five materials,
-  amb_town ×6 live = T4's named gap CLOSED, toll paid 60→20, one wipe
-  respawned at town, roped back, clean quit). **His word routes T5 as
-  THE session job.** Lane order stays owner-steerable — a redirect in
-  chat beats this spark.
-- **World-builder lane:** T1 GO · T2 importer+schema v2 · T3 safe
-  behaviors (s26) · T4 pilot SHIPPED (s27) · **T5 wire-in = THE session
-  job** — the SEVENTEENTH verdict landed AND the owner ratified the
-  pilot; T5's own gate is a FULL WALL PASS (spec §T5).
+  amb_town ×6 live, toll paid 60→20, one wipe respawned at town, roped
+  back, clean quit). **JUNIOR ALSO WALKED IT** (his
+  `drafts/_junior-pilot-walk-20260821.md`, f60d51e): amb_town ear-check
+  **PASS** by human ears · rope+well "muito boa" · aim v3 re-test works
+  (closes docket J-1) · the autocrlf provenance pin VERIFIED on his
+  Windows clone · suite 994 green on his machine. Both walks were
+  SCRATCH play — the live save never moved.
+- **TRIGGER FIRED — the frame-tail ticket re-opens as J1.** The ~7%
+  over20 tail was closed NO-SHIP-BY-DEFAULT gated on "the owners still
+  FEELING it" (lag-T4 verdict §6). Junior FELT it ("lentidão geral") in
+  the T4 zones AND banked numbers (his file §ACHADO):
+  `frame_probe frames=11663 period{p50=16.8 p90=33.4 p99=50.0 max=185.5}
+  update{p50=0.4 p95=1.1 max=62.8} draw{p50=3.9 p95=15.3 max=121.3}
+  over20=1958(16.8%) over35=316 over100=3` — update is cheap, **the tail
+  lives in DRAW** (p95 ≈ the whole 16.7 ms budget), and 16.8% over20 is
+  ~2.4× the known ~7% live-world tail. AUDIO drift corroborates
+  (+7→+12% engine deficit). Context: T4 zones on HIS machine. He
+  measured; the DIAGNOSIS is the hub's (his own framing: "medir ≠
+  diagnosticar").
+- **World-builder lane:** T1–T4 SHIPPED · **T5 wire-in = J2 this
+  session** — the SEVENTEENTH verdict landed AND the owner ratified the
+  pilot; T5's own gate is a FULL WALL PASS (spec §T5), which this
+  session runs ONCE for both jobs.
 - **Decisive fact (verified read-only s27):** the shared world save
   already carries `boss_1_defeats: 1` (saves/world.json counters) — the
   moment the gate wires in, the owners' EARNED defeat opens ZONE 7 from
-  their existing save. The arc pays off with zero further grinding.
+  their existing save.
 - **BOSS 1 geography (verified):** the challenger spawns in **low_quay
   (ZONE 5)** (`data/zones/low_quay.json:183`); low_quay DECLARES
   `gradient_anchor` (line ~218), as do zone_7 `[4,14]` and dungeon_1 —
@@ -56,21 +71,23 @@ UNVERIFIED tag.
 
 ## Job 0 — standing gate (~10 min; anything moved = classify in writing FIRST)
 
-Baselines at staging: origin/main tip = `c5c146d` (T4 gate-verdicts bank;
-`git log --oneline -3` reads: c5c146d · 2860983 docs+review · 51d8c39
-review defect fix). Save `saves/world.json` md5
+Baselines at staging: origin/main tip = the s28 spark commit — `git log
+--oneline -3` reads: that commit · `f60d51e` Junior's pilot-walk bank ·
+`c5c146d` T4 close. Save `saves/world.json` md5
 `98fe75edb6d72deab18cd48eaa88bdaf` mtime 08-20 15:51 (banked=7
 provisions=0 seals=2 sessions=13 boss_1_defeats=1 home=camp) · launcher
 logs **40×2** (`$TEMP` + `/tmp`, pattern `game_two_session_*.log`; the
 +2 vs s26 are s27's owner walk `…2451218385.log` md5 `b26c81aa…` ALREADY
-HARVESTED + the killed-instance empty artifact `…247187407.log` — both
-classified at the checkpoint addendum) · mail inbox EMPTY, done/=21 ·
-tmp/soak newest `20260820-232208` · untracked `drafts/_refs/` only ·
-tmp/t4/ + tmp/pilot_walk/ = session-27 artifacts (expected; the scratch
-save tmp/pilot_walk/world.json is the OWNER'S ongoing dev-walk world —
-never delete, never play it yourself). EXPECTED deltas: Junior docs-only
-commits (read before rebasing) · audio-seat receipt · new human launcher
-logs (harvest silently) · coop S1 artifacts if the invite went out.
+HARVESTED + the killed-instance empty artifact `…247187407.log`;
+Junior's two walk logs live on HIS machine, md5s banked in his file) ·
+mail inbox EMPTY, done/=21 · tmp/soak newest `20260820-232208` ·
+untracked `drafts/_refs/` only · tmp/t4/ + tmp/pilot_walk/ = session-27
+artifacts (expected; the scratch save tmp/pilot_walk/world.json is the
+owners' ongoing dev-walk world — Junior's seat wrote sessions=2
+banked=75 — never delete, never play it yourself). EXPECTED deltas:
+Junior docs-only commits (read before rebasing) · audio-seat receipt ·
+new human launcher logs (harvest silently) · coop S1 artifacts if the
+invite went out.
 `git pull --ff-only` FIRST. Single-instance guard before any launch
 (separate call, judged by printed output). `--fresh` NEVER. Background
 `bin/play` from pi's bash DIES silently — the working launcher is
@@ -96,7 +113,61 @@ any double BEFORE either instance quits (quit writes the save).
 - **A live coop session = lag segment S1**: support, harvest verbatim
   per `drafts/_lag-t2-evidence/README.md`, bank md5-stamped.
 
-## J1 — WB T5: wire-in (THE session job; spec §T5 is law)
+## J1 — frame-tail draw diagnosis + render fix (the FIRED trigger; bounded)
+
+The wire-in (J2) makes ZONE 7 reachable in the shared world — shipping
+the payoff zone while it draws 2.4× the known tail on a peer's machine
+would sour the arc's best moment. Diagnose FIRST, fix if in-box, and let
+ONE full-wall sweep gate both jobs.
+
+Read before acting: `drafts/_junior-pilot-walk-20260821.md` (the
+numbers) · `drafts/_lag-t4-vsync-20260820.md` §6 (the tail ticket's
+no-ship verdict + what re-opens it) · `src/app/renderer.rb` draw_map
+(the T3/T4 typed overlay + motif/decor passes; geometry memoized,
+DRAWING is per-frame) · `src/app/tile_variants.rb`.
+
+**Hypothesis to verify (named, not assumed):** live zones draw ~0 typed
+rects; zone_7 is 44×28 with most tiles typed (grass/dirt/water/wood) →
+the overlay pass alone adds several HUNDRED `Gosu.draw_rect` calls per
+frame, plus motif rects, on top of the per-tile wall loop that always
+ran. Junior's draw p95 15.3 ms ≈ the whole frame budget; his update p95
+is 1.1 ms (the sim is innocent — consistent with the lag-T4 verdict).
+
+**Steps:**
+1. Reproduce mechanically on THIS machine: `GAME_FRAME_PROBE=1` bot
+   sessions on scratch (`--start-zone zone_7` vs `--start-zone
+   district`, same ticks) — bank both `TELEMETRY frame_probe` lines; the
+   zone_7-vs-district DRAW delta is the diagnosis. Count the actual
+   rects (one-off script: TileVariants.rects(zone_7).length + motif
+   count) — numbers in the ticket doc.
+2. If the overlay/static tile pass is the cost: the fix is the
+   **per-map static-layer macro** — `Gosu.record` the immutable tile
+   geometry (floor bg + typed rects + wall tiles + grid lines + motif)
+   once per map and draw ONE macro per frame. Custody rules: the
+   recorded layer is a pure function of zone config + registry — the
+   SAME inputs the memoized geometry already uses; water_drained state
+   swaps water rect colors, so key the macro on the drained BOOL (≤2
+   macros/map, invalidation-free — breach facts only ever go false→true
+   mid-session). Transitions/seal slabs/decor/ambient/actors stay live
+   draws (state-dependent or above-grid by design). God-view
+   (map_artifact) keeps reading TileVariants directly — untouched.
+3. Prove it: frame_probe re-run on this machine (before/after DRAW
+   numbers in the ticket) · the standard gates prove pixels — macro
+   drawing must be BYTE-IDENTICAL in captures (determinism ×2 per
+   script; if macros perturb capture bytes AT ALL → STOP, classify,
+   fall back to partial batching or ship T5 alone).
+4. Junior verification is owner-paced: stage a pt-br two-liner in the
+   ticket (pull + `GAME_FRAME_PROBE=1` walk, expect over20 to drop
+   toward his ~7% live-world baseline) — his re-run is the decisive
+   seat, never nag.
+
+**Box:** diagnosis + fix ≤ ~90 min before the wall runs. Cause not
+found, or fix not render-pure, or capture bytes move → bank the
+diagnosis as its own ticket doc, ship J2 alone, and name the tail as
+still-open (the trigger stays fired; never a rushed fix under a wall
+deadline).
+
+## J2 — WB T5: wire-in (spec §T5 is law)
 
 Read IN ORDER before any edit: (1) AGENTS.md whole · (2) checkpoint top
 2 entries + the s27 close addendum · (3)
@@ -171,14 +242,12 @@ the ticket doc (`drafts/_wb-t5-wirein-20260821.md`), then execute (rule
   BLOCKING gate with vision critique; determinism must stay
   byte-identical ×2 per script. Any OTHER script's captures moving =
   STOP, classify (nothing else may shift).
-- **Full wall ≈ 19–20 scripts × ~5 min ≈ 100 min — DETACHED** (nohup
+- **Full wall ≈ 20 scripts × ~5 min ≈ 100 min — DETACHED** (nohup
   `harness/run_wall.sh t5`, poll by per-script rc lines in tmp/wall/;
   NEVER under a bash-call timeout — a killed gate is judged by a
   standalone re-run, MEMORY law). **Freeze ALL code/data edits while
   the sweep runs** (replays load source fresh — the R-A2 contamination
-  lesson). Bank `rake capture` md5 baselines for low_quay_run +
-  world_loop BEFORE the first wire-in commit (T4 pattern,
-  tmp/t5/…baseline.md5).
+  lesson).
 - **zone_identity_data_test** pins the "six real zones" list — zone_7
   becoming REACHABLE makes it a real zone: add the four pilot zones to
   the list deliberately (T4 authored them to the contracts: wall−floor
@@ -194,20 +263,28 @@ the ticket doc (`drafts/_wb-t5-wirein-20260821.md`), then execute (rule
 - The wall runner is `harness/run_wall.sh`, never a tmp copy; wall
   scripts live in `harness/scripts/` (netplay gates stay outside).
 
-**Sequencing the dev of record proposes:** grill block → bank baselines
-(low_quay_run + world_loop captures md5) → authoring re-import + zone_7
-data + low_quay edge + INERT-test amendment + identity-list addition
-(one data commit, provenance pin green) → multi_floor_descent script +
-standalone gate PASS → spot-gates on moved surfaces (low_quay_run,
-varekka_duel) → **FULL WALL DETACHED** (this is THE T5 gate — a FAIL
-blocks ship, never downgraded) → caveat block + docs → one-concern
-commits → **fresh-eyes review BLOCKING** (scrubbed read-only pi via
-nohup wrapper — s27: plain background `pi -p` dies silently; the prompt
-MUST say "touch NOTHING, including seat mail") → checkpoint + AGENTS
-lane-3 line (T5 SHIPPED, lane CLOSED or next-at-owner-word) + push +
-owner queue es-CR (~5 líneas: ambos jalan antes del coop; cómo entrar a
-ZONE 7 desde el mundo real — su `boss_1_defeats=1` ya abre la puerta;
-dónde queda la entrada en ZONE 5).
+**Sequencing the dev of record proposes:** bank capture baselines FIRST
+(world_loop + grass_fixture_walk + low_quay_run md5s BEFORE any commit —
+they serve BOTH jobs; freeze code while the replays run) → J1 diagnosis
+(bank probe numbers) → J1 fix if in-box (one render commit; world_loop +
+grass_fixture_walk captures must equal the banked baselines — the macro
+is invisible or it doesn't ship) → T5 grill block → authoring re-import
++ zone_7 data + low_quay edge + INERT-test amendment + identity-list
+addition (one data commit, provenance pin green) → multi_floor_descent
+script + standalone gate PASS → spot-gates on moved surfaces
+(low_quay_run, varekka_duel) → **ONE FULL WALL DETACHED covering J1+J2**
+(THE gate — a FAIL blocks ship, never downgraded) → caveat block + docs
+→ one-concern commits → **fresh-eyes review BLOCKING over BOTH jobs**
+(scrubbed read-only pi via nohup wrapper — s27: plain background `pi -p`
+dies silently; the prompt MUST say "touch NOTHING, including seat
+mail") → checkpoint + AGENTS lane-3 line + push + owner queue es-CR
+(~5 líneas: ambos jalan antes del coop · cómo entrar a ZONE 7 desde el
+mundo real — su `boss_1_defeats=1` ya abre la puerta, dónde queda la
+entrada en ZONE 5 · el fix de draw espera la re-medición de Junior ·
+respuesta a su pregunta: los sótanos van SIN ambiente por diseño v0 —
+cada bed es trabajo de grabación del owner; cuando exista un render, es
+UNA fila de datos) + pt-br two-liner for Junior's re-measure staged in
+the ticket.
 
 Hard limits: zero edits to the OTHER five live zones (only low_quay
 gains its edge; district/nest/camp/district_two/slow_door stay
@@ -217,13 +294,16 @@ touch) · sim-class TILE behaviors stay OUT (post-verdict increments,
 refuse in writing) · no balance-file changes · placeholder law on every
 new line (es-CR everyday words in the queue).
 
-## J2 — docket hygiene (only if J1 leaves room; ~15 min, docs-only)
+## J3 — docket hygiene (only if J1+J2 leave room; ~15 min, docs-only)
 
-If T5 shipped: checkpoint entry + AGENTS Lane-3 ticket-state line +
-push. Verify the v19 docket rows still point true (its "T4/T5" rows are
-the LAG namespace — s26 precedent, never conflate). If the owners named
-new feels during their walks, bank verbatim as docket pointers (no
-opinions, no promotion — v19 opens at the brainstorm, not here).
+Docket rows to move (verify live first): **J-1 CLOSES** (Junior's aim-v3
+re-test works — his file is the receipt) · **the frame-tail row flips to
+TRIGGER FIRED** with his numbers + this session's diagnosis pointer ·
+basement-ambience question answered (design v0; a data row when a bed
+render exists — also queue it as a future cue-spec mail candidate, the
+sent mail stays FROZEN). If T5 shipped: checkpoint entry + AGENTS Lane-3
+line. The docket adds pointers, never opinions; v19 opens at the
+brainstorm, not here.
 
 ## Laws that bite (short list)
 
@@ -249,14 +329,15 @@ opinions, no promotion — v19 opens at the brainstorm, not here).
 
 ## Budget + stop conditions
 
-One attended session ~3 h (the wall sweep runs detached inside it),
+One attended session ~3.5 h (the wall sweep runs detached inside it),
 context guard 85% → compact-checkpoint skill. Council 0; paid calls =
-Rule-2 critics (the full wall burns ~19 critic calls — that IS the T5
-gate, never economize it); sub-agents = J1's fresh-eyes reviewer only.
-**Stop when:** T5 shipped behind the FULL WALL PASS + review PASS (or
-honestly STOPPED with the ticket doc naming the block — a wall FAIL on
-a moved surface is a finding to fix-and-rerun; on an UNMOVED surface
-it is a STOP-and-classify) · checkpoint + owner queue es-CR + push.
+Rule-2 critics (the full wall burns ~20 critic calls — that IS the gate,
+never economize it); sub-agents = the fresh-eyes reviewer only.
+**Stop when:** J1 diagnosed (numbers banked) + fixed-or-honestly-boxed ·
+T5 shipped behind the FULL WALL PASS + review PASS (or honestly STOPPED
+with the ticket doc naming the block — a wall FAIL on a moved surface is
+a finding to fix-and-rerun; on an UNMOVED surface it is a
+STOP-and-classify) · checkpoint + owner queue es-CR + push.
 **Stop early, honestly, if:** the spec's T5 text conflicts with this
 spark (spec wins; re-plan in writing) · a gate fails non-mechanically ·
 any zone other than low_quay/zone_7 moves bytes (STOP, name it) · the
