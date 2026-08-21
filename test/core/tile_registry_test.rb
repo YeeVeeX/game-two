@@ -210,6 +210,13 @@ class TileRegistryTest < Minitest::Test
     assert_match(/"dirt"/, e.message)
   end
 
+  def test_validate_map_refuses_grid_chars_with_no_registered_type
+    reg = Core::TileRegistry.new(v0)
+    map = map_for(tiles: ["#####", "#.z.#", "#####"], palette: BASE_PALETTE.dup)
+    e = assert_raises(Core::TileMap::BadMap) { reg.validate_map!(map) }
+    assert_match(/grid char "z" has no registered tile type/, e.message)
+  end
+
   # material_at (T3): footstep consumption — char under the tile through
   # the zone's effective mapping to the type's material key.
   def test_material_at_reads_default_and_override_mappings

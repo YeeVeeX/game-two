@@ -145,6 +145,10 @@ class AudioBridgeTest < Minitest::Test
     assert_equal "dirt", p.step(zone: "other", body_id: 1, tile: [9, 8], material: "dirt")
     assert_nil p.step(zone: "other", body_id: 2, tile: [4, 4], material: "dirt"), "possession swap resets, never fires"
     assert_nil p.step(zone: "other", body_id: 2, tile: [5, 4], material: nil), "unregistered char steps are silent"
+    assert_nil p.step(zone: "other", body_id: 2, tile: [12, 4], material: "dirt"),
+               "a same-zone same-body multi-tile jump (respawn rebind) is not a step"
+    assert_equal "dirt", p.step(zone: "other", body_id: 2, tile: [13, 5], material: "dirt"),
+                 "walking resumes from the jump anchor (diagonal adjacency counts)"
   end
 
   def test_ambience_key_resolves_region_intent_then_zone_default

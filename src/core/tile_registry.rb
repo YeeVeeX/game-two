@@ -63,6 +63,11 @@ module Core
       used = (map.used_chars + (map.tile_types || {}).keys).uniq
       used.each do |ch|
         type_id = effective[ch]
+        unless type_id
+          raise Core::TileMap::BadMap,
+                "zone #{map.name}: grid char #{ch.inspect} has no registered tile type " \
+                "(neither the registry default map nor this zone's tile_types names it)"
+        end
         spec = @types[type_id]
         unless spec
           raise Core::TileMap::BadMap,

@@ -162,11 +162,13 @@ module App
     end
 
     # T3 footstep detection (pure; presentation-side). A step is the SAME
-    # body committing a NEW tile in the SAME zone — zone changes,
-    # possession swaps, and respawn teleports reset the anchor without
-    # firing (a jump is not a step). Returns the material to voice, nil
-    # otherwise; materials come from the tile registry (nil = unregistered
-    # char = silence, never an error).
+    # body committing an ADJACENT tile (Chebyshev 1 — grid steps commit one
+    # tile at a time) in the SAME zone. Zone changes, possession swaps, and
+    # any multi-tile jump (respawn rebind, teleport-class moves — same body
+    # object, distant tile) reset the anchor WITHOUT firing: a jump is not
+    # a step. Returns the material to voice, nil otherwise; materials come
+    # from the tile registry (nil = unregistered char = silence, never an
+    # error).
     class FootstepPoller
       def initialize = @last = nil
       def step(zone:, body_id:, tile:, material:)
@@ -174,6 +176,7 @@ module App
         @last = [zone, body_id, tile]
         return nil if prev.nil? || prev[0] != zone || prev[1] != body_id
         return nil if prev[2] == tile
+        return nil unless (prev[2][0] - tile[0]).abs <= 1 && (prev[2][1] - tile[1]).abs <= 1
         material
       end
     end
