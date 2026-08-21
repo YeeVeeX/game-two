@@ -72,8 +72,7 @@ module App
     def cell_rgb(world, name, map, tx, ty)
       t = map.transitions.find { |tr| tr[:at] == [tx, ty] }
       if t
-        sealed = t[:sealed] && !world.breached?(name, t[:at])
-        return sealed ? seal_slab_rgb : map.palette[:transition]
+        return App::Renderer.way_locked?(world, name, t) ? seal_slab_rgb : map.palette[:transition]
       end
       s = map.station_at(tx, ty)
       if s
@@ -81,7 +80,11 @@ module App
         return map.palette[key] || map.palette[:station] || map.palette[:wall]
       end
       return map.palette[:wall] if map.wall?(tx, ty)
-      map.palette[typed_ref(map, world, tx, ty) || :floor]
+      ref = typed_ref(map, world, tx, ty) || :floor
+      # T4: the drained-well swap rides the renderer's own condition —
+      # state resolution gains no second source either.
+      ref = :water_drained if ref == :water && App::Renderer.water_drained?(world, name, map)
+      map.palette[ref]
     end
 
     def typed_ref(map, world, tx, ty)
@@ -91,11 +94,12 @@ module App
       lookup[[tx, ty]]
     end
 
-    # SEALED/OPEN stamps for every seal-gated way, state from the save.
+    # SEALED/OPEN stamps for every gated way — toll seals AND boss
+    # fact-gates (T4): one shut/open grammar, state from the save.
     def seal_stamps(world)
       world.zone_maps.flat_map do |name, map|
-        map.transitions.select { |t| t[:sealed] }.map do |t|
-          open = world.breached?(name, t[:at])
+        map.transitions.select { |t| t[:sealed] || t[:requires_defeats] }.map do |t|
+          open = !App::Renderer.way_locked?(world, name, t)
           { zone: name, at: t[:at], text: open ? "OPEN" : "SEALED" }
         end
       end

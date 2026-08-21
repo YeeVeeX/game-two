@@ -82,6 +82,85 @@ class MapArtifactTest < Minitest::Test
                  "a breached way draws gold — walkable law"
   end
 
+  # --- T4: drained-well swap + boss fact-gate, over fixture zone data
+  # (real World/TileMap/registry; the store is a data fixture) -----------
+
+  class FixtureStore
+    def initialize(base, extra)
+      @base = base
+      @extra = extra
+    end
+
+    def [](key) = @extra.key?(key) ? @extra[key] : @base[key]
+    def keys = (@base.keys + @extra.keys).uniq.sort
+  end
+
+  WELL_ZONE = {
+    name: "upper", display_name: "UPPER", tile_size: 32,
+    palette: { floor: [10, 10, 10], grid: [12, 12, 12], wall: [90, 90, 90],
+               transition: [235, 190, 90], water: [30, 60, 90],
+               water_drained: [50, 44, 30] },
+    tiles: [
+      "########",
+      "#......#",
+      "#.~~~..#",
+      "#.~~~..#",
+      "#.~~~..#",
+      "#......#",
+      "########"
+    ],
+    pack_spawn: [[1, 1], [2, 1], [3, 1]],
+    enemy_spawns: {},
+    stations: [
+      { type: "seal", at: [1, 3], price: "breach_cost", opens: [3, 3], line: "TOLL PAID" }
+    ],
+    transitions: [
+      { at: [3, 3], to: "upper", spawn: [1, 1], sealed: true, type: "hole" },
+      { at: [5, 5], to: "upper", spawn: [1, 1], requires_defeats: 4 }
+    ],
+    water_drained_by: [3, 3]
+  }.freeze
+
+  def well_world(save: nil)
+    store = FixtureStore.new(DATA, "zones/upper" => Marshal.load(Marshal.dump(WELL_ZONE)))
+    Game::World.new(store, seed: 0, save:)
+  end
+
+  def test_water_cells_swap_to_drained_on_the_breach_fact
+    w = well_world
+    map = w.zone_maps.fetch("upper")
+    assert_equal WELL_ZONE[:palette][:water], artifact.cell_rgb(w, "upper", map, 2, 2),
+                 "undrained well shows water"
+    w.restore_breach!("upper", [3, 3])
+    assert_equal WELL_ZONE[:palette][:water_drained], artifact.cell_rgb(w, "upper", map, 2, 2),
+                 "the persisted drain swaps the water ring to its dry look"
+    assert_equal WELL_ZONE[:palette][:transition], artifact.cell_rgb(w, "upper", map, 3, 3),
+                 "the drained hole is a walkable way — gold"
+  end
+
+  def test_boss_gate_cell_locks_until_the_counter_meets
+    w = well_world # fresh: boss_1_defeats 0 < 4
+    map = w.zone_maps.fetch("upper")
+    slab = App::Renderer::SEAL_SLAB
+    assert_equal [slab.red, slab.green, slab.blue], artifact.cell_rgb(w, "upper", map, 5, 5),
+                 "an unmet fact-gate draws the same shut-way slab"
+    stamp = artifact.seal_stamps(w).find { |s| s[:zone] == "upper" && s[:at] == [5, 5] }
+    assert_equal "SEALED", stamp[:text], "fact-gates join the stamp grammar"
+  end
+
+  def test_boss_gate_cell_opens_on_the_persisted_fact
+    members = DATA["balance/combat"][:pack][:members].map do |kit|
+      { "kit" => kit, "hp" => 1, "inscribed" => false }
+    end
+    facts = { "banked" => 0, "provisions" => 0, "home_zone" => "nest", "breached" => [],
+              "members" => members, "counters" => { "boss_1_defeats" => 4, "sessions" => 1 } }
+    w = well_world(save: facts)
+    map = w.zone_maps.fetch("upper")
+    assert_equal WELL_ZONE[:palette][:transition], artifact.cell_rgb(w, "upper", map, 5, 5)
+    stamp = artifact.seal_stamps(w).find { |s| s[:zone] == "upper" && s[:at] == [5, 5] }
+    assert_equal "OPEN", stamp[:text]
+  end
+
   # --- the labeled grid ------------------------------------------------------
 
   def test_layout_panels_every_zone_once_sorted_by_label

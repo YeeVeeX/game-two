@@ -236,6 +236,26 @@ module App
 
     private
 
+    # --- T4 way/water state (ONE condition source — the god-view reads
+    # these too; the palette-source law extends to state resolution) ----
+
+    # A way is LOCKED while its toll is unpaid (v12 seal law) or its
+    # required boss_1_defeats count is unmet (T4 fact-gate). Locked draws
+    # the slab — gold means walkable, never a shut way.
+    def self.way_locked?(world, zone_name, t)
+      (t[:sealed] && !world.breached?(zone_name, t[:at])) ||
+        (t[:requires_defeats] && world.boss_1_defeats < t[:requires_defeats]) || false
+    end
+
+    # The well's drained look (T4, render-only): water-typed tiles swap to
+    # the authored water_drained ref once the zone's linked breach fact is
+    # set. Read at DRAW time — never baked into the memoized variant cache
+    # (state must not contaminate a pure-config cache); passability is
+    # untouched by construction (the '#' law).
+    def self.water_drained?(world, zone_name, map)
+      !map.water_drained_by.nil? && world.breached?(zone_name, map.water_drained_by)
+    end
+
     def color(rgb, alpha = 255) = Gosu::Color.new(alpha, rgb[0], rgb[1], rgb[2])
 
     def draw_map(world)
@@ -252,6 +272,7 @@ module App
       # immutable zone config + registry; the visible-overlay rule inside
       # TileVariants keeps footstep-only remaps (nest) at ZERO rects.
       typed_rects(map, world).each do |(tx, ty, ref)|
+        ref = :water_drained if ref == :water && Renderer.water_drained?(world, world.zone_name, map)
         Gosu.draw_rect(tx * ts, ty * ts, ts, ts, color(map.palette[ref]))
       end
       map.rows.times do |ty|
@@ -272,9 +293,10 @@ module App
       decor.each { |(x, y, w, h, rgb, a)| Gosu.draw_rect(x, y, w, h, color(rgb, a)) }
       map.transitions.each do |t|
         tx, ty = t[:at]
-        if t[:sealed] && !world.breached?(world.zone_name, t[:at])
-          # A sealed door is NOT gold — gold means walkable. Dark slab with
-          # a thin gold seam: shut, but a door (v12 presentation spec 1).
+        if Renderer.way_locked?(world, world.zone_name, t)
+          # A shut way is NOT gold — gold means walkable. Dark slab with
+          # a thin gold seam: shut, but a door (v12 presentation spec 1;
+          # T4 boss fact-gates share the exact grammar).
           Gosu.draw_rect(tx * ts + 1, ty * ts + 1, ts - 2, ts - 2, SEAL_SLAB)
           Gosu.draw_rect(tx * ts + ts / 2 - 1, ty * ts + 4, 2, ts - 8, transition)
         else
