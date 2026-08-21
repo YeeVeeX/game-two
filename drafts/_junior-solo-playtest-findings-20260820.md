@@ -62,6 +62,87 @@ qualquer mudança depende da validação do Gabriel.
 
 ---
 
+## SESSÃO SEGUINTE (mesmo dia) — T4 EXECUTADO + achado novo do tiro do lobber
+
+### T4 (`GAME_VSYNC_OFF=1`) — mecanismo funcionou, HIPÓTESE REFUTADA
+
+Log `game_two_session_947441.log` (md5 `1186fe4aca48db0bdad8b0b3b2165887`).
+Linha de boot presente e com a prova de mesma-instância:
+`VSYNC off (swap_interval=0 was=1 rc=0)`.
+
+| Métrica | S0-J (vsync LIGADO) | T4 (vsync SOLTO) | Leitura |
+|---|---|---|---|
+| frames | 127.506 | 64.395 | sessões diferentes |
+| **period p50** | **16,8 ms** | **16,7 ms** | **praticamente IGUAL** |
+| period p90 / p99 | 17,5 / 42,8 | 18,2 / 40,3 | igual em ordem |
+| period **max** | 1.335 ms | **4.136 ms** | pior (ver ressalva) |
+| update p50 / max | 0,8 / 160,7 | 0,9 / **586,0** | pior no máximo |
+| draw p50 / max | 3,1 / 355,3 | 3,5 / **796,3** | pior no máximo |
+| over20 | 8.643 (6,8%) | 4.869 (**7,6%**) | não melhorou |
+| over35 | 2.012 (1,6%) | 962 (1,5%) | igual |
+
+**Conclusão (leitura do assento, marcada):** soltar o vsync **não levantou o teto**.
+O p50 permanece em ~16,7 ms — ou seja, **quem dita a cadência é o timer
+`update_interval` do Gosu (16,666 ms = 60 fps alvo), não o swap de 59 Hz da tela.**
+Isto **REFUTA** a minha própria leitura anterior de "teto de 59 Hz" como causa do
+~53,5 Hz — e, de quebra, confirma o que o review do T4 já havia previsto ("the ON run
+still paces at p50=16.4 — proving Gosu's update_interval timer owns the tick cadence").
+
+**O que sobra como causa:** a **cauda** (over20 ~7%, e picos in-process de centenas de
+ms) — que é onde o trabalho deve ir, não no vsync.
+
+**Ressalva honesta:** as duas sessões não são comparação controlada — jogo diferente,
+duração diferente (nesta ele jogou o lobber; `v14 first_special striker=never
+lobber=2119`, `challenge casts=1`). O **p50 é robusto** a isso; a comparação de máximos
+e de over20 **não é** e não deve ser usada como prova de que o vsync solto piorou.
+
+**Progresso do mundo solo dele:** `persist loaded 1196b8e4… sessions=2` →
+`saved 7b7ee261… sessions=3`; banked 45 → **103**.
+
+### ACHADO NOVO — o tiro do lobber "às vezes não acerta"
+
+**Relato do Junior, verbatim:**
+> estou jogando somente com o personagem que ataca de longe e estou sentido que por
+> vezes o "tiro" dele não acerta os inimigos
+
+**Mecanismo encontrado no código (leitura do assento; nada alterado).**
+`src/game/projectile.rb` — o teste de acerto é **igualdade exata de tile no frame de
+chegada**:
+
+```ruby
+victim = hostiles.find { |h| !h.dead? && h.tile == [nx, ny] }   # projectile.rb:73
+```
+
+E o voo é **discreto e sem rastreamento**: direção fixa no lançamento (`@dir`), um tile
+a cada `frames_per_tile`, morrendo no alcance. Números reais (`data/balance/combat.json`):
+lobber `projectile_frames_per_tile = 4`, `range_tiles = 6` → até **24 frames de voo**;
+inimigos andam a `step_frames` 16–17 (husk 17, rusher 16, challenger 16).
+
+**Duas causas plausíveis, ambas coerentes com "às vezes":**
+
+1. **O tile lógico anda ANTES do sprite.** A lei do projeto é "o tile compromete no
+   instante em que o passo começa; toda a lógica lê tiles" — então o inimigo **já está
+   logicamente no tile seguinte** enquanto o desenho ainda desliza saindo do anterior.
+   O projétil chega ao tile onde o boneco **parece** estar, não encontra ninguém, e
+   passa. Visualmente lê como "atravessou o bicho".
+2. **Janela discreta de colisão.** O projétil só testa colisão **no frame em que pousa
+   num tile** (a cada 4 frames). Um inimigo cruzando a trajetória perpendicularmente
+   entre dois pousos **passa pela linha do tiro sem nunca coincidir** com um frame de
+   teste.
+
+**Classe do achado:** é a mesma família do fix de legibilidade que o dev já fez esta
+semana (os tiles de golpe do inimigo, que antes não desenhavam nada) — descompasso
+entre o que a sim decide e o que a tela mostra. **Não é aleatoriedade:** o projétil é
+determinístico e não sorteia nada.
+
+**Fora do meu escopo, de propósito:** não toquei `src/**` nem `data/**` (fronteira do
+Recorte A) e não proponho fix aqui — a rota é o brainstorm do v19, e o par de opções
+que eu defenderia lá é (a) tratar o tile de chegada **mais o tile de origem do passo em
+curso** no teste de acerto, ou (b) desenhar o projétil ancorado ao tile lógico. Decisão
+dos donos.
+
+---
+
 ## ACHADO 1 — leitura ORIGINAL do assento, agora CORRIGIDA pelo bloco acima
 
 O que a R3 do ritual dizia: *"a IA morre muito, fica correndo pra dentro dos inimigos"*.
