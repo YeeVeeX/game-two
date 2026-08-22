@@ -107,8 +107,11 @@ is STATE; the foundation is law — on disagreement the foundation wins.
    `requires_defeats`. Spec + tickets (grill s40):
    `docs/superpowers/specs/2026-08-22-progression-v1.md`; world.rb
    extraction (Progression object) rides ticket 1, not afterthought.
-2. **GEOGRAPHY & ECONOMY:** stage 0 rides FIRST (R-A2 sustain
-   discoverability, strings+renderer) · safe zones BOTH hubs with a
+2. **GEOGRAPHY & ECONOMY:** stage 0 = R-A2 sustain discoverability —
+   ALREADY SHIPPED + gated 2026-08-20 (`d31f579`+`e36a227`, bank BUY
+   hint + telemetry reasons; receipts `drafts/_rA2-verify-20260820.md`);
+   its strip ESCALATION stays a recorded owner-word decision (full-wall
+   re-pin, priced) · safe zones BOTH hubs with a
    VISIBLE boundary (B1) · no-bank-in-deep KEPT as design, TOWN 1 =
    the deep-side anchor (B2/B3, authored via the WB pipeline) · mercy
    floor context-gated home-hub session-open, data-only (B4) ·
