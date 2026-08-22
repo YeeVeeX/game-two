@@ -43,3 +43,26 @@ Rows 1/2/5/7/8 of the v18 verdict: NOT TRIGGERED (recorded, no docket row
 owed). The world-builder pipeline is an ACTIVE owner-directed lane, not
 v19 intake — its open merge-timing grill question stays in
 `drafts/_world-builder-grill-20260819.md`.
+
+## Brainstorm verdicts (2026-08-22, session 39) — POINTERS ONLY per this doc's law
+
+All rulings live in `drafts/_v19-foundation-20260822.md` (ratification
+ledger rows 1–28; RATIFIED-G, PENDING-J):
+
+- J-2 / finding B / TOWN 1 / row 9 / row 3 → Lane 2, ledger 5–10.
+- J-3 → Lane 4 (stats-panel v0 scope fence), ledger 15–16.
+- J-4 (+ lobber addendum) → Lane 1 headline, ledger 1–4.
+- J-5 → Lane 4 spike, ledger 17. J-6 → Lane 4 core, ledger 15.
+- J-7 / finding A / row 6 → Lane 3, ledger 11–14.
+- Debug/mod menu → validated-deferred, ledger 20. Ping remap →
+  chat-earmark, ledger 21.
+- Projectile-visual sync fork → D1 presentation-only, ledger 18.
+  Lobber pass-through fork → D2 presentation-first, ledger 19.
+- Assets v12 capture-contract → accepted, ledger 22; turn-handling →
+  deferred, ledger 23.
+- Motif strips → dormant, ledger 24. Depth-aware duck + stereo stems →
+  queued, ledger 25.
+- gamesmith R7 rows → no trigger fired at the brainstorm (foundation
+  appendix).
+- R-A2 sustain → discoverability rides Lane 2 stage 0 (recorded order
+  unchanged).

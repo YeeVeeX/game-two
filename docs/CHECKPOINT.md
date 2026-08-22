@@ -1,5 +1,52 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-22 session 39 (hub) — THE v19 BRAINSTORM: agenda A–F WALKED COMPLETE · 28 decisions RATIFIED-G, all PENDING-J · foundation on disk · AGENTS rewrite WAITS for Junior
+
+**Job 0 (zero-delta, nothing preempted):** pull up-to-date (no Junior
+commits) · save `98fe75ed…` unmoved (08-20 15:51) · launcher logs 40,
+newest 08-21 01:39 · mail inbox EMPTY (assets family-sync RECEIPT
+still pending).
+
+**The brainstorm ran attended, Gabriel live, Junior async (2026-08-22
+order).** Foundation: `drafts/_v19-foundation-20260822.md` — vision
+line BLESSED ("v18 made the world persist; v19 makes the characters
+grow into it…") · FOUR lanes ratified: (1) PROGRESSION v1 headline
+(XP→pack-level, stat formula, lobber-E growth, `requires_level`
+gates; forks: XP-levels not use-based · carrier=pack · death never
+eats XP) · (2) GEOGRAPHY & ECONOMY (safe:true both hubs w/ visible
+boundary · no-deep-bank KEPT as design · TOWN 1 v1 revive+anchor ·
+mercy floor context-gated · respawn scalar-first; R-A2 discoverability
+rides stage 0) · (3) LIVING WORLD & AI (J-7 cold-tier catch-up, bkgd
+ticking REFUSED · ally defensive-default · stance verb later + shelf
+gap recorded) · (4) PRESENTATION & LEGIBILITY (J-6 non-pausing menu
+core · J-3 scoped to stats-panel v0 · J-5 spike owner-paced · forks:
+D1 presentation-only, D2 presentation-first). Riders: E1 GM-tools
+VALIDATED-DEFERRED ("too soon") · E2 ping→chat-notification earmark ·
+E3a capture-contract ACCEPTED (receipt owed s40) · E3b turn-handling
+DEFERRED · E4 motif DORMANT (perf trigger expired) · E5 audio stays
+queued. Ritual (EIGHTEENTH) shape ratified: different-days HARD rule ·
+novelty quarantine · capture-before-debrief · level+kill-XP byte
+proof · topic-scoped routing + pre-declared kill conditions; council
+pass owner-requested (2 calls: deepseek + qwen-next; adoptions
+A-i…A-v, 3 rejections reasoned; transcripts
+`drafts/_v19-ritual-council-20260822/`). Question wording UNWRITTEN by
+design (freezes at spec; hygiene re-arms at staging — sim numbers stay
+unfrozen until then).
+
+**Peer flow:** Junior WhatsApp task request (relayed verbatim, banked
+in foundation) answered: task 1 = async ratification
+(`drafts/_v19-ratificacao-junior-20260822.md`, pt-br one-screen) ·
+task 2 = WorldClaw intake write-up (his discovery, his provenance) ·
+optional solo play. NO lane code to his seat before his marks —
+refusal recorded. WorldClaw→WorldSmith (owner tool name) recorded as
+INCOMING only, zero speculation.
+
+**Law state:** v19 lanes are RATIFIED-G and buildable solo per the
+no-peer-gating order; the AGENTS cycle-section rewrite ALONE waits for
+BOTH marks. Docket annotated pointers-only. Owner-pending carry:
+ear-checks · T3 renders · coop S1 · SHARED-save crossing · R-A2
+silent.
+
 ## 2026-08-22 session 38 (hub, CONTINUED) — TWO OWNER ORDERS RECORDED · program-wide AGENTS refresh (hub + 3 spokes + 1 mail)
 
 **Owner orders (Gabriel, hub chat, both RECORDED in AGENTS.md):**

@@ -1,0 +1,29 @@
+ROLE: Skeptical game-design researcher doing independent adversarial review of a MEASUREMENT RITUAL DESIGN. Default to finding what is WRONG or MISSING. If you cannot verify or judge something, say so plainly instead of guessing.
+
+CONTEXT (ground truth, complete):
+A 2-player hobby co-op grid ARPG (Ruby+Gosu, deterministic lockstep netplay, host-authoritative persistent save). The only two players are the two owners (Gabriel es-CR, Junior pt-br) who also direct development. Each dev cycle ends with a "fun-verify ritual": N real play sessions, then each player answers a small set of questions independently, verbatim-banked, wording kept VIRGIN (players never see questions before administration). A mechanical half is judged from session logs/bytes only. Pre-registered routing rows map each plausible negative answer to a pre-committed outcome BEFORE sessions run, so bad news cannot be reinterpreted after the fact. Sample size is permanently 2 humans; this is accepted (the game exists only for them).
+
+THE PREVIOUS CYCLE'S TWO CAVEATS (verbatim from the adjudicated verdict):
+Caveat 1: "Same-day spacing... The two sessions ran 22:28 -> 22:51 the SAME night, ~23 minutes apart... what the answers can prove is 'session 2 entered the world session 1 left and both players recognized it', not 'the world still felt continuous after a day away'. The across-days form of the question is NOT evidenced by this ritual."
+Caveat 2: "Symmetric audio novelty... the free-verdict positives are audio-colored (first coop exposure to the owner-original library, retuned that same day) - read as directionally valid, not clean-room."
+
+THE NEW CYCLE (v19) SHIPS: XP/leveling on the shared pack (kills -> permanent power), stat-driven combat formula, level-gated zones, safe-zone geography (hubs safe, deep dangerous), session-open mercy floor (first revive affordable at home), respawn pacing retune, ally-AI defensive-default fix, enemies walk home instead of freeze-teleport, a non-pausing client menu, stats panel, combat legibility telegraphs.
+
+THE PROPOSED v19 RITUAL SHAPE (the artifact under review, complete):
+1. Feel thesis (what "fulfilled" means): both players, independently: growth was FELT (stronger than at cycle open; kills mattered beyond the moment); boss-reach gap closed honestly (attainable-hard, not wall-hard); session-open is not a chore; the third AI body stopped being a lemming; free verdict, always.
+2. Two coop sessions on the shared save, DIFFERENT calendar days - hard rule, mechanically checked from log timestamps (fixes caveat 1). Owner compression of the gap = re-buying the caveat, recorded before sessions.
+3. Novelty quarantine (fixes caveat 2): no first-exposure sensory batch inside ritual sessions - every major new audio/visual surface gets >=1 ordinary play session per seat BEFORE the ritual; checkable from logs (audio sha / build fingerprint). Unavoidable asymmetry recorded before answers are read.
+4. Mechanical half (from banked bytes): save chain digest intact across both sessions; zero desyncs; clean quits; tick floor 36000 per session; at least one strictly-positive progression fact carried and NAMED (level above start / a level-gate crossed); bot-free logs; day-gap check.
+5. Felt-half question TOPICS (exact wording written later, frozen at spec, never rehearsed with players): growth-felt; difficulty arc; geography of risk (safe vs deep); third-body behavior; continuity in its across-days form; free verdict. One economy topic is measured by telemetry ONLY, no question (a prior cycle burned that question by explaining the mechanic to a player after his answers).
+6. Routing rows pre-registered at spec: every plausible bad answer mapped to a pre-committed outcome before sessions run.
+7. Staging: ritual runs at cycle end after all lanes ship; the moment question wording freezes, the sim numbers it measures (progression pacing, difficulty, respawn, sustain) freeze for tuning; economy/AI data moves are sequenced early in the cycle for this reason.
+
+HARD CONSTRAINT ON YOUR ANSWER: Do NOT draft or propose actual question wording - the design deliberately excludes wording until spec freeze because the players (who will read your review) must never see candidate questions. Critique at the design level only.
+
+NUMBERED QUESTIONS (answer each; give VERDICT (SOUND / FLAWED / UNCERTAIN) + one-line reason; then details):
+Q1. Does the different-calendar-days rule actually license the "world felt continuous across days" claim, or is there a residual confound we are missing?
+Q2. Does the novelty quarantine have holes (ways novelty still tints the verdict that the >=1-prior-session rule does not catch)?
+Q3. With N=2 players who are also the developers and decision-makers, what measurement failure modes does this design NOT yet handle (demand effects, self-persuasion, co-discussion between the two players before answering, etc.)? Which ONE mitigation is highest-value?
+Q4. The progression thesis ("growth was felt") is being measured in the SAME sessions that test difficulty rebalance, new geography, new AI, and a new menu. Is attribution across these simultaneous changes a real problem for a 2-person felt-verdict, or acceptable at this scale?
+Q5. Any gap in the mechanical half (point 4) - something cheap and log-checkable that would make the felt answers more trustworthy?
+Q6. THE SLOT: what is the biggest risk in this ritual design that we have NOT thought of?
