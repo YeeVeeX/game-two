@@ -1,5 +1,62 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-22 session 41 (hub) — T1 SHIPPED: Game::Progression carved (1800→1797) · save schema v2 + one-hop v1 upgrade + backup law · four verifies green · fresh-eyes PASS
+
+**Job 0 (open = clean; mid-session delta GOOD):** at open every s40
+baseline matched (origin tip `253498a` + the s41 spark commit
+`a85e88c` above it — this session's own dispatch artifact; save
+`98fe75ed…` mtime 08-20 15:51; launcher logs 40 newest 08-21 01:39;
+mail inbox EMPTY). Expected peer deltas hadn't arrived at open; at
+push time Junior's **task-2 discovery note landed remotely**
+(`2f942f8`, `drafts/_junior-descoberta-video-20260822.md` — Tencent
+world-gen model, his provenance, READ + rebased over, never
+rewritten). Task 2 of the ratification doc is now BANKED.
+
+**T1 executed as cut** (brief `drafts/_prog-t1-extraction-schema-v2.md`,
+spec P3/P8/P14; commit `3ef273f`): `src/game/progression.rb` NEW
+(plain object — level/xp/counters, ΔE curve, pure `award` with ZERO
+callers until T2, Integer-forced constants); world.rb carve **1800 →
+1797** (ivars/load_counters!/increment/digest rows behind Progression;
+crossing callable rewired at the construction site, crossing.rb
+untouched); save_state SCHEMA=2 (V1_FACT_KEYS frozen, shared refusal
+body + 4-direction progression_refusal, apply! clamps warn+proceed
+reading the live curve); save_store one-hop upgrade at load + ORIGINAL
+bytes to `.bak-schema1-<ts>` at FIRST v2 write (COPY — `rake map`
+stays side-effect-free); progression.json skeleton (only :curve read);
+7 fixture trees + PROBE_FACTS gained the mandatory key.
+
+**Verifies (all green, outputs in
+`drafts/_prog-t1-close-20260822.md`):** suite 1045 runs 0F ·
+world.rb 1797 · world_loop double-capture md5 IDENTICAL **plus**
+old-build worktree baseline (`a85e88c`) vs new IDENTICAL (10 frames)
+· netplay_session gate PASS (12 captures byte-identical, vision PASS,
+DIGEST_VERSION still 1). Bonus fixture proof on a BYTE-COPY of the
+owners' live save: upgrade notice + backup md5 == original
+(`98fe75ed…`) + v2 rewrite + silent reload; live file untouched.
+
+**Fresh-eyes review (Rule 6):** headless scrubbed pi over diff bundle
++ brief + spec — **PASS, 0 blockers, 3 NITs** (bak_hint lexicographic
+ordering; @v1_raw hygiene; data shapes unpinned until T2) — all
+recorded as T2 brief amendments in the close draft §T2-amendments,
+plus the award→award_kill API note and the loaded-line schema nuance.
+
+**Next (s42):** cut T2's brief (sim core: P2/P4/P5/P11/P12/P13 +
+close-draft amendments; brief-writer never implements) → T2 lands
+s43. If the session has room after the cut: Lane-2 stage 0 (R-A2
+sustain discoverability, strings+renderer, own commit + full Rule 2
+gate + wall script) — drop honestly if tight, never half-ship.
+
+**Job-0 baselines for s42:** origin tip `3ef273f` · save `98fe75ed…`
+mtime 08-20 15:51 · launcher logs 40, newest 08-21 01:39 · game-two
+mail inbox EMPTY.
+
+**Owner-pending carry (never nag):** ear-checks · T3 renders (water
+family needs a NEW mail) · coop S1 · SHARED-save first crossing (next
+real coop quit auto-upgrades the save to v2 with backup — expected,
+named in console) · J-5 spike call · WorldSmith proposal (INCOMING;
+Junior's Tencent note routes its site/github check to the hub's
+research spoke). R-A2 stays silent in logs (`bought=0` law).
+
 ## 2026-08-22 session 40 (hub) — v19 OPENS FOR REAL: Junior's "ratifico tudo" harvested · ledger flipped · AGENTS rewrite LANDED · assets receipts mailed · Lane 1 grill → spec + T1
 
 **Job 0 (open = zero-delta; mid-session delta classified GOOD):** at
