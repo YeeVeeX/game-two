@@ -362,6 +362,59 @@ class TileMapTest < Minitest::Test
     assert_equal [3, 3], map.station_at(1, 1)[:opens]
   end
 
+  # --- s34: seal GATING law (s33 review nit 1, grilled + promoted). A
+  # breach fact is read ONLY through a transition's truthy sealed flag
+  # (Crossing#open?, Renderer.way_locked?) — a seal onto an unsealed way
+  # burns the toll, prints TOLL PAID, and changes nothing. Message
+  # asserted per mode; the composition control pins that requires_defeats
+  # co-existing with sealed: true stays legal (independent AND branches).
+
+  def test_seal_opens_naming_an_unsealed_transition_refuses_named
+    e = assert_raises(Core::TileMap::BadMap) do
+      Core::TileMap.new(seal_cfg(
+        opens: [3, 3],
+        transitions: [{ at: [3, 3], to: "next", spawn: [1, 1] }]
+      ))
+    end
+    assert_match(/seal at \[1, 1\]: opens \[3, 3\] names an unsealed transition/, e.message)
+  end
+
+  def test_seal_opens_naming_a_sealed_false_transition_refuses_named
+    # The hand-edit shape: sealed present but false is the same lie —
+    # truthiness matches the consumers' read, never key presence. (The
+    # importer never emits this: import_ldtk drops falsy sealed — hand-
+    # edited zones are the exposed path, the s33 rationale unchanged.)
+    e = assert_raises(Core::TileMap::BadMap) do
+      Core::TileMap.new(seal_cfg(
+        opens: [3, 3],
+        transitions: [{ at: [3, 3], to: "next", spawn: [1, 1], sealed: false }]
+      ))
+    end
+    assert_match(/names an unsealed transition/, e.message)
+  end
+
+  def test_seal_opens_naming_a_fact_gated_unsealed_transition_refuses_named
+    # The grill's question (b) pinned: requires_defeats gates on the boss
+    # counter, NOT the breach — without sealed the toll can never open
+    # this way ("toll bypasses the boss gate" would be an open? sim
+    # change, not authoring).
+    e = assert_raises(Core::TileMap::BadMap) do
+      Core::TileMap.new(seal_cfg(
+        opens: [3, 3],
+        transitions: [{ at: [3, 3], to: "next", spawn: [1, 1], requires_defeats: 1 }]
+      ))
+    end
+    assert_match(/names an unsealed transition/, e.message)
+  end
+
+  def test_seal_opening_a_sealed_and_fact_gated_transition_stays_valid
+    map = Core::TileMap.new(seal_cfg(
+      opens: [3, 3],
+      transitions: [{ at: [3, 3], to: "next", spawn: [1, 1], sealed: true, requires_defeats: 2 }]
+    ))
+    assert_equal [3, 3], map.station_at(1, 1)[:opens]
+  end
+
   # T2 regression bar, T4 amendment: the six live-world zones stay their
   # recorded shapes; the T3 fixture + the four T4 pilot zones are the
   # authored v2 surface (typed transitions live ONLY there; the live

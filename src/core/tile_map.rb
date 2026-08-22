@@ -210,6 +210,21 @@ module Core
     # semantic kill — opens must name a transition tile in THIS zone.
     # The importer's round-trip gate (validate_emitted!) composes this
     # law automatically — hand-edited zones were the exposed path.
+    #
+    # s34 gating law (the s33 review's recorded nit, grilled + promoted):
+    # the named transition must ALSO carry truthy sealed — the exact read
+    # the WAY-consumers make (Crossing#open?, Renderer.way_locked?:
+    # `t[:sealed] && !breached`). On an unsealed way the way never moves:
+    # a requires_defeats-only way stays shut regardless (independent AND
+    # branch), an ungated way was open before the toll — either way TOLL
+    # PAID burns banked and opens nothing. One more reader rides the
+    # fact: Renderer.water_drained? (render-only, keyed by tile alias,
+    # sealed-independent) — a drain-only seal onto an unsealed way was
+    # expressible pre-s34 and is REFUSED BY DESIGN here (zone_7 composes
+    # the pattern honestly: the drained well IS the sealed hole).
+    # requires_defeats may CO-EXIST with sealed: true (both branches read
+    # their own facts); "toll bypasses the boss gate" would need OR
+    # semantics in open? — a sim change, not a validator relaxation.
     def validate_seal_opens!
       @stations.each do |s|
         next unless s[:type] == "seal"
@@ -221,9 +236,15 @@ module Core
         if ox.negative? || oy.negative? || ox >= @cols || oy >= @rows
           raise BadMap, "seal at #{s[:at].inspect}: opens #{opens.inspect} outside #{@cols}x#{@rows} map"
         end
-        next if transition_at(ox, oy)
-        raise BadMap, "seal at #{s[:at].inspect}: opens #{opens.inspect} names no transition " \
-                      "(the toll would open nothing)"
+        t = transition_at(ox, oy)
+        if t.nil?
+          raise BadMap, "seal at #{s[:at].inspect}: opens #{opens.inspect} names no transition " \
+                        "(the toll would open nothing)"
+        end
+        next if t[:sealed]
+        raise BadMap, "seal at #{s[:at].inspect}: opens #{opens.inspect} names an unsealed " \
+                      "transition (only a sealed: true way reads the breach — the toll " \
+                      "would open nothing)"
       end
     end
 
