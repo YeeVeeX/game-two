@@ -1,5 +1,81 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-21 session 32 (hub) — THREE LANES LANDED: frame-tail ADJUDICATED CLOSES (decisive seat) · tile-shape law SHIPPED (s31 nit 1) · FIRST HUMAN GATE CROSSING harvested (Junior, live save) · v19 still NOT open
+
+**Gate 0 (classified, then proceeded):** pull brought `61ccfa3` —
+Junior's re-measure bank (THE expected delta; J2 fired). Mid-session
+the remote moved again: `8478cde`+`9a7dd98` — Junior's FIRST-CROSSING
+bank + AiController addendum (J3 fired; rebased local work over it,
+patch-id verified equal). Unmoved: shared save md5 `98fe75ed…` mtime
+08-20 15:51 (Gabriel's crossing still ahead) · launcher logs 40×2
+(newest 08-21 01:39 predates spark staging) · mail inbox 0 / done 22
+(audio T3 cue-spec still frozen-unanswered) · soak newest
+`20260820-232208` · S1 evidence README-only · untracked `drafts/_refs/`
+only. Named discrepancy, no action: local `tmp/pilot_walk/world.json`
+reads sessions=1 banked=20 (mtime 01:39, PREDATES staging) — the
+spark's "sessions=2 banked=75" figure matches Junior's-machine scratch
+(his re-measure ended sessions=3 banked=131), not this file.
+
+**J2 ADJUDICATED — pre-declared class 1, CLOSES** (`c8f37e7`):
+Junior's re-measure (`61ccfa3`, same T4 route + same scratch on the
+decisive seat, suite green on his clone first): draw p95 15.3→8.5 ms
+(inside the predicted ~8-9 window) · over20 16.8%→5.15% (below the ~7%
+old-world baseline) · period p90 33.4→17.5 · feel "muito mais leve".
+Docket frame-tail row CLOSED + AGENTS lane-3 line amended. Route
+deviation NAMED (his round added transitions incl. the T5 edge —
+biases against the fix, still passed). Caveat carried: over100 3→9
+isolated spikes (zone-load/window-focus suspected), NOT the continuous
+tail. Motif-strip lever stays UNBUILT (DATA-class v19 candidate on
+owner word); texture/macro composition stays DEAD (float-camera law).
+
+**J1 SHIPPED — `38ae352`** (rebased from reviewed `38d14a3`, patch-id
+EQUAL; pushed, pre-push suite green): TileMap tile-shape law —
+`check_passable!` guards shape FIRST (Array, length 2, both Integers)
+and refuses NAMED (`"<label> must be an [x, y] tile (got …)"`, BadMap
+house class); kills the two live-probed families (UNNAMED NoMethodError
+crashes: nil at / string pair / nil pack_spawn entry / string
+gradient_anchor · SILENT corruption: Float truncation + 3-element tail
+drop → DEAD transitions). ONE choke point covers all five callers;
+world.rb untouched (1800/1800). Suite 1004→1011, all message-asserted,
+zero fixture/zone trips — no defect branch. Fresh-eyes review (scrubbed
+read-only sub-session): **PASS-WITH-NITS**, no blocking findings —
+integral-float edge ([2.0, 1] worked pre-fix, now refused BY DESIGN;
+zero in shipped data, importer refuses non-Integer at import) banked in
+the ticket; reviewer independently constructed all 11 zones through the
+new guard. Mail dir audited after the run: clean. No Rule-2 gate owed
+(load-time refusal, zero visual surface). Ticket:
+`drafts/_s32-tile-shape-20260821.md`.
+
+**J3 HARVESTED — the FIRST HUMAN GATE CROSSING**
+(`drafts/_s32-live-harvest-20260821.md` over his bank `8478cde`):
+Junior crossed the T5 gate on HIS live save (sessions 3→4, chain
+intact, clean quit; boot edge-validation loaded his world clean — first
+live exercise of `3c4b988`). Crossing MATCHES the s30 pin (evidence
+class named: pinned data + composition suite + zero defect signals; no
+runtime tiles in launcher logs). First-crossing verbatim banked: "me
+senti em uma nova fase e com meu objetivo concluido". His T4-subgraph
+question CLASSIFIED: reachable-through-town = EXPECTED, D12 by law
+(INERT pin forbids DIRECT live-six edges only; pt-br answer in the
+harvest note). Routed: BOSS-1 dread row — first organic exposure BANKED
+(varekka slain=1, quotes on undodgeable skill/few-hit death/passive
+minions) · TOWN 1 content v0 = NEW docket row (no altar/vat, two empty
+rooms — verified vs data) · finding A mechanism CONFIRMED read-only by
+his seat (controllers.rb:100, one AiController all factions; R-A3 stays
+FROZEN) · return-spawn feel ANSWERED "tenso mas de boa" — **the
+one-number spawn candidate does NOT fire** · striker
+first_special=never again (PARKING_LOT watch, pointer only) · R-A2: no
+sustain line in his bank — GAP NAMED, row stays open, silent.
+
+**Not landed (honest no-deltas):** Gabriel's play (shared save unmoved;
+first-crossing verbatims from THIS machine still ahead) · ear-checks /
+audio-v12 · T3 renders (cue-spec mail frozen) · coop S1 (Junior
+re-declares READY) · the v19 brainstorm. Council 0 · paid calls 0 ·
+sub-agents: the one required reviewer.
+
+**Owner-pending (unchanged, never nag):** ear-checks + audio-v12 batch
+· T3 footstep/bed renders · coop S1 invite · the v19 brainstorm — plus
+Gabriel's own gate walk when he plays.
+
 ## 2026-08-21 session 31 (hub) — EDGE-VALIDATION HARDENING SHIPPED (s30 nit 6): unknown-target + impassable-spawn zone edges refuse NAMED at world load · extract-on-touch fired (world.rb was at 1800/1800) · v19 still NOT open
 
 **Gate 0 (all baselines unmoved at open AND at close, verified live):**

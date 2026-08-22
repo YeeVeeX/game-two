@@ -108,7 +108,10 @@ byte-identical to pre-change baselines) — **re-measure VERIFIED on the
 decisive seat 2026-08-21 (draw p95 15.3→8.5 ms, over20 16.8%→5.15%,
 "muito mais leve"): frame-tail row CLOSED**
 (`drafts/_junior-remeasure-20260821.md`). Typed transitions live (rope = interact under the
-gate-consent law, holes/stairs auto-fire).
+gate-consent law, holes/stairs auto-fire). **First human crossing
+LANDED 2026-08-21** (Junior, his solo live save; varekka slain, town
+walked, clean quit — `drafts/_junior-primeira-travessia-20260821.md`);
+the shared-save crossing is still ahead.
 
 **Owner-pending (never nag):** EAR-CHECKS of the audio-v12 batch
 (evolving calm loop · zone-change · tailed throws · ask-5 levels) — ride
