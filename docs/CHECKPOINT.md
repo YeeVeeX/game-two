@@ -1,5 +1,39 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-22 session 38 (hub, CONTINUED) — TWO OWNER ORDERS RECORDED · program-wide AGENTS refresh (hub + 3 spokes + 1 mail)
+
+**Owner orders (Gabriel, hub chat, both RECORDED in AGENTS.md):**
+(1) development never gates on the other peer's availability — solo
+progress is the default, dev proactively surfaces REAL recorded work
+items every session (never fabricated; recorded `e9a4cba`);
+(2) refresh/redesign AGENTS.md across the program — this repo + related
+workspaces.
+
+**Hub redesign (`e9048b4`, suite 1022 green):** closed-cycle narratives
+(v18 verdict story, T5 wire-in, M5a asks, frame-tail) compressed to
+state+pointers per the file's own scope contract; live laws kept and
+grep-verified (INERT, gate-consent, seal GATING, pure-sink, backup,
+quarantine, sampling-artifact, decision 13); world.rb≤1800 +
+window.rb≤300 recorded as non-negotiable 1 (`test/app/line_caps_test.rb`);
+FAMILY-BLOCK added (canonical `drafts/_family-block-20260822.md`, md5
+`57f52cbc…`, carries order 1). First-prompt burn 21,086→20,739 tokens
+(both healthy; the win is structural). v19 foundation still owes BOTH
+peers' ratification — async allowed per order 1.
+
+**Family sync (seat-orchestration; triage + receipts:
+`drafts/_agents-refresh-triage-20260822.md`):** audio `ecfa12f` (stale
+parked-header fixed to LIFTED 2026-08-18, M3/M4 compacted 15.0→13.0KB,
+keep-list verified, rake 91 green) · lore `d5d4174` (block bare+last,
+self-check pin updated, register grep 7 clean; Junior's disjoint lore
+commit `650495a` pulled first — his lane) · gamesmith `23b9398`
+(markers added, round7b mail untouched) · assets seat HELD → mail
+staged, receipt PENDING. Block md5 identical across all four applied
+repos; post-run mail audit clean.
+
+**Still pending (owner-paced):** ear-checks + audio-v12 · T3 renders
+(cue-spec mail) · coop S1 · SHARED-save first crossing · the v19
+brainstorm (one word away; async ratification now lawful). R-A2 silent.
+
 ## 2026-08-22 session 38 (hub) — ZERO-DELTA GATE, DOCS-ONLY CLOSE (fourth consecutive; no J1 by design) · shared-save crossing still ahead · v19 still NOT open
 
 **Gate 0 (classified: NO deltas on every surface — docs-only close per
