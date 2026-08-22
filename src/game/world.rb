@@ -36,7 +36,7 @@ module Game
       provision_bought provision_used provision_refused
       seal_breached home_rehomed respawn_telegraphed
       challenger_engaged challenger_chant_started chant_interrupted vessel_seized seizure_ended
-      inscription_burned
+      inscription_burned level_up
     ].freeze
 
     TRANSITIONS = { world: %i[nest_respawn], nest_respawn: %i[world] }.freeze
@@ -134,9 +134,9 @@ module Game
       # the same flush (the wipe-ordering pin, spec M6).
       @fight_ledger = FightLedger.new(@bus, world: self,
                                       config: data["balance/ledger"])
-      # v18 decision 4: facts apply during construction in the PINNED
-      # order (home -> members -> seat pointers -> breaches), then the
-      # initial enter_zone lands the pack at the loaded home's spawn.
+      # v18 decision 4 + v19 P3: facts apply during construction in the
+      # PINNED order (home -> growth facts -> leveled max hp -> members ->
+      # seats -> breaches), then initial enter_zone lands the loaded spawn.
       # save: nil (the wall, replay, pilot) takes the identical fresh path.
       SaveState.apply!(self, save, economy: @economy) if save
       enter_zone(@home_zone, @zones.fetch(@home_zone).pack_spawn)
@@ -648,7 +648,8 @@ module Game
         ["rearm_needed", @seats.map { |s| "#{s}:#{@rearm_needed[s]}" }.join("|")],
         ["corpse_serial", @field.corpse_serial],
         ["rng_draws", @rng.draws], ["respawn_rng_draws", @respawn_rng.draws],
-        ["boss_1_defeats", boss_1_defeats], ["sessions", sessions]
+        ["boss_1_defeats", boss_1_defeats], ["sessions", sessions],
+        ["level", @progression.level], ["xp", @progression.xp]
       ] + @feel.digest_fields
       groups = [["world", world_fields], ["pack", @pack.digest_fields]]
       @pack.members.each_with_index { |m, i| groups << ["pack.#{i}", m.digest_fields] }
@@ -991,9 +992,17 @@ module Game
       end
     end
 
+    # P5 composition pin: kit base -> level growth (Integer) -> coop
+    # scalar. No coop scalar touches pack damage today; enemies never read
+    # a level term. Projectiles/impacts store this result at launch time.
+    def leveled_damage(attacker, cfg)
+      return cfg[:damage] unless attacker.faction == :pack
+      @progression.damage_for(cfg[:damage])
+    end
+
     def apply_action_hit(attacker, victim, cfg)
       attacker.action_hit!(victim)
-      landed = victim.take_hit(damage: cfg[:damage], attacker:,
+      landed = victim.take_hit(damage: leveled_damage(attacker, cfg), attacker:,
                                knockback_tiles: cfg[:knockback_tiles],
                                blocked: blocked_for(victim))
       if landed
@@ -1010,7 +1019,7 @@ module Game
       attacker.action_triggered!
       @projectiles << Projectile.new(
         owner: attacker, map:, tile: attacker.tile, dir: attacker.facing,
-        damage: cfg[:damage], range_tiles: cfg[:range_tiles],
+        damage: leveled_damage(attacker, cfg), range_tiles: cfg[:range_tiles],
         frames_per_tile: cfg[:projectile_frames_per_tile],
         knockback_tiles: cfg[:knockback_tiles]
       )
@@ -1023,7 +1032,7 @@ module Game
         owner: attacker,
         tiles: volley_tiles(attacker.tile, attacker.facing, cfg[:impact_distances]),
         frames_left: cfg[:delay_frames],
-        damage: cfg[:damage]
+        damage: leveled_damage(attacker, cfg)
       }
     end
 
@@ -1594,6 +1603,12 @@ module Game
         # seeded by (tile, frame) so replays are byte-identical.
         @transients.kill_pop!(tile: e[:actor].tile, frame: @frame)
         if e[:faction] == :human
+          # P2/A2: any pack body feeds the shared pack progression.
+          if e[:killer]&.faction == :pack &&
+             @progression.award_kill(e[:actor].kit_name) == :level_up
+            @pack.sync_max_hp!(progression: @progression)
+            @bus.emit(:level_up, level: @progression.level)
+          end
           @feel.on_kill if controlled?(e[:killer])
           # v15: the challenger's death closes the boss fight (placeholder
           # text per the 2026-08-16 owner order: no lore in this repo).

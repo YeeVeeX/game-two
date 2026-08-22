@@ -236,6 +236,32 @@ class CreatureTest < Minitest::Test
     assert_equal 0, c.carried, "a revived body starts empty-handed"
   end
 
+  # --- P4: level-growth ceiling -------------------------------------------
+
+  def test_grow_max_hp_gives_living_flesh_only_the_delta
+    c = creature
+    c.take_hit(damage: 30, attacker: creature(faction: :human))
+    c.grow_max_hp!(20)
+    assert_equal 120, c.max_hp
+    assert_equal 90, c.hp, "level-up is +delta, never a full heal"
+  end
+
+  def test_grow_max_hp_leaves_dead_flesh_at_zero_until_revive
+    c = creature
+    c.take_hit(damage: c.hp, attacker: creature(faction: :human))
+    c.grow_max_hp!(20)
+    assert_equal [0, 120], [c.hp, c.max_hp]
+    c.revive!(map: MAP, tile: [3, 2])
+    assert_equal 120, c.hp, "revive reads the grown ceiling"
+  end
+
+  def test_negative_growth_delta_clamps_living_flesh_to_one
+    c = creature
+    c.take_hit(damage: 90, attacker: creature(faction: :human))
+    c.grow_max_hp!(-20)
+    assert_equal [1, 80], [c.hp, c.max_hp]
+  end
+
   # --- A2: Threat state ---
 
   def test_home_tile_is_stamped_at_construction

@@ -4,6 +4,7 @@ require "core/tile_map"
 require "core/input"
 require "game/creature"
 require "game/pack"
+require "game/progression"
 require "game/controllers"
 
 class PackTest < Minitest::Test
@@ -182,6 +183,25 @@ class PackTest < Minitest::Test
     assert_equal blocker, pack.possessed
     pack.swap_next!
     assert_equal lobber, pack.possessed, "cycle order still follows the members array"
+  end
+
+  # --- P4: shared pack-level max hp ---------------------------------------
+
+  def test_sync_max_hp_handles_multi_level_growth_and_is_idempotent
+    progression = Game::Progression.new(config: {
+      curve: { k: 10, level_cap: 5 },
+      growth: { dmg_growth_pct: 0, hp_growth_pct: 10 },
+      kill_xp: { rusher: 1 }
+    })
+    progression.load_progress!(level: 4, xp: 0)
+
+    pack.sync_max_hp!(progression:)
+    once = pack.members.map { |member| [member.hp, member.max_hp] }
+    pack.sync_max_hp!(progression:)
+
+    assert_equal [[130, 130], [130, 130], [130, 130]], once
+    assert_equal once, pack.members.map { |member| [member.hp, member.max_hp] },
+                 "re-sync at the same level must be idempotent"
   end
 
   # --- D1b: spend! + possess! ---

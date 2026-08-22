@@ -14,9 +14,9 @@ require "net/state_digest"
 #     the live rules, carried does NOT persist, >=1 living asserted,
 #     serialize twice = identical bytes AND digest_snapshot untouched;
 #   - strict decoder refusal_for: named refusals, never a crash;
-#   - apply in PINNED order: home_zone -> member facts -> seat pointers
-#     over the LIVING set -> restore_breach! (side-effect-free) ->
-#     enter_zone;
+#   - apply in PINNED order: home_zone -> counters/progression -> leveled
+#     max hp -> member facts -> bank/provisions -> seat pointers over the
+#     LIVING set -> restore_breach! (side-effect-free) -> enter_zone;
 #   - the LANE: facts from a lived-in world A applied to fresh worlds
 #     B1/B2 (same NEW seed) => equal digest_snapshot at construction AND
 #     byte-identical StateDigest windows for K further scripted ticks;
@@ -151,7 +151,7 @@ class SaveStateTest < Minitest::Test
     assert_equal %w[boss_1_defeats sessions], f["counters"].keys.sort
     assert_equal %w[level xp], f["progression"].keys.sort
     assert_equal [1, 0], f["progression"].values_at("level", "xp"),
-                 "T1 law: level fixed at 1, xp 0 — nothing awards yet"
+                 "a fresh world starts at the level-1 identity"
     assert_nil refusal(f)
   end
 
@@ -416,6 +416,14 @@ class SaveStateTest < Minitest::Test
         mutate: ->(w) { member(w, :blocker).inscribe_mark! },
         read: ->(w) { member(w, :blocker).marked? }
       },
+      "progression.level" => {
+        mutate: ->(w) { w.progression.load_progress!(level: 2, xp: 0) },
+        read: ->(w) { w.progression.level }
+      },
+      "progression.xp" => {
+        mutate: ->(w) { w.progression.award(1) },
+        read: ->(w) { w.progression.xp }
+      },
       "counters.boss_1_defeats" => {
         mutate: lambda { |w|
           w.start_in("low_quay")
@@ -591,6 +599,39 @@ class SaveStateTest < Minitest::Test
     assert_equal bytes(f), world_bytes(w)
   end
 
+  def test_level_5_hp_round_trip_uses_the_leveled_max
+    f = progression_facts(level: 5, xp: 10)
+    progression = Game::Progression.new(config: DATA["balance/progression"])
+    progression.load_progress!(level: 5, xp: 10)
+    f["members"].each do |member_facts|
+      base = MAXES.fetch(member_facts["kit"].to_sym)
+      member_facts["hp"] = progression.max_hp_for(base)
+    end
+    w = nil
+
+    _, err = capture_io { w = world(save: deep_dup(f)) }
+
+    refute_match(/clamped .* hp/, err,
+                 "legitimate leveled hp must not false-clamp against level-1 max")
+    assert_equal bytes(f), world_bytes(w)
+  end
+
+  def test_apply_clamps_hp_when_growth_was_lowered
+    f = progression_facts(level: 5, xp: 10)
+    progression = Game::Progression.new(config: DATA["balance/progression"])
+    progression.load_progress!(level: 5, xp: 10)
+    expected = progression.max_hp_for(MAXES[:striker])
+    f["members"][0]["hp"] = expected + 20
+    w = nil
+
+    _, err = capture_io { w = world(save: deep_dup(f)) }
+
+    assert_equal expected, member(w, :striker).hp
+    assert_equal expected, member(w, :striker).max_hp
+    assert_match(/clamped striker hp/, err,
+                 "a lower growth starter warns and proceeds at the new ceiling")
+  end
+
   def test_apply_clamps_level_to_the_current_cap_warn_and_proceed
     cap = DATA["balance/progression"][:curve][:level_cap]
     w = nil
@@ -623,7 +664,8 @@ class SaveStateTest < Minitest::Test
       "swap_was_down" => :session_only, "rearm_needed" => :session_only,
       "corpse_serial" => :session_only, "rng_draws" => :session_only,
       "respawn_rng_draws" => :session_only, "hitstop" => :session_only,
-      "boss_1_defeats" => :persisted, "sessions" => :persisted
+      "boss_1_defeats" => :persisted, "sessions" => :persisted,
+      "level" => :persisted, "xp" => :persisted
     },
     "pack" => {
       "banked" => :persisted, "provisions" => :persisted,
@@ -741,6 +783,8 @@ class SaveStateTest < Minitest::Test
     assert_includes swept, "member.hp"          # creature hp
     assert_includes swept, "member.inscribed"   # creature marked
     assert_includes swept, "counters.boss_1_defeats"
+    assert_includes swept, "progression.level"
+    assert_includes swept, "progression.xp"
     # sessions: no in-sim mutation path exists yet (the save coordinator
     # bumps it at write — increment 2); its round-trip is pinned above.
   end

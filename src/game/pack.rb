@@ -88,6 +88,15 @@ module Game
       nil
     end
 
+    # P4: idempotently align every body with the pack's current level.
+    # Kit bases remain the source of truth; dead bodies gain only ceiling.
+    def sync_max_hp!(progression:)
+      @members.each do |member|
+        target = progression.max_hp_for(member.kit[:max_hp])
+        member.grow_max_hp!(target - member.max_hp)
+      end
+    end
+
     # Judgment-time pointer move (post-wipe possession snap): plain, no
     # stagger — revival is not a combat beat. Combat swaps keep using
     # swap_next!/forced_swap!. nil = the seat enters waiting-for-body.

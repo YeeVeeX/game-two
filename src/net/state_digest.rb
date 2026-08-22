@@ -17,7 +17,7 @@ module Net
   class StateDigest
     # Versions the canonical byte form; exchanged at the netplay handshake
     # (a mismatch there refuses the session before any tick runs).
-    DIGEST_VERSION = 1
+    DIGEST_VERSION = 2
 
     Window = Data.define(:tick, :md5, :snapshot, :lines)
 

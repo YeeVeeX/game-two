@@ -22,13 +22,12 @@ module Game
   #     surfaced BUG, never a save).
   #   - STRICT DECODER refusal_for: named refusals (schema/keys/roster/
   #     zone/seal-tuple/type/range/duplicate/no-living), never a crash.
-  #   - apply! in the PINNED order (decision 4): home_zone -> member facts
-  #     (kit-matched, roster order; hp CLAMPS to the kit's current max,
-  #     provisions clamp to cap — balance churn must not brick saves) ->
-  #     seat pointers over the LIVING set (seat order; keep a living body,
-  #     else first living unheld in roster order, else waiting) ->
-  #     restore_breach! (idempotent, side-effect-free) -> World runs
-  #     enter_zone(home_zone) after apply! returns.
+  #   - apply! in the PINNED order (decision 4 + v19 P3): home_zone ->
+  #     counters + progression (clamped for churn) -> sync leveled max hp ->
+  #     member facts (kit-matched roster order; hp clamps against the REAL
+  #     leveled ceiling) -> banked/provisions -> seat pointers over the
+  #     LIVING set -> restore_breach! (idempotent, side-effect-free) ->
+  #     World runs enter_zone(home_zone) after apply! returns.
   #   - digest = md5 over canonical FACTS bytes; the envelope (schema,
   #     saved_at_ms) is NEVER digested (decision 5).
   # Schema history: 1 = v18 (no progression key) — still LOADABLE via
@@ -281,6 +280,34 @@ module Game
     def apply!(world, facts, economy:)
       world.load_home!(facts.fetch("home_zone"))
 
+      counters = facts.fetch("counters")
+      world.progression.load_counters!(
+        boss_1_defeats: counters.fetch("boss_1_defeats"),
+        sessions: counters.fetch("sessions")
+      )
+
+      # P3's churn law, the hp-clamp pattern verbatim: a curve/cap retune
+      # must never brick a save. Level clamps to the (possibly lowered)
+      # cap; xp clamps under the NEXT level's cost — both read through the
+      # live Progression object, never reimplemented here.
+      prog = facts.fetch("progression")
+      level = prog.fetch("level")
+      cap = world.progression.level_cap
+      if level > cap
+        warn "save: clamped level #{level} -> #{cap} (level cap changed)"
+        level = cap
+      end
+      xp = prog.fetch("xp")
+      ceiling = world.progression.delta_e(level + 1)
+      if xp >= ceiling
+        warn "save: clamped xp #{xp} -> #{ceiling - 1} (curve changed)"
+        xp = ceiling - 1
+      end
+      world.progression.load_progress!(level:, xp:)
+      # The member hp facts below must clamp against the leveled ceiling,
+      # never the fresh level-1 kit max (P3 save-apply ordering law).
+      world.pack.sync_max_hp!(progression: world.progression)
+
       roster = world.pack.members
       facts.fetch("members").each_with_index do |mf, i|
         m = roster[i]
@@ -314,31 +341,6 @@ module Game
       facts.fetch("breached").each do |(zone, tile)|
         world.restore_breach!(zone, [tile[0], tile[1]])
       end
-
-      counters = facts.fetch("counters")
-      world.progression.load_counters!(
-        boss_1_defeats: counters.fetch("boss_1_defeats"),
-        sessions: counters.fetch("sessions")
-      )
-
-      # P3's churn law, the hp-clamp pattern verbatim: a curve/cap retune
-      # must never brick a save. Level clamps to the (possibly lowered)
-      # cap; xp clamps under the NEXT level's cost — both read through the
-      # live Progression object, never reimplemented here.
-      prog = facts.fetch("progression")
-      level = prog.fetch("level")
-      cap = world.progression.level_cap
-      if level > cap
-        warn "save: clamped level #{level} -> #{cap} (level cap changed)"
-        level = cap
-      end
-      xp = prog.fetch("xp")
-      ceiling = world.progression.delta_e(level + 1)
-      if xp >= ceiling
-        warn "save: clamped xp #{xp} -> #{ceiling - 1} (curve changed)"
-        xp = ceiling - 1
-      end
-      world.progression.load_progress!(level:, xp:)
     end
   end
 end

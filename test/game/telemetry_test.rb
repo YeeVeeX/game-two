@@ -54,12 +54,25 @@ class TelemetryTest < Minitest::Test
                    "burns=0 ends{expired=0 slain=0 died=0 zone_left=0 wiped=0}"
     expected_sustain = "TELEMETRY sustain bought=0 used=0 refused=0 " \
                        "reasons{at_cap=0 broke=0 none=0 no_effect=0 seat_race=0}"
+    expected_progression = "TELEMETRY progression level=0 xp=0 kills_xp=0"
     assert_equal "#{expected_d1}\n#{expected_a2}\n#{expected_d1b}\n" \
                  "#{expected_q6}\n#{expected_density}\n" \
                  "#{expected_arc}\n#{expected_margins}\n" \
                  "#{expected_v13}\n#{expected_drift}\n#{expected_v14}\n" \
-                 "#{expected_v15}\n#{expected_sustain}",
+                 "#{expected_v15}\n#{expected_sustain}\n#{expected_progression}",
                  t.summary
+  end
+
+  def test_progression_summary_reads_live_world_values
+    bus = Core::EventBus.new.register(*ALL_TELEMETRY_EVENTS)
+    progression = Struct.new(:level, :xp, :kills_xp).new(3, 19, 240)
+    world = Struct.new(:progression, :frame).new(progression, 0)
+    telemetry = Game::Telemetry.new(bus, world:)
+
+    assert_equal "TELEMETRY progression level=3 xp=19 kills_xp=240",
+                 telemetry.progression_summary
+    assert_match(/\nTELEMETRY progression level=3 xp=19 kills_xp=240\z/,
+                 telemetry.summary)
   end
 
   # --- A2 telemetry line ---

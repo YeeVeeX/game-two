@@ -35,6 +35,7 @@ class V14TelemetryTest < Minitest::Test
       def zone_name = "district"
       def possessed = nil
       def pack = nil
+      def progression = nil # T2: summary's progression line renders honest zeros
     end
     w.frame = frame
     w

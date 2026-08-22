@@ -7,10 +7,10 @@ module Game
   # coordinator at write time, never by the sim). Plain object: World
   # constructs it, calls it, digests through it — no bus subscription
   # inside, no IO, all constants from data/balance/progression.json
-  # (Rule 3). T1 carves + persists; nothing calls award yet — the kill
-  # hook, stat growth and TELEMETRY go live in T2.
+  # (Rule 3). T1 carved + persisted it; T2 wires kill XP and stat growth
+  # into the live sim.
   class Progression
-    attr_reader :level, :xp, :boss_1_defeats, :sessions
+    attr_reader :level, :xp, :kills_xp, :boss_1_defeats, :sessions
 
     def initialize(config:)
       curve = config.fetch(:curve)
@@ -23,8 +23,26 @@ module Game
               "(got k=#{@k.inspect}, level_cap=#{@level_cap.inspect} — " \
               "no Float ever enters the balance path)"
       end
+      growth = config.fetch(:growth)
+      @dmg_growth_pct = growth.is_a?(Hash) ? growth[:dmg_growth_pct] : nil
+      @hp_growth_pct = growth.is_a?(Hash) ? growth[:hp_growth_pct] : nil
+      unless @dmg_growth_pct.is_a?(Integer) && @dmg_growth_pct >= 0 &&
+             @hp_growth_pct.is_a?(Integer) && @hp_growth_pct >= 0
+        raise ArgumentError,
+              "progression growth: dmg_growth_pct and hp_growth_pct must be " \
+              "non-negative Integers (got dmg=#{@dmg_growth_pct.inspect}, " \
+              "hp=#{@hp_growth_pct.inspect} — no Float ever enters the balance path)"
+      end
+      @kill_xp = config.fetch(:kill_xp)
+      unless @kill_xp.is_a?(Hash) && @kill_xp.keys.all? { |key| key.is_a?(Symbol) } &&
+             @kill_xp.values.all? { |amount| amount.is_a?(Integer) && amount.positive? }
+        raise ArgumentError,
+              "progression kill_xp: keys must be Symbols and every amount a positive " \
+              "Integer (got #{@kill_xp.inspect})"
+      end
       @level = 1
       @xp = 0
+      @kills_xp = 0
       @boss_1_defeats = 0
       @sessions = 0
     end
@@ -38,8 +56,23 @@ module Game
       @k * (level * level - 3 * level + 4)
     end
 
-    # P2/P4 award core — pure state math; T2 wires actor_died into it
-    # (award_kill(kit_name) reading the kill_xp table lands there).
+    # P5: kit base -> level growth, Integer-only. Level 1 is identity.
+    def damage_for(base) = base + (base * (@level - 1) * @dmg_growth_pct) / 100
+    def max_hp_for(base) = base + (base * (@level - 1) * @hp_growth_pct) / 100
+
+    # P2: session-earned XP counts the configured amount even when the
+    # progression bar is pinned at cap (P12's observability semantics).
+    def award_kill(kit_name)
+      amount = @kill_xp.fetch(kit_name) do
+        raise ArgumentError,
+              "no kill_xp for kit #{kit_name.inspect} in data/balance/progression.json"
+      end
+      @kills_xp += amount
+      award(amount)
+    end
+
+    # P2/P4 award core — pure state math; actor_died reaches it through
+    # award_kill so every income amount comes from the kit table.
     # Returns :level_up when at least one level landed, else nil.
     # Invariant on exit: xp < ΔE(level+1) ALWAYS — a save projected
     # mid-session must reload without clamp warnings (the projector-

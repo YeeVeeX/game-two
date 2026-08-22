@@ -313,7 +313,18 @@ module Game
         "#{drift_summary}\n" \
         "#{v14_summary}\n" \
         "#{v15_summary}\n" \
-        "#{sustain_summary}"
+        "#{sustain_summary}\n" \
+        "#{progression_summary}"
+    end
+
+    # P12: close-time proof of pack progression. level=0 is the honest
+    # impossible sentinel when Telemetry has no World (unit/subscriber lane).
+    def progression_summary
+      progression = @world&.progression
+      format("TELEMETRY progression level=%d xp=%d kills_xp=%d",
+             progression ? progression.level : 0,
+             progression ? progression.xp : 0,
+             progression ? progression.kills_xp : 0)
     end
 
     # Format pinned by the v18 spec (bought/used/refused), extended ADD-ONLY

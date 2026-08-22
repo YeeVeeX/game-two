@@ -384,6 +384,15 @@ module Game
       @hp = hp
     end
 
+    # P4 level growth: living flesh gains only the ceiling delta (never a
+    # free full heal); dead flesh keeps hp 0 and revives into the new max.
+    # A negative retune delta clamps living flesh to 1 instead of killing it.
+    def grow_max_hp!(delta)
+      @max_hp += delta
+      return if dead?
+      @hp = (@hp + delta).clamp(1, @max_hp)
+    end
+
     # v18 coop-spawn seam (decision 11, World#add_human only, spawn
     # time): rescales the ceiling and fills to it — an explicit .round
     # Integer, never mid-life, never at seats=1 (the caller guards on
