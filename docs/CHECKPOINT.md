@@ -1,5 +1,69 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-22 session 42 (hub) — T2 BRIEF CUT (sim core, s43 executes) · R-A2 "stage 0" premise CORRECTED: already shipped+gated 2026-08-20
+
+**Job 0 (open = clean):** every s41 baseline matched — origin tip
+`3ef273f` + the s41 checkpoint/spark commit `c33c17f` above it (the
+dispatch artifact, self-referential GOOD delta, docs-only verified);
+save `98fe75ed…` mtime 08-20 15:51; launcher logs 40 newest 08-21
+01:39 (they live at `/tmp/game_two_session_*.log`, not a repo dir);
+mail inbox EMPTY. Zero peer deltas at open or close.
+
+**T2 brief landed (`drafts/_prog-t2-sim-core.md`, commit `cb4ce24`)**
+— grill-and-ticket stage 2, brief-writer never implements. Shape:
+THREE commits (A `fix(save)` = T1-review NITs bak_hint-mtime +
+@v1_raw · B `refactor(world)` = **Transients carve** — world.rb sits
+at 1797/1800 and Commit C adds ~+13, so the cap law assigns the
+cosmetic-records extraction (taunt_pulses/kill_pops/seal_marks, TWO
+aging clocks — combat vs banner — pause laws preserved; renderer API
+frozen via delegators; old-vs-new byte identity BLOCKING before C) ·
+C `feat(progression)` = award_kill in the actor_died handler
+(killer.faction==:pack, kit_name Symbols align by construction) →
+:level_up event + Pack#sync_max_hp! (P4: hp gains the delta, clamp
+floor 1, dead flesh keeps 0) · leveled_damage at the THREE resolution
+sites (launch-time damage pinned) · digest rows level/xp +
+DIGEST_VERSION 1→2 one commit (P13; handshake refusal already names
+the field) · `TELEMETRY progression level= xp= kills_xp=` summary
+line (P12; chain_check regex-audited safe) · save-apply REORDER
+(progression before members so hp clamps against LEVELED max — P3
+churn law) · growth/kill_xp shape pins + zone-spawn coverage data
+test (spell_growth stays unpinned, T4) · P11 pacing script (tmp/,
+ΔE(2)=80 → 6 rusher kills sanity row). All five §T2-amendments
+folded. Verify ladder: per-commit hooks · OLD_VS_NEW identity ·
+full gates world_loop+varekka_duel (critic ON — sim moved, frames
+move lawfully) · all THREE netplay gates · rake perf · world.rb
+≤1795 target · live-save md5 · Rule 6 fresh-eyes (read-only, seat
+mail untouched).
+
+**Job 2 finding — the spark's "Lane-2 stage 0 if room" premise was
+STALE:** R-A2 sustain discoverability ALREADY SHIPPED 2026-08-20
+11:09 (`d31f579` bank BUY hint `U PROVISION -5` + `e36a227` sustain
+`reasons{…}` telemetry), fully gated that day (4 moved wall scripts
+Rule 2 PASS, targeted 5/5 hint critique, language critique en/es-CR/
+pt-br, fresh-eyes PASS — receipts `drafts/_rA2-verify-20260820.md`).
+Nothing re-shipped; AGENTS Lane-2 corrected (`e067c95`). Post-hint
+evidence so far: 3 solo human logs (08-20 15:49/15:51, 08-21 01:39)
+all `sustain bought=0 used=0 refused=0` — the grill's ESCALATION
+(strip always-on pair) is trigger-adjacent but it is a PRICED
+full-wall re-pin and stays a recorded OWNER-WORD decision; dev
+recommendation: read it again after the next real play session
+(coop S1 pending) instead of burning the wall on three short solo
+launches.
+
+**Next (s43):** execute the T2 brief (spark
+`drafts/_session-43-spark-20260822.md`, clipboarded at close). A and
+B independently shippable; never half-ship C's P13 one-commit set.
+
+**Job-0 baselines for s43:** origin tip `e067c95` (+ the s42
+checkpoint commit above it) · save `98fe75ed…` mtime 08-20 15:51 ·
+launcher logs 40, newest 08-21 01:39 · game-two mail inbox EMPTY.
+
+**Owner-pending carry (never nag):** ear-checks · T3 renders (water
+family needs a NEW mail) · coop S1 · SHARED-save first crossing (next
+real coop quit auto-upgrades the save to v2 with backup — expected,
+named in console) · J-5 spike call · WorldSmith proposal (INCOMING) ·
+R-A2 escalation call (above — after the next real play session).
+
 ## 2026-08-22 session 41 (hub) — T1 SHIPPED: Game::Progression carved (1800→1797) · save schema v2 + one-hop v1 upgrade + backup law · four verifies green · fresh-eyes PASS
 
 **Job 0 (open = clean; mid-session delta GOOD):** at open every s40
