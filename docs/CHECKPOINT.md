@@ -31,8 +31,14 @@ staged, receipt PENDING. Block md5 identical across all four applied
 repos; post-run mail audit clean.
 
 **Still pending (owner-paced):** ear-checks + audio-v12 · T3 renders
-(cue-spec mail) · coop S1 · SHARED-save first crossing · the v19
-brainstorm (one word away; async ratification now lawful). R-A2 silent.
+(cue-spec mail) · coop S1 · SHARED-save first crossing · assets
+family-sync RECEIPT. R-A2 silent.
+
+**OWNER WORD (2026-08-22, hub chat): "Approved the brainstorm" — the
+v19 brainstorm OPENS as session 39.** Spark re-cut third time to the
+facilitation protocol (agenda pre-clustered from the docket; async
+ratification marks per the same-day order); s39 spark v2's
+proactive-menu posture returns at s40.
 
 ## 2026-08-22 session 38 (hub) — ZERO-DELTA GATE, DOCS-ONLY CLOSE (fourth consecutive; no J1 by design) · shared-save crossing still ahead · v19 still NOT open
 

@@ -1,158 +1,160 @@
-# SPARK sesión 39 — proactive-menu posture (owner order 2026-08-22); harvest lanes stay armed; v19 one word away (async ratification lawful)
+# SPARK sesión 39 — THE v19 BRAINSTORM (owner-approved 2026-08-22). You facilitate; the owners decide; the foundation gets written.
 
-You are the dev of record in game-two (cwd `~/workspace/game-two`). Read
-`AGENTS.md` FIRST (rule 8) — freshly redesigned 2026-08-22 (`e9048b4`), the
-live file beats this spark on any drift. Ruby per shell:
-`export PATH="/c/Ruby34-x64/bin:$PATH"`. Working language English; owner
-surfaces es-CR ustedeo (everyday gamer words); Junior surfaces pt-br.
-Quality over cost: council 0 unless a design fork opens; paid calls 0 by
-default — exceptions: override/defect lanes shipping gated changes, and
-flywheel critique on owner ask. Evidence-first: file:line, log line, or
-UNVERIFIED tag. Bot lines are never fun/oracle evidence.
+You are the dev of record in game-two (cwd `~/workspace/game-two`) and
+TODAY the facilitator of the v19 brainstorm — approved by Gabriel in the
+hub chat 2026-08-22 ("Approved the brainstorm"). Read `AGENTS.md` FIRST
+(rule 8; redesigned `e9048b4` — the live file beats this spark). Ruby
+per shell: `export PATH="/c/Ruby34-x64/bin:$PATH"` (you likely need no
+Ruby today — NO CODE in the brainstorm). Working language English;
+Gabriel's surfaces es-CR (everyday gamer words); Junior's pt-br. His
+verdicts may land in Spanish — record them VERBATIM, never translated.
 
-## Posture (changed 2026-08-22 — supersedes the s35–s38 close-cheap default)
+## Mandate
 
-**OWNER ORDER (recorded `e9a4cba`, family-synced `57f52cbc…`):**
-development never gates on peer availability; the dev PROACTIVELY
-surfaces REAL recorded work items every session — never fabricated
-ones. A zero-delta gate no longer means silent close: verify the gate,
-then PRESENT THE MENU (below) and let the owner route. If the owner is
-absent/silent, execute the highest-standing already-ratified item or
-close honest — never manufacture.
+Produce v19's foundation: lanes ratified one candidate at a time, forks
+closed (dev recommendation + owner veto, v13 precedent), staging and
+gates named, the v19 fun-verify ritual drafted. Junior is likely absent:
+under the 2026-08-22 order (AGENTS operating model) the brainstorm runs
+with the peer present; every decision carries a ratification mark —
+**RATIFIED-G** (Gabriel, live) / **PENDING-J** (Junior, async in the hub
+chat or his next session). The AGENTS cycle-section rewrite lands ONLY
+after BOTH ratify — NOT this session unless Junior appears.
 
-## Program state (2026-08-22 s38-extended close — verify live)
+## Read FULLY before the first candidate (in this order)
 
-- v18 CLOSED · **v19 NOT open** — but the brainstorm is ONE WORD away
-  and async ratification is now lawful (order 1): run it with whichever
-  peer is present, foundation drafted with per-peer ratification marks,
-  absent peer ratifies async in the hub chat. Agenda:
-  `drafts/_v19-intake-docket-20260820.md` · prep
-  `drafts/_v19-brainstorm-prep-20260821.md` (shelf gap: companion/ally
-  AI) · Junior's ideas `drafts/_junior-v19-ideas-20260819.md`.
-- **s38-extended shipped the AGENTS program refresh**: hub redesign
-  `e9048b4` (closed-cycle narrative → pointers, laws grep-verified,
-  line caps = non-negotiable 1, family block added) · spokes: audio
-  `ecfa12f` · lore `d5d4174` · gamesmith `23b9398` · assets = mail
-  PENDING (seat was held). Triage + receipts:
-  `drafts/_agents-refresh-triage-20260822.md`. Suite 1022.
-- **The promotion chain (s31→s34) stays COMPLETE** — no engineering
-  backlog exists outside the menu below. world.rb = 1800/1800
-  (extract-on-touch, non-negotiable 1).
-- **THE SHARED-SAVE FIRST CROSSING IS STILL LOADED** (save md5
-  `98fe75ed…` unmoved; Junior crossed his solo save at s32). Verbatims
-  = fun-lane gold when they land.
-- **R-A2 measure (silent, NEVER prime):** still `bought=0`/absent on
-  every banked human log. Harvest `TELEMETRY sustain` from every new
-  human log; never mention economy/provisions to the owners.
+1. `drafts/_v19-intake-docket-20260820.md` — the agenda page (LAW: it
+   adds no opinions; every row verified live 2026-08-20).
+2. `drafts/_v19-brainstorm-prep-20260821.md` — which shelf note serves
+   which row (pointers only; FLAGGED shelf numbers are shape, NEVER spec
+   numbers without re-verification).
+3. `drafts/_junior-v19-ideas-20260819.md` — the banked ideas verbatim
+   (both owners' ideas; Junior's voice is IN the room through this).
+4. `drafts/_v18-foundation-20260817.md` — the structural template for
+   what you output.
+5. `drafts/_v18-fun-verify-verdict-20260820.md` — carried caveats the
+   v19 ritual design must fix: same-day spacing + symmetric audio
+   novelty; triggered rows 3/6/9 are docket inputs today.
 
-## THE MENU (real, recorded items — present proactively, owner routes)
+## Job 0 — minimal (~3 min; the brainstorm is THE session)
 
-1. **v19 brainstorm NOW** (highest leverage; NO CODE in it): facilitate
-   from docket+prep, ONE candidate at a time, touchstones + `hub kb
-   query --domain game-research`; output
-   `drafts/_v19-foundation-<date>.md` with per-peer ratification marks;
-   AGENTS cycle-section rewrite lands only after BOTH ratify (async ok).
-2. **Play lane (solo, either owner):** the shared-save crossing
-   (low_quay [44,19] → zone_7, earned `boss_1_defeats: 1` opens it;
-   return free) + the four audio-v12 ear-checks riding the same
-   session. Single-instance guard before launch; `--fresh` NEVER.
-3. **Lane 3 carve-out (contract-eligible now, AGENTS Lane 3):** ONE
-   sim-class tile behavior (water or lava), post-verdict, one gated
-   piece at a time — owner picks the piece first; owes full wall gates
-   + likely world.rb extraction; water audio needs a NEW cue-spec mail.
-4. **Audio library increments (queued on owner word):** stereo ambient
-   stems + region-acoustics — bounded audio-seat session per
-   seat-orchestration.
-5. **Owner-paced (never nag, list on ask):** ear-checks · T3 renders
-   (frozen cue-spec mail) · coop S1 (both seats READY).
+`git pull --ff-only` (read any Junior commits BEFORE rebasing). Note
+deltas (save mtime/md5 vs `98fe75ed…` 08-20 15:51 · new
+`game_two_session_*.log` beyond 40×2/08-21 01:39 · assets RECEIPT mail)
+in one checkpoint line for s40 — do NOT harvest today. Exceptions that
+DO preempt: a live owner order in chat, or a delta showing a crossing
+landed BROKEN (defect = classify + ask which takes priority).
 
-## Job 0 — standing gate (~10 min; anything moved = classify in writing FIRST)
+## Protocol (per candidate — the quality loop)
 
-Baselines at staging: origin/main tip = the s39 spark-v2 commit —
-prior: `d9bf211` s38 refresh record · `e9048b4` AGENTS redesign ·
-`e9a4cba` order record · `1f273a8` s39 spark v1 (SUPERSEDED by this
-file) · `e525723` s38 checkpoint. Save `saves/world.json` md5
-`98fe75edb6d72deab18cd48eaa88bdaf` mtime 08-20 15:51 (banked=7
-provisions=0 seals=2 sessions=13 boss_1_defeats=1 home=camp) · launcher
-logs **40×2** (`$TEMP` + `/tmp`, `game_two_session_*.log`, newest 08-21
-01:39) · seat mail: `game-two/` inbox EMPTY done/=22 ·
-`game-two-audio/` holds t3-cue-spec (FROZEN — never reply-ask) ·
-`gamesmith/` holds round7b (waits for an ATTENDED gamesmith session —
-not yours) · `game-two-assets/` holds the family-sync ask (EXPECTED
-delta: its RECEIPT reply — harvest into the triage doc's harvest log) ·
-tmp/soak newest `20260820-232208` · untracked `drafts/_refs/` only ·
-`tmp/pilot_walk/world.json` scratch (md5 `76881fd7…`, never delete,
-never play) · `drafts/_lag-t2-evidence/` README-only. Known ignored
-leftovers per s38 spark list. EXPECTED deltas: owner play on the shared
-save (J2) · Junior commits/banks (J3 — read BEFORE rebasing; patch-id
-re-verify after rebase, s32 precedent) · assets RECEIPT mail (archive +
-log) · new human launcher logs (harvest silently). `git pull --ff-only`
-FIRST. Junior's seat will pull the redesigned AGENTS — wording
-questions from his seat are expected, answer from the diff (`git show
-e9048b4`).
+1. PRESENT: one screen max — what it is, which docket row, what the
+   player would feel. Cite the source doc, not memory.
+2. GROUND: pull the prep-mapped vault note (`hub kb query --domain
+   game-research "<topic>"`); name the touchstone mechanism in one
+   line. For the NAMED SHELF GAP (companion/ally AI — finding A + row
+   6): say "the shelf has nothing" honestly; offer the banking-only
+   research spoke as the gap-filler; never improvise fake research.
+3. RISKS: name the 2-3 biggest (interactions with other rows count —
+   e.g. J-4 leveling × death-penalty × row 9 economy is one system).
+4. RECOMMEND: ONE position (commit-as-lane / stage-later / park /
+   refuse) with reasons. Defend it; fold on owner veto without
+   relitigating.
+5. VERDICT: the owner's line VERBATIM → **append to the foundation
+   draft ON DISK immediately** (crash-safe; one write per verdict).
+   Mark RATIFIED-G + PENDING-J.
+6. Next candidate. Timebox ~10 min each; the headline debate (J-4) may
+   run long by owner choice — ask before letting it eat a second slot.
 
-**Ordering law:** deltas landed → J2/J3 harvest+adjudicate first
-(docs-only), THEN the menu. No deltas → verify gate → present the menu
-→ owner routes → close honest. A crossing landed WRONG = defect lane
-(classify + owner chat BEFORE fixing; wall gates owed if live-zone
-bytes or visual surfaces move).
+## The agenda (pre-clustered from the docket — walk in this order, owner may reorder)
 
-## GATE 0 OVERRIDE — any live owner order preempts everything
+- **A. PROGRESSION (the recorded headline):** J-4 leveling/XP/skills/
+  level-gated world (+ lobber addendum `38a3ddb`) — with its two
+  interlocks: death-penalty co-tuning and combat math (prep rows carry
+  three loaded notes). This cluster likely DEFINES v19; let it.
+- **B. WORLD GEOGRAPHY & ECONOMY:** J-2 safe vs battle zones · finding
+  B no-bank-in-deep-zones (two recorded interpretations — design, not
+  bug) · TOWN 1 content v0 (empty-town crossing bank) · verdict row 9
+  session-2 under-resourced · row 3 respawn/coop.json retune. These
+  five interlock — consider ratifying them as ONE lane with staging.
+- **C. LIVING WORLD & AI:** J-7 walk-home-not-teleport (frozen-zone law
+  is the current deviation) · finding A ally-acquisition gating
+  (mechanism CONFIRMED read-only `9a7dd98`; R-A3 frozen until today) ·
+  row 6 AI suicides. SHELF GAP applies to the ally half.
+- **D. PRESENTATION & LEGIBILITY:** J-3 CryoFall-style menu (+ asset
+  style signal) · J-5 projection/style preview · J-6 non-pausing menu ·
+  the two NAMED FORKS owed a class today: projectile-visual sync
+  (presentation-only vs sim cadence, `c835c67`) and lobber pass-through
+  (legibility vs sim hit-test). Naming the fork ≠ building it.
+- **E. RIDERS (fast, only if time/owner interest):** debug/mod menu
+  (awaits Gabriel's validation — his call, never nag) · ping remap
+  (parked audio data) · assets v12 capture-contract + turn-handling
+  sequencing (process; the owners own sequencing) · motif-strip
+  authoring (data-class leftover) · audio library increments
+  (depth-aware duck; stereo stems + region-acoustics — owner word
+  dispatches them, they build in game-two-audio).
+- **F. THE v19 RITUAL:** draft the fun-verify design INTO the
+  foundation — what the owners must FEEL for v19 to be CUMPLIDO, halves
+  and spacing (fix the same-day-spacing caveat), novelty asymmetry (fix
+  the symmetric-audio caveat), pre-registered routing rows. Wording
+  freezes at ratification; do NOT rehearse the questions with the
+  owners in chat (measurement hygiene re-arms when the ritual stages).
 
-Ear-check verdicts = LAW (bank verbatim, route per checkpoint) · T3/T4
-renders landing → sha-pinned fixture conversion + data-only rows +
-suite + noDevice re-walk · live coop = lag S1 (support + harvest per
-`drafts/_lag-t2-evidence/README.md`; both seats same tip) · brainstorm
-opening = it takes over (menu item 1 protocol).
+SKIP (settled — one line each in the foundation appendix): J-1 (CLOSED,
+"FUNCIONA") · lag rows (adjudicated/closed) · basement ambience
+(ANSWERED, T4 rider 8) · gamesmith R7 rows (evidence on named triggers
+only) · BOSS-1 dread (stays OPEN-FOR-EXPOSURE, zero code — cite the
+first organic exposure bank if the owners ask).
 
-## J2 — IF the owners walked the SHARED save (ZERO code by default)
+## Output contract (all in drafts/, committed before close)
 
-Every NEW human log → ONE note `drafts/_s39-live-harvest-<date>.md`:
-log md5 · `TELEMETRY persist` (digest chain + sessions vs save) · the
-crossing check (arrival [2,14] / return [43,19] per the s30 pin;
-mismatch = live defect) · `TELEMETRY varekka` (dread row vs Junior's
-banked baseline) · `TELEMETRY sustain` (R-A2, silent) · `AUDIO
-ambience` (amb_town on zone_7) · `AUDIO drift` · `frame_probe`
-(over100-spike watch). Chat verbatims about the gate moment = QUOTES,
-not summaries. Watch items (route, never patch): wayfinding · return-
-ambush feel · wipe near the gate · toll/economy wishes (bank silently) ·
-TOWN 1 emptiness reactions (docket TOWN 1 v0 row).
+1. `drafts/_v19-foundation-20260822.md` — template: v18 foundation.
+   Sections: vision line (the owners') · lanes with staging + gates
+   owed + world.rb-extraction flags (cap is 1800/1800) · forks closed
+   (verdict verbatim per fork) · parked/refused with one-line reasons ·
+   ritual draft (F) · settled appendix · ratification ledger
+   (RATIFIED-G / PENDING-J per decision). PARTIAL is honest if the
+   owners stop early — mark it.
+2. `drafts/_v19-ratificacao-junior-20260822.md` — pt-br, one screen,
+   plain gamer words (docs/JUNIOR.md register): the decisions awaiting
+   his async ratification, one line each + foundation pointer. Never
+   quote Gabriel in Portuguese he didn't write — paraphrase, unquoted.
+3. Checkpoint entry (s39 = brainstorm) + docket rows annotated with
+   verdict pointers (docket LAW: pointers only, no new opinions).
+4. s40 spark (harvest+execution posture returns; menu = the ratified
+   lanes; AGENTS cycle rewrite waits for Junior's marks unless he
+   ratified live) — commit, then clipboard via the verified
+   CF_UNICODETEXT recipe (python ctypes, restype/argtypes pinned,
+   read-back vs SOURCE).
 
-## J3 — IF Junior banked: harvest (his lane, never edit)
+## Hard laws today
 
-Coop S1 report (override lane) · solo findings (docket rows, one-line
-pointers) · ear-check relays (verbatim) · over100 probe data (attach to
-the s32 caveat row; no fix-stacking without mechanical A/B, s29 law).
-
-## J4 — close
-
-Checkpoint (s39) · docket rows where verdicts landed · AGENTS one-liner
-ONLY if a verdict landed · commit docs + push · author the s40 spark
-(THIS posture — menu updated to verdicts) · clipboard via the verified
-CF_UNICODETEXT recipe (python ctypes, restype/argtypes pinned,
-read-back vs SOURCE).
-
-## Laws that bite (short list — full set in AGENTS.md)
-
-Deterministic gates decide; failed gate BLOCKS ship. Read-before-edit ·
-one-concern commits, explicit paths · hooks run the suite · long jobs
-DETACHED (never under a bash-call timeout) · multi-line scripts in temp
-files. Two instances fork a save — guard EVERY launch in a separate
-call judged by printed output. Junior's lane (`drafts/_junior-*`,
-docs/JUNIOR.md) is his — harvest, never edit. No lore; placeholders
-only. Cross-repo: read freely, write ONLY via seat mail; sub-agent
-prompts forbid seat-mail handling; audit mail dirs after every
-sub-agent run. Sim-class beyond the Lane 3 carve-out → RECORDED for
-v19, refuse in writing. Verbatim means verbatim.
+- **NO CODE, no data/ edits, no gates run, nothing ships.** Writes =
+  drafts/ + docs/CHECKPOINT.md only.
+- Verbatim means verbatim; verdicts in the language the owner typed.
+- Parking-lot items stay parked unless an owner EXPLICITLY promotes one
+  (one recorded line). Sim-class discussion is the brainstorm's JOB —
+  but everything lands as staged lanes, none as immediate work.
+- **R-A2 stays silent**: rows 9/B/row-3 economy DESIGN debates are fair
+  game (the owners banked them); the silent sustain measure and its
+  numbers are NEVER revealed or hinted. Row 4's recorded order:
+  discoverability first, price debate parked behind it.
+- FLAGGED shelf numbers never become spec numbers in the foundation
+  without re-verification — cite mechanism shape only.
+- Junior's lane files are his — cite, never edit. If he appears live
+  mid-session, he ratifies live (marks flip to RATIFIED-J) and his
+  ideas get equal floor time — the protocol doesn't change.
 
 ## Budget + stop conditions
 
-One attended session ~1-2 h. Council 0 (opens only with a design fork
-at the brainstorm). Paid: flywheel critique only on owner ask;
-override/defect lanes owe their gates. Sub-agents: fresh-eyes reviewer
-only if code ships. Context guard 85% → compact-checkpoint skill.
-**Stop when:** deltas harvested + menu presented + owner-routed work
-done (or owner silent → honest close), checkpoint + push + s40 spark.
-**Stop early if:** owners redirect · brainstorm opens (takes over) ·
-gate fails non-mechanically (STOP, classify in writing) · sim-class ask
-outside the carve-out (refuse in writing, RECORD).
+One attended session ~1.5-2.5 h. KB queries: free, unlimited. Council 0
+by default — ONE exception, budget-declared first: an owner-requested
+outside taste-read on a genuinely deadlocked fork (≤2 calls). Sub-agent:
+ONLY the companion-AI research spoke (banking-only, bounded, one pass)
+and ONLY if the owners open that debate AND want the shelf filled before
+deciding — otherwise mark the lane's research debt in the foundation.
+Context guard 85% → compact-checkpoint skill (the on-disk foundation
+draft makes this safe at any point).
+**Stop when:** agenda walked (or owner calls it) → outputs 1-4 committed
++ pushed → spark clipboarded. **Stop early, honestly, if:** the owners
+redirect · a defect-class delta preempts (their call) · any verdict
+would require re-litigating a recorded owner order (refuse, cite the
+line).
