@@ -86,31 +86,79 @@ changes are still Rule-2 visual changes (wall + recalibration apply).
   wins on any disagreement).
 <!-- FAMILY-BLOCK END -->
 
-## Current cycle — v18 CLOSED · v19 pending (opens at the owners' brainstorm, not here)
+## Current cycle — v19 OPEN (foundation DOUBLE-RATIFIED 2026-08-22)
 
-**v18 (persistent world, etapa 1) is CLOSED** — all three lanes SHIPPED
-(coop feel · persistence v1 · god-view v0; foundation
-`drafts/_v18-foundation-20260817.md`) and the SEVENTEENTH fun-verify
-ADJUDICATED CUMPLIDO 2026-08-20:
-`drafts/_v18-fun-verify-verdict-20260820.md`. v19 intake is banked
-(`drafts/_v19-intake-docket-20260820.md` · prep
-`drafts/_v19-brainstorm-prep-20260821.md` · Junior's ideas
-`drafts/_junior-v19-ideas-20260819.md`); the brainstorm outputs
-`drafts/_v19-foundation-<date>.md` + this section's rewrite after BOTH
-peers ratify (async ratification allowed per the 2026-08-22 order).
-**Sim-class anything** (tile behaviors beyond the carve-out below,
-spawn logic, AI, balance, economy, OR-gate seal semantics) waits for
-v19 — refuse in writing, RECORD in the docket.
+**v19 = the growth cycle.** Vision (blessed, both peers): "v18 made
+the world persist; v19 makes the characters grow into it — power you
+can feel accumulating, a world with a real geography of risk, allies
+that fight sensibly, a client that feels like a real game." Law of
+the cycle: `drafts/_v19-foundation-20260822.md` — the decision record
+(28 ledger rows, staging, forks, verbatims), RATIFIED-G 2026-08-22 +
+RATIFIED-J same day ("ratifico tudo", `cbda479`). v18 record:
+CUMPLIDO, `drafts/_v18-fun-verify-verdict-20260820.md`. This section
+is STATE; the foundation is law — on disagreement the foundation wins.
 
-**Lane 2 — quality flywheel** (owner-directed 2026-08-19; contract:
-`drafts/_quality-flywheel-plan-20260819.md`): soak zone-coverage ·
-deterministic clips + self-eval critique · verified renderer/data fixes
-ONLY — **sampling-artifact law:** critics see ~4% of frames, so every
-critique claim is verified against code + exact frames (read the PNGs)
-before becoming a work item; sim-touching candidates are RECORDED for
-v19. Audio tuning on owner ask.
+**Four ratified lanes:**
 
-**Lane 3 — world-builder pipeline** (spec CLOSED:
+1. **PROGRESSION v1 (headline):** XP-on-kill → PACK level (carrier =
+   the pack, A2; XP-levels not use-based, A1; death never eats XP,
+   A3) → stats via integer damage/HP growth · lobber-E per-spell
+   growth (mid/late bloomer) · `requires_level` beside
+   `requires_defeats`. Spec + tickets (grill s40):
+   `docs/superpowers/specs/2026-08-22-progression-v1.md`; world.rb
+   extraction (Progression object) rides ticket 1, not afterthought.
+2. **GEOGRAPHY & ECONOMY:** stage 0 rides FIRST (R-A2 sustain
+   discoverability, strings+renderer) · safe zones BOTH hubs with a
+   VISIBLE boundary (B1) · no-bank-in-deep KEPT as design, TOWN 1 =
+   the deep-side anchor (B2/B3, authored via the WB pipeline) · mercy
+   floor context-gated home-hub session-open, data-only (B4) ·
+   respawn scalar first, presence-block recorded as stage 2 (B5).
+   ONE knob per re-session; ALL Lane-2/3 data moves land BEFORE the
+   ritual stages.
+3. **LIVING WORLD & AI:** J-7 = cold-tier catch-up at re-entry
+   (stamp on pack-leave, advance on re-entry; background zone-ticking
+   REFUSED this cycle on the perf prior) · ally defensive-default
+   engage rule + `ally_flee_hp_pct` co-tune (C2, its own re-session
+   after B5's) · stance verb = later rung (C3; banking-only research
+   spoke on owner word at spec time — companion-AI shelf gap
+   recorded).
+4. **PRESENTATION & LEGIBILITY:** J-6 non-pausing menu (own state
+   module over a still-ticking world, `window.rb` cap untouched;
+   ships BEFORE the ritual runsheet freezes; client prefs in their
+   own file, never the world save) · J-3 = STATS PANEL v0 only
+   (inventory/paper-doll stay parked with items) · J-5 projection
+   spike owner-paced (throwaway worktree, no gate; adoption = a
+   separate later decision) · legibility family (lobber impact-tile
+   telegraph, throw-sync) = presentation-only; sim cadence refused
+   (D1), sim hit-test evidence-gated (D2).
+
+**Riders:** E1 GM-tools VALIDATED-DEFERRED ("too soon") · E2 ping
+earmarked as the chat-notification cue (travels with the parked chat
+item) · E3a capture-contract queued-for-v19-intake (fence:
+session-end only, zero per-tick cost; receipts mailed s40) · E3b
+turn-handling DEFERRED (re-decide after the J-5 pick) · E4 motif
+DORMANT (perf trigger expired) · E5 audio increments queued on owner
+word.
+
+**The EIGHTEENTH ritual (shape frozen at design level, s39 + council
+pass):** two coop sessions on the shared save, DIFFERENT calendar
+days (HARD rule, log-checked) · novelty quarantine (no first-exposure
+batch inside ritual sessions) · capture-before-debrief ·
+level+kill-XP byte proof · topic-scoped routing rows + pre-declared
+kill conditions · free verdict. Question WORDING stays UNWRITTEN
+until spec freeze (measurement hygiene re-arms at staging; the sim
+numbers it measures — progression pacing, difficulty, respawn,
+sustain — freeze then, which is why the data moves land early).
+
+**Standing program — quality flywheel** (owner-directed 2026-08-19;
+contract: `drafts/_quality-flywheel-plan-20260819.md`): soak
+zone-coverage · deterministic clips + self-eval critique · verified
+renderer/data fixes ONLY — **sampling-artifact law:** critics see ~4%
+of frames, so every critique claim is verified against code + exact
+frames (read the PNGs) before becoming a work item; sim-touching
+candidates route to their v19 lane. Audio tuning on owner ask.
+
+**Standing program — world-builder pipeline** (spec CLOSED:
 `docs/superpowers/specs/2026-08-19-world-builder-pipeline.md`; grill
 `drafts/_world-builder-grill-20260819.md`): the six-zone world is the
 game's INTRODUCTION ARC; expansion grows outward via LDtk → strict
@@ -129,13 +177,13 @@ Live authoring laws:
   unsealed or `requires_defeats`-only targets refuse NAMED at zone
   load (`drafts/_s34-seal-gating-20260821.md`).
 - **SAFE tile behaviors** (decorative variants, footstep materials,
-  region ambience) ship in this era; **SIM-CLASS tile behaviors**
-  (lava, water, tile-gated spawns) land post-verdict, ONE gated piece
-  at a time. Live in-game god-mode editing stays a staged later rung.
+  region ambience) ship freely; **SIM-CLASS tile behaviors** (lava,
+  water, tile-gated spawns) route through their v19 lane, ONE gated
+  piece at a time. Live in-game god-mode editing stays a staged later
+  rung (E1 family).
 - First human crossing landed 2026-08-21 (Junior, his solo save:
   `drafts/_junior-primeira-travessia-20260821.md`); the SHARED-save
-  crossing is still ahead. Frame-tail perf row CLOSED
-  (`drafts/_junior-remeasure-20260821.md`).
+  crossing is still ahead.
 
 **Audio (M5a SHIPPED 2026-08-18 — standing law):** audio is a PURE
 SINK (never sim/saves/netplay), OPTIONAL at boot (absent/refused = one
@@ -147,8 +195,9 @@ word: stereo ambient stems + region-acoustics (library increments).
 **Owner-pending (never nag):** ear-checks of the audio-v12 batch (ride
 the next play session) · T3 footstep/bed renders (frozen cue-spec mail
 in the audio seat's inbox — water family needs a NEW mail) · coop S1
-invite (both seats READY) · the SHARED-save first crossing · the v19
-brainstorm.
+invite (both seats READY) · the SHARED-save first crossing · the J-5
+spike call · the WorldSmith proposal (owner-authored, INCOMING — zero
+speculation until it lands).
 
 **Seats:** Gabriel's hub session (this machine) + Junior's seat (his
 machine, Claude — CLAUDE.md points his sessions at this same
