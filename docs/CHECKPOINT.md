@@ -1,5 +1,50 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-21 session 33 (hub) — SEAL OPENS LAW SHIPPED (the twice-RECORDED refusal, promoted) · Gate 0 ZERO deltas (shared-save crossing still ahead) · v19 still NOT open
+
+**Gate 0 (classified: NO deltas — J1-only session per the ordering
+law):** origin tip = the s33 spark commit, fetch + `HEAD..origin/main`
+EMPTY (no Junior banks, no owner play) · shared save UNMOVED (md5
+`98fe75ed…`, mtime 08-20 15:51 — Gabriel's/coop's crossing still
+ahead) · launcher logs 40×2 (newest already counted) · mail inbox 0 /
+done 22 (audio T3 cue-spec still frozen-unanswered) · soak newest
+`20260820-232208` · pilot scratch world matches s32-corrected numbers ·
+S1 evidence README-only · untracked `drafts/_refs/` only. J2/J3 never
+armed — honest no-delta close on both.
+
+**J1 SHIPPED — `4f74e33`** (pushed, pre-push suite green 1018/0/0):
+seal `opens` law — `TileMap#validate_seal_opens!` refuses NAMED at zone
+load when a seal's `opens` is ill-shaped (nil / string pair / float /
+3-element — the s32 predicate EXTRACTED to `tile_pair?`, one copy
+shared with `check_passable!`), out of bounds, or names NO transition
+(the semantic kill: the seal that BURNS the toll, opens nothing, and
+poisons the save at clean quit — reviewer sharpened: `restore_breach!`
+would persist `[zone, nil]`, which SaveState REFUSES at next load).
+Shape → bounds → semantics, distinct messages, BadMap house class.
+Pre-scans BEFORE code: real zones 3/3 LEGAL (re-verified, matches s32
+close) · inline fixtures legal (WELL_ZONE + UPPER both author the
+transition) · spike LDtk legal — zero trips predicted, suite confirmed
+(1011→1018, +7 message-asserted), NO defect branch. Importer finding:
+no seal-specific check of its own (`opens` optional, Point-shape only)
+BUT `validate_emitted!` round-trips through `TileMap.new` — the door
+composes the law automatically, zero importer changes owed. Fresh-eyes
+review (scrubbed read-only sub-session): **PASS-WITH-NITS**, no
+blocking findings — nit 1 RECORDED not built (guard doesn't require the
+named transition be `sealed: true`; design question first: is a seal
+onto a `requires_defeats` fact-gated way legal authoring?), nit 2
+cosmetic (third bounds-idiom copy, pre-existing), nit 3 settled by
+hooks. Mail dir audited after the run: clean. No Rule-2 gate owed
+(load-time refusal, zero visual surface). world.rb untouched
+(1800/1800). Ticket: `drafts/_s33-seal-opens-20260821.md`.
+
+**Still pending (owner-paced, never nag):** ear-checks + audio-v12
+batch · T3 footstep/bed renders (cue-spec mail frozen) · coop S1 invite
+(both seats READY) · the SHARED-save first crossing (verbatims = fun
+gold when they land) · the v19 brainstorm. R-A2 stays silent
+(`bought=0`/absent on every banked human log; never prime). Docket
+untouched this session (no verdicts landed); AGENTS untouched (same
+law).
+
 ## 2026-08-21 session 32 (hub) — THREE LANES LANDED: frame-tail ADJUDICATED CLOSES (decisive seat) · tile-shape law SHIPPED (s31 nit 1) · FIRST HUMAN GATE CROSSING harvested (Junior, live save) · v19 still NOT open
 
 **Gate 0 (classified, then proceeded):** pull brought `61ccfa3` —
