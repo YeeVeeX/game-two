@@ -16,6 +16,7 @@ require "game/field_economy"
 require "game/price_sheet"
 require "game/crossing"
 require "game/progression"
+require "game/transients"
 require "game/save_state"
 
 module Game
@@ -102,10 +103,7 @@ module Game
       # Every persistent growth fact (v18 counters, v19 level/xp) lives
       # in ONE plain object (Lane 1 T1, spec P14) — World delegates.
       @progression = Progression.new(config: data["balance/progression"])
-      @taunt_pulses = []
-      @kill_pops = []
-      @seal_marks = []
-      @pop_frames = @balance[:feel][:pop_frames]
+      @transients = Transients.new(pop_frames: @balance[:feel][:pop_frames])
       @controllers = @seats.to_h { |s| [s, PossessedController.new] }
       @ai = AiController.new
       @null_input = Core::NullInput.new
@@ -191,9 +189,9 @@ module Game
     # v18 decision 12: the seat-gated third-body caution threshold — nil
     # when no coop block exists (seats=1: the flee guard never evaluates).
     def ally_flee_hp_pct = @coop && @coop[:ally_flee_hp_pct]
-    def taunt_pulses = @taunt_pulses
-    def kill_pops = @kill_pops
-    def seal_marks = @seal_marks
+    def taunt_pulses = @transients.taunt_pulses
+    def kill_pops = @transients.kill_pops
+    def seal_marks = @transients.seal_marks
 
     # Active respawn tells of the CURRENT zone, for the renderer (v14).
     # Non-autovivifying fetch: the draw path must never insert zone keys
@@ -275,8 +273,7 @@ module Game
       end
       # v16 (c): floor seal marks dwell on the banner clock — same pause
       # law (hitstop skips this whole branch), fading with their stamp.
-      @seal_marks.each { |m| m[:frames_left] -= 1 }
-      @seal_marks.reject! { |m| m[:frames_left] <= 0 }
+      @transients.tick_banner_clock!
       @station_cue = nil if @station_cue && (@station_cue[:frames_left] -= 1) <= 0
       @breach_line = nil if @breach_line && (@breach_line[:frames_left] -= 1) <= 0
       # Gate-wait cue: recomputed every non-hitstop tick — check_transition
@@ -719,8 +716,7 @@ module Game
 
       check_transition
       tick_impacts
-      tick_taunt_pulses
-      tick_kill_pops
+      @transients.tick_combat!
       resolve_attacks
       tick_projectiles
       # AFTER every damage source on purpose: a body killed this frame ends
@@ -897,7 +893,7 @@ module Game
 
     def mark_seal!(at)
       frames = @display.fetch(:stamp_banner_frames, 150)
-      @seal_marks << { at:, frames_left: frames, frames_total: frames }
+      @transients.seal_mark!(at:, frames:)
     end
 
     # Tab swap: rising edge only, world-level (the controller mask handles
@@ -979,23 +975,9 @@ module Game
         !foe.dead? && tile_distance(attacker.tile, foe.tile) <= t[:range_tiles]
       end
       victims.each { |v| v.taunt!(attacker, t[:duration_frames], cause:) }
-      @taunt_pulses << { tile: attacker.tile, frames_left: t[:pulse_frames],
-                         pulse_frames: t[:pulse_frames], range_tiles: t[:range_tiles] }
+      @transients.taunt_pulse!(tile: attacker.tile,
+                                pulse_frames: t[:pulse_frames], range_tiles: t[:range_tiles])
       @bus.emit(:taunted, actor: attacker, victims: victims.length)
-    end
-
-    # Cosmetic only — the sim never reads these. Counted in tick_world so
-    # hitstop and the wipe veil pause them like impacts.
-    def tick_taunt_pulses
-      @taunt_pulses.each { |p| p[:frames_left] -= 1 }
-      @taunt_pulses.reject! { |p| p[:frames_left] <= 0 }
-    end
-
-    # v16 (e): pops age in tick_world only — hitstop and the wipe veil pause
-    # them like impacts (the tick_drops law). Renderer is a pure reader.
-    def tick_kill_pops
-      @kill_pops.each { |p| p[:frames_left] -= 1 }
-      @kill_pops.reject! { |p| p[:frames_left] <= 0 }
     end
 
     def resolve_dash_action(attacker, cfg)
@@ -1145,9 +1127,7 @@ module Game
       @home_fields = {}
       @projectiles = []
       @impacts = []
-      @taunt_pulses = []
-      @kill_pops = []
-      @seal_marks = []
+      @transients.clear!
       @pack.clear_mark!
       @last_damaged = {}
       # Cross-zone leash resolves as snap-home: only the current zone ticks, so
@@ -1612,9 +1592,7 @@ module Game
         @pack.clear_mark! if e[:actor].equal?(marked_target)
         # v16 (e): every death POPS — transient render record, integer phase
         # seeded by (tile, frame) so replays are byte-identical.
-        @kill_pops << { tile: e[:actor].tile, frames_left: @pop_frames,
-                        pop_frames: @pop_frames,
-                        phase: (e[:actor].tile[0] * 31 + e[:actor].tile[1] * 17 + @frame) % 997 }
+        @transients.kill_pop!(tile: e[:actor].tile, frame: @frame)
         if e[:faction] == :human
           @feel.on_kill if controlled?(e[:killer])
           # v15: the challenger's death closes the boss fight (placeholder
