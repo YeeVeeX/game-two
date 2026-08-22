@@ -62,8 +62,11 @@ no doc.
 ## Extra
 
 - Teu pedido de tarefas (via WhatsApp) foi respondido no doc: tarefa 1
-  = ESTA ratificação · tarefa 2 = escrever o intake do WorldClaw (a
-  descoberta é TUA — banca a fonte e a tua leitura em drafts/) ·
-  opcional = jogar solo (log humano sempre vale).
+  = ESTA ratificação (a principal) · tarefa 2 (encolhida — o Gabriel
+  já fez a pesquisa do WorldClaw e já está montando o WorldSmith) =
+  registrar a TUA descoberta: o link do vídeo + 5-10 linhas do que
+  VOCÊ viu nele que serve pro game-two, num arquivo em drafts/ — a
+  descoberta é tua e a tua leitura entra na proposta dele · opcional
+  = jogar solo (log humano sempre vale).
 - Visão do ciclo (benzida pelo Gabriel): o v18 fez o mundo persistir;
   o v19 faz os personagens CRESCEREM nele.

@@ -285,8 +285,14 @@ own state module on the bus, never in the orchestrator.
   verbatim by the owner: "¡Qué tuanis que el YouTube que te mandé pueda
   aportar algo al proyecto, mae!"). Name update (owner, same session):
   the inspired tool will be called **WorldSmith** ("you can imagine
-  where I am going with it"). Recorded as an INCOMING input only;
-  nothing speculated, nothing built until details land.
+  where I am going with it"). Post-close update (same chat,
+  2026-08-22): Gabriel is AUTHORING the WorldSmith proposal himself
+  (his WorldClaw ingestion done in /knowledge); repo to be shared
+  soon; initial aim stated by the owner: "começar com 2D para o
+  game-two". Junior's task 2 accordingly SHRUNK to a short discovery
+  note (video link + 5-10 lines of his own reading — provenance stays
+  his); the research half is Gabriel's. Still an INCOMING input for
+  this repo — nothing built here until the proposal lands.
 - **Junior task request (via WhatsApp, relayed by Gabriel 2026-08-22
   8:57 a.m., verbatim):** "A lo que me refería es a que le mandés a tu
   Claude Code(Mega brain) que traiga tareas para mi PC, para optimizar
