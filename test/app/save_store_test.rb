@@ -177,6 +177,25 @@ class SaveStoreTest < Minitest::Test
     end
   end
 
+  def test_refusal_names_mtime_newest_backup_when_schema_name_sorts_higher
+    with_store do |store, _|
+      FileUtils.mkdir_p(File.dirname(store.path))
+      older = "#{store.path}.bak-schema1-99999999999999"
+      newer = "#{store.path}.bak-20000101000000"
+      File.write(older, "older")
+      File.write(newer, "newer")
+      FileUtils.touch(older, mtime: Time.at(1_000))
+      FileUtils.touch(newer, mtime: Time.at(2_000))
+      File.write(store.path, "garbage", mode: "wb")
+
+      refused = store.load(data: DATA)
+
+      assert_instance_of App::SaveStore::Refused, refused
+      assert_includes refused.refusal, File.basename(newer)
+      refute_includes refused.refusal, File.basename(older)
+    end
+  end
+
   def test_schema_skew_refuses_named
     with_store do |store, _|
       FileUtils.mkdir_p(File.dirname(store.path))
@@ -235,6 +254,20 @@ class SaveStoreTest < Minitest::Test
       reloaded = store.load(data: DATA)
       assert_empty reloaded.notices, "the upgraded save reloads as plain v2"
       assert_equal loaded.facts, reloaded.facts
+    end
+  end
+
+  def test_v2_reload_clears_pending_schema_1_backup
+    with_store do |store, _|
+      write_v1!(store)
+      store.load(data: DATA)
+      App::SaveStore.new(path: store.path).write(facts, saved_at_ms: 2)
+
+      loaded = store.load(data: DATA)
+      capture_io { store.write(loaded.facts, saved_at_ms: 3) }
+
+      assert_empty Dir["#{store.path}.bak-schema1-*"],
+                   "only the current file's schema may trigger a schema-1 backup"
     end
   end
 

@@ -47,6 +47,7 @@ module App
     # file is itself a NAMED refusal with recovery hints (.bak if present,
     # orphan .tmp named), never a raw JSON crash.
     def load(data:)
+      @v1_raw = nil
       notices = orphan_notices
       return Fresh.new(notices:) unless File.exist?(@path)
       raw = File.read(@path, mode: "rb")
@@ -153,7 +154,7 @@ module App
     end
 
     def bak_hint
-      bak = Dir["#{@path}.bak-*"].max
+      bak = Dir["#{@path}.bak-*"].max_by { |file| File.mtime(file) }
       bak ? " (recovery: newest backup #{File.basename(bak)})" : ""
     end
   end
