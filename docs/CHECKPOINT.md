@@ -1,5 +1,66 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-22 session 40 (hub) — v19 OPENS FOR REAL: Junior's "ratifico tudo" harvested · ledger flipped · AGENTS rewrite LANDED · assets receipts mailed · Lane 1 grill → spec + T1
+
+**Job 0 (open = zero-delta; mid-session delta classified GOOD):** at
+open everything matched the s39 baselines (origin tip `7a68788`, save
+`98fe75ed…` mtime 08-20 15:51, launcher logs 40 newest 08-21 01:39,
+mail inbox EMPTY). A power outage split the session; the resume
+re-pull landed `cbda479` — **Junior's async ratification: "ratifico
+tudo", all 28 rows, zero objections**
+(`drafts/_junior-ratificacao-v19-20260822.md`). Classified
+GOOD-delta; preempted the queue by design (menu item 1).
+
+**Foundation DOUBLE-RATIFIED → cycle opened:** ledger flipped
+mechanically (54 PENDING-J → RATIFIED-J, status CLOSED; `babf690`) ·
+the AGENTS cycle-section rewrite landed as its own one-concern commit
+(`6dab010`): v19 OPEN, four ratified lanes + riders + ritual shape;
+flywheel/WB reframed as STANDING PROGRAMS (v19 lane numbering owns
+1–4 now); sim-class fence dissolved into lane routing; live laws
+grep-verified post-rewrite (INERT, gate-consent, seal GATING,
+pure-sink, sampling-artifact, one-knob). Lane code to Junior's seat
+is now LAWFUL (his marks are in).
+
+**Assets receipts mailed (s39 debt):**
+`~/.pi/agent/mail/game-two-assets/from-game-two-v19-brainstorm-receipts.md`
+— v12-design `read=yes` (full 500-line read against blob md5
+`0a879856…` at their `4c3bc35`) · gating-decision = deferred
+(re-decide after J-5, E3b verbatim) · capture-contract =
+queued-for-v19-intake (fence: session-end only; P2 host-side; their
+open-Q1 field list pinned by us at tool-spec time). Their seat was
+LIVE (seat-lease flagged a cross-tree redirect; read via `git -C …
+show` instead — mail root, not inbox/, is their live convention).
+
+**Lane 1 grill (grill-and-ticket; council 0, sub-agents 0):** shelf
+re-verified by FULL reads (xp-curves note — LOST-IN-CAPTURE flags
+don't touch v19's formulas; damage-math §6 stack; death-penalties §6
+consistent with A3) · code surfaces read (save_state.rb whole,
+world.rb init/actor_died/digest regions, crossing.rb whole,
+state_digest DIGEST_VERSION, combat/threat/zone JSON shapes). Output:
+**spec `docs/superpowers/specs/2026-08-22-progression-v1.md`**
+(P1–P14: quadratic ΔE curve k·(L²−3L+4) data-driven · kill-XP on
+pack-faction kills only · level+xp-into-level facts (churn-proof,
+hp-clamp law) · no full heal on level-up · integer linear growth,
+pinned base→level→coop order · variance REFUSED · no enemy scaling ·
+schema v2 + ONE-HOP v1 upgrade with backup (the live save is never
+eaten) · requires_level machinery-only · lobber-E threshold table ·
+pacing script · TELEMETRY level/xp/kills_xp · digest rows +
+DIGEST_VERSION 2 in T2 · Progression object absorbs
+boss_1_defeats/sessions to carve world.rb headroom) + **ticket T1
+brief `drafts/_prog-t1-extraction-schema-v2.md`** (extraction +
+schema v2 + round-trip lane FIRST; no behavior change; verify =
+suite + wc + double-capture md5 + netplay gate). Commit `756e7b7`.
+
+**Next:** T1 in a FRESH session (one ticket = one session; this
+session wrote the brief, so it never implements it). T2–T5 briefs
+cut one at a time. Lane-2 stage 0 (R-A2) interleaves freely.
+
+**Owner-pending carry (never nag):** ear-checks · T3 renders (water
+family needs a NEW mail) · coop S1 · SHARED-save first crossing · J-5
+spike call · WorldSmith proposal (INCOMING, owner-authored). Junior's
+task 2 (video discovery note) pending on his side — his lane. R-A2
+stays silent in logs (`bought=0` law).
+
 ## 2026-08-22 session 39 (hub) — THE v19 BRAINSTORM: agenda A–F WALKED COMPLETE · 28 decisions RATIFIED-G, all PENDING-J · foundation on disk · AGENTS rewrite WAITS for Junior
 
 **Job 0 (zero-delta, nothing preempted):** pull up-to-date (no Junior
