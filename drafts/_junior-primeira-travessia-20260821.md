@@ -85,6 +85,31 @@ Sobre o mapa novo (TOWN 1):
 - `game_two_session_1419143.log` — md5 `562b5af706a0cec613e43a3de6691fe6`
 - Save vivo pós-sessão — md5 `cf15a21903e03891f2b14ee2e22e94e9`
 
+## Addendum — hipótese do Junior sobre a IA aliada, CONFIRMADA em leitura
+
+Depois do bank acima, o Junior formulou (palavras exatas):
+
+> "o q me parece é q as IA de aliados e inimigos é a mesma, então eles fazem
+> as mesmas coisas quando veem inimigos"
+
+Verificação read-only (Recorte A, nada alterado): **confirmado.**
+
+- `src/game/controllers.rb:100` — um único `AiController` serve todas as
+  facções; o comentário de cabeçalho (`:96-99`) declara "Husk-grade brain
+  (deliberately dumb — gambits are A1)": aggro no hostil mais próximo, chase
+  no flow field, swing em alcance de kit; aliados apenas ADICIONAM o follow
+  do possessed quando sem alvo.
+- `controllers.rb:106-135` — a cadeia de seleção de alvo (taunt → anchor →
+  kit-hate → lowhp → sticky/proximity → nearest) é compartilhada; `:114` e
+  `:162` usam o MESMO `creature.kit[:aggro_tiles]` para aliado e inimigo.
+- Diferenças de aliado são só o follow (`:164-167`) e o flee seat-gated do
+  terceiro corpo (`:154-158`, v18 D12).
+
+Leitura deste assento: a hipótese do jogador descreve com precisão o design
+v0 deliberado — e aponta para a lane R-A3 (IA do terceiro corpo), CONGELADA
+até o brainstorm v19 por decisão ratificada. Insumo bancado para lá; zero
+código devido agora.
+
 ## Rotas
 
 - Colheita varekka/dread + primeira travessia → hub (J-lanes de harvest).
