@@ -1,5 +1,72 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-22 session 43+44 (hub) — T2 SHIPPED: kill XP → level → stats live · digest v2 · versioned canary bank (owner-approved) · all 5 gates + perf green · review PASS
+
+**One entry for two sessions:** s43 built A+B (committed) + staged C,
+wrote NO checkpoint; s44 landed C, ran the ladder, closed. Full record:
+`drafts/_prog-t2-close-20260822.md` (audit, table, review verbatim).
+
+**Job 0 (both sessions clean):** origin tip `97964ed` never moved; save
+`98fe75ed…` mtime 08-20 15:51 (md5 re-verified at open + close + by the
+reviewer); launcher logs 40 newest 08-21 01:39; mail inbox EMPTY;
+`drafts/_refs/` (8 images) untracked by design.
+
+**Shipped (pushed together s44):**
+- **A `10c176b` fix(save)** — bak_hint mtime pick + `@v1_raw` cleared at
+  top of load + 2 lanes (T1 review NITs). Suite 1047/0F.
+- **B `84a9d7a` refactor(world)** — `Game::Transients` carve (cosmetic
+  records, two aging clocks with distinct pause laws, renderer API
+  frozen via delegators); world.rb 1797→1775. Suite 1051/0F. Blocking
+  pre-C identity gate: old-vs-new `rake capture` md5 sets IDENTICAL
+  (world_loop 10/10, varekka_duel 5/5).
+- **C `1fe5d8b` feat(progression)** — the P13 one-commit set: award_kill
+  in actor_died (killer faction :pack) → `:level_up` registered, ZERO
+  subscribers · `Pack#sync_max_hp!`/`Creature#grow_max_hp!` (P4 delta,
+  floor 1, dead keep 0) · `leveled_damage` at the 3 sites (launch-time
+  pin on in-flight) · digest rows level/xp + DIGEST_VERSION 1→2 ·
+  save-apply REORDER (progression → sync → hp clamps vs LEVELED max) ·
+  `TELEMETRY progression level= xp= kills_xp=` (P12 additive) · shape
+  pins · ~15 new test lanes. Suite **1068/0F**. `data/` UNTOUCHED.
+
+**OWNER DECISION (Gabriel, s43 chat), RECORDED:** the v17 etapa-0 canary
+hashes are now `ETAPA0_HISTORY` (immutable, provenance preserved); the
+ACTIVE bank carries date + owner approval + the ratified change (T2
+progression, P2/P4/P5) + audit location; a miss against ACTIVE stays a
+blocking DEFECT — fix the change, never rebank — unless a new ratified
+sim change repeats this exact protocol.
+
+**Stream-diff audit (rebank precondition, PASS):** old build reproduced
+all 3 banked v17 md5s; world_loop BYTE-IDENTICAL (never levels — L1
+identity proof); varekka 2 divergent lines (one leveled lobber hit,
+20→21 at L2@456); burn prefix-identical past L2@377, cascade fully
+traced — blocker survives f495 (+9 hp), lobber kills its killer at 573,
+old build's WIPE AVERTED (`fight_resolved` wiped→false, same kills=8),
+`pack_wiped` legitimately absent; zero `:level_up` leakage, no new
+event types. Set-identity deviation named honestly in the close draft.
+
+**Ladder (all green):** world_loop + varekka_duel full gates PASS
+(critic ON) · netplay session/desync/conn_lost PASS (digest v2 on the
+wire; desync still convicts) · perf p95 0.465ms · world.rb 1790 ≤ 1795
+· pacing table: L2 = 6 rusher kills, mid-cap tens — targets MET, **no
+Commit D**, starters frozen · fresh-eyes review **PASS, 0 blockers,
+3 NITs** (save_state `cap` shadow rename; `:level_up`-to-EventLog in T3
+re-fires the FULL rebank protocol; data-test grep scope) — all recorded
+as T3 amendments/notes in the close draft.
+
+**Next (s45):** cut the T3 brief (presentation: level/XP HUD strip +
+level-up feel beat, new wall script + full gate + locale labels;
+brief-writer never implements; spark
+`drafts/_session-45-spark-20260822.md`, clipboarded at close).
+
+**Job-0 baselines for s45:** origin tip = this s44 docs commit above
+`1fe5d8b` (self-referential dispatch artifact) · save `98fe75ed…` mtime
+08-20 15:51 · launcher logs 40, newest 08-21 01:39 · mail inbox EMPTY.
+
+**Owner-pending carry (never nag):** ear-checks · T3 footstep/bed
+renders (water family needs a NEW mail) · coop S1 · SHARED-save first
+crossing · J-5 spike call · WorldSmith proposal (INCOMING) · R-A2
+escalation call (after the next real play session).
+
 ## 2026-08-22 session 42 (hub) — T2 BRIEF CUT (sim core, s43 executes) · R-A2 "stage 0" premise CORRECTED: already shipped+gated 2026-08-20
 
 **Job 0 (open = clean):** every s41 baseline matched — origin tip
