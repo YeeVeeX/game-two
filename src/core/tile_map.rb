@@ -195,7 +195,19 @@ module Core
       end
     end
 
-    def check_passable!(label, (tx, ty))
+    # Shape law (s31 review nit 1): destructuring a blind tile split
+    # ill-shaped data two ways — UNNAMED crashes (nil / string pairs feed
+    # passable?'s .negative?) and WORSE, silent mis-validation (Array#[]
+    # truncates Floats, a 3-element tile drops its tail — both validate
+    # against the WRONG tile while transition_at's == never matches: a
+    # DEAD transition). Shape refuses NAMED first; then today's
+    # passability check, unchanged. One choke point covers every caller
+    # (pack_spawn, enemy spawns, transitions, stations, gradient_anchor).
+    def check_passable!(label, tile)
+      unless tile.is_a?(Array) && tile.length == 2 && tile.all? { |v| v.is_a?(Integer) }
+        raise BadMap, "#{label} must be an [x, y] tile (got #{tile.inspect})"
+      end
+      tx, ty = tile
       raise BadMap, "#{label} [#{tx}, #{ty}] is not passable" unless passable?(tx, ty)
     end
   end

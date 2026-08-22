@@ -243,6 +243,69 @@ class TileMapTest < Minitest::Test
     assert_match(/renders palette ref "floor", absent/, e.message)
   end
 
+  # --- s32: tile-shape law (s31 review nit 1) — every tile reaching
+  # check_passable! refuses NAMED on bad shape instead of splitting into
+  # UNNAMED crashes (nil, string pairs) or silent mis-validation (Float
+  # truncation under Array#[], 3-element tails dropped — tiles that
+  # validated against the WRONG coordinates while transition_at's ==
+  # never matched: DEAD transitions). One case per live-probed mode.
+
+  def test_nil_transition_at_refuses_named
+    e = assert_raises(Core::TileMap::BadMap) do
+      Core::TileMap.new(base_cfg.merge(transitions: [{ at: nil, to: "x", spawn: [1, 1] }]))
+    end
+    assert_match(/transition must be an \[x, y\] tile \(got nil\)/, e.message)
+  end
+
+  def test_string_pair_tile_refuses_named
+    e = assert_raises(Core::TileMap::BadMap) do
+      Core::TileMap.new(base_cfg.merge(transitions: [{ at: ["3", "1"], to: "x", spawn: [1, 1] }]))
+    end
+    assert_match(/transition must be an \[x, y\] tile \(got \["3", "1"\]\)/, e.message)
+  end
+
+  def test_float_tile_refuses_named_instead_of_truncating
+    # The silent-corruption kill: Array#[] truncated 1.5 -> validated
+    # CLEAN against tile [1, 1], then the transition never matched == at
+    # runtime — a DEAD transition, not a crash.
+    e = assert_raises(Core::TileMap::BadMap) do
+      Core::TileMap.new(base_cfg.merge(transitions: [{ at: [1.5, 1], to: "x", spawn: [1, 1] }]))
+    end
+    assert_match(/transition must be an \[x, y\] tile \(got \[1\.5, 1\]\)/, e.message)
+  end
+
+  def test_three_element_tile_refuses_named_instead_of_dropping_tail
+    e = assert_raises(Core::TileMap::BadMap) do
+      Core::TileMap.new(base_cfg.merge(transitions: [{ at: [1, 1, 9], to: "x", spawn: [1, 1] }]))
+    end
+    assert_match(/transition must be an \[x, y\] tile \(got \[1, 1, 9\]\)/, e.message)
+  end
+
+  def test_nil_pack_spawn_entry_refuses_named
+    e = assert_raises(Core::TileMap::BadMap) do
+      Core::TileMap.new(base_cfg.merge(pack_spawn: [[1, 1], [2, 1], nil]))
+    end
+    assert_match(/pack_spawn must be an \[x, y\] tile \(got nil\)/, e.message)
+  end
+
+  def test_string_gradient_anchor_refuses_named
+    e = assert_raises(Core::TileMap::BadMap) do
+      Core::TileMap.new(base_cfg.merge(gradient_anchor: "middle"))
+    end
+    assert_match(/gradient_anchor must be an \[x, y\] tile \(got "middle"\)/, e.message)
+  end
+
+  def test_legal_integer_tiles_stay_valid_through_the_guard
+    # The legal control, named explicitly (every construction in this
+    # file already routes through the guard — this one asserts it).
+    map = Core::TileMap.new(base_cfg.merge(
+      transitions: [{ at: [2, 2], to: "next", spawn: [1, 1] }],
+      gradient_anchor: [3, 3]
+    ))
+    assert_equal [2, 2], map.transition_at(2, 2)[:at]
+    assert_equal [3, 3], map.gradient_anchor
+  end
+
   # T2 regression bar, T4 amendment: the six live-world zones stay their
   # recorded shapes; the T3 fixture + the four T4 pilot zones are the
   # authored v2 surface (typed transitions live ONLY there; the live
