@@ -45,6 +45,12 @@ changes are still Rule-2 visual changes (wall + recalibration apply).
      frozen, bot logs never fun-evidence, verbatim means verbatim, and the
      SIM numbers the pending ritual measures (respawn/difficulty/sustain)
      wait for its verdict.
+- **OWNER ORDER (2026-08-22, Gabriel): development never gates on the
+  other peer's availability** — solo progress is the default (peer
+  online = good, peer absent = keep moving, symmetric both ways); the
+  dev of record proactively surfaces REAL recorded work items every
+  session (never fabricated ones — the no-manufactured-J1 law stands).
+  Peer ratifications land async in the hub chat.
 - Everything else is steerable at the owner's word: lane order, freezes,
   scope promotions. Less rigidity ≠ less order: one-concern commits,
   evidence banks, forks close at brainstorms (dev recommendation + owner
