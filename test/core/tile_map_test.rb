@@ -306,6 +306,62 @@ class TileMapTest < Minitest::Test
     assert_equal [3, 3], map.gradient_anchor
   end
 
+  # --- s33: seal opens law (the refusal RECORDED s31 + s32, promoted).
+  # A seal's opens is consumed BLIND downstream (interact_seal ->
+  # breached?/spend_banked/restore_breach!; price sheet pre-breach) — an
+  # ill-shaped opens or one naming NO transition burns the toll, opens
+  # nothing, and persists the inert fact into the save. Refuse NAMED at
+  # load; message asserted per mode.
+
+  def seal_cfg(opens:, transitions: [])
+    base_cfg.merge(
+      stations: [{ type: "seal", at: [1, 1], price: "breach_cost", opens: opens }],
+      transitions: transitions
+    )
+  end
+
+  def test_seal_nil_opens_refuses_named
+    e = assert_raises(Core::TileMap::BadMap) { Core::TileMap.new(seal_cfg(opens: nil)) }
+    assert_match(/seal at \[1, 1\]: opens must be an \[x, y\] tile \(got nil\)/, e.message)
+  end
+
+  def test_seal_string_pair_opens_refuses_named
+    e = assert_raises(Core::TileMap::BadMap) { Core::TileMap.new(seal_cfg(opens: ["3", "3"])) }
+    assert_match(/seal at \[1, 1\]: opens must be an \[x, y\] tile \(got \["3", "3"\]\)/, e.message)
+  end
+
+  def test_seal_float_opens_refuses_named_instead_of_truncating
+    e = assert_raises(Core::TileMap::BadMap) { Core::TileMap.new(seal_cfg(opens: [3.0, 3])) }
+    assert_match(/seal at \[1, 1\]: opens must be an \[x, y\] tile \(got \[3\.0, 3\]\)/, e.message)
+  end
+
+  def test_seal_three_element_opens_refuses_named_instead_of_dropping_tail
+    e = assert_raises(Core::TileMap::BadMap) { Core::TileMap.new(seal_cfg(opens: [3, 3, 9])) }
+    assert_match(/seal at \[1, 1\]: opens must be an \[x, y\] tile \(got \[3, 3, 9\]\)/, e.message)
+  end
+
+  def test_seal_out_of_bounds_opens_refuses_named
+    # Bounds reads differently from no-transition: a coordinate typo off
+    # the map is not "authored a floor tile there".
+    e = assert_raises(Core::TileMap::BadMap) { Core::TileMap.new(seal_cfg(opens: [9, 9])) }
+    assert_match(/seal at \[1, 1\]: opens \[9, 9\] outside 5x5 map/, e.message)
+  end
+
+  def test_seal_opens_naming_no_transition_refuses_named
+    # The semantic kill: legal shape, in bounds, NO transition there —
+    # the seal that eats tolls and opens nothing.
+    e = assert_raises(Core::TileMap::BadMap) { Core::TileMap.new(seal_cfg(opens: [3, 3])) }
+    assert_match(/seal at \[1, 1\]: opens \[3, 3\] names no transition/, e.message)
+  end
+
+  def test_seal_opening_a_real_transition_stays_valid
+    map = Core::TileMap.new(seal_cfg(
+      opens: [3, 3],
+      transitions: [{ at: [3, 3], to: "next", spawn: [1, 1], sealed: true }]
+    ))
+    assert_equal [3, 3], map.station_at(1, 1)[:opens]
+  end
+
   # T2 regression bar, T4 amendment: the six live-world zones stay their
   # recorded shapes; the T3 fixture + the four T4 pilot zones are the
   # authored v2 surface (typed transitions live ONLY there; the live

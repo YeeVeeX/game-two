@@ -101,6 +101,7 @@ module Core
       @enemy_spawns.each_value { |spawns| spawns.each { |s| check_passable!("enemy spawn", s) } }
       @transitions.each { |t| check_passable!("transition", t[:at]) }
       @stations.each { |s| check_passable!("station", s[:at]) }
+      validate_seal_opens!
       check_passable!("gradient_anchor", @gradient_anchor) if @gradient_anchor
       validate_v2!
     end
@@ -195,6 +196,37 @@ module Core
       end
     end
 
+    # Seal opens law (s33; the refusal RECORDED at s31 + s32): downstream,
+    # a seal's opens is consumed BLIND — interact_seal reads it into
+    # breached? -> spend_banked -> restore_breach!, and the price sheet
+    # feeds it to the breached callback pre-breach — so an ill-shaped
+    # opens (nil / string pair / float / 3-element) or a legal-shaped
+    # opens naming NO transition BURNS the toll, opens nothing visible,
+    # and persists the inert fact into the save at clean quit. The save
+    # side is already guarded (SaveState's breached-vs-opens cross-check
+    # at restore); this is the missing zone-side half: refuse NAMED at
+    # load. Shape first (the s32 idiom), then bounds (a coordinate typo
+    # reads differently from a missing Transition entity), then the
+    # semantic kill — opens must name a transition tile in THIS zone.
+    # The importer's round-trip gate (validate_emitted!) composes this
+    # law automatically — hand-edited zones were the exposed path.
+    def validate_seal_opens!
+      @stations.each do |s|
+        next unless s[:type] == "seal"
+        opens = s[:opens]
+        unless tile_pair?(opens)
+          raise BadMap, "seal at #{s[:at].inspect}: opens must be an [x, y] tile (got #{opens.inspect})"
+        end
+        ox, oy = opens
+        if ox.negative? || oy.negative? || ox >= @cols || oy >= @rows
+          raise BadMap, "seal at #{s[:at].inspect}: opens #{opens.inspect} outside #{@cols}x#{@rows} map"
+        end
+        next if transition_at(ox, oy)
+        raise BadMap, "seal at #{s[:at].inspect}: opens #{opens.inspect} names no transition " \
+                      "(the toll would open nothing)"
+      end
+    end
+
     # Shape law (s31 review nit 1): destructuring a blind tile split
     # ill-shaped data two ways — UNNAMED crashes (nil / string pairs feed
     # passable?'s .negative?) and WORSE, silent mis-validation (Array#[]
@@ -202,11 +234,15 @@ module Core
     # against the WRONG tile while transition_at's == never matches: a
     # DEAD transition). Shape refuses NAMED first; then today's
     # passability check, unchanged. One choke point covers every caller
-    # (pack_spawn, enemy spawns, transitions, stations, gradient_anchor).
+    # (pack_spawn, enemy spawns, transitions, stations, gradient_anchor);
+    # the seal opens law above shares the predicate (never drift two
+    # copies of the tile shape).
+    def tile_pair?(tile)
+      tile.is_a?(Array) && tile.length == 2 && tile.all? { |v| v.is_a?(Integer) }
+    end
+
     def check_passable!(label, tile)
-      unless tile.is_a?(Array) && tile.length == 2 && tile.all? { |v| v.is_a?(Integer) }
-        raise BadMap, "#{label} must be an [x, y] tile (got #{tile.inspect})"
-      end
+      raise BadMap, "#{label} must be an [x, y] tile (got #{tile.inspect})" unless tile_pair?(tile)
       tx, ty = tile
       raise BadMap, "#{label} [#{tx}, #{ty}] is not passable" unless passable?(tx, ty)
     end
