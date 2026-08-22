@@ -179,7 +179,8 @@ class TypedTransitionsTest < Minitest::Test
     end
     { "banked" => 0, "provisions" => 0, "home_zone" => "upper", "breached" => [],
       "members" => members,
-      "counters" => { "boss_1_defeats" => defeats, "sessions" => 0 } }
+      "counters" => { "boss_1_defeats" => defeats, "sessions" => 0 },
+      "progression" => { "level" => 1, "xp" => 0 } }
   end
 
   def test_requires_defeats_blocks_while_the_counter_is_unmet

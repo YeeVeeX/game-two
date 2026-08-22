@@ -17,7 +17,8 @@ class PilotLoopTest < Minitest::Test
       { "kit" => kit, "hp" => 1, "inscribed" => false }
     end
     { "banked" => 60, "provisions" => 0, "home_zone" => "zone_7", "breached" => [],
-      "members" => members, "counters" => { "boss_1_defeats" => 1, "sessions" => 1 } }
+      "members" => members, "counters" => { "boss_1_defeats" => 1, "sessions" => 1 },
+      "progression" => { "level" => 1, "xp" => 0 } }
   end
 
   def drive(w, n = 2)

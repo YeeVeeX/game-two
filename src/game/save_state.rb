@@ -2,9 +2,10 @@ require "digest"
 require "json"
 
 module Game
-  # v18 persistence v1 (spec decisions 1/3/4/5/6a): the save vocabulary is
-  # FACTS, not a snapshot — {banked, provisions, home_zone, breached,
-  # members(kit/hp/inscribed), counters}. Everything else dies at the
+  # v18 persistence (spec decisions 1/3/4/5/6a) + v19 schema 2 (Lane 1
+  # T1, spec P3/P8): the save vocabulary is FACTS, not a snapshot —
+  # {banked, provisions, home_zone, breached, members(kit/hp/inscribed),
+  # counters, progression(level/xp)}. Everything else dies at the
   # session boundary by OMISSION (the projector's transient zero-list is
   # the classification table in save_state_test.rb, test-enforced).
   #
@@ -30,8 +31,13 @@ module Game
   #     enter_zone(home_zone) after apply! returns.
   #   - digest = md5 over canonical FACTS bytes; the envelope (schema,
   #     saved_at_ms) is NEVER digested (decision 5).
+  # Schema history: 1 = v18 (no progression key) — still LOADABLE via
+  # the one-hop upgrade lane (P8): v1 files validate under the frozen v1
+  # rules, gain progression {level 1, xp 0}, and the ORIGINAL bytes back
+  # up beside the save before the first v2 write (the owners' live save
+  # is never eaten by a version bump). Anything else refuses NAMED.
   module SaveState
-    SCHEMA = 1
+    SCHEMA = 2
 
     class EncodeError < StandardError; end
     # The projector found a state no legal save can represent (e.g. zero
@@ -58,6 +64,10 @@ module Game
         "counters" => {
           "boss_1_defeats" => world.boss_1_defeats,
           "sessions" => world.sessions
+        },
+        "progression" => {
+          "level" => world.progression.level,
+          "xp" => world.progression.xp
         }
       }
     end
@@ -128,20 +138,46 @@ module Game
     def envelope_refusal(env, data:)
       return "save envelope: not an object" unless env.is_a?(Hash)
       schema = env["schema"]
-      return "save schema: #{schema.inspect} unsupported (expected #{SCHEMA})" unless schema == SCHEMA
+      unless schema == SCHEMA || schema == 1
+        return "save schema: #{schema.inspect} unsupported (expected #{SCHEMA})"
+      end
       at = env["saved_at_ms"]
       return "save saved_at_ms: must be a non-negative Integer" unless non_neg_int?(at)
+      return v1_refusal_for(env["facts"], data:) if schema == 1
       refusal_for(env["facts"], data:)
     end
 
-    FACT_KEYS = %w[banked breached counters home_zone members provisions].freeze
+    # P8 one-hop upgrade, the pure half: a v1-valid facts tree becomes v2
+    # by injection — level 1, xp 0, the fresh-progression identity. The
+    # IO half (backing the original bytes up before the first v2 write)
+    # is the SaveStore's business.
+    def upgrade_v1(facts)
+      facts.merge("progression" => { "level" => 1, "xp" => 0 })
+    end
+
+    FACT_KEYS = %w[banked breached counters home_zone members progression provisions].freeze
+    # Schema 1's key set, FROZEN (P8): v1 files validate under the exact
+    # rules they were written under, then take the one-hop upgrade.
+    V1_FACT_KEYS = %w[banked breached counters home_zone members provisions].freeze
     MEMBER_KEYS = %w[hp inscribed kit].freeze
     COUNTER_KEYS = %w[boss_1_defeats sessions].freeze
+    PROGRESSION_KEYS = %w[level xp].freeze
 
     def refusal_for(facts, data:)
+      (r = facts_refusal(facts, data:, keys: FACT_KEYS)) and return r
+      progression_refusal(facts["progression"])
+    end
+
+    def v1_refusal_for(facts, data:)
+      facts_refusal(facts, data:, keys: V1_FACT_KEYS)
+    end
+
+    # The shared facts body: everything schemas 1 and 2 validate alike,
+    # with the expected key set as the one moving part.
+    def facts_refusal(facts, data:, keys:)
       return "save facts: not an object" unless facts.is_a?(Hash)
-      unless facts.keys.all? { |k| k.is_a?(String) } && facts.keys.sort == FACT_KEYS
-        return "save keys: expected #{FACT_KEYS.join(',')}, got #{facts.keys.map(&:to_s).sort.join(',')}"
+      unless facts.keys.all? { |k| k.is_a?(String) } && facts.keys.sort == keys
+        return "save keys: expected #{keys.join(',')}, got #{facts.keys.map(&:to_s).sort.join(',')}"
       end
       return "save banked: must be a non-negative Integer" unless non_neg_int?(facts["banked"])
       return "save provisions: must be a non-negative Integer" unless non_neg_int?(facts["provisions"])
@@ -149,6 +185,19 @@ module Game
       (r = breached_refusal(facts["breached"], data)) and return r
       (r = members_refusal(facts["members"], data)) and return r
       counters_refusal(facts["counters"])
+    end
+
+    def progression_refusal(prog)
+      return "save progression: not an object" unless prog.is_a?(Hash)
+      unless prog.keys.all? { |k| k.is_a?(String) } && prog.keys.sort == PROGRESSION_KEYS
+        return "save progression: keys must be exactly #{PROGRESSION_KEYS.join(',')}"
+      end
+      level = prog["level"]
+      unless level.is_a?(Integer) && level >= 1
+        return "save progression.level: must be an Integer >= 1"
+      end
+      return "save progression.xp: must be a non-negative Integer" unless non_neg_int?(prog["xp"])
+      nil
     end
 
     def home_refusal(home, data)
@@ -267,8 +316,29 @@ module Game
       end
 
       counters = facts.fetch("counters")
-      world.load_counters!(boss_1_defeats: counters.fetch("boss_1_defeats"),
-                           sessions: counters.fetch("sessions"))
+      world.progression.load_counters!(
+        boss_1_defeats: counters.fetch("boss_1_defeats"),
+        sessions: counters.fetch("sessions")
+      )
+
+      # P3's churn law, the hp-clamp pattern verbatim: a curve/cap retune
+      # must never brick a save. Level clamps to the (possibly lowered)
+      # cap; xp clamps under the NEXT level's cost — both read through the
+      # live Progression object, never reimplemented here.
+      prog = facts.fetch("progression")
+      level = prog.fetch("level")
+      cap = world.progression.level_cap
+      if level > cap
+        warn "save: clamped level #{level} -> #{cap} (level cap changed)"
+        level = cap
+      end
+      xp = prog.fetch("xp")
+      ceiling = world.progression.delta_e(level + 1)
+      if xp >= ceiling
+        warn "save: clamped xp #{xp} -> #{ceiling - 1} (curve changed)"
+        xp = ceiling - 1
+      end
+      world.progression.load_progress!(level:, xp:)
     end
   end
 end

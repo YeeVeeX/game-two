@@ -91,8 +91,16 @@ class SaveStateTest < Minitest::Test
         { "kit" => "blocker", "hp" => 0, "inscribed" => true },
         { "kit" => "lobber", "hp" => 33, "inscribed" => false }
       ],
-      "counters" => { "boss_1_defeats" => 2, "sessions" => 5 }
+      "counters" => { "boss_1_defeats" => 2, "sessions" => 5 },
+      "progression" => { "level" => 1, "xp" => 0 }
     }
+  end
+
+  # Schema 1's facts shape — what every pre-v19 file on disk carries.
+  def v1_facts
+    f = valid_facts
+    f.delete("progression")
+    f
   end
 
   def refusal(facts) = SS.refusal_for(facts, data: DATA)
@@ -138,9 +146,12 @@ class SaveStateTest < Minitest::Test
 
   def test_facts_shape_exact_keys_and_roster_order
     f = SS.facts(world)
-    assert_equal %w[banked breached counters home_zone members provisions], f.keys.sort
+    assert_equal %w[banked breached counters home_zone members progression provisions], f.keys.sort
     assert_equal %w[striker blocker lobber], f["members"].map { |m| m["kit"] }
     assert_equal %w[boss_1_defeats sessions], f["counters"].keys.sort
+    assert_equal %w[level xp], f["progression"].keys.sort
+    assert_equal [1, 0], f["progression"].values_at("level", "xp"),
+                 "T1 law: level fixed at 1, xp 0 — nothing awards yet"
     assert_nil refusal(f)
   end
 
@@ -502,7 +513,15 @@ class SaveStateTest < Minitest::Test
       "no living member" => [valid_facts.tap { |f| f["members"].each { |m| m["hp"] = 0 } }, /living/],
       "counters keys" => [valid_facts.merge("counters" => { "boss_1_defeats" => 1 }), /counters/],
       "counters type" => [valid_facts.merge("counters" => { "boss_1_defeats" => "x", "sessions" => 0 }), /counters/],
-      "counters range" => [valid_facts.merge("counters" => { "boss_1_defeats" => -1, "sessions" => 0 }), /counters/]
+      "counters range" => [valid_facts.merge("counters" => { "boss_1_defeats" => -1, "sessions" => 0 }), /counters/],
+      "progression not object" => [valid_facts.merge("progression" => 5), /progression/],
+      "progression missing key" => [valid_facts.merge("progression" => { "level" => 1 }), /progression/],
+      "progression extra key" => [valid_facts.merge("progression" => { "level" => 1, "xp" => 0, "hp" => 9 }), /progression/],
+      "progression symbol keys" => [valid_facts.merge("progression" => { level: 1, xp: 0 }), /progression/],
+      "level zero" => [valid_facts.merge("progression" => { "level" => 0, "xp" => 0 }), /level/],
+      "level type" => [valid_facts.merge("progression" => { "level" => 1.0, "xp" => 0 }), /level/],
+      "xp negative" => [valid_facts.merge("progression" => { "level" => 1, "xp" => -1 }), /xp/],
+      "xp type" => [valid_facts.merge("progression" => { "level" => 1, "xp" => "0" }), /xp/]
     }
     cases.each do |label, (facts, pattern)|
       r = refusal(deep_dup(facts))
@@ -514,11 +533,79 @@ class SaveStateTest < Minitest::Test
   def test_envelope_refusal_names_schema_skew_and_shape
     f = valid_facts
     assert_nil SS.envelope_refusal(SS.envelope(f, saved_at_ms: 5), data: DATA)
-    assert_match(/schema/, SS.envelope_refusal({ "schema" => 2, "saved_at_ms" => 5, "facts" => f }, data: DATA))
+    assert_match(/schema/, SS.envelope_refusal({ "schema" => 3, "saved_at_ms" => 5, "facts" => f }, data: DATA))
+    assert_match(/schema/, SS.envelope_refusal({ "schema" => "2", "saved_at_ms" => 5, "facts" => f }, data: DATA))
     assert_match(/schema/, SS.envelope_refusal({ "saved_at_ms" => 5, "facts" => f }, data: DATA))
     assert_match(/envelope/, SS.envelope_refusal([], data: DATA))
-    assert_match(/saved_at_ms/, SS.envelope_refusal({ "schema" => 1, "saved_at_ms" => 1.5, "facts" => f }, data: DATA))
-    assert_match(/facts/, SS.envelope_refusal({ "schema" => 1, "saved_at_ms" => 5, "facts" => [] }, data: DATA))
+    assert_match(/saved_at_ms/, SS.envelope_refusal({ "schema" => SS::SCHEMA, "saved_at_ms" => 1.5, "facts" => f }, data: DATA))
+    assert_match(/facts/, SS.envelope_refusal({ "schema" => SS::SCHEMA, "saved_at_ms" => 5, "facts" => [] }, data: DATA))
+  end
+
+  # --- 7b. the v1 → v2 upgrade lane (P8, pure half — IO in save_store_test) --
+
+  def test_v1_facts_validate_under_the_frozen_v1_rules_only
+    assert_nil SS.v1_refusal_for(v1_facts, data: DATA)
+    assert_match(/keys/, refusal(v1_facts),
+                 "v1 facts must NOT pass the v2 decoder")
+    assert_match(/keys/, SS.v1_refusal_for(valid_facts, data: DATA),
+                 "v2 facts must NOT pass the frozen v1 decoder")
+    assert_match(/banked/, SS.v1_refusal_for(v1_facts.merge("banked" => -1), data: DATA),
+                 "the v1 lane stays STRICT — shared refusals still bite")
+  end
+
+  def test_envelope_refusal_routes_schema_1_to_the_v1_rules
+    assert_nil SS.envelope_refusal(
+      { "schema" => 1, "saved_at_ms" => 5, "facts" => v1_facts }, data: DATA
+    )
+    assert_match(/keys/, SS.envelope_refusal(
+      { "schema" => 1, "saved_at_ms" => 5, "facts" => valid_facts }, data: DATA
+    ), "a schema-1 envelope carrying v2 facts must refuse")
+  end
+
+  def test_upgrade_v1_injects_fresh_progression_and_is_pure
+    f = v1_facts
+    before = deep_dup(f)
+    up = SS.upgrade_v1(f)
+    assert_equal({ "level" => 1, "xp" => 0 }, up["progression"])
+    assert_nil refusal(up), "an upgraded v1 tree must be a valid v2 save"
+    assert_equal before, f, "upgrade_v1 must not mutate its input"
+  end
+
+  def test_v1_upgrade_round_trip_is_v2_byte_stable
+    up = SS.upgrade_v1(v1_facts)
+    loaded = world(save: deep_dup(up))
+    assert_equal bytes(up), world_bytes(loaded),
+                 "v1 → upgrade → apply → project must round-trip byte-exact as v2"
+  end
+
+  # --- 7c. progression apply: clamps warn + proceed (P3's churn law) -------
+
+  def progression_facts(level:, xp:)
+    valid_facts.merge("progression" => { "level" => level, "xp" => xp })
+  end
+
+  def test_progression_facts_round_trip_through_apply
+    f = progression_facts(level: 2, xp: 10)
+    w = world(save: deep_dup(f))
+    assert_equal [2, 10], [w.progression.level, w.progression.xp]
+    assert_equal bytes(f), world_bytes(w)
+  end
+
+  def test_apply_clamps_level_to_the_current_cap_warn_and_proceed
+    cap = DATA["balance/progression"][:curve][:level_cap]
+    w = nil
+    _, err = capture_io { w = world(save: progression_facts(level: cap + 5, xp: 0)) }
+    assert_equal cap, w.progression.level, "level clamps to the cap (cap-lowered law)"
+    assert_match(/clamped level/, err, "the clamp must WARN, never silently rewrite")
+  end
+
+  def test_apply_clamps_xp_below_the_next_level_cost_warn_and_proceed
+    ceiling = Game::Progression.new(config: DATA["balance/progression"]).delta_e(2)
+    w = nil
+    _, err = capture_io { w = world(save: progression_facts(level: 1, xp: ceiling + 40)) }
+    assert_equal ceiling - 1, w.progression.xp, "xp clamps under ΔE(level+1) (curve-churn law)"
+    assert_equal 1, w.progression.level
+    assert_match(/clamped xp/, err)
   end
 
   # --- 8. classification exhaustiveness (lane 7, W1's tripwire) -----------

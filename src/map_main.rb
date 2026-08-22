@@ -33,7 +33,8 @@ module App
       { "kit" => "blocker", "hp" => 160, "inscribed" => false },
       { "kit" => "lobber", "hp" => 60, "inscribed" => false }
     ],
-    "counters" => { "boss_1_defeats" => 3, "sessions" => 5 }
+    "counters" => { "boss_1_defeats" => 3, "sessions" => 5 },
+    "progression" => { "level" => 1, "xp" => 0 }
   }.freeze
 
   class MapWindow < Gosu::Window

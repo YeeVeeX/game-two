@@ -19,6 +19,13 @@ module App
   # The written envelope embeds the canonical facts byte form VERBATIM
   # (decision 5): the digest a persist line prints is md5 over exactly
   # those bytes, recomputed at print time — never an echo.
+  #
+  # v19 T1 (spec P8): a schema-1 file takes the ONE-HOP UPGRADE at load
+  # (strict v1 validation, then progression {level 1, xp 0} injected);
+  # the ORIGINAL v1 bytes back up to .bak-schema1-<ts> at the FIRST v2
+  # write — not at load, so read-only consumers (rake map) stay free of
+  # side effects, and a session that never saves leaves the v1 file
+  # untouched on disk.
   class SaveStore
     Loaded = Data.define(:facts, :digest, :notices)
     Refused = Data.define(:refusal, :notices)
@@ -52,6 +59,12 @@ module App
       refusal = Game::SaveState.envelope_refusal(env, data:)
       return Refused.new(refusal: "#{refusal}#{bak_hint}", notices:) if refusal
       facts = env["facts"]
+      if env["schema"] == 1
+        @v1_raw = raw # original bytes, owed a backup before the first v2 write
+        facts = Game::SaveState.upgrade_v1(facts)
+        notices << "save schema 1 upgraded to #{Game::SaveState::SCHEMA} " \
+                   "(original backs up beside the save at first write)"
+      end
       Loaded.new(facts:, digest: Game::SaveState.digest(facts), notices:)
     end
 
@@ -59,6 +72,7 @@ module App
     # are now on disk. Raises WriteError (named, .tmp intact) when the
     # replace is refused past the bounded retry.
     def write(facts, saved_at_ms: (Time.now.to_f * 1000).to_i)
+      backup_schema1!
       canonical = Game::SaveState.canonical_bytes(facts)
       digest = Digest::MD5.hexdigest(canonical)
       payload = %({"schema":#{Game::SaveState::SCHEMA},"saved_at_ms":#{Integer(saved_at_ms)},"facts":#{canonical}})
@@ -102,6 +116,17 @@ module App
     end
 
     private
+
+    # P8's backup law (the --fresh pattern, COPY not rename — the live
+    # file must stay loadable until the v2 write replaces it): fires at
+    # most once per loaded v1 file, right before the first write.
+    def backup_schema1!
+      return unless @v1_raw
+      bak = "#{@path}.bak-schema1-#{Time.now.strftime('%Y%m%d%H%M%S')}"
+      File.open(bak, "wb") { |f| f.write(@v1_raw) }
+      @v1_raw = nil
+      warn "save: schema-1 original backed up to #{bak}"
+    end
 
     def replace!(tmp)
       attempts = 0

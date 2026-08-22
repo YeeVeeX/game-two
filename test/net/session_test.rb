@@ -31,7 +31,8 @@ class SessionTest < Minitest::Test
         { "kit" => "blocker", "hp" => 0, "inscribed" => true },
         { "kit" => "lobber", "hp" => 33, "inscribed" => false }
       ],
-      "counters" => { "boss_1_defeats" => 2, "sessions" => 5 }
+      "counters" => { "boss_1_defeats" => 2, "sessions" => 5 },
+      "progression" => { "level" => 1, "xp" => 0 }
     }
   end
 

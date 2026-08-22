@@ -40,8 +40,23 @@ class SaveStoreTest < Minitest::Test
         { "kit" => "blocker", "hp" => 0, "inscribed" => true },
         { "kit" => "lobber", "hp" => 33, "inscribed" => false }
       ],
-      "counters" => { "boss_1_defeats" => 2, "sessions" => sessions }
+      "counters" => { "boss_1_defeats" => 2, "sessions" => sessions },
+      "progression" => { "level" => 1, "xp" => 0 }
     }
+  end
+
+  # Schema 1 on disk, byte-exact: what every pre-v19 save file carries.
+  def v1_facts(banked: 12, sessions: 5)
+    f = facts(banked:, sessions:)
+    f.delete("progression")
+    f
+  end
+
+  def write_v1!(store, f = v1_facts)
+    FileUtils.mkdir_p(File.dirname(store.path))
+    payload = %({"schema":1,"saved_at_ms":1,"facts":#{SS.canonical_bytes(f)}})
+    File.write(store.path, payload, mode: "wb")
+    payload
   end
 
   def world = Game::World.new(DATA, seed: 5)
@@ -165,7 +180,7 @@ class SaveStoreTest < Minitest::Test
   def test_schema_skew_refuses_named
     with_store do |store, _|
       FileUtils.mkdir_p(File.dirname(store.path))
-      File.write(store.path, %({"schema":2,"saved_at_ms":1,"facts":#{SS.canonical_bytes(facts)}}))
+      File.write(store.path, %({"schema":3,"saved_at_ms":1,"facts":#{SS.canonical_bytes(facts)}}))
       r = store.load(data: DATA)
       assert_instance_of App::SaveStore::Refused, r
       assert_match(/schema/, r.refusal)
@@ -177,6 +192,66 @@ class SaveStoreTest < Minitest::Test
       r = store.load(data: DATA)
       assert_instance_of App::SaveStore::Fresh, r
       assert_empty r.notices
+    end
+  end
+
+  # --- schema-1 one-hop upgrade lane (P8: upgrade at load, backup at first
+  # write — COPY not rename, so a session that never saves leaves the v1
+  # file untouched and read-only consumers stay side-effect-free) ----------
+
+  def test_schema_1_file_loads_upgraded_with_a_named_notice
+    with_store do |store, _|
+      payload = write_v1!(store)
+      loaded = store.load(data: DATA)
+      assert_instance_of App::SaveStore::Loaded, loaded
+      assert_equal({ "level" => 1, "xp" => 0 }, loaded.facts["progression"])
+      assert_equal 12, loaded.facts["banked"]
+      assert_equal SS.digest(loaded.facts), loaded.digest,
+                   "digest recomputed over the UPGRADED facts"
+      assert loaded.notices.any? { |n| n.include?("schema 1 upgraded") },
+             "the upgrade must be NAMED at load: #{loaded.notices}"
+      assert_empty Dir["#{store.path}.bak-schema1-*"],
+                   "no backup at LOAD — the backup rides the first write"
+      assert_equal payload, File.read(store.path, mode: "rb"),
+                   "load must leave the v1 file byte-identical on disk"
+    end
+  end
+
+  def test_first_write_after_v1_load_backs_up_the_original_bytes_exactly_once
+    with_store do |store, _|
+      payload = write_v1!(store)
+      loaded = store.load(data: DATA)
+      capture_io { store.write(loaded.facts, saved_at_ms: 2) }
+      baks = Dir["#{store.path}.bak-schema1-*"]
+      assert_equal 1, baks.length, "backup file created exactly once"
+      assert_equal Digest::MD5.hexdigest(payload),
+                   Digest::MD5.hexdigest(File.read(baks[0], mode: "rb")),
+                   "the backup must hold the ORIGINAL v1 bytes (md5-equal)"
+      env = JSON.parse(File.read(store.path, mode: "rb"))
+      assert_equal SS::SCHEMA, env["schema"], "the live save is v2 after the write"
+      capture_io { store.write(loaded.facts, saved_at_ms: 3) }
+      assert_equal baks, Dir["#{store.path}.bak-schema1-*"],
+                   "a second write must not back up again"
+      reloaded = store.load(data: DATA)
+      assert_empty reloaded.notices, "the upgraded save reloads as plain v2"
+      assert_equal loaded.facts, reloaded.facts
+    end
+  end
+
+  def test_v1_load_and_coordinator_quit_lands_v2_plus_backup
+    with_store do |store, _|
+      write_v1!(store)
+      loaded = store.load(data: DATA)
+      w = Game::World.new(DATA, seed: 5, save: loaded.facts)
+      line = nil
+      capture_io do
+        line = App::SaveCoordinator.new(store:, owner: true).close(world: w, reason: :quit)
+      end
+      assert_match(/\ATELEMETRY persist saved digest=\h{32} schema=2 /, line)
+      assert_equal 1, Dir["#{store.path}.bak-schema1-*"].length,
+                   "the owners' v1 bytes survive the first real quit-write"
+      assert_equal 6, store.load(data: DATA).facts["counters"]["sessions"],
+                   "sessions bumps through the upgrade lane like any save"
     end
   end
 
@@ -205,7 +280,7 @@ class SaveStoreTest < Minitest::Test
       w.pack.bank!(31)
       coord = App::SaveCoordinator.new(store:, owner: true)
       line = coord.close(world: w, reason: :quit)
-      assert_match(/\ATELEMETRY persist saved digest=\h{32} schema=1 /, line)
+      assert_match(/\ATELEMETRY persist saved digest=\h{32} schema=2 /, line)
       assert_includes line, "banked=31"
       loaded = store.load(data: DATA)
       assert_equal 31, loaded.facts["banked"]
@@ -255,13 +330,13 @@ class SaveStoreTest < Minitest::Test
     f = facts
     d = SS.digest(f)
     saved = App::SaveStore.persist_line("saved", facts: f, digest: d)
-    assert_equal "TELEMETRY persist saved digest=#{d} schema=1 banked=12 " \
+    assert_equal "TELEMETRY persist saved digest=#{d} schema=2 banked=12 " \
                  "provisions=1 seals=1 marks=1 sessions=5", saved
     loaded = App::SaveStore.persist_line("loaded", facts: f, digest: d, source: "file")
-    assert_equal "TELEMETRY persist loaded digest=#{d} schema=1 banked=12 " \
+    assert_equal "TELEMETRY persist loaded digest=#{d} schema=2 banked=12 " \
                  "provisions=1 seals=1 marks=1 sessions=5 source=file", loaded
     fresh = App::SaveStore.persist_line("fresh", source: "fresh")
-    assert_equal "TELEMETRY persist fresh schema=1 source=fresh", fresh
+    assert_equal "TELEMETRY persist fresh schema=2 source=fresh", fresh
   end
 
   def test_loaded_line_digest_matches_what_a_world_actually_applies

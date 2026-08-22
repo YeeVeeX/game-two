@@ -31,7 +31,8 @@ class OpenGateCompositionTest < Minitest::Test
     end
     { "banked" => 7, "provisions" => 0, "home_zone" => "camp", "breached" => [],
       "members" => members,
-      "counters" => { "boss_1_defeats" => defeats, "sessions" => 13 } }
+      "counters" => { "boss_1_defeats" => defeats, "sessions" => 13 },
+      "progression" => { "level" => 1, "xp" => 0 } }
   end
 
   def world(defeats:)

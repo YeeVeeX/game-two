@@ -1,0 +1,10 @@
+{
+  "curve": { "k": 40, "level_cap": 10 },
+  "growth": { "dmg_growth_pct": 8, "hp_growth_pct": 6 },
+  "kill_xp": { "husk": 8, "rusher": 15, "rusher_hater": 25, "challenger": 120 },
+  "spell_growth": {
+    "lobber": {
+      "special_impact_distances": { "5": [2, 3, 4, 5], "8": [2, 3, 4, 5, 6] }
+    }
+  }
+}

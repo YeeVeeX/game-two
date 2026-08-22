@@ -15,6 +15,7 @@ require "game/fight_ledger"
 require "game/field_economy"
 require "game/price_sheet"
 require "game/crossing"
+require "game/progression"
 require "game/save_state"
 
 module Game
@@ -42,7 +43,7 @@ module Game
     HOME_ZONE = "nest".freeze # the INITIAL home only — @home_zone advances (v12)
 
     attr_reader :bus, :pack, :feel, :states, :frame, :zone_name, :rng, :respawn_rng,
-                :home_zone, :boss_1_defeats, :sessions, :field_economy, :tile_registry
+                :home_zone, :progression, :field_economy, :tile_registry
 
     def initialize(data, seed: 0, seats: 1, save: nil)
       # v17 seat map (spec Sim spec): seat ids are PINNED [1..n]; every
@@ -98,11 +99,9 @@ module Game
       @field = FieldEconomy.new(bus: @bus, rng: @rng,
                                 drops_cfg: @balance[:drops], death_cfg: @death)
       @field_economy = @field
-      # v18 persisted counters (spec F1): the defeat accrues across
-      # sessions while the fight itself re-arms every session; sessions
-      # is bumped by the save coordinator at write time, never by the sim.
-      @boss_1_defeats = 0
-      @sessions = 0
+      # Every persistent growth fact (v18 counters, v19 level/xp) lives
+      # in ONE plain object (Lane 1 T1, spec P14) — World delegates.
+      @progression = Progression.new(config: data["balance/progression"])
       @taunt_pulses = []
       @kill_pops = []
       @seal_marks = []
@@ -121,7 +120,7 @@ module Game
       # Crossing policy (T4 extraction, line-cap law): open/consent/arrival
       # decisions live in a plain object; World does the moving.
       @crossing = Crossing.new(zones: @zones, breached: method(:breached?),
-                               defeats: -> { @boss_1_defeats },
+                               defeats: -> { @progression.boss_1_defeats },
                                living: -> { @pack.living.length })
       # First-possession registry (v14): cosmetic sim state the sim never
       # reads (taunt_pulses precedent) — the controls overlay derives its
@@ -246,10 +245,9 @@ module Game
       @home_zone = zone
     end
 
-    def load_counters!(boss_1_defeats:, sessions:)
-      @boss_1_defeats = boss_1_defeats
-      @sessions = sessions
-    end
+    # Persistent growth facts read through the Progression carve (P14).
+    def boss_1_defeats = @progression.boss_1_defeats
+    def sessions = @progression.sessions
 
     def save_facts = SaveState.facts(self)
 
@@ -653,7 +651,7 @@ module Game
         ["rearm_needed", @seats.map { |s| "#{s}:#{@rearm_needed[s]}" }.join("|")],
         ["corpse_serial", @field.corpse_serial],
         ["rng_draws", @rng.draws], ["respawn_rng_draws", @respawn_rng.draws],
-        ["boss_1_defeats", @boss_1_defeats], ["sessions", @sessions]
+        ["boss_1_defeats", boss_1_defeats], ["sessions", sessions]
       ] + @feel.digest_fields
       groups = [["world", world_fields], ["pack", @pack.digest_fields]]
       @pack.members.each_with_index { |m, i| groups << ["pack.#{i}", m.digest_fields] }
@@ -1621,10 +1619,9 @@ module Game
           @feel.on_kill if controlled?(e[:killer])
           # v15: the challenger's death closes the boss fight (placeholder
           # text per the 2026-08-16 owner order: no lore in this repo).
-          # v18: the defeat ACCRUES (persisted counter, F1); the fight
-          # itself respawns with every session's fresh field.
+          # v18 F1: the defeat ACCRUES (persisted, Progression's ledger).
           if e[:actor].kit[:seize]
-            @boss_1_defeats += 1
+            @progression.record_boss_1_defeat!
             enqueue_stamp("challenger.term.line", "BOSS 1 DEFEATED",
                           at: e[:actor].tile)
           end

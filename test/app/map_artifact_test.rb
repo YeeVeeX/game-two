@@ -23,7 +23,8 @@ class MapArtifactTest < Minitest::Test
       { "kit" => "blocker", "hp" => 160, "inscribed" => false },
       { "kit" => "lobber", "hp" => 60, "inscribed" => false }
     ],
-    "counters" => { "boss_1_defeats" => 3, "sessions" => 5 }
+    "counters" => { "boss_1_defeats" => 3, "sessions" => 5 },
+    "progression" => { "level" => 1, "xp" => 0 }
   }.freeze
 
   def artifact
@@ -153,7 +154,8 @@ class MapArtifactTest < Minitest::Test
       { "kit" => kit, "hp" => 1, "inscribed" => false }
     end
     facts = { "banked" => 0, "provisions" => 0, "home_zone" => "nest", "breached" => [],
-              "members" => members, "counters" => { "boss_1_defeats" => 4, "sessions" => 1 } }
+              "members" => members, "counters" => { "boss_1_defeats" => 4, "sessions" => 1 },
+              "progression" => { "level" => 1, "xp" => 0 } }
     w = well_world(save: facts)
     map = w.zone_maps.fetch("upper")
     assert_equal WELL_ZONE[:palette][:transition], artifact.cell_rgb(w, "upper", map, 5, 5)
