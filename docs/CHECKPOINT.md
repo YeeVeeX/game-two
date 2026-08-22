@@ -1,5 +1,51 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-22 session 45 (hub) — T3 BRIEF CUT (presentation: level/XP HUD strip + level-up feel beat; s46 executes)
+
+**Job 0 (open = clean):** origin tip `91fdc00` = s44's gate-verdicts
+docs commit above the expected `72a510b` checkpoint commit — both s44
+artifacts, docs-only, GOOD delta; save `98fe75ed…` mtime 08-20 15:51
+(md5 verified at open + close); launcher logs 40 newest 08-21 01:39;
+mail inbox EMPTY (`done/` archive only); `drafts/_refs/` untracked by
+design. Zero peer deltas. Brief-writer wrote ZERO code.
+
+**T3 brief landed (`drafts/_prog-t3-presentation.md`)** —
+grill-and-ticket stage 2. Shape: TWO commits (A `feat(hud)` = level/XP
+strip under the hp bars in `draw_hud` — label + thin gold bar, bar-only
+progress, cap draws full; B `feat(feel)` = gold stamp banner "LEVEL N"
+via new entry `suffix` + gold shard pops on living pack tiles through a
+new Transients record, pushed from world.rb's EXISTING `:level_up`
+branch). Key decisions, all defended in the brief: **(1) `:level_up`
+does NOT enter the wall EventLog** — the full versioned-bank price
+(owner approval + stream-diff audit + history row, review NIT 2) is
+recorded and deliberately not paid: a temp instrumented driver finds
+the beat frame, the replay log's `TELEMETRY progression` line is the
+byte proof, and T3 stays canary-silent for Junior's cross-machine
+re-prove; (2) wiring is world-side-at-emit (the harness never
+constructs App::Window, so a window/renderer subscriber could never be
+gated — kill_pop precedent), world.rb net ≤ +6 / final ≤ 1796, zero new
+sim state; (3) new harness `progression` start param (stage level 1 xp
+79 → ONE rusher kill fires the beat; T5's fixture primitive too); (4)
+wall debt = FULL sweep (~22 scripts, ~2h detached) — the strip moves
+EVERY world capture — plus netplay ×3, new wall script
+`level_up_beat.json`, two new gate checks, locale keys `hud.level` +
+`stamp.level_up` en/es-CR/pt-br. NIT 1 (save_state `cap` shadow)
+PARKED for the next save_state ticket — T3 never opens the file.
+kills_xp stays telemetry-only (J-3 stats panel owns detail readouts).
+Sim numbers: NONE move.
+
+**Next (s46):** execute the brief (spark
+`drafts/_session-46-spark-20260822.md`, clipboarded at close).
+
+**Job-0 baselines for s46:** origin tip = this s45 docs commit (brief +
+checkpoint + spark) above `91fdc00` · save `98fe75ed…` mtime 08-20
+15:51 · launcher logs 40, newest 08-21 01:39 · mail inbox EMPTY.
+
+**Owner-pending carry (never nag):** ear-checks · T3 footstep/bed
+renders (water family needs a NEW mail) · coop S1 · SHARED-save first
+crossing · J-5 spike call · WorldSmith proposal (INCOMING) · R-A2
+escalation call (after the next real play session).
+
 ## 2026-08-22 session 43+44 (hub) — T2 SHIPPED: kill XP → level → stats live · digest v2 · versioned canary bank (owner-approved) · all 5 gates + perf green · review PASS
 
 **One entry for two sessions:** s43 built A+B (committed) + staged C,
