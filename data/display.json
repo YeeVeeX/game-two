@@ -37,6 +37,20 @@
  "overlay_section_gap": 20,
  "overlay_pulse_frames": 45,
  "overlay_pulse_alpha": 230,
+ "hud_level_y": 78,
+ "hud_level_bar_x": 140,
+ "hud_level_bar_w": 200,
+ "hud_level_bar_h": 6,
+ "hud_level_rgb": [
+  200,
+  160,
+  80
+ ],
+ "hud_level_back_rgb": [
+  45,
+  32,
+  22
+ ],
  "chant_ring_rgb": [
   60,
   100,

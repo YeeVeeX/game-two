@@ -28,6 +28,7 @@
   "challenger.term.line": "BOSS 1 DEFEATED",
   "stamp.mark_void": "MARK LOST",
   "hud.provisions": "PROVISION",
+  "hud.level": "LEVEL",
   "cue.provision_bought": "PROVISION BOUGHT",
   "cue.provision_used": "PROVISION USED",
   "cue.provision_refused": "REFUSED",

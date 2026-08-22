@@ -919,6 +919,21 @@ module App
           hud_font.draw_text(m.carried.to_s, 332, y, 20, 1, 1, DROP_CORE)
         end
       end
+      # Pack level strip (T3, quiet-HUD law): label + bar-only progress —
+      # no xp numerals (exact readouts belong to J-3's stats panel). Bar
+      # starts at a fixed x so the layout never shifts under any label
+      # width. At the cap the fill draws FULL: xp pins at ceiling−1 by the
+      # award invariant, and a 99% bar forever would read "almost there".
+      prog = world.progression
+      sy = @display.fetch(:hud_level_y, 78)
+      gold = color(@display.fetch(:hud_level_rgb, [200, 160, 80]))
+      hud_font.draw_text("#{tr('hud.level', 'LEVEL')} #{prog.level}", 32, sy, 20, 1, 1, gold)
+      bx = @display.fetch(:hud_level_bar_x, 140)
+      bw = @display.fetch(:hud_level_bar_w, 200)
+      bh = @display.fetch(:hud_level_bar_h, 6)
+      Gosu.draw_rect(bx, sy + 4, bw, bh, color(@display.fetch(:hud_level_back_rgb, [45, 32, 22])))
+      fill = prog.level >= prog.level_cap ? bw : (bw * prog.xp) / prog.delta_e(prog.level + 1)
+      Gosu.draw_rect(bx, sy + 4, fill, bh, gold) if fill.positive?
     end
 
     # Living off-screen kin show as kit-colored pips clamped to the viewport
