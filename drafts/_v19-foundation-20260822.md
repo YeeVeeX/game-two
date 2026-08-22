@@ -1,11 +1,14 @@
 # v19 FOUNDATION — brainstorm 2026-08-22 (session 39)
 
-**Status: IN PROGRESS — verdicts append one at a time as the owners
-rule.** Facilitated by the dev of record; Gabriel live; Junior async
-(2026-08-22 order: development never gates on peer availability).
-Every decision carries RATIFIED-G (Gabriel, live) and PENDING-J
-(Junior, async in the hub chat or his next session). The AGENTS
-cycle-section rewrite lands only after BOTH ratify.
+**Status: CLOSED — DOUBLE-RATIFIED 2026-08-22.** Facilitated by the
+dev of record; Gabriel live; Junior async (2026-08-22 order:
+development never gates on peer availability). Every decision carries
+RATIFIED-G (Gabriel, live 2026-08-22) and RATIFIED-J (Junior, same
+day, verbatim "ratifico tudo" — all 28 rows, zero objections:
+`drafts/_junior-ratificacao-v19-20260822.md`, commit `cbda479`).
+Both marks in ⇒ the AGENTS cycle-section rewrite UNLOCKED (landed
+s40). RATIFIED-J marks below were flipped mechanically at s40 from
+the one "ratifico tudo" line — per-row verbatims are Gabriel's.
 
 Inputs (all verified live at session open): agenda
 `drafts/_v19-intake-docket-20260820.md` · prep
@@ -31,11 +34,11 @@ pending). Zero deltas; nothing preempts.
 BLESSED by Gabriel live 2026-08-22 (verbatim: "I bless it, and ratify
 the shape, but first request /council-consult on it for any insights,
 recommendations, gaps, things we are missing or overlooking, etc") —
-RATIFIED-G · PENDING-J.
+RATIFIED-G · RATIFIED-J.
 
 ## Lanes (ratified one candidate at a time)
 
-### Lane 1 — PROGRESSION v1 (THE v19 headline) — RATIFIED-G 2026-08-22 · PENDING-J
+### Lane 1 — PROGRESSION v1 (THE v19 headline) — RATIFIED-G 2026-08-22 · RATIFIED-J
 
 **Owner verdict (verbatim, Gabriel, live): "proceed as you recommend"** —
 ratifies the lane commit AND forks A1/A2/A3 as recommended.
@@ -74,7 +77,7 @@ formula sits in the hot path) · netplay gates untouched-green.
 touch `world.rb` at the 1,800 cap; extraction into a plain object
 (Progression) per the Crossing precedent, s31.
 
-### Lane 2 — WORLD GEOGRAPHY & ECONOMY (one lane, five rows) — RATIFIED-G 2026-08-22 · PENDING-J
+### Lane 2 — WORLD GEOGRAPHY & ECONOMY (one lane, five rows) — RATIFIED-G 2026-08-22 · RATIFIED-J
 
 **Owner verdict (verbatim, Gabriel, live): "approved as recommended,
 proceed"** — ratifies the lane AND positions B1–B5 as recommended.
@@ -121,7 +124,7 @@ re-session; ALL Lane 2 data moves land BEFORE the v19 ritual stages
 sustain-exposure surfaces · suite via hooks · zone-authoring through
 the strict importer (WB laws) · data-only re-sessions per knob.
 
-### Lane 3 — LIVING WORLD & AI (J-7 · finding A · row 6) — RATIFIED-G 2026-08-22 · PENDING-J
+### Lane 3 — LIVING WORLD & AI (J-7 · finding A · row 6) — RATIFIED-G 2026-08-22 · RATIFIED-J
 
 **Owner verdict (verbatim, Gabriel, live): "approved as recommended,
 proceed"** — ratifies the lane AND C1/C2/C3 as recommended.
@@ -162,7 +165,7 @@ catch-up stays off the hot path) · re-session per sim change.
 catch-up touch world.rb at cap; extraction (e.g. ZoneClock/Homecoming
 object) per the Crossing precedent if the touch is material.
 
-### Lane 4 — PRESENTATION & LEGIBILITY (J-6 · J-3 · J-5 + fork family) — RATIFIED-G 2026-08-22 · PENDING-J
+### Lane 4 — PRESENTATION & LEGIBILITY (J-6 · J-3 · J-5 + fork family) — RATIFIED-G 2026-08-22 · RATIFIED-J
 
 **Owner verdict (verbatim, Gabriel, live): "approved as recommended,
 proceed"** — ratifies the lane, the J-3 scope fence, the J-5 spike
@@ -215,44 +218,44 @@ own state module on the bus, never in the orchestrator.
   skill-through-use PARKED (needs per-verb telemetry + a balance
   surface that doesn't exist; the owners' named touchstones (WoW/TES)
   are level-based; Tibia's model recorded as a future evolution).
-  Verdict: "proceed as you recommend" — RATIFIED-G · PENDING-J.
+  Verdict: "proceed as you recommend" — RATIFIED-G · RATIFIED-J.
 - **A2 — progression carrier:** THE PACK (one carrier; the player IS
   the pack under Tab-possession — per-body leveling would punish the
-  possession mechanic). Same verdict line — RATIFIED-G · PENDING-J.
+  possession mechanic). Same verdict line — RATIFIED-G · RATIFIED-J.
 - **A3 — death × XP:** death does NOT eat XP in v19 — failure stays
   priced in supplies + time (regrow fee, walk-back), per the recorded
   corpus line (rows R-A1/R-A4); mark stays carried-value insurance.
   Tibia-hard XP-loss RECORDED as a future valve if power outgrows the
-  world. Same verdict line — RATIFIED-G · PENDING-J.
+  world. Same verdict line — RATIFIED-G · RATIFIED-J.
 - **B1 — camp goes safe?:** YES — both hubs carry `safe: true`;
   boundary visible, Rule-2-gated; camp feel change gets its own
   capture + playtest. Verdict: "approved as recommended, proceed" —
-  RATIFIED-G · PENDING-J.
+  RATIFIED-G · RATIFIED-J.
 - **B2 — deep-zone banking:** REFUSED as mechanic — no-bank-in-deep
   stays design; TOWN 1 anchors the deep side. Same verdict line —
-  RATIFIED-G · PENDING-J.
+  RATIFIED-G · RATIFIED-J.
 - **B4 — mercy shape:** context-gated home-hub session-open floor,
-  field stays priced. Same verdict line — RATIFIED-G · PENDING-J.
+  field stays priced. Same verdict line — RATIFIED-G · RATIFIED-J.
 - **B5 — respawn fix shape:** scalar first, presence-block recorded as
-  stage 2. Same verdict line — RATIFIED-G · PENDING-J.
+  stage 2. Same verdict line — RATIFIED-G · RATIFIED-J.
 - **C1 — J-7 walk-home shape:** cold-tier catch-up at re-entry;
   background zone-ticking REFUSED this cycle (perf prior). Verdict:
-  "approved as recommended, proceed" — RATIFIED-G · PENDING-J.
+  "approved as recommended, proceed" — RATIFIED-G · RATIFIED-J.
 - **C2 — ally engage rule:** defensive default (provocation-gated
   acquisition + leash + flee co-tune). Same verdict line — RATIFIED-G
-  · PENDING-J.
+  · RATIFIED-J.
 - **C3 — stance verb:** later rung; shelf-gap research debt recorded,
   banking-only spoke on owner word at spec time — not dispatched at
-  the brainstorm. Same verdict line — RATIFIED-G · PENDING-J.
+  the brainstorm. Same verdict line — RATIFIED-G · RATIFIED-J.
 - **D1 — projectile-visual sync (`c835c67`): class = PRESENTATION-
   ONLY.** Visual timing aligns to throw audio/impact; sim cadence
   change REFUSED (wrong layer for a legibility complaint). Verdict:
-  "approved as recommended, proceed" — RATIFIED-G · PENDING-J.
+  "approved as recommended, proceed" — RATIFIED-G · RATIFIED-J.
 - **D2 — lobber pass-through: class = PRESENTATION-FIRST.** Impact-
   tile telegraph ships (legibility family); sim hit-test change
   REFUSED this cycle unless the telegraph proves the hit-test itself
   wrong — evidence-gated, routed into Lane 1's combat-math grill.
-  Same verdict line — RATIFIED-G · PENDING-J.
+  Same verdict line — RATIFIED-G · RATIFIED-J.
 
 ## Riders (accepted / routed)
 
@@ -263,7 +266,7 @@ own state module on the bus, never in the orchestrator.
   and cost is not a concern (quality over cost), we can leverange
   anything you recommend from our tech stack, including the research I
   am running on the /knowledge workspace as we speak, about something
-  called 'WorldClaw' (more details soon!)" — RATIFIED-G · PENDING-J.
+  called 'WorldClaw' (more details soon!)" — RATIFIED-G · RATIFIED-J.
   Build shape: session-end recording bundle (commit + seed +
   preconditions + per-tick consumed masks + digest window; from the
   already-retained lockstep queues) + offline state-track re-execution
@@ -301,7 +304,7 @@ own state module on the bus, never in the orchestrator.
   el servicio, si hace falta'. Por ahora no estoy haciendo nada, pura
   vida, solo estoy alineando las copys que se van a entregar." — REAL
   peer work request, answered same session: task 1 = the async
-  ratification pass (flips PENDING-J marks; the 2026-08-22 order's
+  ratification pass (flips RATIFIED-J marks; the 2026-08-22 order's
   exact mechanism), task 2 = WorldClaw intake write-up (he is the
   discoverer — provenance belongs to him), optional = solo play (human
   logs always bank). NO lane code dispatched to his seat before his
@@ -317,7 +320,7 @@ own state module on the bus, never in the orchestrator.
   being able to teleport to any part of the map, unstuck players,
   reposition assets, etc. So I agree we need it, maybe now is too soon
   since there is not much to explore yet but we will get there" —
-  RATIFIED-G · PENDING-J. Effect: the docket's "awaits Gabriel's
+  RATIFIED-G · RATIFIED-J. Effect: the docket's "awaits Gabriel's
   validation" RESOLVES — need validated, timing deferred ("too soon,
   not much to explore yet"). No phase builds in v19 by default. When
   the owner calls it: F1 (harness+scratch, zero binary code) → F2
@@ -333,7 +336,7 @@ own state module on the bus, never in the orchestrator.
   in world.rb.
 - **E2 ping remap → EARMARKED FOR CHAT, stays parked.** Owner verdict
   after listening (verbatim, Gabriel, live, 2026-08-22): "that sound
-  could be good for a DM chat notification" — RATIFIED-G · PENDING-J.
+  could be good for a DM chat notification" — RATIFIED-G · RATIFIED-J.
   Effect: the item-pickup remap candidate CLOSES (superseded by the
   owner's re-route); `mui_ping_1200ms` (handoff/audio-v1 + signed
   fixture) is EARMARKED as the chat/DM notification cue and now
@@ -343,7 +346,7 @@ own state module on the bus, never in the orchestrator.
   dispatched.
 - **E3(b) turn-handling gating decision: DEFERRED.** Owner verdict
   (verbatim, Gabriel, live, 2026-08-22): "I agree with you, defer,
-  maybe revisit later if needed" — RATIFIED-G · PENDING-J. Receipt
+  maybe revisit later if needed" — RATIFIED-G · RATIFIED-J. Receipt
   reason (rides s40 mail): game feel stays untouched while asset
   integration is parked; re-decide after the J-5 projection pick,
   against real integration plans. Their own mail: "deferral is
@@ -352,7 +355,7 @@ own state module on the bus, never in the orchestrator.
 - **E4 motif-strip authoring: DORMANT — no v19 work.** Owner verdict
   (verbatim, Gabriel, live, 2026-08-22): "I agree with the reasoning,
   and that is an asset conversation to pick up when it really hits us,
-  proceed as you recommend" — RATIFIED-G · PENDING-J. The ticket's own
+  proceed as you recommend" — RATIFIED-G · RATIFIED-J. The ticket's own
   perf trigger ("only if Junior's numbers stay high") EXPIRED with his
   good re-measure; wake conditions: perf regression on his seat as
   v19 adds zones/actors (perf gate watches), or an explicit owner
@@ -362,7 +365,7 @@ own state module on the bus, never in the orchestrator.
   region-acoustics): STAY QUEUED on owner word.** Owner verdict
   (verbatim, Gabriel, live, 2026-08-22): "yeah leave audio queued for
   now, lets focus on the game development itself" — RATIFIED-G ·
-  PENDING-J. Dispatch-on-evidence stands: duck routes off ear-check
+  RATIFIED-J. Dispatch-on-evidence stands: duck routes off ear-check
   q3 if "sí"; stems/acoustics on owner word; both build in
   game-two-audio, never here.
 
@@ -370,7 +373,7 @@ own state module on the bus, never in the orchestrator.
 
 **Status: shape RATIFIED-G 2026-08-22 · council gap-pass COMPLETE ·
 adoptions owner-confirmed (verbatim: "approved as you recommend
-optimal") · PENDING-J.** Question WORDING is deliberately absent here
+optimal") · RATIFIED-J.** Question WORDING is deliberately absent here
 and from all chat — it lands frozen at spec time (measurement hygiene;
 the owners never see questions early).
 
@@ -468,31 +471,31 @@ not a ritual change.
 
 | # | Decision | Gabriel | Junior |
 |---|---|---|---|
-| 1 | Lane 1 PROGRESSION v1 = v19 headline, staged 1–5 as written | RATIFIED-G ("proceed as you recommend") | PENDING-J |
-| 2 | Fork A1: XP-levels; skill-through-use parked | RATIFIED-G (same line) | PENDING-J |
-| 3 | Fork A2: carrier = the pack | RATIFIED-G (same line) | PENDING-J |
-| 4 | Fork A3: death never eats XP in v19 | RATIFIED-G (same line) | PENDING-J |
-| 5 | Lane 2 WORLD GEOGRAPHY & ECONOMY committed, staged 0–5 as written | RATIFIED-G ("approved as recommended, proceed") | PENDING-J |
-| 6 | B1: safe zones = both hubs, visible boundary | RATIFIED-G (same line) | PENDING-J |
-| 7 | B2: no-bank-in-deep kept as design; TOWN 1 = deep anchor | RATIFIED-G (same line) | PENDING-J |
-| 8 | B3: TOWN 1 v1 content (revive + progression anchor) | RATIFIED-G (same line) | PENDING-J |
-| 9 | B4: mercy floor context-gated at home hub, session open | RATIFIED-G (same line) | PENDING-J |
-| 10 | B5: respawn scalar first; presence-block = stage-2 candidate | RATIFIED-G (same line) | PENDING-J |
-| 11 | Lane 3 LIVING WORLD & AI committed, staged as written | RATIFIED-G ("approved as recommended, proceed") | PENDING-J |
-| 12 | C1: J-7 = cold catch-up; background ticking refused this cycle | RATIFIED-G (same line) | PENDING-J |
-| 13 | C2: ally defensive-default engage rule + flee co-tune | RATIFIED-G (same line) | PENDING-J |
-| 14 | C3: stance verb = later rung; research debt recorded, spoke on owner word | RATIFIED-G (same line) | PENDING-J |
-| 15 | Lane 4 PRESENTATION & LEGIBILITY committed, staged as written | RATIFIED-G ("approved as recommended, proceed") | PENDING-J |
-| 16 | J-3 scoped to STATS PANEL v0; inventory/paper-doll stay parked with items | RATIFIED-G (same line) | PENDING-J |
-| 17 | J-5 = throwaway spike, owner-paced; adoption is a separate later decision | RATIFIED-G (same line) | PENDING-J |
-| 18 | Fork D1: presentation-only; sim cadence refused | RATIFIED-G (same line) | PENDING-J |
-| 19 | Fork D2: presentation-first; sim hit-test evidence-gated | RATIFIED-G (same line) | PENDING-J |
-| 20 | E1 debug/GM-tool family: need VALIDATED, build DEFERRED ("too soon"); F1/F2 named first rungs on owner call; F3 guard stands | RATIFIED-G (verbatim in Parked section) | PENDING-J |
-| 21 | E2 ping: earmarked chat-notification cue, travels with parked chat item; pickup-remap candidate closed | RATIFIED-G ("that sound could be good for a DM chat notification") | PENDING-J |
-| 22 | E3(a) capture-contract = queued-for-v19-intake (fence: session-end only); receipt s40 | RATIFIED-G ("yes please! Anything that benefit our development process…") | PENDING-J |
-| 23 | E3(b) turn-handling = DEFERRED; revisit after J-5 projection pick if needed | RATIFIED-G ("I agree with you, defer, maybe revisit later if needed") | PENDING-J |
-| 24 | E4 motif strips = DORMANT; perf trigger expired; asset-era conversation | RATIFIED-G ("that is an asset conversation to pick up when it really hits us") | PENDING-J |
-| 25 | E5 audio increments stay queued on owner word; focus = game dev | RATIFIED-G ("yeah leave audio queued for now, lets focus on the game development itself") | PENDING-J |
-| 26 | Vision line blessed as drafted | RATIFIED-G ("I bless it, and ratify the shape…") | PENDING-J |
-| 27 | Ritual shape (7 points) ratified; council gap-pass owner-requested before freeze | RATIFIED-G (same line) | PENDING-J |
-| 28 | Council adoptions A-i…A-v + three rejections; ritual shape FROZEN at design level | RATIFIED-G ("approved as you recommend optimal") | PENDING-J |
+| 1 | Lane 1 PROGRESSION v1 = v19 headline, staged 1–5 as written | RATIFIED-G ("proceed as you recommend") | RATIFIED-J |
+| 2 | Fork A1: XP-levels; skill-through-use parked | RATIFIED-G (same line) | RATIFIED-J |
+| 3 | Fork A2: carrier = the pack | RATIFIED-G (same line) | RATIFIED-J |
+| 4 | Fork A3: death never eats XP in v19 | RATIFIED-G (same line) | RATIFIED-J |
+| 5 | Lane 2 WORLD GEOGRAPHY & ECONOMY committed, staged 0–5 as written | RATIFIED-G ("approved as recommended, proceed") | RATIFIED-J |
+| 6 | B1: safe zones = both hubs, visible boundary | RATIFIED-G (same line) | RATIFIED-J |
+| 7 | B2: no-bank-in-deep kept as design; TOWN 1 = deep anchor | RATIFIED-G (same line) | RATIFIED-J |
+| 8 | B3: TOWN 1 v1 content (revive + progression anchor) | RATIFIED-G (same line) | RATIFIED-J |
+| 9 | B4: mercy floor context-gated at home hub, session open | RATIFIED-G (same line) | RATIFIED-J |
+| 10 | B5: respawn scalar first; presence-block = stage-2 candidate | RATIFIED-G (same line) | RATIFIED-J |
+| 11 | Lane 3 LIVING WORLD & AI committed, staged as written | RATIFIED-G ("approved as recommended, proceed") | RATIFIED-J |
+| 12 | C1: J-7 = cold catch-up; background ticking refused this cycle | RATIFIED-G (same line) | RATIFIED-J |
+| 13 | C2: ally defensive-default engage rule + flee co-tune | RATIFIED-G (same line) | RATIFIED-J |
+| 14 | C3: stance verb = later rung; research debt recorded, spoke on owner word | RATIFIED-G (same line) | RATIFIED-J |
+| 15 | Lane 4 PRESENTATION & LEGIBILITY committed, staged as written | RATIFIED-G ("approved as recommended, proceed") | RATIFIED-J |
+| 16 | J-3 scoped to STATS PANEL v0; inventory/paper-doll stay parked with items | RATIFIED-G (same line) | RATIFIED-J |
+| 17 | J-5 = throwaway spike, owner-paced; adoption is a separate later decision | RATIFIED-G (same line) | RATIFIED-J |
+| 18 | Fork D1: presentation-only; sim cadence refused | RATIFIED-G (same line) | RATIFIED-J |
+| 19 | Fork D2: presentation-first; sim hit-test evidence-gated | RATIFIED-G (same line) | RATIFIED-J |
+| 20 | E1 debug/GM-tool family: need VALIDATED, build DEFERRED ("too soon"); F1/F2 named first rungs on owner call; F3 guard stands | RATIFIED-G (verbatim in Parked section) | RATIFIED-J |
+| 21 | E2 ping: earmarked chat-notification cue, travels with parked chat item; pickup-remap candidate closed | RATIFIED-G ("that sound could be good for a DM chat notification") | RATIFIED-J |
+| 22 | E3(a) capture-contract = queued-for-v19-intake (fence: session-end only); receipt s40 | RATIFIED-G ("yes please! Anything that benefit our development process…") | RATIFIED-J |
+| 23 | E3(b) turn-handling = DEFERRED; revisit after J-5 projection pick if needed | RATIFIED-G ("I agree with you, defer, maybe revisit later if needed") | RATIFIED-J |
+| 24 | E4 motif strips = DORMANT; perf trigger expired; asset-era conversation | RATIFIED-G ("that is an asset conversation to pick up when it really hits us") | RATIFIED-J |
+| 25 | E5 audio increments stay queued on owner word; focus = game dev | RATIFIED-G ("yeah leave audio queued for now, lets focus on the game development itself") | RATIFIED-J |
+| 26 | Vision line blessed as drafted | RATIFIED-G ("I bless it, and ratify the shape…") | RATIFIED-J |
+| 27 | Ritual shape (7 points) ratified; council gap-pass owner-requested before freeze | RATIFIED-G (same line) | RATIFIED-J |
+| 28 | Council adoptions A-i…A-v + three rejections; ritual shape FROZEN at design level | RATIFIED-G ("approved as you recommend optimal") | RATIFIED-J |
