@@ -1,5 +1,32 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-22 session 37 (hub) — ZERO-DELTA GATE, DOCS-ONLY CLOSE (third consecutive; no J1 by design) · shared-save crossing still ahead · v19 still NOT open
+
+**Gate 0 (classified: NO deltas on every surface — docs-only close per
+the ordering law):** origin tip = the s37 spark commit (`f39a8f5`),
+`git pull --ff-only` = already up to date (no Junior banks, no owner
+play) · shared save UNMOVED (md5 `98fe75ed…`, mtime 08-20 15:51 —
+Gabriel's/coop's crossing still ahead) · launcher logs 40×2 (newest
+08-21 01:39, already counted) · mail inbox 0 / done 22 (audio T3
+cue-spec still frozen-unanswered) · soak newest `20260820-232208` ·
+pilot scratch present (mtime 08-21 01:39, never played) · S1 evidence
+README-only · untracked `drafts/_refs/` only · zero ruby processes.
+J2/J3 never armed.
+
+**No J1 — by design (spark standing order):** the promotion chain
+(s31→s32→s33→s34) stays closed; nothing shipped, nothing gated, zero
+paid calls, zero sub-agents. THIRD consecutive zero-delta close
+(s35/s36 precedent) — the world is still waiting on its humans, not on
+engineering.
+
+**Still pending (owner-paced, never nag):** ear-checks + audio-v12
+batch · T3 footstep/bed renders (cue-spec mail frozen) · coop S1 invite
+(both seats READY) · the SHARED-save first crossing (verbatims = fun
+gold when they land) · the v19 brainstorm. R-A2 stays silent
+(`bought=0`/absent on every banked human log; never prime). Docket
+untouched (no verdicts landed); AGENTS untouched (nothing shipped).
+world.rb untouched (1800/1800).
+
 ## 2026-08-22 session 36 (hub) — ZERO-DELTA GATE, DOCS-ONLY CLOSE (second consecutive; no J1 by design) · shared-save crossing still ahead · v19 still NOT open
 
 **Gate 0 (classified: NO deltas on every surface — docs-only close per
