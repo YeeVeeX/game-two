@@ -104,8 +104,10 @@ mechanical refusal). FULL WALL PASS 21/21. Ticket:
 `drafts/_wb-t5-wirein-20260821.md`. Same session: the frame-tail
 trigger FIRED (Junior's banked numbers) → draw diagnosed + the
 merged-static-runs render fix shipped (`dd8ff40`, captures
-byte-identical to pre-change baselines; Junior's re-measure pending,
-owner-paced). Typed transitions live (rope = interact under the
+byte-identical to pre-change baselines) — **re-measure VERIFIED on the
+decisive seat 2026-08-21 (draw p95 15.3→8.5 ms, over20 16.8%→5.15%,
+"muito mais leve"): frame-tail row CLOSED**
+(`drafts/_junior-remeasure-20260821.md`). Typed transitions live (rope = interact under the
 gate-consent law, holes/stairs auto-fire).
 
 **Owner-pending (never nag):** EAR-CHECKS of the audio-v12 batch
