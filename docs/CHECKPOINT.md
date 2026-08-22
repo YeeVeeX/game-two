@@ -1,5 +1,56 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-21/22 session 34 (hub) — SEAL GATING GRILLED → TIGHTEN SHIPPED (opens must name a sealed: true way) · Gate 0 ZERO deltas (shared-save crossing still ahead) · v19 still NOT open
+
+**Gate 0 (classified: NO deltas — J1-only session per the ordering
+law):** origin tip = the s34 spark commit, fetch + `HEAD..origin/main`
+EMPTY (no Junior banks, no owner play) · shared save UNMOVED (md5
+`98fe75ed…`, mtime 08-20 15:51 — Gabriel's/coop's crossing still
+ahead) · launcher logs 40×2 (newest 08-21 01:39, already counted) ·
+mail inbox 0 / done 22 (audio T3 cue-spec still frozen-unanswered) ·
+soak newest `20260820-232208` · pilot scratch present (never played) ·
+S1 evidence README-only · untracked `drafts/_refs/` only. J2/J3 never
+armed — honest no-delta close on both.
+
+**J1 GRILLED then SHIPPED — `abe04d6`** (pushed, pre-push suite green
+1022/0/0): the s33 review nit 1 carried an open design question, so the
+grill came first. Complete breach-fact reader census (6 readers,
+file:line in the ticket): the WAY moves only through truthy `sealed`
+(`Crossing#open?` + `Renderer.way_locked?`, independent AND-legs with
+`requires_defeats`); ONE reader is sealed-independent —
+`Renderer.water_drained?` (render-only tile alias). Grill answers: (a)
+truthy sealed required, `requires_defeats` may CO-EXIST (control test
+pins it) · (b) seal onto a fact-gated unsealed way = BUG (toll burns,
+slab stays, fact inert forever; toll-bypasses-boss would be OR
+semantics in open? — sim change, v19-class, refused in writing) · (c)
+`stairs_unlocked_by` unreachable by seals (zero consumers, String fact
+namespace vs tile-keyed breach facts). The one expressible pattern the
+tighten kills — drain-only seal (unsealed way + water_drained_by
+alias) — REFUSED BY DESIGN: not shipped, not spec'd, zone_7 authors it
+honestly (the drained well IS the sealed hole). Verdict TIGHTEN:
+`validate_seal_opens!` semantic tail split — nil keeps the s33 refusal,
+present-but-unsealed refuses NAMED (distinct message). Pre-scan BEFORE
+code: 3/3 shipped seals + every inline fixture + spike LDtk already
+comply — zero trips predicted, suite confirmed (1018→1022, +4), NO
+defect branch, zero data moved. Fresh-eyes review (scrubbed read-only
+sub-session): **PASS-WITH-NITS**, all narrative — nit 1 (message
+overclaimed "ONLY through sealed"; water_drained? named now) + nit 3
+(stale line ref) + nit 4 (test comment misattributed sealed:false to
+the importer — it drops falsy sealed) FIXED by amend BEFORE push
+(`546769f`→`abe04d6`, logic unchanged, hooks re-ran green both times);
+nit 2 (dangling ticket pointer) resolved by the docs commit. Mail dir
+audited after the run: clean. No Rule-2 gate owed (load-time refusal,
+zero visual surface). world.rb untouched (1800/1800). Ticket:
+`drafts/_s34-seal-gating-20260821.md`.
+
+**Still pending (owner-paced, never nag):** ear-checks + audio-v12
+batch · T3 footstep/bed renders (cue-spec mail frozen) · coop S1 invite
+(both seats READY) · the SHARED-save first crossing (verbatims = fun
+gold when they land) · the v19 brainstorm. R-A2 stays silent
+(`bought=0`/absent on every banked human log; never prime). Docket
+untouched this session (no docket rows moved); AGENTS untouched (the
+tighten extends the same law — s33 precedent).
+
 ## 2026-08-21 session 33 (hub) — SEAL OPENS LAW SHIPPED (the twice-RECORDED refusal, promoted) · Gate 0 ZERO deltas (shared-save crossing still ahead) · v19 still NOT open
 
 **Gate 0 (classified: NO deltas — J1-only session per the ordering
