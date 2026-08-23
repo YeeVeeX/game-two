@@ -52,5 +52,12 @@
   "menu.label.move": "MOVER",
   "menu.label.aim": "MIRAR",
   "menu.label.special": "ESPECIAL",
-  "menu.label.menu": "MENU"
+  "menu.label.menu": "MENU",
+  "menu.settings": "OPÇÕES",
+  "menu.language": "IDIOMA",
+  "menu.scale": "ESCALA DA JANELA",
+  "menu.fullscreen": "TELA CHEIA",
+  "menu.auto": "AUTO",
+  "menu.on": "ON",
+  "menu.off": "OFF"
 }

@@ -78,6 +78,15 @@ module Core
       assert_equal "HUB 1", s.t("zone.camp.display_name", "stale")
     end
 
+    def test_switch_mutates_the_one_shared_resolver
+      s = Strings.new(DATA, locale: "en")
+      assert_same s, s.switch!(DATA, "es")
+      assert_equal "es", s.locale
+      assert_equal "atacar", s.t("overlay.attack")
+      s.switch!(DATA, "pt-br")
+      assert_equal "interagir", s.t("overlay.interact")
+    end
+
     def test_placeholder_names_are_locale_invariant
       # Placeholder law (2026-08-16): names/lines are identical across
       # locales — no authored fiction lives in this repo.

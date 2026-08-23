@@ -25,9 +25,11 @@ module App
     DIM  = [160, 152, 140].freeze          # ControlsOverlay label tone
     BG   = [12, 10, 14].freeze             # ledger-panel near-black family
 
-    TRACKED = %i[menu up down attack].freeze
-    ROOT_ROWS = %i[resume controls quit].freeze
-    ROW_FALLBACK = { resume: "RESUME", controls: "CONTROLS", quit: "QUIT" }.freeze
+    TRACKED = %i[menu up down left right attack].freeze
+    ROOT_ROWS = %i[resume controls settings quit].freeze
+    ROW_FALLBACK = { resume: "RESUME", controls: "CONTROLS",
+                     settings: "SETTINGS", quit: "QUIT" }.freeze
+    LOCALES = %w[en es pt-br].freeze
 
     # Read-only controls sheet (D5): one row per teachable verb group,
     # movement/aim/menu INCLUDED (the v14 "movement stays off the strip"
@@ -56,15 +58,22 @@ module App
                        interact: %w[H F], sustain: %w[U R],
                        swap: %w[Tab], menu: %w[Escape] }.freeze
 
-    def initialize(display: {}, strings: nil, bindings: nil, view_w: 960, view_h: 540)
+    def initialize(display: {}, strings: nil, bindings: nil, prefs: nil,
+                   on_locale: nil, on_scale: nil, on_fullscreen: nil,
+                   view_w: 960, view_h: 540)
       @display = display
       @strings = strings
       @bindings = bindings
+      @prefs = prefs
+      @on_locale = on_locale
+      @on_scale = on_scale
+      @on_fullscreen = on_fullscreen
       @view_w = view_w
       @view_h = view_h
       @state = :closed
       @cursor = 0
       @prev = {}
+      @swallow_route = false
       @null_input = Core::NullInput.new # D1: the menu holds the one instance
     end
 
@@ -74,7 +83,14 @@ module App
     # handed (byte-path identical for every shipped script — wall-debt
     # audit); open -> the held NullInput (mask 0 on the wire, idle frames
     # keep flowing).
-    def route(input) = open? ? @null_input : input
+    def route(input)
+      if open? || @swallow_route
+        @swallow_route = false unless open?
+        @null_input
+      else
+        input
+      end
+    end
 
     # One call per frame, both modes. Consumes menu/nav edges while open;
     # watches only the :menu edge while closed. Returns :quit when the
@@ -96,6 +112,8 @@ module App
       when :controls
         @state = :root if edges[:menu]
         nil
+      when :settings
+        tick_settings(edges)
       end
     end
 
@@ -118,6 +136,9 @@ module App
             { label: tr(row[:label], row[:fallback]),
               glyphs: row[:actions].map { |a| glyphs_for(a) } }
           end }
+      when :settings
+        { screen: :settings, title: tr("menu.settings", "SETTINGS"),
+          hint: tr("menu.hint", "ESC: CLOSE"), rows: settings_rows }
       end
     end
 
@@ -125,7 +146,7 @@ module App
       m = draw_model
       return unless m
       Gosu.draw_rect(0, 0, @view_w, @view_h, Gosu::Color.new(veil_alpha, *BG), 50)
-      m[:screen] == :root ? draw_root(m) : draw_sheet(m)
+      m[:screen] == :controls ? draw_sheet(m) : draw_root(m)
     end
 
     private
@@ -133,6 +154,7 @@ module App
     def open!
       @state = :root
       @cursor = 0 # deterministic reopen: cursor always starts on RESUME
+      @swallow_route = false # a stale RESUME swallow never crosses an open
     end
 
     def tick_root(edges)
@@ -146,11 +168,67 @@ module App
 
     def select_row
       case ROOT_ROWS[@cursor]
-      when :resume then @state = :closed
+      when :resume
+        @state = :closed
+        @swallow_route = true # Rule 6 bank: confirm must not leak a world attack
       when :controls then @state = :controls
+      when :settings
+        @state = :settings
+        @cursor = 0
       when :quit then return :quit
       end
       nil
+    end
+
+    def tick_settings(edges)
+      if edges[:menu]
+        @state = :root
+        @cursor = 0
+      elsif edges[:up]
+        @cursor = [@cursor - 1, 0].max
+      elsif edges[:down]
+        @cursor = [@cursor + 1, settings_rows.size - 1].min
+      elsif edges[:left] || edges[:right] || edges[:attack]
+        change_setting(edges[:left] ? -1 : 1)
+      end
+      nil
+    end
+
+    def change_setting(step)
+      case @cursor
+      when 0
+        current = @prefs&.locale || @strings&.locale || "en"
+        value = cycle(LOCALES, current, step)
+        @prefs.locale = value if @prefs
+        @on_locale&.call(value)
+      when 1
+        presets = @display.fetch(:menu_scale_presets, ["auto", 1, 2, 3])
+        current = @prefs&.window_scale || @display[:window_scale] || "auto"
+        value = cycle(presets, current, step)
+        @prefs.window_scale = value if @prefs
+        @on_scale&.call(value)
+      when 2
+        value = !(@prefs&.fullscreen || false)
+        @prefs.fullscreen = value if @prefs
+        @on_fullscreen&.call(value)
+      end
+    end
+
+    def cycle(values, current, step)
+      values[((values.index(current) || 0) + step) % values.size]
+    end
+
+    def settings_rows
+      scale = @prefs&.window_scale || @display[:window_scale] || "auto"
+      [{ id: :language, label: tr("menu.language", "LANGUAGE"),
+         value: (@prefs&.locale || @strings&.locale || "en").upcase },
+       { id: :scale, label: tr("menu.scale", "WINDOW SCALE"),
+         value: scale == "auto" ? tr("menu.auto", "AUTO") : "#{scale}X" },
+       { id: :fullscreen, label: tr("menu.fullscreen", "FULLSCREEN"),
+         value: tr(@prefs&.fullscreen ? "menu.on" : "menu.off",
+                   @prefs&.fullscreen ? "ON" : "OFF") }].each_with_index.map do |row, i|
+        row.merge(selected: i == @cursor, label: "#{row[:label]}: #{row[:value]}")
+      end
     end
 
     def glyphs_for(action)

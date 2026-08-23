@@ -4,7 +4,9 @@ require "core/strings"
 require "core/binding_map"
 require "core/input"
 require "app/key_table"
+require "tmpdir"
 require "app/menu"
+require "app/prefs"
 
 # J-6 ticket A lane 1 (brief drafts/_j6-menu-brief-20260823.md): the menu
 # machine's pure state resolution + the route contract the wall-debt audit
@@ -81,12 +83,13 @@ class MenuTest < Minitest::Test
     drive(m, { 0 => ["menu"], 8 => ["up"], 16 => ["up"] })
     assert_equal 0, cursor_of(m), "up at the top row stays clamped"
     drive(m, { 0 => ["down"], 8 => ["down"], 16 => ["down"], 24 => ["down"] })
-    assert_equal 2, cursor_of(m), "down at the bottom row stays clamped"
+    assert_equal 3, cursor_of(m), "down at the bottom row stays clamped"
   end
 
   def test_quit_select_returns_quit
     m = menu
-    last, = drive(m, { 0 => ["menu"], 8 => ["down"], 16 => ["down"], 24 => ["attack"] })
+    last, = drive(m, { 0 => ["menu"], 8 => ["down"], 16 => ["down"],
+                       24 => ["down"], 32 => ["attack"] })
     assert_equal :quit, last, "QUIT row select returns :quit (the window owns the rest — D3)"
     assert m.open?, "the menu stays open — during a netplay drain it never re-ticks"
   end
@@ -145,9 +148,58 @@ class MenuTest < Minitest::Test
     assert_equal :root, model[:screen]
     assert_equal "MENU", model[:title]
     assert_equal "ESC: CLOSE", model[:hint]
-    assert_equal %w[RESUME CONTROLS QUIT], model[:rows].map { |r| r[:label] }
-    assert_equal [false, true, false], model[:rows].map { |r| r[:selected] },
+    assert_equal %w[RESUME CONTROLS SETTINGS QUIT], model[:rows].map { |r| r[:label] }
+    assert_equal [false, true, false, false], model[:rows].map { |r| r[:selected] },
                  "exactly the cursor row reads selected"
+  end
+
+  def test_resume_confirm_is_swallowed_for_one_route
+    m = menu
+    _, input = drive(m, { 0 => ["menu"], 8 => ["attack"] }, until_frame: 8)
+    refute m.open?
+    refute_same input, m.route(input), "RESUME confirm must not leak attack to world"
+    assert_same input, m.route(input), "only the close frame is swallowed"
+  end
+
+  def test_settings_changes_callbacks_and_values
+    Dir.mktmpdir do |dir|
+      calls = []
+      strings = Core::Strings.new(DATA, locale: "en")
+      prefs = App::Prefs.load(File.join(dir, "prefs.local.json"))
+      # Callbacks mirror the window wiring: locale switches the ONE shared
+      # resolver (brief D10); scale/fullscreen just record the ask here.
+      m = App::Menu.new(display: DATA["display"], strings:, prefs:,
+                        on_locale: ->(v) { calls << [:locale, v]; strings.switch!(DATA, v) },
+                        on_scale: ->(v) { calls << [:scale, v] },
+                        on_fullscreen: ->(v) { calls << [:fullscreen, v] })
+      drive(m, { 0 => ["menu"], 8 => ["down"], 16 => ["down"], 24 => ["attack"] })
+      assert_equal :settings, m.draw_model[:screen]
+      drive(m, { 0 => ["right"], 8 => ["down"], 16 => ["right"],
+                 24 => ["down"], 32 => ["attack"] })
+      assert_equal [[:locale, "es"], [:scale, 1], [:fullscreen, true]], calls
+      assert_equal ["IDIOMA: ES", "ESCALA DE VENTANA: 1X", "PANTALLA COMPLETA: ON"],
+                   m.draw_model[:rows].map { |r| r[:label] },
+                   "settings rows re-render from the SWITCHED table + live prefs"
+      loaded = App::Prefs.load(File.join(dir, "prefs.local.json"))
+      assert_equal({ locale: "es", window_scale: 1, fullscreen: true }, loaded.to_h,
+                   "every change commits to the machine-local prefs file")
+    end
+  end
+
+  def test_settings_nav_alone_changes_nothing
+    Dir.mktmpdir do |dir|
+      calls = []
+      prefs = App::Prefs.load(File.join(dir, "prefs.local.json"))
+      m = App::Menu.new(display: DATA["display"], strings: Core::Strings.new(DATA, locale: "en"),
+                        prefs:, on_locale: ->(v) { calls << v }, on_scale: ->(v) { calls << v },
+                        on_fullscreen: ->(v) { calls << v })
+      drive(m, { 0 => ["menu"], 8 => ["down"], 16 => ["down"], 24 => ["attack"],
+                 32 => ["down"], 40 => ["up"], 48 => ["menu"] })
+      assert_equal :root, m.draw_model[:screen], "menu edge backs out of settings"
+      assert_empty calls, "nav-only settings visit fires no callback (reel-safety law)"
+      refute File.exist?(File.join(dir, "prefs.local.json")),
+             "no change means no machine state written"
+    end
   end
 
   def test_controls_sheet_speaks_the_canonical_binding_map

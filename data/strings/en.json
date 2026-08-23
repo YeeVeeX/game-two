@@ -52,5 +52,12 @@
   "menu.label.move": "MOVE",
   "menu.label.aim": "AIM",
   "menu.label.special": "SPECIAL",
-  "menu.label.menu": "MENU"
+  "menu.label.menu": "MENU",
+  "menu.settings": "SETTINGS",
+  "menu.language": "LANGUAGE",
+  "menu.scale": "WINDOW SCALE",
+  "menu.fullscreen": "FULLSCREEN",
+  "menu.auto": "AUTO",
+  "menu.on": "ON",
+  "menu.off": "OFF"
 }

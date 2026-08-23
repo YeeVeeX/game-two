@@ -7,6 +7,7 @@ require "game/world"
 require "game/telemetry"
 require "app/renderer"
 require "app/menu"
+require "app/prefs"
 require "app/netplay_overlay"
 require "app/frame_probe"
 require "app/vsync_release"
@@ -42,13 +43,18 @@ module App
                    audio: nil, start_zone: nil)
       data = Core::DataStore.new(File.expand_path("../../data", __dir__))
       display = data["display"]
+      # J6-B: machine-local client prefs (presentation only — never the
+      # world save). A pref beats display.json; the launcher locale arg
+      # stays king via GAME_LOCALE (brief D9/D10).
+      @prefs = Prefs.load(File.expand_path("../../data/prefs.local.json", __dir__))
       @view_width = display[:view_width]
       @view_height = display[:view_height]
-      @scale = App::Scale.factor(display[:window_scale],
+      @scale = App::Scale.factor(@prefs.window_scale || display[:window_scale],
                                  view_w: @view_width, view_h: @view_height,
                                  screen_w: Gosu.screen_width, screen_h: Gosu.screen_height)
       super @view_width * @scale, @view_height * @scale
       self.caption = "game-two"
+      self.fullscreen = true if @prefs.fullscreen
       # Lag P0 T4: env-gated vsync release — the ONE site that reads the
       # flag; absent = nil = zero cost (the wall never sets it). Must run
       # after super: the GL context exists and Gosu's own
@@ -71,7 +77,7 @@ module App
       # seats receive the same zone by construction (run_soak.sh).
       @start_zone = start_zone
       @data = data
-      strings = Core::Strings.new(data)
+      strings = Core::Strings.new(data, locale: ENV.fetch("GAME_LOCALE", nil) || @prefs.locale)
       if @session
         @netplay = NetplayOverlay.new(display:, strings:,
                                       view_w: @view_width, view_h: @view_height)
@@ -89,7 +95,10 @@ module App
       # J-6 (drafts/_j6-menu-brief-20260823.md): the non-pausing menu at
       # the ONE input seam — open routes NullInput (idle frames keep
       # flowing; the sim never knows). Bots never emit :menu.
-      @menu = Menu.new(display:, strings:, bindings:,
+      @menu = Menu.new(display:, strings:, bindings:, prefs: @prefs,
+                       on_locale: ->(l) { strings.switch!(data, l) },
+                       on_scale: ->(k) { apply_scale(k) },
+                       on_fullscreen: ->(v) { self.fullscreen = v },
                        view_w: @view_width, view_h: @view_height)
       @renderer = Renderer.new(display: display, strings:, bindings: bindings,
                                local_seat: @session ? @session.seat : 1)
@@ -198,6 +207,16 @@ module App
     def request_quit
       @quitting = true # quit! begins the BYE drain; update closes at ended?
       @session.quit!(Process.clock_gettime(Process::CLOCK_MONOTONIC) * 1000.0)
+    end
+
+    # J6-B (D12): live re-scale — presentation only. Captures are
+    # scale-blind by law (the harness renders at script dims), so this
+    # path ships as unit math + an observation note (the v16 precedent).
+    def apply_scale(setting)
+      @scale = App::Scale.factor(setting, view_w: @view_width, view_h: @view_height,
+                                 screen_w: Gosu.screen_width, screen_h: Gosu.screen_height)
+      self.width = @view_width * @scale
+      self.height = @view_height * @scale
     end
 
     def button_down(id)

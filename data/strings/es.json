@@ -52,5 +52,12 @@
   "menu.label.move": "MOVER",
   "menu.label.aim": "APUNTAR",
   "menu.label.special": "ESPECIAL",
-  "menu.label.menu": "MENÚ"
+  "menu.label.menu": "MENÚ",
+  "menu.settings": "AJUSTES",
+  "menu.language": "IDIOMA",
+  "menu.scale": "ESCALA DE VENTANA",
+  "menu.fullscreen": "PANTALLA COMPLETA",
+  "menu.auto": "AUTO",
+  "menu.on": "ON",
+  "menu.off": "OFF"
 }

@@ -19,6 +19,14 @@ module Core
       @table.fetch(k) { @base.fetch(k) { fallback } }
     end
 
+    # J6-B runtime locale switch: mutate the ONE resolver shared by every
+    # presentation surface. Strings remain render-only and never enter sim.
+    def switch!(data, locale)
+      @locale = locale.to_s
+      @table = @locale == "en" ? @base : table_for(data, @locale)
+      self
+    end
+
     private
 
     # DataStore raises on missing keys by design; an unshipped locale

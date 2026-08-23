@@ -251,11 +251,15 @@
     },
     {
       "id": "menu_reads",
-      "check": "Where a menu panel is on camera (a dimming veil over the whole frame with a near-black panel titled MENU): the root rows RESUME / CONTROLS / QUIT read legibly with exactly ONE row visibly marked as selected (a cursor marker and brighter tone), an ESC hint line reads on the panel, and the world stays readable BEHIND the veil (floor grid, bodies, or HUD bars still discernible - the veil dims, it never blacks out the frame). A CONTROLS-titled sheet frame reads as a key reference: rows of key glyphs paired with action labels, including a movement row and a menu row. If no menu panel appears anywhere in the reel, pass with why='not exercised by this script'."
+      "check": "Where a menu panel is on camera (a dimming veil over the whole frame with a near-black panel titled MENU): the root rows RESUME / CONTROLS / SETTINGS / QUIT read legibly with exactly ONE row visibly marked as selected (a cursor marker and brighter tone), an ESC hint line reads on the panel, and the world stays readable BEHIND the veil (floor grid, bodies, or HUD bars still discernible - the veil dims, it never blacks out the frame). A CONTROLS-titled sheet frame reads as a key reference: rows of key glyphs paired with action labels, including a movement row and a menu row. If no menu panel appears anywhere in the reel, pass with why='not exercised by this script'."
     },
     {
       "id": "menu_world_ticks",
       "check": "Where TWO OR MORE frames show the menu panel open: the world visibly ADVANCES between them behind the veil - an enemy has moved, an HP bar has dropped, a corpse or combat effect has appeared or resolved; the world region must NOT read as frozen/identical behind the open panel (a paused world under the menu is exactly the failure this check exists to catch). If fewer than two menu-open frames exist in the reel, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "menu_settings_reads",
+      "check": "Where a SETTINGS-titled menu panel is on camera (es AJUSTES / pt OP\u00c7\u00d5ES): three setting rows read legibly - a LANGUAGE row, a WINDOW SCALE row, and a FULLSCREEN row - each showing a current value after a colon (e.g. EN, AUTO, OFF), with exactly ONE row visibly marked as selected (cursor marker and brighter tone), an ESC hint line on the panel, and the world still readable behind the veil. If no SETTINGS panel appears anywhere in the reel, pass with why='not exercised by this script'."
     }
   ]
 }
