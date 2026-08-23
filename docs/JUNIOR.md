@@ -12,12 +12,12 @@
      falha ao compilar a gosu.
 2. **Clone e instale:**
    ```
-   git clone -b junior-tibia https://github.com/YeeVeeX/game-two.git
+   git clone https://github.com/YeeVeeX/game-two.git
    cd game-two
    bundle install
    ```
-   (O `-b junior-tibia` importa: essa é a nossa linha compartilhada — a
-   `main` é só o backup do Gabriel e fica atrás.)
+   (A `main` é a NOSSA linha compartilhada — os dois assentos commitam
+   nela. A antiga `junior-tibia` não existe mais no origin.)
 3. **Jogue:**
    ```
    bin\play.cmd pt-br      (cmd / duplo clique)
@@ -36,7 +36,7 @@
 | ; / Q | marcar alvo |
 | H / F | interagir (lojas do HUB 1, saque, banco) |
 | Tab | trocar de corpo (possessão) |
-| Esc | sair (salva a telemetria — sempre saia com Esc) |
+| Esc | menu (o mundo NÃO pausa; sair = opção SAIR do menu — a saída limpa salva a telemetria) |
 
 ### Teclas personalizadas (v15)
 
@@ -66,9 +66,10 @@ conflito e cada máquina pode ter o seu:
 
 ### Fluxo de colaboração (combinado com o Gabriel)
 
-- **Nunca dê push na `main`** — ela é a linha de backup do Gabriel.
-- **`junior-tibia` é a NOSSA linha compartilhada**: trabalhe nela (ou em
-  branches seus) e abra PRs para `junior-tibia`.
+- **A `main` é a NOSSA linha compartilhada** (combinado 2026-08-23; a
+  antiga `junior-tibia` foi desligada): os dois assentos commitam na
+  `main` — `git pull --rebase` antes do push, commit de uma preocupação
+  só, os hooks rodam a suite sozinhos.
 - `git fetch` sempre antes de começar — o Gabriel empurra progresso com
   frequência.
 - Os testes rodam com `bundle exec rake` (o hook de push roda sozinho).
@@ -145,8 +146,8 @@ mesmas apostas — e vocês só trocam de zona juntos.
    entra (`bin\join-coop.cmd check` só confere tudo, sem abrir o jogo;
    um IP explícito como 1º argumento tem prioridade). Se a conexão
    cair no meio, ele **re-entra sozinho**; se o host estiver fora do ar,
-   tenta de novo por alguns minutos. Esc (saída limpa) termina de
-   verdade — o atalho não insiste.
+   tenta de novo por alguns minutos. Sair pelo menu (Esc → SAIR) é
+   saída limpa e termina de verdade — o atalho não insiste.
 
 **O que você vai ver (tudo normal):**
 
@@ -166,7 +167,8 @@ mesmas apostas — e vocês só trocam de zona juntos.
 
 **Como termina:**
 
-- **Saia sempre com Esc** — os dois lados gravam a saída e a telemetria.
+- **Saia sempre pelo menu (Esc abre; opção SAIR)** — os dois lados
+  gravam a saída e a telemetria.
 - `DESSINCRONIA NO TICK N — SESSÃO ENCERRADA`: as duas sims divergiram;
   o jogo para DE PROPÓSITO e aponta um arquivo em `tmp/netplay/` —
   guarde e compartilhe esse arquivo, ele é o trabalho do dev.
@@ -226,7 +228,8 @@ suprimentos e o contador de sessões sobrevivem entre sessões.
 
 - O save é `saves/world.json` (ignorado pelo git). Nunca edite à mão —
   o jogo recusa um save inválido NOMEANDO o problema no console.
-- O jogo grava SÓ na saída limpa (**Esc**). Desync, queda de conexão
+- O jogo grava SÓ na saída limpa (**SAIR no menu**, ou fechar a
+  janela). Desync, queda de conexão
   ou crash não gravam nada — um mundo suspeito nunca envenena o save.
 - As linhas `TELEMETRY persist ...` provam a continuidade (digest do
   save + banked/seals/marks/sessions). Elas ficam no log da sessão
@@ -277,15 +280,16 @@ suprimentos e o contador de sessões sobrevivem entre sessões.
    compiles from source on this version): RubyInstaller 3.4.x + DevKit
    from https://rubyinstaller.org/downloads/, keep **"Run 'ridk install'"**
    checked and accept the default (MSYS2 + toolchain).
-2. **Clone + install:** `git clone -b junior-tibia https://github.com/YeeVeeX/game-two.git`,
-   `cd game-two`, `bundle install`. (The `-b junior-tibia` matters — that is
-   our shared line; `main` is Gabriel's backup and runs behind.)
+2. **Clone + install:** `git clone https://github.com/YeeVeeX/game-two.git`,
+   `cd game-two`, `bundle install`. (`main` is the shared line — both
+   seats commit to it; the old `junior-tibia` branch is gone from origin.)
 3. **Play:** `bin\play.cmd pt-br` (cmd) or `bin/play pt-br` (Git Bash).
    No argument = English; `es` = Spanish, `pt-br` = Portuguese.
 
 Controls: WASD/arrows move · J/Space attack · K/Shift dodge · L/E special ·
-;/Q mark · H/F interact · Tab swap possession · Esc quit (flushes telemetry
-— always exit with Esc).
+;/Q mark · H/F interact · Tab swap possession · Esc menu (non-pausing —
+the world keeps ticking; quit via the menu's QUIT row, which flushes
+telemetry — always exit that way).
 
 Custom keys (v15): create `data/bindings.local.json` (gitignored,
 per-machine) listing only the actions you want to change — each entry
@@ -297,8 +301,9 @@ window waits on `pause` — read it, fix the file). ABNT2 note: scancodes
 are positional (US layout), so `;` may sit elsewhere physically — remap
 `mark` to a letter in your local file.
 
-Collaboration: never push `main` (Gabriel's backup line); `junior-tibia`
-is the shared line — work there or PR into it; `git fetch` before starting;
+Collaboration: `main` is the shared line — both seats commit to it
+(`git pull --rebase` before push; the old `junior-tibia` is gone from
+origin); `git fetch` before starting;
 tests are `bundle exec rake` (the push hook runs them automatically).
 
 Agent sessions (agreed 2026-08-18): one agent window per repo (never two
@@ -324,7 +329,8 @@ bug), then `bin/play pt-br --join <ip[:port]>` (default port 43117).
 In play: partner = distinct ring; the stall overlay waits instead of
 desyncing; LINK SLOW = playable but laggier; zone gates need every
 living controlled body co-located; a bodyless seat spectates until
-auto-repossession. Ends: Esc always (both seats record + flush
+auto-repossession. Ends: quit via the menu's QUIT row (Esc opens the
+menu; both seats record + flush
 telemetry); DESYNC freezes honestly and points at the `tmp/netplay/`
 artifact — keep and share yours; after any end the console prints the
 exact relaunch command. After each session: paste your `TELEMETRY
@@ -341,7 +347,8 @@ separate world (your `saves/world.json`); merging divergent world
 lines belongs to the parked always-online era. The joiner NEVER
 persists the shared world to disk. The save is `saves/world.json`
 (gitignored — never hand-edit; an invalid save is refused with the
-problem NAMED); it writes on clean quit (Esc) ONLY — desync,
+problem NAMED); it writes on clean quit ONLY (the menu's QUIT row or
+window close) — desync,
 conn_lost, or a crash write nothing. `TELEMETRY persist` lines prove
 continuity (they live in the session log,
 `%TEMP%\game_two_session_*.log`); a joiner's line reads

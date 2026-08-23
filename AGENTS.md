@@ -203,8 +203,9 @@ spike call · the WorldSmith proposal (owner-authored, INCOMING — zero
 speculation until it lands).
 
 **Seats:** Gabriel's hub session (this machine) + Junior's seat (his
-machine, Claude — CLAUDE.md points his sessions at this same
-contract). Working language English; player surfaces es-CR / pt-br.
+machine, pi since 2026-08-23 via the shared LiteLLM gateway — AGENTS.md
+auto-injects; CLAUDE.md stays a thin mirror for any stray Claude
+session). Working language English; player surfaces es-CR / pt-br.
 Junior's seat is a FULL PEER seat — code, design, creative direction,
 playtesting, CI — under the same laws as every seat: pull before push,
 hooks run the suite, gates block ships, handoffs via drafts/ +

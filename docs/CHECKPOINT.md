@@ -1,5 +1,86 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-23 session 53 (hub) — J6-A SHIPPED: non-pausing menu chassis live (Esc = menu, quit via QUIT row) — 25th wall script gated critic-ON 64/64, identity pairs held twice, soak PASS, Rule 6 PASS; junior-tibia docs corrected (main is the line)
+
+**Job 0 (open = clean):** origin tip `e74bf32` = the expected s52 docs
+commit above `fbc15f1`, zero peer deltas; brief md5 `00802b28…`
+verified before executing; save `98fe75ed…` mtime 08-20 15:51
+md5-verified open + mid + close; launcher logs 40 newest 08-21 01:39;
+mail inbox EMPTY; `drafts/_refs/` untracked; wall = 24; suite =
+1122/0F at open.
+
+**Shipped (ticket J6-A per the s52 brief, both commits; close =
+`drafts/_j6-a-close-20260823.md`):**
+
+- **A1 `feat(menu)` — INERT:** `src/app/menu.rb` (:root/:controls
+  machine, edge tracker over menu/up/down/attack, route() = SAME
+  object closed / held NullInput open, pure draw_model, Gosu only in
+  #draw) + 15-case unit lane (driven by REAL Core::ScriptedInput —
+  reel semantics) + KEY_TABLE +Escape + bindings.json +menu row
+  (roster 12→13). Nothing constructed Menu in live code.
+- **A2 `feat(presentation)` — VISIBLE:** window.rb wiring at the ONE
+  seam both modes (tick+route; menu_active? = live world · not
+  quitting · not ended; handle_menu = OLD Esc body verbatim;
+  button_down shrinks to end-screen close + hosting cancel) ·
+  MenuScene + SCENES registry + start staging · `menu_tour.json`
+  (25th script, TEST 1: pilot-staged world half, spliced menu rows
+  ≥10f apart — husk damages two bodies and DIES behind the open menu)
+  · gate_checks +`menu_reads` +`menu_world_ticks` (self-scoping) · 13
+  `menu_*` display keys · strings ×3 VERBATIM · AGENTS.md Controls
+  row. **Esc semantics changed on purpose (ratified):** Esc = menu,
+  QUIT = menu row through the verbatim clean-quit path.
+- **Evidence:** suite 1122→1137 green at open/A1/A2 · identity pairs
+  world_loop+low_quay_run md5 vs pre-change `e74bf32` baseline —
+  **24/24 at A1 AND A2** · menu_tour critic-ON gate PASS (5 captures
+  deterministic ×2, vision **64/64**, claims verified against the
+  PNGs by the dev BEFORE the critic ran) · manifest PASS true counts
+  {zone_entered 2, attack_hit 5, actor_died 1} (floor 6→5 corrected
+  pre-commit — grep -c on the single-run log, the doubled gate log
+  had masked it) · soak N=1 PASS (ticks 36120/36117, desyncs 0,
+  chain intact, bots never emit :menu) · Rule 6 review PASS (zero
+  blocking).
+- **Honesty rows:** window.rb landed **246** (est ≤240, cap 300) —
+  law comments at the three new seams; B re-prices from 246. "Count
+  row" law: vacuous this ship (only count-declaring check is
+  map_checks' Twelve panels; no new zone). Mid-drain Esc force-close
+  dropped per D2's two-behavior enumeration (drain timeout 2000 ms
+  bounds it) — accepted cut, on record.
+- **Rule 6 banked rows (fresh-eyes NITs, neither blocking):**
+  → J6-B: RESUME-confirm attack leak (close-frame routes real input;
+  swallow it or ratify as feel — B owns the machine).
+  → J6-C: menu frozen OPEN over a partner-end screen (menu_active?
+  stops ticking at ended; C owns that surface — force-close at
+  session end or tick on ended).
+
+**Peer coordination (Junior, mid-session):** asked to take J6-A —
+answered (pt-br, clipboard): A is TAKEN/shipped this session; **J6-B
+or J6-C free after this push** (dev recommendation: B; volume rows
+defer-named if the audio RECEIPT hasn't landed, per D13). Branch
+question resolved on record: **junior-tibia no longer exists on
+origin** (confirmed `ls-remote`: main, junior/ci, v13-aoe) — both
+seats commit to MAIN, pull --rebase before push. docs/JUNIOR.md
+corrected (11 stale sites: clone/collab rows ×2 languages + Esc
+semantics); AGENTS.md Seats row updated (Junior on pi via the shared
+LiteLLM gateway since 2026-08-23; CLAUDE.md stays a thin mirror).
+
+**Next (s54):** J6-B (prefs + settings) — expected JUNIOR's seat
+(his pull + assumption pending in chat; if he takes it, Gabriel's hub
+runs intake/other lanes; if not, this seat executes per the brief).
+B carries: two Rule 6 banked rows above ride B/C · audio RECEIPT
+gates only volume rows · menu_tour re-gate with settings beats on the
+SAME script.
+
+**Job-0 baselines for s54:** origin tip = this s53 docs commit above
+`e74bf32` · save `98fe75ed…` mtime 08-20 15:51 · launcher logs 40,
+newest 08-21 01:39 · mail inbox EMPTY (audio volume-API ask still
+OUTBOUND awaiting RECEIPT) · `drafts/_refs/` untracked · **wall = 25
+scripts** · **suite = 1137**.
+
+**Owner-pending carry (never nag):** ear-checks · T3 footstep/bed
+renders (water family needs a NEW mail) · coop S1 (both seats READY)
+· SHARED-save first crossing · J-5 spike call · WorldSmith proposal
+(INCOMING) · R-A2 escalation call.
+
 ## 2026-08-23 session 52 (hub) — J-6 BRIEF CUT (non-pausing menu, Lane 4): three tickets (chassis / prefs+settings / netplay), zero code; audio volume-API ask MAILED; partner-left frozen-silent gap found on record
 
 **Job 0 (open = clean):** origin tip `fbc15f1` = the expected s51
