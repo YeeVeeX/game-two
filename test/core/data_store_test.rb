@@ -37,6 +37,27 @@ class DataStoreTest < Minitest::Test
     end
   end
 
+  def test_prefs_exemption_is_unconditional_not_corruption_gated
+    # s55 review NIT: a VALID prefs.local.json stays out too — pins the
+    # skip against a rescue-only-on-corrupt refactor that would silently
+    # grow a second reader of prefs (App::Prefs owns that file).
+    Dir.mktmpdir do |dir|
+      File.write(File.join(dir, "prefs.local.json"), '{"locale": "es"}')
+      store = Core::DataStore.new(dir)
+      assert_equal [], store.keys, "valid prefs.local never enters the store either"
+    end
+  end
+
+  def test_nested_same_named_files_keep_the_loud_abort
+    # s55 review NIT: the exemption is exact-key (root-level prefs.local
+    # only) — pins against a future basename-match refactor.
+    Dir.mktmpdir do |dir|
+      FileUtils.mkdir_p(File.join(dir, "zones"))
+      File.write(File.join(dir, "zones", "prefs.local.json"), "garbage{{{not json")
+      assert_raises(JSON::ParserError) { Core::DataStore.new(dir) }
+    end
+  end
+
   def test_hand_edited_configs_keep_the_loud_parse_abort
     Dir.mktmpdir do |dir|
       File.write(File.join(dir, "bindings.local.json"), "garbage{{{not json")
