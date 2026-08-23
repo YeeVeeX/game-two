@@ -1,5 +1,90 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-22 session 46 (hub) — T3 SHIPPED: level/XP HUD strip + level-up feel beat · full-wall sweep caught + fixed a real occlusion regression · 5 stale long-reel scripts SURFACED (T2's wake)
+
+**Job 0 (open = clean):** origin tip `354f2b2` = s45's docs commit
+above `91fdc00` — expected, docs-only; save `98fe75ed…` mtime 08-20
+15:51 (md5 verified open + mid-ladder + close + independently by the
+reviewer); launcher logs 40 newest 08-21 01:39; mail: one NEW
+fire-and-forget assets-seat note arrived mid-session (their runtime
+baseline re-pinned to `91fdc00b` after T2's creature.rb seam,
+approve-by-default class, no reply owed) — receipt harvested,
+archived to done/. T3 touched renderer.rb, so their next sweep will
+re-pin again per their own protocol.
+
+**Shipped (pushed together):**
+- **A `fa57a41` feat(hud)** — level/XP strip in `draw_hud` (gold
+  label + thin bar under the vitals, bar-only progress, cap draws
+  full), 6 display keys, `hud.level` ×3, `hud_level_strip_reads`
+  check, strings-parity test. Suite 1069/0F.
+- **B `efc65a0` feat(feel)** — Transients `level_up_pops` (combat
+  clock) + world.rb pushes from the existing `:level_up` branch
+  (gold stamp via new banner `suffix` — locale-invariant numeral
+  tail — + pops on living tiles), `draw_level_pops` (shards-only
+  gold, no flash), `stamp.level_up` ×3, harness `progression` start
+  param (T5's primitive), wall script `level_up_beat.json` (beat
+  frame 643, authored via throwaway headless driver),
+  `level_up_beat_reads` check, ~5 test lanes. Suite 1075/0F.
+  world.rb 1790→1795 (≤ 1796). Decision 1 HELD: `:level_up` NOT in
+  the wall EventLog; byte proof = `TELEMETRY progression level=2
+  xp=29 kills_xp=30` in every replay log; ACTIVE canary bank
+  untouched.
+- **`350a185` fix(render)** — the sweep's varekka gate FAILED
+  `challenger_tell_reads`: the new strip's opaque band buried the
+  chant vessel-tell at frame_0937 (pixel-diff proven vs the pre-T3
+  canary frame — a REAL T3 regression, Rule 2 catching exactly its
+  class). Fix: the tell's two rects ride z 15 (above all z-0 HUD
+  rects INCLUDING the pre-existing hp-bar latent case, above the
+  writ veil, below numerals). varekka re-gate PASS · burn_duel
+  re-gate PASS (its 0420 lawfully brighter — tell outside the writ
+  no longer veil-dimmed) · multi_floor_descent byte-identical · no
+  other reel has chants (grep-proven).
+- **`95a796f` fix(wall)** — dropped T2-audited stale manifest rows
+  (burn_duel pack_wiped — the audit traced THAT aversion by name;
+  district_hunt pack_wiped/pack_respawned — same mechanism; wipe
+  coverage survives via corpse_run/nest_advance rows) + widened the
+  `level_up_beat_reads` escape to unstraddled reels (review NIT 1,
+  hit live by the critic's own sensible generalization). Both
+  manifests re-judged PASS against the SAME teed sweep logs.
+
+**Ladder (all green at close):** suite 1075/0F · level_up_beat full
+gate PASS (critic ON; 5 captures ×2 byte-identical; MANIFEST
+actor_died=4 attack_hit=36) · **full wall sweep 22/22 determinism +
+22/22 vision** (varekka via the fix + re-gate) · netplay ×3 PASS ·
+perf p95 0.449ms · caps 1795/217 · live save byte-identical ·
+fresh-eyes review (Rule 6, headless scrubbed pi, seat-mail-safe)
+**PASS 0 blockers 3 NITs** (all resolved or recorded in the close
+draft) · KB-rubric vision critique PASS ×6 axes (Stonehouse/Swink/
+Nielsen-H8/Krug/Aversa rubric from the verified shelf) · locale
+critique PASS accuracy + presentation ×3 locales (pt-br values await
+Junior's async ratification — strings-only follow-up if he re-words).
+Full record: `drafts/_prog-t3-close-20260822.md`.
+
+**SURFACED FOR THE PEERS (the sweep's real find): five long-reel
+scripts no longer complete their staged stories under T2's ratified
+stat growth** — vat_economy (all 4 rows dead) · low_quay_run ·
+corpse_run · nest_advance · sustain_run. Every missing row reproduces
+at pre-T3 `354f2b2` (worktree headless attribution — T3 moved zero
+streams). Gates (determinism+vision) all pass; the wall's SEMANTIC
+net is degraded until re-authoring. Recommendation on record:
+re-author with `start.progression` staging so reels are stat-stable
+against coming pacing retunes; land before the ritual stages; none is
+canary-banked. **s47 spark = that ticket** (T4 brief-cut is the named
+alternate if the peers prefer lane momentum).
+
+**Next (s47):** wall re-author session (spark
+`drafts/_session-47-spark-20260822.md`, clipboarded at close) — or T4
+on owner word.
+
+**Job-0 baselines for s47:** origin tip = this s46 docs commit above
+`95a796f` · save `98fe75ed…` mtime 08-20 15:51 · launcher logs 40,
+newest 08-21 01:39 · mail inbox EMPTY (assets receipt in done/).
+
+**Owner-pending carry (never nag):** ear-checks · T3 footstep/bed
+renders (water family needs a NEW mail) · coop S1 · SHARED-save first
+crossing · J-5 spike call · WorldSmith proposal (INCOMING) · R-A2
+escalation call (after the next real play session).
+
 ## 2026-08-22 session 45 (hub) — T3 BRIEF CUT (presentation: level/XP HUD strip + level-up feel beat; s46 executes)
 
 **Job 0 (open = clean):** origin tip `91fdc00` = s44's gate-verdicts
