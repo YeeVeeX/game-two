@@ -66,7 +66,9 @@ files, the rebase carried zone_8 clean over his work.
 - **Receipt mailed:** `~/.pi/agent/mail/worldsmith/
   2026-08-23-g2-intake-receipt.md` (loaded-inert + verbatim refusal +
   drift ACK: zone_7 resync stays worldsmith's R1 debt; NO format bugs
-  owed).
+  owed). **Post-close correction (worldsmith mail, verified at this
+  seat): the zone_7 "drift" was PHANTOM — CRLF checkout vs LF blob;
+  blob md5 `a0567f37…` == the pin. R1 debt VOID, never re-surface it.**
 
 **Mid-session mail:** game-two-assets re-pin note (fire-and-forget,
 baseline → fc19b70e via its new pin_drift.py verifier, "no action

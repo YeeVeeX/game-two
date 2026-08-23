@@ -129,6 +129,11 @@ own commit:
 - zone_7 fixture drift (01af8448… live vs a0567f37… @d687f3a pin) =
   worldsmith's recorded R1 resync debt — acknowledged, not an intake
   blocker (judged with the LIVE decoder; tiles.json pin still exact).
+  **CORRECTION (2026-08-23, worldsmith mail `2026-08-23-worldsmith-
+  zone7-drift-correction.md`): the drift was PHANTOM — CRLF working-
+  tree checkout vs LF git blob. Re-verified at this seat:
+  `git show HEAD:data/zones/zone_7.json | md5sum` = `a0567f37…` == the
+  worldsmith pin, byte-exact. The R1 resync debt is VOID.**
 - Nice-to-have (not owed): emitting `floor: 0` explicitly would
   self-document the surface-level default; game-two defaults it — no
   action required.
