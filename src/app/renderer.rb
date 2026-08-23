@@ -186,7 +186,8 @@ module App
     # construct drawable (the ControlsOverlay precedent).
     CUE_TEXT_FALLBACK = { provision_bought: "PROVISION BOUGHT",
                           provision_used: "PROVISION USED",
-                          provision_refused: "REFUSED" }.freeze
+                          provision_refused: "REFUSED",
+                          level_required: "LEVEL <N> REQUIRED" }.freeze
 
     def station_cue_text(kind)
       fallback = CUE_TEXT_FALLBACK[kind]
@@ -240,12 +241,14 @@ module App
     # --- T4 way/water state (ONE condition source — the god-view reads
     # these too; the palette-source law extends to state resolution) ----
 
-    # A way is LOCKED while its toll is unpaid (v12 seal law) or its
-    # required boss_1_defeats count is unmet (T4 fact-gate). Locked draws
+    # A way is LOCKED while its toll is unpaid (v12 seal law), its
+    # required boss_1_defeats count is unmet (T4 fact-gate), or the live
+    # pack level sits below its requires_level (T5 sibling). Locked draws
     # the slab — gold means walkable, never a shut way.
     def self.way_locked?(world, zone_name, t)
       (t[:sealed] && !world.breached?(zone_name, t[:at])) ||
-        (t[:requires_defeats] && world.boss_1_defeats < t[:requires_defeats]) || false
+        (t[:requires_defeats] && world.boss_1_defeats < t[:requires_defeats]) ||
+        (t[:requires_level] && world.progression.level < t[:requires_level]) || false
     end
 
     # The well's drained look (T4, render-only): water-typed tiles swap to
@@ -576,6 +579,19 @@ module App
         Gosu.draw_rect(x + 6, y + ts / 2 - 2, ts - 12, 4, CUE_REFUSED, 9)
         Gosu.draw_rect(x + ts / 2 - 2, y + 6, 4, ts - 12, CUE_REFUSED, 9)
         if (text = station_cue_text(cue[:kind]))
+          hud_font.draw_text(text, x + (ts - hud_font.text_width(text)) / 2,
+                             y - 32, 10, 1, 1, CUE_REFUSED)
+        end
+      elsif cue[:kind] == :level_required
+        # T5 (P9/D3): the level-gate refusal — the provision_refused
+        # grammar verbatim (the presser STANDS on the way tile: X-bar at
+        # z 9 above bodies, text at z 10). The required level substitutes
+        # into the locale row at draw time (the net.desync <N> idiom —
+        # numerals never enter the flat K/V tables).
+        Gosu.draw_rect(x + 6, y + ts / 2 - 2, ts - 12, 4, CUE_REFUSED, 9)
+        Gosu.draw_rect(x + ts / 2 - 2, y + 6, 4, ts - 12, CUE_REFUSED, 9)
+        if (text = station_cue_text(cue[:kind]))
+          text = text.sub("<N>", cue[:n].to_s)
           hud_font.draw_text(text, x + (ts - hud_font.text_width(text)) / 2,
                              y - 32, 10, 1, 1, CUE_REFUSED)
         end

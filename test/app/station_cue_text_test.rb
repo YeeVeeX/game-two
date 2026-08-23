@@ -26,6 +26,28 @@ class StationCueTextTest < Minitest::Test
     assert_equal "RECHAZADO", es.station_cue_text(:provision_refused)
   end
 
+  # T5 (P9/D4): the level-gate refusal line — the <N> placeholder rides
+  # the tables in all three locales (numerals never enter the flat K/V
+  # tables; the sub happens at draw, the net.desync idiom).
+  def test_level_required_carries_the_placeholder_in_every_locale
+    assert_equal "LEVEL <N> REQUIRED", renderer.station_cue_text(:level_required)
+    assert_equal "NIVEL <N> REQUERIDO",
+                 renderer(locale: "es").station_cue_text(:level_required)
+    assert_equal "NÍVEL <N> NECESSÁRIO",
+                 renderer(locale: "pt-br").station_cue_text(:level_required)
+  end
+
+  def test_level_required_sub_renders_the_named_level
+    text = renderer.station_cue_text(:level_required).sub("<N>", 2.to_s)
+    assert_equal "LEVEL 2 REQUIRED", text, "the draw-site sub (P9 placeholder verbatim)"
+  end
+
+  def test_level_required_falls_back_strings_less
+    bare = App::Renderer.new(display: DATA["display"])
+    assert_equal "LEVEL <N> REQUIRED", bare.station_cue_text(:level_required),
+                 "a strings-less construct stays drawable (CUE_TEXT_FALLBACK law)"
+  end
+
   def test_pre_v18_kinds_stay_textless
     r = renderer
     %i[inscribed tribute breached refused].each do |kind|

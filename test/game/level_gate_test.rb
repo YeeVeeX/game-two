@@ -8,8 +8,9 @@ require "game/world"
 # gate_fixture shape — arrivals touch only the fixture itself, so every
 # ratified zone's beachhead/anchor geometry is untouched by
 # construction). Laws pinned: an unmet requires_level refuses the
-# crossing with the pack unmoved; the refusal ships SILENT at commit A
-# (defeats parity — commit B gives it the station-cue voice); at level
+# crossing with the pack unmoved; the refusal SPEAKS on the station-cue
+# channel (kind :level_required at the way tile with the required N,
+# rewritten per stationary tick — commit B, D3); at level
 # the same way crosses (zone_entered re-emit + pack relocation); the
 # live path levels mid-session through award_kill and the gate opens
 # without any reconstruction.
@@ -71,14 +72,39 @@ class LevelGateTest < Minitest::Test
     assert_equal tiles_before, w.pack.living.map(&:tile)
   end
 
-  def test_the_refusal_is_silent_at_the_sim_layer_alone
-    # Commit-A parity pin (replaced by the cue lanes at commit B): with
-    # only the crossing machinery landed, an unmet level gate refuses
-    # exactly like its defeats sibling — no cue, no event, nothing.
+  def test_the_refusal_speaks_on_the_station_cue_channel
+    # Commit B (D3): the level refusal rides the station-cue channel —
+    # kind :level_required, pinned at the way tile, carrying the
+    # required level for the renderer's <N> sub.
     w = world
     w.possessed.walker.teleport(3, 3)
     drive(w)
-    assert_nil w.station_cue, "commit A ships the gate silent (defeats parity)"
+    cue = w.station_cue
+    refute_nil cue, "an unmet level gate must never read as nothing (D3)"
+    assert_equal :level_required, cue[:kind]
+    assert_equal [3, 3], cue[:at], "the cue pins the way tile"
+    assert_equal 2, cue[:n], "the cue carries the required level for the <N> sub"
+  end
+
+  def test_the_cue_rewrites_every_stationary_tick
+    w = world
+    w.possessed.walker.teleport(3, 3)
+    drive(w)
+    full = DATA["display"][:station_cue_frames]
+    assert_equal full, w.station_cue[:frames_left],
+                 "standing on the gate re-pins the cue at full dwell " \
+                 "(the gate_wait recompute law on the cue channel)"
+    drive(w, 5)
+    assert_equal full, w.station_cue[:frames_left]
+  end
+
+  def test_the_cue_expires_after_stepping_off
+    w = world
+    w.possessed.walker.teleport(3, 3)
+    drive(w)
+    w.possessed.walker.teleport(1, 1) # off the way; no rewrite source left
+    drive(w, DATA["display"][:station_cue_frames] + 1)
+    assert_nil w.station_cue, "off the tile the cue dwells out like any station cue"
   end
 
   def test_at_level_the_way_crosses_and_relocates_the_pack

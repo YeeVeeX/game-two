@@ -1097,7 +1097,16 @@ module Game
     # ONE crossing grammar for gates and ropes — policy in Game::Crossing;
     # World does the moving and owns the cue write (the only mutator).
     def cross_through(trigger, t)
-      return false unless @crossing.open?(@zone_name, t)
+      unless @crossing.open?(@zone_name, t)
+        # T5 (P9/D3): the level refusal SPEAKS — station-cue refusal
+        # grammar at the way tile, rewritten per stationary tick (the
+        # gate_wait recompute law). Other shut-way causes stay silent
+        # (defeats parity; a defeats cue = unratified parity candidate).
+        if (n = @crossing.unmet_level(t))
+          station_cue!(:level_required, t[:at], n: n)
+        end
+        return false
+      end
       if (wait = @crossing.group_wait(controlled_bodies, trigger, t))
         @gate_wait = wait
         return false
@@ -1314,9 +1323,10 @@ module Game
 
     # The cue pins the fixture tile at transaction time — deriving it from
     # proximity at draw time would let a moving player drag the flash onto a
-    # neighboring fixture (impl review, Codex finding 4).
-    def station_cue!(kind, tile)
-      @station_cue = { kind:, at: tile, frames_left: @display[:station_cue_frames] }
+    # neighboring fixture (impl review, Codex finding 4). n: optional
+    # numeral for <N>-substituting kinds (T5) — digest-excluded like the cue.
+    def station_cue!(kind, tile, n: nil)
+      @station_cue = { kind:, at: tile, n:, frames_left: @display[:station_cue_frames] }
       true
     end
 

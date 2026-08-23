@@ -244,6 +244,10 @@
     {
       "id": "lobber_reach_reads",
       "check": "Where a Lobber volley telegraph is present AND the HUD level strip reads 5 or higher: the bracket chain spans FOUR contiguous tiles starting two ahead of the caster (not the three-tile base chain) - judge the span in the clearest mid-delay frame; a victim's body legitimately covers the bracket it stands on. Where captures straddle the impact with a victim standing at the FARTHEST bracket, the impact resolves there: that tile shows the kill flash or hurt reaction in the straddling frame and the chain is gone from it. If no volley telegraph appears, or the HUD reads below LEVEL 5, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "level_gate_reads",
+      "check": "Where a LEVEL N REQUIRED text line shows above a way tile: the named N exceeds the number on the HUD LEVEL strip in that same frame, and that way is shut - in frames where the refusal cue is live, its red X-bar and any standing body legitimately cover the slab's thin gold seam, but the tile still reads dark slab, never solid walkable gold; in at least one frame without the cue the same shut way shows the full slab-with-thin-gold-seam grammar. Where a later frame shows the HUD LEVEL at or above that N, the same way draws open walkable gold with no requirement line above it. If no LEVEL-N-REQUIRED line appears anywhere in the reel, pass with why='not exercised by this script'."
     }
   ]
 }

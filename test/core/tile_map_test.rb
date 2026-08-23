@@ -467,7 +467,7 @@ class TileMapTest < Minitest::Test
     data = Core::DataStore.new("data")
     reg = Core::TileRegistry.new(data["tiles"])
     zones = data.keys.grep(%r{\Azones/})
-    assert_equal 11, zones.length
+    assert_equal 12, zones.length
     v1 = %w[zones/camp zones/district zones/district_two zones/low_quay zones/slow_door]
     pilot = %w[zones/zone_7 zones/basement_1 zones/basement_2 zones/dungeon_1]
     zones.each do |key|
@@ -490,6 +490,14 @@ class TileMapTest < Minitest::Test
     fixture = Core::TileMap.new(data["zones/grass_fixture"])
     assert_equal %w[plaza], fixture.regions.map { |r| r[:id] }
     assert_empty fixture.enemy_spawns, "the fixture zone is threat-free by data"
+    # T5: the level-gate fixture (TEST 1) is SELF-LINKED — arrivals touch
+    # only itself, so every ratified zone's beachhead/anchor geometry is
+    # untouched by construction — and carries the one shipped
+    # requires_level (the wall's Rule 2 surface for the P9 machinery).
+    gate_fx = Core::TileMap.new(data["zones/gate_fixture"])
+    gate_way = gate_fx.transition_at(12, 10)
+    assert_equal "gate_fixture", gate_way[:to], "TEST 1 stays self-linked"
+    assert_equal 2, gate_way[:requires_level]
     # T4 pilot shapes: the town hub anchors floor 0; the descent is FLOOR -1.
     z7 = Core::TileMap.new(data["zones/zone_7"])
     assert z7.hub, "ZONE 7 is the town anchor (camp precedent)"

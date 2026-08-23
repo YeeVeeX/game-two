@@ -94,11 +94,12 @@ module App
       lookup[[tx, ty]]
     end
 
-    # SEALED/OPEN stamps for every gated way — toll seals AND boss
-    # fact-gates (T4): one shut/open grammar, state from the save.
+    # SEALED/OPEN stamps for every gated way — toll seals, boss
+    # fact-gates (T4), and level fact-gates (T5): one shut/open grammar,
+    # state through the renderer's own way_locked? (one condition source).
     def seal_stamps(world)
       world.zone_maps.flat_map do |name, map|
-        map.transitions.select { |t| t[:sealed] || t[:requires_defeats] }.map do |t|
+        map.transitions.select { |t| t[:sealed] || t[:requires_defeats] || t[:requires_level] }.map do |t|
           open = !App::Renderer.way_locked?(world, name, t)
           { zone: name, at: t[:at], text: open ? "OPEN" : "SEALED" }
         end

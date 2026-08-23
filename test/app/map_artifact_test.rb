@@ -117,7 +117,8 @@ class MapArtifactTest < Minitest::Test
     ],
     transitions: [
       { at: [3, 3], to: "upper", spawn: [1, 1], sealed: true, type: "hole" },
-      { at: [5, 5], to: "upper", spawn: [1, 1], requires_defeats: 4 }
+      { at: [5, 5], to: "upper", spawn: [1, 1], requires_defeats: 4 },
+      { at: [6, 5], to: "upper", spawn: [1, 1], requires_level: 3 }
     ],
     water_drained_by: [3, 3]
   }.freeze
@@ -163,12 +164,35 @@ class MapArtifactTest < Minitest::Test
     assert_equal "OPEN", stamp[:text]
   end
 
+  # T5 (P9, lane 5): the level gate joins the ONE shut/open grammar —
+  # slab cell + SEALED stamp below the required level, gate-gold + OPEN
+  # at it, through the renderer's own way_locked? (one condition source).
+  def test_level_gate_cell_locks_below_the_required_level
+    w = well_world # fresh: level 1 < 3
+    map = w.zone_maps.fetch("upper")
+    slab = App::Renderer::SEAL_SLAB
+    assert_equal [slab.red, slab.green, slab.blue], artifact.cell_rgb(w, "upper", map, 6, 5),
+                 "an unmet level gate draws the same shut-way slab"
+    stamp = artifact.seal_stamps(w).find { |s| s[:zone] == "upper" && s[:at] == [6, 5] }
+    assert_equal "SEALED", stamp[:text], "level gates join the stamp grammar"
+  end
+
+  def test_level_gate_cell_opens_at_the_live_level
+    w = well_world
+    w.progression.load_progress!(level: 3, xp: 0)
+    map = w.zone_maps.fetch("upper")
+    assert_equal WELL_ZONE[:palette][:transition], artifact.cell_rgb(w, "upper", map, 6, 5),
+                 "at level the way reads walkable gold (way_locked? flips live)"
+    stamp = artifact.seal_stamps(w).find { |s| s[:zone] == "upper" && s[:at] == [6, 5] }
+    assert_equal "OPEN", stamp[:text]
+  end
+
   # --- the labeled grid ------------------------------------------------------
 
   def test_layout_panels_every_zone_once_sorted_by_label
     l = artifact.layout(fresh_world)
-    assert_equal ["BASEMENT 1", "BASEMENT 2", "DUNGEON 1", "HUB 1", "ZONE 1", "ZONE 2",
-                  "ZONE 3", "ZONE 4", "ZONE 5", "ZONE 6", "ZONE 7"],
+    assert_equal ["BASEMENT 1", "BASEMENT 2", "DUNGEON 1", "HUB 1", "TEST 1", "ZONE 1",
+                  "ZONE 2", "ZONE 3", "ZONE 4", "ZONE 5", "ZONE 6", "ZONE 7"],
                  l[:panels].map { |p| p[:label] }
     assert_equal l[:panels].map { |p| p[:origin] }.uniq.length, l[:panels].length
     assert l[:width].positive? && l[:height].positive?
