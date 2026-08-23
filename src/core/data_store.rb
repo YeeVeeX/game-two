@@ -16,7 +16,9 @@ module Core
     # typo needs an abort that reaches the person who typed it). Exempting
     # by exact key HERE covers every construction site (window, main, map,
     # harness scenes, soak) — a caller opt-in would re-brick whichever
-    # surface forgot it.
+    # surface forgot it. TWIN LAW: Net::Fingerprint::EXCLUDED must also
+    # carry every machine-written file (a gitignored per-machine file in
+    # the handshake hash = permanent coop refusal — s55 review finding).
     MACHINE_WRITTEN = ["prefs.local"].freeze
 
     def initialize(root)

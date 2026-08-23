@@ -63,6 +63,20 @@ class FingerprintTest < Minitest::Test
     end
   end
 
+  def test_prefs_local_json_is_excluded
+    # s55 review finding: the menu writes data/prefs.local.json per seat
+    # (gitignored) — inside the hash, the first pref committed on either
+    # seat would refuse every later coop handshake with an unfixable
+    # "git pull" hint. Machine-written files never enter shared identity.
+    Dir.mktmpdir do |root|
+      build_tree(root)
+      a = Net::Fingerprint.tree_md5(root)
+      File.write(File.join(root, "data/prefs.local.json"), '{"locale":"pt-br"}')
+      assert_equal a, Net::Fingerprint.tree_md5(root),
+                   "machine-written client prefs must not poison the handshake"
+    end
+  end
+
   def test_line_ending_flavor_does_not_change_the_hash
     # Live trap (2026-08-16, first cross-machine join): an autocrlf=true
     # clone re-writes src/data with CRLF on checkout — byte drift, identical

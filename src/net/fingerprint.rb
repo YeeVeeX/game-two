@@ -5,8 +5,10 @@ require "net/state_digest"
 module Net
   # v17 handshake identity (spec Netplay spec): the sim fingerprint is an
   # md5 over sorted (relpath, content-md5) of src/**/*.rb + data/** +
-  # Gemfile.lock — EXCLUDING data/bindings.local.json (display-only,
-  # legitimately per-machine). Content md5s are EOL-NORMALIZED (\r\n and
+  # Gemfile.lock — EXCLUDING the per-machine display/client files
+  # (data/bindings.local.json, data/prefs.local.json — display-only,
+  # legitimately per-machine; the prefs twin of DataStore::MACHINE_WRITTEN,
+  # J6-B D9). Content md5s are EOL-NORMALIZED (\r\n and
   # \r → \n) — live trap 2026-08-16: the first cross-machine join refused
   # on an autocrlf=true checkout of the SAME commit (byte drift, identical
   # sim; Ruby and JSON are EOL-agnostic). Real content drift still refuses.
@@ -14,7 +16,11 @@ module Net
   # HELLO as separate fields so a mismatch can NAME what differs (the
   # error reaches the person who must act — W6, stale-line joins).
   module Fingerprint
-    EXCLUDED = ["data/bindings.local.json"].freeze
+    # Per-machine files never enter the shared identity: a gitignored file
+    # can never be equalized by "git pull", so including one manufactures a
+    # permanent refusal with a lying hint (s55 review finding). The next
+    # machine-written file must land HERE and in DataStore::MACHINE_WRITTEN.
+    EXCLUDED = ["data/bindings.local.json", "data/prefs.local.json"].freeze
 
     LABELS = {
       version: "protocol version",
