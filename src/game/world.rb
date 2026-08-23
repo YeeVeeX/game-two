@@ -17,6 +17,7 @@ require "game/price_sheet"
 require "game/crossing"
 require "game/progression"
 require "game/transients"
+require "game/volleys"
 require "game/save_state"
 
 module Game
@@ -92,7 +93,11 @@ module Game
       @humans = Hash.new { |h, k| h[k] = [] }
       @human_respawns = Hash.new { |h, k| h[k] = [] }
       @projectiles = []
-      @impacts = []
+      # Volley records live in a plain object (T4 carve, line-cap law);
+      # hit resolution reaches back through these callables.
+      @volleys = Volleys.new(hostiles: method(:hostiles_for),
+                             blocked: method(:blocked_for),
+                             hit_sink: method(:emit_attack_hit))
       @last_damaged = {}
       # The field-value economy (drops, corpse records, carried
       # containers, expiry flashes) is a plain object — explicit call
@@ -174,7 +179,7 @@ module Game
     def active_banner = @banner_queue.first
     def actors = (@pack.members + humans).reject(&:dead?)
     def projectiles = @projectiles
-    def impacts = @impacts
+    def impacts = @volleys.records
     def corpses = @field.corpses(@zone_name)
     def drops = @field.drops(@zone_name)
     # Non-autovivifying (FieldEconomy law): the renderer reads these every
@@ -658,13 +663,7 @@ module Game
         @humans[zone].each { |h| groups << ["human.#{zone}.#{h.name}", h.digest_fields] }
       end
       @projectiles.each_with_index { |p, i| groups << ["projectile.#{i}", p.digest_fields] }
-      @impacts.each_with_index do |imp, i|
-        groups << ["impact.#{i}", [
-          ["owner", imp[:owner].name],
-          ["tiles", imp[:tiles].map { |t| t.join(",") }.join("|")],
-          ["frames_left", imp[:frames_left]], ["damage", imp[:damage]]
-        ]]
-      end
+      groups.concat(@volleys.digest_groups)
       groups.concat(@field.digest_groups)
       @human_respawns.keys.sort.each do |zone|
         @human_respawns[zone].each_with_index do |r, i|
@@ -717,7 +716,9 @@ module Game
       humans.each { |h| emit_telegraph_edge(h); @ai.tick(h, self) unless h.chanting? }
 
       check_transition
-      tick_impacts
+      # Volleys tick here only, so hitstop pauses delayed impacts while
+      # @frame continues advancing (the pause law rides this call order).
+      @volleys.tick!
       @transients.tick_combat!
       resolve_attacks
       tick_projectiles
@@ -1029,42 +1030,10 @@ module Game
 
     def launch_volley(attacker, cfg)
       attacker.action_triggered!
-      @impacts << {
-        owner: attacker,
-        tiles: volley_tiles(attacker.tile, attacker.facing, cfg[:impact_distances]),
-        frames_left: cfg[:delay_frames],
-        damage: leveled_damage(attacker, cfg)
-      }
-    end
-
-    def volley_tiles(origin, dir, distances)
-      tiles = []
-      tx, ty = origin
-      1.upto(distances.max) do |distance|
-        tx += dir[0]
-        ty += dir[1]
-        break unless map.passable?(tx, ty)
-        tiles << [tx, ty] if distances.include?(distance)
-      end
-      tiles
-    end
-
-    # Counted only in tick_world, so hitstop pauses delayed impacts while
-    # @frame continues advancing. Creation order and tile order are fixed.
-    def tick_impacts
-      @impacts.each do |impact|
-        impact[:frames_left] -= 1
-        next if impact[:frames_left].positive?
-        foes = hostiles_for(impact[:owner])
-        impact[:tiles].each do |tile|
-          victim = foes.find { |foe| !foe.dead? && foe.tile == tile }
-          next unless victim
-          landed = victim.take_hit(damage: impact[:damage], attacker: impact[:owner],
-                                   knockback_tiles: 0, blocked: blocked_for(victim))
-          emit_attack_hit(impact[:owner], victim, landed)
-        end
-      end
-      @impacts.reject! { |impact| impact[:frames_left] <= 0 }
+      @volleys.launch(owner: attacker, map:, origin: attacker.tile,
+                      dir: attacker.facing, distances: cfg[:impact_distances],
+                      delay_frames: cfg[:delay_frames],
+                      damage: leveled_damage(attacker, cfg))
     end
 
     # Decay/term/flash clocks + drop/corpse records live in FieldEconomy
@@ -1136,7 +1105,7 @@ module Game
       @flow_cache = {}
       @home_fields = {}
       @projectiles = []
-      @impacts = []
+      @volleys.clear!
       @transients.clear!
       @pack.clear_mark!
       @last_damaged = {}
