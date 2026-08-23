@@ -117,5 +117,9 @@
  "menu_title_font_size": 28,
  "menu_row_font_size": 18,
  "menu_hint_font_size": 12,
- "menu_scale_presets": ["auto", 1, 2, 3]
+ "menu_scale_presets": ["auto", 1, 2, 3],
+ "menu_net_panel_w": 230,
+ "menu_net_panel_gap": 14,
+ "menu_net_row_h": 20,
+ "menu_net_font_size": 13
 }

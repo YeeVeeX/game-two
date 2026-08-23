@@ -7,6 +7,7 @@ require "game/telemetry"
 require "net/session"
 require "app/renderer"
 require "app/netplay_overlay"
+require "app/menu"
 require "app/key_table"
 require_relative "../event_log"
 require_relative "../support"
@@ -71,6 +72,15 @@ module Harness
         @overlay = App::NetplayOverlay.new(display: @data["display"],
                                            strings: Core::Strings.new(@data, locale: "en"),
                                            view_w: width, view_h: height)
+        # J6-C: the menu at the window's exact seam (tick + route on the
+        # HOST input) — the reel proves the panels AND that an open menu
+        # keeps idle frames flowing (the lockstep world advances beneath).
+        @menu = App::Menu.new(display: @data["display"],
+                              strings: Core::Strings.new(@data, locale: "en"),
+                              bindings: Core::BindingMap.load(
+                                @data, key_table: App::KEY_TABLE, local: false
+                              ),
+                              view_w: width, view_h: height)
       end
 
       def tick(input)
@@ -78,7 +88,8 @@ module Harness
         join_if_scheduled
         attach_worlds
         stage_pokes
-        @host.update(now, input) unless @host.ended?
+        @menu.tick(input)
+        @host.update(now, @menu.route(input)) unless @host.ended?
         if @join && !@join.ended? && joiner_alive?
           @join.update(now, @seat2) unless frozen?
         end
@@ -89,6 +100,7 @@ module Harness
       def draw
         @renderer.draw(@world) if @world
         @overlay.draw(@host, @world)
+        @menu.draw(session: @host, world: @world)
       end
 
       def summary

@@ -79,6 +79,13 @@ module App
 
     def open? = @state != :closed
 
+    # J6-C: the window force-closes an open menu the moment a session ends
+    # — the end screen owns the frame (A-close banked row; z-war refused).
+    def close!
+      @state = :closed
+      @swallow_route = false
+    end
+
     # The window's routing seam (D1): closed -> the SAME object it was
     # handed (byte-path identical for every shipped script — wall-debt
     # audit); open -> the held NullInput (mask 0 on the wire, idle frames
@@ -142,11 +149,36 @@ module App
       end
     end
 
-    def draw
+    # J6-C (D14): read-only session diagnostics from EXISTING readers only
+    # (session/lockstep counters + the progression readers the HUD uses).
+    # Pure — no Gosu; nil outside a params-known session. The reel proves
+    # the pixels; labels are locale-invariant technical register.
+    def net_model(session, world)
+      return nil unless session&.params_known? && world
+      ls = session.lockstep
+      span = session.ticks / 60
+      { link: ["#{tr('menu.net.seat', 'SEAT')} #{session.seat}",
+               "#{tr('menu.net.ticks', 'TICKS')} #{session.ticks}",
+               "D #{session.params.d}",
+               "#{tr('menu.net.stalls', 'STALLS')} #{ls ? ls.stall_updates : 0} · " \
+               "#{tr('menu.net.max', 'MAX')} #{ls ? ls.stall_ms_max.round : 0} MS",
+               "#{tr('menu.net.desyncs', 'DESYNCS')} #{ls ? ls.desyncs : 0}",
+               (tr("net.link_slow", "LINK SLOW") if session.link_slow)].compact,
+        ledger: ["#{tr('hud.level', 'LEVEL')} #{world.progression.level} · XP #{world.progression.xp}",
+                 "#{tr('menu.net.run', 'RUN')} #{format('%d:%02d', span / 60, span % 60)}",
+                 ((b = world.ledger_beat) ? b[:kind].to_s.upcase : nil)].compact }
+    end
+
+    def draw(session: nil, world: nil)
       m = draw_model
       return unless m
       Gosu.draw_rect(0, 0, @view_w, @view_h, Gosu::Color.new(veil_alpha, *BG), 50)
-      m[:screen] == :controls ? draw_sheet(m) : draw_root(m)
+      if m[:screen] == :controls
+        draw_sheet(m)
+      else
+        draw_root(m)
+        draw_net_panels(net_model(session, world)) if m[:screen] == :root
+      end
     end
 
     private
@@ -284,6 +316,27 @@ module App
       draw_hint(m[:hint], x + pad * 2, y + h - hint_h)
     end
 
+    # Two read-only side panels flanking the root menu (session mode only;
+    # solo and the single-player wall pass session nil — absent by
+    # construction).
+    def draw_net_panels(nm)
+      return unless nm
+      w = net_panel_w
+      { tr("menu.net.link_title", "LINK") =>
+          [(@view_w - panel_w) / 2 - net_panel_gap - w, nm[:link]],
+        tr("menu.net.session_title", "SESSION") =>
+          [(@view_w + panel_w) / 2 + net_panel_gap, nm[:ledger]] }.each do |title, (x, rows)|
+        h = pad * 2 + net_row_h * (rows.size + 1)
+        y = (@view_h - h) / 2
+        Gosu.draw_rect(x, y, w, h, Gosu::Color.new(panel_alpha, *BG), 50)
+        net_font.draw_text(title, x + pad, y + pad, 50, 1, 1, Gosu::Color.new(255, *BONE))
+        rows.each_with_index do |r, i|
+          net_font.draw_text(r, x + pad, y + pad + net_row_h * (i + 1), 50, 1, 1,
+                             Gosu::Color.new(255, *DIM))
+        end
+      end
+    end
+
     def draw_hint(text, x, y)
       hint_font.draw_text(text, x, y, 50, 1, 1, Gosu::Color.new(255, *DIM))
     end
@@ -300,6 +353,10 @@ module App
     def hint_h = @display.fetch(:menu_hint_h, 24)
     def pad = @display.fetch(:menu_pad, 20)
     def glyph_gap = @display.fetch(:menu_glyph_gap, 14)
+    def net_panel_w = @display.fetch(:menu_net_panel_w, 230)
+    def net_panel_gap = @display.fetch(:menu_net_panel_gap, 14)
+    def net_row_h = @display.fetch(:menu_net_row_h, 20)
+    def net_font = @net_font ||= Gosu::Font.new(@display.fetch(:menu_net_font_size, 13))
     def title_font = @title_font ||= Gosu::Font.new(@display.fetch(:menu_title_font_size, 28), bold: true)
     def row_font = @row_font ||= Gosu::Font.new(@display.fetch(:menu_row_font_size, 18))
     def hint_font = @hint_font ||= Gosu::Font.new(@display.fetch(:menu_hint_font_size, 12))

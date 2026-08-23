@@ -153,6 +153,7 @@ module App
       end
       handle_menu(@menu.tick(@input)) if menu_active?
       @session.update(now, @menu.route(@input))
+      @menu.close! if @menu.open? && @session.ended? # end screen owns the frame (J6-C)
       close if @session.ended? && @quitting
     end
 
@@ -177,7 +178,7 @@ module App
       Gosu.scale(@scale) do
         @renderer.draw(@world) if @world
         @netplay&.draw(@session, @world)
-        @menu.draw
+        @menu.draw(session: @session, world: @world)
         if @overruns.positive?
           @overrun_font.draw_text("overruns: #{@overruns}", @view_width - 110, 8, 20, 1, 1,
                                   Gosu::Color.new(200, 255, 120, 120))

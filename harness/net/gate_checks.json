@@ -1,5 +1,5 @@
 {
-  "scope": "All checks below judge NETPLAY-scenario captures: a two-player lockstep session rendered from seat 1's view. Frames are either (a) full-screen session states (near-black screen with large centered text) or (b) live world frames with netplay overlay text. The local player's body carries the familiar WHITE ring; the PARTNER's body carries a CYAN/teal ring and is otherwise dimmed like an ally. The three netplay scripts stage mutually exclusive endings, so any check whose beat is absent from this reel passes with why='not exercised by this script'. no_render_garbage always applies in full.",
+  "scope": "All checks below judge NETPLAY-scenario captures: a two-player lockstep session rendered from seat 1's view. Frames are either (a) full-screen session states (near-black screen with large centered text), (b) live world frames with netplay overlay text, or (c) live world frames under the semi-transparent MENU panel (J6-C: side panels LINK and SESSION flank the menu). The local player's body carries the familiar WHITE ring; the PARTNER's body carries a CYAN/teal ring and is otherwise dimmed like an ally. The three netplay scripts stage mutually exclusive endings (desync, connection lost, partner-left-after-quit), so any check whose beat is absent from this reel passes with why='not exercised by this script'. no_render_garbage always applies in full.",
   "checks": [
     {
       "id": "hosting_state_reads",
@@ -43,7 +43,15 @@
     },
     {
       "id": "netplay_text_legible",
-      "check": "Every netplay overlay line that appears (hosting, connecting, stall, link slow, gate wait, no body, endings) is legible: readable contrast against what is behind it, not clipped at screen edges, not overlapped into gibberish by other UI."
+      "check": "Every netplay overlay line that appears (hosting, connecting, stall, link slow, gate wait, no body, endings) is legible: readable contrast against what is behind it, not clipped at screen edges, not overlapped into gibberish by other UI. While the MENU panel is open its veil legitimately dims overlay cues behind it - judge cue legibility on menu-less frames."
+    },
+    {
+      "id": "partner_left_screen_reads",
+      "check": "When the quit ending is present: after the session ends the frame is a full-screen darkened state reading PARTNER LEFT - SESSION ENDED, same delivery as the desync/connection-lost screens (the frozen world may ghost through the veil) - the abandoned seat is TOLD why its world stopped, never left frozen-silent. If this reel has no post-quit frames, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "net_menu_panels_read",
+      "check": "Where the MENU panel is open over a live netplay world: two side panels flank it - a LINK-titled panel (rows naming SEAT, TICKS, D, STALLS, DESYNCS) and a SESSION-titled panel (a LEVEL row and a RUN timer row) - each row legible, and the netplay world still readable behind the veil. Across two menu-open frames the world or the TICKS row visibly advances (lockstep keeps flowing under an open menu). If no frame shows the menu open over a netplay world, pass with why='not exercised by this script'."
     },
     {
       "id": "hud_strip_intact",
