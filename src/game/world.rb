@@ -124,6 +124,7 @@ module Game
       # decisions live in a plain object; World does the moving.
       @crossing = Crossing.new(zones: @zones, breached: method(:breached?),
                                defeats: -> { @progression.boss_1_defeats },
+                               level: -> { @progression.level },
                                living: -> { @pack.living.length })
       # First-possession registry (v14): cosmetic sim state the sim never
       # reads (taunt_pulses precedent) — the controls overlay derives its

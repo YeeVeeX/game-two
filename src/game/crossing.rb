@@ -41,24 +41,36 @@ module Game
       end
       arrivals
     end
-    # zones: {name => TileMap}. breached / defeats / living are LIVE
-    # readers (the PriceSheet callable pattern) — breach state and the
-    # boss counter move mid-session.
-    def initialize(zones:, breached:, defeats:, living:)
+    # zones: {name => TileMap}. breached / defeats / level / living are
+    # LIVE readers (the PriceSheet callable pattern) — breach state, the
+    # boss counter, and the pack level move mid-session.
+    def initialize(zones:, breached:, defeats:, level:, living:)
       @zones = zones
       @breached = breached
       @defeats = defeats
+      @level = level
       @living = living
     end
 
-    # v12 seal law + T4 boss fact-gate (spec §THE GATE): a way is shut
-    # while its toll is unpaid OR its required boss_1_defeats count is
-    # unmet — a breach-variant reading a persisted fact instead of a
-    # price. Both READ persisted state; neither spends here.
+    # v12 seal law + T4 boss fact-gate + T5 level fact-gate (spec §THE
+    # GATE / P9): a way is shut while its toll is unpaid OR its required
+    # boss_1_defeats count is unmet OR the live pack level is below its
+    # requires_level. Independent AND branches; every fact is READ —
+    # nothing spends here.
     def open?(zone_name, t)
       return false if t[:sealed] && !@breached.call(zone_name, t[:at])
       return false if t[:requires_defeats] && @defeats.call < t[:requires_defeats]
+      return false if t[:requires_level] && @level.call < t[:requires_level]
       true
+    end
+
+    # T5 (P9) refusal reason, the group_wait returned-cue contract: nil
+    # unless the level gate is an unmet fact on this way; else the
+    # required level (true information even on a way that is ALSO
+    # sealed — the cue names its own fact regardless of siblings).
+    def unmet_level(t)
+      rl = t[:requires_level]
+      rl && @level.call < rl ? rl : nil
     end
 
     # v17 decision 11 (co-location consent), ONE law for gates and ropes:

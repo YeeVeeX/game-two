@@ -129,6 +129,14 @@ module Core
         raise BadMap, "transition at #{t[:at].inspect}: requires_defeats must be an " \
                       "Integer >= 1 (got #{rd.inspect})"
       end
+      # T5 (P9): OPTIONAL level fact-gate — the way stays shut until the
+      # LIVE pack level reaches this value (requires_defeats' full sibling;
+      # gates compose as independent ANDs — the s34 comment law below).
+      rl = t[:requires_level]
+      if rl && !(rl.is_a?(Integer) && rl >= 1)
+        raise BadMap, "transition at #{t[:at].inspect}: requires_level must be an " \
+                      "Integer >= 1 (got #{rl.inspect})"
+      end
       unlock = t[:stairs_unlocked_by]
       return unless unlock
       unless type == "hole"

@@ -151,6 +151,37 @@ class TileMapTest < Minitest::Test
     end
   end
 
+  # --- T5 (P9): the level fact-gate — requires_defeats' full sibling ----
+
+  def test_requires_level_parses_on_any_transition
+    map = Core::TileMap.new(base_cfg.merge(
+      transitions: [{ at: [2, 2], to: "next", spawn: [1, 1], requires_level: 2 }]
+    ))
+    assert_equal 2, map.transition_at(2, 2)[:requires_level]
+  end
+
+  def test_requires_level_refuses_non_positive_or_non_integer
+    [0, -1, "2", 2.5].each do |bad|
+      e = assert_raises(Core::TileMap::BadMap) do
+        Core::TileMap.new(base_cfg.merge(
+          transitions: [{ at: [2, 2], to: "x", spawn: [1, 1], requires_level: bad }]
+        ))
+      end
+      assert_match(/requires_level must be an Integer >= 1/, e.message)
+    end
+  end
+
+  def test_requires_level_coexists_with_requires_defeats
+    # Independent AND branches (the s34 comment law): one way may carry
+    # both facts and both validate.
+    map = Core::TileMap.new(base_cfg.merge(
+      transitions: [{ at: [2, 2], to: "next", spawn: [1, 1],
+                      requires_defeats: 1, requires_level: 3 }]
+    ))
+    assert_equal 1, map.transition_at(2, 2)[:requires_defeats]
+    assert_equal 3, map.transition_at(2, 2)[:requires_level]
+  end
+
   def test_water_drained_by_parses_with_authored_palette_ref
     cfg = base_cfg
     cfg[:palette] = cfg[:palette].merge(water_drained: [9, 9, 9])
@@ -402,6 +433,19 @@ class TileMapTest < Minitest::Test
       Core::TileMap.new(seal_cfg(
         opens: [3, 3],
         transitions: [{ at: [3, 3], to: "next", spawn: [1, 1], requires_defeats: 1 }]
+      ))
+    end
+    assert_match(/names an unsealed transition/, e.message)
+  end
+
+  def test_seal_opens_naming_a_level_gated_unsealed_transition_refuses_named
+    # T5 belt: the sibling composes with s34 for free — the gating law
+    # reads t[:sealed] only, so a requires_level-only way refuses as a
+    # seal target with ZERO new validator code (the existing message).
+    e = assert_raises(Core::TileMap::BadMap) do
+      Core::TileMap.new(seal_cfg(
+        opens: [3, 3],
+        transitions: [{ at: [3, 3], to: "next", spawn: [1, 1], requires_level: 2 }]
       ))
     end
     assert_match(/names an unsealed transition/, e.message)
