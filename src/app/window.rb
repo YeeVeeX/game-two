@@ -6,6 +6,7 @@ require "core/binding_map"
 require "game/world"
 require "game/telemetry"
 require "app/renderer"
+require "app/menu"
 require "app/netplay_overlay"
 require "app/frame_probe"
 require "app/vsync_release"
@@ -85,6 +86,11 @@ module App
       # autopilot at the SAME seam — sim and session code never know.
       @autopilot = bot
       @input = @autopilot || Core::KeyboardInput.new(bindings: bindings.codes)
+      # J-6 (drafts/_j6-menu-brief-20260823.md): the non-pausing menu at
+      # the ONE input seam — open routes NullInput (idle frames keep
+      # flowing; the sim never knows). Bots never emit :menu.
+      @menu = Menu.new(display:, strings:, bindings:,
+                       view_w: @view_width, view_h: @view_height)
       @renderer = Renderer.new(display: display, strings:, bindings: bindings,
                                local_seat: @session ? @session.seat : 1)
       @overruns = 0
@@ -104,7 +110,8 @@ module App
         # Uniform sampling law: the caller updates the source (no-op for
         # a keyboard, the tick function for a bot/script).
         @input.update(@world.frame)
-        @world.tick(@input)
+        handle_menu(@menu.tick(@input)) if menu_active?
+        @world.tick(@menu.route(@input))
       end
       autopilot_watch if @autopilot
       @audio&.update(@world.frame) if @world # after the tick; bus already flushed
@@ -135,8 +142,25 @@ module App
         # only prints on a clean end; this one survives a dirty death.
         puts @session.handshake_line
       end
-      @session.update(now, @input)
+      handle_menu(@menu.tick(@input)) if menu_active?
+      @session.update(now, @menu.route(@input))
       close if @session.ended? && @quitting
+    end
+
+    # The menu ticks only over a live world: never in hosting/connecting
+    # (button_down owns Esc there), never on an end screen, never during
+    # the BYE drain (no reopen mid-drain — brief D2).
+    def menu_active? = @world && !@quitting && !@session&.ended?
+
+    # D3: QUIT lands on the OLD Esc body verbatim — a live session quits
+    # via the BYE drain, solo closes (the save write IS this path).
+    def handle_menu(action)
+      return unless action == :quit
+      if @session && !@session.ended?
+        request_quit
+      else
+        close
+      end
     end
 
     def draw
@@ -144,6 +168,7 @@ module App
       Gosu.scale(@scale) do
         @renderer.draw(@world) if @world
         @netplay&.draw(@session, @world)
+        @menu.draw
         if @overruns.positive?
           @overrun_font.draw_text("overruns: #{@overruns}", @view_width - 110, 8, 20, 1, 1,
                                   Gosu::Color.new(200, 255, 120, 120))
@@ -177,10 +202,14 @@ module App
 
     def button_down(id)
       return super unless id == Gosu::KB_ESCAPE
-      if @session && !@session.ended? && !@quitting
-        request_quit
-      else
+      # J-6 (brief D2), Esc semantics changed ON PURPOSE: while playing,
+      # Esc falls through to the :menu binding — QUIT is a menu row. Kept
+      # here: ended session → close (end-screen law); session with no
+      # world yet (HOSTING/CONNECTING) → cancel via the drain.
+      if @session&.ended?
         close
+      elsif @session && @world.nil? && !@quitting
+        request_quit
       end
     end
 

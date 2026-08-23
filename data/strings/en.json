@@ -43,5 +43,14 @@
   "net.desync": "DESYNC AT TICK <N> — SESSION ENDED",
   "net.conn_lost": "CONNECTION LOST — SESSION ENDED",
   "net.no_body": "NO BODY — WAITING",
-  "net.gate_wait": "WAITING AT GATE"
+  "net.gate_wait": "WAITING AT GATE",
+  "menu.title": "MENU",
+  "menu.resume": "RESUME",
+  "menu.controls": "CONTROLS",
+  "menu.quit": "QUIT",
+  "menu.hint": "ESC: CLOSE",
+  "menu.label.move": "MOVE",
+  "menu.label.aim": "AIM",
+  "menu.label.special": "SPECIAL",
+  "menu.label.menu": "MENU"
 }

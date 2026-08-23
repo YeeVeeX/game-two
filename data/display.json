@@ -103,5 +103,18 @@
   200,
   220
  ],
- "net_banner_frames": 180
+ "net_banner_frames": 180,
+ "menu_veil_alpha": 150,
+ "menu_panel_alpha": 220,
+ "menu_panel_w": 320,
+ "menu_sheet_w": 560,
+ "menu_row_h": 34,
+ "menu_sheet_row_h": 24,
+ "menu_title_h": 44,
+ "menu_hint_h": 24,
+ "menu_pad": 20,
+ "menu_glyph_gap": 14,
+ "menu_title_font_size": 28,
+ "menu_row_font_size": 18,
+ "menu_hint_font_size": 12
 }

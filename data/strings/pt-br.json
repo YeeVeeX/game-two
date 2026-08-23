@@ -43,5 +43,14 @@
   "net.desync": "DESSINCRONIA NO TICK <N> — SESSÃO ENCERRADA",
   "net.conn_lost": "CONEXÃO PERDIDA — SESSÃO ENCERRADA",
   "net.no_body": "SEM CORPO — AGUARDANDO",
-  "net.gate_wait": "AGUARDANDO NO PORTÃO"
+  "net.gate_wait": "AGUARDANDO NO PORTÃO",
+  "menu.title": "MENU",
+  "menu.resume": "CONTINUAR",
+  "menu.controls": "CONTROLES",
+  "menu.quit": "SAIR",
+  "menu.hint": "ESC: FECHAR",
+  "menu.label.move": "MOVER",
+  "menu.label.aim": "MIRAR",
+  "menu.label.special": "ESPECIAL",
+  "menu.label.menu": "MENU"
 }

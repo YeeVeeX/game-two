@@ -22,12 +22,14 @@ require "core/input"
 require_relative "support"
 require_relative "scenes/moving_square"
 require_relative "scenes/world_scene"
+require_relative "scenes/menu_scene"
 require_relative "scenes/netplay_scene"
 
 module Harness
   SCENES = {
     "moving_square" => Scenes::MovingSquare,
     "world" => Scenes::WorldScene,
+    "menu" => Scenes::MenuScene,
     "netplay" => Scenes::NetplayScene
   }.freeze
 
@@ -40,7 +42,9 @@ module Harness
       self.caption = "game-two replay: #{raw[:scenario]}"
 
       scene_kwargs = { width: w, height: h, seed: raw.fetch(:seed, 0) }
-      scene_kwargs[:start] = raw[:start] if raw[:start] && raw.fetch(:scenario) == "world"
+      # start staging serves the world-carrying scenarios (menu = WorldScene
+      # construction + the menu seam — brief D6).
+      scene_kwargs[:start] = raw[:start] if raw[:start] && %w[world menu].include?(raw.fetch(:scenario))
       scene_kwargs[:netplay] = raw[:netplay] if raw.fetch(:scenario) == "netplay"
       @scene = SCENES.fetch(raw.fetch(:scenario)).new(**scene_kwargs)
       @input = Core::ScriptedInput.new(frames: Harness.expand_script(raw))

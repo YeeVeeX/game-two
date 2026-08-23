@@ -248,6 +248,14 @@
     {
       "id": "level_gate_reads",
       "check": "Where a LEVEL N REQUIRED text line shows above a way tile: the named N exceeds the number on the HUD LEVEL strip in that same frame, and that way is shut - in frames where the refusal cue is live, its red X-bar and any standing body legitimately cover the slab's thin gold seam, but the tile still reads dark slab, never solid walkable gold; in at least one frame without the cue the same shut way shows the full slab-with-thin-gold-seam grammar. Where a later frame shows the HUD LEVEL at or above that N, the same way draws open walkable gold with no requirement line above it. If no LEVEL-N-REQUIRED line appears anywhere in the reel, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "menu_reads",
+      "check": "Where a menu panel is on camera (a dimming veil over the whole frame with a near-black panel titled MENU): the root rows RESUME / CONTROLS / QUIT read legibly with exactly ONE row visibly marked as selected (a cursor marker and brighter tone), an ESC hint line reads on the panel, and the world stays readable BEHIND the veil (floor grid, bodies, or HUD bars still discernible - the veil dims, it never blacks out the frame). A CONTROLS-titled sheet frame reads as a key reference: rows of key glyphs paired with action labels, including a movement row and a menu row. If no menu panel appears anywhere in the reel, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "menu_world_ticks",
+      "check": "Where TWO OR MORE frames show the menu panel open: the world visibly ADVANCES between them behind the veil - an enemy has moved, an HP bar has dropped, a corpse or combat effect has appeared or resolved; the world region must NOT read as frozen/identical behind the open panel (a paused world under the menu is exactly the failure this check exists to catch). If fewer than two menu-open frames exist in the reel, pass with why='not exercised by this script'."
     }
   ]
 }

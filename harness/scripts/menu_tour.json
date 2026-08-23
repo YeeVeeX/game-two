@@ -1,0 +1,42 @@
+{
+ "scenario": "menu",
+ "seed": 42,
+ "width": 960,
+ "height": 540,
+ "out_dir": "captures/menu_tour",
+ "hold": {
+  "right": [
+   [
+    0,
+    19
+   ],
+   [
+    60,
+    319
+   ]
+  ],
+  "up": [
+   [
+    20,
+    59
+   ]
+  ]
+ },
+ "frames": {
+  "340": ["menu"],
+  "560": ["down"],
+  "570": ["attack"],
+  "620": ["menu"],
+  "632": ["menu"]
+ },
+ "captures": [330, 360, 540, 600, 660],
+ "run_until": 700,
+ "start": {
+  "zone": "gate_fixture"
+ },
+ "manifest": {
+  "zone_entered": 2,
+  "attack_hit": 5,
+  "actor_died": 1
+ }
+}

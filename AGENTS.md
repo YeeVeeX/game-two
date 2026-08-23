@@ -375,7 +375,8 @@ program (2026-08-16): placeholders + dictionary-word functional labels only.
 WASD / arrows = move · Ctrl (hold) + direction = stationary aim (face without
 stepping; dodge stays live) · J / Space = attack · K / Shift = dodge · L / E = special ·
 ; / Q = mark · U / R = provision (buy at bank / use afield) · H / F = interact ·
-Tab = swap possession · Esc = quit
+Tab = swap possession · Esc = menu (non-pausing — the world keeps ticking;
+quit via its QUIT row · J-6, s53)
 
 Timebase: `Window#update` = exactly one sim tick (tick-locked; replays deterministic by tick
 count). Under load the game slows rather than skips — the top-right overrun counter makes
