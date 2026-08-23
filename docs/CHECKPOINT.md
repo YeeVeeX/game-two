@@ -1,5 +1,62 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-23 session 56 (Junior's seat) — J6-C SHIPPED: partner-left notice + menu LINK/SESSION panels + frozen-menu force-close — LANE 4 TICKETS ALL EXECUTED; net-gate determinism 3/3 + soak PASS; CRITIC-ON ×3 OWED to hub (same seat-creds limitation as s54)
+
+**Job 0 (open = clean):** origin tip = s55 docs commit + this seat's
+`da8a0ff` D12-observation docs; pulled --rebase clean; suite 1156/0F;
+wall = 25; mail inbox EMPTY (audio RECEIPT still outbound — volume
+defer now a J6 rider). Claimed the s55 J6-C spark as s56.
+
+**Shipped (close = `drafts/_j6-c-close-20260823.md`):**
+
+- **C1 `feat(netplay)`:** quit-ended → `:partner_left`
+  UNCONDITIONALLY in overlay flags — only the ABANDONED seat ever
+  draws a post-end frame, so the frozen world finally says why
+  (`PARTNER LEFT — SESSION ENDED`, desync/conn-lost delivery);
+  `net.partner_left` ×3 VERBATIM; overlay quit pin updated to the new
+  law (real-loopback lane).
+- **C2 `feat(presentation)`:** `Menu#net_model` (pure; EXISTING
+  readers only — session/lockstep counters + progression) → LINK +
+  SESSION side panels, session mode only (solo + wall pass nil —
+  absent by construction) · A-close banked row RESOLVED via
+  `Menu#close!` force-close at session end (end screen owns the
+  frame) · netplay_scene gains the Menu at the window's exact seam ·
+  netplay_session reel: menu beats f570/f640, captures +600/+620
+  (panels over the live lockstep world) +710 (the notice — first
+  post-quit frame the script ever had) · checks same commit (+2
+  self-scoping, scope + legibility clause) · display `menu_net_*`
+  keys · window.rb 266 (≤280 re-priced budget).
+
+**Evidence:** suite 1156→1159 green every commit · pairs **24/24** vs
+the s54 baseline (transitively valid; C touches no solo draw path) ·
+net gates ×3 determinism PASS (session reel 14 captures ×2
+byte-identical) · dev-eye: f0600/f0620 TICKS 371→391 — lockstep
+advancing UNDER the open menu, panels legible; f0710 partner-left
+full-screen · soak N=1 PASS (36120/36123, desyncs 0, chain intact).
+
+**Honesty rows:** (1) critic-ON ×3 net gates OWED to hub (seat AWS
+creds dead — s54's limitation, unchanged); language critique rides
+them. (2) Panel labels = locale-invariant diagnostics register (brief
+pinned only net.partner_left; deviation named, rows are data-only,
+re-pin cheap). (3) NO BODY cue dims under the menu veil in two frames
+— scoped in netplay_text_legible, clean reads exist at f0535/f0550.
+
+**J-6 lane status: A+B+C all executed.** Remaining J6 rider: volume
+rows on the audio RECEIPT. Banked rows: all resolved or carried
+(frozen-menu — resolved here; RESUME leak — resolved in B).
+
+**Next (s57):** hub runs the owed critic-ON gates (menu_tour from
+s54 is CLEARED; the three net gates from here) → then intake / Lane
+2-3 knobs / ZONE 8 wire-in, hub's call.
+
+**Job-0 baselines for s57:** origin tip = this s56 docs commit · wall
+= 25 (netplay_session now 14 captures) · suite = **1159** · save
+untouched · mail inbox EMPTY.
+
+**Owner-pending carry (never nag):** ear-checks · T3 footstep/bed
+renders · coop S1 (both seats READY) · SHARED-save first crossing ·
+J-5 spike call · R-A2 escalation call · ZONE 8 wire-in (owner word).
+
 ## 2026-08-23 session 55 (hub) — J6-B DEBT CLEARED: critic-ON menu_tour gate PASS (7/7 det ×2, vision 65/65, manifest true-count {2,5,1}) · Rule 6 review found TWO blocking defects — D9 boot-brick (probe-proven) + fingerprint prefs-poisoning (coop-handshake brick) — both FIXED; pairs 24/24 twice; J6-C handed to s56
 
 **Job 0 (open = clean):** origin tip `183fd8b` as expected; both draft
