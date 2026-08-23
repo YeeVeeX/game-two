@@ -1,5 +1,96 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-23 session 52 (hub) — J-6 BRIEF CUT (non-pausing menu, Lane 4): three tickets (chassis / prefs+settings / netplay), zero code; audio volume-API ask MAILED; partner-left frozen-silent gap found on record
+
+**Job 0 (open = clean):** origin tip `fbc15f1` = the expected s51
+gate-verdicts docs commit above `72387e4`/`c037709`/`891511f`, zero
+peer deltas; save `98fe75ed…` mtime 08-20 15:51 md5-verified open +
+mid + close; launcher logs 40 newest 08-21 01:39; mail inbox EMPTY;
+`drafts/_refs/` untracked by design; wall = 24; suite = 1122/0F
+(46.8 s, run at open).
+
+**Triage:** no owner word anywhere (inbox empty, zero peer deltas,
+spark carries no B-knob order) → fork (b): **J-6 brief cut** (Lane 4
+ratified sequencing law: the menu ships BEFORE the ritual runsheet
+freezes — the runsheet gets authored against the new Esc/quit path).
+
+**Shipped (docs only — ZERO code, s45/s48/s50 brief-writer
+precedent):** `drafts/_j6-menu-brief-20260823.md` (md5 `00802b28…`)
+— 15 decisions argued from live reads at `fbc15f1`, cut into THREE
+one-session tickets:
+
+- **D1/D2 seam:** App::Menu module at the ONE input seam —
+  `menu.tick(input)` + `menu.route(input)` (open → the existing
+  `Core::NullInput`, closed → the same object); netplay idle frames
+  flow through the session's own per-executed-tick sampling; `:menu`
+  abstract action bound to Escape (KEY_TABLE +1, bindings.json +1;
+  Protocol.ACTIONS PINNED-untouched — menu never crosses the wire).
+  World's StateStack REFUSED (menu must never be lockstep sim state);
+  button_down-driven menu REFUSED (unscriptable = no Rule 2 reel).
+  **Esc semantics change on purpose:** Esc = menu, QUIT = menu row
+  through the VERBATIM old clean-quit path (D3); bots/soak never
+  touch Esc (autopilot calls request_quit direct).
+- **D6 Rule 2:** 25th wall script `menu_tour.json` over self-linked
+  TEST 1 (husk aggro = the still-ticking proof: HP drops across two
+  menu-open captures); new `menu` scene mirrors WorldScene + the same
+  two routing lines; gate_checks +`menu_reads` +`menu_world_ticks`
+  (self-scoping, level_gate_reads precedent). Wall 24 → 25 at A-ship.
+- **D7 world.rb: ZERO touches all three tickets** (T5-close flag
+  answered up front; J-7's extraction question stays armed).
+- **D9-D12 (ticket B):** `data/prefs.local.json` machine-written,
+  lenient-NAMED decode (argued vs BindingMap's raise: hand-edited
+  files abort loud, machine-written files self-heal); locale
+  precedence env > pref > display.json; runtime switch =
+  `Strings#switch!` on the ONE shared instance; captures stay
+  locale-en (reel never commits a switch — check-comparability law);
+  scale/fullscreen via Gosu 1.4.6 runtime setters (verified live on
+  the installed gem), honest limit named (captures are scale-blind by
+  law → rows gated, apply = unit math + observation note, the v16
+  precedent).
+- **D13:** AudioSystem has NO runtime volume API (public surface
+  grepped) while `group_set_volume` exists below it — **ask MAILED**
+  (`~/.pi/agent/mail/game-two-audio/from-game-two-j6-volume-api.md`,
+  digest-stamped, cites the brief): `set_bus_volume(bus_id, db)` +
+  `bus_ids`, pure-sink restated. Game side feature-detects; volume
+  rows DEFER named if the receipt hasn't landed at B.
+- **D14 (ticket C) — live gap FOUND on record:** on reason=:quit the
+  NON-initiating netplay seat holds a FROZEN world with NO line
+  (overlay maps :quit → nil screen; the initiator's window closes
+  before drawing). Fix = `:partner_left` screen + `net.partner_left`
+  ×3 (existing COMPAÑERO/PARCEIRO vocabulary); netplay_session end
+  frames MOVE → its checks update same commit, three net gates
+  re-run. Link-status + session-ledger panels read EXISTING
+  session/lockstep/world readers only.
+- **Strings pinned ×3 locales for all three tickets** (executing
+  sessions author zero prose); wall-debt audit (why the 24 can't
+  move: no script names `menu`, route returns the same object,
+  identity pairs at every commit are the proof); line budget
+  217 → ≤240/≤265/≤280 vs cap 300; stop conditions enumerated
+  (identity movement, world.rb/balance/TELEMETRY/registry/protocol/
+  save-schema pressure, one-re-gate law, audio-API absence).
+- **Banked-amendment carrier check:** cue-silence guard + spell_growth
+  duplicate keys + EventLog curation — J-6 touches none of their
+  trigger files; all stay banked.
+
+**Next (s53):** execute ticket J6-A (chassis) per the brief — commit
+A1 inert module + A2 visible wiring/reel; ladder: suite · identity
+pairs vs pre-change `fbc15f1` baseline at BOTH commits · menu_tour
+critic-ON gate + manifest · soak N=1 belt · Rule 6 review · AGENTS.md
+Controls row update rides A2 (surface the Esc change to both peers at
+ship). B waits on nothing; C waits on nothing (audio receipt gates
+only the volume rows).
+
+**Job-0 baselines for s53:** origin tip = this s52 docs commit above
+`fbc15f1` · save `98fe75ed…` mtime 08-20 15:51 · launcher logs 40,
+newest 08-21 01:39 · mail inbox EMPTY (one OUTBOUND ask sits at the
+audio seat awaiting RECEIPT) · `drafts/_refs/` untracked · wall = 24
+scripts (25 after A2 ships) · suite = 1122.
+
+**Owner-pending carry (never nag):** ear-checks · T3 footstep/bed
+renders (water family needs a NEW mail) · coop S1 (both seats READY) ·
+SHARED-save first crossing · J-5 spike call · WorldSmith proposal
+(INCOMING) · R-A2 escalation call.
+
 ## 2026-08-23 session 51 (hub) — T5 SHIPPED: `requires_level` live end to end (P9) — LANE 1 COMPLETE; TEST 1 fixture + 24th wall script gated critic-ON, identity pairs held twice, Rule 6 PASS
 
 **Job 0 (open = clean):** origin tip `9d39280` = the expected s50 docs
