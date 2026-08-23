@@ -226,8 +226,9 @@ AWS `InvalidClientTokenId` on both junior profiles; critic-ON
 BEFORE anything ships on top of this surface. (2) volume rows
 DEFERRED named (D13 path; strings wait with the rows). (3) window.rb
 landed **265** = the estimate exactly (cap 300); C re-prices from
-265. (4) D12 observation note owed to the next human launch (Esc →
-SETTINGS, cycle scale/fullscreen, confirm window + prefs file).
+265. (4) D12 observation note DONE same-day: Junior's live pt-br session
+confirmed scale/fullscreen/locale obey + prefs file written; clean
+quit via the SAIR row wrote the save (close draft row 6).
 
 **Next (s55):** hub runs the owed critic-ON menu_tour gate (+ its
 language critique) → then J6-C (netplay courtesy notice + panels;
