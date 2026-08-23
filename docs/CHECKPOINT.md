@@ -1,5 +1,80 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-23 session 50 (hub) — T5 BRIEF CUT (`requires_level` machinery, P9): self-linked fixture zone kills both live interference traps, cue rides the station-cue channel, zero re-gates owed
+
+**Job 0 (open = clean):** origin tip `75627d8` = the expected s49 docs
+commit above `61f65fe`, zero peer deltas; save `98fe75ed…` mtime 08-20
+15:51 md5-verified open + mid + close; launcher logs 40 newest 08-21
+01:39 (`/tmp/game_two_session_*.log`); mail inbox EMPTY;
+`drafts/_refs/` untracked by design.
+
+**Shipped (docs only — ZERO code, s45/s48 brief-writer precedent):**
+`drafts/_prog-t5-requires-level.md` — the T5 ticket (grill-and-ticket
+stage 2; the spec's LAST Lane-1 ticket). Decisions, each argued from
+live code read this session (line numbers at `75627d8`):
+
+- **D1 seam:** fourth ctor callable `level: -> { @progression.level }`
+  (the defeats lambda verbatim, world.rb:126); `open?` gains the one
+  sibling line + `unmet_level(t)` reason-reader (group_wait
+  returned-cue contract — World stays the only mutator). `open?`-
+  argument threading REJECTED (divergent second grammar).
+- **D2 Rule 2 artifact (the hard fork — mechanism, not whether):** the
+  spec's own text settles "own script + gate"; the brief adopts a
+  shipped fixture zone `data/zones/gate_fixture.json` ("TEST 1",
+  ≥31×18 tiles, one husk, `requires_level: 2`) whose ONE transition is
+  a **SELF-LINK** — `validated_arrivals` then touches only
+  `arrivals[gate_fixture]`, so the v12 anchor-fallback trap
+  (world.rb:1186-1189) AND the `beachhead_shields?` arrival-set trap
+  (world.rb:436-440, found live this session) are dodged BY
+  CONSTRUCTION. Runtime staging REFUSED (bypasses the validator under
+  test); 24th wall script `level_gate.json` staged `{level:1, xp:72}`
+  (= ΔE(2)−husk 8 — the level_up_beat one-kill idiom, gate watched
+  OPENING live); 62nd check `level_gate_reads`; map gate rides (12th
+  panel, wb-t5 eleven-panel precedent).
+- **D3 cue:** station-cue channel, new kind `:level_required`, written
+  in `cross_through`'s refused branch, per-tick rewrite while standing
+  (gate_wait recompute law), provision_refused X-bar + y−32 text
+  grammar (z 9/10 lesson paid). gate_wait REFUSED (netplay-only draw —
+  solo captures blind); banner REFUSED (FIFO eviction + wrong grammar);
+  banner collision impossible by geometry. Slab = `way_locked?` sibling
+  branch via the existing `world.progression` read (:950) — no new
+  delegator.
+- **D4 locale:** `cue.level_required` = `LEVEL <N> REQUIRED` / `NIVEL
+  <N> REQUERIDO` / `NÍVEL <N> NECESSÁRIO` + `zone.gate_fixture.
+  display_name` = `TEST 1` ×3 (locale-invariant) — strings pinned in
+  the brief, s51 authors zero prose; `<N>` subs at draw (net.desync
+  idiom); parity test enforces the three-file law.
+- **D5 exposure: NONE** — level already a digest row (T2), cue
+  presentation-excluded (world.rb:639), no DIGEST_VERSION/save/
+  TELEMETRY/event/soak-regex move; netplay gates + perf not owed
+  (argued, not asserted).
+- **D6 T4 amendments:** #1 DORMANT (adding a check row ≠ moving check
+  text) · #2 DEFER re-banked for the next progression-ctor/data-
+  coherence toucher (Lane 1 ends at T5) · #3 rides as reference · #4
+  carried.
+- **D7 arithmetic:** world.rb 1775 → ≤1783 (+1 A, ~+6 B) — under cap,
+  NO extraction owed; **J-7's brief-cutter flagged** (~17 lines
+  headroom left, must open with the extraction question).
+- **Wall debt: ZERO re-gates** — audit table per code-touch;
+  `grep requires_level data/zones/` = 0 matches; identity pairs
+  (world_loop + low_quay_run, both commits) convert the argument into
+  md5 proof. Commit cut A `feat(crossing)` sim-silent / B
+  `feat(presentation)` + all four declared data files; 7 test lanes;
+  stop conditions include identity-pair movement = defect-never-
+  rebaseline and a one-retry cue-collision rule.
+
+**Next (s51):** T5 execute — the brief binds (A+B, lanes 1-7, ladders,
+stop conditions). Spark clipboarded at close.
+
+**Job-0 baselines for s51:** origin tip = this s50 docs commit above
+`75627d8` · save `98fe75ed…` mtime 08-20 15:51 · launcher logs 40,
+newest 08-21 01:39 · mail inbox EMPTY · `drafts/_refs/` untracked.
+
+**Owner-pending carry (never nag):** ear-checks · T3 footstep/bed
+renders (water family needs a NEW mail) · coop S1 (both seats READY) ·
+SHARED-save first crossing · J-5 spike call · WorldSmith proposal
+(INCOMING) · R-A2 escalation call.
+
 ## 2026-08-23 session 49 (hub) — T4 SHIPPED: lobber-E per-spell growth live (P10) — Volleys carved (world.rb 1795→1775), 23rd wall script gated, below-threshold identity proven twice
 
 **Job 0 (open = clean):** origin tip `139d812` = the expected s48 docs
