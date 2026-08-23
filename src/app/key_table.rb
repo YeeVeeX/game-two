@@ -28,5 +28,6 @@ module App
     t[";"] = Gosu::KB_SEMICOLON
     t[","] = Gosu::KB_COMMA
     t["."] = Gosu::KB_PERIOD
+    t["Escape"] = Gosu::KB_ESCAPE
   end.freeze
 end

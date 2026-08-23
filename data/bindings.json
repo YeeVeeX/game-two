@@ -10,5 +10,6 @@
   "interact": ["H", "F"],
   "sustain": ["U", "R"],
   "aim": ["LCtrl", "RCtrl"],
-  "swap": ["Tab"]
+  "swap": ["Tab"],
+  "menu": ["Escape"]
 }
