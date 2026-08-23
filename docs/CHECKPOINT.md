@@ -1,5 +1,76 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-23 session 48 (hub) — T4 BRIEF CUT (lobber-E per-spell growth, P10): Volleys carve rides as commit A, wall-debt audit = ZERO re-gates, brief is the ticket
+
+**Job 0 (open = clean):** origin tip `afd979f` = the expected s47 docs
+commit above `0da0347`, zero peer deltas; save `98fe75ed…` mtime 08-20
+15:51 md5-verified open + close; launcher logs 40 newest 08-21 01:39;
+mail: ONE fire-and-forget assets re-pin note (#3 today — renderer
+z-order-only drift from `350a185`, re-pinned to `d687f3a`, 14/14
+constants re-verified their side, approve-by-default) archived to
+done/, no reply owed. `drafts/_refs/` untracked by design.
+
+**Shipped (docs only — ZERO code, s45 brief-writer precedent):**
+`drafts/_prog-t4-lobber-growth.md` — the T4 ticket (grill-and-ticket
+stage 2). Decisions, each argued from live code read this session:
+
+- **D1 seam:** `volley_distances` helper in world.rb beside
+  `leveled_damage` (faction guard = P5/P7's one home); Progression
+  owns table + floor-match reader (`special_impact_distances_for`,
+  base passed in — damage_for precedent). **Cap arithmetic forces an
+  extraction**: 1795 + ~5 = 1800 = AT the cap → `Game::Volleys` plain
+  object (launch geometry + delay tick + clear! + digest_groups)
+  rides as commit A, world lands ~1766 (Crossing/Transients
+  precedents; renderer + digest read through a frozen `impacts`
+  delegator, record shape frozen).
+- **D2 semantics:** floor-match is spec-ratified (not re-litigated);
+  impl pins = symbol keys `:"5"` → Integer at ctor, sorted + frozen,
+  L1-4 return the base kit array by IDENTITY, named refusals incl.
+  **threshold > level_cap refuses** (dead-row honesty; balance files
+  refuse, saves clamp).
+- **D3 visual surface:** NEW wall script `lobber_reach.json` staged
+  L5 (23rd script; level_up_beat authoring pattern) + global
+  `lobber_reach_reads` check self-scoped via the visible HUD level
+  (T3's strip makes it judgeable) with the standard escape. Existing
+  reels can't carry the proof: specials_chain is L1 (it becomes the
+  negative control), aoe_specials has zero lobber casts.
+- **D4 wall debt: ZERO re-gates owed** — audited every
+  current-baseline teed log this session: the five s47 L5-staged
+  reels have ZERO `special_started`; only specials_chain (L1, 2
+  lobber casts) + aoe_specials (4, none lobber) + taunt_anchor (2,
+  none lobber) cast specials at all. No reel casts a lobber special
+  at L5+ → the ticket converts luck into proof: double-capture md5 on
+  specials_chain + world_loop at BOTH commits; canary bank green by
+  construction (no versioned-bank protocol); netplay session gate
+  once at commit A (the digest impact-fold moves into Volleys).
+- **D5 telemetry: NO new field** — active distances are derived
+  (level + data, both already covered: TELEMETRY line + fingerprint
+  hashes data/**); the P12 oracle line stays frozen-shaped for the
+  ritual. Evidence = captures + EVENT rows + digest tiles.
+- **D6 requires_level OUT** — P9 is T5's whole body (own files, own
+  cue surface, own gate ladder); T4/T5 orderable independently.
+- **D7 netplay:** values-only conditional digest change → NO
+  DIGEST_VERSION bump; cross-seat data divergence already refuses at
+  handshake (fingerprint hashes data/** EOL-normalized).
+
+**Owner-visible flag banked in the brief:** Junior's solo save is L8 —
+his first launch after T4 ships reads the "8" row (lobber E reach 4 →
+6 tiles). Normal exposure for fun-verify; worth a one-line hub-chat
+heads-up at ship so the jump reads as feature, not bug.
+
+**Next (s49):** T4 execute — the brief binds (commits A+B, test debt
+1-6, verify ladders, stop conditions). Spark clipboarded at close.
+
+**Job-0 baselines for s49:** origin tip = this s48 docs commit above
+`afd979f` · save `98fe75ed…` mtime 08-20 15:51 · launcher logs 40,
+newest 08-21 01:39 · mail inbox EMPTY (re-pin note #3 in done/) ·
+`drafts/_refs/` untracked.
+
+**Owner-pending carry (never nag):** ear-checks · T3 footstep/bed
+renders (water family needs a NEW mail) · coop S1 (both seats READY) ·
+SHARED-save first crossing · J-5 spike call · WorldSmith proposal
+(INCOMING) · R-A2 escalation call.
+
 ## 2026-08-23 session 47 (hub) — WALL RE-AUTHOR COMPLETE: all five stale long-reels re-staged at level 5 (stat-stability law), 5/5 full gates + manifests PASS, wall −59% ticks
 
 **Job 0 (open = clean + one GOOD delta):** origin tip `d687f3a` = ONE
