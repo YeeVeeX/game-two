@@ -1,5 +1,78 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-23 session 47 (hub) — WALL RE-AUTHOR COMPLETE: all five stale long-reels re-staged at level 5 (stat-stability law), 5/5 full gates + manifests PASS, wall −59% ticks
+
+**Job 0 (open = clean + one GOOD delta):** origin tip `d687f3a` = ONE
+peer commit above the expected s46 docs commit `a41ec0e` — Junior's
+playtest bank (drafts-only, +70 lines: first human level-ups 1→8, T3
+feel verdict "tudo muito legal", long-session drift signature; his
+live save moved on HIS machine only). Pulled --rebase before work.
+Save `98fe75ed…` mtime 08-20 15:51 md5-verified open + mid + close;
+launcher logs 40 newest 08-21 01:39 (at `/tmp/game_two_session_*.log`);
+mail: one fire-and-forget assets re-pin receipt (renderer branch,
+`efc65a0` pin, approve-by-default) archived to done/, no reply owed.
+
+**Session-open fork:** T4 brief-cut offered as alternate per owner
+note; recommendation on record (wall first) executed — no owner
+redirect arrived. T4 is now s48's primary.
+
+**Shipped (one batch commit — one defect, one net restored; each reel
+independently gated):** the five re-authored scripts, all staged
+`start.progression {level:5, xp:0}` — ΔE(6)=880 unreachable in-reel
+(max banked 460 kills_xp), so progression-pacing retunes cannot flip
+outcomes; `TELEMETRY progression level=5` in every replay log is the
+byte proof. Full per-script record (divergence, staging, verdicts):
+`drafts/_s47-wall-reauthor-20260823.md`.
+
+- vat_economy 20213→4888: banked-30 start (farm prologue ≠ this
+  script's concern), sacrifice→bank→tribute-regrow→inscribe.
+- low_quay_run 8611→4403: single-pass, both TOLLs, d2 north-lane
+  dash, reel ends in ZONE 5 (no return leg).
+- corpse_run 10103→5020: carrier dies loaded → wipe veil + floor
+  judgment captured → solo recovery → TERMINAL BANK restored.
+- nest_advance 13034→5013: bank-early variant + corpse sub-beat
+  (running-battle farm, 10-value corpse recovered).
+- sustain_run 11531→6799: 3 buys / 1 use / 4 refusals (broke×3 +
+  no_effect) / 2 banks + organic wipe-recovery; R-A2 BUY-hint frame
+  captured.
+
+**Ladder (all green at close):** 5/5 `rake gate` critic-ON PASS
+(byte-identical double replays) · 5/5 `rake manifest` PASS on teed
+s47 logs (TRUE staged counts as floors; dropped rows re-homed to
+scripts that stage them — seal_breached stays low_quay_run-exclusive)
+· suite 1075/19079/0F post-change · live save byte-identical · canary
+bank untouched · zero sim/balance moves · council 0, sub-agents 0.
+
+**Sim-design news banked for the peers (data, no code):** ZONE 3
+mid-band is a hard wall for pedestrian L5 crossings (4 wipes of
+evidence; only the old reel's north-lane fresh-window choreography
+crosses) — respawn-pressure-dominated, not stat-dominated; feeds the
+v19 geography/difficulty lanes when their ritual stages unfreeze.
+Respawn re-anchoring (`anchor=seed`) rebuilds deep-east first —
+shallow second-trip farms find nothing. Pilot-tooling debt (goto
+ally-block livelock, press-edge merging, ~55 ticks/s throughput)
+recorded in the close note; zero code owed now.
+
+**Junior playtest routing (from `d687f3a`):** T3 feel verdict banked
+as fun-verify input (normal exposure, ritual questions stay virgin) ·
+long-session drift signature = WATCH (data, not defect; c8f37e7 stays
+closed; re-check if a second seat reproduces) · his solo save now
+schema-v2 `494be8aa… sessions=6` on his machine, ready for coop S1.
+
+**Next (s48):** T4 brief-cut (lobber-E per-spell growth, P10 —
+grill-and-ticket stage 2) — spark clipboarded at close. Wall
+leftovers: NONE (all five landed).
+
+**Job-0 baselines for s48:** origin tip = this s47 docs commit above
+`0da0347` (scripts batch) · save `98fe75ed…` mtime 08-20 15:51 ·
+launcher logs 40, newest 08-21 01:39 · mail inbox EMPTY (assets
+receipt #2 in done/) · `drafts/_refs/` untracked by design.
+
+**Owner-pending carry (never nag):** ear-checks · T3 footstep/bed
+renders (water family needs a NEW mail) · coop S1 (both seats READY;
+Junior's save upgraded) · SHARED-save first crossing · J-5 spike call
+· WorldSmith proposal (INCOMING) · R-A2 escalation call.
+
 ## 2026-08-22 session 46 (hub) — T3 SHIPPED: level/XP HUD strip + level-up feel beat · full-wall sweep caught + fixed a real occlusion regression · 5 stale long-reel scripts SURFACED (T2's wake)
 
 **Job 0 (open = clean):** origin tip `354f2b2` = s45's docs commit
