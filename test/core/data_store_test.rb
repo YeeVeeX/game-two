@@ -25,6 +25,27 @@ class DataStoreTest < Minitest::Test
     assert_raises(ArgumentError) { Core::DataStore.new("/definitely/not/here") }
   end
 
+  # J6-B D9 (s55 probe): a crash-corrupt machine-written prefs file must
+  # never brick boot — the eager loader skips it by exact key; its owner
+  # (App::Prefs) reads the file directly with a lenient-NAMED decode.
+  def test_machine_written_prefs_file_is_exempt_from_eager_parse
+    Dir.mktmpdir do |dir|
+      File.write(File.join(dir, "prefs.local.json"), "garbage{{{not json")
+      File.write(File.join(dir, "display.json"), '{"locale": "en"}')
+      store = Core::DataStore.new(dir)
+      assert_equal ["display"], store.keys, "prefs.local never enters the store"
+    end
+  end
+
+  def test_hand_edited_configs_keep_the_loud_parse_abort
+    Dir.mktmpdir do |dir|
+      File.write(File.join(dir, "bindings.local.json"), "garbage{{{not json")
+      assert_raises(JSON::ParserError, "a hand-edited typo must abort loudly (bindings' law)") do
+        Core::DataStore.new(dir)
+      end
+    end
+  end
+
   def test_real_data_dir_loads
     store = Core::DataStore.new(File.expand_path("../../data", __dir__))
     refute_empty store.keys
