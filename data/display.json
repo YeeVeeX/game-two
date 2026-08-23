@@ -74,6 +74,11 @@
   150,
   90
  ],
+ "level_pop_shard_rgb": [
+  235,
+  190,
+  90
+ ],
  "stamp_banner_frames": 150,
  "stamp_in_frames": 12,
  "stamp_in_scale": 1.6,

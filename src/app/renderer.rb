@@ -118,6 +118,7 @@ module App
         world.projectiles.each { |p| draw_projectile(p) }
         draw_taunt_pulses(world)
         draw_kill_pops(world)
+        draw_level_pops(world)
         draw_chant_rings(world)
         draw_mark(world)
         draw_station_ledger(world)
@@ -876,6 +877,22 @@ module App
       end
     end
 
+    # T3 (P4): the level-up beat's world-located half — gold shards fly
+    # from every living pack tile. Shards ONLY, no flash: white flash =
+    # spawn/holy (hurt_flash_not_white family), and the co-firing kill pop
+    # at the victim tile keeps its white flash — color is what separates
+    # the two pop families on the boundary kill.
+    def draw_level_pops(world)
+      ts = world.map.tile_size
+      shard = color(@display.fetch(:level_pop_shard_rgb, [235, 190, 90]))
+      world.level_up_pops.each do |p|
+        App::KillPop.shards(tile: p[:tile], phase: p[:phase], frames_left: p[:frames_left],
+                            pop_frames: p[:pop_frames], ts: ts).each do |x, y, size|
+          Gosu.draw_rect(x, y, size, size, shard)
+        end
+      end
+    end
+
     def draw_taunt_pulses(world)
       ts = world.map.tile_size
       world.taunt_pulses.each do |p|
@@ -963,6 +980,9 @@ module App
       entry = world.active_banner
       return unless entry
       text = tr(entry[:text_key], entry[:fallback])
+      # T3 (decision 5): an optional locale-invariant suffix (" N") lands
+      # AFTER translation — numerals never enter the flat K/V string tables.
+      text = "#{text}#{entry[:suffix]}" if entry[:suffix]
       font = banner_font
       if entry[:color] == :gold
         return draw_stamp_line(world, text, frames_left: entry[:frames_left],

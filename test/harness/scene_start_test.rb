@@ -67,6 +67,36 @@ class SceneStartTest < Minitest::Test
     refute w.possessed.marked?
   end
 
+  # T3 (and T5's fixture primitive): the progression start param stages
+  # level+xp through the SaveState seam (load_progress! → sync_max_hp!,
+  # the P3 order) so a wall script can sit one kill from a boundary
+  # without a farm prologue.
+  def test_apply_start_with_progression_stages_level_xp_and_grown_ceilings
+    w = world
+    Harness.apply_start(w, { progression: { level: 3, xp: 5 } })
+    assert_equal 3, w.progression.level
+    assert_equal 5, w.progression.xp
+    w.pack.members.each do |m|
+      assert_equal w.progression.max_hp_for(m.kit[:max_hp]), m.max_hp,
+                   "#{m.kit_name} ceiling must be synced to the staged level"
+    end
+  end
+
+  def test_apply_start_progression_missing_fields_default_to_level_one
+    w = world
+    Harness.apply_start(w, { progression: { xp: 79 } })
+    assert_equal 1, w.progression.level
+    assert_equal 79, w.progression.xp
+    base = w.pack.members.first
+    assert_equal base.kit[:max_hp], base.max_hp, "level 1 is identity"
+  end
+
+  def test_apply_start_without_progression_key_is_a_no_op
+    w = world
+    Harness.apply_start(w, {})
+    assert_equal [1, 0], [w.progression.level, w.progression.xp]
+  end
+
   def test_recorder_export_carries_start_through
     r = Harness::Pilot::Recorder.new
     r.record_frame([])

@@ -50,6 +50,20 @@ class BannerQueueTest < Minitest::Test
     assert_equal "stamp.s4", world.active_banner[:text_key]
   end
 
+  # T3 (decision 5): entries carry an optional locale-invariant suffix,
+  # appended after translation at draw — numerals never enter the flat
+  # K/V string tables. Suffix-less entries carry nil (existing paths
+  # untouched by construction).
+  def test_stamp_suffix_persists_in_the_entry_and_zone_banners_carry_nil
+    assert_nil world.active_banner[:suffix], "zone banners carry no suffix"
+    world.send(:enqueue_stamp, "stamp.level_up", "LEVEL", suffix: " 2")
+    drive(world.active_banner[:frames_left] + 1)
+    entry = world.active_banner
+    assert_equal "stamp.level_up", entry[:text_key]
+    assert_equal " 2", entry[:suffix], "the suffix rides the queue intact"
+    assert_equal :gold, entry[:color]
+  end
+
   def test_display_declares_the_new_keys
     %i[chant_ring_rgb chant_ring_cycle_frames seized_underline_rgb
        nameplate_font_size stamp_banner_frames banner_queue_max].each do |k|

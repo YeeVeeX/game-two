@@ -191,6 +191,7 @@ module Game
     def ally_flee_hp_pct = @coop && @coop[:ally_flee_hp_pct]
     def taunt_pulses = @transients.taunt_pulses
     def kill_pops = @transients.kill_pops
+    def level_up_pops = @transients.level_up_pops
     def seal_marks = @transients.seal_marks
 
     # Active respawn tells of the CURRENT zone, for the renderer (v14).
@@ -876,18 +877,18 @@ module Game
     # Court stamps + zone banners share one FIFO slot. Cap applies to the
     # QUEUE only — the active entry is never dropped; past the cap the
     # oldest QUEUED entry yields (display key banner_queue_max).
-    def enqueue_banner(text_key:, fallback:, color:, frames:)
+    def enqueue_banner(text_key:, fallback:, color:, frames:, suffix: nil)
       cap = @display.fetch(:banner_queue_max, 2)
       @banner_queue.delete_at(1) while @banner_queue.length - 1 >= cap
-      @banner_queue << { text_key:, fallback:, color:,
+      @banner_queue << { text_key:, fallback:, color:, suffix:,
                          frames_left: frames, frames_total: frames }
     end
 
     # v16 (c): a stamp with a tile locus ALSO presses a seal mark into the
     # floor at the event tile (GLM review fold — the act happens IN the
     # world, not just on screen). Unlocated stamps stay screen-only.
-    def enqueue_stamp(key, fallback, at: nil)
-      enqueue_banner(text_key: key, fallback:, color: :gold,
+    def enqueue_stamp(key, fallback, at: nil, suffix: nil)
+      enqueue_banner(text_key: key, fallback:, color: :gold, suffix:,
                      frames: @display.fetch(:stamp_banner_frames, 150))
       mark_seal!(at) if at
     end
@@ -1608,6 +1609,10 @@ module Game
              @progression.award_kill(e[:actor].kit_name) == :level_up
             @pack.sync_max_hp!(progression: @progression)
             @bus.emit(:level_up, level: @progression.level)
+            # T3 feel beat (P4, presentation pushes only): gold stamp +
+            # gold pops on every LIVING tile — the pack is the carrier (A2).
+            enqueue_stamp("stamp.level_up", "LEVEL", suffix: " #{@progression.level}")
+            @pack.living.each { |m| @transients.level_up_pop!(tile: m.tile, frame: @frame) }
           end
           @feel.on_kill if controlled?(e[:killer])
           # v15: the challenger's death closes the boss fight (placeholder

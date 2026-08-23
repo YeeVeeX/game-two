@@ -25,6 +25,14 @@ module Harness
     return unless start
     amount = start[:banked]
     world.pack.bank!(amount) if amount && amount.positive?
+    # T3 (T5's fixture primitive too): stage pack progression for
+    # level-crossing scenes — the same seam SaveState.apply! uses
+    # (load_progress! → sync_max_hp!, the P3 order). Harness plumbing
+    # only; no game code reads this.
+    if (prog = start[:progression])
+      world.progression.load_progress!(level: prog.fetch(:level, 1), xp: prog.fetch(:xp, 0))
+      world.pack.sync_max_hp!(progression: world.progression)
+    end
     zone = start[:zone]
     world.start_in(zone.to_s) if zone
     # v16 (d): stage an inscribed vessel for burn-beat scenes — the same

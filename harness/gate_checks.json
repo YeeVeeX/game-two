@@ -236,6 +236,10 @@
     {
       "id": "hud_level_strip_reads",
       "check": "Beneath the three kit hp bars a LEVEL label with a thin gold progress bar reads top-left in every frame showing the HUD; at level 1 with no XP the bar may be empty but its dark backing still frames it; the fill never overflows the backing; the strip never reads as a fourth hp bar (it is far thinner, gold rather than kit-colored, and attached to its LEVEL label)."
+    },
+    {
+      "id": "level_up_beat_reads",
+      "check": "Where consecutive frames straddle a level-up: a gate-gold stamp reading LEVEL <N> lands with the rule-pair stamp grammar, gold shards fly outward from each living pack body's tile, and these gold pops read distinctly from the white-flash kill pop at the victim tile. The HUD strip's level numeral is higher and its bar shorter in the post-dwell frame than pre-kill. If the reel contains no level-up, pass with why='not exercised by this script'."
     }
   ]
 }

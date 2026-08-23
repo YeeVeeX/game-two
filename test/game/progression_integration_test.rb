@@ -62,6 +62,43 @@ class ProgressionIntegrationTest < Minitest::Test
                  [w.progression.level, w.progression.xp, w.progression.kills_xp]
   end
 
+  # T3 feel beat (P4): the boundary kill stamps ONCE with the final level
+  # (suffix mechanism) and pops gold shards on every LIVING pack tile —
+  # dead flesh keeps its ceiling but does not pop; the victim tile keeps
+  # its ordinary kill pop (the two families co-fire at DIFFERENT tiles).
+  def test_level_up_beat_stamps_final_level_and_pops_living_tiles_only
+    w = world
+    w.start_in("district")
+    killer = w.pack.members.find { |member| !member.equal?(w.possessed) }
+    dead_member = w.pack.members.find do |member|
+      !member.equal?(w.possessed) && !member.equal?(killer)
+    end
+    victim = w.humans.find { |human| human.kit_name == :rusher }
+    kill(dead_member, by: victim)
+    amount = DATA["balance/progression"][:kill_xp][:rusher]
+    w.progression.load_progress!(level: 1, xp: w.progression.delta_e(2) - amount)
+
+    kill(victim, by: killer)
+    w.tick(idle)
+
+    assert_equal 2, w.progression.level
+    living_tiles = w.pack.living.map(&:tile).sort
+    assert_equal living_tiles, w.level_up_pops.map { |pop| pop[:tile] }.sort,
+                 "one gold pop per LIVING pack tile, none elsewhere"
+    refute_includes w.level_up_pops.map { |pop| pop[:tile] }, dead_member.tile,
+                    "dead flesh does not pop"
+    assert_includes w.kill_pops.map { |pop| pop[:tile] }, victim.tile,
+                    "the victim keeps its ordinary kill pop"
+    stamp = w.send(:instance_variable_get, :@banner_queue)
+             .find { |entry| entry[:text_key] == "stamp.level_up" }
+    refute_nil stamp, "the level-up stamp entered the banner queue"
+    assert_equal " 2", stamp[:suffix], "the suffix carries the FINAL level"
+    assert_equal :gold, stamp[:color]
+    assert_equal 1, w.send(:instance_variable_get, :@banner_queue)
+                     .count { |entry| entry[:text_key] == "stamp.level_up" },
+                 "one boundary crossing stamps exactly once"
+  end
+
   def test_level_damage_reaches_melee_projectile_and_volley_at_launch
     w = world
     w.start_in("district")

@@ -3,13 +3,14 @@ module Game
   # the two clocks explicitly because combat records and banner records have
   # different pause laws; no bus or IO belongs in this plain object.
   class Transients
-    attr_reader :taunt_pulses, :kill_pops, :seal_marks
+    attr_reader :taunt_pulses, :kill_pops, :seal_marks, :level_up_pops
 
     def initialize(pop_frames:)
       @pop_frames = pop_frames
       @taunt_pulses = []
       @kill_pops = []
       @seal_marks = []
+      @level_up_pops = []
     end
 
     def taunt_pulse!(tile:, pulse_frames:, range_tiles:)
@@ -23,15 +24,27 @@ module Game
                       phase: (tile[0] * 31 + tile[1] * 17 + frame) % 997 }
     end
 
+    # T3 (P4): the level-up beat's world-located half — one record per
+    # LIVING pack tile (the pack is the carrier, A2; dead flesh keeps
+    # only ceiling and does not pop). Same shape + phase seed as a kill
+    # pop; the renderer separates the families by color, never by shape.
+    def level_up_pop!(tile:, frame:)
+      @level_up_pops << { tile:, frames_left: @pop_frames,
+                          pop_frames: @pop_frames,
+                          phase: (tile[0] * 31 + tile[1] * 17 + frame) % 997 }
+    end
+
     def seal_mark!(at:, frames:)
       @seal_marks << { at:, frames_left: frames, frames_total: frames }
     end
 
     # Called only from tick_world: hitstop and the wipe veil pause combat
-    # records exactly as they pause impacts.
+    # records exactly as they pause impacts (level pops ride this clock —
+    # they pause with hitstop AND the wipe veil, like kill pops).
     def tick_combat!
       age!(@taunt_pulses)
       age!(@kill_pops)
+      age!(@level_up_pops)
     end
 
     # Called from World's non-hitstop banner branch: hitstop pauses seal
@@ -44,6 +57,7 @@ module Game
       @taunt_pulses.clear
       @kill_pops.clear
       @seal_marks.clear
+      @level_up_pops.clear
     end
 
     private
