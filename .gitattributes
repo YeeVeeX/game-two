@@ -1,3 +1,7 @@
 # LDtk project fixtures are REAL vendor bytes, md5-pinned (T1 spike provenance).
 # Never EOL-normalize them (the v17 W6 cross-machine hash lesson).
 *.ldtk -text
+# Worldsmith intake artifacts are md5-pinned in worldsmith_intake_test.rb
+# (digest chain to the delivery receipt) — same law, never EOL-normalize.
+test/fixtures/worldsmith/*.json -text
+data/zones/zone_8.json -text

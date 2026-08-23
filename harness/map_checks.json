@@ -3,11 +3,11 @@
   "checks": [
     {
       "id": "map_all_zones_present",
-      "check": "Twelve labeled zone panels are present (ZONE 1 through ZONE 7, HUB 1, BASEMENT 1, BASEMENT 2, DUNGEON 1, TEST 1), each showing a full tile grid distinct from the dark backing - no panel is empty, cropped, or duplicated."
+      "check": "Thirteen labeled zone panels are present (ZONE 1 through ZONE 8, HUB 1, BASEMENT 1, BASEMENT 2, DUNGEON 1, TEST 1), each showing a full tile grid distinct from the dark backing - no panel is empty, cropped, or duplicated."
     },
     {
       "id": "map_zone_grids_read",
-      "check": "Within each panel, walls read against floor tiles and each zone's palette differs from its neighbors - the panels read as different places, not copies. The original surface zones stay the warm clay/bone family; ZONE 7 reads as a green meadow-with-town; the FLOOR -1 panels (BASEMENT 1/2, DUNGEON 1) read darker than the surface zones (depth darkens palettes)."
+      "check": "Within each panel, walls read against floor tiles and each zone's palette differs from its neighbors - the panels read as different places, not copies. The original surface zones stay the warm clay/bone family; ZONE 7 reads as a green meadow-with-town; ZONE 8 reads as a forest-and-lake green family with a large water mass clearly distinct from its land; the FLOOR -1 panels (BASEMENT 1/2, DUNGEON 1) read darker than the surface zones (depth darkens palettes)."
     },
     {
       "id": "map_pilot_well_reads",

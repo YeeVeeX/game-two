@@ -12,6 +12,9 @@ require "core/tile_map"
 # authored them to these laws; a palette failure here is an AUTHORING
 # finding — fix in the sidecar + re-import, never relax the check).
 # grass_fixture stays out: unreachable dev fixture.
+# zone_8 stays out (worldsmith intake 2026-08-23): landed INERT-unreachable;
+# its identity dose (motif/ambient/grid keys) is OWED at wire-in — add it to
+# ZONES in the same commit that joins it to the world graph.
 class ZoneIdentityDataTest < Minitest::Test
   DATA = Core::DataStore.new(File.expand_path("../../data", __dir__))
   ZONES = %w[nest district district_two camp slow_door low_quay

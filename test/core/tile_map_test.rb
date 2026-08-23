@@ -462,12 +462,13 @@ class TileMapTest < Minitest::Test
   # T2 regression bar, T4 amendment: the six live-world zones stay their
   # recorded shapes; the T3 fixture + the four T4 pilot zones are the
   # authored v2 surface (typed transitions live ONLY there; the live
-  # graph's gates stay untyped v1 — the byte-exact bar).
+  # graph's gates stay untyped v1 — the byte-exact bar). zone_8 is the
+  # worldsmith-intake zone (2026-08-23): inert-unreachable, plain v1 shape.
   def test_live_zones_load_under_registry_with_declared_shapes
     data = Core::DataStore.new("data")
     reg = Core::TileRegistry.new(data["tiles"])
     zones = data.keys.grep(%r{\Azones/})
-    assert_equal 12, zones.length
+    assert_equal 13, zones.length
     v1 = %w[zones/camp zones/district zones/district_two zones/low_quay zones/slow_door]
     pilot = %w[zones/zone_7 zones/basement_1 zones/basement_2 zones/dungeon_1]
     zones.each do |key|

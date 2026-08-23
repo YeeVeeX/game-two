@@ -192,7 +192,7 @@ class MapArtifactTest < Minitest::Test
   def test_layout_panels_every_zone_once_sorted_by_label
     l = artifact.layout(fresh_world)
     assert_equal ["BASEMENT 1", "BASEMENT 2", "DUNGEON 1", "HUB 1", "TEST 1", "ZONE 1",
-                  "ZONE 2", "ZONE 3", "ZONE 4", "ZONE 5", "ZONE 6", "ZONE 7"],
+                  "ZONE 2", "ZONE 3", "ZONE 4", "ZONE 5", "ZONE 6", "ZONE 7", "ZONE 8"],
                  l[:panels].map { |p| p[:label] }
     assert_equal l[:panels].map { |p| p[:origin] }.uniq.length, l[:panels].length
     assert l[:width].positive? && l[:height].positive?

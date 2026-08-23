@@ -1,0 +1,128 @@
+{
+  "name": "zone_1",
+  "display_name": "ZONE 1",
+  "tile_size": 32,
+  "palette": {
+    "dirt": [
+      58,
+      48,
+      32
+    ],
+    "grass": [
+      44,
+      58,
+      34
+    ],
+    "grass_b": [
+      38,
+      52,
+      29
+    ],
+    "grass_c": [
+      44,
+      58,
+      34
+    ],
+    "wall": [
+      110,
+      128,
+      74
+    ],
+    "water": [
+      38,
+      66,
+      92
+    ],
+    "wood": [
+      98,
+      72,
+      42
+    ]
+  },
+  "tiles": [
+    ",,,,,,,,,,,,,ggg#gggggggggggg###ggggggggggggggggggggggggggggggg#",
+    ",,,,,,,,,,,,,ggg#gggggggggggg###gggggggggggggggggggggg,,,,,,gg#g",
+    ",,,,,,,,,,,,ggggggggggg#ggggg####gg##ggggggggg#gggggg,~~~~~~,g#g",
+    "gg,,,,,,,,,gggg#ggggggggggggg####g####gggggggggggggggg,~~~~~,ggg",
+    "ggg#,,,,,,,g##ggggggggggggggg###ggg###gggggggggg,ggggg,~~~~,gggg",
+    "#gggg,,,,,g###gggggggggg#gggg###,,,,#,ggggggggg,,,ggggg,,,,gggg,",
+    "ggggggg,,,g###gggggggggggggg####,,,,,ggggggggg,,,,ggggggggg#gg,,",
+    "ggggggg,,ggg#gggggggg#gggggg,,,,,,,,gggggggg#,,,#,ggg#gggggggg,,",
+    "gggggg#g,ggggggggggggggggggg,,,,,,#,gggggggg,,,,##ggggg#gggggg,,",
+    "ggggg##,,gggggg#ggggggggggggg,,,,,##gggggggg,,,###gggggggggggg,,",
+    "gggggg#,,,gggggggggggggggggggg,,,,#####gggggggg###ggggggggggg,,,",
+    "ggggggg,,,gggggggggggggg#ggggggg,,######ggggggg###gggggggggg,,,,",
+    "ggggggg,,,,gggggggggggg##ggggggggg#######gggggg###gggggggggg,,,,",
+    "gggggg,,,,,gggggggggggg###gggggggg,#####ggggggg###ggg#ggggg,,,,,",
+    "gggggg,,,,,,#gggggg#ggg###gggggg,,,,,###gggggggggggggggggg,,,,,,",
+    "gg#gg,#,,,,,,#g,,,gggg####ggggg,,,,,,gggggggggggggggggg#,,,,,,,,",
+    ",gggg,#,,,,,,,#,,,ggggg###ggggg,,,,,,g#gg#ggggggggggggg,,,,,#,,,",
+    ",gggg,,,,,,,,,,,,,ggggg###ggggg,,,,,,gggggggggggggggggg,,,,,##,,",
+    ",gggggg,,,,,gggg,gggggg###g#ggg,,,,,,gggggggggggggggggg,,,,,##,,",
+    ",gggggggggggggggggggggg###gggggg,,,,,ggggggggggggggggg,,,,,###,,",
+    "~,ggggggggggggggggggggg#####ggg,,,,,,gggggggggggggggg,,,,,,###,,",
+    "~~,gggggggggggggggggggg#####ggg,#,,gggggggggggggggggg,,,,,####,,",
+    "~~,gggggggggggggggggggg#####,,,,,,ggggg#####ggggggggg,,,~~~~~~,,",
+    "~~,gggg,,#ggggggggggg#######,,,,,gggggg######ggg#,,,,,,,~~~~~~,,",
+    "~~,ggg,~~~,g#gg#############,,,,,gggggg######gg##~~~~~~~~~~~~~,,",
+    "~~~,#gg,~,ggggg#www########,,,,,,gggggg#######,~~~~~~~~~~~~~~~,,",
+    "~~~,gggg,gggggg#www#g#####gggg#ggggggggg#######~~~~~~~~~~~~~~~,,",
+    "~~~~,gggggggggg##w##gggggggggggggggggggggggg###,~~~~~~~~~~~~~~,,",
+    "~~~,gggggggggggggg#,gggggggggg#ggg,,ggggggggg#,~~~~~~~~~~~~~~~~~",
+    "~~~,#ggggggggg,,,#~~,ggggggggggg,,,,,,gg#gggg,~~~~~~~~~~~~~~~~~~",
+    "~~~,#,#gggggg,~~~~~~,#ggg#ggggg,,,,,,,ggggg,,~~~~~~~~~~~~~~~~~~~",
+    "~~~~~~,,,gggg,~~~~~,ggggggggggg,,,,,,ggg,,,~~~~~~~~~~~~~~~~~~~~~",
+    "~~~~~~~~~,ggg,~~~~~,gggg#ggggg,,,,,~~,,,~~~~~~~~~~~~~~~~~~~~~~~~",
+    "~~~~~~~~~~,gg,~~~~~,gg#gg####,~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+    "~~~~~~~~~~~,,,~~~~~,gg#,,,~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+    "~~~~~~~~~~~~~#~~~~~,g##,~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+    "~~~~~~~~~~~~~~~~~~~,g#,~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+    "~~~~~~~~~~~~~~~,,,,,,,~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+    "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+    "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+  ],
+  "pack_spawn": [
+    [
+      63,
+      18
+    ],
+    [
+      62,
+      19
+    ],
+    [
+      63,
+      20
+    ]
+  ],
+  "enemy_spawns": {},
+  "stations": [
+    {
+      "type": "station_slot",
+      "at": [
+        16,
+        25
+      ]
+    },
+    {
+      "type": "station_slot",
+      "at": [
+        18,
+        25
+      ]
+    }
+  ],
+  "transitions": [
+    {
+      "at": [
+        63,
+        19
+      ],
+      "to": "unresolved",
+      "spawn": [
+        63,
+        19
+      ]
+    }
+  ]
+}
