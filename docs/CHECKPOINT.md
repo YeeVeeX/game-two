@@ -1,5 +1,79 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-23 session 51 (hub) — T5 SHIPPED: `requires_level` live end to end (P9) — LANE 1 COMPLETE; TEST 1 fixture + 24th wall script gated critic-ON, identity pairs held twice, Rule 6 PASS
+
+**Job 0 (open = clean):** origin tip `9d39280` = the expected s50 docs
+commit above `75627d8`, zero peer deltas; save `98fe75ed…` mtime 08-20
+15:51 md5-verified open + mid + close; launcher logs 40 newest 08-21
+01:39; mail inbox EMPTY (audited again after the Rule 6 reviewer
+exited); `drafts/_refs/` untracked by design.
+
+**Shipped (the T5 brief executed, D1–D7 all held; close draft =
+`drafts/_prog-t5-close-20260823.md`):**
+
+- **A `891511f` feat(crossing)** — tile_map `requires_level`
+  validation (defeats mirror, named refusal) · Crossing fourth ctor
+  callable `level:` + `open?` sibling AND row + `unmet_level`
+  reason-reader · world ctor wire. Refusal SILENT at A (defeats
+  parity). Lanes 1–3 (new crossing_test + level_gate_test, FixtureStore
+  self-linked zone). Suite 1097→1115.
+- **B `c037709` feat(presentation)** — cross_through refused-branch cue
+  (`:level_required`, way tile, `n:`; seven existing station_cue!
+  callers untouched) · renderer at EXACTLY the three D3 sites
+  (way_locked? sibling · draw branch with draw-site `<N>` sub ·
+  CUE_TEXT_FALLBACK row) · map_artifact seal_stamps `||
+  requires_level` · `data/zones/gate_fixture.json` (TEST 1, 34×20,
+  SELF-LINKED, husk [27,4], gate [12,10] level 2) · D4 locale rows ×3
+  VERBATIM · `level_gate.json` (24th script, pilot-authored, staged
+  `{level:1, xp:72}`, watched the gate OPEN live) · `level_gate_reads`
+  (62nd check) · map_checks Eleven→Twelve (7ab5612 precedent). Suite
+  1115→1122/0F.
+- **Evidence:** identity pairs world_loop+low_quay_run md5'd vs a
+  pre-change `9d39280` baseline — **24/24 byte-identical at A AND at
+  B** · level_gate full critic-ON gate PASS + manifest PASS
+  {actor_died 1, attack_hit 5, zone_entered 3}/run · map gate probes
+  11/11 + critique 7/7 (TEST 1 SEALED stamp read) · world.rb landed
+  **1786** (est. ≤1783, stop 1790 — honesty row in the close; **J-7
+  brief MUST open with the extraction question, ~14 lines headroom**).
+- **Sampling-artifact law ×3:** zone_identity_reads false-FAIL refuted
+  (single-zone reel, the check's own escape clause) · level_gate_reads
+  CONFIRMED (cue X-bar covers the 2px slab seam — geometry :311 vs
+  :592) → reel gained a pre-touch frame + check text hardened
+  (legitimate-cover clause AND a mandatory cue-less slab+seam frame),
+  re-gate PASS · map_zone_grids_read variance false-FAIL refuted
+  (palettes untouched, prior gates passed same pixels; re-run 7/7).
+- **Brief contradiction resolved on record:** no `level_up` manifest
+  floor — harness/event_log.rb's curated list never carried it (the
+  etapa-0 canary fence); floors = true log counts per the brief's own
+  governing clause. EventLog curation flagged as a future decision.
+- **Rule 6 review: PASS-WITH-NITS, 0 blockers, 2 nits** — (1)
+  cue-silence integration guard for sealed/defeats-only ways BANKED
+  for the next cross_through toucher; (2) husk-placement wording drift
+  recorded (aggro-clean dwell wins over "a few tiles").
+- **T4 amendment #2 RE-BANKED** (duplicate spell_growth threshold
+  keys): carrier = whichever ticket next touches the Progression ctor
+  or progression.json (Lane 1 ends here).
+- WB authoring notes banked in the close: edge-row gates put the cue
+  text offscreen (y−32) + the X-bar covers the seam while cueing ·
+  pilot traps: goto-onto-gate livelock (manual holds for final
+  approaches), hold-N step arithmetic (4 steps at 62f walked THROUGH
+  the gate — moving bodies never trigger).
+
+**Next (s52):** Lane-2 B-knob re-session on owner word, else the next
+ratified lane item per AGENTS.md (Lane-2/3 data moves land BEFORE the
+ritual stages; J-6 non-pausing menu ships before the runsheet
+freezes). Spark clipboarded at close.
+
+**Job-0 baselines for s52:** origin tip = this s51 docs commit above
+`c037709` · save `98fe75ed…` mtime 08-20 15:51 · launcher logs 40,
+newest 08-21 01:39 · mail inbox EMPTY · `drafts/_refs/` untracked ·
+wall = 24 scripts · suite = 1122.
+
+**Owner-pending carry (never nag):** ear-checks · T3 footstep/bed
+renders (water family needs a NEW mail) · coop S1 (both seats READY) ·
+SHARED-save first crossing · J-5 spike call · WorldSmith proposal
+(INCOMING) · R-A2 escalation call.
+
 ## 2026-08-23 session 50 (hub) — T5 BRIEF CUT (`requires_level` machinery, P9): self-linked fixture zone kills both live interference traps, cue rides the station-cue channel, zero re-gates owed
 
 **Job 0 (open = clean):** origin tip `75627d8` = the expected s49 docs
