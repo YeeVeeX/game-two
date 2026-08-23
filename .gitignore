@@ -8,6 +8,7 @@ tmp/
 vendor/bundle/
 .playwright-mcp/
 data/bindings.local.json
+data/prefs.local.json
 # v18 persistence: the machine-local, host-authoritative world save (F2 —
 # git-tracked saves rejected: conflicts, save-scumming, pull friction).
 saves/
