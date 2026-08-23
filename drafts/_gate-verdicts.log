@@ -125311,3 +125311,45 @@ Perf p95 0.260ms (budget 16.6). Suite 524/2322 green.
   ],
   "verdict": "PASS"
 }
+
+=== 20260823-150325 tmp\s54_map_gate ===
+{
+  "checks": [
+    {
+      "id": "map_all_zones_present",
+      "pass": true,
+      "why": "All thirteen labeled panels appear with full tile grids and none look empty, cropped, or duplicated."
+    },
+    {
+      "id": "map_zone_grids_read",
+      "pass": true,
+      "why": "Surface zones stay warm clay tones, ZONE 7 reads green town, ZONE 8 shows land versus water, basements read darker."
+    },
+    {
+      "id": "map_pilot_well_reads",
+      "pass": true,
+      "why": "ZONE 7 town half shows a small distinct tile ring around the gold way beside the OPEN stamp."
+    },
+    {
+      "id": "map_seal_stamps_read",
+      "pass": true,
+      "why": "OPEN stamps in gold appear on ZONE 2, 5, 7 while SEALED in chrome appears on TEST 1 and ZONE 3."
+    },
+    {
+      "id": "map_home_marker_reads",
+      "pass": true,
+      "why": "Only HUB 1 carries the bright white border and the HOME suffix, unambiguous at a glance."
+    },
+    {
+      "id": "map_header_reads",
+      "pass": true,
+      "why": "Header reads BANKED 42, MARKS 1, PROVISIONS 2, BOSS 1 DEFEATS 3 with clean numerals and no fiction names."
+    },
+    {
+      "id": "no_render_garbage",
+      "pass": true,
+      "why": "No tearing, corrupted tiles, overlapping text, or missing glyphs anywhere in the composed image."
+    }
+  ],
+  "verdict": "PASS"
+}

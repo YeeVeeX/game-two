@@ -863,3 +863,23 @@ sequencing law.
   combat pacing), v19-class per the flywheel law. Audio-visual rhythm sync is
   the interesting axis (Vlambeer: impact reads strongest when eye and ear
   agree). Owner names the fork at the v19 brainstorm; nothing moves before.
+- **Statics/decor material identity for generated zones** (worldsmith intake
+  2026-08-23, report SAFE-class): the v0 export flattens rock x38 + tree x230
+  to wall '#' (material identity lost) and DROPS bush x76 entirely (no
+  non-blocking statics lane in the zone JSON — the loader already reads a
+  render-only `decor` key, the emitter just never emits one). Dev
+  recommendation: when a generated zone gets WIRED IN, author its decor by
+  hand (T4 pilot precedent); an emitter decor lane is a worldsmith ask only
+  if hand-authoring proves tedious across multiple intakes. Zero game-two
+  code owed either way.
+- **Biome region intent** (worldsmith intake 2026-08-23, report SAFE-class):
+  worldsmith partitions zones into biome regions (forest/water) but game-two
+  regions are rect-based town/dungeon/guard intents — the partition doesn't
+  map and isn't exported. Dev recommendation: leave parked until a system
+  actually READS biome (region ambience is the named candidate — audio lane);
+  adding an intent nobody consumes is breadth-thinking.
+- **grass_c real variant hue** (worldsmith intake 2026-08-23, report
+  SAFE-class): zone_8's grass_c palette ref is padded with the base grass
+  color verbatim (validate_map! demands every variant ref exist). Authoring a
+  real third hue is flywheel/T10-family work — ride the next zone_8 visual
+  pass (wire-in or a flywheel critique hit), never a lone commit.

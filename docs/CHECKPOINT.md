@@ -1,5 +1,109 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-23 session 54 (hub) — OWNER REDIRECT: WorldSmith proposal LANDED — v0 zone delivery intake, D16 final proof PASS, ZONE 8 lands INERT (god-view 13 panels, critique 7/7, pairs 24/24); crossed mid-flight with Junior's J6-B ship (his entry below — hub OWES the critic-ON menu_tour gate)
+
+**Job 0 (open = clean):** origin tip `61dbf06` = the expected s53 docs
+commit above `fc19b70`+`e76729c`, ZERO peer deltas at open (Junior's
+J6-B landed LATER, mid-session); brief md5 `00802b28…` verified; save
+`98fe75ed…` mtime 08-20 15:51 md5-verified open + close (untouched);
+launcher logs 40 newest 08-21 01:39; mail inbox EMPTY at open — audio
+volume-API RECEIPT still NOT landed (D13 defer, which Junior's B took);
+`drafts/_refs/` untracked; wall = 25; suite = 1137/0F run at open.
+
+**Triage → superseded by owner redirect.** Fork resolved "B unclaimed
+→ hub executes J6-B"; live-code reads done (Strings had no switch! —
+B adds it per D10; DataStore eager-parse vs D9's lenient-prefs law
+flagged — see Next). Then the owner pasted the WorldSmith intake spark
+— the "WorldSmith proposal (INCOMING)" owner-pending line RESOLVING.
+**Zero J6-B edits ever existed on this seat.** Junior shipped J6-B
+mid-session (his `7592708`+`ec8e895`, entry below) — no race: disjoint
+files, the rebase carried zone_8 clean over his work.
+
+**Shipped (worldsmith v0 intake — verdict LOADED-INERT; record:
+`drafts/_worldsmith-v0-intake-20260823.md`):**
+
+- **Digest chain end-to-end:** delivery `b1b8db98…` == worldsmith
+  receipt (d) == fixture copy `test/fixtures/worldsmith/
+  zone_1_v0_export.json` · live tiles.json `2d0094b4…` == worldsmith's
+  fixture pin · as-landed `data/zones/zone_8.json` =
+  `3f3cce1fe8ae84a20f95d05d7cb1c4f3` (diff vs delivery = EXACTLY the
+  two recorded owner-approved edits: re-number zone_1→zone_8 / ZONE 1→
+  ZONE 8 collision fix + transitions→[] neutralizing the ONE
+  `to:"unresolved"` edge gate). Seat-lease honored: worldsmith seat
+  HELD by a live session — copies via read tool + write tool, md5 the
+  arbiter (cp/python into that tree correctly blocked).
+- **D16 final proof (permanent): `test/game/worldsmith_intake_test.rb`**
+  — as-delivered bytes through the PLAY-PATH decoders (no mocks):
+  TileMap strict decode PASS · validate_map! vs LIVE registry PASS ·
+  Crossing refusal NAMED verbatim pinned (`zone edge zone_1 [63, 19] ->
+  unresolved: unknown destination zone "unresolved"`) · landed half:
+  md5 pin + INERT lock (no way in/out, no arrival geometry, world's own
+  discovery rule). world.rb:1186 loads EVERY data/zones file at boot —
+  fixture-first proved the unneutralized copy would brick bin/play
+  (trap pre-paid, honored). `.gitattributes` pins both md5-pinned JSONs
+  `-text` (the v17 W6 EOL lesson — autocrlf would break the digest
+  chain on a fresh clone).
+- **Evidence:** suite 1137 → 1143/0F pre-merge (every World boot loads+
+  validates zone_8) · identity pairs world_loop+low_quay_run
+  SKIP_CRITIC vs PRE-change baseline captured this session: **24/24
+  byte-identical** (inert zone moves no sim byte) · `rake map PROBES=1`
+  **11/11** · vision critique **7/7** on updated map_checks (thirteen
+  panels; ZONE 8 forest-and-lake distinct from ZONE 7's meadow; dev
+  read the PNG before the critic — sampling-artifact law; spend ~$0.05
+  vs $5 cap). Count rows moved WITH the surface (7ab5612 law, two
+  instances): map_checks Twelve→Thirteen + tile_map_test 12→13 +
+  map_artifact_test labels; zone_identity_data_test exemption comment
+  (grass_fixture unreachable precedent).
+- **Banked + triaged:** mapping-gaps report byte-verbatim →
+  `drafts/_worldsmith-v0-zone1-mapping-gaps-20260823.md` · 3 SAFE-class
+  proposals → PARKING_LOT rows (statics/decor identity · biome region
+  intent · grass_c real hue) · sim-class station kinds → wire-in debt.
+  **Wire-in debt recorded** (Lane 2, owner-directed later): real
+  transitions + pricing · identity-dose palette keys (renderer fetches
+  :floor/:grid/:motif on a CURRENT zone — fine inert, owed wired) +
+  ZoneIdentityDataTest.ZONES row · station kinds · pack_spawn review ·
+  wall coverage + map re-gate.
+- **Receipt mailed:** `~/.pi/agent/mail/worldsmith/
+  2026-08-23-g2-intake-receipt.md` (loaded-inert + verbatim refusal +
+  drift ACK: zone_7 resync stays worldsmith's R1 debt; NO format bugs
+  owed).
+
+**Mid-session mail:** game-two-assets re-pin note (fire-and-forget,
+baseline → fc19b70e via its new pin_drift.py verifier, "no action
+needed") — read + archived to done/, nothing owed.
+
+**Job-0 baselines for s55:** origin tip = this s54 docs commit above
+`29a6d3e` (zone_8, rebased) + Junior's `ec8e895`/`7592708` · save
+`98fe75ed…` mtime 08-20 15:51 · launcher logs 40, newest 08-21 01:39 ·
+mail inbox EMPTY after archiving the assets note (audio volume-API
+RECEIPT still outbound) · `drafts/_refs/` untracked · **wall = 25
+scripts** (menu_tour now 7 captures per Junior's B2; the map surface
+is probes+critique, not a wall script) · **suite = 1151** (his 1145 +
+6 intake tests; pre-push hook verified at push).
+
+**Next (s55), in order:** (1) the OWED critic-ON menu_tour gate + its
+language critique (one command, voice-dev creds:
+`rake gate SCRIPT=harness/scripts/menu_tour.json`) — BLOCKS anything
+shipping on top of the menu surface; while there, VERIFY one J6-B
+review question from this seat's dead-ended live-read: B1 placed prefs
+at `data/prefs.local.json`, but `Core::DataStore.new` eager-
+`JSON.parse`s every `data/**/*.json` at boot and raises on corrupt
+JSON — D9's own law says a crash-corrupt prefs file must never brick
+boot (probe: write garbage into the file, `bin/play`, expect a named
+line not a crash; if it bricks, the fix is Junior's call as B's dev of
+record — file out of data/ or an eager-parse exemption). (2) Then J6-C
+(netplay courtesy notice + panels; carries its banked
+frozen-over-end-screen row) or J-7 per the fork. ZONE 8 wire-in waits
+on owner word (geography lane).
+
+**Owner-pending carry (never nag):** ear-checks · T3 footstep/bed
+renders (water family needs a NEW mail) · coop S1 (both seats READY) ·
+SHARED-save first crossing · J-5 spike call · R-A2 escalation call ·
+Junior's D12 observation note (next human launch: Esc → SETTINGS,
+cycle scale/fullscreen, confirm window + prefs file) · ~~WorldSmith
+proposal~~ RESOLVED this session (wire-in = the successor pending
+item).
+
 ## 2026-08-23 session 54 (Junior's seat) — J6-B SHIPPED: prefs + settings live (LANGUAGE/SCALE/FULLSCREEN over the still-ticking world) — pairs 24/24, determinism 7/7, manifest true-count PASS; CRITIC-ON VERDICT OWED to the hub (seat AWS creds dead); volume rows defer-named (no audio RECEIPT)
 
 **Job 0 (open = clean):** origin tip `61dbf06` = the expected s53 docs
