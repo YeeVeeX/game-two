@@ -240,6 +240,10 @@
     {
       "id": "level_up_beat_reads",
       "check": "Where consecutive frames straddle a level-up: a gate-gold stamp reading LEVEL <N> lands with the rule-pair stamp grammar, gold shards fly outward from each living pack body's tile, and these gold pops read distinctly from the white-flash kill pop at the victim tile. The HUD strip's level numeral is higher and its bar shorter in the post-dwell frame than pre-kill. If the reel contains no level-up, or no consecutive capture pair straddles one, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "lobber_reach_reads",
+      "check": "Where a Lobber volley telegraph is present AND the HUD level strip reads 5 or higher: the bracket chain spans FOUR contiguous tiles starting two ahead of the caster (not the three-tile base chain) - judge the span in the clearest mid-delay frame; a victim's body legitimately covers the bracket it stands on. Where captures straddle the impact with a victim standing at the FARTHEST bracket, the impact resolves there: that tile shows the kill flash or hurt reaction in the straddling frame and the chain is gone from it. If no volley telegraph appears, or the HUD reads below LEVEL 5, pass with why='not exercised by this script'."
     }
   ]
 }

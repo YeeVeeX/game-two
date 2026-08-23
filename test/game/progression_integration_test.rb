@@ -133,4 +133,57 @@ class ProgressionIntegrationTest < Minitest::Test
     assert_equal impact_damage, w.impacts.last[:damage],
                  "delayed impacts keep launch-time damage"
   end
+
+  # T4 (P10): volley reach grows with the PACK level — the record's tiles
+  # reach the grown distance at the staged threshold, match the kit base
+  # below it (by identity — the wall's md5 no-op law), and an ENEMY caster
+  # reads the base array even at pack L5 (P7 is mechanical: a real human
+  # creature through the real launch path, no synthetic kit needed —
+  # launch_volley takes the cfg explicitly, the T2 precedent).
+  def test_volley_reach_grows_with_pack_level_pack_only
+    w = world
+    w.start_in("district")
+    lobber = w.pack.members.find { |member| member.kit_name == :lobber }
+    volley_cfg = lobber.kit[:special]
+    base = volley_cfg[:impact_distances]
+    row5 = DATA["balance/progression"][:spell_growth][:lobber][:special_impact_distances][:"5"]
+    origin = open_run(w.map, row5.max + 1)
+    refute_nil origin, "staging: district lost every open #{row5.max + 1}-tile east run"
+    lobber.walker.teleport(*origin)
+    lobber.face([1, 0])
+
+    assert_same base, w.send(:volley_distances, lobber, volley_cfg),
+                "below the first threshold the BASE array launches, by identity"
+    w.send(:launch_volley, lobber, volley_cfg)
+    assert_equal base.map { |d| [origin[0] + d, origin[1]] }, w.impacts.last[:tiles]
+
+    w.progression.load_progress!(level: 5, xp: 0)
+    w.pack.sync_max_hp!(progression: w.progression)
+    assert_equal row5, w.send(:volley_distances, lobber, volley_cfg)
+    w.send(:launch_volley, lobber, volley_cfg)
+    assert_equal row5.map { |d| [origin[0] + d, origin[1]] }, w.impacts.last[:tiles],
+                 "staged L5 the impact chain reaches distance #{row5.max}"
+
+    enemy = w.humans.find { |human| !human.dead? }
+    assert_same base, w.send(:volley_distances, enemy, volley_cfg),
+                "enemy casters never read the pack level (P7)"
+    enemy.walker.teleport(*origin)
+    enemy.face([1, 0])
+    w.send(:launch_volley, enemy, volley_cfg)
+    assert_equal base.map { |d| [origin[0] + d, origin[1]] }, w.impacts.last[:tiles],
+                 "an enemy volley launched at pack L5 still spans only the base chain"
+  end
+
+  private
+
+  # First tile with LEN passable tiles strictly east of it — scanned, not
+  # pinned, so a district re-author cannot silently invalidate the stage.
+  def open_run(map, len)
+    (0...map.rows).each do |y|
+      (0...(map.cols - len)).each do |x|
+        return [x, y] if (0..len).all? { |d| map.passable?(x + d, y) }
+      end
+    end
+    nil
+  end
 end

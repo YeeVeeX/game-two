@@ -1002,6 +1002,17 @@ module Game
       @progression.damage_for(cfg[:damage])
     end
 
+    # P10 sibling of leveled_damage — the level laws share ONE home:
+    # spell growth applies to the PACK only (P7 stays mechanical), the
+    # active array replaces the kit base whole (no arithmetic on
+    # arrays), and distances take NO coop term (composition stops at
+    # level growth for geometry — spec P10).
+    def volley_distances(attacker, cfg)
+      return cfg[:impact_distances] unless attacker.faction == :pack
+      @progression.special_impact_distances_for(attacker.kit_name,
+                                                base: cfg[:impact_distances])
+    end
+
     def apply_action_hit(attacker, victim, cfg)
       attacker.action_hit!(victim)
       landed = victim.take_hit(damage: leveled_damage(attacker, cfg), attacker:,
@@ -1031,7 +1042,7 @@ module Game
     def launch_volley(attacker, cfg)
       attacker.action_triggered!
       @volleys.launch(owner: attacker, map:, origin: attacker.tile,
-                      dir: attacker.facing, distances: cfg[:impact_distances],
+                      dir: attacker.facing, distances: volley_distances(attacker, cfg),
                       delay_frames: cfg[:delay_frames],
                       damage: leveled_damage(attacker, cfg))
     end

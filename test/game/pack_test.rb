@@ -191,7 +191,8 @@ class PackTest < Minitest::Test
     progression = Game::Progression.new(config: {
       curve: { k: 10, level_cap: 5 },
       growth: { dmg_growth_pct: 0, hp_growth_pct: 10 },
-      kill_xp: { rusher: 1 }
+      kill_xp: { rusher: 1 },
+      spell_growth: {}
     })
     progression.load_progress!(level: 4, xp: 0)
 

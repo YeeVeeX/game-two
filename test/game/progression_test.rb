@@ -11,11 +11,12 @@ class ProgressionTest < Minitest::Test
   DATA = Core::DataStore.new(File.expand_path("../../data", __dir__))
 
   def config(k: 50, level_cap: 4, dmg_growth_pct: 8, hp_growth_pct: 6,
-             kill_xp: { rusher: 25 })
+             kill_xp: { rusher: 25 }, spell_growth: {})
     {
       curve: { k:, level_cap: },
       growth: { dmg_growth_pct:, hp_growth_pct: },
-      kill_xp:
+      kill_xp:,
+      spell_growth:
     }
   end
 
@@ -183,5 +184,117 @@ class ProgressionTest < Minitest::Test
     p.load_counters!(boss_1_defeats: 3, sessions: 7)
     p.load_progress!(level: 2, xp: 55)
     assert_equal [3, 7, 2, 55], [p.boss_1_defeats, p.sessions, p.level, p.xp]
+  end
+
+  # --- P10 spell growth: floor-match reader (T4, synthetic tables) ----------
+
+  BASE = [2, 3, 4].freeze
+  ROW5 = [2, 3, 4, 5].freeze
+  ROW8 = [2, 3, 4, 5, 6].freeze
+
+  def grown(level_cap: 10, rows: { "5": ROW5, "8": ROW8 })
+    prog(level_cap:, spell_growth: { lobber: { special_impact_distances: rows } })
+  end
+
+  def test_below_the_first_threshold_returns_the_base_array_by_identity
+    p = grown
+    (1..4).each do |level|
+      p.load_progress!(level:, xp: 0)
+      assert_same BASE, p.special_impact_distances_for(:lobber, base: BASE),
+                  "L#{level} must return the kit base OBJECT (the wall's " \
+                  "below-threshold md5 no-op rides this identity)"
+    end
+  end
+
+  def test_floor_match_reads_the_highest_threshold_at_or_below_level
+    p = grown
+    (5..7).each do |level|
+      p.load_progress!(level:, xp: 0)
+      assert_equal ROW5, p.special_impact_distances_for(:lobber, base: BASE),
+                   "L#{level} floor-matches the \"5\" row"
+    end
+    (8..10).each do |level|
+      p.load_progress!(level:, xp: 0)
+      assert_equal ROW8, p.special_impact_distances_for(:lobber, base: BASE),
+                   "L#{level} floor-matches the \"8\" row (L10 = cap reads it too)"
+    end
+  end
+
+  def test_kit_absent_from_the_table_returns_base_identity_at_any_level
+    p = grown
+    p.load_progress!(level: 10, xp: 0)
+    assert_same BASE, p.special_impact_distances_for(:striker, base: BASE)
+  end
+
+  def test_empty_spell_growth_returns_base_identity_everywhere
+    p = prog(spell_growth: {})
+    p.load_progress!(level: 4, xp: 0)
+    assert_same BASE, p.special_impact_distances_for(:lobber, base: BASE)
+  end
+
+  def test_empty_rows_hash_is_legal_and_returns_base
+    p = grown(rows: {})
+    p.load_progress!(level: 10, xp: 0)
+    assert_same BASE, p.special_impact_distances_for(:lobber, base: BASE)
+  end
+
+  # --- P10 spell growth: NAMED refusals at construction ----------------------
+
+  def test_spell_growth_refuses_non_integer_threshold_keys
+    [{ "x": ROW5 }, { "5.5": ROW5 }].each do |rows|
+      err = assert_raises(ArgumentError, "expected refusal for #{rows.inspect}") do
+        grown(rows:)
+      end
+      assert_match(/spell_growth lobber: threshold/, err.message)
+    end
+  end
+
+  def test_spell_growth_refuses_zero_and_negative_thresholds
+    [{ "0": ROW5 }, { "-2": ROW5 }].each do |rows|
+      err = assert_raises(ArgumentError) { grown(rows:) }
+      assert_match(/must be a positive Integer level/, err.message)
+    end
+  end
+
+  def test_spell_growth_refuses_thresholds_above_level_cap
+    err = assert_raises(ArgumentError) { grown(level_cap: 4) }
+    assert_match(/threshold 5 exceeds level_cap 4/, err.message)
+    assert_match(/dead row/, err.message)
+  end
+
+  def test_spell_growth_refuses_malformed_distance_arrays
+    [{ "5": [] }, { "5": [2, 2.5] }, { "5": [2, -3] }, { "5": "far" }].each do |rows|
+      err = assert_raises(ArgumentError, "expected refusal for #{rows.inspect}") do
+        grown(rows:)
+      end
+      assert_match(/distances must be a non-empty Array of positive Integers/,
+                   err.message)
+    end
+  end
+
+  def test_spell_growth_refuses_non_hash_shapes_and_unknown_spell_keys
+    err = assert_raises(ArgumentError) { prog(spell_growth: []) }
+    assert_match(/spell_growth: must be a Hash of kits/, err.message)
+
+    err = assert_raises(ArgumentError) { prog(spell_growth: { lobber: [] }) }
+    assert_match(/only special_impact_distances grows today/, err.message)
+
+    err = assert_raises(ArgumentError) do
+      prog(spell_growth: { lobber: { special_impact_distances: [ROW5] } })
+    end
+    assert_match(/must be a Hash of level-threshold rows/, err.message)
+
+    err = assert_raises(ArgumentError) do
+      prog(spell_growth: { lobber: { impact_distances: { "5": ROW5 } } })
+    end
+    assert_match(/only special_impact_distances grows today/, err.message,
+                 "a typo'd spell key must refuse, never silently mean no-growth")
+  end
+
+  def test_parsed_growth_tables_are_frozen
+    p = grown
+    p.load_progress!(level: 5, xp: 0)
+    active = p.special_impact_distances_for(:lobber, base: BASE)
+    assert_predicate active, :frozen?, "a grown row must never be mutated in play"
   end
 end

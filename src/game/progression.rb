@@ -40,6 +40,7 @@ module Game
               "progression kill_xp: keys must be Symbols and every amount a positive " \
               "Integer (got #{@kill_xp.inspect})"
       end
+      @spell_growth = parse_spell_growth(config.fetch(:spell_growth))
       @level = 1
       @xp = 0
       @kills_xp = 0
@@ -59,6 +60,19 @@ module Game
     # P5: kit base -> level growth, Integer-only. Level 1 is identity.
     def damage_for(base) = base + (base * (@level - 1) * @dmg_growth_pct) / 100
     def max_hp_for(base) = base + (base * (@level - 1) * @hp_growth_pct) / 100
+
+    # P10 reader: floor-match — the active array is the highest threshold
+    # <= level; below the first threshold the kit BASE array returns by
+    # IDENTITY (the wall's below-threshold md5 no-op is this line).
+    # Progression never reads combat.json: the base arrives as an
+    # argument (damage_for precedent — values in, values out).
+    def special_impact_distances_for(kit_name, base:)
+      rows = @spell_growth[kit_name]
+      return base unless rows
+      active = base
+      rows.each { |threshold, distances| active = distances if threshold <= @level }
+      active
+    end
 
     # P2: session-earned XP counts the configured amount even when the
     # progression bar is pinned at cap (P12's observability semantics).
@@ -104,6 +118,63 @@ module Game
     def load_progress!(level:, xp:)
       @level = level
       @xp = xp
+    end
+
+    private
+
+    # P10: per-kit spell growth — full-array replacement per level
+    # threshold; {} is legal (no growth anywhere). Parsed ONCE into
+    # frozen sorted-ascending [threshold, distances] pairs. Refusals
+    # are NAMED (kill_xp style): unknown spell keys (typo honesty),
+    # non-Integer or non-positive threshold keys, thresholds above
+    # level_cap (a row no reachable level can activate is dead data —
+    # authors own balance files and refuse; players own saves, which
+    # clamp), and empty or non-positive-Integer distance arrays.
+    # Ascending order INSIDE a distances array is not legislated —
+    # volley geometry is order-insensitive (max + include?).
+    def parse_spell_growth(table)
+      unless table.is_a?(Hash)
+        raise ArgumentError,
+              "progression spell_growth: must be a Hash of kits (got #{table.inspect})"
+      end
+      table.to_h do |kit_name, spells|
+        unless spells.is_a?(Hash) && spells.keys.all? { |k| k == :special_impact_distances }
+          raise ArgumentError,
+                "progression spell_growth #{kit_name}: only special_impact_distances " \
+                "grows today (got #{spells.inspect})"
+        end
+        rows = spells.fetch(:special_impact_distances, {})
+        unless rows.is_a?(Hash)
+          raise ArgumentError,
+                "progression spell_growth #{kit_name}: special_impact_distances must be " \
+                "a Hash of level-threshold rows (got #{rows.inspect})"
+        end
+        [kit_name, parse_growth_rows(kit_name, rows)]
+      end.freeze
+    end
+
+    def parse_growth_rows(kit_name, rows)
+      rows.map do |key, distances|
+        threshold = Integer(key.to_s, 10, exception: false)
+        unless threshold&.positive?
+          raise ArgumentError,
+                "progression spell_growth #{kit_name}: threshold #{key.inspect} must be " \
+                "a positive Integer level"
+        end
+        if threshold > @level_cap
+          raise ArgumentError,
+                "progression spell_growth #{kit_name}: threshold #{threshold} exceeds " \
+                "level_cap #{@level_cap} — dead row; delete or re-key it consciously"
+        end
+        unless distances.is_a?(Array) && !distances.empty? &&
+               distances.all? { |d| d.is_a?(Integer) && d.positive? }
+          raise ArgumentError,
+                "progression spell_growth #{kit_name} #{threshold}: distances must be a " \
+                "non-empty Array of positive Integers (got #{distances.inspect} — " \
+                "no Float ever enters the balance path)"
+        end
+        [threshold, distances.freeze]
+      end.sort_by(&:first).freeze
     end
   end
 end
