@@ -1,5 +1,84 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-23 session 55 (hub) — J6-B DEBT CLEARED: critic-ON menu_tour gate PASS (7/7 det ×2, vision 65/65, manifest true-count {2,5,1}) · Rule 6 review found TWO blocking defects — D9 boot-brick (probe-proven) + fingerprint prefs-poisoning (coop-handshake brick) — both FIXED; pairs 24/24 twice; J6-C handed to s56
+
+**Job 0 (open = clean):** origin tip `183fd8b` as expected; both draft
+md5s verified (`cfaf14e6…` close, `00802b28…` brief); save `98fe75ed…`
+mtime 08-20 15:51 md5-verified open/mid/close; launcher logs 40 newest
+08-21 01:39; mail inbox EMPTY open+close (audio volume-API RECEIPT
+still outbound — volume rows stay defer-named); `drafts/_refs/`
+untracked; wall = 25; suite = 1151/0F run at open. J6-C UNCLAIMED by
+Junior (his commits end at `ec8e895`) — fork target stayed J6-C.
+
+**Shipped (close = `drafts/_s55-close-20260823.md`):**
+
+- **Probe → fix `ed64cea` (D9 was VIOLATED live):** garbage bytes in
+  `data/prefs.local.json` bricked boot at data_store.rb:18 BEFORE the
+  lenient Prefs.load (window.rb:44 vs :49). Fix: DataStore skips the
+  exact key `prefs.local` at the ONE choke point
+  (`MACHINE_WRITTEN` allowlist; covers all eight construction sites —
+  window/main/map/3 scenes/soak/Rakefile). Hand-edited configs KEEP
+  the loud abort (bindings' law); no file move (D9 placement stands).
+- **Fresh-eyes Rule 6 review of J6-B (`61dbf06..ec8e895`): PASS with
+  1 blocking (the D9 brick, above) + NITs banked** — every brief pin
+  verified against live code: D10 precedence traced (launcher arg
+  king), switch! on the ONE resolver + sim never reads strings, D11
+  reel nav-only (double-protected), D12 pure-math apply, D13 volume
+  rows absent, swallow guard one-frame (code+unit), window.rb 265,
+  protected surfaces 0-line diff, strings ×3 byte-VERBATIM, TRACKED
+  left/right autopilot-safe. NIT: his close's "66th check" is the
+  65th (64→65, re-derived; his draft stays untouched).
+- **The OWED critic-ON menu_tour gate: PASS** — ONE paid run over the
+  final tree (voice-dev, detached): determinism 7/7 ×2 · vision 65/65
+  (verdict JSON in `drafts/_gate-verdicts.log`) · ALL 7 PNGs dev-read
+  BEFORE accepting (100% of the reel; f0540 still-ticking proof —
+  bars damaged + level fill behind the open menu; f0770 SETTINGS
+  EN/AUTO/OFF; zero critic claims refuted) · manifest floors
+  re-derived on the SINGLE-run log: {2,5,1} are TRUE counts ·
+  language critique PASS both axes (byte-verbatim accuracy; register
+  consistent). **Junior's honesty row 1 settled: gate law satisfied.**
+- **Sub-agent Rule 6 review of s55's own code → fix `cbc887b` (the
+  session's biggest catch, verified live before acting):**
+  `Net::Fingerprint`'s `data/**/*` glob folded machine-written,
+  gitignored prefs.local into the seat-identity hash — the first
+  settings change on either seat would REFUSE every later coop
+  handshake with an unfixable "git pull" hint (coop S1 is
+  owner-pending; this bricked it in waiting). Fix = the
+  bindings.local twin exclusion + test pin + cross-ref law:
+  **every future machine-written file lands in BOTH
+  `Fingerprint::EXCLUDED` and `DataStore::MACHINE_WRITTEN`.** Gap
+  predates s55 (unrecorded at J6-B; no fault row). `bfa7731` =
+  reviewer-NIT test pins (exemption unconditional + exact-key).
+- **Belt:** suite 1151→1153→1154→1156 green via hooks · identity
+  pairs vs pre-fix `183fd8b` worktree baseline **24/24 at `ed64cea`
+  AND at final tree** · soak + net-gate re-runs SKIPPED with named
+  justifications (no window/session-seam touch; hash equality is
+  tree-symmetric; C re-runs the net gates anyway).
+
+**Fork disposition:** headroom below half after two unplanned fixes —
+**J6-C → s56** (spark cut + clipboarded): brief §J6-C + D14, carrying
+the frozen-menu-over-partner-end banked row, volume-rows defer,
+window.rb re-price from 265, the two-lists law, and all three net
+gates.
+
+**Junior async-ratification asks (recorded in the close; his B code
+untouched):** D9 exemption shape · fingerprint exclusion · the 65th-
+check count correction.
+
+**Job-0 baselines for s56:** origin tip = this s55 docs commit above
+`bfa7731`+`cbc887b`+`ed64cea` · save `98fe75ed…` mtime 08-20 15:51 ·
+launcher logs 40, newest 08-21 01:39 · mail inbox EMPTY ·
+`drafts/_refs/` untracked · **wall = 25 scripts** (menu_tour 7
+captures) · **suite = 1156**.
+
+**Owner-pending carry (never nag):** ear-checks · T3 footstep/bed
+renders (water family needs a NEW mail) · coop S1 (both seats READY —
+and now fingerprint-safe against settings changes) · SHARED-save first
+crossing · J-5 spike call · R-A2 escalation call · Junior's D12
+observation note (next human launch: Esc → SETTINGS, cycle
+scale/fullscreen, confirm window + prefs file) · ZONE 8 wire-in
+(geography lane, owner word).
+
 ## 2026-08-23 session 54 (hub) — OWNER REDIRECT: WorldSmith proposal LANDED — v0 zone delivery intake, D16 final proof PASS, ZONE 8 lands INERT (god-view 13 panels, critique 7/7, pairs 24/24); crossed mid-flight with Junior's J6-B ship (his entry below — hub OWES the critic-ON menu_tour gate)
 
 **Job 0 (open = clean):** origin tip `61dbf06` = the expected s53 docs
