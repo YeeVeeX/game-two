@@ -1,5 +1,62 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-23 session 49 (hub) — T4 SHIPPED: lobber-E per-spell growth live (P10) — Volleys carved (world.rb 1795→1775), 23rd wall script gated, below-threshold identity proven twice
+
+**Job 0 (open = clean):** origin tip `139d812` = the expected s48 docs
+commit, zero peer deltas; save `98fe75ed…` mtime 08-20 15:51
+md5-verified open + mid + close; launcher logs 40 newest 08-21 01:39;
+mail inbox EMPTY (audited again post-review); `drafts/_refs/`
+untracked by design.
+
+**Shipped (the T4 brief executed, D1–D7 all held):**
+
+- **A `4ffc5f1`** — `Game::Volleys` plain object (records, launch
+  geometry, delay tick via callables, clear!, digest_groups);
+  world.rb 1795 → 1764; renderer byte-frozen; frozen `impacts`
+  delegator; 9 unit lanes. Invisibility proven: 24/24 frames
+  (specials_chain + world_loop) byte-identical vs a 139d812 worktree
+  + netplay session gate critic-ON PASS (the digest fold moved).
+- **B `61f65fe`** — P10 hook: ctor spell_growth parse (D2 refusals
+  incl. threshold>cap "dead row"), floor-match reader with L1–4
+  base-IDENTITY, `volley_distances` beside leveled_damage (P7 guard),
+  test lanes 2–5, `lobber_reach.json` (23rd script, pilot-authored:
+  hate-peel beat, volley KILL on the farthest bracket,
+  `drop_spawned tile=[28,23]` = caster+5 byte proof) +
+  `lobber_reach_reads` check. Full critic-ON gate PASS + manifest
+  {special_started 2, attack_hit 63, actor_died 23}/run; world.rb
+  1775. Suite 1075→1097/0F. Identity pair re-proven post-B.
+- **Sampling-artifact law exercised:** first gate run false-FAILED
+  `special_pips_track` — refuted by exact pixels (pip (255,255,255)
+  ready f2555 → (50,20,30) spent f2585) + code (exhaust set in
+  start_special); re-gate PASS. Recorded in the close draft, nothing
+  weakened.
+- **Rule 6 review: PASS, 0 blockers, 4 NITs** (L8 "spans FOUR"
+  wording dormant-amendment; duplicate-threshold keys silent;
+  authoring-shelf notes) — all banked as T5 amendments in
+  `drafts/_prog-t4-close-20260823.md`.
+- Stale-bank finding: the PIXEL canary bank (tmp/canary_baseline) is
+  pre-T3-HUD stale (fails identically at 139d812) — D4's canary = the
+  suite's EVENT-STREAM bank, which stayed green throughout.
+
+**Owner-visible flag (hub chat, sent):** Junior's L8 solo save reads
+the "8" row on his next launch — lobber E reach 4 → 6 tiles, feature
+not bug (mid/late bloomer landing as ratified; organic first exposure
+for his seat).
+
+**Next (s50):** T5 `requires_level` machinery (P9 — tile_map
+load-time validation + crossing fact-gate + shut-way cue + fixture
+zone; the spec's last Lane-1 ticket), OR a Lane-2 B-knob re-session
+if the owner word arrived. Spark clipboarded at close.
+
+**Job-0 baselines for s50:** origin tip = this s49 docs commit above
+`61f65fe` · save `98fe75ed…` mtime 08-20 15:51 · launcher logs 40,
+newest 08-21 01:39 · mail inbox EMPTY · `drafts/_refs/` untracked.
+
+**Owner-pending carry (never nag):** ear-checks · T3 footstep/bed
+renders (water family needs a NEW mail) · coop S1 (both seats READY) ·
+SHARED-save first crossing · J-5 spike call · WorldSmith proposal
+(INCOMING) · R-A2 escalation call.
+
 ## 2026-08-23 session 48 (hub) — T4 BRIEF CUT (lobber-E per-spell growth, P10): Volleys carve rides as commit A, wall-debt audit = ZERO re-gates, brief is the ticket
 
 **Job 0 (open = clean):** origin tip `afd979f` = the expected s47 docs
