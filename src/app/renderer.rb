@@ -829,10 +829,16 @@ module App
           Gosu.draw_rect(cx + reach - thick, cy - reach, thick, reach * 2, col)
         end
         if (t = h.chant_target) && !t.dead?
+          # T3 regression fix (s46, varekka gate catch): the tell rides at
+          # z 15 — above every z-0 HUD rect (level strip, hp bars), below
+          # HUD numerals (z 20). A safety cue ("he is calling THAT body")
+          # must never be buried by chrome; frames without a pinned vessel
+          # are byte-identical (these two rects are the only draws gated on
+          # chant_target).
           Gosu.draw_rect(t.x + SIZE / 2 - 4, t.y - 20, 8, 8,
-                         Gosu::Color.new(255, *chant_rgb))
+                         Gosu::Color.new(255, *chant_rgb), 15)
           Gosu.draw_rect(t.x + SIZE / 2 - 2, t.y - 18, 4, 4,
-                         color(world.map.palette[:floor]))
+                         color(world.map.palette[:floor]), 15)
         end
       end
     end
