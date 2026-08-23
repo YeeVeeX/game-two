@@ -391,8 +391,6 @@
   ],
   "run_until": 1541,
   "manifest": {
-    "pack_wiped": 1,
-    "pack_respawned": 1,
     "actor_died": 20
   }
 }
