@@ -23,7 +23,10 @@ module App
     # session + world -> what the frame must say. Exactly one full-screen
     # :screen at a time (states are mutually exclusive by session phase);
     # the run-time cues (stall/link_slow/no_body/gate_wait) can stack.
-    # reason=quit shows nothing: the window is closing honestly.
+    # reason=quit maps to :partner_left UNCONDITIONALLY (J6-C, brief D14):
+    # the initiating seat's window closes before it ever draws a post-end
+    # frame, so only the ABANDONED seat renders the courtesy notice — the
+    # frozen world it holds finally says why.
     # reason=protocol shares the CONNECTION LOST screen (trusted seats: a
     # wire speaking wrong is a broken link; TELEMETRY stays honest with
     # reason=protocol — the artifact of record, decision 8).
@@ -35,6 +38,7 @@ module App
           case session.reason
           when :desync then :desync
           when :conn_lost, :protocol then :conn_lost
+          when :quit then :partner_left
           end
         return f
       end
@@ -63,6 +67,8 @@ module App
         screen_state(line, sub: session.artifact_path)
       when :conn_lost
         screen_state(tr("net.conn_lost", "CONNECTION LOST — SESSION ENDED"))
+      when :partner_left
+        screen_state(tr("net.partner_left", "PARTNER LEFT — SESSION ENDED"))
       else
         draw_cue(tr("net.stall", "WAITING FOR PARTNER") + " #{f[:stall_ms].round} ms",
                  info_font, 16) if f[:stall_ms]

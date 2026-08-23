@@ -131,7 +131,7 @@ class NetplayOverlayTest < Minitest::Test
     assert_equal [29, 8], overlay.flags(h, @wh)[:gate_wait]
   end
 
-  def test_quit_end_shows_no_screen_desync_and_conn_lost_show_theirs
+  def test_quit_end_shows_partner_left_desync_and_conn_lost_show_theirs
     h, j, t = run_session
     h.quit!(t)
     20.times do
@@ -140,7 +140,13 @@ class NetplayOverlayTest < Minitest::Test
       j.update(t)
       t += 10
     end
-    assert_nil overlay.flags(h, @wh)[:screen], "a clean quit closes silently"
+    # J6-C (D14): quit-ended maps to :partner_left UNCONDITIONALLY — in the
+    # live game only the abandoned seat ever draws a post-end frame (the
+    # initiator's window closes first), so the notice reaches exactly the
+    # seat that was left behind.
+    assert_equal :partner_left, overlay.flags(h, @wh)[:screen],
+                 "the abandoned seat is told WHY its world froze"
+    assert_equal :partner_left, overlay.flags(j, @wj)[:screen]
 
     h2, j2, t2 = begin
       teardown
