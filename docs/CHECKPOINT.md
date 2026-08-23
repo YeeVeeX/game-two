@@ -1,5 +1,63 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-23 session 54 (Junior's seat) — J6-B SHIPPED: prefs + settings live (LANGUAGE/SCALE/FULLSCREEN over the still-ticking world) — pairs 24/24, determinism 7/7, manifest true-count PASS; CRITIC-ON VERDICT OWED to the hub (seat AWS creds dead); volume rows defer-named (no audio RECEIPT)
+
+**Job 0 (open = clean):** origin tip `61dbf06` = the expected s53 docs
+commit; pulled --rebase clean pre-work; suite 1137/0F at open; wall =
+25; mail inbox EMPTY (audio volume-API ask still awaiting RECEIPT —
+D13 defer path taken).
+
+**Shipped (ticket J6-B per the s52 brief; close =
+`drafts/_j6-b-close-20260823.md`):**
+
+- **B1 `feat(prefs)` — INERT:** `src/app/prefs.rb` (machine-written
+  `data/prefs.local.json`, lenient-NAMED per-key decode, whole-file
+  write on change-commit, never the world save) + degradation/round-
+  trip lane + .gitignore row.
+- **B2 `feat(presentation)` — VISIBLE:** menu :settings screen
+  (LANGUAGE cycle en/es/pt-br via `Strings#switch!` on the ONE shared
+  resolver · WINDOW SCALE presets · FULLSCREEN toggle; left/right/
+  attack change, nav-only changes NOTHING) · window wiring (prefs
+  boot-apply; locale precedence env > pref > display.json — launcher
+  arg stays king; `apply_scale` runtime setters) · Rule 6 banked row
+  RESOLVED (RESUME-confirm swallow guard, one-frame scope, unit-
+  pinned) · strings ×3 VERBATIM from the pinned table · menu_tour
+  settings beats (run_until 700→840, 5→7 captures, nav-only visit —
+  reel never commits a switch, D11) · menu_reads text +SETTINGS row ·
+  new self-scoping `menu_settings_reads`.
+
+**Evidence:** suite 1137→1145 green at every commit (hooks) ·
+identity pairs world_loop + low_quay_run md5 vs pre-change `61dbf06`
+worktree baseline **24/24** · menu_tour determinism **7/7 byte-
+identical ×2 runs** · manifest PASS {2,5,1} on the SINGLE-run log
+(grep-c, the s53 lesson) · dev-eye read of all 7 PNGs before any
+verdict (f0770: `> LANGUAGE: EN / WINDOW SCALE: AUTO / FULLSCREEN:
+OFF` legible over the ticking world).
+
+**Honesty rows:** (1) **vision critic could NOT run on this seat** —
+AWS `InvalidClientTokenId` on both junior profiles; critic-ON
+`menu_tour` re-gate OWED to the hub seat (one command:
+`rake gate SCRIPT=harness/scripts/menu_tour.json` with voice-dev)
+BEFORE anything ships on top of this surface. (2) volume rows
+DEFERRED named (D13 path; strings wait with the rows). (3) window.rb
+landed **265** = the estimate exactly (cap 300); C re-prices from
+265. (4) D12 observation note owed to the next human launch (Esc →
+SETTINGS, cycle scale/fullscreen, confirm window + prefs file).
+
+**Next (s55):** hub runs the owed critic-ON menu_tour gate (+ its
+language critique) → then J6-C (netplay courtesy notice + panels;
+carries its banked row: menu frozen OPEN over a partner-end screen)
+or intake, hub's call.
+
+**Job-0 baselines for s55:** origin tip = this s54 docs commit ·
+wall = 25 scripts (menu_tour now 7 captures) · suite = **1145** ·
+mail inbox EMPTY (audio ask still outbound).
+
+**Owner-pending carry (never nag):** ear-checks · T3 footstep/bed
+renders (water family needs a NEW mail) · coop S1 (both seats READY)
+· SHARED-save first crossing · J-5 spike call · WorldSmith proposal
+(INCOMING) · R-A2 escalation call.
+
 ## 2026-08-23 session 53 (hub) — J6-A SHIPPED: non-pausing menu chassis live (Esc = menu, quit via QUIT row) — 25th wall script gated critic-ON 64/64, identity pairs held twice, soak PASS, Rule 6 PASS; junior-tibia docs corrected (main is the line)
 
 **Job 0 (open = clean):** origin tip `e74bf32` = the expected s52 docs
