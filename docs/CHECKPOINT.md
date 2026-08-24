@@ -2,6 +2,15 @@
 
 ## 2026-08-24 session 63 — NEITHER owner line landed at open ⇒ ratification-neutral standing-program rung: flywheel low_quay re-clip BEFORE/AFTER vs the 08-19 first critique — the 08-19 fix batch SURVIVES a blind re-critique (scores 5→6 / 4→5 / 7→7.5 / 7→7), 6 new absent-feedback claims REFUTED via event stream + exact frames, banner pile-up CONFIRMED on-frame + banked; zero code/data touches, staged J7-B tree byte-untouched
 
+**CLAIMED: zone-coverage soak — low_quay + district_two (first soak
+coverage of both) — hub 2026-08-24** (s64 — neither owner line landed
+at open; ratification-neutral standing-program rung: `rake soak` N=2
+TICKS=9000 SEED_SAVE=1 ZONES=low_quay,district_two on a scratch save,
+judged by chain_check logs + exit codes only — zero code/data changes,
+zero staged-file touches, quarantine mechanical; basements excluded by
+design: zero spawns + non-hub = the coverage assertion honestly cannot
+pass there).
+
 **AWAITING (unchanged, re-surfaced once — the same TWO owner lines):**
 (1) s59 canary rebank ratification (`68fa69f6→31c699cb`, audit
 `drafts/_j7b-canary-rebank-20260824.md`) — the two staged commits push
