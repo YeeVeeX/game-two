@@ -1,5 +1,104 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-24 session 59 — J7-B BUILT + FULL BELT GREEN (stamp + cold catch-up, the J-7 sim change): snap-home teleport is DEAD on stamped re-entries — code/tests/wall-script STAGED-AWAITING one owner line (canary rebank ratification, reviewer blocking-2); J-7 lane = COMPLETE-ON-RATIFY
+
+**AWAITING (the ONE gate left, owner — not a nag, the reviewer's
+blocking item): ratify in chat the varekka_duel canary rebank
+(`68fa69f6→31c699cb`, audit `drafts/_j7b-canary-rebank-20260824.md`) +
+varekka_duel wall slot RED until an owner-paced re-pilot (choreography
+stale: its mid-duel 1-frame slow_door bounce exploited the dead
+teleport-reset; manifest 6-chants unearnable under the ratified law) —
+then the staged commits push same-day.** Everything else is green and
+done; the working tree holds it all, hooks pass, CLAIMED row is at
+origin (`473c3d2`).
+
+**Job 0 (open = clean):** origin tip `3dd30c0` as expected; CLAIMED:
+J7-B pushed FIRST ACTION as `473c3d2` (suite 1160/0F at claim); save
+`98fe75ed…` md5 open+close, launcher logs 40 newest 08-21 01:39, wall
+25, world.rb 1738, `drafts/_refs/` untracked, branch `s56-hub-j6c`
+preserved. **Second assets re-pin mail** (display.json `7aec5170→
+473c3d2f` blob, fire-and-forget, nothing owed) → done/ mid-session.
+
+**The ship (staged):** brief D2–D11 executed — `@zone_left_at` stamp
+(leave-only, consumed-on-entry, World transient, NO schema bump) ·
+catch-up in Homecoming (`catchup_placements`: linger-then-walk on
+EXISTING knobs, integer division, walls-only field to the PLAIN home
+tile + honesty comments, roster tie-break holds-one-short, ZERO rng) ·
+World applies (rebind + focus-nil + `resume_leash!(linger)` — new tiny
+Creature API — emit :human_leashed actor/tile/hp parity, D11) ·
+no-stamp path (first entry + same-zone wipe) = snap-home VERBATIM
+(headless proof: 24/25 wall streams byte-identical) · digest world row
+`zone_left_at` (breached pattern) + **DIGEST_VERSION 2→3** (fingerprint
+refusal = the whole compat story, verified sole handshake surface) ·
+D9 line pinned + now suite-enforced byte-exact (capture_io assert).
+world.rb 1738→**1770**/1800 (+14 code +18 law-comments; brief estimated
++8 — flagged, cap holds with 30 headroom). Tests **1160→1171**:
+homecoming_test.rb NEW (7: linger edge, integer division, clamp,
+tie-break, dead/at-home skip, zero-rng) · threat_leash_test +3
+integration (mid-path placement vs formula + payload parity + stamp
+consumed via digest row — brief said homecoming_test for that one;
+landed here because the stamp is WORLD state, Homecoming never sees it
+— recorded mapping, reviewer nit-2) · threat_respawn_test +1 (D3 pin:
+respawn global-frame maturation is EXISTING law, J-7 touches none) ·
+classification + digest coverage rows.
+
+**THE FIND (stop-worthy, surfaced not silently redesigned):** the
+brief's wall-debt audit claim "duel scripts never leave-and-return" is
+FALSE — varekka_duel does a mid-duel 1-frame slow_door→low_quay bounce
+that under the OLD law snap-teleported 8 mid-fight humans (boss incl.)
+home = a free room reset. Under the ratified law elapsed(1)≤linger ⇒
+nobody moves (the brief's own leave-and-return clause) ⇒ the duel's
+back half is harder ⇒ wipes at 2198, canary stream diverged, manifest
+unearnable. Response: full-wall headless stream audit (25 scripts, old
+worktree vs new: **24 IDENTICAL, varekka_duel sole mover**) ·
+versioned-bank protocol executed in FULL (prefix identity to line 159,
+every divergent line explained, S43 bank preserved immutable, audit
+doc) · ratification deliberately front-loaded to the owner (above) per
+the canary header's own letter (s43 precedent: approval BEFORE hash).
+
+**Belt (all green):** pairs 24/24 BYTE-IDENTICAL (D8 pre-declared from
+baseline logs: world_loop re-enters only nest=zero spawns; low_quay_run
+re-enters nothing — held exactly) · suite 1171/0F ×4 · **NEW 26th wall
+script `zone_catchup.json`** (district↔nest double round-trip: posts →
+chase → absence → MID-PATH placement [11,12] → walk-finishes-on-camera
+→ clamp-home bookend; hand-choreographed v8 — blocker 19f steps, ally
+aggro geometry, banner-FIFO honesty all bit) + `zone_catchup_reads`
+check row → **gate critic-ON GREEN + EXERCISED** ("partway home in
+0930, back at post by 1205") + manifest 12/8/6 · netplay gates ×3
+critic-ON GREEN (net gate_checks.json UNTOUCHED — beat-row clause
+dormant) · perf GREEN p95 0.289ms (tick_world diff = 0 lines, D6) ·
+soak N=1 GREEN chain-intact (zero catchup lines = no qualifying
+re-entry by bots; the line's mechanism is gate-stdout + suite-pinned) ·
+Rule 6 scrubbed review: FAIL→resolved — B1 gate now green (the "nest
+looks like district" read came from banner-lag frames; reel
+re-choreographed, zero data touched), B3 soak completed, B2 = the
+ratification above; nits 1/3/4/5 fixed in-tree, nit 2 recorded here.
+
+**Commits pending ratification (explicit paths, one concern each):**
+1. `feat(world): J7-B cold-tier catch-up` — src/game/{world,homecoming,
+   creature}.rb src/net/state_digest.rb test/game/{homecoming_test,
+   threat_leash_test,threat_respawn_test,save_state_test}.rb
+   test/net/state_digest_test.rb test/harness/sim_identity_canary_test.rb
+   drafts/_j7b-canary-rebank-20260824.md
+2. `test(harness): zone_catchup wall script` — harness/scripts/
+   zone_catchup.json harness/gate_checks.json drafts/_gate-verdicts.log
+
+**Job-0 baselines for s60:** origin tip = this docs commit above
+`473c3d2` · wall = 26 staged (25 at origin until ratify-push) · suite =
+1171 staged · world.rb = 1770 staged · save `98fe75ed…` mtime 08-20
+15:51 · launcher logs 40 newest 08-21 01:39 · mail inbox EMPTY (2×
+assets re-pin notes in done/) · `drafts/_refs/` untracked · branch
+`s56-hub-j6c` preserved. **s60-first ticket: varekka_duel re-pilot**
+(re-earn the 6-chant manifest under the catch-up law; wall slot RED
+until then). J-7 lane otherwise COMPLETE → next = Lane 2 B-item or
+owner word.
+
+**Owner-pending carry (never nag):** the RATIFY line above · ear-checks
+· T3 footstep/bed renders (water family needs a NEW mail) · coop S1
+(STANDING READY) · J-5 spike call · R-A2 escalation call · ZONE 8
+wire-in (owner word) · audio volume-API RECEIPT (gates only the
+volume-rows rider) · Junior ratifications (s56-hub asks 1–3).
+
 ## 2026-08-24 session 58 — J7-A SHIPPED (Homecoming extraction, pure refactor): go-home policy cluster → `src/game/homecoming.rb` (Crossing pattern, leash-emit RETURNED, World emits) — pairs 24/24 BYTE-IDENTICAL, suite 1160/0F unmodified, world.rb 1786→**1738**, fresh-eyes PASS-WITH-NITS/0-blocking; J7-B = next unclaimed ticket
 
 **CLAIMED: J7-B hub 2026-08-24** (s59 — stamp + cold catch-up, the J-7
