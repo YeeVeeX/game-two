@@ -1,0 +1,135 @@
+```json
+{
+  "readability": [
+    {
+      "observation": "AoE telegraphs read instantly even as flat color: a 3x3 red tile grid appears around an enemy before its attack, unambiguous about which tiles are unsafe. This is the strongest readability structure in the segment.",
+      "evidence": "t=0:12.43 (telegraph around enemy above player), t=0:12.57 (second telegraph in the lower companion fight)",
+      "severity": "good"
+    },
+    {
+      "observation": "Active-character identification is solid: white outline on the possessed unit, and the bottom bar swaps 'player 2' -> 'player 1' with the ability list changing ('shout' -> 'spin'), so control state is always legible.",
+      "evidence": "t=0:05.00 vs t=0:05.23",
+      "severity": "good"
+    },
+    {
+      "observation": "Attacks themselves are invisible. There is no swing arc, lunge, or contact frame; hits can only be inferred from HUD bars dropping. Between these frames the player HP bar loses a chunk with no on-field indication of who hit whom or from which tile.",
+      "evidence": "t=0:05.23 vs t=0:07.80 (HP bar gains dark depleted segment; adjacent enemy at t=0:07.30 is the only candidate)",
+      "severity": "major"
+    },
+    {
+      "observation": "Enemy deaths have no readable event — enemies simply stop existing between frames (white square adjacent to player present, then gone), with no corpse, burst, or fade. Kill confirmation currently comes only from the XP bar ticking up.",
+      "evidence": "t=0:11.37 (enemy adjacent to player) vs t=0:11.77 (gone); XP sliver grows t=0:11.03 -> t=0:11.77",
+      "severity": "major"
+    },
+    {
+      "observation": "The marked-target highlight (orange/yellow outline on an enemy, presumably the ';/Q mark' ability) works and persists across camera movement, but it uses nearly the same outline language as the player's white selection box — outline colors are doing too much overloaded work.",
+      "evidence": "t=0:07.30 (orange-outlined enemy), t=0:11.03, t=0:12.13",
+      "severity": "minor"
+    },
+    {
+      "observation": "Floating damage numbers exist but are tiny, low-contrast purple, and appear only briefly ('0' and '-8' in the hub); they were not visible during any of the ZONE 2 combat, so unclear if they fire in real fights.",
+      "evidence": "t=0:00.00 (numbers visible); t=0:07.30–0:12.80 (none visible during combat)",
+      "severity": "major"
+    },
+    {
+      "observation": "Small magenta/pink squares appear after combat and persist on the ground — presumably drops. They are distinct from every other palette so they read as 'interesting object', which is correct instinct, but nothing communicates what they are.",
+      "evidence": "t=0:11.37, t=0:11.77, t=0:12.70 (magenta square lingering near companion fight)",
+      "severity": "minor"
+    }
+  ],
+  "feel_juice": [
+    {
+      "observation": "There is a visible hit flash on enemies — the enemy in the lower fight flips to bright red/pink for a frame when struck. This is the one piece of combat juice currently in the build and it works.",
+      "evidence": "t=0:12.80 (enemy flashes red), t=0:12.70 (dark-red intermediate state)",
+      "severity": "good"
+    },
+    {
+      "observation": "No visible knockback: combatants stay tile-locked through exchanges — attacker and target sit adjacent at identical positions across multiple hit frames. Combat has zero physical push-and-pull.",
+      "evidence": "t=0:08.37 -> t=0:09.63 (companion/enemy pairs static while HP bars drain)",
+      "severity": "major"
+    },
+    {
+      "observation": "No detectable screen shake or hitstop across the densest combat window; camera motion is a smooth follow throughout, even when the telegraph resolves and hits land. (Hitstop cannot be fully ruled out from sampled frames, but nothing suggests it.)",
+      "evidence": "t=0:12.37–0:12.80 (telegraph resolves, hit flash occurs, camera framing unchanged)",
+      "severity": "major"
+    },
+    {
+      "observation": "Damage feedback on the PLAYER is HUD-only — no flash, no shake, no on-body indicator when the party takes the hits reflected in the top-left bars. Deaths in this build would feel unexplained.",
+      "evidence": "t=0:07.80, t=0:08.37 (bars deplete, field shows nothing)",
+      "severity": "major"
+    },
+    {
+      "observation": "Progression feedback exists and animates: the yellow XP/progress sliver under LEVEL 1 visibly grows mid-fight, giving a small reward pulse per kill.",
+      "evidence": "t=0:11.03 vs t=0:11.77 vs t=0:12.13",
+      "severity": "good"
+    }
+  ],
+  "fluidity_pacing": [
+    {
+      "observation": "Zone traversal is snappy: hub (ZONE 1) to dungeon (ZONE 2) in under five seconds of sim time with no visible load hitch; camera and HUD carry over cleanly.",
+      "evidence": "t=0:00.00 -> t=0:05.00",
+      "severity": "good"
+    },
+    {
+      "observation": "Dead air in the middle of the segment: from roughly t=0:08 to t=0:11 the possessed character drifts near one passive enemy while the actual fight happens elsewhere; roughly 3 seconds of low-pressure wandering immediately after entering the dungeon.",
+      "evidence": "t=0:08.37, t=0:09.63, t=0:10.27, t=0:10.53 (player orbiting a single enemy, no exchanges visible)",
+      "severity": "minor"
+    },
+    {
+      "observation": "The party splits and the camera can only cover one fight: companions engage a cluster at the bottom edge of the screen (and partially at the screen boundary) while the camera follows the player north. The player is blind to half the party's HP pressure.",
+      "evidence": "t=0:10.53 (companion fight clipped at bottom edge), t=0:12.37–0:12.57 (telegraph fires in the bottom fight while player is disengaged)",
+      "severity": "major"
+    },
+    {
+      "observation": "Tile-stepped movement cadence looks consistent — one-tile steps per sampled interval with the camera easing rather than snapping — so traversal itself reads fluid, not jittery.",
+      "evidence": "t=0:11.77 -> t=0:11.90 -> t=0:12.13 (smooth per-tile progression)",
+      "severity": "good"
+    },
+    {
+      "observation": "Telegraph duration may be very short: the red 3x3 appears and is gone within the sampling gap (~0.14s between adjacent frames). If the real wind-up is under ~0.4s it is undodgeable for tile-stepped movement — needs verification against unsampled frames.",
+      "evidence": "t=0:12.43 (present) vs t=0:12.57 (that instance gone, different one active); actual duration unknown",
+      "severity": "minor"
+    }
+  ],
+  "loop_engagement": [
+    {
+      "observation": "Visible decision-making exists in the possession-swap: the player swapped characters at the zone boundary and the toolkit changed (shout vs spin), implying character choice matters per context.",
+      "evidence": "t=0:05.00 ('player 2', shout) -> t=0:05.23 ('player 1', spin)",
+      "severity": "good"
+    },
+    {
+      "observation": "Positioning play is present but shallow in this segment: the player repositions around a single enemy over several seconds rather than kiting or being pressured; enemies appear largely stationary/passive (white squares hold position across many frames), so the loop currently reads as 'walk adjacent, trade, repeat'.",
+      "evidence": "enemies static at t=0:05.23 vs t=0:07.30 (same positions); player orbiting t=0:08.37–0:10.53",
+      "severity": "major"
+    },
+    {
+      "observation": "The mark mechanic (';/Q mark', orange outline on a target) suggests intentional target prioritization for the AI companions — a real tactical verb — and the companions do converge on marked/nearby enemies in the lower fight.",
+      "evidence": "t=0:07.30 (mark applied), t=0:09.63 and t=0:12.37 (companions engaging clustered enemies)",
+      "severity": "good"
+    },
+    {
+      "observation": "Companion combat resolves without player involvement or visibility, which risks the loop feeling like the game plays itself: the bottom fight progresses (telegraphs, hit flashes, drops) while the possessed character contributes nothing.",
+      "evidence": "t=0:12.37–0:12.80 (full combat beat occurs at bottom of screen; player idle at center-left)",
+      "severity": "major"
+    },
+    {
+      "observation": "Drop pickups left on the field (magenta squares) create a small retrieval/banking beat, but in this segment they are simply abandoned as the fight drifts away — no visible pull toward collecting them.",
+      "evidence": "t=0:11.37 through t=0:12.80 (magenta square untouched)",
+      "severity": "minor"
+    }
+  ],
+  "asset_leverage": [
+    "Attack wind-up + swing frames (even 2-frame lunge on the colored squares) — the single biggest multiplier; it would fix the 'invisible attacks' readability hole before any art exists.",
+    "Death burst: a 3–5 frame white flash + particle scatter on enemy kill, replacing the current pop-out-of-existence; pairs with the already-working XP tick.",
+    "Distinct enemy silhouettes per archetype — every hostile is currently an identical white notched square (t=0:05.00–0:12.80), so threat assessment is impossible; even three different placeholder shapes would create tactics.",
+    "Player-hit feedback bundle: brief red vignette or character flash + 2px screen shake when the possessed unit takes damage, so HUD bar drops (t=0:07.80) have an on-field cause.",
+    "Telegraph animation (pulse/fill over its duration) so the red 3x3 (t=0:12.43) communicates time-remaining, not just area.",
+    "Off-screen party indicator: edge arrows + mini HP pips for companions fighting outside the camera (t=0:10.53, t=0:12.37), since the possession design guarantees split fights."
+  ],
+  "standout_moments": [
+    "The 3x3 red telegraph at t=0:12.43 is already genuinely exciting — it snaps the eye instantly and creates a real 'move NOW' beat even in pure placeholder geometry; this is the pattern to build the whole combat language around.",
+    "The enemy hit-flash at t=0:12.80 combined with the telegraph two frames earlier is the one moment in the segment where a full combat beat (threat -> dodge window -> retaliation -> confirmation) is legible end-to-end.",
+    "The possession swap at t=0:05.00 -> t=0:05.23, with the ability bar rewriting itself (shout -> spin), sells the core party fantasy in a single frame transition with zero art support."
+  ]
+}
+```
