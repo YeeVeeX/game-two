@@ -54,6 +54,7 @@ module Game
       @chant_hp = 0
       @seize_cooldown = 0
       @engaged_announced = false
+      @tier_dmg_pct = 0
     end
 
     def tile = [@walker.tile_x, @walker.tile_y]
@@ -398,6 +399,22 @@ module Game
       return if dead?
       @hp = (@hp + delta).clamp(1, @max_hp)
     end
+
+    # s68 zone-tier seam (TierSheet#apply! via World#add_human only,
+    # spawn time — the coop-seam precedent below): Integer pct on the kit
+    # base, base + base·pct/100 with Integer division — no Float ever
+    # enters the balance path. HP applies BEFORE the coop scalar
+    # (composition pin: kit base -> zone tier -> coop scalar); the damage
+    # pct rides the BODY for World#leveled_damage, static per life like
+    # home_tile (config-derived — the max_hp digest precedent).
+    def tier_max_hp!(pct)
+      @max_hp += (@max_hp * pct) / 100
+      @hp = @max_hp
+    end
+
+    def tier_damage!(pct) = @tier_dmg_pct = pct
+
+    def tier_dmg_pct = @tier_dmg_pct
 
     # v18 coop-spawn seam (decision 11, World#add_human only, spawn
     # time): rescales the ceiling and fills to it — an explicit .round

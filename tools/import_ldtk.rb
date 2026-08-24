@@ -47,7 +47,8 @@ module Tools
     ENTITY_FIELDS = {
       "Station" => { required: %w[type], optional: %w[price opens line] },
       "Transition" => { required: %w[to spawn],
-                        optional: %w[sealed type stairs_unlocked_by requires_defeats] },
+                        optional: %w[sealed type stairs_unlocked_by requires_defeats
+                                     requires_level] },
       "PackSpawn" => { required: %w[order], optional: [] },
       "EnemySpawn" => { required: %w[kind], optional: [] },
       "Region" => { required: %w[id intent], optional: [] }
@@ -309,6 +310,8 @@ module Tools
       # T4 boss fact-gate: pass through; the loader gate (TileMap v2) owns
       # the >= 1 Integer refusal — the door composes the loader's law.
       t["requires_defeats"] = f["requires_defeats"] if f["requires_defeats"]
+      # T5/s68 level fact-gate: same pass-through law (loader owns >= 1).
+      t["requires_level"] = f["requires_level"] if f["requires_level"]
       t
     end
 

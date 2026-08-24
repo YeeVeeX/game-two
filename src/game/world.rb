@@ -14,6 +14,7 @@ require "game/flow_field"
 require "game/fight_ledger"
 require "game/field_economy"
 require "game/price_sheet"
+require "game/tier_sheet"
 require "game/crossing"
 require "game/homecoming"
 require "game/progression"
@@ -976,10 +977,12 @@ module Game
 
     # P5 composition pin: kit base -> level growth (Integer) -> coop
     # scalar. No coop scalar touches pack damage today; enemies never read
-    # a level term. Projectiles/impacts store this result at launch time.
+    # a level term — their term is the zone tier stamped at spawn (s68).
+    # Projectiles/impacts store this result at launch time.
     def leveled_damage(attacker, cfg)
-      return cfg[:damage] unless attacker.faction == :pack
-      @progression.damage_for(cfg[:damage])
+      base = cfg[:damage]
+      return base + (base * attacker.tier_dmg_pct) / 100 unless attacker.faction == :pack
+      @progression.damage_for(base)
     end
 
     # P10 sibling of leveled_damage — the level laws share ONE home:
@@ -1210,6 +1213,7 @@ module Game
         f.recompute!(anchor)
         @gate_fields[zone] = f
       end
+      @tiers = TierSheet.new(config: @data["balance/tiers"], zones: @zones.keys)
       seed_humans
     end
 
@@ -1235,7 +1239,9 @@ module Game
                               map: @zones[zone], tile:, faction: :human,
                               name: "#{kit_name}#{serial}")
       # v18 decision 11: coop difficulty applies at SPAWN (Junior's ask);
-      # every human — the boss included — flows through here.
+      # every human — the boss included — flows through here. s68: zone
+      # tier stamps FIRST (TierSheet header: base -> tier -> coop pin).
+      @tiers.apply!(creature, zone)
       creature.scale_max_hp!(@coop[:human_hp_scale]) if @coop
       @humans[zone] << creature
       creature

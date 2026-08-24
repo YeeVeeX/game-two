@@ -161,7 +161,8 @@
         3
       ],
       "sealed": true,
-      "type": "hole"
+      "type": "hole",
+      "requires_level": 6
     },
     {
       "at": [
@@ -173,7 +174,8 @@
         4,
         4
       ],
-      "type": "stairs_down"
+      "type": "stairs_down",
+      "requires_level": 4
     },
     {
       "at": [
@@ -185,7 +187,8 @@
         4,
         4
       ],
-      "type": "stairs_down"
+      "type": "stairs_down",
+      "requires_level": 5
     },
     {
       "at": [

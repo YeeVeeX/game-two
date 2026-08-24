@@ -1,0 +1,8 @@
+{
+  "zones": {
+    "basement_1": { "enemy_hp_pct": 50, "enemy_dmg_pct": 25 },
+    "basement_2": { "enemy_hp_pct": 50, "enemy_dmg_pct": 25 },
+    "dungeon_1": { "enemy_hp_pct": 100, "enemy_dmg_pct": 75 },
+    "zone_8": { "enemy_hp_pct": 150, "enemy_dmg_pct": 100 }
+  }
+}

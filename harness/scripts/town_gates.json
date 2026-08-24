@@ -1,0 +1,46 @@
+{
+  "scenario": "world",
+  "seed": 7,
+  "width": 960,
+  "height": 540,
+  "out_dir": "captures/town_gates",
+  "hold": {
+    "right": [
+      [
+        0,
+        540
+      ]
+    ],
+    "left": [
+      [
+        640,
+        745
+      ],
+      [
+        1010,
+        1020
+      ]
+    ],
+    "up": [
+      [
+        780,
+        975
+      ]
+    ]
+  },
+  "captures": [
+    350,
+    575,
+    610,
+    900,
+    1060,
+    1095
+  ],
+  "run_until": 1105,
+  "start": {
+    "zone": "zone_7"
+  },
+  "manifest": {
+    "zone_entered": 1
+  }
+}

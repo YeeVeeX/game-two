@@ -337,6 +337,26 @@ class ImportLdtkTest < Minitest::Test
     assert_match(/requires_defeats must be an Integer >= 1/, refusal(d))
   end
 
+  # s68 difficulty tier: requires_level rides the same pass-through law
+  # (found live: the field was MISSING from ENTITY_FIELDS — a re-export
+  # of a gated zone would have refused; the WB round-trip must carry
+  # every shipped transition fact).
+  def test_requires_level_transition_field_emits
+    d = doc
+    tr = entity(d, "Transition", 0)
+    tr["fieldInstances"] << int_field("requires_level", 6)
+    parsed = JSON.parse(importer.import(d).fetch("district"))
+    gate = parsed["transitions"].find { |t| t["requires_level"] }
+    assert_equal 6, gate["requires_level"]
+  end
+
+  def test_requires_level_zero_refuses_via_loader
+    d = doc
+    tr = entity(d, "Transition", 0)
+    tr["fieldInstances"] << int_field("requires_level", 0)
+    assert_match(/requires_level must be an Integer >= 1/, refusal(d))
+  end
+
   def test_water_drained_by_sidecar_key_emits_after_gradient_anchor
     sc = sidecar
     sc["palette"]["water_drained"] = [50, 44, 30]

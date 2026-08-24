@@ -599,6 +599,43 @@
             "allowedRefsEntityUid": null,
             "allowedRefTags": [],
             "tilesetUid": null
+          },
+          {
+            "identifier": "requires_level",
+            "doc": null,
+            "__type": "Int",
+            "uid": 116,
+            "type": "F_Int",
+            "isArray": false,
+            "canBeNull": true,
+            "arrayMinLength": null,
+            "arrayMaxLength": null,
+            "editorDisplayMode": "NameAndValue",
+            "editorDisplayScale": 1,
+            "editorDisplayPos": "Center",
+            "editorLinkStyle": "CurvedArrow",
+            "editorDisplayColor": null,
+            "editorAlwaysShow": false,
+            "editorShowInWorld": true,
+            "editorCutLongValues": true,
+            "editorTextSuffix": null,
+            "editorTextPrefix": null,
+            "useForSmartColor": false,
+            "exportToToc": false,
+            "searchable": false,
+            "min": null,
+            "max": null,
+            "regex": null,
+            "acceptFileTypes": null,
+            "defaultOverride": null,
+            "textLanguageMode": null,
+            "symmetricalRef": false,
+            "autoChainRef": false,
+            "allowOutOfLevelRef": true,
+            "allowedRefs": "OnlySame",
+            "allowedRefsEntityUid": null,
+            "allowedRefTags": [],
+            "tilesetUid": null
           }
         ]
       },
@@ -1435,6 +1472,21 @@
                   "__tile": null,
                   "defUid": 115,
                   "realEditorValues": []
+                },
+                {
+                  "__identifier": "requires_level",
+                  "__type": "Int",
+                  "__value": 6,
+                  "__tile": null,
+                  "defUid": 116,
+                  "realEditorValues": [
+                    {
+                      "id": "V_Int",
+                      "params": [
+                        6
+                      ]
+                    }
+                  ]
                 }
               ]
             },
@@ -1538,6 +1590,21 @@
                   "__tile": null,
                   "defUid": 115,
                   "realEditorValues": []
+                },
+                {
+                  "__identifier": "requires_level",
+                  "__type": "Int",
+                  "__value": 4,
+                  "__tile": null,
+                  "defUid": 116,
+                  "realEditorValues": [
+                    {
+                      "id": "V_Int",
+                      "params": [
+                        4
+                      ]
+                    }
+                  ]
                 }
               ]
             },
@@ -1641,6 +1708,21 @@
                   "__tile": null,
                   "defUid": 115,
                   "realEditorValues": []
+                },
+                {
+                  "__identifier": "requires_level",
+                  "__type": "Int",
+                  "__value": 5,
+                  "__tile": null,
+                  "defUid": 116,
+                  "realEditorValues": [
+                    {
+                      "id": "V_Int",
+                      "params": [
+                        5
+                      ]
+                    }
+                  ]
                 }
               ]
             },
@@ -1790,6 +1872,14 @@
                   "__value": null,
                   "__tile": null,
                   "defUid": 115,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "requires_level",
+                  "__type": "Int",
+                  "__value": null,
+                  "__tile": null,
+                  "defUid": 116,
                   "realEditorValues": []
                 }
               ]
@@ -3365,6 +3455,14 @@
                   "__tile": null,
                   "defUid": 115,
                   "realEditorValues": []
+                },
+                {
+                  "__identifier": "requires_level",
+                  "__type": "Int",
+                  "__value": null,
+                  "__tile": null,
+                  "defUid": 116,
+                  "realEditorValues": []
                 }
               ]
             }
@@ -3803,6 +3901,14 @@
                   "__tile": null,
                   "defUid": 115,
                   "realEditorValues": []
+                },
+                {
+                  "__identifier": "requires_level",
+                  "__type": "Int",
+                  "__value": null,
+                  "__tile": null,
+                  "defUid": 116,
+                  "realEditorValues": []
                 }
               ]
             }
@@ -4240,6 +4346,14 @@
                   "__value": null,
                   "__tile": null,
                   "defUid": 115,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "requires_level",
+                  "__type": "Int",
+                  "__value": null,
+                  "__tile": null,
+                  "defUid": 116,
                   "realEditorValues": []
                 }
               ]
