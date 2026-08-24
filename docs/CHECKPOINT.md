@@ -1,5 +1,9 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+CLAIMED (s68, 2026-08-24, Gabriel's hub seat): difficulty-tier knob
+(requires_level deep gates + per-zone enemy stat tiers) — design doc
+`drafts/_difficulty-tier-20260824.md`. Released at the s68 entry.
+
 ## 2026-08-24 session 67 — coop part 2 fell through (Junior unavailable) ⇒ owner SOLO session on the shared save: THE THREE FIXES CONFIRMED in human hands ("me gustó mucho, los fixes funcionaron") · SHARED-SAVE FIRST CROSSING CLEARED (solo) · direction session → owner ratified the growth ladder + REOPENED the lore program (outside repo) · **B4 MERCY FLOOR SHIPPED** `e51e26f` (gate PASS, wall 28, suite 1196)
 
 **The session (full record: `drafts/_coop-s1-20260824.md` §PART 2
