@@ -1,0 +1,53 @@
+{
+  "scenario": "world",
+  "seed": 7,
+  "width": 960,
+  "height": 540,
+  "out_dir": "captures/zone_catchup",
+  "hold": {
+    "right": [
+      [
+        310,
+        655
+      ],
+      [
+        880,
+        945
+      ],
+      [
+        1080,
+        1220
+      ]
+    ],
+    "left": [
+      [
+        656,
+        786
+      ],
+      [
+        950,
+        985
+      ],
+      [
+        990,
+        1070
+      ]
+    ]
+  },
+  "captures": [
+    130,
+    620,
+    700,
+    800,
+    930,
+    960,
+    1205,
+    1235
+  ],
+  "run_until": 1245,
+  "manifest": {
+    "zone_entered": 5,
+    "human_retargeted": 1,
+    "human_leashed": 2
+  }
+}
