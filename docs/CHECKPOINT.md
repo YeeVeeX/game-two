@@ -1,5 +1,63 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-24 session 66 — COOP S1 PLAYED (owner directive `7b812c7`): both humans, shared save, ~40 min, desyncs=0, clean quits — J7-B RATIFIED-J and PUSHED same session (J-7 lane COMPLETE) · owner-directed live-bug lunch window shipped FIVE pushes (volley kinetic fix · pack-burst covers? · striker DASH-STRIKE · drift-flood fix · J7-B pair) · varekka slot = option (a) RECORDED · lag bug root-caused with a live A/B armed for part 2
+
+**The session (full narrative + evidence: `drafts/_coop-s1-20260824.md`):**
+Junior's seat mail landed BOTH owner lines at open — (1) RATIFIED-J ⇒
+J7-B pushed FIRST ACTION (`5430b16` feat + `0ff0ba0` wall 26; hooks
+1171/0F); (2) varekka re-cut pick = **(a)** RECORDED (next dev session
+executes; that ticket now ALSO owes the lobber-volley wall script).
+Morning play on the shared save: sessions 13→14, banked 7→194, level
+1→8 (kills_xp 5125), boss_1_defeats 1→2, J-7 first human exposure (8
+catchup lines), NO zone_7 crossing yet. Host telemetry 7265 stalls vs
+joiner 243 — lag-when-dead root-caused to seat-2 frame starvation
+(focus-throttle hypothesis, soak-forensics precedent); **A/B armed:
+Junior keeps the window focused while dead in part 2**. Owner bug
+reports → owner-picked scopes, all gated: volley covers? fix
+(`ffd32a5`, D2 doc) · pack ring/dash covers? with enemy asymmetry
+pinned (`bec0398`) · **striker special → DASH-STRIKE** (`19b4310`,
+owner order live; struck law separates blade from feet after a pilot
+whiff catch; wall script 27 `dash_strike_rip.json` + GATE PASS; v13
+refund law carried whole; decision doc
+`drafts/_striker-dash-strike-20260824.md`) · AUDIO drift-flood dedup
+(`f91af0d`). Calm-64s loop seam MEASURED (0.0123 FS step +
+content-tail truncation) → re-render mail in the audio seat's inbox
+(owner-paced). B4 mercy floor re-cited to the owner (already
+double-ratified, foundation row 9) — queued as next dev session's
+first ticket. Esc-quit = flow confusion only (menu verified correct).
+
+**Belt:** suite 1171→1186→1189 via hooks at every commit (six green
+runs) · gates: world_loop PASS + dash_strike_rip PASS (verdicts log
+updated) · **canary UNMOVED all day** (`31c699cb…` — no pinned replay
+casts specials; coverage gap recorded, re-cut ticket inherits it) ·
+save insurance `tmp/world.pre-s66.json` (`98fe75ed…`).
+
+**Ratification ledger (this session):** line (1) RATIFIED-J · line (2)
+= (a) by Junior · s56-hub asks 1–3 claimed ratified but his agent's
+descriptions MISMATCHED the real asks — needs Junior's own one-line
+confirm · **striker dash-strike + pack-burst covers? = owner orders
+live in chat; Junior async-ratification PENDING** (peer law).
+
+**Job-0 baselines for s67:** origin tip = this docs commit · tree
+clean except `drafts/_refs/` · save **`413aace7c5ecd27a0158b7d08b195fbb`**
+mtime 08-24 11:47 (WILL move in part 2 — expected) · launcher logs
+**41** · mail inbox EMPTY (assets mail handled→done/, courtesy mail
+sent) · wall **27** · world.rb **1787/1800 — 13 from the cap: next
+material touch OWES its extraction** · suite 1189 · canary ACTIVE
+`31c699cb…` · branch `s56-hub-j6c` preserved. **s67 = coop part 2
+support + harvest** (spark clipboarded): humans replay on `19b4310`+,
+first exposure of volley/ring/dash fixes, focus-A/B verdict, harvest
+appends to the coop-S1 doc. Dev ladder AFTER (or if play falls
+through): **B4 mercy floor (data-only, foundation row 9) → B1-T1 →
+varekka re-cut (a) + volley wall script**.
+
+**Owner-pending carry (never nag):** SHARED-save first crossing ·
+ear-checks (part 1 note banked; dash SFX cue family unmapped) · T3
+footstep/bed renders + calm-64s re-render (new mail) · J-5 spike call
+· R-A2 escalation call · ZONE 8 wire-in · audio volume-API RECEIPT ·
+Junior confirms: s56-hub asks 1–3 (real list) + dash-strike/covers?
+ratifications.
+
 ## 2026-08-24 session 65 — NEITHER owner line landed at open ⇒ ratification-neutral standing-program rung: ENDURANCE soak — TICKS=36000 × the four combat zones (the last untried neutral matrix cell), 4/4 PASS, chain intact sessions 1→4, quarantine held; zero code/data touches, staged J7-B tree byte-untouched — the neutral shelf is now EMPTY
 
 **AWAITING (unchanged, re-surfaced once — the same TWO owner lines):**
