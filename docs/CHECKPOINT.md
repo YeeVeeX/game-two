@@ -2,6 +2,17 @@
 
 ## 2026-08-24 session 64 — NEITHER owner line landed at open ⇒ ratification-neutral standing-program rung: zone-coverage soak — low_quay + district_two + district get their FIRST soak coverage (3 episodes, 2 runs, all PASS), combat-zone soak coverage now COMPLETE for the wired world; zero code/data touches, staged J7-B tree byte-untouched
 
+**CLAIMED: endurance-length soak — TICKS=36000 across the four combat
+zones (district · low_quay · district_two · dungeon_1) — hub
+2026-08-24** (s65 — neither owner line landed at open;
+ratification-neutral standing-program rung: soak N=4 TICKS=36000
+SEED=6500 SEED_SAVE=1 ZONES=district,low_quay,district_two,dungeon_1
+on a scratch save, judged by chain_check logs + exit codes only —
+zero code/data changes, zero staged-file touches, quarantine
+mechanical. The untried matrix cell: prior 36000-tick soaks (08-19
+N=3, overnight N=40) ran without ZONES=; all ZONES= combat-zone runs
+were coverage-length. Endurance × combat starts = new.)
+
 **AWAITING (unchanged, re-surfaced once — the same TWO owner lines):**
 (1) s59 canary rebank ratification (`68fa69f6→31c699cb`, audit
 `drafts/_j7b-canary-rebank-20260824.md`) — the two staged commits push
