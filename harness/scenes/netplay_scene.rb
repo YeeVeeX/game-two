@@ -98,6 +98,10 @@ module Harness
         # this scene has no quitting flag and would still tick there.
         # Inert while no script stages menu/nav rows between quit_at and
         # session end; keep it that way or add the drain guard first.
+        # SECOND LIMIT (s56 merge review): tick's return is discarded — a
+        # scripted QUIT-row selection silently no-ops here, where the live
+        # window routes it to handle_menu → request_quit. Reels end
+        # sessions via the quit_at poke, never the QUIT row.
         host_input = input
         if @world && !@host.ended?
           @menu.tick(input)
