@@ -172,8 +172,12 @@ WELL) + BASEMENT 1/2 + DUNGEON 1 authored and WIRED IN (tickets
 Live authoring laws:
 
 - **The world is JOINED**: low_quay [44,19] ↔ zone_7 [1,14]
-  (`requires_defeats: 1` outbound; the return is free). **INERT law:**
-  basements/dungeon_1 inert both ways; grass_fixture inbound-inert.
+  (`requires_defeats: 1` outbound; the return is free); zone_7's deep
+  ways gate by pack level (s68): basement_1 at 4, basement_2 at 5,
+  dungeon_1 at 6 (composes with its seal) — returns free. **INERT
+  law:** zone_8 inert both ways (wire-in owes the intake debt list:
+  `drafts/_worldsmith-v0-intake-20260823.md`); grass_fixture
+  inbound-inert.
 - **Typed transitions**: rope = interact (gate-consent law),
   holes/stairs auto-fire. **Seal GATING law** (s34, `abe04d6`): a
   seal's `opens` must name a transition with TRUTHY `sealed` —

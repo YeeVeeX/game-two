@@ -1,8 +1,90 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-CLAIMED (s68, 2026-08-24, Gabriel's hub seat): difficulty-tier knob
-(requires_level deep gates + per-zone enemy stat tiers) — design doc
-`drafts/_difficulty-tier-20260824.md`. Released at the s68 entry.
+## 2026-08-24 session 68 — THE DIFFICULTY-TIER KNOB SHIPPED `0d5cc40` (owner datum s67: "a partir de nivel 8 … muy fácil"): requires_level deep gates 4/5/6 on zone_7's ways + per-zone enemy stat tiers, Rule 2 double-gated (wall 29) · content-fill design doc BANKED (authoring = next session) · AGENTS.md INERT-law row corrected
+
+**The knob (design doc `drafts/_difficulty-tier-20260824.md`, Kimi Q4
+frame from the banked s67 transcripts — council spend 0):** PRIMARY =
+`requires_level` gates on zone_7's deep ways — basement_1 **4**,
+basement_2 **5**, dungeon_1 **6** (composes with its live seal; returns
+free; every gate ≤ the shared save's level 8 = no retroactive lock, the
+fresh-save ladder is the point). Gates authored in `authoring/
+pilot.ldtk` (uid-116 fieldDef + instances; python parse-mutate-dump
+reproduces LDtk's byte style) → canonical re-import — the provenance
+pin caught the initial hand edit RED and the LDtk source became the
+fix (the pipeline law held). SUPPORT = `data/balance/tiers.json` (NEW):
+basements 50/25 · dungeon_1 100/75 · zone_8 150/100 dormant
+(enemy_hp_pct/enemy_dmg_pct, Integer, absent zone = ZERO arithmetic —
+the coop seats=1 precedent). `Game::TierSheet` plain object (world.rb
+line-cap law: 1793→**1799**/1800, wiring only) applies both halves at
+the ONE spawn seam (`add_human`: seed + respawn + boss all flow
+through; composition pin extends: kit base → zone tier Integer → coop
+Float .round). Enemy damage reads the stamped pct at `leveled_damage`
+(pack never tiers; enemies never read level). **kill_xp UNTOUCHED**
+(one-knob law; recorded fork: if the ritual says deep grinding feels
+unrewarding → data-only `kill_xp_pct` tier field, own ratification).
+Boss zone untiered (varekka = the re-cut ticket's business). Importer
+gap CLOSED: `requires_level` was missing from the LDtk Transition
+whitelist — a re-export would have refused; now passes through
+(loader owns the >= 1 refusal).
+
+**Belt:** suite 1196→**1219** green (TierSheet laws · zone-tier World
+integration on live data · live gate-ladder pins · importer
+round-trip; pilot_loop fixture staged to level 6 — its subject is
+transition TYPING, gates are level_gate_test/zone_tier_test business).
+Canaries UNMOVED (world_loop/varekka `31c699cb…`/burn_duel — untiered
+zones, identity by construction). vat_economy headless md5
+`61d768b8…` byte-identical pre/post (re-verified live both ends).
+**Rule 2: wall script 29 `town_gates.json`** (L1 pack walks the town:
+LEVEL 6 REQUIRED over the sealed hole, LEVEL 4 at the basement stairs,
+cue-free shut-slab frames both ways) — **GATE PASS** (6 captures ×2
+byte-identical + vision all-PASS, `level_gate_reads` exercised on live
+data) · **multi_floor_descent re-gated PASS** (tiered dungeon fight).
+Both verdicts auto-appended to `drafts/_gate-verdicts.log`.
+
+**Content-fill design BANKED (`drafts/_content-fill-design-20260824.md`,
+Kimi Q3 menu mapped onto real geometry):** basement_1 = plain spawn
+pocket (husks, drop payoff) · basement_2 = dead-end toll pocket
+miniature (seal + dense cul-de-sac; seal-gating law shape check at
+authoring) · dungeon_1 = gated loop with toll-bypass fork + spawn
+roster growth, and **ZONE 8 ATTACHES HERE** (dev recommendation,
+recorded with the rejected hub-spoke alternative): far-east way →
+zone_8's east edge, `requires_level: 8`, return free — town shows
+rungs 4/5/6, the dungeon earns its crossing traffic ("a real geography
+of risk"). zone_8 station_slots → vat+altar pair (no-bank-in-deep
+KEPT). Wire-in executes the intake debt list
+(`_worldsmith-v0-intake-20260823.md`) as its OWN gated commit AFTER
+dungeon_1's fill. Kimi Q5 narrative-debt row binds the authoring
+(fill must honor the owners' lived sessions 13-15). **Authoring = its
+own session (WB pipeline).** AGENTS.md INERT-law row corrected to live
+reachability (was stale since T5: basements/dungeon are two-way LIVE;
+zone_8 is the inert one).
+
+**Seat mail:** game-two-assets re-pin FYI (creature.rb `0ff0ba0→
+e51e26f`, owner-approved their side, "no action needed") → done/.
+
+**Job-0 baselines for s69:** origin tip = this docs commit · tree
+clean except `drafts/_refs/` (untracked, stays) · save
+**`0ed80c516168b41d6314aaf28c7848f7`** mtime 08-24 13:47 sessions=15
+(NO play this session; moves at next launch) · launcher logs **42** ·
+mail inbox EMPTY · wall **29** · suite **1219** · world.rb
+**1799/1800 — any material touch owes its extraction** · canary ACTIVE
+varekka `31c699cb…` · branch `s56-hub-j6c` preserved. **s69 = the
+content-fill authoring session** (dungeon_1 + basements per the banked
+design doc; LDtk → re-import → gated commits, ONE sim piece at a
+time; zone_8 wire-in AFTER as its own commit) → then B1-T1 → varekka
+re-cut (a) + volley wall script → J-3 stats panel · J-5 spike
+dev-paced after content-fill · coop part 2 + focus-A/B whenever
+Junior lands (support brief unchanged from the s67 spark).
+
+**Ratification ledger (Junior async, carry + new):** dash-strike +
+pack-burst covers? (s66) · s56-hub asks 1–3 own-confirm · s67: lore
+reopen · v20 intake list · B4 ship · ZONE 8 GO · **NEW s68: difficulty
+tier ship (gates 4/5/6 + tier table) · content-fill design + zone_8
+attach-at-dungeon recommendation**.
+
+**Owner-pending carry (never nag):** ear-checks (open) · T3
+footstep/bed + calm-64s re-renders (his render queue) · R-A2
+escalation call · coop part 2.
 
 ## 2026-08-24 session 67 — coop part 2 fell through (Junior unavailable) ⇒ owner SOLO session on the shared save: THE THREE FIXES CONFIRMED in human hands ("me gustó mucho, los fixes funcionaron") · SHARED-SAVE FIRST CROSSING CLEARED (solo) · direction session → owner ratified the growth ladder + REOPENED the lore program (outside repo) · **B4 MERCY FLOOR SHIPPED** `e51e26f` (gate PASS, wall 28, suite 1196)
 
