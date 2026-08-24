@@ -143,6 +143,74 @@ class VolleysTest < Minitest::Test
     assert_empty v.records
   end
 
+  # --- kinetic occupancy (D2, s66 live-play evidence) ---------------------
+  # The walker commits its logical tile the instant a step starts; a foe
+  # visually still ON an impact tile used to be "already gone" and the
+  # volley whiffed with the blast drawn on top of the body (owner report,
+  # coop S1). Impact resolution now counts a foe on a tile it COVERS —
+  # departure while the tween flies, landing from commit.
+
+  def test_resolution_hits_a_foe_mid_step_off_an_impact_tile
+    owner = creature(name: "l1", tile: [1, 1])
+    victim = creature(name: "v1", tile: [4, 1], faction: :human)
+    v = volleys(foes: [victim])
+    launch(v, owner, delay_frames: 2)
+    v.tick!
+    victim.walker.step(0, 1, frames: 16) # departs [4,1] → commits [4,2] (off-line)
+    assert_equal [4, 2], victim.tile, "logical tile has already left the impact line"
+
+    v.tick!
+
+    assert_equal victim.max_hp - 35, victim.hp,
+                 "a body still tweening off the tile is IN the blast"
+    assert_equal [[owner, victim, true]], hits
+  end
+
+  def test_resolution_misses_a_foe_whose_tween_finished_leaving
+    owner = creature(name: "l1", tile: [1, 1])
+    victim = creature(name: "v1", tile: [4, 1], faction: :human)
+    v = volleys(foes: [victim])
+    launch(v, owner, delay_frames: 2)
+    v.tick!
+    victim.walker.step(0, 1, frames: 16)
+    16.times { victim.walker.tick } # tween completes — body fully on [4,2]
+
+    v.tick!
+
+    assert_equal victim.max_hp, victim.hp, "a body that finished leaving is out"
+    assert_empty hits
+  end
+
+  def test_resolution_never_double_hits_a_foe_spanning_two_impact_tiles
+    owner = creature(name: "l1", tile: [1, 1])
+    victim = creature(name: "v1", tile: [4, 1], faction: :human)
+    v = volleys(foes: [victim])
+    launch(v, owner, delay_frames: 2)
+    v.tick!
+    victim.walker.step(1, 0, frames: 16) # [4,1] → [5,1]: BOTH are impact tiles
+
+    v.tick!
+
+    assert_equal victim.max_hp - 35, victim.hp, "one record, one foe, ONE hit"
+    assert_equal 1, hits.length
+  end
+
+  def test_resolution_still_hits_one_victim_per_tile_alongside_the_dedup
+    owner = creature(name: "l1", tile: [1, 1])
+    leaver = creature(name: "v1", tile: [3, 1], faction: :human)
+    sitter = creature(name: "v2", tile: [4, 1], faction: :human)
+    v = volleys(foes: [leaver, sitter])
+    launch(v, owner, delay_frames: 2)
+    v.tick!
+    leaver.walker.step(0, 1, frames: 16) # covers [3,1] while tweening off
+
+    v.tick!
+
+    assert_equal leaver.max_hp - 35, leaver.hp
+    assert_equal sitter.max_hp - 35, sitter.hp
+    assert_equal 2, hits.length, "dedup never starves a second tile's victim"
+  end
+
   # --- clear! (zone entry) ----------------------------------------------
 
   def test_clear_empties_the_roster

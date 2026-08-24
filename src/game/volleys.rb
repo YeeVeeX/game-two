@@ -7,7 +7,10 @@ module Game
   # values, never kit configs or progression), and hit resolution
   # reaches back through injected callables — hostiles(owner) → foes,
   # blocked(victim) → blocking tiles, hit_sink(attacker, victim,
-  # landed) → World's attack_hit emit.
+  # landed) → World's attack_hit emit. Resolution reads each foe's
+  # walker occupancy (covers?, D2 s66): a delayed impact counts a body
+  # still tweening off the tile — tile equality whiffed on top of
+  # visually-present movers (owner report, coop S1).
   #
   # Record shape (owner/tiles/frames_left/damage, LIVE owner reference)
   # is FROZEN API: renderer.rb reads owner.kit[:special][:delay_frames]
@@ -48,14 +51,20 @@ module Game
 
     # Creation order and tile order are fixed (determinism). Called only
     # from tick_world — the hitstop pause law rides that call site.
+    # One victim per tile, one HIT per victim per record (a body covering
+    # two impact tiles — mid-step along the line — is struck once).
     def tick!
       @records.each do |impact|
         impact[:frames_left] -= 1
         next if impact[:frames_left].positive?
         foes = @hostiles.call(impact[:owner])
+        struck = []
         impact[:tiles].each do |tile|
-          victim = foes.find { |foe| !foe.dead? && foe.tile == tile }
+          victim = foes.find do |foe|
+            !foe.dead? && !struck.include?(foe) && foe.walker.covers?(*tile)
+          end
           next unless victim
+          struck << victim
           landed = victim.take_hit(damage: impact[:damage], attacker: impact[:owner],
                                    knockback_tiles: 0, blocked: @blocked.call(victim))
           @hit_sink.call(impact[:owner], victim, landed)

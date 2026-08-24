@@ -21,6 +21,8 @@ module Game
     def teleport(tx, ty)
       @tile_x = tx
       @tile_y = ty
+      @from_tile_x = tx
+      @from_tile_y = ty
       @px = tile_px(tx)
       @py = tile_py(ty)
       @from_x = @px
@@ -30,6 +32,19 @@ module Game
     end
 
     def moving? = @tween_left.positive?
+
+    # Impact-tile occupancy (D2, s66 coop-S1 evidence): the logical tile
+    # commits at step START, so a body tweening OFF a tile is "already
+    # gone" to a tile-equality check while the eye still sees it there —
+    # delayed area impacts (volley) whiffed on top of moving bodies. A
+    # body COVERS its landing from commit AND its departure tile while
+    # the tween flies; settled bodies cover exactly their tile. Combat
+    # range, collision, and AI keep reading the committed tile — this
+    # predicate exists for area-impact resolution only.
+    def covers?(tx, ty)
+      return true if tx == @tile_x && ty == @tile_y
+      moving? && tx == @from_tile_x && ty == @from_tile_y
+    end
 
     # One step to an adjacent tile; refused while a step is in flight.
     def step(dx, dy, frames:, blocked: [])
@@ -81,6 +96,8 @@ module Game
       return false unless plan
       @from_x = @px
       @from_y = @py
+      @from_tile_x = @tile_x
+      @from_tile_y = @tile_y
       @tile_x, @tile_y = plan.landing
       @tween_total = plan.duration
       @tween_left = plan.duration

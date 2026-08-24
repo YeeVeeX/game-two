@@ -62,4 +62,42 @@ class GridWalkerTest < Minitest::Test
     assert_equal [4, 3], plan.landing
     assert_equal 6, plan.duration
   end
+
+  # --- covers? (D2 impact occupancy, s66) --------------------------------
+
+  def test_covers_settled_body_covers_exactly_its_tile
+    w = walker
+    assert w.covers?(3, 2)
+    refute w.covers?(2, 2), "a settled body covers no neighbour"
+    refute w.covers?(4, 2)
+  end
+
+  def test_covers_mid_step_body_covers_departure_and_landing
+    w = walker
+    w.step(1, 0, frames: 16)
+    assert w.covers?(3, 2), "departure tile stays covered while the tween flies"
+    assert w.covers?(4, 2), "landing tile is covered from commit (logical tile law)"
+    refute w.covers?(5, 2)
+    16.times { w.tick }
+    refute w.covers?(3, 2), "a finished tween releases the departure tile"
+    assert w.covers?(4, 2)
+  end
+
+  def test_covers_teleport_carries_no_phantom_departure
+    w = walker
+    w.step(1, 0, frames: 16)
+    w.teleport(6, 3)
+    refute w.covers?(3, 2)
+    refute w.covers?(4, 2)
+    assert w.covers?(6, 3)
+  end
+
+  def test_covers_interrupted_step_departs_from_the_committed_tile
+    w = walker
+    w.step(1, 0, frames: 16) # committed to [4,2], tween in flight
+    w.dash(0, 1, max_tiles: 2, frames_per_tile: 8) # retarget mid-tween (wall caps at y=3)
+    assert w.covers?(4, 2), "the interrupted step's landing is the new departure"
+    assert w.covers?(4, 3), "dash landing covered from commit"
+    refute w.covers?(3, 2), "two steps back is never covered"
+  end
 end
