@@ -1,5 +1,82 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-24 session 64 — NEITHER owner line landed at open ⇒ ratification-neutral standing-program rung: zone-coverage soak — low_quay + district_two + district get their FIRST soak coverage (3 episodes, 2 runs, all PASS), combat-zone soak coverage now COMPLETE for the wired world; zero code/data touches, staged J7-B tree byte-untouched
+
+**AWAITING (unchanged, re-surfaced once — the same TWO owner lines):**
+(1) s59 canary rebank ratification (`68fa69f6→31c699cb`, audit
+`drafts/_j7b-canary-rebank-20260824.md`) — the two staged commits push
+same-day on that line and unblock B1-T1/T2; (2) the varekka_duel
+manifest re-cut pick (options + recommendation a in
+`drafts/_varekka-repilot-rebrief-20260824.md`).
+
+**Job 0 (open = clean, world D = neither line):** origin tip `0a11481`
+as expected, no peer deltas, no ratification anywhere (checkpoint +
+mail + origin + spark all silent); CLAIMED row pushed FIRST ACTION as
+`eed45e6` (hook suite **1171/0F** live at claim); staged J7-B tree
+intact open AND close (11 modified + 3 new, `git diff --stat` = 1542
+insertions/11 files); save `98fe75ed…` md5 open+close, mtime 08-20
+15:51; launcher logs 40 newest 08-21 01:39; mail inbox EMPTY; wall 26
+staged; world.rb 1770 staged; branch `s56-hub-j6c` preserved;
+`drafts/_refs/` untracked; canary ACTIVE varekka `31c699cb…` staged.
+`git pull --rebase` still impossible while the J7-B tree sits
+uncommitted — pushes were plain fast-forwards.
+
+**The session (flywheel standing program — the zone-coverage rung):**
+run 1 `tmp/soak/20260824-082522` (N=2 TICKS=9000 SEED=6464 SEED_SAVE=1
+ZONES=low_quay,district_two): EP1 low_quay fights=1 wipes=1 · EP2
+district_two fights=2 wipes=2, both seats clean-quit exit=0 desyncs=0,
+chain intact seeded:0d7ee1a0 → 6ebc1a56 → 7d014177 sessions 1→2 —
+**SOAK PASS 2/2**. Run 2 `tmp/soak/20260824-083631` (N=1 SEED=6470
+ZONES=district — same-rung extension after a clean re-fetch, origin
+still `eed45e6`, collision-free): fights=2, clean quits, chain intact
+— **SOAK PASS 1/1**. Quarantine held on BOTH runs, checker + this
+seat's independent read (save md5 `98fe75ed…` unmoved, temp logs 40).
+**Coverage state: every wired non-hub spawn-bearing zone is now
+soak-covered** — dungeon_1 + zone_7-hub (08-20) · low_quay ·
+district_two · district (today); basements/fixtures are spawn-less BY
+DESIGN (the fights>0 assertion honestly cannot pass there — excluded,
+not skipped); zone_8 stays unwired (owner-pending). Two session notes:
+(a) a PASS-that-shouldn't-pass scare was MY grep artifact, not the
+checker's — greedy `.*fights=` matched inside `negative_fights=0`;
+chain_check's `\bfights=` anchor is correct (underscore kills the
+boundary) — verify-the-verifier resolved FOR the verifier; (b) the
+`&&`-chain + trailing-`&` nohup trap from global memory hit live again
+(district launch #1 died before nohup was reached, zero artifacts) —
+relaunched as one self-contained `nohup bash -c`, lesson already
+banked, no new memory line owed.
+
+**Belt:** no gate owed (zero visual/code/data change; Rule 2
+untriggered; gate deliberately NOT run — it appends to staged
+`drafts/_gate-verdicts.log`); suite **1171/0F** via hooks at both
+commits; soak reports + logs under `tmp/soak/2026082[4]-*` are the
+session's artifacts (tmp/ gitignored — report lines quoted above are
+the durable record).
+
+**Commits this session:** `eed45e6` CLAIMED row · this docs commit.
+
+**Job-0 baselines for s65:** origin tip = this docs commit · wall 26
+staged (25 at origin until the s59 ratify-push; no wall run — none
+owed) · suite 1171 staged · world.rb 1770 staged · save `98fe75ed…`
+mtime 08-20 15:51 · launcher logs 40 newest 08-21 01:39 · mail inbox
+EMPTY · `drafts/_refs/` untracked · branch `s56-hub-j6c` preserved ·
+varekka_duel.json UNCHANGED (slot RED) · canary ACTIVE varekka
+`31c699cb…` (rebank pending). **s65-first: whichever owner line
+lands** — (1) ⇒ push the two staged J7-B commits (explicit path lists
+in the s59 entry) FIRST ACTION, unblocking B1-T1/T2 (B1-T1 = next
+session ticket if (2) hasn't landed); (2)=a ⇒ drill-card re-pilot
+(outranks B1-T1 — RED wall slot); both ⇒ (1) first same-day, then
+(2). Neither ⇒ the neutral shelf is now THIN: zone-coverage complete,
+both flywheel clips done this week, B1-T2 NOT neutral — the only
+untried neutral rung is an endurance-length soak (TICKS=36000 across
+the four combat zones); if that adds nothing, surface AWAITING once
+and close short rather than manufacture work.
+
+**Owner-pending carry (never nag):** the TWO lines above · B1-T3
+playtest reading to sight · ear-checks · T3 footstep/bed renders
+(water family needs a NEW mail) · coop S1 (STANDING READY) · J-5
+spike call · R-A2 escalation call · ZONE 8 wire-in (owner word) ·
+audio volume-API RECEIPT · Junior ratifications (s56-hub asks 1–3).
+
 ## 2026-08-24 session 63 — NEITHER owner line landed at open ⇒ ratification-neutral standing-program rung: flywheel low_quay re-clip BEFORE/AFTER vs the 08-19 first critique — the 08-19 fix batch SURVIVES a blind re-critique (scores 5→6 / 4→5 / 7→7.5 / 7→7), 6 new absent-feedback claims REFUTED via event stream + exact frames, banner pile-up CONFIRMED on-frame + banked; zero code/data touches, staged J7-B tree byte-untouched
 
 **CLAIMED: zone-coverage soak — low_quay + district_two (first soak
