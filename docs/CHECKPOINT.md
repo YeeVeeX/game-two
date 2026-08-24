@@ -62,7 +62,11 @@ neutral shelf is EMPTY** (zone coverage s64 · endurance s65 · both
 flywheel clips this week · B1-T2 NOT neutral, touches staged
 gate_checks.json; any gate run appends to staged verdicts log) —
 surface AWAITING once and close short honestly; do NOT manufacture
-work.
+work. **OWNER OVERRIDE (2026-08-24, in-chat, post-s65-close): s66 =
+LIVE COOP PLAY (coop S1 finally called — Gabriel + Junior hands-on,
+spark staged + clipboarded); the line-(1) ask moves INTO s66's open
+(owner present live — build-parity gate: unratified J7-B = the shared
+save is unplayable cross-machine, fingerprint + DIGEST_VERSION 3).**
 
 **Owner-pending carry (never nag):** the TWO lines above · B1-T3
 playtest reading to sight · ear-checks · T3 footstep/bed renders
