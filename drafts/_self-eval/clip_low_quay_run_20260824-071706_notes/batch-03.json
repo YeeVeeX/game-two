@@ -1,0 +1,119 @@
+```json
+{
+  "readability": [
+    {
+      "observation": "Active-character marking is consistently legible: the possessed unit always carries a bright white/orange outline (red square at t=0:28.10, orange square at t=0:28.37-30.33, red square again at t=0:41.73), so control ownership survives swaps without any art support.",
+      "evidence": "t=0:28.10, t=0:30.33, t=0:41.73",
+      "severity": "good"
+    },
+    {
+      "observation": "The red 3x3 tile telegraph reads instantly as 'danger zone' even in pure geometry — enemies standing inside it and the player clearly outside makes the threat area unambiguous.",
+      "evidence": "t=0:28.87",
+      "severity": "good"
+    },
+    {
+      "observation": "In the tan hub-adjacent zone, faction reads are muddy: beige/white enemies, brown allies and tan floor tiles all sit in the same warm band, so at a glance the cluster near screen-center is hard to parse as friend vs foe (contrast: ZONE 3's dark navy floor makes the same beige enemies pop, t=0:38.40).",
+      "evidence": "t=0:28.10 vs t=0:38.40",
+      "severity": "major"
+    },
+    {
+      "observation": "The '-40' damage number spawns at the far right edge next to the player while the 'TOLL PAID' banner fires 300ms later — it is unclear whether -40 was combat damage, a toll cost, or a currency deduction. Cause-of-loss is not attributable from the frame stream alone.",
+      "evidence": "t=0:30.33 → t=0:30.57",
+      "severity": "major"
+    },
+    {
+      "observation": "Entities walk underneath the HUD: at t=0:40.90 a character sits directly beneath the HP bars and the level progress bar, partially occluded. In a fight near the top edge this could hide an attacker.",
+      "evidence": "t=0:40.90",
+      "severity": "minor"
+    },
+    {
+      "observation": "Small floating pickups (pink squares at t=0:28.10, teal squares top of screen) have no readable identity — unknown whether they are loot, hazards, or props; nothing in the clip disambiguates them.",
+      "evidence": "t=0:28.10, t=0:28.87",
+      "severity": "minor"
+    }
+  ],
+  "feel_juice": [
+    {
+      "observation": "Hit confirmation via colored outline flash on struck enemies (orange/yellow boxes around the beige squares) is present and reads well against both floor palettes.",
+      "evidence": "t=0:28.37, t=0:30.33, t=0:42.77",
+      "severity": "good"
+    },
+    {
+      "observation": "Floating damage numbers exist (-40 at t=0:30.33, -6 and -8 in the hub at t=0:33.27/0:35.10) but are small, purple-on-dark, and easy to miss; they also appear for shop transactions ('U PROVISION -5'), diluting the 'you got hit' meaning.",
+      "evidence": "t=0:30.33, t=0:33.27, t=0:35.10",
+      "severity": "minor"
+    },
+    {
+      "observation": "No visible hitstop, screen shake, or knockback displacement across any of the combat exchanges sampled — enemy positions shift by clean tile steps only. Impact feels stated rather than felt.",
+      "evidence": "t=0:28.37-0:30.33, t=0:40.40-0:42.77",
+      "severity": "major"
+    },
+    {
+      "observation": "Enemy death feedback appears to be near-instant removal (the gray square at t=0:28.97 may be a corpse/husk, but there is no visible pop, particle, or fade between t=0:28.87 and t=0:28.97). Kills don't celebrate themselves.",
+      "evidence": "t=0:28.87 → t=0:28.97",
+      "severity": "major"
+    },
+    {
+      "observation": "The banked-currency banner ('+4' with pulsing pink swatch, brightening at t=0:33.27→33.33) and the fading 'TOLL PAID' banner (t=0:30.57→30.87) give economy actions real ceremony — good structural juice with zero art.",
+      "evidence": "t=0:30.93, t=0:33.27",
+      "severity": "good"
+    }
+  ],
+  "fluidity_pacing": [
+    {
+      "observation": "The loop cadence in this segment is genuinely tight: combat kill → toll gate → hub bank (+4) → shop purchase (U PROVISION -5) → character swap (player 1 → player 2, verb bar changes spin→shout) → descent into ZONE 3, all inside ~10 seconds with no dead air.",
+      "evidence": "t=0:28.87 → t=0:38.40",
+      "severity": "good"
+    },
+    {
+      "observation": "The hub is rendered letterboxed against black (right/bottom of screen empty), and the large '+4' overlay panel sits over roughly a quarter of the tiny playable room for ~4 seconds while the player is actively shopping and fighting (-8 hit at t=0:35.10).",
+      "evidence": "t=0:30.93 → t=0:35.10",
+      "severity": "minor"
+    },
+    {
+      "observation": "ZONE 3 entry has a stretch of low-pressure walking (t=0:38.40-0:39.87) before contact — acceptable as a breather after the bank, but enemy density on-screen is thin, so the descent risks feeling like commute if this pattern repeats.",
+      "evidence": "t=0:38.40, t=0:42.77",
+      "severity": "minor"
+    },
+    {
+      "observation": "Multiple UI banners stack simultaneously at the zone transition (HUB 1 + TOLL PAID + '+4' panel all at once), briefly competing for attention.",
+      "evidence": "t=0:30.93",
+      "severity": "minor"
+    }
+  ],
+  "loop_engagement": [
+    {
+      "observation": "Visible decision-making in ZONE 3: the player holds distance from the two brown/beige enemies, lets them approach across open tiles, then engages — this is kiting, not churn.",
+      "evidence": "t=0:39.87 → t=0:41.73",
+      "severity": "good"
+    },
+    {
+      "observation": "The banking/economy loop is legible on-screen: toll paid to exit, +4 banked in the hub, then a shop purchase before re-descending — the run structure (risk currency in field, convert in hub) is readable purely from HUD events.",
+      "evidence": "t=0:30.57, t=0:30.93, t=0:33.27",
+      "severity": "good"
+    },
+    {
+      "observation": "Party AI allies (the two brown squares) trail the leader but their combat contribution is not visible in these frames — unknown whether they attack; they mostly read as followers, which weakens the possession-swap fantasy in open combat.",
+      "evidence": "t=0:39.87, t=0:41.73",
+      "severity": "minor"
+    },
+    {
+      "observation": "The tan-zone fight at t=0:28.37-0:28.97 resolves so fast (multiple enemies gone in ~0.6s) that it's unclear what the player actually did — reads closer to walking through enemies than fighting them.",
+      "evidence": "t=0:28.37 → t=0:28.97",
+      "severity": "minor"
+    }
+  ],
+  "asset_leverage": [
+    "Enemy/ally faction palettes with hard hue separation per zone (enemies cool, allies warm, or vice versa) — the ZONE 3 navy floor already proves contrast fixes readability; the tan zone needs the same treatment most.",
+    "A 2-3 frame death pop (flash → burst → fade) plus a small particle puff — kills currently evaporate; this is the single cheapest juice multiplier for the existing outline-flash hit system.",
+    "Distinct silhouettes for pickups vs enemies vs props (even just circle/diamond/square shapes) so the floating pink/teal squares stop reading as ambient noise.",
+    "Directional attack VFX (a one-frame slash arc or lunge offset) so cause-and-effect in fast fights like t=0:28.37-0:28.97 is attributable.",
+    "Damage-number typography pass: larger, color-coded (red = damage taken, white = dealt, gold = economy) to separate the -40 / -6 / 'U PROVISION -5' events that currently share one purple style."
+  ],
+  "standout_moments": [
+    "The full economy beat — TOLL PAID banner fading out (t=0:30.57→0:30.87) straight into the hub reveal with the '+4' bank ceremony (t=0:30.93) — is already a satisfying, ritualized run-structure moment with zero final art.",
+    "The red 3x3 telegraph grid at t=0:28.87 is the most exciting single frame in the clip: instant threat legibility that will scale beautifully once VFX land on top of it.",
+    "The seamless swap + verb-bar change (player 1 'spin' → player 2 'shout' at t=0:35.10) communicates the possession mechanic entirely through UI — the system is speaking for itself."
+  ]
+}
+```

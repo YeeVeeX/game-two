@@ -1,0 +1,108 @@
+```json
+{
+  "readability": [
+    {
+      "observation": "The controlled character is always findable: the orange unit carries a persistent white outline that survives camera scroll and crowd overlap. Even in the densest pile-up you can still locate the player instantly.",
+      "evidence": "t=0:42.97 (outlined orange square center), t=0:46.90 and t=0:47.33 (still legible inside a 4-entity cluster)",
+      "severity": "good"
+    },
+    {
+      "observation": "Hit confirmation on enemies is clear: the struck beige enemy gets a gold/orange outline flash plus a white puff, then resolves into a red burst. Cause-and-effect of 'we hit that thing and it died' reads from motion alone.",
+      "evidence": "t=0:44.33–0:44.53 (gold-outlined target with white flash), t=0:44.57 (red burst at same tile)",
+      "severity": "good"
+    },
+    {
+      "observation": "The 3x3 red tile burst is ambiguous in ownership and meaning — it appears both at a kill site and clipping under the HUD, and it is unclear whether it is a death VFX, an enemy AoE, or player damage. In a real fight the player cannot tell if standing in it is dangerous.",
+      "evidence": "t=0:44.57 (burst around the ally/enemy cluster mid-screen), t=0:42.97 (identical burst overlapping the party portraits top-left)",
+      "severity": "major"
+    },
+    {
+      "observation": "Faction reading is weak among the neutral-palette squares: the brown party follower, brown enemies, and beige enemies share hue and size, so in the melee scrum it is hard to tell ally from threat.",
+      "evidence": "t=0:45.13 (brown follower above player vs brown enemy below), t=0:46.90–0:47.33 (brown + beige + ally all stacked on adjacent tiles)",
+      "severity": "major"
+    },
+    {
+      "observation": "Loot vs enemy confusion: the pink/rose drops left by kills are nearly the same size and saturation as the magenta-outlined enemies on the left of the map, so at a glance drops can read as new threats.",
+      "evidence": "t=0:43.83 (pink drop at 400,93 vs magenta enemies at 240,188), t=0:45.63 (pink drop trailing behind player)",
+      "severity": "minor"
+    },
+    {
+      "observation": "The scattered dark floor specks (debris/decals) add mild noise but never mask entities; at current density they are acceptable.",
+      "evidence": "t=0:44.10, t=0:46.13 (specks throughout floor)",
+      "severity": "minor"
+    }
+  ],
+  "feel_juice": [
+    {
+      "observation": "Kill feedback chain (gold flash → white puff → red burst → gray fading remnant) is a genuinely layered juice stack for a placeholder build; deaths feel like events, not deletions.",
+      "evidence": "t=0:44.33 → t=0:44.57 (full chain), t=0:45.13 and t=0:46.13 (gray fading remnants persisting a beat)",
+      "severity": "good"
+    },
+    {
+      "observation": "No hitstop or screen shake is detectable across the kill at t=44.33–44.67 — camera scroll and enemy motion continue at constant cadence through the impact frames. Kills pop visually but the world doesn't 'feel' them.",
+      "evidence": "t=0:44.33–0:44.67 (background parallax advances uniformly through the hit)",
+      "severity": "major"
+    },
+    {
+      "observation": "Player-taken damage feedback is thin: the HP bars chip (dark segments on bars 1 and 3) but no visible flash/knockback on the player sprite was captured while enemies were adjacent, so 'who hurt me' relies entirely on the HUD.",
+      "evidence": "t=0:45.13 (enemy adjacent to player, bar 3 shows chip at ~200px) vs t=0:44.67 (bar states) — no on-body reaction visible in any sampled frame",
+      "severity": "major"
+    },
+    {
+      "observation": "No pickup-collection feedback observed; pink drops are simply walked past or left behind with no sparkle/pull. Whether collection juice exists is unknown from this clip.",
+      "evidence": "t=0:45.63–0:47.40 (drops sit inert as player moves through the area)",
+      "severity": "minor"
+    }
+  ],
+  "fluidity_pacing": [
+    {
+      "observation": "Movement cadence is brisk and continuous — the camera scrolls smoothly through the descent with no visible tile-step hitching, and the player covers meaningful ground per second.",
+      "evidence": "t=0:42.97 → t=0:44.10 (steady multi-tile advance), t=0:45.37 → t=0:47.40 (continuous rightward push)",
+      "severity": "good"
+    },
+    {
+      "observation": "Zero dead air in this segment: enemies stream in from screen edges and converge on the player's path, so the descent is a rolling fight rather than walk-then-arena pacing.",
+      "evidence": "t=0:43.83 (new spawns entering top-right), t=0:45.13–0:47.40 (pressure escalates to a 4+ enemy convergence)",
+      "severity": "good"
+    },
+    {
+      "observation": "The fight rhythm risks mush at peak density — by t=47.33 four entities plus the ally occupy a 2x2 tile cluster, and with everything moving at similar speeds the exchange reads as a shoving scrum rather than distinct attack beats.",
+      "evidence": "t=0:47.17–0:47.40 (entity pile with no readable turn-taking)",
+      "severity": "minor"
+    }
+  ],
+  "loop_engagement": [
+    {
+      "observation": "Visible positional play: the player retreats rightward along the corridor while the pursuit strings out behind, converting a swarm into a queue — that is real kiting, not churn.",
+      "evidence": "t=0:45.37 → t=0:46.90 (pursuers form a trailing line as player backpedals east)",
+      "severity": "good"
+    },
+    {
+      "observation": "The party/possession structure is visible in the HUD (three bars, active-character outline on bar 2, 'player 2' in the control strip) and the brown follower participates in the fight, but the follower's contribution is not readable — it's unclear if the t=44.5 kill was player or ally damage.",
+      "evidence": "t=0:42.97 (three bars + party icons, 'player 2' bottom-left), t=0:44.33 (follower adjacent to the flashed enemy)",
+      "severity": "minor"
+    },
+    {
+      "observation": "Risk/reward around drops is emerging naturally: pink drops are being left behind enemy lines during the retreat, which implies a return-and-collect decision — good structural tension, though whether drops expire or persist is unknown.",
+      "evidence": "t=0:45.63 (drop abandoned at 478,239), t=0:47.40 (drop still uncollected at 363,238 behind the enemy cluster)",
+      "severity": "good"
+    },
+    {
+      "observation": "Progression feedback is present and legible mid-combat (LEVEL 5 label + XP bar under the HP stack), reinforcing the descent-and-bank loop this clip is meant to sell.",
+      "evidence": "t=0:42.97 and t=0:44.10 (XP bar visible, partially filled)",
+      "severity": "good"
+    }
+  ],
+  "asset_leverage": [
+    "Faction silhouettes first: give enemies a distinct shape language vs the party follower (spikes/asymmetry vs rounded), because the brown-vs-brown confusion at t=45.13–47.33 is the single biggest structural readability leak this segment.",
+    "Recolor/reshape the 3x3 red burst by ownership (player kill = warm gold shatter, enemy AoE = red telegraph with wind-up frames) so the ambiguity at t=44.57 becomes information instead of noise.",
+    "2–3 frame attack animation with a directional wind-up on both player and enemies — it would convert the t=47.17 scrum into readable attack beats and make the existing kiting loop visibly skillful.",
+    "Player hurt feedback pass: white/red body flash + 1-tile knockback + 2-frame hitstop; the HP-bar-only damage signal is the weakest juice link.",
+    "Distinct pickup treatment (smaller, bobbing, sparkle, or magnet-pull) to separate drops from the magenta enemy family and pay off the abandon-and-return tension already present at t=47.40."
+  ],
+  "standout_moments": [
+    "The full kill chain at t=0:44.33–0:44.57 — gold target flash, white puff, red burst — is already a satisfying beat and proves the juice pipeline works; it just needs hitstop/shake and ownership color-coding layered on.",
+    "The rolling pursuit from t=0:45.37 to t=0:47.40, where the player strings a swarm into a corridor queue while drops accumulate behind enemy lines, is the moment this clip's descent-and-bank loop actually reads as a game — pressure, positioning, and a reason to double back, all legible through placeholder geometry."
+  ]
+}
+```

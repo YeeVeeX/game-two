@@ -1,0 +1,124 @@
+```json
+{
+  "readability": [
+    {
+      "observation": "Active party member is always marked with a white selection outline, and control transfer is legible frame-to-frame: outline moves from the orange unit (t=0:00) to the tan unit (t=3.77) and back, matching the footer 'player 2 → player 3 → player 1' text. You can always tell who you are.",
+      "evidence": "t=0:00, t=0:03.77, t=0:05.43",
+      "severity": "good"
+    },
+    {
+      "observation": "Floating damage numbers ('-5', '-8') and a ticking objective/boss counter (2000 → 1992 → 1984 → 1976) make hit attribution readable even with placeholder squares — you can see who is being chipped and at what rate.",
+      "evidence": "t=0:00, t=0:03.77, t=0:05.43, t=0:07.60",
+      "severity": "good"
+    },
+    {
+      "observation": "The label 'U PROVISION -5' is opaque placeholder text — it's unclear whether this is a debuff, an objective drain, or a banked-resource penalty. In the middle of a scrum it reads as noise.",
+      "evidence": "t=0:00–0:07.77",
+      "severity": "minor"
+    },
+    {
+      "observation": "Party members share near-identical square silhouettes distinguished only by hue (orange / tan / brown) that overlaps enemy hues (brown and tan enemies at t=0:02.40, t=0:07.60). In the tight 5-entity cluster at t=0:00–0:08 friend/foe reads primarily from the selection outline, not the bodies.",
+      "evidence": "t=0:00, t=0:07.60, t=0:08.20",
+      "severity": "major"
+    },
+    {
+      "observation": "In Zone 2, pale-white enemies sit close in value to the tan wall blocks; enemies adjacent to walls (e.g. white square at t=0:11.07 top-right, t=0:15.90 bottom row) partially camouflage. On dark floor they read fine.",
+      "evidence": "t=0:11.07, t=0:15.90",
+      "severity": "minor"
+    },
+    {
+      "observation": "The red 3x3 tile burst around the player at t=0:17.30 (footer shows 'spin') appears to be the player's own AoE, but red is also the damage/danger color (red screen-edge vignette same frame, red tiles under an enemy at t=0:18.30). Same color coding for 'my attack' and 'incoming threat' will cause misreads.",
+      "evidence": "t=0:17.30, t=0:18.30",
+      "severity": "major"
+    },
+    {
+      "observation": "Elite/special enemy at t=0:15.90 has a distinct yellow-red double outline that separates it from trash mobs — a good structural readability pattern that survives placeholder art.",
+      "evidence": "t=0:15.90, t=0:18.10, t=0:18.30",
+      "severity": "good"
+    }
+  ],
+  "feel_juice": [
+    {
+      "observation": "Party HP bars show a dark 'recent damage' chunk that lingers after hits (visible ghost segments on all three bars), which communicates burst damage taken without watching numbers — solid structural juice.",
+      "evidence": "t=0:16.33, t=0:17.30, t=0:18.30",
+      "severity": "good"
+    },
+    {
+      "observation": "Screen-edge red flash on taking damage (red border along top/left edge) gives clear 'I got hit' feedback at the periphery.",
+      "evidence": "t=0:17.30",
+      "severity": "good"
+    },
+    {
+      "observation": "No visible hitstop, screen shake, or hit-flash on struck enemies in the sampled frames — enemies at t=0:02.40–0:05.43 take damage (counter ticks, numbers spawn) with no frame showing a flash or displacement spike. Sampling could hide 1-2 frame effects, so confirm; if absent, this is the single biggest feel gap.",
+      "evidence": "t=0:02.40–0:05.43 (counter drops, no visible impact state)",
+      "severity": "major"
+    },
+    {
+      "observation": "Enemy deaths are not visibly celebrated: the Zone 1 cluster thins between t=0:05.80 and t=0:08.20 with no corpse, poof, or particle visible in any sampled frame. Kills currently read as objects vanishing.",
+      "evidence": "t=0:05.80 vs t=0:08.20",
+      "severity": "major"
+    },
+    {
+      "observation": "Knockback appears present — the outlined enemy at t=0:18.00 → t=0:18.10 and player repositioning around hits suggest displacement on impact — but magnitude is small relative to the 32px grid, so it barely registers. Unknown whether it's true knockback or AI movement.",
+      "evidence": "t=0:18.00–0:18.30",
+      "severity": "minor"
+    }
+  ],
+  "fluidity_pacing": [
+    {
+      "observation": "The clip opens directly in a 5-entity engagement and resolves it within ~8 seconds, then transitions to Zone 2 and re-engages by t=0:15.90 — roughly 4–5 seconds of pure traversal between fights. No dead air in this segment; pressure cadence is healthy.",
+      "evidence": "t=0:00–0:08.20 (fight), t=0:11.07–0:15.90 (traversal), t=0:15.90+ (fight)",
+      "severity": "good"
+    },
+    {
+      "observation": "Zone transition (ZONE 1 → ZONE 2) is a hard cut with only a title card — no fade, screen wipe, or camera settle. Player is dropped at the left edge mid-stride. Functional but abrupt; unknown whether audio covers it.",
+      "evidence": "t=0:08.20 → t=0:11.07",
+      "severity": "minor"
+    },
+    {
+      "observation": "Camera in Zone 2 tracks smoothly through the descent (steady scroll t=0:16.33 → t=0:18.50) with no visible snapping despite tile-stepped movement — movement cadence reads fluid at this sample rate.",
+      "evidence": "t=0:16.33–0:18.50",
+      "severity": "good"
+    }
+  ],
+  "loop_engagement": [
+    {
+      "observation": "Visible mid-fight possession swapping: control cycles player 2 → 3 → 1 across a single engagement, with the swapped-to character positioned differently in the scrum each time. This is real decision-making, not churn.",
+      "evidence": "t=0:00 (player 2), t=0:03.77 (player 3), t=0:05.43 (player 1)",
+      "severity": "good"
+    },
+    {
+      "observation": "Per-character contextual verbs in the footer ('shout' / 'lob' / 'spin') confirm the three party members are mechanically distinct, giving the swap a reason to exist beyond spare HP bars.",
+      "evidence": "t=0:00 (shout), t=0:03.77 (lob), t=0:05.43 (spin)",
+      "severity": "good"
+    },
+    {
+      "observation": "Positioning play is visible in Zone 2: the player kites away from the elite (t=0:17.80–0:18.10, backing off while the outlined enemy pursues) rather than face-tanking — the loop supports retreat and spacing.",
+      "evidence": "t=0:17.80–0:18.30",
+      "severity": "good"
+    },
+    {
+      "observation": "The Zone 1 fight reads as a stationary scrum — all five entities occupy a 3x2 tile pocket for the full engagement (t=0:00–0:05.80) with attrition via the counter rather than visible maneuvering. Risk of button-mash monotony in open-room fights.",
+      "evidence": "t=0:00–0:05.80",
+      "severity": "minor"
+    },
+    {
+      "observation": "Banking / return-loop stakes mentioned in the focus brief are not visible in these 20 frames — no bank prompt, deposit UI, or death/respawn event sampled. Cannot evaluate yet.",
+      "evidence": "unknown (not in t=0:00–0:18.50)",
+      "severity": "minor"
+    }
+  ],
+  "asset_leverage": [
+    "Three distinct party silhouettes (shape, not just hue) — the swap mechanic is the game's identity and currently rides entirely on a white outline; unique outlines would also fix friend/foe confusion in scrums (t=0:00–0:08).",
+    "A 2–3 frame enemy hit-flash + death poof particle: the counter proves damage is happening (t=0:02.40–0:07.60) but nothing on-body sells it; this is the highest feel-per-hour upgrade available.",
+    "Split the color language: player AoE (spin, t=0:17.30) in a cool/ally color, enemy telegraphs in red — one palette decision, large readability multiplier.",
+    "Directional attack arc/swing sprite so melee range and facing are legible before contact (currently the tiny facing pip at t=0:03.77/t=0:05.43 is the only cue).",
+    "Zone transition dressing (half-second fade or door animation) to replace the hard cut at t=0:08.20→0:11.07."
+  ],
+  "standout_moments": [
+    "Mid-fight triple possession swap (player 2 → 3 → 1 across t=0:00–0:05.43) while the objective counter ticks 2000→1976 under pressure — this already reads as an interesting, skillful loop with placeholder art.",
+    "The recent-damage ghost chunks on the party HP bars (t=0:16.33–0:18.30) — a genuinely good piece of feedback design that most placeholder builds don't have.",
+    "Elite enemy with double outline being kited through the Zone 2 corridors (t=0:15.90–0:18.30) reads as a real threat encounter rather than trash churn."
+  ]
+}
+```

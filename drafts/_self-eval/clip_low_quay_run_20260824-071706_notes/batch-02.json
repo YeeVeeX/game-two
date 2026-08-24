@@ -1,0 +1,113 @@
+```json
+{
+  "readability": [
+    {
+      "observation": "The active character is consistently findable: white outline box around the orange player square persists through camera scroll and combat, and trailing party members (brown squares with small pip markers) read as a follower chain, not threats.",
+      "evidence": "t=0:25.73 → t=0:27.87 (outline visible every frame)",
+      "severity": "good"
+    },
+    {
+      "observation": "Aggroed enemies get a distinct yellow/orange outline highlight (the tan squares at mid-screen), which cleanly separates 'this one is coming for you' from ambient beige entities.",
+      "evidence": "t=0:26.60, t=0:26.80, t=0:27.50, t=0:27.80",
+      "severity": "good"
+    },
+    {
+      "observation": "The same red 3x3 AoE visual appears both centered on the player (spin attack) and displaced onto other entities away from the player — at t=0:27.07–0:27.13 the red grid sits over a beige square well left of the player. It is unknown whether that is a companion attack, an enemy telegraph, or a lingering hitbox; identical visuals for player and non-player AoEs is a real hazard-attribution problem.",
+      "evidence": "t=0:25.97 (player-centered) vs t=0:27.07–0:27.13 (off-player)",
+      "severity": "major"
+    },
+    {
+      "observation": "Field clutter attribution is weak: beige squares, small yellow squares (loot drops? at t=0:26.23, t=0:27.30), pink squares, and teal squares coexist with no shape/behavior distinction from stills — which are enemies, pickups, or props is unknown until one moves toward you.",
+      "evidence": "t=0:26.50, t=0:27.30, t=0:27.50",
+      "severity": "major"
+    },
+    {
+      "observation": "Three stacked HP bars top-left presumably map to the three party members, but there's no visible indicator of which bar belongs to the currently possessed character; when the screen flashes red at t=0:26.90 it's not obvious which bar to check.",
+      "evidence": "t=0:26.90, t=0:27.80",
+      "severity": "minor"
+    }
+  ],
+  "feel_juice": [
+    {
+      "observation": "Player-damage feedback stacks two channels: the player square flashes red AND a red screen-edge vignette appears — hits taken are unmissable even in geometry-placeholder form.",
+      "evidence": "t=0:26.20 (red player square), t=0:26.90 and t=0:27.80–0:27.87 (red border)",
+      "severity": "good"
+    },
+    {
+      "observation": "The spin attack's 3x3 red tile burst is a punchy, readable AoE statement — instant area claim with clear tile coverage, which is exactly right for a grid game.",
+      "evidence": "t=0:25.97, t=0:26.90, t=0:27.80",
+      "severity": "good"
+    },
+    {
+      "observation": "No visible hit-confirm on enemies: when the spin overlaps the outlined enemy at t=0:26.90/t=0:27.80, the enemy shows no flash, knockback displacement, or damage number in the sampled frames. Whether hitstop exists is unknown from stills, but the on-hit visual channel for dealing damage appears empty compared to receiving it.",
+      "evidence": "t=0:26.90, t=0:27.80 vs t=0:27.87",
+      "severity": "major"
+    },
+    {
+      "observation": "No death feedback observed — entities that disappear between frames (e.g., beige squares near the party at t=0:26.50 gone by t=0:27.03) leave no corpse, burst, or particle; kills evaporate silently.",
+      "evidence": "t=0:26.50 → t=0:27.03",
+      "severity": "major"
+    },
+    {
+      "observation": "The red-border damage overlay at t=0:27.80 persists across at least two sampled frames (~70ms+), giving the hit some weight rather than a single-frame blip.",
+      "evidence": "t=0:27.80 → t=0:27.87",
+      "severity": "minor"
+    }
+  ],
+  "fluidity_pacing": [
+    {
+      "observation": "Camera scroll is smooth and continuous while the player fights on the move — the whole ~2.1s segment covers meaningful ground with no hitching or camera snap between frames.",
+      "evidence": "t=0:25.73 → t=0:27.87 (steady world drift)",
+      "severity": "good"
+    },
+    {
+      "observation": "Fighting-while-traversing rhythm works: the player never stops to duel, spinning through contact points at t=0:25.97, t=0:26.90, t=0:27.80 (~0.9s apart), which keeps the descent pushing forward rather than stalling per-enemy.",
+      "evidence": "t=0:25.97, t=0:26.90, t=0:27.80",
+      "severity": "good"
+    },
+    {
+      "observation": "The spin appears to be the only attack in use across the segment — three spins, no directional J/Space attack observed. If spin can be run-through-everything spammed with no visible cooldown or cost feedback, combat degrades to hold-forward-and-spin; whether a cooldown exists is unknown from stills.",
+      "evidence": "t=0:25.97, t=0:26.90, t=0:27.07, t=0:27.80",
+      "severity": "major"
+    },
+    {
+      "observation": "Party followers lag noticeably behind through the corridor (bottom-left cluster at t=0:27.80–0:27.87 is ~8+ tiles from the leader), and a pink square is loitering near them — offscreen/off-focus party danger could be accruing without the player's attention.",
+      "evidence": "t=0:27.80, t=0:27.87",
+      "severity": "minor"
+    }
+  ],
+  "loop_engagement": [
+    {
+      "observation": "Visible XP progression: the thin bar under the HP stack ('LEVEL 5') extends between frames (t=0:25.83 vs later), so kills feed a legible growth loop mid-run.",
+      "evidence": "t=0:25.83, t=0:26.23",
+      "severity": "good"
+    },
+    {
+      "observation": "There is genuine spatial decision-making visible: the player weaves the corridor gap between block clusters, takes the fight on the diagonal past the aggroed enemy rather than face-tanking, and keeps momentum toward the zone exit direction.",
+      "evidence": "t=0:26.30 → t=0:27.30 movement path",
+      "severity": "good"
+    },
+    {
+      "observation": "Trades look mutual rather than mastered — the player takes damage at both spin engagements (red border at t=0:26.90 and t=0:27.80 coinciding with the AoE). Whether this is deliberate HP-for-speed trading or unavoidable contact damage is unknown, but 'every engagement costs HP' risks feeling like attrition churn instead of skill expression.",
+      "evidence": "t=0:26.90, t=0:27.80",
+      "severity": "minor"
+    },
+    {
+      "observation": "Loot pickup loop is present but mute: small yellow squares appear on the path (drops), yet no pickup feedback (counter tick, flash) is identifiable in the HUD when the player passes near them.",
+      "evidence": "t=0:26.23, t=0:27.30, t=0:27.50",
+      "severity": "minor"
+    }
+  ],
+  "asset_leverage": [
+    "Enemy hit-react frames (flash + 2-3px knockback lurch) — the biggest missing feedback channel; would instantly make the spin feel like it connects (t=0:26.90).",
+    "Death burst VFX (tile-sized shatter/particles) so kills stop evaporating silently (t=0:26.50→0:27.03).",
+    "Distinct silhouettes per entity class: enemy vs pickup vs prop — currently beige/yellow/pink squares are un-parseable at a glance (t=0:27.30).",
+    "Color-code or reskin the AoE per owner (player spin = one palette, enemy/companion telegraphs = another) to fix the attribution ambiguity at t=0:27.07.",
+    "Active-character indicator on the party HP bars (portrait chip or highlight) so the red screen flash maps to a specific bar (t=0:26.90)."
+  ],
+  "standout_moments": [
+    "The fight-on-the-move spin at t=0:26.90 — red AoE bloom, red damage vignette, and outlined aggro enemy all firing in one frame is the most 'action game' moment in the clip; it already reads as a risky committed trade.",
+    "The persistent white-outline player marker + yellow aggro outlines (t=0:26.60–0:26.80) prove the readability layer can carry combat with zero final art — the highlight system is the strongest structural asset here."
+  ]
+}
+```

@@ -1,0 +1,134 @@
+```json
+{
+  "readability": [
+    {
+      "observation": "Player character reads instantly at all times: the orange body with thick white selection border is the only high-saturation warm shape on screen, and it survives every cluster fight without being lost (compare the melee scrum at t=0:24.13 — the player square is still unmistakable inside a 5-entity pile).",
+      "evidence": "t=0:18.60, t=0:24.13",
+      "severity": "good"
+    },
+    {
+      "observation": "Party-member tagging works: the small yellow-dot badge above each controllable unit (orange player plus the brown and tan followers) cleanly separates 'mine' from 'theirs' even at placeholder fidelity.",
+      "evidence": "t=0:24.63, t=0:24.77",
+      "severity": "good"
+    },
+    {
+      "observation": "Enemy-vs-prop-vs-pickup ambiguity: the beige/white squares that take hit-flashes (t=0:22.50) share palette and shape language with what appear to be inert white blocks elsewhere in the room (t=0:18.60 top-right, t=0:21.93 mid-screen). Threat identification currently depends on watching which ones move, not on any at-a-glance signal.",
+      "evidence": "t=0:18.60, t=0:21.93, t=0:22.50",
+      "severity": "major"
+    },
+    {
+      "observation": "Dark-brown enemies sit dangerously close to the dark-brown floor value; the brown unit near the bottom cluster is nearly camouflaged until it moves.",
+      "evidence": "t=0:18.60 (brown square at ~360,450), t=0:21.93",
+      "severity": "major"
+    },
+    {
+      "observation": "Overlap occlusion in melee: when 4-5 entities stack on adjacent tiles the individual attackers merge into an unreadable blob — you can tell 'a fight is happening' but not who is striking whom.",
+      "evidence": "t=0:24.13, t=0:25.30",
+      "severity": "minor"
+    },
+    {
+      "observation": "Pink-outlined drops are a distinct, consistent read (small, outlined, cool-pink against warm palette) and persist legibly on the floor for pickup routing.",
+      "evidence": "t=0:24.40, t=0:24.63, t=0:25.50",
+      "severity": "good"
+    },
+    {
+      "observation": "Kill/collection counter and triple party HP bars update visibly (counter 2 → 4 across the fight; third bar shrinks after the exchange), so state changes are tracked even without damage numbers.",
+      "evidence": "t=0:18.60 vs t=0:20.27 (counter), t=0:21.93 (bar 3 reduced)",
+      "severity": "good"
+    }
+  ],
+  "feel_juice": [
+    {
+      "observation": "Hit-flash is in and working: struck enemies pop to a yellow/orange outline-flash on impact, which is the single clearest combat-feedback signal in the clip.",
+      "evidence": "t=0:19.17, t=0:20.60, t=0:22.50, t=0:24.03",
+      "severity": "good"
+    },
+    {
+      "observation": "Screen shake appears present on big hits — the HUD text ghosts/offsets during the burst at ~t=0:24.93–25.03 ('LEVEL 5' label smears), suggesting a camera kick coincident with the kill.",
+      "evidence": "t=0:24.93, t=0:25.03",
+      "severity": "good"
+    },
+    {
+      "observation": "Small particle scatter on enemy death (loose orange dots to the player's right immediately after the cluster collapses) exists but is faint — one or two pixels of confetti, easy to miss at speed.",
+      "evidence": "t=0:24.40",
+      "severity": "minor"
+    },
+    {
+      "observation": "No visible knockback separation: entities die in place and the pile just thins out; there's no spatial 'shove' communicating impact direction, which contributes to the blob-fight read.",
+      "evidence": "t=0:24.13 → t=0:24.40",
+      "severity": "minor"
+    },
+    {
+      "observation": "No damage numbers or hit-magnitude feedback observed in this segment; whether hits are strong or weak is invisible beyond the binary flash. (If they exist elsewhere, unknown from these frames.)",
+      "evidence": "t=0:22.50, t=0:24.03",
+      "severity": "minor"
+    },
+    {
+      "observation": "Enemy hit-flash also appears in a red/pink variant (the mid-fight red pop at t=0:25.23) — if this is a two-tier flash (normal vs crit/kill), that's a smart cheap layer; if it's inconsistent flash coloring, it should be unified.",
+      "evidence": "t=0:25.23",
+      "severity": "minor"
+    }
+  ],
+  "fluidity_pacing": [
+    {
+      "observation": "Zero dead air across the sampled ~7 seconds: the descent flows from one skirmish into the next (counter climbing 2 → 4 between t=0:18.60 and t=0:20.27) while the player keeps moving south — the walk IS the fight, which is exactly the right cadence for a descent zone.",
+      "evidence": "t=0:18.60–0:25.50",
+      "severity": "good"
+    },
+    {
+      "observation": "Camera behavior is dynamic — the view pulls out noticeably across the clip (tile scale visibly shrinks from t=0:18.60 to t=0:25.50), presumably combat/zone zoom. The transition is smooth rather than snappy, but the timing motivation isn't legible from frames alone; if it's fight-radius driven, good; if it's drifting, tune it.",
+      "evidence": "t=0:24.63 vs t=0:18.60, t=0:25.50",
+      "severity": "minor"
+    },
+    {
+      "observation": "Tile-stepped movement reads fluid at this sample rate — no visible hitching or grid-snap stutter in the player's southward run; positions interpolate cleanly between frames.",
+      "evidence": "t=0:24.63 → t=0:24.93",
+      "severity": "good"
+    },
+    {
+      "observation": "Drops left behind on the floor (multiple pink squares strewn below the fight at t=0:25.50) create a natural pull-back beat after combat — a small collect-loop that breaks up forward pressure without stalling it.",
+      "evidence": "t=0:24.40, t=0:25.50",
+      "severity": "good"
+    }
+  ],
+  "loop_engagement": [
+    {
+      "observation": "Visible positional play, not churn: the player disengages upward/away from the enemy pile after the exchange at t=0:24.40 and re-engages from the corridor line, while the two AI companions hold the frontline — this reads as deliberate kiting with the party as a screen.",
+      "evidence": "t=0:24.40 → t=0:24.77",
+      "severity": "good"
+    },
+    {
+      "observation": "Party-of-three structure is doing real work: the follower units (badged brown/tan squares) absorb the melee scrum while the player picks angles, and the tri-bar HUD makes their attrition legible (bar 2/3 wear across t=0:21.93–0:24.03) — a real swap-decision input.",
+      "evidence": "t=0:21.93, t=0:24.03, t=0:24.63",
+      "severity": "good"
+    },
+    {
+      "observation": "XP/progress feedback loop is live — the thin progress bar under 'LEVEL 5' visibly extends after the kill burst, tying the fight directly to advancement in-frame.",
+      "evidence": "t=0:18.60 vs t=0:25.30 (bar length)",
+      "severity": "good"
+    },
+    {
+      "observation": "Enemy intent is invisible: no windup, telegraph, or aggro indicator is discernible before contact, so damage taken (bar shrink at t=0:21.93) can't be attributed to a specific readable threat action. Right now dodging is reactive to proximity, not to attacks.",
+      "evidence": "t=0:20.60, t=0:21.93",
+      "severity": "major"
+    },
+    {
+      "observation": "Banking/mark loop referenced in the HUD (';/Q mark', pink drops on floor) but no banking action is observable in this window — unknown whether the return-loop tension lands; cannot assess from these frames.",
+      "evidence": "t=0:25.50 (HUD hint bar)",
+      "severity": "minor"
+    }
+  ],
+  "asset_leverage": [
+    "Enemy silhouette + hostile palette pass: give enemies one unified cool/desaturated-red family clearly separated from both the brown floor and the beige props — this fixes the two biggest readability faults (camouflaged brown units, enemy-vs-prop ambiguity) in one stroke.",
+    "1-2 frame attack windup/telegraph poses for enemies — even a squash-and-lean placeholder frame would convert damage from 'unattributable' to 'dodgeable' and unlock the whole reactive layer.",
+    "Directional knockback + bigger death burst (scale up the existing t=0:24.40 particles 3-4x, add a corpse-fling): melee piles would self-separate and kills would land with weight.",
+    "Facing/attack-direction indicator on all combatants (a nose wedge or swing arc) so the t=0:24.13-style scrums resolve into 'who hit whom'.",
+    "Floating damage numbers or tiered flash (keep yellow = hit, formalize the red pop at t=0:25.23 as kill/crit)."
+  ],
+  "standout_moments": [
+    "The kiting-and-reengage beat at t=0:24.40–0:24.77 — player peels off the pile, companions hold the line, player re-enters from a chosen angle. This already feels like a real tactical loop, not mash.",
+    "The kill burst at t=0:24.93–25.03 with apparent screen shake + particle scatter + counter/XP tick landing together — the one moment in the clip where all feedback channels fire simultaneously, and it's noticeably satisfying. Make every kill feel like this one.",
+    "Continuous fight-while-descending cadence (t=0:18.60–0:25.50, counter 2→4 with zero downtime) — the pacing skeleton of the descent is already entertaining before any art exists."
+  ]
+}
+```

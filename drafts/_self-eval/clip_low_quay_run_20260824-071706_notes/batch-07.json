@@ -1,0 +1,42 @@
+{
+  "readability": [
+    {"observation": "AoE attacks use a clear 3x3 red tile telegraph before detonation — threat area reads instantly even in placeholder form, and it recurs consistently (near the mob cluster, then again mid-swarm).", "evidence": "t=1:08.63, t=1:09.93, t=1:11.23", "severity": "good"},
+    {"observation": "'BOSS 1 SPAWNED' banner fires while the boss is off-frame at the far right edge; the player is fighting a swarm on the left with no directional indicator toward the boss. It takes ~2s before the labeled entity even enters view.", "evidence": "banner t=1:08.63-1:08.90, boss first visible far right t=1:10.63", "severity": "major"},
+    {"observation": "The boss is structurally indistinguishable from trash mobs — same beige square, same footprint, identified only by a tiny floating 'BOSS 1' text label. This is a silhouette-scale problem, not an art problem: even placeholder geometry should be 2x2 tiles or a distinct color.", "evidence": "t=1:11.17 (boss at right, identical to swarm units), t=1:13.27", "severity": "major"},
+    {"observation": "Hit confirmation on enemies reads well: struck units get a bright yellow/orange outline flash, and multi-target hits light up several enemies at once so you can see exactly what your swing connected with.", "evidence": "t=1:08.90, t=1:11.17, t=1:12.77 (5 enemies outlined simultaneously)", "severity": "good"},
+    {"observation": "Tiny light-blue squares appear near the swarm — likely enemy projectiles — but at ~6px with low contrast against the dark floor they are nearly invisible and would be an unfair death source.", "evidence": "t=1:12.00, t=1:12.20, t=1:12.43, t=1:12.53", "severity": "major"},
+    {"observation": "Active party member is clearly marked with a thick yellow selection outline vs the white-outlined idle companion, so possession state is always legible mid-fight.", "evidence": "t=1:11.17 (yellow-outlined unit in swarm, orange companion at left), t=1:12.77", "severity": "good"}
+  ],
+  "feel_juice": [
+    {"observation": "Enemy deaths are silent deletions: the red mob cluster and its telegraphing unit present at 1:08.63 are simply gone by 1:09.30 with no pop, particles, corpse, or flash visible in any sampled frame — kills are only confirmed by the counter ticking 6→9→12.", "evidence": "t=1:08.63 vs t=1:09.30 (counter 6→9), t=1:10.47 (counter 12)", "severity": "major"},
+    {"observation": "Player attacks have no visible swing arc, slash VFX, or lunge — the only evidence an attack happened is the enemy-side outline flash. The player character itself never visually 'does' anything.", "evidence": "t=1:08.90, t=1:12.77 (enemies flash, player sprite unchanged)", "severity": "major"},
+    {"observation": "No knockback is visible on hit — flashed enemies remain on their tiles between adjacent frames, so multi-hits feel like tagging rather than impact.", "evidence": "t=1:12.77 vs t=1:13.27 (outlined swarm advances uninterrupted)", "severity": "minor"},
+    {"observation": "No screen shake or hitstop detectable across the boss spawn or the 5-enemy multi-hit — the two biggest beats of the clip land with flat presentation. (Hitstop may exist below sample rate: unknown, but no frame shows displaced camera.)", "evidence": "t=1:08.63 (spawn), t=1:12.77 (multi-hit)", "severity": "major"},
+    {"observation": "The kill counter incrementing in real time (6→9→12) is a small but real dopamine channel that already works.", "evidence": "t=1:08.63→1:09.30→1:10.47", "severity": "good"}
+  ],
+  "fluidity_pacing": [
+    {"observation": "Pressure escalates cleanly across the segment: small red cluster → growing beige swarm → boss converging from the right, all within ~5 seconds. No dead air anywhere in the sampled window.", "evidence": "t=1:08.63 (cluster), t=1:11.17 (swarm spread), t=1:13.27 (boss closed from x~880 to x~660)", "severity": "good"},
+    {"observation": "The boss's slow inbound march while the player is pinned by the swarm creates a natural timer/dread beat — good structural pacing even with a placeholder square.", "evidence": "t=1:10.63 → t=1:13.27", "severity": "good"},
+    {"observation": "Swarm spawn/aggro volume ramps very fast (roughly 8 enemies at 1:09.93 to 15+ across two floors at 1:11.17); if damage output is single-target this risks tipping into mash-until-clear monotony rather than tactical fighting.", "evidence": "t=1:09.93 vs t=1:11.17", "severity": "minor"},
+    {"observation": "Respawn/walk-back time for this zone: not observable in this window — unknown.", "evidence": "t=1:08.63-1:13.27 (no death occurs)", "severity": "minor"}
+  ],
+  "loop_engagement": [
+    {"observation": "Genuine kiting is visible: the player strings the swarm into a diagonal conga line while retreating up-left, then turns and lands a multi-hit on the funneled column — that's real positional decision-making, not churn.", "evidence": "line forming t=1:12.20-1:12.53, punish at t=1:12.77", "severity": "good"},
+    {"observation": "Player relocates out of the 3x3 telegraph zones rather than tanking them (position changes between telegraph frame and the next), showing the telegraph→dodge loop functions.", "evidence": "t=1:11.23 (telegraph up-right of player) → t=1:11.57 (player shifted away)", "severity": "good"},
+    {"observation": "The companion character stands fully inert at the map's left for the entire fight — no AI contribution, no threat drawn to it. Swap (Tab) is available per the HUD but unused; the possession-party mechanic contributes nothing to this encounter as played.", "evidence": "orange unit static at ~(285,230) from t=1:11.57 through t=1:13.27", "severity": "minor"},
+    {"observation": "Banking/return-loop portion of the stated focus is not visible in these frames — unknown; the sampled window is entirely combat.", "evidence": "t=1:08.63-1:13.27", "severity": "minor"}
+  ],
+  "asset_leverage": [
+    "Boss silhouette scale-up (2x2 tiles + unique palette) — the biggest single multiplier; right now the marquee threat is invisible in a crowd and only findable via a text label (t=1:11.17).",
+    "Death VFX pass (1-frame white pop + 3-4 particle burst + brief corpse fade) — converts the current silent-deletion kills (t=1:08.63→1:09.30) into the payoff the kill counter is already tracking.",
+    "Player attack swing arc/slash sprite in the facing direction — makes cause visible instead of inferring hits from enemy flashes alone (t=1:12.77).",
+    "Projectile glow-up: 2x size + bright saturated color + trail on the small blue shots (t=1:12.00-1:12.53) — these are a readability liability at current size.",
+    "2-frame walk bob on the swarm units — the conga-line chase (t=1:12.43-1:13.27) already has good choreography and would look alive with minimal frames.",
+    "Directional off-screen indicator arrow tied to the BOSS SPAWNED banner (t=1:08.63)."
+  ],
+  "standout_moments": [
+    "The kite-and-punish sequence: player strings 6+ enemies into a diagonal line while retreating (t=1:12.20-1:12.53), then five enemies flash simultaneously from one attack (t=1:12.77) — already reads as skilled, satisfying play and is the clip's best beat.",
+    "The 3x3 red telegraph grid (t=1:08.63, t=1:11.23) is a genuinely strong danger-communication pattern that will scale to any future art.",
+    "The boss slowly closing distance from the right edge while the player is occupied with the swarm (t=1:10.63→1:13.27) creates organic tension without any scripting — keep this converging-pressure structure."
+  ]
+}

@@ -1,0 +1,99 @@
+```json
+{
+  "readability": [
+    {
+      "observation": "Active party member is consistently marked with a white outline square, and it survives camera pans and crowd overlap — you never lose your avatar even in the densest melee.",
+      "evidence": "t=0:47.53 through t=0:52.03, white-outlined orange square stays legible while 3+ enemies stack at t=0:47.80",
+      "severity": "good"
+    },
+    {
+      "observation": "The 3x3 red tile burst reads two different ways: at t=0:47.80 it appears to be a friendly AoE (shout?) centered near the party, but at t=0:50.23 an identical red 3x3 pattern coincides with the player taking damage (red screen border). Same color + same shape for 'my attack' and 'incoming attack' is a readability trap.",
+      "evidence": "t=0:47.80 vs t=0:50.23–0:50.30",
+      "severity": "major"
+    },
+    {
+      "observation": "Source of damage is ambiguous. When the red damage vignette fires at t=0:50.23, three tan/brown entities are adjacent to the player cluster; nothing (lunge motion, attack flash on the attacker, directional indicator) says WHICH one hit you.",
+      "evidence": "t=0:50.23–0:50.30",
+      "severity": "major"
+    },
+    {
+      "observation": "The pink outlined squares scattered to the west never engage and are repeatedly walked away from — it is unknown from motion alone whether they are pickups, dormant enemies, or props. Their silhouette (small square in square) is nearly identical to the tiny enemy 'head' pips.",
+      "evidence": "t=0:47.53 (pink squares at 220,175 / 60,270), still unresolved by t=0:52.03",
+      "severity": "minor"
+    },
+    {
+      "observation": "A distinct yellow/orange-outlined square appears intermittently near or on entities (mark? swap-target? drop?). It is visually distinct, which is good, but its meaning is not inferable from behavior in this clip — it appears on a tile at t=0:48.53, then on a distant entity at t=0:49.23, then inside the melee at t=0:50.23.",
+      "evidence": "t=0:48.53, t=0:49.23, t=0:50.23, t=0:52.03",
+      "severity": "minor"
+    }
+  ],
+  "feel_juice": [
+    {
+      "observation": "Hit feedback particles exist and fire on contact — small orange sparks around the melee at t=0:48.17 and t=0:48.73, and a satisfying multi-particle burst on what looks like a kill at t=0:51.77 (entity gone by t=0:52.03).",
+      "evidence": "t=0:48.17, t=0:48.73, t=0:51.77",
+      "severity": "good"
+    },
+    {
+      "observation": "Full-screen red damage vignette on player hit is unambiguous 'you got hurt' feedback and matches the HP bar tick on bar 2.",
+      "evidence": "t=0:50.23–0:50.30, HP bar 2 shows new dark segment vs t=0:49.77",
+      "severity": "good"
+    },
+    {
+      "observation": "Enemy hit-state flash appears present (enemy tile flashes bright red at t=0:50.30, whole cluster flashes at t=0:47.80), but I cannot confirm hitstop or knockback from these sample intervals — enemy displacement between t=0:48.17 and t=0:48.30 is confounded by camera motion. Unknown whether hitstop exists; if it doesn't, it's the cheapest feel win available.",
+      "evidence": "t=0:50.30, t=0:48.17 vs t=0:48.30",
+      "severity": "minor"
+    },
+    {
+      "observation": "Deaths are abrupt: enemies simply vanish between frames (cluster of 3+ at t=0:47.80 reduced to 2 by t=0:48.17; kill at t=0:51.77 leaves nothing behind by t=0:52.03 except particles). No corpse fade, no XP/loot pop visible at the kill site.",
+      "evidence": "t=0:47.80→0:48.17, t=0:51.77→0:52.03",
+      "severity": "minor"
+    }
+  ],
+  "fluidity_pacing": [
+    {
+      "observation": "Zero dead air in this window: the player fights while continuously advancing right, dragging the pack along the corridor. Camera pans ~10 tiles over 4.5s while at least two engagements resolve. This is a healthy pressure cadence.",
+      "evidence": "t=0:47.53 through t=0:52.03, background columns scroll steadily rightward",
+      "severity": "good"
+    },
+    {
+      "observation": "The corridor's tile-stepped chase naturally strings pursuers out into a single-file line, which turns the mob into sequential 1v1s — good rhythm, but it also means the pack at t=0:47.80 collapses into trivial pick-offs by t=0:49.63 with little escalation.",
+      "evidence": "t=0:49.23–0:49.77, pursuers spread across 6+ tiles behind player",
+      "severity": "minor"
+    },
+    {
+      "observation": "Fight-to-fight tempo is tight: pack 1 resolves ~t=0:48.17, next contact by t=0:49.77, damage exchange t=0:50.23, kill t=0:51.77. No walk-back or downtime observed in this segment. (Respawn/banking loop not visible in these 20 frames — unknown here.)",
+      "evidence": "t=0:48.17 → t=0:51.77",
+      "severity": "good"
+    }
+  ],
+  "loop_engagement": [
+    {
+      "observation": "Visible kiting decision-making: the player retreats east along the corridor while enemies pursue, then turns to engage the lead chaser one at a time rather than facetanking the stack. This is real positioning play, not churn.",
+      "evidence": "t=0:48.97–0:50.67, player pulls away from the western group, engages the adjacent tan/brown pair",
+      "severity": "good"
+    },
+    {
+      "observation": "Risk is legible in the HUD: three party HP bars plus status pips, active-character bar outlined, and damage taken at t=0:50.23 registers as a visible chunk — the swap/possession resource question ('do I Tab out of this body?') is structurally supported, though no swap occurs in this clip.",
+      "evidence": "HP bars t=0:47.53 vs t=0:50.30",
+      "severity": "good"
+    },
+    {
+      "observation": "Pink squares are passed and abandoned three times with no interaction; if these are currency/pickups feeding the banking loop, the player skipping them means either they're not valuable enough to detour for, or their nature isn't communicated. Unknown which — but either way the west side of the screen carries no decision weight.",
+      "evidence": "t=0:47.53, t=0:49.33, t=0:51.47 — pink squares scroll off untouched",
+      "severity": "minor"
+    }
+  ],
+  "asset_leverage": [
+    "Attack windup/lunge frames for enemies — a 2-frame telegraph on the attacker would fix the biggest readability hole (who hit me at t=0:50.23) more than any other single asset.",
+    "Color-separate the player's AoE flash from enemy attack telegraphs (e.g., player = white/gold pulse, enemy = red) — resolves the t=0:47.80 vs t=0:50.23 ambiguity for free once palettes exist.",
+    "Distinct pickup silhouette + idle bob/shimmer for the pink squares so loot reads as loot from motion alone.",
+    "Death animation (2-3 frame pop/dissolve) plus a soul/coin fleck flying to the HUD — kills currently vanish between frames (t=0:48.17, t=0:52.03) and are the loop's payoff moment.",
+    "Directional facing on the player square (even a notch or eye-dot) so retreat-vs-attack intent is readable during kiting runs like t=0:49.23–0:50.67."
+  ],
+  "standout_moments": [
+    "The red AoE burst at t=0:47.80 hitting the whole enemy stack at once already reads as a power moment — with a proper flash/shockwave it will be the clip's highlight.",
+    "The kill at t=0:51.77 — particle burst, enemy gone by next frame, player immediately pivoting to the next target at t=0:52.03 — is the loop working: pressure, resolution, forward motion with no pause.",
+    "The full-screen red damage vignette at t=0:50.23 paired with a visible HP chunk is genuinely good hurt-feedback for a placeholder build; keep it."
+  ]
+}
+```

@@ -1,0 +1,119 @@
+```json
+{
+  "readability": [
+    {
+      "observation": "Player identity is consistently clear: the white-outlined orange square reads instantly against both the blue-grid descent (t=0:52.33) and the dark-green ZONE 4 palette (t=1:03.97). The selection outline survives palette changes — good structural choice independent of art.",
+      "evidence": "t=0:52.33, t=1:03.97",
+      "severity": "good"
+    },
+    {
+      "observation": "Enemies wander into and overlap the top-left HUD stack — red squares sit directly on the three party HP bars, making it briefly impossible to distinguish HUD elements from live threats.",
+      "evidence": "t=1:06.27",
+      "severity": "major"
+    },
+    {
+      "observation": "'BOSS 1 SPAWNED' fires while the player is pinned at the far-left edge with no visible boss on screen and no off-screen direction indicator. The player cannot act on this information.",
+      "evidence": "t=1:06.53–1:08.30",
+      "severity": "major"
+    },
+    {
+      "observation": "Banner spam: 'TOLL PAID' (t=1:01.00), 'ZONE 4' + 'TOLL PAID' stacked (t=1:01.53), 'ZONE 5' (t=1:06.27), 'BOSS 1 SPAWNED' (t=1:06.53) — four large center-screen messages in ~5.5s, two of them overlapping. During t=1:03.33 combat continues under the banners ('-6' damage tick). Messages compete with play instead of framing it.",
+      "evidence": "t=1:01.00–1:06.53",
+      "severity": "major"
+    },
+    {
+      "observation": "Damage numbers are legible and color-coded: the purple '-150' gold-spend number anchored near the toll object (t=0:59.33) vs the small '-6' combat tick (t=1:03.33). Two feedback channels are already distinguishable at placeholder fidelity.",
+      "evidence": "t=0:59.33, t=1:03.33",
+      "severity": "good"
+    },
+    {
+      "observation": "Friendly followers (brown units) vs hostile units are hard to separate at a glance — during the t=0:59.47–1:00.10 cluster the brown followers, tan enemies and player occupy adjacent tiles with only hue separating faction. Under pressure this will cost misreads.",
+      "evidence": "t=0:59.47–1:00.10",
+      "severity": "minor"
+    }
+  ],
+  "feel_juice": [
+    {
+      "observation": "Enemy hit flash is present and reads well: the tan enemy flashes with a yellow/orange outline on hit at t=1:08.30, and there is a small particle burst near the player at t=1:08.00. Impact confirmation exists at the structural level.",
+      "evidence": "t=1:08.00, t=1:08.30",
+      "severity": "good"
+    },
+    {
+      "observation": "The '-150' toll number persists and drifts upward across multiple frames (t=0:59.33 through t=1:00.80) — long-lived floating text for a big economic event is a nice weight cue; the cost feels 'expensive'.",
+      "evidence": "t=0:59.33–1:00.80",
+      "severity": "good"
+    },
+    {
+      "observation": "No visible hitstop or screen shake on any impact in this segment — hits at t=1:03.33 and t=1:08.30 resolve with number+flash only. For a combat descent this is the biggest missing juice layer; cannot confirm from sampled frames whether sub-frame hitstop exists, but no positional evidence of shake appears.",
+      "evidence": "t=1:03.33, t=1:08.30",
+      "severity": "major"
+    },
+    {
+      "observation": "Zone transition uses a curtain/wipe reveal (old room shrinks to a windowed panel while black fills the rest) rather than a hard cut — this already feels deliberate and stylish even in placeholder form.",
+      "evidence": "t=1:01.53–1:03.33",
+      "severity": "good"
+    },
+    {
+      "observation": "The purple pickup/burst at t=1:08.00 with the '6' counter tick at t=1:08.30 gives collection a visible cause→effect chain, but the effect is tiny relative to a 'BOSS SPAWNED' context — reward feedback is underscaled for the moment.",
+      "evidence": "t=1:08.00–1:08.30",
+      "severity": "minor"
+    }
+  ],
+  "fluidity_pacing": [
+    {
+      "observation": "The corridor descent from t=0:52.33 to t=0:59.17 is mostly traversal with the pink enemy group stranded far left and never engaged — several seconds of walk-time with no pressure and no decisions. Dead air on the walk-down.",
+      "evidence": "t=0:52.33–0:59.17",
+      "severity": "minor"
+    },
+    {
+      "observation": "Event density then whiplashes: toll payment, zone transition, ZONE 4 arrival, ZONE 5 banner and boss spawn all land inside ~7 seconds (t=1:01.00–1:06.53). The pacing curve is flat-then-vertical; spreading these beats (or gating the boss announce until sighted) would smooth the ramp.",
+      "evidence": "t=1:01.00–1:06.53",
+      "severity": "major"
+    },
+    {
+      "observation": "Tile-stepped movement itself reads fluid — the follower snake keeps coherent single-tile spacing while pathing around the player through the t=0:59.47–1:00.43 turn, no rubber-banding or pile-ups visible.",
+      "evidence": "t=0:59.47–1:00.43",
+      "severity": "good"
+    },
+    {
+      "observation": "The ZONE 4 → ZONE 5 boundary appears to be crossed in ~2.3 seconds of sim time (banner at t=1:03.97 vs t=1:06.27). If that's real zone length it's too short to establish the new palette/space; if it's a nested sub-zone, the identical banner treatment hides that distinction.",
+      "evidence": "t=1:03.97, t=1:06.27",
+      "severity": "minor"
+    }
+  ],
+  "loop_engagement": [
+    {
+      "observation": "Real decision-making is visible: after the boss spawn the player retreats/kites to the top-left corner while enemies pursue (t=1:07.50–1:08.30 shows the player pulling back to the edge with pursuers strung out) — positioning matters, not churn.",
+      "evidence": "t=1:07.50–1:08.30",
+      "severity": "good"
+    },
+    {
+      "observation": "The toll/banking beat is a legible economic decision embedded in traversal — the player routes to the toll object bottom-right, pays 150 (t=0:59.33) and the transition unlocks (t=1:01.00). The loop of fight → carry gold → spend to progress is structurally present in this clip.",
+      "evidence": "t=0:59.33–1:01.53",
+      "severity": "good"
+    },
+    {
+      "observation": "The gold pickups left uncollected in the top corridor (four gold squares still on the field at t=1:06.27 area top) suggest either the player deliberately skipped them or pickup value doesn't justify backtracking — unknown which; if the latter, the risk/greed tension of the descent is weaker than it could be.",
+      "evidence": "t=0:58.47, t=1:00.43",
+      "severity": "minor"
+    },
+    {
+      "observation": "Enemies in the descent that never threaten the path (pink group, far left, t=0:52.33–0:59.17) contribute nothing to the loop — they're set dressing. Either pull them onto the route or give them a reason to intercept.",
+      "evidence": "t=0:52.33–0:59.17",
+      "severity": "minor"
+    }
+  ],
+  "asset_leverage": [
+    "Faction silhouettes first: distinct shapes for follower vs enemy vs neutral would fix the t=0:59.47 brown-vs-tan ambiguity more cheaply than any animation work.",
+    "A boss silhouette + off-screen direction arrow: 'BOSS 1 SPAWNED' (t=1:06.53) is currently pure text with zero spatial payload — even a placeholder oversized shape plus edge indicator multiplies that moment.",
+    "2-4 frame walk/attack cycles on the player and followers: the follower snake (t=0:59.47–1:00.43) already moves well; minimal animation would make traversal feel alive rather than sliding.",
+    "Toll/banking VFX: a coin-drain trail from player to toll object would make the strongest existing loop beat (t=0:59.33) the strongest visual beat too.",
+    "Reserve center-screen banner style for one event class only (zone names); move TOLL PAID and BOSS SPAWNED to a side ticker or diegetic cue to end the t=1:01.00–1:06.53 banner pile-up."
+  ],
+  "standout_moments": [
+    "The toll payment beat: routing to the toll object, the lingering purple '-150' (t=0:59.33–1:00.80), then the TOLL PAID banner and curtain-wipe transition (t=1:01.00–1:01.53) — this is a complete, satisfying cause→cost→reward chain already.",
+    "The zone palette shift from blue-grey grid to dark-green quay (t=1:03.97) sells 'descent into somewhere else' with placeholder tiles alone — the structure of environmental storytelling is working.",
+    "The post-boss-spawn kite to the map edge with pursuers strung out (t=1:07.50–1:08.30) is the most game-feel-alive stretch in the clip: visible threat, visible retreat, visible hit flash on the counterattack (t=1:08.30)."
+  ]
+}
+```
