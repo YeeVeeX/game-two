@@ -2,6 +2,9 @@
 
 ## 2026-08-24 session 58 — J7-A SHIPPED (Homecoming extraction, pure refactor): go-home policy cluster → `src/game/homecoming.rb` (Crossing pattern, leash-emit RETURNED, World emits) — pairs 24/24 BYTE-IDENTICAL, suite 1160/0F unmodified, world.rb 1786→**1738**, fresh-eyes PASS-WITH-NITS/0-blocking; J7-B = next unclaimed ticket
 
+**CLAIMED: J7-B hub 2026-08-24** (s59 — stamp + cold catch-up, the J-7
+sim change per brief D2–D11).
+
 **Job 0 (open = clean):** origin tip `009c025` as expected; J7-A
 unclaimed, no peer deltas, no ratifications; **CLAIMED: J7-A pushed as
 `5595d66` FIRST ACTION** (hook suite 1160/0F at that commit); save
