@@ -1,5 +1,79 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-24 session 62 — NEITHER owner line landed at open ⇒ ratification-neutral standing-program rung: flywheel clip+critique on world_loop, sampling-artifact law applied IN FULL — 7 critique claims REFUTED against code + exact frames, 2 banked candidates, 1 ritual-routed; zero code/data touches, staged J7-B tree byte-untouched
+
+**AWAITING (unchanged, re-surfaced once — the same TWO owner lines):**
+(1) s59 canary rebank ratification (`68fa69f6→31c699cb`, audit
+`drafts/_j7b-canary-rebank-20260824.md`) — the two staged commits push
+same-day on that line and unblock B1-T1/T2; (2) the varekka_duel
+manifest re-cut pick (options + recommendation a in
+`drafts/_varekka-repilot-rebrief-20260824.md`).
+
+**Job 0 (open = clean, world D = neither line):** origin tip `f16e275`
+as expected, no peer deltas, no ratification anywhere (checkpoint +
+mail + origin + spark all silent); CLAIMED row pushed FIRST ACTION as
+`ed4dd8d` (hook suite **1171/0F** live at claim); staged J7-B tree
+intact open AND close (11 modified + 3 new, `git diff --stat` = 1542
+insertions/11 files, byte-identical); save `98fe75ed…` md5 open+close,
+mtime 08-20 15:51; launcher logs 40 newest 08-21 01:39; mail inbox
+EMPTY; wall 26 staged; world.rb 1770 staged; branch `s56-hub-j6c`
+preserved; `drafts/_refs/` untracked; canary ACTIVE varekka
+`31c699cb…` staged. `git pull --rebase` still impossible while the
+J7-B tree sits uncommitted — pushes were plain fast-forwards.
+
+**The session (flywheel standing program, Lane-2-of-the-plan):**
+`harness/make_clip.sh` on world_loop (625 frames, seed 42 —
+representative of BOTH trees: world_loop was one of s59's 24/25
+byte-identical streams) → `harness/self_eval.py` critique (2 batches,
+37/625 frames after phash dedup, well under spend rails) →
+**sampling-artifact verification claim-by-claim** (code file:line +
+exact PNGs read): **REFUTED 7** — attacks-invisible (enemy strike
+pass + telegraph flare LIVE, v_000230/v_000404), deaths-are-despawns
+(14f kill pop wall-gated), no-player-damage-feedback + red-inverted
+(hurt vignette fires on damage-taken, co-fired mid-spin at v_000413),
+damage-numbers-broken (category error — digits are station-ledger
+balances), telegraph-undodgeable (120f = 2s by threat.json),
+toasts-4s-center (ledger beat 150f y=160, two beats + banner spanned
+the window), blind-to-companion-HP (HUD bars permanent + edge pips
+live). **BANKED 2**: hostile/floor palette adjacency (assets-era
+silhouette pass or one display.json move on owner word — re-pin +
+wall cost named) · edge-pip HP tick (Lane-4, low). **ROUTED 1**:
+passivity/one-spin-cluster pacing → ritual-frozen difficulty numbers
++ v19 Lane 2/3 (zero knob moves). Full ledger + meta-calibration
+("absent-feedback claims presumed sampling artifacts until
+frame-verified"): `drafts/_flywheel-worldloop-verify-20260824.md`.
+
+**Belt:** no gate owed (zero visual/code/data change; Rule 2
+untriggered; gate deliberately NOT run — it appends to staged
+`drafts/_gate-verdicts.log`); suite **1171/0F** via hooks at both
+commits; clip + critique + verify doc are the session's artifacts
+(`captures/clips/world_loop_20260824-051415.mp4` gitignored, frames
+in tmp/).
+
+**Commits this session:** `ed4dd8d` CLAIMED row · `af1666e` critique
++ notes + verify doc · this docs commit.
+
+**Job-0 baselines for s63:** origin tip = this docs commit · wall 26
+staged (25 at origin until the s59 ratify-push; no wall run — none
+owed) · suite 1171 staged · world.rb 1770 staged · save `98fe75ed…`
+mtime 08-20 15:51 · launcher logs 40 newest 08-21 01:39 · mail inbox
+EMPTY · `drafts/_refs/` untracked · branch `s56-hub-j6c` preserved ·
+varekka_duel.json UNCHANGED (slot RED) · canary ACTIVE varekka
+`31c699cb…` (rebank pending). **s63-first: whichever owner line
+lands** — (1) ⇒ push the two staged J7-B commits (explicit path lists
+in the s59 entry) FIRST ACTION, unblocking B1-T1/T2 (B1-T1 = next
+session ticket if (2) hasn't landed); (2)=a ⇒ drill-card re-pilot
+(outranks B1-T1 — RED wall slot); both ⇒ (1) first same-day, then
+(2). Neither ⇒ next ratification-neutral rung (B1-T2 authoring still
+NOT neutral; flywheel candidates: low_quay re-clip for before/after,
+or a zone-coverage soak).
+
+**Owner-pending carry (never nag):** the TWO lines above · B1-T3
+playtest reading to sight · ear-checks · T3 footstep/bed renders
+(water family needs a NEW mail) · coop S1 (STANDING READY) · J-5
+spike call · R-A2 escalation call · ZONE 8 wire-in (owner word) ·
+audio volume-API RECEIPT · Junior ratifications (s56-hub asks 1–3).
+
 ## 2026-08-24 session 61 — NEITHER owner line landed at open ⇒ ratification-neutral Lane-2 work: B1 safe-zones GRILL + SPEC + 3 tickets shipped (docs-only), fresh-eyes review FAIL→FAIL→PASS-WITH-NITS; both build tickets BLOCKED until the J7-B push; staged J7-B tree byte-untouched
 
 **CLAIMED: flywheel clip+critique (world_loop) hub 2026-08-24** (s62 —
