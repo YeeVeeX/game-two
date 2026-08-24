@@ -1,5 +1,7 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-24 session 69 — CLAIMED: content-fill authoring wave (basement_1 → basement_2 → dungeon_1 per `drafts/_content-fill-design-20260824.md`, one gated commit each; zone_8 wire-in queued behind) — IN FLIGHT
+
 ## 2026-08-24 session 68 — THE DIFFICULTY-TIER KNOB SHIPPED `0d5cc40` (owner datum s67: "a partir de nivel 8 … muy fácil"): requires_level deep gates 4/5/6 on zone_7's ways + per-zone enemy stat tiers, Rule 2 double-gated (wall 29) · content-fill design doc BANKED (authoring = next session) · AGENTS.md INERT-law row corrected
 
 **The knob (design doc `drafts/_difficulty-tier-20260824.md`, Kimi Q4
