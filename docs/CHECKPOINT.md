@@ -1,5 +1,86 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-24 session 61 — NEITHER owner line landed at open ⇒ ratification-neutral Lane-2 work: B1 safe-zones GRILL + SPEC + 3 tickets shipped (docs-only), fresh-eyes review FAIL→FAIL→PASS-WITH-NITS; both build tickets BLOCKED until the J7-B push; staged J7-B tree byte-untouched
+
+**AWAITING (unchanged, re-surfaced once — the same TWO owner lines):**
+(1) s59 canary rebank ratification (`68fa69f6→31c699cb`, audit
+`drafts/_j7b-canary-rebank-20260824.md`) — the two staged commits push
+same-day on that line; (2) the varekka_duel manifest re-cut pick
+(options + recommendation a in
+`drafts/_varekka-repilot-rebrief-20260824.md`).
+
+**Job 0 (open = clean, world D = neither line):** origin tip `4f57287`
+as expected, no peer deltas, no ratification recorded (checkpoint +
+mail + origin all silent); CLAIMED row pushed FIRST ACTION as
+`a4b809f` (hook suite **1171/0F** live at open); staged J7-B tree
+intact open AND close (11 modified + 3 new, `git diff --stat` = 1542
+insertions/11 files, byte-identical); save `98fe75ed…` mtime 08-20
+15:51; launcher logs 40 newest 08-21 01:39; mail inbox EMPTY; wall 26
+staged; world.rb 1770 staged; branch `s56-hub-j6c` preserved;
+`drafts/_refs/` untracked; canary ACTIVE varekka `31c699cb…` staged
+(old `68fa69f6` preserved in-file). Note: `git pull --rebase` is
+IMPOSSIBLE while the J7-B tree sits uncommitted (rebase refuses on
+unstaged changes) — pushes were plain fast-forwards this session; a
+peer push mid-session would force coordination, not a stash.
+
+**The session (docs-only, zero staged-file touches):** Lane-2 **B1
+safe zones** grilled + specced —
+`docs/superpowers/specs/2026-08-24-b1-safe-zones-design.md` (ratified
+letter → grill ground truth → D1-D6 → tickets B1-T1 law / B1-T2
+boundary+wall / B1-T3 feel+playtest). Grill facts worth carrying:
+today NO hostile can exist inside any hub (all three `hub:true` zones
+`enemy_spawns:{}`; humans never cross transitions —
+`check_transition` world.rb:1043 is pack-only) so B1 = INVARIANT
+PROMOTION, not behavior change; `hub` = re-homing anchor axis (v12
+`36d2b6f`), `safe` = independent sanctuary axis, ratified coverage =
+camp + zone_7 ONLY (nest stays unsafe); hostile acquisition lives at
+`World#assign_human_focus` (world.rb:697-715) via
+`AiController#select_target` (controllers.rb:106-135) — NOT
+`tick_human` (:161 is the ally branch) — D3's guard lands there with
+leash walk-home deliberately preserved; district→camp door [42,13] is
+SEALED behind the toll (seal [41,13]) so T2's wall script rides the
+FREE east loop camp↔district_two [0,13]; `safe` needs NO
+DIGEST_VERSION bump (static zone data under the v17 fingerprint).
+**Both build tickets BLOCKED until the s59 J7-B commits push** — the
+staged set holds world.rb (T1) AND gate_checks.json +
+_gate-verdicts.log (T2); `git commit -- path` commits working-tree
+state, so any touch contaminates the pending commits.
+
+**Belt:** no gate owed (docs-only; Rule 2 untriggered); suite
+**1171/0F** live at open + green via hooks at both commits; Rule 6:
+fresh-eyes scrubbed read-only reviewer, 3 rounds — round-1 FAIL
+(T2's gate_checks/verdicts-log overlap lacked a BLOCKED marker;
+threshold receipt [40,13]→[42,13] corrected), round-2 FAIL (the
+acquisition-path misattribution above — reviewer verified against
+source, confirmed, D3 rewritten), round-3 **PASS-WITH-NITS/0
+blocking** (29 receipts checked; nits closed in-tree or recorded) —
+full trail + verbatim verdict: `drafts/_b1-spec-review-20260824.md`.
+
+**Commits this session:** `a4b809f` CLAIMED row · `923ae85` spec +
+review receipt · this docs commit.
+
+**Job-0 baselines for s62:** origin tip = this docs commit · wall 26
+staged (25 at origin until the s59 ratify-push; no wall run this
+session — none owed) · suite 1171 staged · world.rb 1770 staged · save
+`98fe75ed…` mtime 08-20 15:51 · launcher logs 40 newest 08-21 01:39 ·
+mail inbox EMPTY · `drafts/_refs/` untracked · branch `s56-hub-j6c`
+preserved · varekka_duel.json UNCHANGED (slot RED) · canary ACTIVE
+varekka `31c699cb…` (rebank pending). **s62-first: whichever owner
+line lands** — (1) ⇒ push the two staged J7-B commits (explicit path
+lists in the s59 entry) FIRST ACTION, which ALSO unblocks B1-T1/T2;
+(2)=a ⇒ the drill-card re-pilot (claimed by this seat s60, outranks
+B1-T1 — the RED wall slot); both ⇒ (1) first same-day, then (2).
+Neither ⇒ next ratification-neutral rung: B1-T2's script/checklist
+authoring is NOT neutral (blocked files) — prefer owner word or a
+flywheel/soak rung.
+
+**Owner-pending carry (never nag):** the TWO lines above · B1-T3
+playtest reading to sight (spec T3, one-line override) · ear-checks ·
+T3 footstep/bed renders (water family needs a NEW mail) · coop S1
+(STANDING READY) · J-5 spike call · R-A2 escalation call · ZONE 8
+wire-in (owner word) · audio volume-API RECEIPT · Junior ratifications
+(s56-hub asks 1–3).
+
 ## 2026-08-24 session 60 — varekka_duel re-pilot: the s59 brief's STOP CONDITION FIRED (duel unpilotable under the catch-up law with today's ally AI) — six pilot generations, evidence banked, manifest re-cut = OWNER DECISION; zero source files touched, J7-B staged tree byte-untouched, slot stays RED
 
 **CLAIMED: B1 safe-zones GRILL+SPEC hub 2026-08-24** (s61 — neither
