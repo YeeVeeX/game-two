@@ -2,6 +2,10 @@
 
 ## 2026-08-24 session 59 — J7-B BUILT + FULL BELT GREEN (stamp + cold catch-up, the J-7 sim change): snap-home teleport is DEAD on stamped re-entries — code/tests/wall-script STAGED-AWAITING one owner line (canary rebank ratification, reviewer blocking-2); J-7 lane = COMPLETE-ON-RATIFY
 
+**CLAIMED: varekka_duel re-pilot hub 2026-08-24** (s60 — the RED wall
+slot: re-author the duel under the catch-up law, re-earn the manifest
+honestly; new-stream canary rebank rides the same owner ask).
+
 **AWAITING (the ONE gate left, owner — not a nag, the reviewer's
 blocking item): ratify in chat the varekka_duel canary rebank
 (`68fa69f6→31c699cb`, audit `drafts/_j7b-canary-rebank-20260824.md`) +
