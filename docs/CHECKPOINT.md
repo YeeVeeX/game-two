@@ -1,5 +1,86 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-24 session 67 — coop part 2 fell through (Junior unavailable) ⇒ owner SOLO session on the shared save: THE THREE FIXES CONFIRMED in human hands ("me gustó mucho, los fixes funcionaron") · SHARED-SAVE FIRST CROSSING CLEARED (solo) · direction session → owner ratified the growth ladder + REOPENED the lore program (outside repo) · **B4 MERCY FLOOR SHIPPED** `e51e26f` (gate PASS, wall 28, suite 1196)
+
+**The session (full record: `drafts/_coop-s1-20260824.md` §PART 2
+interim):** Job 0 all-green on the s66 baselines. Junior wasn't ready ⇒
+owner ordered a solo launch (agent-launched detached; save insurance
+`tmp/world.pre-s67.json` = `413aace7…`; fork law held: 0→1→0 ruby
+processes by printed output). ~2 h play: level 8, banked 123, varekka
+slain again, sessions 14→15, dungeon_1 + basements explored, breach
+fired — **the shared-save first crossing owner-pending CLEARS**
+(testimony + `catchup zone=dungeon_1` + breach line). Focus-A/B **still
+pending** (needs a dead seat — rides the next coop launch). First-
+exposure quarantine cleared: volley fix · ring covers? · dash-strike.
+No ear-notes offered.
+
+**Direction session (owner-invoked council, budget 2 calls — honored,
+closed):** DeepSeek + Kimi transcripts in `tmp/council_*_s67.json`; key
+adoptions: difficulty tier BEFORE content-fill · items/equipment
+deferral to v20 CONFIRMED · new spell classes reclassified v20 ·
+Kimi's narrative-debt risk banked (v20 content must cite the owners'
+lived history — harvest docs are the corpus). **RATIFICATION LEDGER
+(owner, live, s67 — LAW, recorded in the harvest doc):** (1) ZONE 8
+wire-in = GO; (2) ladder ratified: B4 → difficulty tier →
+content-fill (dungeon_1/basements, `stations: []` proven empty) +
+ZONE 8 → B1-T1 → varekka re-cut (a) → J-3; (3) lore program REOPENED
+at dev's judgment = OUTSIDE repo in `game-two-lore/` (standing order
+intact here; reopen mail sent to that seat's inbox); (4) J-5 spike =
+dev-paced, slotted after content-fill; (5) all four travel to Junior
+async (peer law).
+
+**B4 mercy floor SHIPPED (`e51e26f`, decision doc
+`drafts/_b4-mercy-floor-20260824.md`):** session-open first regrow at
+the HOME hub guaranteed affordable — charge clamps to
+`mercy_floor_spend_pct` (economy.json, 100) of banked when short;
+home = the live `@home_zone` anchor (HOME_ZONE is **nest**, not camp —
+anchor advances at hub rehoming); armed at boot, consumed by the
+session's first regrow anywhere, heal-only never consumes, never
+persisted, lockstep-safe. Vat pricing consolidated into
+`PriceSheet#vat_quote` (quote = charge, one source — the line-cap
+extraction riding the touch; world.rb 1787→**1793**/1800). Harness
+gains a `start.dead` staging key. Suite 1189→**1196** (7 new laws; the
+old short-refusal test rewritten onto a FIELD vat — slow_door). Sim
+identity: suite canaries untouched; vat_economy headless md5
+`61d768b8…` byte-identical pre/post. **Wall script 28
+`mercy_floor.json`** (frame_0080 = vat quoting -5 with 2 dead bars;
+frame_0130 = 3 live bars, banked 0) — **Rule 2 gate PASS** (double
+replay byte-identical + vision all-PASS).
+
+**Audio-seat receipts (both mails → done/):** calm-seam ACK (seam
+confirmed IN SOURCE — re-render queued to the owner render queue,
+option (a) first) · **J-6 volume API SHIPPED audio-side** (`07aeb1c`:
+`set_bus_volume` user-trim clamp [-60,0] dB, `bus_ids`, mute = exact-0,
+duck-independent, apply-immediate, persist the RETURNED trim) — clears
+the volume-API owner-pending; **game-side menu volume rows = queued
+J-6-family ticket**.
+
+**Job-0 baselines for s68:** origin tip = this docs commit · tree
+clean except `drafts/_refs/` (untracked, stays) · save
+**`0ed80c516168b41d6314aaf28c7848f7`** mtime 08-24 13:47 sessions=15
+(moves at next play) · launcher logs **42** · mail inbox EMPTY · wall
+**28** · suite **1196** · world.rb **1793/1800** · canary ACTIVE
+varekka `31c699cb…` · branch `s56-hub-j6c` preserved. **s68 = the
+difficulty-tier knob** (owner datum: "a partir de nivel 8 … muy fácil";
+ONE knob per re-session: `requires_level` deep-gating + per-zone enemy
+stat tiers, data-first, Rule 2 if any gate line renders; lands BEFORE
+ritual staging) → then the content-fill wave (dungeon_1/basements
+reward anchors via WB pipeline — Kimi pattern menu banked — + ZONE 8
+wire-in, owner GO recorded) → B1-T1 → varekka re-cut (a) + volley wall
+script → J-3 stats panel · J-5 spike after content-fill · coop part 2
++ focus-A/B verdict whenever Junior lands (support brief unchanged from
+the s67 spark).
+
+**Ratification ledger (Junior async, carry + new):** dash-strike +
+pack-burst covers? (s66, pending) · s56-hub asks 1–3 own-confirm
+(pending) · NEW s67: lore reopen · v20 intake list (items/equipment/
+trade/spells) · B4 ship · ZONE 8 GO.
+
+**Owner-pending carry (never nag):** ear-checks (open) · T3
+footstep/bed + calm-64s re-renders (in HIS render queue now,
+owner-paced) · J-5 spike (dev-paced post-content-fill — no longer
+owner-blocked) · R-A2 escalation call · coop part 2.
+
 ## 2026-08-24 session 66 — COOP S1 PLAYED (owner directive `7b812c7`): both humans, shared save, ~40 min, desyncs=0, clean quits — J7-B RATIFIED-J and PUSHED same session (J-7 lane COMPLETE) · owner-directed live-bug lunch window shipped FIVE pushes (volley kinetic fix · pack-burst covers? · striker DASH-STRIKE · drift-flood fix · J7-B pair) · varekka slot = option (a) RECORDED · lag bug root-caused with a live A/B armed for part 2
 
 **The session (full narrative + evidence: `drafts/_coop-s1-20260824.md`):**
