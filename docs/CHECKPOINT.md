@@ -1,5 +1,94 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-24 session 63 — NEITHER owner line landed at open ⇒ ratification-neutral standing-program rung: flywheel low_quay re-clip BEFORE/AFTER vs the 08-19 first critique — the 08-19 fix batch SURVIVES a blind re-critique (scores 5→6 / 4→5 / 7→7.5 / 7→7), 6 new absent-feedback claims REFUTED via event stream + exact frames, banner pile-up CONFIRMED on-frame + banked; zero code/data touches, staged J7-B tree byte-untouched
+
+**AWAITING (unchanged, re-surfaced once — the same TWO owner lines):**
+(1) s59 canary rebank ratification (`68fa69f6→31c699cb`, audit
+`drafts/_j7b-canary-rebank-20260824.md`) — the two staged commits push
+same-day on that line and unblock B1-T1/T2; (2) the varekka_duel
+manifest re-cut pick (options + recommendation a in
+`drafts/_varekka-repilot-rebrief-20260824.md`).
+
+**Job 0 (open = clean, world D = neither line):** origin tip `e15c839`
+as expected, no peer deltas, no ratification anywhere (checkpoint +
+mail + origin + spark all silent); CLAIMED row pushed FIRST ACTION as
+`4b810ac` (hook suite **1171/0F** live at claim); staged J7-B tree
+intact open AND close (11 modified + 3 new, `git diff --stat` = 1542
+insertions/11 files); save `98fe75ed…` md5 open+close, mtime 08-20
+15:51; launcher logs 40 newest 08-21 01:39; mail inbox EMPTY; wall 26
+staged; world.rb 1770 staged; branch `s56-hub-j6c` preserved;
+`drafts/_refs/` untracked; canary ACTIVE varekka `31c699cb…` staged.
+`git pull --rebase` still impossible while the J7-B tree sits
+uncommitted — pushes were plain fast-forwards.
+
+**The session (flywheel standing program — the before/after rung):**
+`make_clip.sh` on the s47-re-authored low_quay_run (2202 frames, seed
+13, staged L5; script re-authored `0da0347` so the before/after holds
+at SURFACE/SCORE level, not timestamp level — caveat named in the
+doc) → blind re-critique with the IDENTICAL 08-19 focus string (8
+batches, 156/2202 ≈ 7%) → headless event stream as ground truth
+(`tmp/dump_stream.rb`, 441 lines md5 `1306fdd4…`) → claim-by-claim
+verification. **Headline: the 08-19 top-3 issues (silent kills,
+unattributed damage, invisible attacks) all moved to the KEEP list —
+the first critique's fix batch is confirmed working by fresh blind
+eyes.** 08-19 re-check list closed item-by-item: death pops READ
+(v_000824), damage stack READS, "+0" popups RESOLVED on-frame
+(net=0 → no card, v_001714), toast position RESOLVED; STILL OPEN =
+boss cue + enemy/terrain palette (banked). **REFUTED 6** new claims
+(all absent-feedback class, s62's law held): kills-evaporate (ZERO
+deaths in 3 of 4 cited windows — drops/retargets/nest-ceremony
+misread; pop on-frame in the 4th), opening-fight-no-react (it's the
+NEST inscription ceremony — zero enemies), spin-flash-missing (spins
+WHIFFED — no landed hit exists at the cited instants),
+hitstop-unknown (feel.rb hitstop gates the tick; frozen ticks emit
+identical frames and phash dedup DELETES them — structurally
+invisible to stills), no-enemy-windup (telegraph events + 120f data +
+red strike tiles on-frame v_002186), companion-inert (the "inert
+companion" is the POSSESSED with its identity outline; the ally is
+firing; the third body DIED at 4020 — which the critic reported as
+"no death occurred"). **BANKED**: A′ palette/ownership family
+(extends s62-A: boss label-only legibility, RED carries 4+ meanings;
+same re-pin + wall cost) · B′ NEW banner pile-up at compressed
+transitions (ZONE 4 + TOLL PAID stacked simultaneously ON-FRAME
+v_001856; candidate = banner routing rule + boss direction cue,
+Lane-4, BANK ONLY) · s62-B carry. **ROUTED**: knockback (sim, D1/D2
+posture) · spin-cost/attrition pacing (ritual-frozen). Full ledger +
+meta-calibration additions (hitstop unprovable from deduped stills ·
+cross-check zone context before combat claims · entity-identity
+claims need stream cross-check):
+`drafts/_flywheel-lowquay-beforeafter-20260824.md`.
+
+**Belt:** no gate owed (zero visual/code/data change; Rule 2
+untriggered; gate deliberately NOT run — it appends to staged
+`drafts/_gate-verdicts.log`); suite **1171/0F** via hooks at both
+commits; clip + blind critique + stream + verify doc are the
+session's artifacts (mp4 gitignored, frames in tmp/).
+
+**Commits this session:** `4b810ac` CLAIMED row · `d4f415d` critique
++ notes + verify doc · this docs commit.
+
+**Job-0 baselines for s64:** origin tip = this docs commit · wall 26
+staged (25 at origin until the s59 ratify-push; no wall run — none
+owed) · suite 1171 staged · world.rb 1770 staged · save `98fe75ed…`
+mtime 08-20 15:51 · launcher logs 40 newest 08-21 01:39 · mail inbox
+EMPTY · `drafts/_refs/` untracked · branch `s56-hub-j6c` preserved ·
+varekka_duel.json UNCHANGED (slot RED) · canary ACTIVE varekka
+`31c699cb…` (rebank pending). **s64-first: whichever owner line
+lands** — (1) ⇒ push the two staged J7-B commits (explicit path lists
+in the s59 entry) FIRST ACTION, unblocking B1-T1/T2 (B1-T1 = next
+session ticket if (2) hasn't landed); (2)=a ⇒ drill-card re-pilot
+(outranks B1-T1 — RED wall slot); both ⇒ (1) first same-day, then
+(2). Neither ⇒ next ratification-neutral rung (B1-T2 authoring still
+NOT neutral; remaining neutral candidate: zone-coverage soak — the
+flywheel clip rungs world_loop + low_quay are now both done this
+week; a third clip adds little until fixes land).
+
+**Owner-pending carry (never nag):** the TWO lines above · B1-T3
+playtest reading to sight · ear-checks · T3 footstep/bed renders
+(water family needs a NEW mail) · coop S1 (STANDING READY) · J-5
+spike call · R-A2 escalation call · ZONE 8 wire-in (owner word) ·
+audio volume-API RECEIPT · Junior ratifications (s56-hub asks 1–3).
+
 ## 2026-08-24 session 62 — NEITHER owner line landed at open ⇒ ratification-neutral standing-program rung: flywheel clip+critique on world_loop, sampling-artifact law applied IN FULL — 7 critique claims REFUTED against code + exact frames, 2 banked candidates, 1 ritual-routed; zero code/data touches, staged J7-B tree byte-untouched
 
 **CLAIMED: flywheel low_quay re-clip before/after vs the 08-19 critique — hub 2026-08-24** (s63 —
