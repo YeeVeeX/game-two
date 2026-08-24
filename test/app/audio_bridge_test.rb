@@ -38,7 +38,9 @@ class AudioBridgeTest < Minitest::Test
     end
   end
 
-  # Real three-target whirlwind staging, matching WhirlwindTest's ring setup.
+  # Real dash-strike staging (s66 — the striker special cuts a line):
+  # TWO victims on the dash path, landing free; matches WhirlwindTest's
+  # LINE staging. The coalescing law it feeds is count-agnostic.
   def stage_three_target_whirl(world)
     step = data["balance/combat"][:kits][:striker][:step_frames]
     frames = (0...(step * 30)).to_h { |frame| [frame.to_s, ["right"]] }
@@ -53,10 +55,10 @@ class AudioBridgeTest < Minitest::Test
       member.walker.teleport(2, 12 + index)
     end
 
-    victims = world.humans.first(3)
-    assert_equal 3, victims.length, "district must supply three real targets"
+    victims = world.humans.first(2)
+    assert_equal 2, victims.length, "district must supply two real targets"
     world.humans.replace(victims)
-    [[13, 12], [11, 12], [12, 11]].each_with_index do |tile, index|
+    [[13, 12], [14, 12]].each_with_index do |tile, index|
       victims[index].heal_full!
       victims[index].walker.teleport(*tile)
       victims[index].stagger!(600)
@@ -399,11 +401,12 @@ class AudioBridgeTest < Minitest::Test
 
     assert striker.start_special(blocked: world.blocked_for(striker))
     special = data["balance/combat"][:kits][:striker][:special]
-    drive(world, special[:windup_frames] + special[:active_frames] + 60, bridge:)
+    duration = special[:max_tiles] * special[:frames_per_tile]
+    drive(world, special[:windup_frames] + duration + 60, bridge:)
 
-    assert_equal 3, hit_ticks.length, "sim truth remains one hit event per target"
-    assert_equal 1, hit_ticks.uniq.length, "the three connections belong to one tick"
-    assert_equal [2, 2, 2], voices_after_hit,
+    assert_equal 2, hit_ticks.length, "sim truth remains one hit event per target"
+    assert_equal 1, hit_ticks.uniq.length, "the two connections belong to one tick"
+    assert_equal [2, 2], voices_after_hit,
                  "one special voice + one coalesced hit voice; duplicates add no voices"
     bridge.shutdown
   end

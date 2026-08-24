@@ -32,11 +32,13 @@
    "special": {
     "damage": 30,
     "windup_frames": 6,
-    "active_frames": 4,
+    "active_frames": 1,
     "recovery_frames": 8,
     "exhaust_frames": 480,
-    "arc": "ring",
-    "knockback_tiles": 1,
+    "arc": "dash",
+    "max_tiles": 3,
+    "frames_per_tile": 6,
+    "knockback_tiles": 0,
     "refund_frames_per_extra_hit": 120
    },
    "dodge": {

@@ -21,8 +21,23 @@ class GridWalkerTest < Minitest::Test
 
     assert_equal [7, 2], plan.landing
     assert_equal [[4, 2], [5, 2], [6, 2], [7, 2]], plan.crossed
+    assert_equal plan.crossed, plan.struck, "free landing beyond — blade and feet agree"
     assert_equal 16, plan.duration
     assert_equal [1, 0], [plan.dx, plan.dy]
+  end
+
+  # s66 dash-strike: a body on the tile past the landing is in STRUCK
+  # (the damage scan) but never in CROSSED (the movement) — feet stop
+  # short, blade reaches.
+  def test_plan_dash_struck_reaches_past_a_blocked_landing
+    plan = walker.plan_dash(
+      1, 0, max_tiles: 3, frames_per_tile: 4,
+      blocked: [[6, 2]], through: true
+    )
+
+    assert_equal [5, 2], plan.landing
+    assert_equal [[4, 2], [5, 2]], plan.crossed
+    assert_equal [[4, 2], [5, 2], [6, 2]], plan.struck
   end
 
   def test_plan_dash_wall_truncates_crossed_path

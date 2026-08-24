@@ -6,7 +6,12 @@ module Game
   # only so walking looks smooth.
   class GridWalker
     DIAGONAL = Math.sqrt(2)
-    DashPlan = Data.define(:landing, :crossed, :duration, :dx, :dy)
+    # struck (s66 dash-strike): every scanned passable tile in range — the
+    # DAMAGE line. crossed keeps the MOVEMENT truncation (lands on the
+    # furthest free tile): a body on the tile past your landing stops the
+    # feet, never the blade. Movement consumers (dodge, knockback) read
+    # crossed/landing exactly as before.
+    DashPlan = Data.define(:landing, :crossed, :duration, :dx, :dy, :struck)
 
     # tween_left/tween_total (v17 digest lane): moving? gates step
     # acceptance, so tween state is sim-branching — the digest reads it.
@@ -89,7 +94,7 @@ module Game
       crossed = path.take(landing_index + 1)
       duration = frames_per_tile * crossed.length
       duration = (duration * DIAGONAL).round if dx.abs + dy.abs == 2
-      DashPlan.new(landing: crossed.last, crossed:, duration:, dx:, dy:)
+      DashPlan.new(landing: crossed.last, crossed:, duration:, dx:, dy:, struck: path)
     end
 
     def commit_dash(plan)

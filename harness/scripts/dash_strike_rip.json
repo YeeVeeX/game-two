@@ -1,0 +1,46 @@
+{
+ "scenario": "world",
+ "seed": 4242,
+ "width": 960,
+ "height": 540,
+ "out_dir": "captures/dash_strike_rip",
+ "hold": {
+  "right": [
+   [
+    39,
+    77
+   ]
+  ],
+  "up": [
+   [
+    18,
+    30
+   ]
+  ],
+  "special": [
+   [
+    220,
+    220
+   ]
+  ],
+  "swap": [
+   [
+    0,
+    0
+   ],
+   [
+    9,
+    9
+   ]
+  ]
+ },
+ "captures": [
+  223,
+  228,
+  238
+ ],
+ "run_until": 279,
+ "start": {
+  "zone": "district"
+ }
+}

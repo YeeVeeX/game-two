@@ -177,7 +177,9 @@ module Game
     def action_tiles
       cfg = action_config
       return [] unless cfg
-      return @dash_plan.crossed if cfg[:arc] == "dash" && @dash_plan
+      # dash-strike (s66): the DAMAGE line is the full scan (struck) — the
+      # movement may land short of a body; the blade still reaches it.
+      return @dash_plan.struck if cfg[:arc] == "dash" && @dash_plan
       tx, ty = tile
       case cfg[:arc]
       when "ring"
