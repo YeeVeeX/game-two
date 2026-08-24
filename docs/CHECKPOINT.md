@@ -2,6 +2,13 @@
 
 ## 2026-08-24 session 62 — NEITHER owner line landed at open ⇒ ratification-neutral standing-program rung: flywheel clip+critique on world_loop, sampling-artifact law applied IN FULL — 7 critique claims REFUTED against code + exact frames, 2 banked candidates, 1 ritual-routed; zero code/data touches, staged J7-B tree byte-untouched
 
+**CLAIMED: flywheel low_quay re-clip before/after vs the 08-19 critique — hub 2026-08-24** (s63 —
+neither owner line landed at open; ratification-neutral standing-program
+rung: same script + identical focus, score deltas + claim-by-claim
+disposition of the 08-19 top-10, sampling-artifact law on any new
+absent-feedback claims — zero staged-file touches, zero code/data
+changes; low_quay_run byte-identical both trees per s59 D8).
+
 **AWAITING (unchanged, re-surfaced once — the same TWO owner lines):**
 (1) s59 canary rebank ratification (`68fa69f6→31c699cb`, audit
 `drafts/_j7b-canary-rebank-20260824.md`) — the two staged commits push
