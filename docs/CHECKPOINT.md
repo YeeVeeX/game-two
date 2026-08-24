@@ -1,5 +1,77 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-24 session 60 — varekka_duel re-pilot: the s59 brief's STOP CONDITION FIRED (duel unpilotable under the catch-up law with today's ally AI) — six pilot generations, evidence banked, manifest re-cut = OWNER DECISION; zero source files touched, J7-B staged tree byte-untouched, slot stays RED
+
+**AWAITING (now TWO owner lines, one chat ask covers both — not a
+nag):** (1) the s59 canary rebank ratification (`68fa69f6→31c699cb`,
+audit `drafts/_j7b-canary-rebank-20260824.md`) — the two staged
+commits push same-day on that line; (2) the varekka_duel **manifest
+re-cut pick** — evidence + options + recommendation (option a: 2-chant
+arc, per-double `2/4/2/2/2/2`) in
+`drafts/_varekka-repilot-rebrief-20260824.md`. On (2)=a the re-pilot
+executes the banked drill card end-to-end (pilot → export → rebank #2
+→ gate critic-ON + manifest → full wall).
+
+**Job 0 (open = clean, world A):** origin tip `6ddb8f1` = ratification
+pending; CLAIMED row pushed FIRST ACTION as `65936ea` (hook suite
+**1171/0F** at claim); staged J7-B working tree intact (11 modified +
+3 new, `git diff --stat` matched s59); save `98fe75ed…` md5 open+close,
+mtime 08-20 15:51; launcher logs 40 newest 08-21 01:39
+(`/tmp/game_two_session_*.log`); mail inbox EMPTY; wall 26 staged;
+world.rb 1770 staged; branch `s56-hub-j6c` preserved; `drafts/_refs/`
+untracked; brief digest verified via git blob
+(`9802eec972b754c255af83fdf07662b1`).
+
+**The session:** six interactive generations on `rake pilot
+NAME=varekka2 SEED=7` (drive log `tmp/pilot/varekka2/log.txt`,
+captures `captures/pilot/varekka2_r1..r6/`). The structural finding —
+the shipped manifest's 3-chant arc (2 interrupts + 1 completion)
+encodes the dead exploit's pacing: honestly it needs the boss to
+survive ~2400+ frames beside pack bodies whose AI cannot be commanded
+off him (ally auto-engage ≤10, no stance verb — exactly the
+unbuilt Lane-3 C2/C3 gap), on a 140-hp budget that interrupt economy
++ trade-lock leakage exhausts (measured 140→92 in ONE textbook
+cycle), with zero in-zone sustain. Best clean run (gen-6 drill):
+chant 829 pin-controlled, interrupt 919 in-band — then the peel
+trade-lock cost the second body; solo blocker cannot interrupt (no
+ranged verb, 122f walk-in > 120f window) nor afford a completion
+hold. Honest tools VERIFIED live and banked for the re-cut
+choreography: beachhead-shield de-aggro sanctuary + leash cooldown
+burn, equal-speed kiting, lag-trick pin control, running-pin
+completion (no completion range check), seized-hands law,
+marked-decoy binding, wake-line map (east col≈14, south row≈12,
+bridges cols 14-16/30-32), swap-onto-gate-tile fires transitions,
+group_wait = all living ≤1 of the gate, interact refuses mid-exhaust.
+
+**Belt:** nothing shipped — no gate owed (zero visual/code change;
+Rule 2 untriggered); suite green via hooks at both commits; staged
+tree verified untouched at close (`git diff --stat` identical, same
+11+3 files); pilot window closed clean (gen-6 telemetry
+`engaged=1 chants=1 interrupted=1 seized=0` — bot-free human-driven
+session, not fun-evidence).
+
+**Commits this session:** `65936ea` CLAIMED row ·
+`docs(s60): checkpoint` + `drafts/_varekka-repilot-rebrief-20260824.md`
+(this push).
+
+**Job-0 baselines for s61:** origin tip = this docs commit · wall 26
+staged (25 at origin until the s59 ratify-push) · suite 1171 staged ·
+world.rb 1770 staged · save `98fe75ed…` mtime 08-20 15:51 · launcher
+logs 40 newest 08-21 01:39 · mail inbox EMPTY · `drafts/_refs/`
+untracked · branch `s56-hub-j6c` preserved · varekka_duel.json
+UNCHANGED (stale choreography, slot RED) · canary ACTIVE varekka
+`31c699cb…` (s59 rebank, pending). **s61-first: whichever owner line
+lands** — (1) ⇒ push the two staged J7-B commits (explicit path lists
+in the s59 entry) FIRST ACTION; (2)=a ⇒ drill-card re-pilot ticket
+(full cycle incl. rebank #2 + wall). Neither ⇒ Lane-2 B-item or owner
+word; ratification-neutral work only.
+
+**Owner-pending carry (never nag):** the TWO lines above · ear-checks
+· T3 footstep/bed renders (water family needs a NEW mail) · coop S1
+(STANDING READY) · J-5 spike call · R-A2 escalation call · ZONE 8
+wire-in (owner word) · audio volume-API RECEIPT · Junior ratifications
+(s56-hub asks 1–3).
+
 ## 2026-08-24 session 59 — J7-B BUILT + FULL BELT GREEN (stamp + cold catch-up, the J-7 sim change): snap-home teleport is DEAD on stamped re-entries — code/tests/wall-script STAGED-AWAITING one owner line (canary rebank ratification, reviewer blocking-2); J-7 lane = COMPLETE-ON-RATIFY
 
 **CLAIMED: varekka_duel re-pilot hub 2026-08-24** (s60 — the RED wall
