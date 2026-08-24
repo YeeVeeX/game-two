@@ -19,6 +19,16 @@ class EconomyDataTest < Minitest::Test
            "inscribe_cost must be < regrow_cost (fiction law, spec §3)"
   end
 
+  # B4 (foundation row 9): the mercy knob is an integer share of banked.
+  # 100 = the guarantee takes everything they have; 0 = a free first
+  # regrow (a valid owner retune); anything outside 0..100 would charge
+  # money the pack doesn't have, breaking the guarantee itself.
+  def test_mercy_floor_spend_pct_is_a_whole_share
+    pct = ECO[:mercy_floor_spend_pct]
+    assert pct.is_a?(Integer) && pct.between?(0, 100),
+           "mercy_floor_spend_pct must be an integer 0..100 share of banked: #{pct.inspect}"
+  end
+
   # The >= 3.0 floor was the v10.1 hypothesis — REFUTED at the eighth verify
   # (premium earned but not attributed; Q1 inflation fired) and reverted by
   # owner fork. The strictly-increasing SHAPE law survives it.

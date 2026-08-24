@@ -124,8 +124,12 @@ module Game
       spawn_pack
       # Prices are quoted by a plain reader object (line-cap extraction,
       # 2026-08-20) — constructed after spawn_pack so it holds the live Pack.
+      # B4: the session-open mercy — armed at boot, consumed by the session's
+      # first regrow, never persisted (per-session by definition).
+      @vat_mercy_armed = true
       @price_sheet = PriceSheet.new(economy: @economy, pack: @pack,
-                                    breached: method(:breached?))
+                                    breached: method(:breached?),
+                                    mercy: ->(zone) { @vat_mercy_armed && zone == @home_zone })
       # Crossing policy (T4 extraction, line-cap law): open/consent/arrival
       # decisions live in a plain object; World does the moving.
       @crossing = Crossing.new(zones: @zones, breached: method(:breached?),
@@ -1271,14 +1275,16 @@ module Game
 
     # All-or-nothing full maintenance (spec S3): one price, one decision.
     # Regrowth is a hard rebind onto the home spawn tile (occupancy is soft:
-    # only voluntary movement is blocked — same as respawn_pack).
+    # only voluntary movement is blocked — same as respawn_pack). The price
+    # comes from PriceSheet (the one vat-price source — quote and charge
+    # can never drift); B4 mercy consumption is the session's first regrow.
     def interact_vat(source)
       dead = @pack.members.select(&:dead?)
       wounded = @pack.living.select { |m| m.hp < m.max_hp }
-      cost = @economy[:regrow_cost] * dead.length +
-             @economy[:heal_cost_per_body] * wounded.length
-      return station_refuse!(source.tile) if cost.zero?
-      return station_refuse!(source.tile) unless spend_banked(source, cost, :tribute)
+      return station_refuse!(source.tile) if dead.empty? && wounded.empty?
+      quote = @price_sheet.vat_quote(@zone_name)
+      return station_refuse!(source.tile) unless spend_banked(source, quote[:cost], :tribute)
+      @vat_mercy_armed &&= dead.empty?
       home = @zones.fetch(@home_zone)
       dead.each do |m|
         m.revive!(map: home, tile: home.pack_spawn[@pack.members.index(m)])
@@ -1286,7 +1292,7 @@ module Game
       end
       wounded.each(&:heal_full!)
       assign_waiting_seats
-      @bus.emit(:tribute_paid, cost:, regrown: dead.length,
+      @bus.emit(:tribute_paid, cost: quote[:cost], regrown: dead.length,
                 healed: wounded.length, banked: @pack.banked)
       station_cue!(:tribute, source.tile)
       true

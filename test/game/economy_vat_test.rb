@@ -2,6 +2,7 @@ require_relative "../test_helper"
 require "core/data_store"
 require "core/input"
 require "game/world"
+require "game/price_sheet"
 
 class EconomyVatTest < Minitest::Test
   DATA = Core::DataStore.new(File.expand_path("../../data", __dir__))
@@ -40,7 +41,12 @@ class EconomyVatTest < Minitest::Test
     assert_equal world.map.pack_spawn[world.pack.members.index(ally)], ally.tile if world.zone_name == home
   end
 
-  def test_tribute_refuses_when_short_without_any_mutation
+  # B4 rewrite: a fresh world opens AT the home vat (HOME_ZONE = nest), so
+  # the old short-refusal scenario is exactly the mercy context now — the
+  # unconditional-refusal law survives at FIELD vats (slow_door: has a vat,
+  # not a hub, so entering it never rehomes and mercy never applies).
+  def test_tribute_refuses_when_short_at_a_field_vat_without_any_mutation
+    world.start_in("slow_door")
     ally = (world.pack.members - [world.possessed]).first
     kill(ally)
     world.pack.bank!(ECO[:regrow_cost] - 1)
@@ -48,6 +54,71 @@ class EconomyVatTest < Minitest::Test
     assert ally.dead?
     assert_equal ECO[:regrow_cost] - 1, world.pack.banked
     assert_equal :refused, world.station_cue[:kind]
+  end
+
+  def test_mercy_first_home_regrow_charges_only_what_the_pack_has
+    ally = (world.pack.members - [world.possessed]).first
+    kill(ally)
+    world.pack.bank!(5) # < regrow_cost: pre-B4 this refused (the session-open farm pain)
+    assert world.interact(at_vat!), "session-open first regrow at home must never refuse on money"
+    world.bus.process
+    refute ally.dead?
+    assert_equal 0, world.pack.banked, "mercy at pct=100 takes everything they have, no more"
+    assert_equal :tribute, world.station_cue[:kind]
+  end
+
+  def test_mercy_is_consumed_by_the_sessions_first_regrow
+    ally = (world.pack.members - [world.possessed]).first
+    kill(ally)
+    world.pack.bank!(5)
+    assert world.interact(at_vat!)
+    world.bus.process
+    kill(ally)
+    world.pack.bank!(3)
+    refute world.interact(at_vat!), "mercy is once per session — the second short regrow refuses"
+    assert ally.dead?
+    assert_equal 3, world.pack.banked
+    assert_equal :refused, world.station_cue[:kind]
+  end
+
+  def test_mercy_does_not_discount_an_affordable_tribute
+    ally = (world.pack.members - [world.possessed]).first
+    kill(ally)
+    world.pack.bank!(ECO[:regrow_cost] + 7)
+    assert world.interact(at_vat!)
+    world.bus.process
+    assert_equal 7, world.pack.banked,
+                 "an affordable first regrow pays FULL price — mercy is a floor, not a discount"
+  end
+
+  def test_mercy_ignores_a_heal_only_shortfall
+    other = (world.pack.members - [world.possessed]).first
+    other.take_hit(damage: 10, attacker: world.possessed)
+    world.pack.bank!(ECO[:heal_cost_per_body] - 1)
+    refute world.interact(at_vat!), "no dead bodies = no mercy — a short heal-only tribute refuses"
+    assert_equal ECO[:heal_cost_per_body] - 1, world.pack.banked
+  end
+
+  def test_station_price_quotes_the_mercy_price_at_home_when_short
+    ally = (world.pack.members - [world.possessed]).first
+    kill(ally)
+    world.pack.bank!(5)
+    vat = world.map.stations.find { |s| s[:type] == "vat" }
+    assert_equal 5, world.station_price(vat),
+                 "the hint must show what the vat will actually charge (quote = charge, one source)"
+  end
+
+  def test_mercy_floor_spend_pct_knob_scales_the_clamp
+    sheet = Game::PriceSheet.new(
+      economy: { regrow_cost: 12, heal_cost_per_body: 2, mercy_floor_spend_pct: 50 },
+      pack: world.pack, breached: ->(_z, _o) { false }, mercy: ->(_z) { true }
+    )
+    ally = (world.pack.members - [world.possessed]).first
+    kill(ally)
+    world.pack.bank!(9)
+    quote = sheet.vat_quote("camp")
+    assert quote[:mercy]
+    assert_equal 4, quote[:cost], "pct=50 of banked 9 = 4 (integer floor) — the data knob scales mercy's bite"
   end
 
   def test_tribute_refuses_when_nothing_to_buy

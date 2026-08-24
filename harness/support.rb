@@ -33,6 +33,14 @@ module Harness
       world.progression.load_progress!(level: prog.fetch(:level, 1), xp: prog.fetch(:xp, 0))
       world.pack.sync_max_hp!(progression: world.progression)
     end
+    # B4 wall scripts: stage dead pack members for mercy/vat scenes — the
+    # same take_hit path combat uses (a fresh replay world cannot open with
+    # corpses any other way). Harness plumbing only; no game code reads this.
+    if (n = start[:dead])
+      (world.pack.members - [world.possessed]).first(n).each do |m|
+        m.take_hit(damage: m.hp, attacker: world.possessed) until m.dead?
+      end
+    end
     zone = start[:zone]
     world.start_in(zone.to_s) if zone
     # v16 (d): stage an inscribed vessel for burn-beat scenes — the same

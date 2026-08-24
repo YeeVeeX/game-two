@@ -1,0 +1,26 @@
+{
+  "scenario": "world",
+  "seed": 7,
+  "width": 960,
+  "height": 540,
+  "out_dir": "captures/mercy_floor",
+  "start": {
+    "banked": 5,
+    "dead": 2
+  },
+  "hold": {
+    "down": [
+      [0, 22]
+    ],
+    "interact": [
+      [90, 90]
+    ]
+  },
+  "captures": [20, 80, 130],
+  "run_until": 200,
+  "manifest": {
+    "tribute_paid": 1,
+    "body_regrown": 2,
+    "banked_spent": 1
+  }
+}
