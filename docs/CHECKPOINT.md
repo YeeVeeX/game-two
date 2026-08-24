@@ -2,6 +2,9 @@
 
 ## 2026-08-23 session 56-hub — CONCURRENT-SHIP RECONCILED (owner word: "merge, reconcile the best outcome"): Junior's J6-C = the base + two hub folds; MERGED TREE FULLY GATED — critic-ON ×3 PASS (15/15+4/4+4/4, determinism ×2), pairs 24/24, soak PASS, merge review PASS-WITH-NITS/0-blocking — J6-C debt CLEARED, menu lane COMPLETE
 
+**CLAIMED: J-7 hub 2026-08-24** (s57 brief cut, docs-only — modeling the
+proposed anti-race protocol; Junior: Lane 2 B-items are free).
+
 **The race, recorded once:** both seats executed the s55 J6-C spark
 concurrently — Junior claimed it as his s56 (entry below) and pushed
 first mid-hub-session; the hub had a full parallel implementation +
