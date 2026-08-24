@@ -78,7 +78,27 @@ class MenuNetTest < Minitest::Test
     assert(m[:link].any? { |r| r.start_with?("STALLS ") }, "stall counters row present")
     assert(m[:link].any? { |r| r.start_with?("DESYNCS ") })
     assert(m[:ledger].any? { |r| r.start_with?("LEVEL 1 ") }, "progression reader row")
+    prog = @wh.progression
+    assert_includes m[:ledger],
+                    "LEVEL #{prog.level} · XP #{prog.xp}/#{prog.delta_e(prog.level + 1)}",
+                    "XP carries its threshold (s56 merge fold — scale, not a bare count)"
     assert(m[:ledger].any? { |r| r =~ /\ARUN \d+:\d{2}\z/ }, "run span mm:ss")
+    refute(m[:ledger].any? { |r| r =~ /\A(FIGHT|BANK|WIPE)/ }, "no beat row while no beat is live")
+  end
+
+  def test_ledger_beat_row_carries_kind_and_signed_net
+    run_session
+    # The REAL registered event vocabulary (EventBus::EVENTS pins :banked;
+    # world.rb emits it from the station banking flow) — real bus, real
+    # FightLedger handler, real flush.
+    @wh.bus.emit(:banked, actor: nil, amount: 1, banked: 1)
+    idle = Core::ScriptedInput.new(frames: {})
+    @wh.tick({ 1 => idle, 2 => idle })
+    beat = @wh.ledger_beat
+    refute_nil beat, "staging: the banked event must raise a ledger beat"
+    m = menu.net_model(@h, @wh)
+    assert_includes m[:ledger], format("%s %+d", beat[:kind].to_s.upcase, beat[:net]),
+                    "a live beat surfaces kind + signed net (the number IS the ledger)"
   end
 
   def test_close_bang_force_closes_and_clears_the_swallow

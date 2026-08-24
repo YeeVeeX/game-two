@@ -153,10 +153,15 @@ module App
     # (session/lockstep counters + the progression readers the HUD uses).
     # Pure — no Gosu; nil outside a params-known session. The reel proves
     # the pixels; labels are locale-invariant technical register.
+    # s56 merge fold: XP carries its threshold (x/Δe, MAX at cap — a bare
+    # count reads as noise without scale) and a live ledger beat carries
+    # its signed net (the number IS the ledger; kind alone says nothing).
     def net_model(session, world)
       return nil unless session&.params_known? && world
       ls = session.lockstep
       span = session.ticks / 60
+      prog = world.progression
+      xp = prog.level >= prog.level_cap ? "MAX" : "#{prog.xp}/#{prog.delta_e(prog.level + 1)}"
       { link: ["#{tr('menu.net.seat', 'SEAT')} #{session.seat}",
                "#{tr('menu.net.ticks', 'TICKS')} #{session.ticks}",
                "D #{session.params.d}",
@@ -164,9 +169,9 @@ module App
                "#{tr('menu.net.max', 'MAX')} #{ls ? ls.stall_ms_max.round : 0} MS",
                "#{tr('menu.net.desyncs', 'DESYNCS')} #{ls ? ls.desyncs : 0}",
                (tr("net.link_slow", "LINK SLOW") if session.link_slow)].compact,
-        ledger: ["#{tr('hud.level', 'LEVEL')} #{world.progression.level} · XP #{world.progression.xp}",
+        ledger: ["#{tr('hud.level', 'LEVEL')} #{prog.level} · XP #{xp}",
                  "#{tr('menu.net.run', 'RUN')} #{format('%d:%02d', span / 60, span % 60)}",
-                 ((b = world.ledger_beat) ? b[:kind].to_s.upcase : nil)].compact }
+                 ((b = world.ledger_beat) ? format("%s %+d", b[:kind].to_s.upcase, b[:net]) : nil)].compact }
     end
 
     def draw(session: nil, world: nil)
