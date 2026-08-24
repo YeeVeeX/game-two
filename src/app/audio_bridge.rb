@@ -244,6 +244,7 @@ module App
         @anchor_tick = nil
         @anchor_pcm = nil
         @drift = [] # [tick, engine_pcm] pairs, anchor cadence only
+        @last_drift_tick = nil
         @dead = false
         # T3 world polling (footsteps + ambience keying): read-only
         # presentation reads of the possessed body, renderer-style; set at
@@ -380,7 +381,15 @@ module App
 
       # Contract §3 open item: engine clock vs tick clock, sampled at
       # anchor points on the CONTROL thread only (never per-command).
+      # One sample per DISTINCT tick: the cadence gate fires on tick VALUE,
+      # but ticks repeat across frames whenever the sim doesn't advance
+      # (host waiting at tick 0 for the handshake; lockstep stall frames)
+      # — hit live coop S1 (s66): ~660 duplicate tick=0 lines during the
+      # pre-join wait. The dedup keeps the wall-clock oracle's cadence
+      # intact and bounds the log.
       def drift_sample(tick)
+        return if tick == @last_drift_tick
+        @last_drift_tick = tick
         pcm = GTA::Native.gta_engine_time_pcm(@engine)
         if @anchor_tick.nil?
           @anchor_tick = tick

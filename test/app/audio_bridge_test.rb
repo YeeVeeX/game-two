@@ -118,6 +118,21 @@ class AudioBridgeTest < Minitest::Test
     assert_match(/AUDIO teardown clean/, out.string)
   end
 
+  # Drift sampler dedup (s66 live flood): the cadence gate fires on tick
+  # VALUE, so a non-advancing sim (host waiting for the handshake at tick
+  # 0; lockstep stall frames) re-sampled the same tick every frame. One
+  # sample per distinct tick — the wall-clock oracle keeps its cadence.
+  def test_drift_sampler_fires_once_per_distinct_tick
+    skip "game-two-audio library not present — bridge device tests untestable here" unless lib_present?
+    bridge, out = boot
+    5.times { bridge.update(0) }     # pre-join wait: frames pass, tick stays 0
+    4.times { bridge.update(1800) }  # stall frames sitting on a cadence tick
+    bridge.update(3600)
+    bridge.shutdown
+    stamps = out.string.lines.grep(/^AUDIO drift tick=/).map { |l| l[/tick=\d+/] }
+    assert_equal %w[tick=0 tick=1800 tick=3600], stamps
+  end
+
   # Music derivation (music.json state_events): a real World bus emit of
   # challenger_engaged must request the combat state — data-driven, no code
   # mapping; fight_resolved returns to calm.
