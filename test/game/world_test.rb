@@ -903,6 +903,21 @@ class WorldTest < Minitest::Test
     assert_equal drop[:amount], events.first[:amount]
   end
 
+  def test_husk_death_spawns_drop_in_the_basement
+    # s69 content-fill: basement_1's payoff is the husk drop economy —
+    # live data law: husks carry a drop_table and the ungradiented
+    # cellar rolls at multiplier 1.0 (base band).
+    world.start_in("basement_1")
+    victim = world.humans.find { |h| h.kit_name == :husk }
+    refute_nil victim, "basement_1 seeds husks (content-fill s69)"
+    kill(victim, by: world.possessed)
+    drive(world, scripted({}), 1) # flush bus
+    drop = drop_at(world, victim.tile)
+    refute_nil drop, "husk death must leave a drop on its tile"
+    assert_includes [1, 2], drop[:amount],
+                    "amount from drop_table [1,1,2] at base band (no gradient, x1.0)"
+  end
+
   def test_drop_amounts_are_seed_deterministic
     amounts = 2.times.map do
       w = Game::World.new(DATA, seed: 7)

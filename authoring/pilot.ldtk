@@ -3465,6 +3465,162 @@
                   "realEditorValues": []
                 }
               ]
+            },
+            {
+              "__identifier": "EnemySpawn",
+              "__grid": [
+                8,
+                2
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#EB5A5A",
+              "iid": "00000000-69ba-0001-0000-000000000001",
+              "width": 32,
+              "height": 32,
+              "defUid": 13,
+              "px": [
+                256,
+                64
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "kind",
+                  "__type": "String",
+                  "__value": "husk",
+                  "__tile": null,
+                  "defUid": 130,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "husk"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "__identifier": "EnemySpawn",
+              "__grid": [
+                10,
+                3
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#EB5A5A",
+              "iid": "00000000-69ba-0001-0000-000000000002",
+              "width": 32,
+              "height": 32,
+              "defUid": 13,
+              "px": [
+                320,
+                96
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "kind",
+                  "__type": "String",
+                  "__value": "husk",
+                  "__tile": null,
+                  "defUid": 130,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "husk"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "__identifier": "EnemySpawn",
+              "__grid": [
+                9,
+                5
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#EB5A5A",
+              "iid": "00000000-69ba-0001-0000-000000000003",
+              "width": 32,
+              "height": 32,
+              "defUid": 13,
+              "px": [
+                288,
+                160
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "kind",
+                  "__type": "String",
+                  "__value": "husk",
+                  "__tile": null,
+                  "defUid": 130,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "husk"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "__identifier": "EnemySpawn",
+              "__grid": [
+                8,
+                6
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#EB5A5A",
+              "iid": "00000000-69ba-0001-0000-000000000004",
+              "width": 32,
+              "height": 32,
+              "defUid": 13,
+              "px": [
+                256,
+                192
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "kind",
+                  "__type": "String",
+                  "__value": "husk",
+                  "__tile": null,
+                  "defUid": 130,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "husk"
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },

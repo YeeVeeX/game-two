@@ -1,0 +1,34 @@
+{
+  "scenario": "world",
+  "seed": 7,
+  "width": 960,
+  "height": 540,
+  "out_dir": "captures/basement_pocket",
+  "start": {
+    "zone": "basement_1",
+    "progression": { "level": 4, "xp": 0 }
+  },
+  "hold": {
+    "right": [
+      [0, 6],
+      [560, 580],
+      [660, 680]
+    ],
+    "attack": [
+      [60, 60], [100, 100], [140, 140], [180, 180],
+      [220, 220], [260, 260], [300, 300], [340, 340],
+      [380, 380], [420, 420], [460, 460], [500, 500]
+    ],
+    "interact": [
+      [620, 620], [720, 720], [760, 760]
+    ]
+  },
+  "captures": [160, 200, 218, 420, 700, 850],
+  "run_until": 900,
+  "manifest": {
+    "zone_entered": 2,
+    "actor_died": 4,
+    "drop_spawned": 4,
+    "drop_picked_up": 1
+  }
+}

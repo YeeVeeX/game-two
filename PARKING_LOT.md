@@ -883,3 +883,21 @@ sequencing law.
   color verbatim (validate_map! demands every variant ref exist). Authoring a
   real third hue is flywheel/T10-family work — ride the next zone_8 visual
   pass (wire-in or a flywheel critique hit), never a lone commit.
+- **Gatherables — minerals, trees, herb/berry nodes** (owner idea 2026-08-24,
+  s69 chat, parked at intake on dev recommendation): fixed harvest nodes to
+  make exploration pay beyond spawns. Shelf verdict (game-research:
+  crafting-loot-and-consumable-economies + mmo-economy-design-sinks-and-faucets
+  + new-world/BDO notes): gathering is the FAUCET half of a
+  gather→refine→consume loop — without a crafting/consumable SINK it
+  degenerates into a second kill-drop faucet (same banked currency, no new
+  decision); NW/BDO node-routing works BECAUSE refining/crafting absorbs the
+  take, and Tibia itself keeps gathering thin (berries/wheat) — its
+  exploration pull is geography + spawn knowledge, exactly what the v19
+  content-fill/geography lanes already ship. Dev recommendation: gatherables
+  land WITH the item/equipment cycle (v20 intake, ratified s67) as its
+  resource half — mechanically they are depletable field STATIONS (existing
+  interact vocabulary) + SIM-CLASS tile behaviors (gated lane law), zero new
+  engine primitives; until then the exploration-interest axis rides
+  drop_gradient deep bands + the parked flora/decor + ambient-fauna rows
+  (safe class). NAMED TRIGGER: the v20 item-system intake opens — gatherables
+  join its spec as the faucet, never a lone v19 commit.

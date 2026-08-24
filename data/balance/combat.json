@@ -182,6 +182,11 @@
    "step_frames": 17,
    "aggro_tiles": 12,
    "respawn_frames": 300,
+   "drop_table": [
+    1,
+    1,
+    2
+   ],
    "attack": {
     "damage": 15,
     "windup_frames": 30,
