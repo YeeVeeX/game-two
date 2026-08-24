@@ -3843,8 +3843,8 @@
             {
               "__identifier": "PackSpawn",
               "__grid": [
-                5,
-                4
+                3,
+                5
               ],
               "__pivot": [
                 0,
@@ -3858,8 +3858,8 @@
               "height": 32,
               "defUid": 12,
               "px": [
-                160,
-                128
+                96,
+                160
               ],
               "fieldInstances": [
                 {
@@ -3882,8 +3882,8 @@
             {
               "__identifier": "PackSpawn",
               "__grid": [
-                6,
-                4
+                4,
+                5
               ],
               "__pivot": [
                 0,
@@ -3897,8 +3897,8 @@
               "height": 32,
               "defUid": 12,
               "px": [
-                192,
-                128
+                128,
+                160
               ],
               "fieldInstances": [
                 {
@@ -3921,8 +3921,8 @@
             {
               "__identifier": "PackSpawn",
               "__grid": [
-                7,
-                4
+                5,
+                5
               ],
               "__pivot": [
                 0,
@@ -3936,8 +3936,8 @@
               "height": 32,
               "defUid": 12,
               "px": [
-                224,
-                128
+                160,
+                160
               ],
               "fieldInstances": [
                 {
@@ -4067,6 +4067,581 @@
                   "realEditorValues": []
                 }
               ]
+            },
+            {
+              "__identifier": "Transition",
+              "__grid": [
+                6,
+                3
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#5AC8EB",
+              "iid": "00000000-69ba-0002-0000-000000000001",
+              "width": 32,
+              "height": 32,
+              "defUid": 11,
+              "px": [
+                192,
+                96
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "to",
+                  "__type": "String",
+                  "__value": "basement_2",
+                  "__tile": null,
+                  "defUid": 110,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "basement_2"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "__identifier": "spawn",
+                  "__type": "Point",
+                  "__value": {
+                    "cx": 9,
+                    "cy": 3
+                  },
+                  "__tile": null,
+                  "defUid": 111,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "9,3"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "__identifier": "sealed",
+                  "__type": "Bool",
+                  "__value": true,
+                  "__tile": null,
+                  "defUid": 112,
+                  "realEditorValues": [
+                    {
+                      "id": "V_Bool",
+                      "params": [
+                        true
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "__identifier": "type",
+                  "__type": "String",
+                  "__value": null,
+                  "__tile": null,
+                  "defUid": 113,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "stairs_unlocked_by",
+                  "__type": "String",
+                  "__value": null,
+                  "__tile": null,
+                  "defUid": 114,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "requires_defeats",
+                  "__type": "Int",
+                  "__value": null,
+                  "__tile": null,
+                  "defUid": 115,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "requires_level",
+                  "__type": "Int",
+                  "__value": null,
+                  "__tile": null,
+                  "defUid": 116,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Transition",
+              "__grid": [
+                10,
+                1
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#5AC8EB",
+              "iid": "00000000-69ba-0002-0000-000000000002",
+              "width": 32,
+              "height": 32,
+              "defUid": 11,
+              "px": [
+                320,
+                32
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "to",
+                  "__type": "String",
+                  "__value": "basement_2",
+                  "__tile": null,
+                  "defUid": 110,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "basement_2"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "__identifier": "spawn",
+                  "__type": "Point",
+                  "__value": {
+                    "cx": 5,
+                    "cy": 3
+                  },
+                  "__tile": null,
+                  "defUid": 111,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "5,3"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "__identifier": "sealed",
+                  "__type": "Bool",
+                  "__value": false,
+                  "__tile": null,
+                  "defUid": 112,
+                  "realEditorValues": [
+                    {
+                      "id": "V_Bool",
+                      "params": [
+                        false
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "__identifier": "type",
+                  "__type": "String",
+                  "__value": "rope_spot",
+                  "__tile": null,
+                  "defUid": 113,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "rope_spot"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "__identifier": "stairs_unlocked_by",
+                  "__type": "String",
+                  "__value": null,
+                  "__tile": null,
+                  "defUid": 114,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "requires_defeats",
+                  "__type": "Int",
+                  "__value": null,
+                  "__tile": null,
+                  "defUid": 115,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "requires_level",
+                  "__type": "Int",
+                  "__value": null,
+                  "__tile": null,
+                  "defUid": 116,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Station",
+              "__grid": [
+                6,
+                2
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#EBBE5A",
+              "iid": "00000000-69ba-0002-0000-000000000003",
+              "width": 32,
+              "height": 32,
+              "defUid": 10,
+              "px": [
+                192,
+                64
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "type",
+                  "__type": "String",
+                  "__value": "seal",
+                  "__tile": null,
+                  "defUid": 100,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "seal"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "__identifier": "price",
+                  "__type": "String",
+                  "__value": "breach_cost",
+                  "__tile": null,
+                  "defUid": 101,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "breach_cost"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "__identifier": "opens",
+                  "__type": "Point",
+                  "__value": {
+                    "cx": 6,
+                    "cy": 3
+                  },
+                  "__tile": null,
+                  "defUid": 102,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "6,3"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "__identifier": "line",
+                  "__type": "String",
+                  "__value": "TOLL PAID",
+                  "__tile": null,
+                  "defUid": 103,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "TOLL PAID"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "__identifier": "EnemySpawn",
+              "__grid": [
+                2,
+                6
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#EB5A5A",
+              "iid": "00000000-69ba-0002-0000-000000000004",
+              "width": 32,
+              "height": 32,
+              "defUid": 13,
+              "px": [
+                64,
+                192
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "kind",
+                  "__type": "String",
+                  "__value": "husk",
+                  "__tile": null,
+                  "defUid": 130,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "husk"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "__identifier": "EnemySpawn",
+              "__grid": [
+                6,
+                6
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#EB5A5A",
+              "iid": "00000000-69ba-0002-0000-000000000005",
+              "width": 32,
+              "height": 32,
+              "defUid": 13,
+              "px": [
+                192,
+                192
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "kind",
+                  "__type": "String",
+                  "__value": "husk",
+                  "__tile": null,
+                  "defUid": 130,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "husk"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "__identifier": "EnemySpawn",
+              "__grid": [
+                8,
+                1
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#EB5A5A",
+              "iid": "00000000-69ba-0002-0000-000000000006",
+              "width": 32,
+              "height": 32,
+              "defUid": 13,
+              "px": [
+                256,
+                32
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "kind",
+                  "__type": "String",
+                  "__value": "husk",
+                  "__tile": null,
+                  "defUid": 130,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "husk"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "__identifier": "EnemySpawn",
+              "__grid": [
+                10,
+                4
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#EB5A5A",
+              "iid": "00000000-69ba-0002-0000-000000000007",
+              "width": 32,
+              "height": 32,
+              "defUid": 13,
+              "px": [
+                320,
+                128
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "kind",
+                  "__type": "String",
+                  "__value": "husk",
+                  "__tile": null,
+                  "defUid": 130,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "husk"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "__identifier": "EnemySpawn",
+              "__grid": [
+                9,
+                6
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#EB5A5A",
+              "iid": "00000000-69ba-0002-0000-000000000008",
+              "width": 32,
+              "height": 32,
+              "defUid": 13,
+              "px": [
+                288,
+                192
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "kind",
+                  "__type": "String",
+                  "__value": "husk",
+                  "__tile": null,
+                  "defUid": 130,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "husk"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "__identifier": "EnemySpawn",
+              "__grid": [
+                8,
+                5
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#EB5A5A",
+              "iid": "00000000-69ba-0002-0000-000000000009",
+              "width": 32,
+              "height": 32,
+              "defUid": 13,
+              "px": [
+                256,
+                160
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "kind",
+                  "__type": "String",
+                  "__value": "rusher",
+                  "__tile": null,
+                  "defUid": 130,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "rusher"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "__identifier": "EnemySpawn",
+              "__grid": [
+                10,
+                2
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#EB5A5A",
+              "iid": "00000000-69ba-0002-0000-000000000010",
+              "width": 32,
+              "height": 32,
+              "defUid": 13,
+              "px": [
+                320,
+                64
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "kind",
+                  "__type": "String",
+                  "__value": "rusher",
+                  "__tile": null,
+                  "defUid": 130,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "rusher"
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
@@ -4108,7 +4683,7 @@
             5,
             5,
             5,
-            5,
+            1,
             5,
             5,
             5,
@@ -4120,7 +4695,7 @@
             5,
             5,
             5,
-            5,
+            1,
             5,
             5,
             5,
@@ -4132,7 +4707,7 @@
             5,
             5,
             5,
-            5,
+            1,
             5,
             5,
             5,
@@ -4144,7 +4719,7 @@
             5,
             5,
             5,
-            5,
+            1,
             5,
             5,
             5,
@@ -4156,7 +4731,7 @@
             5,
             5,
             5,
-            5,
+            1,
             5,
             5,
             5,
@@ -4168,7 +4743,7 @@
             5,
             5,
             5,
-            5,
+            1,
             5,
             5,
             5,

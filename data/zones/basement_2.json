@@ -44,30 +44,77 @@
   },
   "tiles": [
     "############",
-    "#wwwwwwwwww#",
-    "#wwwwwwwwww#",
-    "#wwwwwwwwww#",
-    "#wwwwwwwwww#",
-    "#wwwwwwwwww#",
-    "#wwwwwwwwww#",
+    "#wwwwww#www#",
+    "#wwwwww#www#",
+    "#wwwwww#www#",
+    "#wwwwww#www#",
+    "#wwwwww#www#",
+    "#wwwwww#www#",
     "############"
   ],
   "pack_spawn": [
     [
+      3,
+      5
+    ],
+    [
+      4,
+      5
+    ],
+    [
       5,
-      4
-    ],
-    [
-      6,
-      4
-    ],
-    [
-      7,
-      4
+      5
     ]
   ],
-  "enemy_spawns": {},
-  "stations": [],
+  "enemy_spawns": {
+    "husk": [
+      [
+        2,
+        6
+      ],
+      [
+        6,
+        6
+      ],
+      [
+        8,
+        1
+      ],
+      [
+        10,
+        4
+      ],
+      [
+        9,
+        6
+      ]
+    ],
+    "rusher": [
+      [
+        8,
+        5
+      ],
+      [
+        10,
+        2
+      ]
+    ]
+  },
+  "stations": [
+    {
+      "type": "seal",
+      "at": [
+        6,
+        2
+      ],
+      "price": "breach_cost",
+      "opens": [
+        6,
+        3
+      ],
+      "line": "TOLL PAID"
+    }
+  ],
   "transitions": [
     {
       "at": [
@@ -80,6 +127,30 @@
         4
       ],
       "type": "stairs_up"
+    },
+    {
+      "at": [
+        6,
+        3
+      ],
+      "to": "basement_2",
+      "spawn": [
+        9,
+        3
+      ],
+      "sealed": true
+    },
+    {
+      "at": [
+        10,
+        1
+      ],
+      "to": "basement_2",
+      "spawn": [
+        5,
+        3
+      ],
+      "type": "rope_spot"
     }
   ]
 }
