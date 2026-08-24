@@ -1,5 +1,67 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-24 session 57 (hub) — J-7 BRIEF CUT (Lane 3 cold-tier catch-up): docs-only grill SHIPPED — `drafts/_j7-catchup-brief-20260824.md` (md5 `9802eec972b754c255af83fdf07662b1`), 11 decisions, TWO tickets (J7-A Homecoming extraction → J7-B stamp+catch-up); the s56 CLAIMED row was modeled as FIRST ACTION and is now FULFILLED — J7-A/J7-B are UNCLAIMED
+
+**Job 0 (open = clean):** origin tip `308c2fb` as expected (reconcile
+stack + Junior's J6-C base beneath, no peer deltas — J-7 untaken, no
+ratification/re-pin landed); `CLAIMED: J-7 hub 2026-08-24` pushed as
+`6f5975c` BEFORE any other work (the anti-race protocol, modeled);
+save `98fe75ed…` mtime 08-20 15:51 md5-verified (no launches);
+launcher logs 40 newest 08-21 01:39; mail inbox EMPTY (audio
+volume-API RECEIPT still outbound); `drafts/_refs/` untracked; wall =
+25; suite = **1160/0F** (hook run at the CLAIMED commit); branch
+`s56-hub-j6c` preserved unmerged; **world.rb = 1786/1800 measured
+live** (the brief's opening question).
+
+**The brief (docs-only, zero code/data this session):** grilled C1
+against live code — key findings: today's "teleport" = enter_zone
+snap-home (infinite-speed catch-up; J-7 makes it finite); respawn/
+corpse/drop timers ALREADY catch up by construction (global-@frame
+math — J-7 touches none of it); the delta is displaced-LIVING-walker
+positions only. Decisions: ticket 1 = **Homecoming extraction**
+(flow_home/leash_home_tile/shifted_home/ring_home/human_leashed!
+cluster → plain object, Crossing pattern, delegates keep the
+controllers view contract) · stamp = World transient `@zone_left_at`
+(NOT a save fact — **no schema bump**, save omission law;
+save_state_test zero-list gains the row) · advance = pure RNG-free
+linger-then-walk on existing knobs (leash_linger_frames + kit
+step_frames — **zero new balance values**, nothing ritual-frozen
+moves) · no-stamp path keeps snap-home VERBATIM (first-entry + same-
+zone wipe) · digest gains a zone_left_at row ⇒ **DIGEST_VERSION 2→3**
+(fingerprint refusal = the compat law; no host-authority — pack-
+atomic transitions inside lockstep) · zero per-tick cost (background
+ticking stays REFUSED) · Rule 2 artifact = 26th wall script
+`zone_catchup.json` on the district↔nest free round-trip (capture
+proves NOT-at-chase-tile AND NOT-at-home) · pairs expected 24/24
+both tickets (J7-B pre-declares; R-A2 re-baseline law if moved) ·
+net gates ×3 critic-ON re-run at J7-B · TELEMETRY catchup line
+pinned in-brief. Touchstones: shelf COLD-tier verbatim ("timestamp
+on last-player-exit; on re-entry run one catch-up function") + Tibia
+hunting grounds. Banked-row carriers: beat-row clause (fires only if
+J7-B must touch net gate_checks) · volume rider · register re-pin
+stays its own strings commit.
+
+**Next (s58):** J7-A (Homecoming extraction, pure refactor — pairs
+24/24 = the proof) is the natural next ticket; claim it with a
+pushed CLAIMED row at ticket START. J7-B follows in its own session.
+Lane 2 B-item data moves remain free for the peer seat.
+
+**Job-0 baselines for s58:** origin tip = this docs commit above
+`6f5975c` (CLAIMED row) above `308c2fb` · brief md5
+`9802eec972b754c255af83fdf07662b1` (LF, blob-stable) · wall = 25 ·
+suite = 1160 · save `98fe75ed…` mtime 08-20 15:51 · launcher logs 40
+newest 08-21 01:39 · mail inbox EMPTY · `drafts/_refs/` untracked ·
+branch `s56-hub-j6c` preserved · world.rb 1786.
+
+**Owner-pending carry (never nag):** ear-checks · T3 footstep/bed
+renders (water family needs a NEW mail) · coop S1 (STANDING READY,
+owner word s56 — bundles SHARED-save first crossing + partner-left
+first exposure + panels + settings + quitting-seat flash
+observation) · J-5 spike call · R-A2 escalation call · ZONE 8
+wire-in (owner word) · audio volume-API RECEIPT (gates only the
+volume-rows rider) · `CLAIMED:` protocol ratification + folds/
+register-mix ratification (Junior asks 1–3, s56-hub close).
+
 ## 2026-08-23 session 56-hub — CONCURRENT-SHIP RECONCILED (owner word: "merge, reconcile the best outcome"): Junior's J6-C = the base + two hub folds; MERGED TREE FULLY GATED — critic-ON ×3 PASS (15/15+4/4+4/4, determinism ×2), pairs 24/24, soak PASS, merge review PASS-WITH-NITS/0-blocking — J6-C debt CLEARED, menu lane COMPLETE
 
 **CLAIMED: J-7 hub 2026-08-24** (s57 brief cut, docs-only — modeling the
