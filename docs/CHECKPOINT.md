@@ -1,5 +1,69 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-24 session 58 — J7-A SHIPPED (Homecoming extraction, pure refactor): go-home policy cluster → `src/game/homecoming.rb` (Crossing pattern, leash-emit RETURNED, World emits) — pairs 24/24 BYTE-IDENTICAL, suite 1160/0F unmodified, world.rb 1786→**1738**, fresh-eyes PASS-WITH-NITS/0-blocking; J7-B = next unclaimed ticket
+
+**Job 0 (open = clean):** origin tip `009c025` as expected; J7-A
+unclaimed, no peer deltas, no ratifications; **CLAIMED: J7-A pushed as
+`5595d66` FIRST ACTION** (hook suite 1160/0F at that commit); save
+`98fe75ed…` 08-20 15:51 md5-verified open AND close (no launches);
+launcher logs 40 newest 08-21 01:39; wall 25; world.rb 1786;
+`drafts/_refs/` untracked; branch `s56-hub-j6c` preserved. **Seat
+mail handled:** game-two-assets re-pin note (display.json
+`fc19b70e→7aec5170`, J6-C menu_* keys, all 20 pinned constants
+re-verified at the new blob, fire-and-forget/no-receipt class) →
+moved to mail done/, no game-two action owed.
+
+**The ship (`bc94fc4`, one concern):** brief-D1 cluster —
+`flow_home` / `leash_home_tile` / `shifted_home` / `ring_home` /
+`human_leashed!` — extracted to `src/game/homecoming.rb` (plain
+object; `map`/`corpse_loads` as live callables per PriceSheet
+pattern, `method(:corpse_loads)` keeps the default-arg zone
+liveness; own private Chebyshev per the Crossing group_wait
+precedent). Emit contract per brief: `Homecoming#leash_emission`
+RETURNS the payload (nil off-threshold), `World#human_leashed!`
+delegate emits — splat vs inline kwargs byte-equal through
+`EventBus#emit(type, **payload)`. `@home_fields` cache lives in
+Homecoming, cleared via `@homecoming.clear!` in enter_zone (sole
+site); construction after @crossing, before SaveState.apply!/initial
+enter_zone (order verified). enter_zone returning-humans block +
+its direct emit stay in World — D1 assigns that move to J7-B.
+
+**Belt (all green):** identity-pair baseline captured PRE-edit at
+`5595d66` (contamination law, code frozen during sweep) → post-edit
+**24/24 byte-identical** (`tmp/s58_baseline/` vs `tmp/s58_post/`,
+diff clean) · suite **1160/0F** ×3 (CLAIMED hook, mid-session, ship
+hook) · zero data diff, zero digest diff (surface = world.rb +
+homecoming.rb only) · wall stays 25 (no visual surface — the pairs
+ARE the Rule 2 artifact) · Rule 6: scrubbed read-only sub-session
+review **PASS-WITH-NITS/0-blocking** (`tmp/s58_review_verdict.md`,
+receipt s58-j7a-review; seat-lease blocked the reviewer's write —
+verdict landed verbatim by this holder from its stdout, no
+route-around). NITs closed: explicit-path staging (done), real line
+count recorded here (1738 vs brief estimate ~1736).
+
+**Next (s59): J7-B** (stamp + cold catch-up — the sim change) is the
+natural next ticket; claim with a pushed CLAIMED row at ticket START.
+Heavy session: D4 advance math + `resume_leash!` + digest row +
+DIGEST_VERSION 2→3 + telemetry line (D9, wording pinned in-brief) +
+new wall script `zone_catchup.json` (wall 25→26) + netplay gates ×3
+critic-ON + perf + soak N=1; pre-declare pair movement per D8 at
+open; gate_checks beat-row clause fires ONLY if that file is touched.
+
+**Job-0 baselines for s59:** origin tip = this docs commit above
+`bc94fc4` (J7-A) above `5595d66` (CLAIMED) above `009c025` (brief) ·
+brief md5 `9802eec972b754c255af83fdf07662b1` (blob) · wall = 25 ·
+suite = 1160 · world.rb = **1738** · save `98fe75ed…` mtime 08-20
+15:51 · launcher logs 40 newest 08-21 01:39 · mail inbox EMPTY (assets
+re-pin note in done/) · `drafts/_refs/` untracked · branch
+`s56-hub-j6c` preserved.
+
+**Owner-pending carry (never nag):** ear-checks · T3 footstep/bed
+renders (water family needs a NEW mail) · coop S1 (STANDING READY,
+owner word s56) · J-5 spike call · R-A2 escalation call · ZONE 8
+wire-in (owner word) · audio volume-API RECEIPT (gates only the
+volume-rows rider) · `CLAIMED:` protocol ratification + folds/
+register-mix ratification (Junior asks 1–3, s56-hub close).
+
 ## 2026-08-24 session 57 (hub) — J-7 BRIEF CUT (Lane 3 cold-tier catch-up): docs-only grill SHIPPED — `drafts/_j7-catchup-brief-20260824.md` (md5 `9802eec972b754c255af83fdf07662b1`), 11 decisions, TWO tickets (J7-A Homecoming extraction → J7-B stamp+catch-up); the s56 CLAIMED row was modeled as FIRST ACTION and is now FULFILLED — J7-A/J7-B are UNCLAIMED
 
 **CLAIMED: J7-A hub 2026-08-24** (s58 — Homecoming extraction, pure
