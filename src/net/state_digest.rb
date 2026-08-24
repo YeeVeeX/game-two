@@ -17,7 +17,8 @@ module Net
   class StateDigest
     # Versions the canonical byte form; exchanged at the netplay handshake
     # (a mismatch there refuses the session before any tick runs).
-    DIGEST_VERSION = 2
+    # 3: v19 J7-B — the world zone_left_at row (cold catch-up stamps).
+    DIGEST_VERSION = 3
 
     Window = Data.define(:tick, :md5, :snapshot, :lines)
 

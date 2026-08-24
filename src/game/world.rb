@@ -89,6 +89,11 @@ module Game
       @breach_line = nil
       @gate_wait = nil
       @breached = {}
+      # J7-B (D2): zone -> frame stamped when the pack LEAVES it; consumed
+      # (deleted) by the catch-up at re-entry. World transient — never a
+      # save fact (zone positions die at the session boundary by omission,
+      # so a persisted stamp would point at state that no longer exists).
+      @zone_left_at = {}
       @home_zone = HOME_ZONE
       @zones = {}
       @humans = Hash.new { |h, k| h[k] = [] }
@@ -602,6 +607,7 @@ module Game
         ["frame", @frame], ["zone", @zone_name], ["state", @states.current],
         ["respawn_timer", @respawn_timer], ["home_zone", @home_zone],
         ["breached", @breached.keys.map(&:inspect).sort.join("|")],
+        ["zone_left_at", @zone_left_at.map { |z, f| "#{z}:#{f}" }.sort.join("|")],
         ["last_damaged", @seats.map { |s| "#{s}:#{@last_damaged[s]&.name}" }.join("|")],
         ["swap_was_down", @seats.map { |s| "#{s}:#{@swap_was_down[s]}" }.join("|")],
         ["rearm_needed", @seats.map { |s| "#{s}:#{@rearm_needed[s]}" }.join("|")],
@@ -1074,6 +1080,12 @@ module Game
       # and every chant aborts BEFORE the move (spec lifecycle fold i).
       @pack.members.each { |m| end_seizure(m, :zone_left) if m.seize_active? }
       abort_all_chants!
+      # J7-B (D2): stamp the zone being LEFT, only on an actual change —
+      # respawn_pack reassigns @zone_name directly, so wipe-abandoned
+      # zones stay unstamped (their humans keep today's snap-home), and
+      # spawn_pack pre-assigns @zone_name so the construction-time entry
+      # never stamps nil.
+      @zone_left_at[@zone_name] = @frame if @zone_name != name
       @zone_name = name
       @flow_cache = {}
       @homecoming.clear!
@@ -1082,18 +1094,38 @@ module Game
       @transients.clear!
       @pack.clear_mark!
       @last_damaged = {}
-      # Cross-zone leash resolves as snap-home: only the current zone ticks, so
-      # "they walked home while you were away" lands as relocation with KEPT hp
-      # (frozen-zone law; recorded plan deviation 1).
+      # Cross-zone leash (J7-B, D4): a STAMPED re-entry advances displaced
+      # living humans finitely along their home paths (linger first, then
+      # kit-speed walk — Homecoming computes, World mutates), with KEPT hp;
+      # resume_leash! pre-sets the linger so nobody double-lingers. No
+      # stamp (first entry, same-zone wipe) = snap-home verbatim (frozen-
+      # zone law; recorded plan deviation 1).
+      stamp = @zone_left_at.delete(name)
+      elapsed = stamp && @frame - stamp
+      placements = stamp && @homecoming.catchup_placements(@humans[name], elapsed:)
+      advanced = 0
       @humans[name].each do |h|
         h.focus = nil
         next if h.dead?
-        if h.tile != h.home_tile
+        if h.tile == h.home_tile
+          h.reset_leash!
+        elsif placements
+          tile = placements.fetch(h)
+          if tile != h.tile
+            h.rebind(map: @zones.fetch(name), tile:)
+            @bus.emit(:human_leashed, actor: h, tile:, hp: h.hp)
+            advanced += 1
+          end
+          h.resume_leash!(@threat[:leash_linger_frames])
+        else
           h.rebind(map: @zones.fetch(name), tile: h.home_tile)
           @bus.emit(:human_leashed, actor: h, tile: h.home_tile, hp: h.hp)
+          h.reset_leash!
         end
-        h.reset_leash!
       end
+      # D9 (wording pinned in-brief): forensics/soak line, stdout only —
+      # never sim state, never an event.
+      puts "TELEMETRY catchup zone=#{name} elapsed=#{elapsed} advanced=#{advanced}" if advanced.positive?
       placed = 0
       # Controlled bodies take the first tiles in SEAT order (single-seat:
       # exactly the old possessed-first law); living allies the rest, in

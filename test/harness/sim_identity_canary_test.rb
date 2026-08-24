@@ -12,11 +12,22 @@ require_relative "../support/headless_script"
 # change's first effect) + the outgoing bank preserved below as
 # immutable history.
 #
-# ACTIVE bank (2026-08-22, owner-approved rebank — Gabriel, s43 chat):
-# moved by T2 progression (spec P2/P4/P5) — level-2 stat growth
-# compresses kill timing after the first level-up. Stream-diff audit
-# lives in drafts/_prog-t2-close-20260822.md. world_loop never levels,
-# so its digest is UNCHANGED from etapa 0 (level-1 identity proof).
+# ACTIVE bank (2026-08-24, s59 — RATIFICATION PENDING, async per owner
+# order 2026-08-22): varekka_duel moved by J7-B cold catch-up (ratified
+# lane, foundation row 12): the script's mid-duel 1-frame slow_door
+# bounce no longer snap-teleports the room home (elapsed 1 <= linger 90
+# = nobody moves). Stream-diff audit (prefix identical through line 159,
+# every divergent line explained):
+# drafts/_j7b-canary-rebank-20260824.md. world_loop + burn_duel:
+# UNCHANGED. varekka_duel's choreography is stale under the new law
+# (wipes at 2198; manifest unearnable) — re-pilot queued, wall slot RED.
+#
+# S43_HISTORY (2026-08-22, IMMUTABLE — owner-approved rebank, Gabriel,
+# s43 chat): moved by T2 progression (spec P2/P4/P5) — level-2 stat
+# growth compresses kill timing after the first level-up. Stream-diff
+# audit lives in drafts/_prog-t2-close-20260822.md. world_loop never
+# levels, so its digest is UNCHANGED from etapa 0 (level-1 identity
+# proof).
 #
 # ETAPA0_HISTORY (v17, IMMUTABLE): the original bank, published in
 # drafts/_junior-etapa0-20260815.md (owner-seat verdict SPIKE CLOSED —
@@ -29,9 +40,15 @@ class SimIdentityCanaryTest < Minitest::Test
     "burn_duel" => "d148b8386001cdc8da44fe8472e46c72"
   }.freeze
 
-  ACTIVE = {
+  S43_HISTORY = {
     "world_loop" => "a4150c43669b9783e59cb6c39c322b67",
     "varekka_duel" => "68fa69f6e23f0ae39361eec2fbc8c5d1",
+    "burn_duel" => "fedf0452fc35b62850895016710abdea"
+  }.freeze
+
+  ACTIVE = {
+    "world_loop" => "a4150c43669b9783e59cb6c39c322b67",
+    "varekka_duel" => "31c699cb2ecea5257cd55ec801aa0805",
     "burn_duel" => "fedf0452fc35b62850895016710abdea"
   }.freeze
 

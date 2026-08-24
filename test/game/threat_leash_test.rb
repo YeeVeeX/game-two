@@ -6,8 +6,10 @@ require "core/tile_map"
 require "game/world"
 
 # A2 leash-with-no-heal: a human with nothing in aggro range for the linger
-# walks home KEEPING its HP. On zone re-entry, absent-zone humans snap home
-# (recorded plan deviation: only the current zone ticks).
+# walks home KEEPING its HP. On zone re-entry (J7-B): a STAMPED re-entry
+# advances displaced humans finitely along their home paths (cold catch-up,
+# linger-then-walk on existing knobs); the no-stamp paths (first entry,
+# same-zone wipe respawn) keep the original snap-home verbatim.
 class ThreatLeashTest < Minitest::Test
   DATA = Core::DataStore.new(File.expand_path("../../data", __dir__))
   THREAT = DATA["balance/threat"]
@@ -200,5 +202,115 @@ class ThreatLeashTest < Minitest::Test
                  "rusher must be snapped to home_tile on zone re-entry"
     assert_equal 25, snapped.hp,
                  "hp must be KEPT (no heal) on zone snap"
+  end
+
+  # --- J7-B: stamped re-entry = finite catch-up ------------------------------
+
+  # Stage a displaced rusher and cross district->nest with teleport-shortened
+  # travel (the rusher must still be mid-linger at the leave tick, so the
+  # frozen displacement is exact). Returns [world, rusher, leave_frames].
+  def displaced_round_trip_setup(seed:)
+    w = Game::World.new(DATA, seed:)
+    enter_district(w)
+    w.humans.clear
+    home = [10, 5]
+    rusher = make_human(w, :rusher, home)
+    rusher.walker.teleport(14, 5)
+    w.humans << rusher
+    # Pack beside the gate: the crossing lands within a handful of ticks.
+    w.possessed.walker.teleport(1, 13)
+    (w.pack.members - [w.possessed]).each_with_index { |m, i| m.walker.teleport(2, 12 + 2 * i) }
+    frames = { nest: nil, district: nil }
+    w.bus.subscribe(:zone_entered) { |e| frames[e[:zone].to_sym] = w.frame }
+    guard = 0
+    while w.zone_name == "district" && guard < 200
+      drive(w, 1, input: scripted({ w.frame.to_s => ["left"] }))
+      guard += 1
+    end
+    assert_equal "nest", w.zone_name, "staging: crossing must land"
+    [w, rusher, frames]
+  end
+
+  def return_to_district(w, frames)
+    w.possessed.walker.teleport(28, 8)
+    (w.pack.members - [w.possessed]).each_with_index { |m, i| m.walker.teleport(20, 8 + i) }
+    guard = 0
+    while w.zone_name == "nest" && guard < 200
+      drive(w, 1, input: scripted({ w.frame.to_s => ["right"] }))
+      guard += 1
+    end
+    assert_equal "district", w.zone_name, "staging: return crossing must land"
+    frames
+  end
+
+  def test_stamped_reentry_places_displaced_humans_mid_path_not_snapped
+    w, rusher, frames = displaced_round_trip_setup(seed: 21)
+    damage = rusher.hp - 30
+    rusher.take_hit(damage:, attacker: w.possessed, knockback_tiles: 0, blocked: [])
+    leashed = []
+    w.bus.subscribe(:human_leashed) { |e| leashed << e }
+    # Wait long enough for a 2-tile catch-up walk, well short of the full 4.
+    drive(w, LINGER + 2 * STEP_FRAMES)
+    out, = capture_io { return_to_district(w, frames) }
+    elapsed = frames[:district] - frames[:nest]
+    tiles = [(elapsed - LINGER), 0].max / STEP_FRAMES
+    # D9: the telemetry line is pinned wording — suite-enforced byte-exact.
+    assert_includes out, "TELEMETRY catchup zone=district elapsed=#{elapsed} advanced=1\n"
+    assert_operator tiles, :>=, 1, "staging: the wait must buy at least one tile"
+    assert_operator tiles, :<=, 3, "staging: the wait must leave the walk unfinished"
+    assert_equal [14 - tiles, 5], rusher.tile,
+                 "displaced human advances exactly (elapsed - linger) / step_frames tiles"
+    refute_equal [14, 5], rusher.tile, "catch-up ran (not at the frozen chase tile)"
+    refute_equal [10, 5], rusher.tile, "finite speed (not at home) - the teleport is dead"
+    assert_equal 30, rusher.hp, "hp is KEPT across the catch-up"
+    assert_equal LINGER, rusher.leash_frames,
+                 "resume_leash! pre-sets the linger (no double-linger)"
+    assert_nil rusher.focus
+    # D11 payload parity: same event, same shape as the snap-home emission.
+    assert_equal 1, leashed.length, "one :human_leashed per advanced human"
+    assert_equal %i[actor tile hp], leashed.first.payload.keys
+    assert_equal rusher, leashed.first[:actor]
+    assert_equal rusher.tile, leashed.first[:tile]
+    assert_equal 30, leashed.first[:hp]
+    # D2: the stamp is CONSUMED - the world digest row carries only nest.
+    row = w.digest_snapshot.to_h.fetch("world").to_h.fetch("zone_left_at")
+    assert_match(/\Anest:\d+\z/, row, "district stamp consumed; nest stamped at leave")
+  end
+
+  def test_short_absence_moves_nobody_and_emits_nothing
+    w, rusher, frames = displaced_round_trip_setup(seed: 22)
+    leashed = []
+    w.bus.subscribe(:human_leashed) { |e| leashed << e }
+    drive(w, 10) # well under the linger
+    return_to_district(w, frames)
+    elapsed = frames[:district] - frames[:nest]
+    assert_operator elapsed, :<=, LINGER, "staging: absence must fit inside the linger"
+    assert_equal [14, 5], rusher.tile,
+                 "leave-and-immediately-return reads as nobody moved"
+    assert_empty leashed, "no movement, no :human_leashed"
+    assert_equal LINGER, rusher.leash_frames, "the walk still resumes without re-lingering"
+  end
+
+  def test_same_zone_wipe_respawn_still_snap_homes
+    w = Game::World.new(DATA, seed: 23)
+    enter_district(w)
+    w.load_home!("district") # same-zone wipe: home IS the wipe zone
+    w.humans.clear
+    home = [35, 5]
+    rusher = make_human(w, :rusher, home)
+    rusher.walker.teleport(38, 5)
+    w.humans << rusher
+    w.pack.members.each { |m| m.take_hit(damage: m.hp, attacker: rusher, blocked: []) }
+    drive(w, 1) # flush deaths -> wipe veil
+    guard = 0
+    while w.zone_name != "district" || w.humans.none? { |h| h.equal?(rusher) } ||
+          w.states.current != :world
+      drive(w, 1)
+      guard += 1
+      flunk "staging: wipe respawn never landed" if guard > 2000
+    end
+    assert_equal home, rusher.tile,
+                 "no stamp (same-zone wipe) = today's snap-home VERBATIM"
+    assert_equal 0, rusher.leash_frames, "snap path keeps reset_leash!"
   end
 end

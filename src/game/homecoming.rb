@@ -3,10 +3,12 @@ require "game/flow_field"
 module Game
   # J7-A extraction (the world.rb line-cap law, extract-on-touch): the
   # go-home POLICY — where a leashing human is actually headed (v13
-  # guard-scope shift), the cached flow field that walks it there, and
-  # the emit-once leash decision. Plain object, Crossing pattern: World
-  # stays the only mutator — the :human_leashed payload is RETURNED by
-  # leash_emission, World emits it.
+  # guard-scope shift), the cached flow field that walks it there, the
+  # emit-once leash decision, and the J7-B cold catch-up (where a frozen
+  # zone's displaced humans stand after an absence). Plain object,
+  # Crossing pattern: World stays the only mutator — the :human_leashed
+  # payload is RETURNED by leash_emission, World emits it; catch-up
+  # placements are RETURNED as a map, World rebinds.
   class Homecoming
     # map / corpse_loads are LIVE readers (the PriceSheet callable
     # pattern) — the current zone and the newest corpse load move
@@ -23,8 +25,33 @@ module Game
     # calls clear!). Keyed by the EFFECTIVE home (v13 guard-scope), so
     # shifted and true anchors coexist deterministically.
     def flow_home(creature)
-      anchor = leash_home_tile(creature)
-      @home_fields[anchor] ||= FlowField.new(map).tap { |f| f.recompute!(anchor) }
+      field_for(leash_home_tile(creature))
+    end
+
+    # J7-B (D4): the cold catch-up — where each displaced living human
+    # stands after `elapsed` frozen ticks: linger first (leash_linger_frames,
+    # spent once per absence), then walk toward home at the kit's own step
+    # cadence (integer division — partial steps don't move you) along the
+    # static flow-home field, walls-only blocked, clamped at home. The walk
+    # aims at the PLAIN home tile — corpse-guard shifts mid-absence are not
+    # reconstructed (fake precision; the live leash re-reads them). Roster
+    # order; a tile taken by an earlier placement holds one step short
+    # (repeating while contested — deterministic, ZERO rng). The taken set
+    # covers catch-up placements ONLY: a placement may legally share a
+    # tile with an at-home human or a pack body (soft collision — the
+    # same overlap today's snap-home tolerates at contested home tiles).
+    # Returns {human => tile}; every displaced living human gets an entry.
+    def catchup_placements(humans, elapsed:)
+      walk_ticks = [elapsed - @threat[:leash_linger_frames], 0].max
+      taken = []
+      humans.each_with_object({}) do |h, placed|
+        next if h.dead? || h.tile == h.home_tile
+        path = home_path(h, walk_ticks / h.kit[:step_frames])
+        idx = path.length - 1
+        idx -= 1 while idx.positive? && taken.include?(path[idx])
+        taken << path[idx]
+        placed[h] = path[idx]
+      end
     end
 
     def clear!
@@ -60,6 +87,26 @@ module Game
     private
 
     def map = @map.call
+
+    # Home fields cache, keyed by anchor TILE (flow_home's shifted and
+    # true anchors coexist; the catch-up shares the true-home entries).
+    def field_for(anchor)
+      @home_fields[anchor] ||= FlowField.new(map).tap { |f| f.recompute!(anchor) }
+    end
+
+    # The walked prefix of a catch-up path: frozen tile + up to `tiles`
+    # field steps toward home (index 0 = stay put). downhill_from returns
+    # nil at home (nothing improves), so the clamp is structural.
+    def home_path(creature, tiles)
+      field = field_for(creature.home_tile)
+      path = [creature.tile]
+      tiles.times do
+        dir = field.downhill_from(*path.last, blocked: [])
+        break unless dir
+        path << [path.last[0] + dir[0], path.last[1] + dir[1]]
+      end
+      path
+    end
 
     # Walk the away ray (load->home direction, knock_away_from idiom) until
     # outside the guard AND walkable; a ray into walls/map edge falls back

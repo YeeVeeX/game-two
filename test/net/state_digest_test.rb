@@ -17,6 +17,7 @@ class StateDigestTest < Minitest::Test
   DATA = Core::DataStore.new(File.expand_path("../../data", __dir__))
 
   WORLD_FIELDS = %w[frame zone state respawn_timer home_zone breached
+                    zone_left_at
                     last_damaged swap_was_down rearm_needed corpse_serial
                     rng_draws respawn_rng_draws boss_1_defeats sessions
                     level xp hitstop].freeze

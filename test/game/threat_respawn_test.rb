@@ -36,6 +36,52 @@ class ThreatRespawnTest < Minitest::Test
   # scatter_tile for the suppression law under release-time anchoring.
   # BLOCK is still asserted sane in threat_data_test.
 
+  # --- global-frame catch-up (J-7 brief D3: EXISTING law, pinned) ----------
+
+  # Respawn maturation is @frame arithmetic BY CONSTRUCTION: the record's
+  # at_frame is global, and only the CURRENT zone's records process, so a
+  # timer that elapsed while the pack was away materializes on the first
+  # re-entry ticks. J-7's cold catch-up (zone_left_at) touches NONE of
+  # this machinery — this pin names the law so a future change that makes
+  # respawns re-arm at re-entry fails loudly.
+  def test_respawn_timers_mature_against_the_global_frame_while_the_zone_is_frozen
+    w = Game::World.new(DATA, seed: 31)
+    enter_district(w)
+    respawned = []
+    w.bus.subscribe(:human_respawned) { |e| respawned << [e[:actor].kit_name, w.frame] }
+    # Kill one rusher far from the gate; its respawn record starts aging.
+    victim = w.humans.find { |h| h.kit_name == :rusher }
+    victim.take_hit(damage: victim.hp, attacker: w.possessed)
+    drive(w, scripted({}), 1) # flush: roster delete + respawn record
+    death_frame = w.frame
+    # Leave for nest and stay away past the full respawn delay.
+    w.possessed.walker.teleport(1, 13)
+    (w.pack.members - [w.possessed]).each_with_index { |m, i| m.walker.teleport(2, 12 + 2 * i) }
+    guard = 0
+    while w.zone_name == "district" && guard < 200
+      drive(w, scripted({ w.frame.to_s => ["left"] }), 1)
+      guard += 1
+    end
+    assert_equal "nest", w.zone_name, "staging: crossing must land"
+    drive(w, scripted({}), RESPAWN + 200)
+    assert_empty respawned, "a frozen zone's records never process while away"
+    # Return; the elapsed timer was PAID during the absence.
+    w.possessed.walker.teleport(28, 8)
+    (w.pack.members - [w.possessed]).each_with_index { |m, i| m.walker.teleport(20, 8 + i) }
+    guard = 0
+    while w.zone_name == "nest" && guard < 200
+      drive(w, scripted({ w.frame.to_s => ["right"] }), 1)
+      guard += 1
+    end
+    assert_equal "district", w.zone_name, "staging: return crossing must land"
+    drive(w, scripted({}), 60) # release checks re-run at re-entry; give them a beat
+    assert_equal 1, respawned.length,
+                 "a matured record materializes on the first re-entry ticks " \
+                 "(catch-up by construction — the timer never re-arms)"
+    assert_operator respawned.first[1] - death_frame, :>=, RESPAWN,
+                    "the delay was served in global frames, not re-entry frames"
+  end
+
   # --- depth gradient drops (A2) ------------------------------------------
 
   def test_drop_amounts_scale_with_gate_distance_bands

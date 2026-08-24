@@ -661,6 +661,7 @@ class SaveStateTest < Minitest::Test
       "frame" => :session_only, "zone" => :session_only, "state" => :session_only,
       "respawn_timer" => :session_only, "home_zone" => :persisted,
       "breached" => :persisted, "last_damaged" => :session_only,
+      "zone_left_at" => :session_only, # J7-B stamp: dies with the zone positions it points at
       "swap_was_down" => :session_only, "rearm_needed" => :session_only,
       "corpse_serial" => :session_only, "rng_draws" => :session_only,
       "respawn_rng_draws" => :session_only, "hitstop" => :session_only,

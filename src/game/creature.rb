@@ -243,6 +243,10 @@ module Game
 
     def tick_leash = @leash_frames += 1
     def reset_leash! = @leash_frames = 0
+    # J7-B catch-up resume: the absence already spent the linger — pre-set
+    # the counter so the walk resumes next tick without re-lingering and
+    # without re-crossing leash_emission's == threshold (emit-once law).
+    def resume_leash!(frames) = @leash_frames = frames
     def beachhead_waived? = @beachhead_waived
     def waive_beachhead! = @beachhead_waived = true
 
