@@ -915,11 +915,27 @@ module Game
     def resolve_tile_action(attacker, cfg)
       resolve_taunt_pulse(attacker, cfg) if cfg[:challenge] && attacker.action_can_trigger?
       foes = hostiles_for(attacker)
+      burst = pack_burst?(attacker, cfg)
       attacker.action_tiles.each do |tile|
-        victim = foes.find { |foe| !foe.dead? && foe.tile == tile }
+        victim = foes.find { |foe| !foe.dead? && burst_covers?(burst, foe, tile) }
         next unless victim && attacker.action_can_hit?(victim)
         apply_action_hit(attacker, victim, cfg)
       end
+    end
+
+    # D2 family (s66, owner-picked scope): PACK burst actions — ring
+    # specials (whirl / blocker ring) and the dash arc — hit what the eye
+    # sees: a foe still tweening off a tile is IN the burst (walker
+    # covers?, the law the volley shipped this session). Enemy actions and
+    # pack precision attacks (front1/arc3/projectile) keep committed-tile
+    # equality — leading a target stays melee skill, and enemy fairness
+    # against dodging humans is untouched.
+    def pack_burst?(attacker, cfg)
+      attacker.faction == :pack && %w[ring dash].include?(cfg[:arc])
+    end
+
+    def burst_covers?(burst, foe, tile)
+      burst ? foe.walker.covers?(*tile) : foe.tile == tile
     end
 
     # Taunt (A0.6): a ring-arc special carrying a taunt block pulses ONCE at
@@ -946,8 +962,9 @@ module Game
       return unless attacker.action_can_trigger?
       attacker.action_triggered!
       foes = hostiles_for(attacker)
+      burst = pack_burst?(attacker, cfg)
       attacker.action_tiles.each do |tile|
-        victim = foes.find { |foe| !foe.dead? && foe.tile == tile }
+        victim = foes.find { |foe| !foe.dead? && burst_covers?(burst, foe, tile) }
         next unless victim && attacker.action_can_hit?(victim)
         apply_action_hit(attacker, victim, cfg)
       end
