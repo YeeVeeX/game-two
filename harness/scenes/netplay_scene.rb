@@ -88,8 +88,23 @@ module Harness
         join_if_scheduled
         attach_worlds
         stage_pokes
-        @menu.tick(input)
-        @host.update(now, @menu.route(input)) unless @host.ended?
+        # J-6 seam mirrored from the window (s56 merge fold): the menu
+        # ticks only over a live un-ended session (menu_active? gates
+        # @world + !ended live — no handshake-screen menus), and a session
+        # end FORCE-CLOSES it so the ending screen is never buried under a
+        # frozen menu (J6-C banked row — the 710 capture is this law in
+        # pixels). MIRROR LIMIT: the live window also gates ticking on
+        # !@quitting, so during the BYE drain a real menu ignores input —
+        # this scene has no quitting flag and would still tick there.
+        # Inert while no script stages menu/nav rows between quit_at and
+        # session end; keep it that way or add the drain guard first.
+        host_input = input
+        if @world && !@host.ended?
+          @menu.tick(input)
+          host_input = @menu.route(input)
+        end
+        @host.update(now, host_input) unless @host.ended?
+        @menu.close! if @host.ended?
         if @join && !@join.ended? && joiner_alive?
           @join.update(now, @seat2) unless frozen?
         end

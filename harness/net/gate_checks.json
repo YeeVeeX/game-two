@@ -47,7 +47,7 @@
     },
     {
       "id": "partner_left_screen_reads",
-      "check": "When the quit ending is present: after the session ends the frame is a full-screen darkened state reading PARTNER LEFT - SESSION ENDED, same delivery as the desync/connection-lost screens (the frozen world may ghost through the veil) - the abandoned seat is TOLD why its world stopped, never left frozen-silent. If this reel has no post-quit frames, pass with why='not exercised by this script'."
+      "check": "When the quit ending is present: after the session ends the frame is a full-screen darkened state reading PARTNER LEFT - SESSION ENDED, same delivery as the desync/connection-lost screens (the frozen world may ghost through the veil) - the abandoned seat is TOLD why its world stopped, never left frozen-silent. No menu panel or other UI overlaps the ending text (a session end force-closes an open menu). If this reel has no post-quit frames, pass with why='not exercised by this script'."
     },
     {
       "id": "net_menu_panels_read",
