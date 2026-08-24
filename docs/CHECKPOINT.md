@@ -1,5 +1,75 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-24 session 65 — NEITHER owner line landed at open ⇒ ratification-neutral standing-program rung: ENDURANCE soak — TICKS=36000 × the four combat zones (the last untried neutral matrix cell), 4/4 PASS, chain intact sessions 1→4, quarantine held; zero code/data touches, staged J7-B tree byte-untouched — the neutral shelf is now EMPTY
+
+**AWAITING (unchanged, re-surfaced once — the same TWO owner lines):**
+(1) s59 canary rebank ratification (`68fa69f6→31c699cb`, audit
+`drafts/_j7b-canary-rebank-20260824.md`) — the two staged commits push
+same-day on that line and unblock B1-T1/T2; (2) the varekka_duel
+manifest re-cut pick (options + recommendation a in
+`drafts/_varekka-repilot-rebrief-20260824.md`).
+
+**Job 0 (open = clean, world D = neither line):** origin tip `ed73ee0`
+as expected, no peer deltas, no ratification anywhere (checkpoint +
+mail + origin + spark all silent); CLAIMED row pushed FIRST ACTION as
+`3cd6354` (hook suite **1171/0F** live at claim); staged J7-B tree
+intact open AND close (11 modified + 3 new, `git diff --stat` = 1542
+insertions/11 files); save `98fe75ed…` md5 open+close, mtime 08-20
+15:51; launcher logs 40 newest 08-21 01:39; mail inbox EMPTY; wall 26
+staged; world.rb 1770 staged; branch `s56-hub-j6c` preserved;
+`drafts/_refs/` untracked; canary ACTIVE varekka `31c699cb…` staged.
+
+**The session (flywheel standing program — the endurance rung):** run
+`tmp/soak/20260824-091935` (N=4 TICKS=36000 SEED=6500 SEED_SAVE=1
+ZONES=district,low_quay,district_two,dungeon_1 — episode i starts in
+zones[i-1], so each combat zone got ONE full-length episode): EP1
+district fights=2 wipes=1 · EP2 low_quay fights=2 wipes=2 · EP3
+district_two fights=2 wipes=2 · EP4 dungeon_1 fights=1 wipes=1; ALL
+eight seat-sessions ticks≥36116 desyncs=0 reason=quit exit=0; chain
+intact `seeded:0d7ee1a0 → aef7ac86 → bda96398 → 1bfe8931 → 971139a5`
+sessions 1→4 — **SOAK PASS 4/4** (checker verdict + this seat's
+independent quarantine read: real-save md5 unmoved, temp logs 40,
+staged diff-stat unchanged). Matrix-cell novelty honestly stated:
+36000-tick soaks existed pre-ZONES (08-19 N=3, overnight N=40,
+default-zone starts) and ZONES= runs existed at coverage length
+(9000 / wire-in) — endurance × combat-zone starts had never run
+together; now all four combat zones hold an endurance-length PASS.
+Bot evidence — never oracle input. Zero catchup lines expected and
+observed (bots don't qualify for re-entry; mechanism is gate-stdout +
+suite-pinned per s59).
+
+**Belt:** no gate owed (zero visual/code/data change; Rule 2
+untriggered; gate deliberately NOT run — it appends to staged
+`drafts/_gate-verdicts.log`); suite **1171/0F** via hooks at both
+commits; soak report + logs under `tmp/soak/20260824-091935/` (tmp/
+gitignored — report lines quoted above are the durable record).
+
+**Commits this session:** `3cd6354` CLAIMED row · this docs commit.
+
+**Job-0 baselines for s66:** origin tip = this docs commit · wall 26
+staged (25 at origin until the s59 ratify-push; no wall run — none
+owed) · suite 1171 staged · world.rb 1770 staged · save `98fe75ed…`
+mtime 08-20 15:51 · launcher logs 40 newest 08-21 01:39 · mail inbox
+EMPTY · `drafts/_refs/` untracked · branch `s56-hub-j6c` preserved ·
+varekka_duel.json UNCHANGED (slot RED) · canary ACTIVE varekka
+`31c699cb…` (rebank pending). **s66-first: whichever owner line
+lands** — (1) ⇒ push the two staged J7-B commits (explicit path lists
+in the s59 entry) FIRST ACTION, unblocking B1-T1/T2 (B1-T1 = the
+session ticket if (2) hasn't landed); (2)=a ⇒ drill-card re-pilot per
+`drafts/_varekka-repilot-rebrief-20260824.md` (outranks B1-T1 — RED
+wall slot); both ⇒ (1) first same-day, then (2). **Neither ⇒ the
+neutral shelf is EMPTY** (zone coverage s64 · endurance s65 · both
+flywheel clips this week · B1-T2 NOT neutral, touches staged
+gate_checks.json; any gate run appends to staged verdicts log) —
+surface AWAITING once and close short honestly; do NOT manufacture
+work.
+
+**Owner-pending carry (never nag):** the TWO lines above · B1-T3
+playtest reading to sight · ear-checks · T3 footstep/bed renders
+(water family needs a NEW mail) · coop S1 (STANDING READY) · J-5
+spike call · R-A2 escalation call · ZONE 8 wire-in (owner word) ·
+audio volume-API RECEIPT · Junior ratifications (s56-hub asks 1–3).
+
 ## 2026-08-24 session 64 — NEITHER owner line landed at open ⇒ ratification-neutral standing-program rung: zone-coverage soak — low_quay + district_two + district get their FIRST soak coverage (3 episodes, 2 runs, all PASS), combat-zone soak coverage now COMPLETE for the wired world; zero code/data touches, staged J7-B tree byte-untouched
 
 **CLAIMED: endurance-length soak — TICKS=36000 across the four combat
