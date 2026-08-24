@@ -1,5 +1,98 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-23 session 56-hub — CONCURRENT-SHIP RECONCILED (owner word: "merge, reconcile the best outcome"): Junior's J6-C = the base + two hub folds; MERGED TREE FULLY GATED — critic-ON ×3 PASS (15/15+4/4+4/4, determinism ×2), pairs 24/24, soak PASS, merge review PASS-WITH-NITS/0-blocking — J6-C debt CLEARED, menu lane COMPLETE
+
+**The race, recorded once:** both seats executed the s55 J6-C spark
+concurrently — Junior claimed it as his s56 (entry below) and pushed
+first mid-hub-session; the hub had a full parallel implementation +
+ladder (critic-ON ×3 PASS on its own tree) un-pushed. Per the no-race
+law the hub STOPPED at the push refusal, surfaced both trees to the
+owner in chat; owner word: **merge, reconcile the best outcome**
+(follows "adopt-his + hub pays the gate debt" approval — both
+recorded). Disposition: Junior's `157ea51`+`b717274` = the shipping
+base (convergent on every ratified call: unconditional :partner_left,
+panels-flank-root, force-close on the banked row, pinned strings
+byte-identical — independent convergence is evidence the brief was
+tight); the hub's parallel tree is PRESERVED unmerged on branch
+`s56-hub-j6c` (fallback + record, ships nothing). **Process gap for
+ratification (both peers): ticket claims are session-open checks only
+— propose a one-line `CLAIMED:` row in the checkpoint (or seat-mail
+ping) at ticket START so concurrent execution can't recur.**
+
+**Hub folds on his base (the "best outcome" deltas, each argued):**
+
+- **`0402719` content:** SESSION-panel XP row carries its threshold
+  (`XP x/Δe`, MAX at cap — bare counts read as noise without scale;
+  same D14 HUD readers) · live ledger beat renders `KIND ±n` (the
+  signed net IS the ledger) · real-loopback beat-present test via the
+  registered `:banked` event.
+- **`0637aa4` seam fidelity:** netplay scene now mirrors the window's
+  menu seam EXACTLY (world-gated tick — no handshake-screen menus;
+  `close!` on ended) · reel reopens the menu at f690 INTO quit_at=700
+  so f710 photographs the force-close law (menu GONE, notice
+  unobstructed — previously the script closed the menu at f640 and
+  the law was never in pixels) · capture +695 · partner_left check
+  gains the no-menu-overlap clause · MIRROR LIMIT comments name the
+  two live-window divergences (drain-window ticking `5db081d`;
+  discarded QUIT-row return).
+
+**Merged-tree ladder (all void verdicts re-earned — neither parent's
+gates transfer):** suite 1159→**1160** green via hooks · identity
+pairs world_loop+low_quay_run vs the common-ancestor `da8a0ff`
+baseline **24/24 byte-identical** · **all three net gates critic-ON
+rc=0** (session 15 captures ×2 byte-identical + 15/15 checks incl.
+`net_menu_panels_read` "TICKS advancing 371→466" — lockstep flowing
+under the open menu — and `partner_left_screen_reads` "no menu
+overlap"; desync+conn_lost 4/4 ×2, new checks self-scope) · dev-eye
+f0600/f0710 read at THIS seat pre-commit, zero critic claims refuted
+· soak N=1 PASS (chain intact) · **fresh-eyes merge review of the
+FULL surface (`da8a0ff..0637aa4`): PASS-WITH-NITS, zero blocking**
+(`tmp/s56m_review_verdict.md`, receipt s56-merge-review; strings
+od-verified, readers all pre-exist, D7 held, no-desync argument
+corroborated) · language critique: accuracy PASS (byte-verbatim ×3),
+presentation PASS with ONE named low-severity defect — es/pt panels
+mix invariant labels with two reused translated keys (`hud.level`,
+`net.link_slow`) — data-only, re-pin invited (Junior's close row 2).
+
+**Review nits disposed:** (1) C1 shipped its visual one commit before
+its check — historical, healed in-family, recorded. (2) scene
+QUIT-row divergence → named in the scene header (`5db081d`).
+(3) sequencing: the two folds landed on the surfaces before the owed
+critic-ON ran — the FINAL tree is what got gated (spirit satisfied;
+letter deviation recorded here). (4) folded beat row is unit-pinned
+but visually unchecked — BANKED: next `harness/net/gate_checks.json`
+toucher adds a beat-row clause to `net_menu_panels_read`.
+
+**OWNER WORD (2026-08-23, hub chat): Junior is STANDING READY for
+coop any time.** The post-ship coop session bundles: SHARED-save
+first crossing + first human exposure of the partner-left notice (one
+quits, the other reads) + panels + settings over the fingerprint-safe
+handshake + one observation: does the QUITTING seat flash the notice
+for a frame? (s56-hub review nit, cosmetic). Owner-paced, never
+nagged.
+
+**Next (s57):** menu lane COMPLETE (A+B+C shipped+gated; volume rows
+= the one J6 rider, on the audio RECEIPT). Fork per the foundation:
+**J-7 brief cut** (Lane 3 cold-tier catch-up, docs-only grill; MUST
+open with the world.rb extraction question — **1786/1800 measured
+this session**) or Lane 2 B-item data moves (land before the ritual
+stages), owner's call at spark time.
+
+**Job-0 baselines for s57:** origin tip = this docs commit above
+`5db081d`+`0637aa4`+`0402719`+`0fe15dc` · save `98fe75ed…` mtime
+08-20 15:51 (md5 open/mid/close, no launch either seat-session) ·
+launcher logs 40 newest 08-21 01:39 · mail inbox EMPTY ·
+`drafts/_refs/` untracked · **wall = 25** (netplay_session now 15
+captures, outside the wall) · **suite = 1160** · branch `s56-hub-j6c`
+= the preserved hub parallel (never merge without a fresh ladder).
+
+**Owner-pending carry (never nag):** ear-checks · T3 footstep/bed
+renders (water family needs a NEW mail) · coop S1 (STANDING READY —
+owner word above) · SHARED-save first crossing (bundles into coop) ·
+J-5 spike call · R-A2 escalation call · ZONE 8 wire-in (owner word) ·
+audio volume-API RECEIPT (gates only the volume-rows rider) ·
+`CLAIMED:`-row protocol awaiting Junior's ratification.
+
 ## 2026-08-23 session 56 (Junior's seat) — J6-C SHIPPED: partner-left notice + menu LINK/SESSION panels + frozen-menu force-close — LANE 4 TICKETS ALL EXECUTED; net-gate determinism 3/3 + soak PASS; CRITIC-ON ×3 OWED to hub (same seat-creds limitation as s54)
 
 **Job 0 (open = clean):** origin tip = s55 docs commit + this seat's
