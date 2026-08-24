@@ -2,6 +2,11 @@
 
 ## 2026-08-24 session 60 — varekka_duel re-pilot: the s59 brief's STOP CONDITION FIRED (duel unpilotable under the catch-up law with today's ally AI) — six pilot generations, evidence banked, manifest re-cut = OWNER DECISION; zero source files touched, J7-B staged tree byte-untouched, slot stays RED
 
+**CLAIMED: B1 safe-zones GRILL+SPEC hub 2026-08-24** (s61 — neither
+owner line landed at open; ratification-neutral Lane-2 work, docs-only,
+zero staged-file touches; build tickets stay unclaimed until the spec
+lands).
+
 **AWAITING (now TWO owner lines, one chat ask covers both — not a
 nag):** (1) the s59 canary rebank ratification (`68fa69f6→31c699cb`,
 audit `drafts/_j7b-canary-rebank-20260824.md`) — the two staged
