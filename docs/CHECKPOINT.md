@@ -2,6 +2,9 @@
 
 ## 2026-08-24 session 57 (hub) — J-7 BRIEF CUT (Lane 3 cold-tier catch-up): docs-only grill SHIPPED — `drafts/_j7-catchup-brief-20260824.md` (md5 `9802eec972b754c255af83fdf07662b1`), 11 decisions, TWO tickets (J7-A Homecoming extraction → J7-B stamp+catch-up); the s56 CLAIMED row was modeled as FIRST ACTION and is now FULFILLED — J7-A/J7-B are UNCLAIMED
 
+**CLAIMED: J7-A hub 2026-08-24** (s58 — Homecoming extraction, pure
+refactor per brief D1; J7-B stays unclaimed).
+
 **Job 0 (open = clean):** origin tip `308c2fb` as expected (reconcile
 stack + Junior's J6-C base beneath, no peer deltas — J-7 untaken, no
 ratification/re-pin landed); `CLAIMED: J-7 hub 2026-08-24` pushed as
