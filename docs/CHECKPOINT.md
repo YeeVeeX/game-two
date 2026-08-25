@@ -1,5 +1,9 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+CLAIMED (s70, 2026-08-24, Gabriel hub seat): ZONE 8 WIRE-IN — all 5 intake
+debt rows, one gated commit (`drafts/_worldsmith-v0-intake-20260823.md`
+§Wire-in debt). In progress; released at the s70 checkpoint entry.
+
 ## 2026-08-24 session 69 — CONTENT-FILL WAVE SHIPPED 3/3 (`f2d36ce`+`3b0fb8c`+`8dd494c`): basements + dungeon_1 filled per the banked design, every piece its own gated commit · wall 29→32 · the INTERIOR-DOOR shape (sealed same-zone transition) is now live vocabulary · latent s68 map-probe break found+fixed · gatherables idea parked (owner, shelf-grounded) · zone_8 wire-in → s70
 
 **The wave (design doc `drafts/_content-fill-design-20260824.md` executed,
