@@ -75,7 +75,7 @@
     },
     {
       "id": "carried_count_reads",
-      "check": "When the possessed carries value, a small magenta numeral reads at the right end of the possessed HUD bar row and appears nowhere else on the HUD (the bottom-edge controls strip shows key/action reference text only and is not a carried readout — a carried numeral appearing in the strip would still violate this check); frames without carrying show the identical bar layout minus the numeral (no layout shift). If carrying never occurs in this replay, pass with why='not exercised by this script'."
+      "check": "The possessed HUD bar row reserves a slot at its right end (right of the two pips) for a small magenta carried numeral. Where that numeral is present it reads there and ONLY there - a carried-style numeral in the bottom-edge controls strip (key/action reference text only) or anywhere else on the HUD fails; where it is absent the bar layout reads identical minus the numeral (no layout shift). Absence alone is never a failure: carried value strands on the body's corpse at death and leaves at banking, so a reel can honestly show no carried numeral despite earlier pickups - and center-screen ledger tally panels or station-anchored numerals are NOT carried readouts (their own rows judge them). If no frame shows the carried numeral, pass with why='not exercised by this script'."
     },
     {
       "id": "bank_station_reads",
@@ -231,7 +231,7 @@
     },
     {
       "id": "sustain_refusal_cue_reads",
-      "check": "A refused sustain press (at cap, broke, or at full health) shows a dark-red X-bar drawn OVER the presser's body plus a REFUSED text line above the tile - the refusal must never read as nothing-happened. If the script never stages a sustain refusal, pass with why='not exercised by this script'."
+      "check": "A refused sustain press (at cap, broke, or at full health) shows a dark-red X-bar drawn OVER the presser's body plus a REFUSED text line above the tile - the refusal must never read as nothing-happened. The REFUSED line reads pale cream type on a small dark backing chip hugging its own padded line box - raw backing-less red caps melting into the ground fail. If the script never stages a sustain refusal, pass with why='not exercised by this script'."
     },
     {
       "id": "burst_legibility_budget",
@@ -251,7 +251,7 @@
     },
     {
       "id": "level_gate_reads",
-      "check": "Where a LEVEL N REQUIRED text line shows above a way tile: the named N exceeds the number on the HUD LEVEL strip in that same frame, and that way is shut - in frames where the refusal cue is live, its red X-bar and any standing body legitimately cover the slab's thin gold seam, but the tile still reads dark slab, never solid walkable gold; in at least one frame without the cue the same shut way shows the full slab-with-thin-gold-seam grammar. Where a later frame shows the HUD LEVEL at or above that N, the same way draws open walkable gold with no requirement line above it. If no LEVEL-N-REQUIRED line appears anywhere in the reel, pass with why='not exercised by this script'."
+      "check": "Where a LEVEL N REQUIRED text line shows above a way tile: the line reads pale cream type on a small dark backing chip hugging its own padded line box (raw backing-less red caps fail; the X-bar below it stays dark red), the named N exceeds the number on the HUD LEVEL strip in that same frame, and that way is shut - in frames where the refusal cue is live, its red X-bar and any standing body legitimately cover the slab's thin gold seam, but the tile still reads dark slab, never solid walkable gold; in at least one frame without the cue the same shut way shows the full slab-with-thin-gold-seam grammar. Where a later frame shows the HUD LEVEL at or above that N, the same way draws open walkable gold with no requirement line above it. If no LEVEL-N-REQUIRED line appears anywhere in the reel, pass with why='not exercised by this script'."
     },
     {
       "id": "menu_reads",

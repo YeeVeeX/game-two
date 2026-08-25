@@ -15,6 +15,18 @@
  "hurt_vignette_px": 8,
  "hurt_vignette_alpha": 110,
  "station_cue_frames": 30,
+ "cue_text_rgb": [
+  225,
+  215,
+  190
+ ],
+ "cue_backing_rgb": [
+  12,
+  10,
+  14
+ ],
+ "cue_backing_alpha": 160,
+ "cue_backing_pad": 4,
  "breach_banner_frames": 150,
  "breach_line_top": 88,
  "respawn_tell_edge_rgb": [

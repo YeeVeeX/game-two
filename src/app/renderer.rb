@@ -625,8 +625,8 @@ module App
         Gosu.draw_rect(x + 6, y + ts / 2 - 2, ts - 12, 4, CUE_REFUSED, 9)
         Gosu.draw_rect(x + ts / 2 - 2, y + 6, 4, ts - 12, CUE_REFUSED, 9)
         if (text = station_cue_text(cue[:kind]))
-          hud_font.draw_text(text, x + (ts - hud_font.text_width(text)) / 2,
-                             y - 32, 10, 1, 1, CUE_REFUSED)
+          draw_refusal_text(text, x + (ts - hud_font.text_width(text)) / 2,
+                            y - 32)
         end
       elsif cue[:kind] == :level_required
         # T5 (P9/D3): the level-gate refusal — the provision_refused
@@ -638,8 +638,8 @@ module App
         Gosu.draw_rect(x + ts / 2 - 2, y + 6, 4, ts - 12, CUE_REFUSED, 9)
         if (text = station_cue_text(cue[:kind]))
           text = text.sub("<N>", cue[:n].to_s)
-          hud_font.draw_text(text, x + (ts - hud_font.text_width(text)) / 2,
-                             y - 32, 10, 1, 1, CUE_REFUSED)
+          draw_refusal_text(text, x + (ts - hud_font.text_width(text)) / 2,
+                            y - 32)
         end
       else
         # Bright 1-tile pulse ring
@@ -658,6 +658,24 @@ module App
                              y - 32, 10, 1, 1, CUE_OK)
         end
       end
+    end
+
+    # D1 (uiux M1 adoption, s75 — drafts/_d1d2-adoption-20260825.md):
+    # the refusal EXPLANATION line reads banner-cream on a small dark
+    # backing chip — raw CUE_REFUSED caps measured 1.23:1 where letters
+    # crossed light-green tiles (uiux first-critique S8; adopted delta
+    # d1_cue_backing.json, re-measured at our wall). The X-bar keeps
+    # CUE_REFUSED: the refusal IDENTITY stays red, only the text line
+    # changes surface. Chip = the text's own padded line box (ledger-
+    # panel style family), z 9 under the z-10 text, above bodies.
+    def draw_refusal_text(text, x, y)
+      w = hud_font.text_width(text)
+      pad = @display.fetch(:cue_backing_pad, 4)
+      Gosu.draw_rect(x - pad, y - pad, w + 2 * pad, hud_font.height + 2 * pad,
+                     color(@display.fetch(:cue_backing_rgb, [12, 10, 14]),
+                           @display.fetch(:cue_backing_alpha, 160)), 9)
+      hud_font.draw_text(text, x, y, 10, 1, 1,
+                         color(@display.fetch(:cue_text_rgb, [225, 215, 190])))
     end
 
     # Bodies stay where they fell and fade out (critique: vanishing kills
