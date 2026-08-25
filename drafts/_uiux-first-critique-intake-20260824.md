@@ -35,8 +35,8 @@ through the normal Rule 2 wall when picked up.
 
 | # | Item | Route |
 |---|---|---|
-| D1 | refusal-cue chip backing (`cue_backing_*`) — 1.23:1 worst | Lane 4 QUEUED (first pick: it's the level-gate cue the new frontier way renders) |
-| D2 | price-numeral halo (`price_text_halo_rgb`) — 1.02:1 worst | Lane 4 QUEUED (rides D1's session — same cue-text surface) |
+| D1 | refusal-cue chip backing (`cue_backing_*`) — 1.23:1 worst | **SHIPPED s75** (`1d95f2c`; record `drafts/_d1d2-adoption-20260825.md`) |
+| D2 | price-numeral halo (`price_text_halo_rgb`) — 1.02:1 worst | **SHIPPED s75** (`123c1cc`; same record) |
 | D3 | strip omits sustain verb U/R | Lane 4 QUEUED (controls-strip roster is data; J-6-adjacent) |
 | D4 | vessel-down hollow-outline bars | Lane 4 queued behind D1-D3 |
 | D5 | `ledger_pop_min_abs_delta` "+0" suppress | Lane 4 queued |

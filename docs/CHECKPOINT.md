@@ -1,9 +1,72 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-**CLAIMED: D1+D2 refusal-cue/halo (uiux M1 adoption) — s75, Gabriel's
-seat, 2026-08-25** (Lane-4 queue rung: refusal-cue chip backing +
-price-numeral halo, one delta at a time, each through its own Rule 2
-gate; renderer+display.json only).
+## 2026-08-25 session 75 — D1+D2 SHIPPED (uiux M1 adoption): refusal-cue cream-on-chip (`1d95f2c`) + economy-numeral 1px halo (`123c1cc`) · four gates critic-ON PASS · one verified critic-misread forensics (carried_count_reads narrowed) · gate-capture-dir trap recorded · uiux M7 composite audit banked · wall stays 35
+
+**The adoption (Lane-4 queue rung; full record + receipts
+`drafts/_d1d2-adoption-20260825.md`):** both M1 deltas verified against
+`game-two-uiux @ 9907021` blobs before adoption (proof doc
+`6ea1d97a…` ✓; staged deltas pinned at adoption: d1 `97ac3f70…`, d2
+`dbf21b0f…`). **D1:** refusal EXPLANATION lines (REFUSED / LEVEL N
+REQUIRED) now banner-cream on a dark padded chip (was raw CUE_REFUSED
+caps, 1.23:1 worst on light ground); X-bar stays red — identity; keys
+`cue_text_rgb`/`cue_backing_*` spec-verbatim. **D2:** 1px dark halo
+(Chebyshev-ring union, their mechanism verbatim) under the four
+DROP_CORE text sites (banked total · BUY hint · altar/vat price · HUD
+carried counter); glyph stays DROP_CORE — their `price_text_rgb` key
+NOT adopted (no behavior change; deviation recorded); ledger beats
+stay bare (panel-backed). Keys `price_text_halo_px`/`_rgb`. Zero new
+strings — no D9 impact. Renderer + display.json + gate rows only;
+world.rb/window.rb untouched.
+
+**Rule 2 (4 scripts, critic 5/≤5):** town_gates PASS (6/6 ×2; "LEVEL 6
+and LEVEL 4 REQUIRED chips read on dark backing") · sustain_run red→
+green (12/12 ×2; REFUSED-on-chip "unmistakable") · world_loop PASS
+(10/10 ×2; haloed carried "2" at frame_0805) · mercy_floor PASS (3/3
+×2). **The red's forensics (verified vs code+pixels before touching
+anything):** carried_count_reads FAIL was a critic misread — event
+truth: lobber died f5227, carried 6 stranded on the corpse, looted
+back f5984; captures 5390/5983 sit inside the carried=0 window, HUD
+slot honestly empty (pixel-verified) — row narrowed to
+placement/exclusivity/no-layout-shift teeth, absence alone never
+fails, tallies/station numerals are their own rows (s74
+corpses_persist precedent). **D2 pixel proof beyond the critic:** A/B
+px=1 vs px=0 → 1262px delta confined to the numeral bbox, exact
+(20,14,12) adjacent to cores, vat -5 over the possessed quad (the uiux
+worst case) reads separated. **Trap recorded (adoption doc §receipts):**
+`rake gate` writes `<out_dir>_gate_a/_gate_b`; the plain
+`captures/<out_dir>/` keeps PRE-change frames — the first A/B compared
+stale-vs-off (byte-identical) and nearly convicted the halo as dead
+code. Diff gate_a frames after a gate run, never the plain out_dir.
+
+**Seat mail (1 handled → done/): uiux M7 composite audit** (origin
+9907021) — z-order ledger of record (156 draw sites, zero stacking-
+comment corrections), 5 peak composites UI-GATE PASS 20/20 ×2, threat
+salience ordering holds. All four artifact digests re-computed and
+verified at open (z-order `5f5fc27f…` · composite `e3ae67c5…` ·
+coverage `5755cd6c…` · banner-band `1796ea76…`). Evidence-only — no
+asks; findings F-M7-1/2/3 stay uiux-side offers (levers ours when a
+lane picks them up).
+
+**Job-0 baselines for s76:** origin tip = this docs commit · tree
+clean except `drafts/_refs/` (untracked, stays) · save
+**`0ed80c516168b41d6314aaf28c7848f7`** mtime 08-24 13:47 (UNMOVED —
+gates + A/B probe use replay windows) · launcher logs **39** · wall
+**35** · suite **1263** (22762) · world.rb **1731/1800** · window.rb
+**266/300** · varekka canary **`bf35628a…`** ACTIVE (suite-proven
+every run; sim stream untouched this session) · map probe 13/13 (not
+re-run — god-view untouched) · tmp save insurance
+`tmp/world.pre-s75.json` (same md5).
+
+**s76 queue (Lane 4 order):** uiux M4 capture ask (toll-during-banner
++ provision-refusal bracket — captures now show the D1/D2 rendering) ·
+uiux M5 adoption slate C1/C2/C3/C6 (C6 = one data value,
+breach_line_top 88) + M6 additions (nameplate halo `3f0813a3…` · glyph
+outline `f79a57ac…`) · J-6 volume-rows · corpse-legibility flywheel
+candidate (s74-verified). Standing: coop part 2 + focus-A/B whenever
+Junior lands · B1-T3 feel · J-5 pick · R-A2 escalation · ear-checks ·
+T3 renders · shake feel-check · D9 es/pt call (stats.* + his async
+ratification ledger) — all owner-paced, never nag.
+
 
 ## 2026-08-25 session 74 — J-3 STATS PANEL v0 SHIPPED (`b16f143`): STATS menu row reads the REAL Progression truths · menu_tour recut with the panel's liveness pair ON CAMERA · gate critic-ON PASS + MANIFEST PASS · wall stays 35 · corpses_persist occlusion clause (verified vs code+pixels) · uiux M6 mail banked
 
