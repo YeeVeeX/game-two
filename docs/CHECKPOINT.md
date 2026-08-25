@@ -1,5 +1,7 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+CLAIMED: s72 B1-T2 (visible boundary — renderer + strings + wall) — Gabriel's hub seat, 2026-08-25. Files: src/app/renderer.rb, data/display.json, data/strings/*, harness/scripts/safe_boundary.json, harness/gate_checks.json.
+
 ## 2026-08-25 session 71 — B1-T1 SAFE-ZONE LAW SHIPPED (`dcce00f`): both hubs declare sanctuary, the D2 refusal has teeth, acquisition is refused at the source · world.rb 1799→1729 (Aggro carve) · suite 1227→1239 · identity pairs 33/33 scripts / 277/277 streams byte-identical
 
 **The law (spec §B1-T1 executed as written + its s71 reopen):**
