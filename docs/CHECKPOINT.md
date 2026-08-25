@@ -1,6 +1,95 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-24 session 69 — CLAIMED: content-fill authoring wave (basement_1 → basement_2 → dungeon_1 per `drafts/_content-fill-design-20260824.md`, one gated commit each; zone_8 wire-in queued behind) — IN FLIGHT
+## 2026-08-24 session 69 — CONTENT-FILL WAVE SHIPPED 3/3 (`f2d36ce`+`3b0fb8c`+`8dd494c`): basements + dungeon_1 filled per the banked design, every piece its own gated commit · wall 29→32 · the INTERIOR-DOOR shape (sealed same-zone transition) is now live vocabulary · latent s68 map-probe break found+fixed · gatherables idea parked (owner, shelf-grounded) · zone_8 wire-in → s70
+
+**The wave (design doc `drafts/_content-fill-design-20260824.md` executed,
+not re-designed):** basement_1 = husk spawn pocket ×4 + husk
+`drop_table [1,1,2]` (the drop-payoff law; kill_xp 8 stays — anti-grind
+fodder) · basement_2 = dead-end toll pocket miniature: divide wall x7,
+walled cul-de-sac x8-10 reachable ONLY via a **sealed SAME-ZONE door**
+[6,3]→[9,3] (first live self-edge — Crossing/enter_zone compose
+unchanged; s34 seal-law shape verified against tile_map BEFORE import),
+seal station [6,2] breach_cost/TOLL PAID, rope_spot [10,1] climbs out,
+2 husks main + 3 husks/2 rushers pocket · dungeon_1 = gated loop +
+toll-bypass fork: east chamber walled (col x19 + row-8 walls, circuit
+mouth [25-26,8]), bypass door [18,2]→[21,2] + seal [17,2] (cheap, no
+reward; the south spawn-pocket circuit is the free fight route),
+roster 5→13 (+3r +1rh +4 husks, density east/south; far-east corridor
+kept CLEAR for the zone_8 way). All authored in `authoring/pilot.ldtk`
+(python parse-mutate-dump byte-style-exact, provenance pin green every
+commit); tiers.json rows were pre-declared (s68) — content landed INTO
+them, zero balance edits.
+
+**Belt:** suite 1219→**1227** (interior_door_test: 7 pins incl.
+same-zone snap-home + breach-tuple save legality + fork-door laws;
+husk drop law in world_test; zone_tier dungeon assert re-pinned to the
+LAW kit-base+pct — husks at 120 broke the rusher-only constant).
+Canaries UNMOVED all three commits (frozen-zone law: only the current
+zone ticks; seeding is rng-free — verified live) · vat_economy headless
+md5 `61d768b8…` byte-identical re-verified after EVERY zone's fill.
+
+**Rule 2 (all PASS, verdicts auto-appended):** wall 29→**32** —
+`basement_pocket.json` (L4 staged fight+loot) · `toll_pocket.json`
+(L5+banked staged; swap-to-station choreography; the reel LOSES its
+striker to the last husk — the priced fight bites) · `dungeon_fork.json`
+(pay→bypass→chamber fight→east-corridor menace close) ·
+`multi_floor_descent` re-gated PASS (reel survived the roster shift
+unwedged) · end-of-wave god-view re-gate PROBES **11/11** + vision
+**7/7**. Gate-red lessons (all verified against pixels/code before
+recutting, sampling-artifact law): (1) captures inside the STALE
+construction-zone banner window read as "two zones one palette" —
+schedule past it (town_gates precedent); (2) the critic misreads the
+lobber's single-tile impact telegraph and the 8-shard kill-pop ring as
+broken volley brackets — capture in probe-verified clean windows
+(projectiles+telegraph+pops all empty); (3) `special_pips_track` can
+fail on a busy frame though pips render (pixel-crop proven) — re-read
+passed.
+
+**Map-gate debris (rode `8dd494c`):** PROBE_FACTS staged level 1 — a
+LATENT s68 break (staged breach no longer opens a level-6-gated way
+alone; probes were red since `0d5cc40`, nobody had run the map gate) →
+staged level 6 with law comment · `map_checks.json` 2 rows recalibrated
+to RATIFIED zone identities (ZONE 3 indigo / ZONE 5 teal are design;
+well-ring row judges presence+distinctness) · zone_7
+`water_drained` palette `78,64,44`→`150,128,92` — the dry basin was a
+whisper at map scale (pixel-crop verified); no wall reel shows drained
+water, cascade ended at the map gate.
+
+**Lane notes routed (recorded, not built):** allies FREEZE in threat
+stance against unreachable-behind-walls enemies (pocket aggro through
+the divide) — C2 ally-AI lane evidence · lobber impact-tile telegraph
+legibility in cramped rooms — already Lane 4's named item, now with
+live frames · **PARKING_LOT: gatherables** (owner idea this session,
+parked at intake on shelf verdict: gathering is the FAUCET half — lands
+WITH the v20 item/equipment cycle as its named trigger; exploration
+interest meanwhile rides drop bands + parked flora/fauna rows).
+
+**Job-0 baselines for s70:** origin tip = this docs commit · tree clean
+except `drafts/_refs/` (untracked, stays) · save
+**`0ed80c516168b41d6314aaf28c7848f7`** mtime 08-24 13:47 sessions=15
+(NO play this session) · launcher logs **42** · mail inbox EMPTY (lore
+reopen RECEIPT still expected — just bank it) · wall **32** · suite
+**1227** · world.rb **1799/1800 untouched** · canary ACTIVE varekka
+`31c699cb…` · branch `s56-hub-j6c` preserved. **s70 = the ZONE 8
+wire-in** (its OWN gated commit, ALL 5 intake debt rows:
+`drafts/_worldsmith-v0-intake-20260823.md` §Wire-in debt — dungeon_1
+far-east way `requires_level: 8` return-free · identity dose +
+ZoneIdentityDataTest row · as-landed md5 pin moves CONSCIOUSLY +
+inertness test FLIPS · station_slots → vat+altar pair · pack_spawn
+review · zone-coverage wall script + map re-gate) → then B1-T1 →
+varekka re-cut (a) + volley wall script → J-3 stats panel · J-5 spike
+dev-paced · coop part 2 + focus-A/B whenever Junior lands.
+
+**Ratification ledger (Junior async, carry + new):** dash-strike +
+pack-burst covers? (s66) · s56-hub asks 1–3 own-confirm · s67: lore
+reopen · v20 intake list · B4 ship · ZONE 8 GO · s68: difficulty tier
+ship + content-fill design · **NEW s69: content-fill wave ship (3
+commits: husk drops · interior-door shape · dungeon fork) + map-checks
+recalibration + water_drained palette + gatherables parking row**.
+
+**Owner-pending carry (never nag):** ear-checks (open) · T3
+footstep/bed + calm-64s re-renders (his render queue) · R-A2
+escalation call · coop part 2.
 
 ## 2026-08-24 session 68 — THE DIFFICULTY-TIER KNOB SHIPPED `0d5cc40` (owner datum s67: "a partir de nivel 8 … muy fácil"): requires_level deep gates 4/5/6 on zone_7's ways + per-zone enemy stat tiers, Rule 2 double-gated (wall 29) · content-fill design doc BANKED (authoring = next session) · AGENTS.md INERT-law row corrected
 
