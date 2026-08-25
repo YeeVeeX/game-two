@@ -27,6 +27,12 @@
  ],
  "cue_backing_alpha": 160,
  "cue_backing_pad": 4,
+ "price_text_halo_px": 1,
+ "price_text_halo_rgb": [
+  20,
+  14,
+  12
+ ],
  "breach_banner_frames": 150,
  "breach_line_top": 88,
  "respawn_tell_edge_rgb": [

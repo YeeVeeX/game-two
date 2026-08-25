@@ -584,22 +584,50 @@ module App
         ts = world.map.tile_size
         if s[:type] == "bank"
           text = world.pack.banked.to_s
-          hud_font.draw_text(text, tx * ts + (ts - hud_font.text_width(text)) / 2,
-                             ty * ts - 18, 10, 1, 1, DROP_CORE)
+          draw_haloed_text(text, tx * ts + (ts - hud_font.text_width(text)) / 2,
+                           ty * ts - 18, 10)
           # R-A2 BUY hint in the cue's text slot (y-32, one row above the
           # numeral) — content + suppression rules live in sustain_hint.
           if (hint = sustain_hint(world, s))
-            hud_font.draw_text(hint, tx * ts + (ts - hud_font.text_width(hint)) / 2,
-                               ty * ts - 32, 10, 1, 1, DROP_CORE)
+            draw_haloed_text(hint, tx * ts + (ts - hud_font.text_width(hint)) / 2,
+                             ty * ts - 32, 10)
           end
         else
           price = world.station_price(s)
           next unless price && price.positive?
           text = "-#{price}"
-          hud_font.draw_text(text, tx * ts + (ts - hud_font.text_width(text)) / 2,
-                             ty * ts - 18, 10, 1, 1, DROP_CORE)
+          draw_haloed_text(text, tx * ts + (ts - hud_font.text_width(text)) / 2,
+                           ty * ts - 18, 10)
         end
       end
+    end
+
+    # D2 (uiux M1 adoption, s75 — drafts/_d1d2-adoption-20260825.md): the
+    # economy numerals (banked total, BUY hint, altar/vat price) are
+    # world-anchored and the HUD carried counter scrolls over the world —
+    # raw DROP_CORE purple measured 1.02:1 where it crossed pink walls
+    # (uiux first-critique S4; adopted delta d2_price_halo.json). A thin
+    # dark halo makes glyph-adjacent contrast ground-independent while
+    # the purple identity stays. Mechanism = their harness verbatim:
+    # union of the 1..px Chebyshev offset RINGS (the outermost ring alone
+    # leaves slivers at stroke ends), drawn same-z before the glyph —
+    # call order stacks within a z. Ledger beat numerals stay bare: the
+    # BEAT_PANEL backing already controls their ground.
+    def self.halo_offsets(px)
+      (1..px).flat_map do |d|
+        [-d, 0, d].product([-d, 0, d]).reject { |(dx, dy)| dx.zero? && dy.zero? }
+      end
+    end
+
+    def draw_haloed_text(text, x, y, z)
+      px = @display.fetch(:price_text_halo_px, 1)
+      if px.positive?
+        hc = color(@display.fetch(:price_text_halo_rgb, [20, 14, 12]))
+        Renderer.halo_offsets(px).each do |(dx, dy)|
+          hud_font.draw_text(text, x + dx, y + dy, z, 1, 1, hc)
+        end
+      end
+      hud_font.draw_text(text, x, y, z, 1, 1, DROP_CORE)
     end
 
     # Station cue (D1b): success kinds flash a bright 1-tile pulse ring at
@@ -1017,9 +1045,10 @@ module App
         Gosu.draw_rect(314, y + 2, 10, 10, special_pip)
         Gosu.draw_rect(317, y + 5, 4, 4, POSSESSED_RING) if special_ready
         # Carried numeral: possessed bar only, reserved slot right of the
-        # pips — layout never shifts (quiet-HUD law).
+        # pips — layout never shifts (quiet-HUD law). D2 halo: the counter
+        # scrolls over world pixels (pink walls were 1.02:1).
         if mine && m.carried.positive?
-          hud_font.draw_text(m.carried.to_s, 332, y, 20, 1, 1, DROP_CORE)
+          draw_haloed_text(m.carried.to_s, 332, y, 20)
         end
       end
       # Pack level strip (T3, quiet-HUD law): label + bar-only progress —
