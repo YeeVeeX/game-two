@@ -1,5 +1,9 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+**CLAIMED: varekka re-cut (a) + lobber-volley wall script — s73,
+Gabriel's seat, 2026-08-25** (ratified ladder rung: s66 line 2 option
+(a) + the owed volley script; clears the standing wall red).
+
 ## 2026-08-25 session 72 — B1-T2 VISIBLE BOUNDARY SHIPPED (`a30837d`): threshold frames from destination safety + persistent SAFE chip + wall 34 · OWNER ORDER executed: screen shake −50% (`f67a1eb`) · TWO full wall sweeps: green except the varekka stale-manifest red (recorded, fix = s73's ratified re-cut)
 
 **B1-T2 (spec §D5 executed as written; receipts
