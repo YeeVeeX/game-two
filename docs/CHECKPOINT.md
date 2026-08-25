@@ -1,5 +1,9 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+CLAIMED (s71, 2026-08-25, Gabriel's hub seat): B1-T1 safe-zone law (data +
+refusal + guard + Aggro extraction) — spec
+`docs/superpowers/specs/2026-08-24-b1-safe-zones-design.md` §B1-T1.
+
 ## 2026-08-24 session 70 — ZONE 8 WIRED INTO THE WORLD (`dc0d700`): all 5 intake debt rows in one gated commit · the frontier rung is real (dungeon_1 rope way, level 8, return free) · wall 32→33 · map probes 11→13 · uiux service seat banked into the family
 
 **The wire-in (`drafts/_worldsmith-v0-intake-20260823.md` §Wire-in debt
