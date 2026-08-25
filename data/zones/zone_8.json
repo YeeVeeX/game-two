@@ -37,6 +37,48 @@
       98,
       72,
       42
+    ],
+    "floor": [
+      38,
+      44,
+      28
+    ],
+    "grid": [
+      46,
+      54,
+      36
+    ],
+    "transition": [
+      235,
+      190,
+      90
+    ],
+    "station": [
+      185,
+      75,
+      205
+    ],
+    "station_altar": [
+      230,
+      215,
+      170
+    ],
+    "station_vat": [
+      90,
+      150,
+      60
+    ],
+    "motif": "chip",
+    "motif_rgb": [
+      52,
+      64,
+      38
+    ],
+    "ambient_rgba": [
+      70,
+      160,
+      90,
+      10
     ]
   },
   "tiles": [
@@ -83,34 +125,46 @@
   ],
   "pack_spawn": [
     [
-      63,
-      18
+      12,
+      26
     ],
     [
-      62,
-      19
+      13,
+      26
     ],
     [
-      63,
-      20
+      14,
+      26
     ]
   ],
   "enemy_spawns": {},
   "stations": [
     {
-      "type": "station_slot",
+      "type": "vat",
       "at": [
         16,
         25
       ]
     },
     {
-      "type": "station_slot",
+      "type": "altar",
       "at": [
         18,
         25
       ]
     }
   ],
-  "transitions": []
+  "transitions": [
+    {
+      "at": [
+        63,
+        19
+      ],
+      "to": "dungeon_1",
+      "spawn": [
+        29,
+        4
+      ]
+    }
+  ]
 }

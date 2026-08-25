@@ -12,13 +12,13 @@ require "core/tile_map"
 # authored them to these laws; a palette failure here is an AUTHORING
 # finding — fix in the sidecar + re-import, never relax the check).
 # grass_fixture stays out: unreachable dev fixture.
-# zone_8 stays out (worldsmith intake 2026-08-23): landed INERT-unreachable;
-# its identity dose (motif/ambient/grid keys) is OWED at wire-in — add it to
-# ZONES in the same commit that joins it to the world graph.
+# zone_8 joined at the s70 wire-in (2026-08-24, the worldsmith-intake debt
+# executed): its identity dose landed WITH the dungeon_1 way, same commit —
+# the forest reads dark ground / pale treeline under the same laws.
 class ZoneIdentityDataTest < Minitest::Test
   DATA = Core::DataStore.new(File.expand_path("../../data", __dir__))
   ZONES = %w[nest district district_two camp slow_door low_quay
-             zone_7 basement_1 basement_2 dungeon_1].freeze
+             zone_7 basement_1 basement_2 dungeon_1 zone_8].freeze
 
   def luma((r, g, b)) = 0.299 * r + 0.587 * g + 0.114 * b
 

@@ -150,7 +150,20 @@ module App
       probe "dungeon_1 rope tile reads gate-gold",
             px.call(dx + 3 * App::MapArtifact::SCALE + 2,
                     dy + 16 * App::MapArtifact::SCALE + 2) == d1pal[:transition]
-      puts "MAP PROBES PASS (11/11)"
+      # 5. s70 wire-in: the frontier way is LEVEL-GATED at the staged level
+      # (6 < 8 draws the seal slab, not gold) while zone_8's free return
+      # reads gate-gold — both directions of the new edge render honestly.
+      slab = App::Renderer::SEAL_SLAB
+      probe "dungeon_1 frontier way reads level-locked at staged level 6",
+            px.call(dx + 29 * App::MapArtifact::SCALE + 2,
+                    dy + 4 * App::MapArtifact::SCALE + 2) == [slab.red, slab.green, slab.blue]
+      z8 = l[:panels].find { |p| p[:name] == "zone_8" }
+      ex, ey = z8[:origin]
+      z8pal = world.zone_maps.fetch("zone_8").palette
+      probe "zone_8 free return reads gate-gold (walkable law)",
+            px.call(ex + 63 * App::MapArtifact::SCALE + 2,
+                    ey + 19 * App::MapArtifact::SCALE + 2) == z8pal[:transition]
+      puts "MAP PROBES PASS (13/13)"
     end
 
     def probe(name, ok)

@@ -96,6 +96,47 @@ recorded below at close.
 
 ## Wire-in debt (Lane 2 geography session, owner-directed — NOT this session)
 
+**EXECUTED s70 (2026-08-24) — all five rows, one gated commit.** Receipts:
+
+1. **The way in:** dungeon_1 far-east chamber corridor [29,4] → zone_8
+   spawn [62,18] — `rope_spot` (gate-consent law: climbing out is the
+   interact verb) + `requires_level: 8` (the s68 ladder's frontier rung;
+   composes with the chamber's toll geography). Authored in
+   `authoring/pilot.ldtk` (uid-116 fieldDef, s69 mutation pattern) →
+   canonical re-import; sibling emissions byte-identical. Return FREE:
+   zone_8 [63,19] (the delivered gate corner, hand-edit — worldsmith
+   JSON custody) → dungeon_1 spawn [29,4], typeless v1 edge gate
+   (tile_map_test law). Arrival spawns sit beside — never on — the far
+   way (the low_quay/zone_7 anti-ping-pong pattern; [62,18] keeps the
+   ally spread off the auto-fire gate tile). As-landed md5 pin moved
+   CONSCIOUSLY `3f3cce1f…` → `89ba053f0436b3d422cccc9dbf7f6617`;
+   `landed_zone_is_inert` FLIPPED to `landed_zone_is_wired` (reachability
+   pin: way + return + validated arrivals). D12 inertness law gained its
+   SECOND ratified edge pair (tile_registry_test).
+2. **Identity dose:** floor [38,44,28] / grid [46,54,36] / transition
+   gold / station + station_altar + station_vat (camp vocabulary) /
+   motif chip [52,64,38] / ambient [70,160,90,10] — all identity-law
+   compliant (spread 76, motif luma 57.4 between floor and midpoint);
+   ZoneIdentityDataTest.ZONES gained zone_8 same commit.
+3. **Station slots:** [16,25] → **vat**, [18,25] → **altar** (deep-side
+   camp pair; no-bank-in-deep KEPT). Proven live in the wall reel: a
+   striker died crossing, the camp vat regrew him (tribute 16, banked
+   20→4, `body_regrown` in the manifest).
+4. **pack_spawn review:** east-edge gate pocket → camp shore
+   [[12,26],[13,26],[14,26]] (the zone's authored anchor).
+5. **Rule 2:** NEW wall script `harness/scripts/zone8_crossing.json`
+   (L8+banked staged; seal toll → fork door → chamber fight → rope
+   crossing → forest walk → camp vat regrow; 5 captures, manifest
+   zone_entered/seal_breached/body_regrown/tribute_paid) — GATE PASS
+   (5/5 byte-identical + vision) + MANIFEST PASS. Affected dungeon
+   reels re-gated: dungeon_fork PASS, multi_floor_descent PASS. Map
+   re-gate: PROBES 13/13 (two NEW pins: frontier way level-locked at
+   staged L6; zone_8 return gold) + vision 7/7 PASS. Tier row zone_8
+   150/100 now live-reachable (enemy_spawns stays {} — the zone lands
+   wired but SPARSE; interior fill = a later wave).
+
+Original debt list (for the record):
+
 The wire-in session that joins ZONE 8 to the world graph OWES, in its
 own commit:
 

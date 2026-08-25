@@ -463,7 +463,8 @@ class TileMapTest < Minitest::Test
   # recorded shapes; the T3 fixture + the four T4 pilot zones are the
   # authored v2 surface (typed transitions live ONLY there; the live
   # graph's gates stay untyped v1 — the byte-exact bar). zone_8 is the
-  # worldsmith-intake zone (2026-08-23): inert-unreachable, plain v1 shape.
+  # worldsmith-intake zone (2026-08-23), wired s70: reachable through
+  # dungeon_1's rope way, its own return stays a plain v1 edge gate.
   def test_live_zones_load_under_registry_with_declared_shapes
     data = Core::DataStore.new("data")
     reg = Core::TileRegistry.new(data["tiles"])

@@ -63,29 +63,48 @@ class WorldsmithIntakeTest < Minitest::Test
   # --- the AS-LANDED zone (data/zones/zone_8.json) --------------------------
   # Recorded intake edits, owner-approved 2026-08-23: re-number (ZONE 1
   # collided with nest's live placeholder) + neutralize the one unresolved
-  # edge gate (transitions []). Everything else is byte-identical to the
-  # delivery (diff-verified at intake).
+  # edge gate (transitions []). s70 wire-in (2026-08-24, the intake debt
+  # list executed): the pin moves CONSCIOUSLY — identity dose + camp
+  # pack_spawn + vat/altar station pair + the free return gate at the
+  # delivered gate corner [63,19]. Everything else stays the delivery.
 
-  LANDED_MD5 = "3f3cce1fe8ae84a20f95d05d7cb1c4f3".freeze
+  LANDED_MD5 = "89ba053f0436b3d422cccc9dbf7f6617".freeze
   LANDED = File.expand_path("../../data/zones/zone_8.json", __dir__)
 
   def test_landed_zone_bytes_match_the_intake_record
     assert_equal LANDED_MD5, Digest::MD5.file(LANDED).hexdigest,
-                 "zone_8.json drifted from the recorded intake edit " \
-                 "(drafts/_worldsmith-v0-intake-20260823.md pins the before/after chain)"
+                 "zone_8.json drifted from the recorded wire-in " \
+                 "(drafts/_worldsmith-v0-intake-20260823.md \u00a7Wire-in debt + the s70 record)"
   end
 
-  def test_landed_zone_is_inert_in_the_live_world_graph
+  # The inertness pin FLIPPED at the s70 wire-in (the exemption comment
+  # always named this moment): zone_8 is now REACHABLE — dungeon_1's
+  # far-east rope way (the s68 ladder's frontier rung, level 8) goes out,
+  # the delivered gate corner comes home free, and the arrival geometry
+  # knows both directions.
+  def test_landed_zone_is_wired_into_the_live_world_graph
     zones = DATA.keys.grep(%r{\Azones/}).map { |k| k.sub("zones/", "") }
     assert_includes zones, "zone_8", "zone_8 loads with the world's own discovery rule"
     maps = zones.to_h { |n| [n, Core::TileMap.new(DATA["zones/#{n}"])] }
     assert_equal "ZONE 8", maps["zone_8"].display_name, "re-numbered at intake (next free N)"
-    assert_empty maps["zone_8"].transitions, "no way OUT (the edge gate was neutralized)"
-    inbound = maps.flat_map { |name, m| m.transitions.map { |t| [name, t[:to]] } }
-                  .select { |_, to| to == "zone_8" }
-    assert_empty inbound, "no way IN from any live zone (inert law — wire-in is a later " \
-                          "owner-directed geography session)"
+
+    way = maps["dungeon_1"].transition_at(29, 4)
+    refute_nil way, "dungeon_1's far-east chamber corridor carries the frontier way"
+    assert_equal "zone_8", way[:to]
+    assert_equal "rope_spot", way[:type], "climbing out is the interact verb (gate-consent law)"
+    assert_equal 8, way[:requires_level], "the frontier rung prices the way, not the return"
+    assert_equal [62, 18], way[:spawn]
+
+    back = maps["zone_8"].transition_at(63, 19)
+    refute_nil back, "the delivered gate corner is the way home"
+    assert_equal "dungeon_1", back[:to]
+    assert_nil back[:type], "non-pilot zones stay untyped v1 gates (tile_map_test law)"
+    assert_nil back[:requires_level], "the return is FREE"
+    assert_nil back[:sealed], "the return is FREE"
+    assert_equal [29, 4], back[:spawn], "you land at the rope you'd climb back up"
+
     arrivals = Game::Crossing.validated_arrivals(maps)
-    refute arrivals.key?("zone_8"), "no arrival geometry targets zone_8"
+    assert_equal [[62, 18]], arrivals["zone_8"], "one way in, beside \u2014 never on \u2014 the gate"
+    assert_includes arrivals["dungeon_1"], [29, 4]
   end
 end

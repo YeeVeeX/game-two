@@ -57,8 +57,13 @@ class TileRegistryTest < Minitest::Test
   # INBOUND-inert (its T3 outbound dev-walk edge to district predates
   # T5 and is not part of this completion) — this is the completion the
   # law always named, not its deletion.
+  # s70 (2026-08-24) adds the SECOND ratified pair: dungeon_1 [29,4] <->
+  # zone_8 [63,19] (the worldsmith-intake wire-in debt, owner-ratified
+  # ZONE-8 GO s67 + attach-at-dungeon RATIFIED-G — the frontier rung,
+  # level-8-gated outbound, free return).
   INERT_ZONES = %w[grass_fixture zone_7 basement_1 basement_2 dungeon_1].freeze
-  RATIFIED_EDGES = { "low_quay" => %w[zone_7], "zone_7" => %w[low_quay] }.freeze
+  RATIFIED_EDGES = { "low_quay" => %w[zone_7], "zone_7" => %w[low_quay],
+                     "dungeon_1" => %w[zone_8], "zone_8" => %w[dungeon_1] }.freeze
 
   def test_pilot_and_fixture_zones_stay_inert
     live = Dir["data/zones/*.json"].reject { |p| INERT_ZONES.include?(File.basename(p, ".json")) }

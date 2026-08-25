@@ -177,6 +177,19 @@
         2
       ],
       "sealed": true
+    },
+    {
+      "at": [
+        29,
+        4
+      ],
+      "to": "zone_8",
+      "spawn": [
+        62,
+        18
+      ],
+      "type": "rope_spot",
+      "requires_level": 8
     }
   ],
   "gradient_anchor": [
