@@ -1,8 +1,85 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-CLAIMED (s71, 2026-08-25, Gabriel's hub seat): B1-T1 safe-zone law (data +
-refusal + guard + Aggro extraction) — spec
-`docs/superpowers/specs/2026-08-24-b1-safe-zones-design.md` §B1-T1.
+## 2026-08-25 session 71 — B1-T1 SAFE-ZONE LAW SHIPPED (`dcce00f`): both hubs declare sanctuary, the D2 refusal has teeth, acquisition is refused at the source · world.rb 1799→1729 (Aggro carve) · suite 1227→1239 · identity pairs 33/33 scripts / 277/277 streams byte-identical
+
+**The law (spec §B1-T1 executed as written + its s71 reopen):**
+`safe: true` on camp (hand-custody) + zone_7 (LDtk level field uid 203,
+hub precedent — D6 custody answered: NEVER sidecar, it refuses unknown
+keys; importer passthrough emits after hub, provenance pin green,
+siblings byte-identical). `Core::TileMap#safe` reader + **D2 NAMED
+refusal** (safe + non-empty enemy_spawns collide at load — the refusal
+convicted this session's own first importer-test fixture through the
+emit gate, proving the composition live). **D3 guard** at the
+acquisition site: focus refused wholesale in safe zones, nil write
+emits nothing, displaced humans still leash-walk home. **D3 REOPEN
+(recorded in the spec):** chant-start runs WITHOUT focus (grill
+finding 4 was wrong) — it pins a body directly, so the sanctuary
+refusal names it: `next if map.safe` at the chant-START branch only;
+controllers.rb untouched as D3 expected.
+
+**Line-cap law fired (1799/1800):** the touched domain carved into
+`Game::Aggro` (src/game/aggro.rb) — assign_focus! (carries the B1
+guard), partition_pressure!, surround/pressure ring claims,
+density_pockets, beachhead_shields?; World keeps byte-compatible view
+delegates (AiController duck-type/renderer/telemetry/tests unmoved).
+world.rb 1729/1800 — 71 lines of headroom for T2's world reads if any
+(spec expects none).
+
+**Belt:** suite 1239 runs / 22617 assertions (+12: 3 tile_map, 3
+importer incl. the D2-through-emit-gate pin, 6 safe_zone integration —
+coverage pin {camp, zone_7} exact, 300-tick frozen-tableau adjacency,
+leash-home with hp kept, challenger zero-chant in camp, district
+controls prove both refusals zone-scoped). Geometry traps dodged in
+test design: camp arrivals [1,5]/[18,5] + beachhead 4 (placements sit
+outside the shadow so the GUARD is what refuses), ally follow-AI
+convergence (allies killed via the real hit path — D4: pack-side verbs
+stay legal).
+
+**Rule 2 (no visual surface):** identity pairs, s58 protocol — full
+wall (33 scripts) baselined from a `9130603`-pinned git worktree
+(mid-sweep contamination law) vs post-edit live-tree re-capture:
+**277/277 streams byte-identical, zero movement as pre-declared**;
+varekka canary + vat_economy pins re-proven by the same pairs. The
+uiux seat's `rake uigate` ran concurrently during baseline (its repo)
+— judged safe (tick-locked sims; the pairwise compare is the proof).
+Map probes untouched (no god-view surface moved; T2 owns the visual
+boundary + its gate).
+
+**Seat mail (1 handled → done/):** game-two-assets fire-and-forget —
+re-pinned daaddd4→17b0ae8 after verifying the s68 tier seam (+17/-0
+additive, 20/20 render constants green); our dash-strike heads-up was
+already covered by their banked pin. No reply expected, none sent.
+
+**Job-0 baselines for s72:** origin tip = this docs commit · tree
+clean except `drafts/_refs/` (untracked, stays) · save
+**`0ed80c516168b41d6314aaf28c7848f7`** mtime 08-24 13:47 sessions=15
+(UNMOVED — pilot/harness save-blind) · launcher logs **42** · wall
+**33** (T2 adds safe_boundary.json → 34) · suite **1239** (22617) ·
+world.rb **1729/1800** · canaries re-proven via pairs (varekka
+`31c699cb…` bank untouched) · map probe print 13/13 (not re-run — no
+surface moved).
+
+**s72 = B1-T2** (renderer boundary + SAFE chip + strings ×3 + NEW wall
+script `safe_boundary.json` + blocking gate + full wall sweep DETACHED;
+spec D5: thresholds derive from live transition tables — east loop
+camp↔district_two for the fresh-save round-trip) → B1-T3 feel
+(owner-paced) → varekka re-cut (a) + volley wall script → J-3 stats
+panel · J-5 spike dev-paced · J-6 volume-rows queued · coop part 2 +
+focus-A/B whenever Junior lands.
+
+**Ratification ledger (Junior async, carry + new):** dash-strike +
+pack-burst covers? (s66) · s56-hub asks 1–3 own-confirm · s67: lore
+reopen · v20 intake list · B4 ship · ZONE 8 GO · s68: difficulty tier
+ship + content-fill design · s69: content-fill wave ship + map-checks
+recalibration + water_drained palette + gatherables parking · s70:
+zone_8 wire-in ship + uiux-seat family-block row + uiux charter
+own-confirm + D1-D14 routing dispositions · **NEW s71: B1-T1 ship
+(safe both hubs, D2 refusal, acquisition guard) + the D3 chant-start
+reopen + the Aggro carve**.
+
+**Owner-pending carry (never nag):** ear-checks (open) · T3
+footstep/bed + calm-64s re-renders (his render queue) · R-A2
+escalation call · coop part 2 · D9 es/pt menu.net.* translation call.
 
 ## 2026-08-24 session 70 — ZONE 8 WIRED INTO THE WORLD (`dc0d700`): all 5 intake debt rows in one gated commit · the frontier rung is real (dungeon_1 rope way, level 8, return free) · wall 32→33 · map probes 11→13 · uiux service seat banked into the family
 
