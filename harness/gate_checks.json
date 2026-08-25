@@ -207,7 +207,7 @@
     },
     {
       "id": "zone_identity_reads",
-      "check": "When the reel crosses two or more zones, each zone reads as a DIFFERENT PLACE by floor/wall palette and landmark features alone (hue family, sparse floor motif, authored landmarks like braziers, drowned stains, or channel-lip edges) — you could tell the frames apart with the banner covered. Value structure stays constant everywhere: floor dark, walls lighter, gold strictly reserved for open ways. If the reel never leaves one zone, pass with why='not exercised by this script'."
+      "check": "When the reel crosses two or more zones, each zone reads as a DIFFERENT PLACE by floor/wall palette and landmark features alone (hue family, sparse floor motif, authored landmarks like braziers, drowned stains, or channel-lip edges) — you could tell the frames apart with the banner covered. Value structure stays constant everywhere: floor dark, walls lighter, gold strictly reserved for open ways. If the reel never leaves one zone, pass with why='not exercised by this script'. Zone COUNT is judged by the zone names the banners show, not by crossings: a reel whose every zone banner names the SAME zone (e.g. TEST 1 throughout — the test fixture's level-gated way loops back into its own zone) never left one zone, and 'not exercised' applies no matter how many gate crossings occur."
     },
     {
       "id": "stamp_delivery_reads",
