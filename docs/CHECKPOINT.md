@@ -1,8 +1,75 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-CLAIMED (s70, 2026-08-24, Gabriel hub seat): ZONE 8 WIRE-IN — all 5 intake
-debt rows, one gated commit (`drafts/_worldsmith-v0-intake-20260823.md`
-§Wire-in debt). In progress; released at the s70 checkpoint entry.
+## 2026-08-24 session 70 — ZONE 8 WIRED INTO THE WORLD (`dc0d700`): all 5 intake debt rows in one gated commit · the frontier rung is real (dungeon_1 rope way, level 8, return free) · wall 32→33 · map probes 11→13 · uiux service seat banked into the family
+
+**The wire-in (`drafts/_worldsmith-v0-intake-20260823.md` §Wire-in debt
+now carries the full EXECUTED s70 receipts):** dungeon_1 far-east
+chamber corridor [29,4] `rope_spot` + `requires_level: 8` → zone_8
+[62,18] (LDtk → canonical re-import, siblings byte-identical); return
+FREE at the delivered gate corner [63,19] → [29,4], typeless v1
+(tile_map_test law). Arrival spawns sit beside — never on — the far way
+(anti-ping-pong: an ally landing on the free gate would bounce the pack
+straight back; caught at design). Identity dose (floor/grid/gold/
+station family/chip motif/ambient — all identity-law compliant) ·
+station_slots → **vat [16,25] + altar [18,25]** (deep-side camp;
+no-bank-in-deep KEPT) · pack_spawn → camp shore [[12,26],[13,26],
+[14,26]]. Conscious pin moves, same commit: as-landed md5
+`89ba053f…`, inertness test FLIPPED to a reachability pin, D12
+inertness law gained its SECOND ratified edge pair
+(tile_registry_test), ZoneIdentityDataTest.ZONES += zone_8. Tier row
+150/100 now reachable; enemy_spawns stays {} (wired but SPARSE —
+interior fill is a later wave, parked rows).
+
+**Rule 2 (all PASS):** NEW wall reel `zone8_crossing.json` (wall
+32→33; L8+banked staged, pilot-authored: seal toll → fork door →
+chamber fight → rope crossing → forest walk → camp VAT REGROW — the
+striker died crossing and the camp brought him back, tribute 16,
+`body_regrown` in the manifest; 5 captures, GATE 5/5 byte-identical +
+vision PASS + MANIFEST PASS). Affected dungeon reels re-gated:
+dungeon_fork PASS (6/6) + multi_floor_descent PASS (11/11), manifests
+PASS. Map re-gate: PROBES **13/13** (2 NEW permanent pins: frontier
+way reads level-LOCKED slab at staged L6 · zone_8 free return reads
+gate-gold) + vision **7/7**. Dev read every capture before the critic
+(frame-1250's red grid = rusher4's live telegraph contesting the
+crossing — event-log-verified, honest, kept).
+
+**Seat mail (3 handled → done/):** game-two-uiux GENESIS (owner-ordered
+2026-08-24, knowledge seat executed; charter blob md5 `6ddeb630…`) —
+family block synced in AGENTS.md (service-seats row: audio + uiux,
+never fork our lanes, integration only through this seat) · uiux FIRST
+CRITIQUE (44/44 pins OK; D1-D14 fix-list) + M1 PROOF (D1/D2
+before/after deltas + staged spec JSONs in its repo) — routing banked
+`drafts/_uiux-first-critique-intake-20260824.md`: D1+D2 = Lane 4 first
+pick (the refusal cue IS the new frontier way's surface), D11 amber
+quad = investigate-first, D9 es/pt = owner call, D7/D8 fold into J-3,
+locale M1 folds into J-6 volume-rows. NOTHING adopted this session
+(one-concern law). Lore reopen RECEIPT still expected.
+
+**Job-0 baselines for s71:** origin tip = this docs commit · tree clean
+except `drafts/_refs/` (untracked, stays) · save
+**`0ed80c516168b41d6314aaf28c7848f7`** mtime 08-24 13:47 sessions=15
+(NO play — pilot/harness are save-blind, md5 re-verified at close) ·
+launcher logs **42** · wall **33** · suite **1227** (assertions grew:
+22556→22576) · world.rb **1799/1800 untouched** · canaries UNMOVED
+(varekka `31c699cb…` active bank green; vat_economy reel untouched —
+no recut owed: camp.json never moved) · map probe print now **13/13**.
+**s71 = B1-T1** (safe zones both hubs, VISIBLE boundary — Lane 2's
+next rung) → then varekka re-cut (a) + volley wall script → J-3 stats
+panel · J-5 spike dev-paced · J-6 volume-rows queued · coop part 2 +
+focus-A/B whenever Junior lands.
+
+**Ratification ledger (Junior async, carry + new):** dash-strike +
+pack-burst covers? (s66) · s56-hub asks 1–3 own-confirm · s67: lore
+reopen · v20 intake list · B4 ship · ZONE 8 GO · s68: difficulty tier
+ship + content-fill design · s69: content-fill wave ship + map-checks
+recalibration + water_drained palette + gatherables parking · **NEW
+s70: zone_8 wire-in ship (way shape [29,4]↔[63,19], vat+altar pair,
+camp pack_spawn) + uiux-seat family-block row + uiux charter
+own-confirm + D1-D14 routing dispositions**.
+
+**Owner-pending carry (never nag):** ear-checks (open) · T3
+footstep/bed + calm-64s re-renders (his render queue) · R-A2
+escalation call · coop part 2 · D9 es/pt menu.net.* translation call.
 
 ## 2026-08-24 session 69 — CONTENT-FILL WAVE SHIPPED 3/3 (`f2d36ce`+`3b0fb8c`+`8dd494c`): basements + dungeon_1 filled per the banked design, every piece its own gated commit · wall 29→32 · the INTERIOR-DOOR shape (sealed same-zone transition) is now live vocabulary · latent s68 map-probe break found+fixed · gatherables idea parked (owner, shelf-grounded) · zone_8 wire-in → s70
 

@@ -58,7 +58,7 @@ changes are still Rule-2 visual changes (wall + recalibration apply).
   veto, v13 precedent).
 
 <!-- FAMILY-BLOCK BEGIN -->
-## Workspace family (game-two program) — synced 2026-08-22
+## Workspace family (game-two program) — synced 2026-08-24
 
 - **Peers:** Gabriel (owner-founder, es-CR) + Junior (co-creator,
   pt-br) co-direct the whole program with equal creative standing —
@@ -79,6 +79,13 @@ changes are still Rule-2 visual changes (wall + recalibration apply).
 - **Seat-lease law:** no session ever writes into a sibling workspace
   tree — read tool for reading, mail for asking, md5 as the
   byte-identity arbiter.
+- **Service seats:** game-two-audio (audio increments on owner word) ·
+  game-two-uiux (UI/UX spec/prototype/critique service + research
+  lanes; owner-ordered genesis 2026-08-24, charter = its AGENTS.md,
+  git-blob md5 `6ddeb63023b3884961f241a2091ed366`). Service seats
+  never fork this repo's lanes — integration lands only through this
+  seat, under this repo's gates; critique passes arrive by mail as
+  take-or-leave evidence.
 - **Sovereignty:** this block never overrides local law — this repo's
   own invariants win inside this repo.
 - **Contract mirror:** AGENTS.md is ground truth; CLAUDE.md is a thin
@@ -174,10 +181,12 @@ Live authoring laws:
 - **The world is JOINED**: low_quay [44,19] ↔ zone_7 [1,14]
   (`requires_defeats: 1` outbound; the return is free); zone_7's deep
   ways gate by pack level (s68): basement_1 at 4, basement_2 at 5,
-  dungeon_1 at 6 (composes with its seal) — returns free. **INERT
-  law:** zone_8 inert both ways (wire-in owes the intake debt list:
-  `drafts/_worldsmith-v0-intake-20260823.md`); grass_fixture
-  inbound-inert.
+  dungeon_1 at 6 (composes with its seal) — returns free; dungeon_1's
+  far-east rope way [29,4] ↔ zone_8 [63,19] (s70 wire-in:
+  `requires_level: 8` outbound, the frontier rung; return = free v1
+  edge gate). **INERT law:** grass_fixture inbound-inert; zone_8's
+  intake debt is EXECUTED (s70 — record:
+  `drafts/_worldsmith-v0-intake-20260823.md` §Wire-in debt).
 - **Typed transitions**: rope = interact (gate-consent law),
   holes/stairs auto-fire. **Seal GATING law** (s34, `abe04d6`): a
   seal's `opens` must name a transition with TRUTHY `sealed` —
