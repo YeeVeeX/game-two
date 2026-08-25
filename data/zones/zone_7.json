@@ -2,6 +2,7 @@
   "name": "zone_7",
   "display_name": "ZONE 7",
   "hub": true,
+  "safe": true,
   "tile_size": 32,
   "palette": {
     "floor": [

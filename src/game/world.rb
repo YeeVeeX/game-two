@@ -8,6 +8,7 @@ require "game/creature"
 require "game/pack"
 require "game/projectile"
 require "game/controllers"
+require "game/aggro"
 require "game/feel"
 require "game/camera"
 require "game/flow_field"
@@ -118,6 +119,14 @@ module Game
       @transients = Transients.new(pop_frames: @balance[:feel][:pop_frames])
       @controllers = @seats.to_h { |s| [s, PossessedController.new] }
       @ai = AiController.new
+      # Acquisition/threat brain (B1-T1 extraction, line-cap law): focus
+      # assignment (incl. the B1 safe-zone refusal), pressure partition,
+      # ring claims, density pockets, beachhead shielding live in a plain
+      # object — per-tick claim state resets from tick_world exactly where
+      # the old ivars did.
+      @aggro = Aggro.new(humans: -> { humans }, map: method(:map),
+                         arrivals: -> { arrival_tiles_for(@zone_name) },
+                         threat: @threat, economy: @economy, bus: @bus, ai: @ai)
       @null_input = Core::NullInput.new
       @swap_was_down = @seats.to_h { |s| [s, false] }
       @rearm_needed = @seats.to_h { |s| [s, false] }
@@ -337,52 +346,19 @@ module Game
             .uniq
     end
 
-    # Surround doctrine (owner directive 2026-08-09): attackers converging on
-    # one target each claim a DIFFERENT adjacent tile and approach it, so a
-    # group fans out into a pincer instead of a single-file queue. Claims are
-    # rebuilt every tick in AI iteration order (roster order — deterministic).
-    def surround_slot(attacker, target)
-      claims = (@slot_claims[target] ||= {})
-      already = claims.find { |_, who| who.equal?(attacker) }
-      return already[0] if already
-      tx, ty = target.tile
-      slot = Creature::RING.map { |(dx, dy)| [tx + dx, ty + dy] }
-                           .find { |t| map.passable?(*t) && !claims.key?(t) }
-      claims[slot] = attacker if slot
-      slot
-    end
+    # Surround/pressure ring claims, the engaged/pressuring partition,
+    # density pockets, and beachhead shielding are Aggro policy (B1-T1
+    # extraction) — these delegates ARE the AiController/renderer/telemetry
+    # view surface, byte-compatible with the pre-carve methods.
+    def surround_slot(attacker, target) = @aggro.surround_slot(attacker, target)
 
-    # A2 position pressure: per focus-target, the nearest engaged_cap_per_target
-    # humans fight; the rest PRESSURE (follow, block, never swing). Sorting is
-    # (distance, roster index) -- deterministic. Taunt-bound humans partition
-    # like everyone else: taunt locks attention, not the right to swing.
-    def partition_pressure
-      cap = @threat[:engaged_cap_per_target]
-      @pressure_roles = {}
-      humans.reject(&:dead?).group_by(&:focus).each do |target, group|
-        next unless target
-        group.each_with_index
-             .sort_by { |h, i| [tile_distance(h.tile, target.tile), i] }
-             .each_with_index { |(h, _), rank| @pressure_roles[h] = rank < cap ? :engaged : :pressuring }
-      end
-    end
+    def pressure_role(creature) = @aggro.pressure_role(creature)
 
-    def pressure_role(creature) = (@pressure_roles || {}).fetch(creature, :engaged)
+    def pressure_slot(attacker, target) = @aggro.pressure_slot(attacker, target)
 
-    # Ring slots mirror surround_slot one ring further out: the Chebyshev ring at
-    # pressure_ring_tiles, claimed per target per tick, fixed perimeter order.
-    def pressure_slot(attacker, target)
-      claims = (@pressure_claims[target] ||= {})
-      already = claims.find { |_, who| who.equal?(attacker) }
-      return already[0] if already
-      r = @threat[:pressure_ring_tiles]
-      tx, ty = target.tile
-      ring = (-r..r).flat_map { |d| [[tx + d, ty - r], [tx + d, ty + r], [tx - r, ty + d], [tx + r, ty + d]] }
-                    .uniq
-      slot = ring.find { |t| map.passable?(*t) && !claims.key?(t) }
-      claims[slot] = attacker if slot
-      slot
-    end
+    def density_pockets = @aggro.density_pockets
+
+    def beachhead_shields?(human, target) = @aggro.beachhead_shields?(human, target)
 
     # Straight walls-only ray check for ranged AI (occupancy is deliberately
     # ignored — a shot over a friendly is legal, no friendly fire).
@@ -417,44 +393,10 @@ module Game
       creature.step(dir[0], dir[1], blocked:)
     end
 
-    # v11 density: pockets = connected groups of living humans in the
-    # current zone within join_radius_tiles of each other (chain distance,
-    # Chebyshev). Public on purpose — the respawn anchor path, telemetry,
-    # and tests must all read the SAME computation. Roster order in, so
-    # grouping is deterministic.
-    def density_pockets
-      radius = @threat[:density][:join_radius_tiles]
-      alive = humans.reject(&:dead?)
-      seen = {}
-      pockets = []
-      alive.each do |h|
-        next if seen[h]
-        group = [h]
-        seen[h] = true
-        queue = [h]
-        until queue.empty?
-          current = queue.shift
-          alive.each do |other|
-            next if seen[other] || tile_distance(current.tile, other.tile) > radius
-            seen[other] = true
-            group << other
-            queue << other
-          end
-        end
-        pockets << group
-      end
-      pockets
-    end
+    # Density pockets moved to Aggro with the acquisition family (B1-T1);
+    # the respawn anchor path, telemetry, and tests read this delegate.
 
-    # Beachhead (A2): arrival is not an ambush. Blocks ACQUISITION only —
-    # taunt/anchor bind first in the chain, and a human the pack has attacked
-    # is waived for life (you don't get the doormat's protection while
-    # swinging from it).
-    def beachhead_shields?(human, target)
-      return false if human.beachhead_waived?
-      radius = @threat[:beachhead_tiles]
-      arrival_tiles_for(@zone_name).any? { |a| tile_distance(target.tile, a) <= radius }
-    end
+    # Beachhead shielding: Aggro policy (see delegate above).
 
     def arrival_tiles_for(zone) = @arrivals.fetch(zone) { [] }
 
@@ -566,7 +508,7 @@ module Game
     # clamped; dead untouched — the vat keeps its regrowth monopoly).
     # Refusals cue + spend NOTHING (at_cap/broke/none/no_effect/seat_race
     # — never a silent eat). @sustain_done is the first-success-per-tick
-    # latch (a per-tick transient reset in tick_world beside @slot_claims,
+    # latch (a per-tick transient reset in tick_world beside @aggro.reset!,
     # never digest state): the seat-ordered controller loop resolves seat 1
     # first on both machines, so a same-tick race deterministically awards
     # the action to seat 1 and refuses seat 2 THAT tick.
@@ -645,8 +587,7 @@ module Game
     private
 
     def tick_world(inputs)
-      @slot_claims = {}
-      @pressure_claims = {}
+      @aggro.reset!
       @sustain_done = false
       @seats.each { |seat| handle_swap(seat, seat_input(inputs, seat)) }
       # Forced swap happens at bus-process time (no input in scope there), so
@@ -672,8 +613,8 @@ module Game
       end
       validate_mark
       @pack.living.each { |m| @ai.tick(m, self) unless controlled?(m) }
-      assign_human_focus
-      partition_pressure
+      @aggro.assign_focus!(self)
+      @aggro.partition_pressure!
       tick_challengers
       # A chanting challenger STANDS — pronunciation is stillness (his AI
       # tick is the only thing suspended; timers/attack-state still ran).
@@ -699,25 +640,9 @@ module Game
       prune_caches
     end
 
-    def assign_human_focus
-      humans.each do |h|
-        next if h.dead?
-        target, cause = @ai.select_target(h, self)
-        if target && !target.equal?(h.focus)
-          @bus.emit(:human_retargeted, actor: h, from: h.focus, to: target, cause:)
-          # Cue-keyed causes only (spec section 5): taunt/anchor turns carry
-          # their own tells (underline, pulse) and have no cue color — but
-          # every turn invalidates a live cue, or a stale cause would explain
-          # a turn it did not drive (impl review, Codex finding 2).
-          if %i[hate lowhp proximity].include?(cause)
-            h.retarget_cue!(cause, @economy[:retarget_cue_frames])
-          else
-            h.clear_retarget_cue!
-          end
-        end
-        h.focus = target
-      end
-    end
+    # Hostile focus acquisition (incl. the B1 safe-zone refusal) lives in
+    # Aggro#assign_focus! (B1-T1 extraction) — tick_world calls it at the
+    # exact call site the private method held since A2.
 
     # --- v15 the Challenger: chant -> seizure ---------------------------
 
@@ -777,6 +702,11 @@ module Game
         # Never chant while his own seizure holds (cooldown starts at
         # seizure END, so this guard is what prevents chant-chaining).
         next if @pack.members.any? { |m| m.seize_active? && m.seizure_seizer.equal?(h) }
+        # B1 safe-zone law (D3 reopen, s71): chant-start is an ACQUISITION
+        # verb that bypasses focus — start_chant! pins a body directly —
+        # so the sanctuary refusal names it explicitly (the spec's own
+        # reopen clause; every other hostile verb needs a live focus).
+        next if map.safe
         # Decision 11: seizure targets the NEAREST controlled body
         # (Chebyshev; tie -> lower roster index) — deterministic on both
         # machines.

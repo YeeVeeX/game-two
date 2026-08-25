@@ -1010,6 +1010,43 @@
         "allowedRefsEntityUid": null,
         "allowedRefTags": [],
         "tilesetUid": null
+      },
+      {
+        "identifier": "safe",
+        "doc": null,
+        "__type": "Bool",
+        "uid": 203,
+        "type": "F_Bool",
+        "isArray": false,
+        "canBeNull": false,
+        "arrayMinLength": null,
+        "arrayMaxLength": null,
+        "editorDisplayMode": "NameAndValue",
+        "editorDisplayScale": 1,
+        "editorDisplayPos": "Center",
+        "editorLinkStyle": "CurvedArrow",
+        "editorDisplayColor": null,
+        "editorAlwaysShow": false,
+        "editorShowInWorld": true,
+        "editorCutLongValues": true,
+        "editorTextSuffix": null,
+        "editorTextPrefix": null,
+        "useForSmartColor": false,
+        "exportToToc": false,
+        "searchable": false,
+        "min": null,
+        "max": null,
+        "regex": null,
+        "acceptFileTypes": null,
+        "defaultOverride": null,
+        "textLanguageMode": null,
+        "symmetricalRef": false,
+        "autoChainRef": false,
+        "allowOutOfLevelRef": true,
+        "allowedRefs": "OnlySame",
+        "allowedRefsEntityUid": null,
+        "allowedRefTags": [],
+        "tilesetUid": null
       }
     ]
   },
@@ -1070,6 +1107,21 @@
           "__value": true,
           "__tile": null,
           "defUid": 202,
+          "realEditorValues": [
+            {
+              "id": "V_Bool",
+              "params": [
+                true
+              ]
+            }
+          ]
+        },
+        {
+          "__identifier": "safe",
+          "__type": "Bool",
+          "__value": true,
+          "__tile": null,
+          "defUid": 203,
           "realEditorValues": [
             {
               "id": "V_Bool",
@@ -3211,6 +3263,21 @@
               ]
             }
           ]
+        },
+        {
+          "__identifier": "safe",
+          "__type": "Bool",
+          "__value": false,
+          "__tile": null,
+          "defUid": 203,
+          "realEditorValues": [
+            {
+              "id": "V_Bool",
+              "params": [
+                false
+              ]
+            }
+          ]
         }
       ],
       "layerInstances": [
@@ -3805,6 +3872,21 @@
           "__value": false,
           "__tile": null,
           "defUid": 202,
+          "realEditorValues": [
+            {
+              "id": "V_Bool",
+              "params": [
+                false
+              ]
+            }
+          ]
+        },
+        {
+          "__identifier": "safe",
+          "__type": "Bool",
+          "__value": false,
+          "__tile": null,
+          "defUid": 203,
           "realEditorValues": [
             {
               "id": "V_Bool",
@@ -4826,6 +4908,21 @@
           "__value": false,
           "__tile": null,
           "defUid": 202,
+          "realEditorValues": [
+            {
+              "id": "V_Bool",
+              "params": [
+                false
+              ]
+            }
+          ]
+        },
+        {
+          "__identifier": "safe",
+          "__type": "Bool",
+          "__value": false,
+          "__tile": null,
+          "defUid": 203,
           "realEditorValues": [
             {
               "id": "V_Bool",

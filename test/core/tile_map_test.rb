@@ -40,6 +40,31 @@ class TileMapTest < Minitest::Test
     assert_nil Core::TileMap.new(base_cfg).name
   end
 
+  # B1: the sanctuary flag — reader mirrors hub's plumbing exactly.
+  def test_safe_reader_defaults_false
+    refute Core::TileMap.new(base_cfg).safe
+    assert Core::TileMap.new(base_cfg.merge(safe: true)).safe
+  end
+
+  # B1 D2 — the load invariant: a declared sanctuary cannot seed hostiles
+  # (refusal NAMED, s34 seal-gating precedent); the message names the zone
+  # and both keys so a future spawn-table pass collides loudly at boot.
+  def test_safe_zone_with_enemy_spawns_refuses_named
+    err = assert_raises(Core::TileMap::BadMap) do
+      Core::TileMap.new(base_cfg.merge(
+                          name: "sanct", safe: true,
+                          enemy_spawns: { rusher: [[2, 2]] }
+                        ))
+    end
+    assert_match(/sanct/, err.message)
+    assert_match(/safe: true/, err.message)
+    assert_match(/enemy_spawns/, err.message)
+  end
+
+  def test_safe_zone_without_spawns_loads
+    assert Core::TileMap.new(base_cfg.merge(safe: true, enemy_spawns: {})).safe
+  end
+
   # T3: char + used-chars readers (footstep material derivation + the
   # used-chars scope law in TileRegistry#validate_map!).
   def test_char_at_reads_grid_and_nils_out_of_bounds

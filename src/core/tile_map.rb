@@ -14,7 +14,7 @@ module Core
 
     attr_reader :cols, :rows, :tile_size, :pack_spawn, :enemy_spawns,
                 :display_name, :palette, :transitions, :stations, :drop_gradient,
-                :hub, :gradient_anchor, :name, :decor, :floor, :regions, :tile_types,
+                :hub, :safe, :gradient_anchor, :name, :decor, :floor, :regions, :tile_types,
                 :water_drained_by
 
     def initialize(cfg)
@@ -37,6 +37,12 @@ module Core
       # the gate-field origin so arrival-list ORDER can never flip a zone's
       # band map (sorted zone keys reorder arrivals when zones are added).
       @hub = cfg.fetch(:hub, false)
+      # B1 (v19 foundation row 6): safe zones — hostile acquisition is
+      # refused while this zone is active (World/Aggro custody). A
+      # genuinely independent axis from hub: hub re-homes respawn/vat
+      # (anchor flag), safe declares the sanctuary (nest keeps hub
+      # without safe — wilderness spawn ground).
+      @safe = cfg.fetch(:safe, false)
       @gradient_anchor = cfg.fetch(:gradient_anchor, nil)
       # v16 (b): authored landmark features — RENDER-ONLY (never blocking,
       # never validated against passability: braziers mount on walls).
@@ -102,6 +108,15 @@ module Core
       @transitions.each { |t| check_passable!("transition", t[:at]) }
       @stations.each { |s| check_passable!("station", s[:at]) }
       validate_seal_opens!
+      # B1 D2 — the sanctuary load invariant (seal-gating s34 precedent):
+      # a zone declaring safe: true must not seed hostiles. This is the
+      # law's teeth against the FUTURE — a tile-gated spawn table or a
+      # TOWN growth pass touching a safe zone collides LOUDLY at boot
+      # instead of silently shipping combat into a marked sanctuary.
+      if @safe && !@enemy_spawns.empty?
+        raise BadMap, "zone #{@name || @display_name}: safe: true with non-empty " \
+                      "enemy_spawns (a declared sanctuary cannot seed hostiles — B1 D2)"
+      end
       check_passable!("gradient_anchor", @gradient_anchor) if @gradient_anchor
       validate_v2!
     end

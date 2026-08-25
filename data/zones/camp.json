@@ -2,6 +2,7 @@
   "name": "camp",
   "display_name": "HUB 1",
   "hub": true,
+  "safe": true,
   "tile_size": 32,
   "palette": {
     "floor": [32, 28, 26],

@@ -251,6 +251,39 @@ owner-paced — never nag]
 - Done: captures banked in drafts/ + checkpoint row flips B1 to
   awaiting-playtest.
 
+## T1 build reopen (s71, 2026-08-25 — D3's own clause exercised)
+
+D3 predicted `controllers.rb` untouched and said: "if the build finds a
+verb path that runs without focus, that's a spec defect: reopen here,
+don't patch ad-hoc." The build found one — in world.rb, not
+controllers.rb: **chant-start runs without focus.** Grill finding 4's
+sentence "Chanting is world-driven and needs an acquired target first"
+is wrong for the START of the chant: `World#tick_challengers` gates
+chant-start on cooldown/idle/range only and pins the nearest CONTROLLED
+body directly (`start_chant!`), never reading `focus`. A challenger
+placed in a sanctuary would chant and seize with the D3 guard fully in
+place.
+
+Resolution (dev-of-record, ratified-letter-neutral): chant-start IS an
+acquisition verb — it pins a body the way `select_target` pins a focus
+— so the sanctuary refusal covers it explicitly: one guard line in
+`tick_challengers` (`next if map.safe`, placed at the chant-START
+branch only — cooldown ticking and in-flight chant machinery untouched;
+no in-flight chant can exist in a safe active zone since humans never
+cross and `enter_zone` aborts all chants). The ratified sentence
+("enemies never pursue/damage inside") is unchanged — this is D2-grade
+machinery that makes it unconditionally true. Pinned by
+`safe_zone_test.rb` (camp challenger: zero chant/seize events; district
+control: chants normally). controllers.rb remains untouched, as D3
+expected.
+
+T1 custody receipt (D6 answered): `safe` is LEVEL-FIELD custody in the
+authoring project (the hub precedent, uid 203), never sidecar — the
+sidecar refuses unknown keys by design (presentation/tuning only). The
+importer passes it through and emits it directly after `hub`;
+`import -> emit` stays a byte-stable fixpoint (pilot provenance pin
+green). camp.json is hand-custody, edited directly.
+
 ## Sequencing
 
 - T1 AND T2 unblock the moment the s59 ratify-push lands (same-day

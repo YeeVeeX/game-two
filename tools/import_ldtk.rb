@@ -155,9 +155,12 @@ module Tools
     # Level custom fields: display_name required; floor optional Int
     # (wrinkle 9); hub optional Bool (T4 — zone metadata is level-field
     # custody, the camp precedent: hub rehoming is existing data-driven
-    # machinery, not new sim vocabulary).
+    # machinery, not new sim vocabulary); safe optional Bool (B1 — same
+    # custody: the sanctuary flag is zone metadata, never sidecar
+    # presentation/tuning).
     def level_fields(zone, level)
-      known = { "display_name" => "String", "floor" => "Int", "hub" => "Bool" }
+      known = { "display_name" => "String", "floor" => "Int", "hub" => "Bool",
+                "safe" => "Bool" }
       out = {}
       (level["fieldInstances"] || []).each do |fi|
         id = fi["__identifier"]
@@ -171,6 +174,9 @@ module Tools
       end
       if out.key?("hub") && !out["hub"].nil? && ![true, false].include?(out["hub"])
         refuse "level #{zone}: hub must be a Bool"
+      end
+      if out.key?("safe") && !out["safe"].nil? && ![true, false].include?(out["safe"])
+        refuse "level #{zone}: safe must be a Bool"
       end
       out
     end
@@ -356,6 +362,7 @@ module Tools
       out = { "name" => zone, "display_name" => lf["display_name"] }
       out["floor"] = lf["floor"] if lf["floor"] && lf["floor"] != 0
       out["hub"] = true if lf["hub"] == true
+      out["safe"] = true if lf["safe"] == true
       out["tile_size"] = sidecar["tile_size"]
       out["palette"] = sidecar["palette"]
       out["tiles"] = tiles

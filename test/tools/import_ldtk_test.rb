@@ -316,6 +316,40 @@ class ImportLdtkTest < Minitest::Test
     refute parsed.key?("hub")
   end
 
+  # B1: safe rides the same level-field custody as hub (zone metadata is
+  # never sidecar territory — the sidecar refuses unknown keys by law)
+  # and slots directly after hub in the canonical emission order. The
+  # fixture ships EnemySpawn entities, so they are stripped first — the
+  # emit gate composes the loader's D2 sanctuary refusal (pinned below).
+  def strip_enemy_spawns(d)
+    layer(d, "Entities")["entityInstances"].reject! { |e| e["__identifier"] == "EnemySpawn" }
+    d
+  end
+
+  def test_safe_level_field_emits_after_hub
+    d = strip_enemy_spawns(doc)
+    level(d)["fieldInstances"] << bool_field("hub", true)
+    level(d)["fieldInstances"] << bool_field("safe", true)
+    parsed = JSON.parse(importer.import(d).fetch("district"))
+    assert parsed["safe"]
+    keys = parsed.keys
+    assert_equal keys.index("hub") + 1, keys.index("safe"),
+                 "safe slots after hub (camp.json order)"
+  end
+
+  def test_safe_with_enemy_spawns_refuses_through_the_emit_gate
+    d = doc
+    level(d)["fieldInstances"] << bool_field("safe", true)
+    assert_match(/safe: true with non-empty enemy_spawns/, refusal(d))
+  end
+
+  def test_safe_false_is_omitted_as_default
+    d = doc
+    level(d)["fieldInstances"] << bool_field("safe", false)
+    parsed = JSON.parse(importer.import(d).fetch("district"))
+    refute parsed.key?("safe")
+  end
+
   def test_requires_defeats_transition_field_emits
     d = doc
     tr = entity(d, "Transition", 0)
