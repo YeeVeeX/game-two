@@ -1133,7 +1133,7 @@ module App
       draw_stamp_line(world, tr("breach.line", line[:text]),
                       frames_left: line[:frames_left],
                       frames_total: line.fetch(:frames_total, @display.fetch(:breach_banner_frames, 150)),
-                      top: 88)
+                      top: @display.fetch(:breach_line_top, 88))
     end
 
     def draw_wipe_overlay(world)
@@ -1175,9 +1175,11 @@ module App
     # square = destroyed (gone). No words — nothing blocks on the bible.
     # Entrance: scale pop 1.35→1.0 + additive flash; exit: alpha fade over the
     # final third of beat_left (the drop-decay grammar). Wipe recaps sit lower
-    # (ledger_wipe_y), clear of the 64pt wipe line. RENDER-ONLY: everything is
-    # a pure function of the beat record — replay determinism holds.
-    # Z within the block: panel 29, glyphs+text 30, flash 31.
+    # (ledger_wipe_y), clear of the veil's center field (the v16 owner order
+    # removed the wipe TEXT — the veil + recap ARE the wipe's delivery; stale
+    # "64pt wipe line" reference caught by the uiux M5 audit). RENDER-ONLY:
+    # everything is a pure function of the beat record — replay determinism
+    # holds. Z within the block: panel 29, glyphs+text 30, flash 31.
     def draw_ledger_beat(world)
       beat = world.ledger_beat
       return unless beat
@@ -1329,7 +1331,6 @@ module App
     def tr(key, fallback = nil) = @strings ? @strings.t(key, fallback) : fallback
 
     def banner_font = @banner_font ||= Gosu::Font.new(28, bold: true)
-    def wipe_font = @wipe_font ||= Gosu::Font.new(64, bold: true)
     def hud_font = @hud_font ||= Gosu::Font.new(14)
     def ledger_font = @ledger_font ||= Gosu::Font.new(16, bold: true)
     # Beat tally fonts, created at target size — glyphs only blur during the

@@ -85,7 +85,9 @@ module Game
       # v15 banner FIFO (panel fold W6): zone banners + court stamps share
       # the slot as QUEUED entries {text_key:, fallback:, color:,
       # frames_left:} — keys, never locale-baked text (locale-at-render
-      # law). The active entry plays out; queued follow; nothing is eaten.
+      # law). The active entry always plays out; past banner_queue_max the
+      # oldest QUEUED entry yields (enqueue_banner — the uiux M3 audit
+      # caught this comment claiming "nothing is eaten").
       @banner_queue = []
       @station_cue = nil
       @breach_line = nil
