@@ -46,6 +46,28 @@ critic samples misread the TEST 1 self-loop as two zones on
 md5-proven-unchanged bytes; zone_identity_reads now judges zone count
 by banner NAMES; re-gate PASS honest.
 
+**Seat mail (5 handled → done/):** · **audio T3 stone BANKED** — 8-take
+`footstep_stone` family at `game-two-audio/handoff/audio-v13/` (sha
+table + peaks all below the throw ref; their receipt ask binds at
+integration time, owner-paced) · **lore reopen RECEIPT landed** (the
+owed line CLEARS): order banked verbatim their side, program walking
+with the owner live, game-two stays placeholders-only (re-affirmed) ·
+**uiux M3 motion + M4 fidelity + M5 spec batch** — 14/14 fidelity rows
+match real frames (zero live drift, 18 display keys re-read);
+their live-code corrections VERIFIED and fixed (`c1428a5`: world.rb:88
+"nothing is eaten" comment lied vs enqueue_banner's drop-oldest-queued,
+stale "64pt wipe line" comment, dead wipe_font removed, breach top:88
+literal keyed as `breach_line_top` — default 88, zero adoption;
+toll_pocket gate PASS). **QUEUED as recorded rows (take-or-leave, Lane
+4 / uiux service):** their capture ask (toll-during-banner replay +
+provision-refusal bracket → settles M3-1/M3-2, upgrades C6/C1 evidence)
+· M5 adoption slate C1 down-outline / C2 strip-label rgb / C3 priced
+escalations / C6 breach_line_top 88→110 (each = a Rule 2 visual change
+on adoption; C4+C7 dissolved by their own audit; C5 = finding, no
+delta). Bisect fact banked to project MEMORY: mid-scale-in stamp text
+(toll f560) is byte-bimodal across semantically-inert source edits —
+cross-commit md5s on such frames are not code-change verdicts.
+
 **Ratification ledger — CLEARED THROUGH s71 (Junior, `436f52d`,
 2026-08-25):** "Ratifico todas as decisões e entregas listadas" —
 closes s66 dash-strike+covers · s56-hub asks + CLAIMED protocol · s67
@@ -71,10 +93,12 @@ wall red; spark staged) → J-3 stats panel · B1-T3 feel owner-paced ·
 J-5 spike dev-paced · J-6 volume-rows queued · coop part 2 + focus-A/B
 whenever Junior lands.
 
-**Owner-pending carry (never nag):** ear-checks · T3 footstep/bed +
-calm-64s re-renders · R-A2 escalation call · coop part 2 · D9 es/pt
-menu.net.* translation call · B1-T3 playtest word · shake −50%
-feel-check at next launch.
+**Owner-pending carry (never nag):** ear-checks · T3 stone footsteps
+BANKED (8 takes, audio-v13) — dirt/grass/wood takes + the three beds +
+calm-64s re-render still pending at the audio seat; game-side wiring =
+its own gated ticket · R-A2 escalation call · coop part 2 · D9 es/pt
+menu.net.* translation call (now also Junior's recorded reservation) ·
+B1-T3 playtest word · shake −50% feel-check at next launch.
 
 ## 2026-08-25 session 71 — B1-T1 SAFE-ZONE LAW SHIPPED (`dcce00f`): both hubs declare sanctuary, the D2 refusal has teeth, acquisition is refused at the source · world.rb 1799→1729 (Aggro carve) · suite 1227→1239 · identity pairs 33/33 scripts / 277/277 streams byte-identical
 
