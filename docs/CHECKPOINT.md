@@ -1,5 +1,10 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+**CLAIMED: D1+D2 refusal-cue/halo (uiux M1 adoption) — s75, Gabriel's
+seat, 2026-08-25** (Lane-4 queue rung: refusal-cue chip backing +
+price-numeral halo, one delta at a time, each through its own Rule 2
+gate; renderer+display.json only).
+
 ## 2026-08-25 session 74 — J-3 STATS PANEL v0 SHIPPED (`b16f143`): STATS menu row reads the REAL Progression truths · menu_tour recut with the panel's liveness pair ON CAMERA · gate critic-ON PASS + MANIFEST PASS · wall stays 35 · corpses_persist occlusion clause (verified vs code+pixels) · uiux M6 mail banked
 
 **J-3 (Lane-4 ratified rung; receipts
