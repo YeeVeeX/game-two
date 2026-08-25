@@ -1,8 +1,68 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-**CLAIMED: varekka re-cut (a) + lobber-volley wall script — s73,
-Gabriel's seat, 2026-08-25** (ratified ladder rung: s66 line 2 option
-(a) + the owed volley script; clears the standing wall red).
+## 2026-08-25 session 73 — VAREKKA RE-CUT (a) EXECUTED + LOBBER_VOLLEY SHIPPED: the standing wall red CLEARS · wall 34→35 · canary REBANK #2 (`31c699cb…`→`bf35628a…`, S59 bank preserved) · both scripts gate critic-ON + manifest PASS · zero src/data changes (full wall not owed — blast-radius call recorded)
+
+**The re-cut (ratified s66 line 2, Junior's pick; full record
+`drafts/_varekka-recut-20260825.md`):** varekka_duel's new stream =
+pilot-authored honest play (17 generations, tmp/pilot/vk3). Shipped
+manifest per double: engaged 2 · chants 2 · seized 2 · ended 2 ·
+pickups 10. **The honest profile is one COMPLETED chant per session**
+(pin = possessed, vessel dies honestly) — the s60 sketch's
+interrupt+kill beats are NOT honestly drivable pre-C2/C3: ally
+autonomy trade-locks the boss (~360f to dead), the deterministic
+completion needs a zero-free-ally pack, and the NEW-law finding —
+**boss home-deafness** (post-shed he leashes home and only
+re-acquires at ~10-12 proximity, not aggro-45) — makes any second
+cycle unreachable across the wake fields. Chant-timing law banked:
+fires the first eligible tick INCLUDING mid-walk (rails: seizure-end
+1402 + 600 + ~8 = frame ~2010 every generation). Interrupt + boss-kill
+beats RECORDED as re-earnable when Lane-3 C2 ships the steering verb.
+Reel: wave → hoover (carried 12) → SPAWNED stamp (capture 320) →
+chant ring/tell/writ (1180) → seized underline (1300) → vessel death
+(1360) → shield-edge sweep pops (1565) → regroup + loot (2620). Gate
+PASS ×2 runs byte-identical + vision 60/60 + MANIFEST PASS.
+
+**lobber_volley.json (the s66 canary gap — no pinned replay cast
+specials):** district seed 11, run_until 1432. WHIFF cast (telegraph
+35 / empty impact 61) + corridor cast THROUGH the pack blocker's
+bracket tile (1180 — D2 covers-fix on camera) + volley impact-hit on
+rusher8 (1204) + aftermath/pickup (1290/1330). Manifest per double:
+special_started 4 · attack_hit 106 · actor_died 34 · picked 2. NO new
+gate row — volley_telegraph_distinct/specials_distinct/
+burst_legibility/kill_pop judged live, all PASS. Design note banked:
+bracket range 2-4 < aggro 10 ⇒ no cold volley on resters; glued
+chasers (13f vs 16f) never re-enter brackets — honest hits are
+approach-crossings or brawl-adjacent.
+
+**Canary REBANK #2:** ACTIVE varekka `bf35628a3d2ba50b0aa7d78f9749755e`
+(script re-cut, not a sim change; old bank → S59_HISTORY; world_loop +
+burn_duel untouched; one-liner in `drafts/_j7b-canary-rebank-20260824.md`
+§s73). Suite 1245/22642 green (+6 assertions = wall-directory tests
+seeing script 35).
+
+**Job-0 note:** launcher logs 42→39 investigated at open — 3 OLD logs
+(aug-15/17 era) evaporated from %TEMP% (Windows temp cleanup), zero
+new ones, save md5 unmoved → benign, baseline rebased.
+
+**Job-0 baselines for s74:** origin tip = this docs commit · tree
+clean except `drafts/_refs/` (untracked, stays) · save
+**`0ed80c516168b41d6314aaf28c7848f7`** mtime 08-24 13:47 (UNMOVED —
+pilots never open saves) · launcher logs **39** · wall **35** · suite
+**1245** (22642) · world.rb **1731/1800** (untouched) · varekka canary
+**`bf35628a…`** ACTIVE (rebank #2 recorded + gate-proven this session;
+Junior async ratification rides the standing ledger) · map probe 13/13
+(not re-run — god-view untouched).
+
+**s74 spark = J-3 stats panel v0** (next ratified ladder rung) ·
+B1-T3 feel owner-paced · J-5 spike dev-paced · J-6 volume-rows queued ·
+coop part 2 + focus-A/B whenever Junior lands · uiux M4 capture ask +
+M5 adoption slate C1/C2/C3/C6 queued (Lane 4).
+
+**Owner-pending carry (never nag):** ear-checks · T3 stone BANKED
+(dirt/grass/wood + beds + calm-64s still at the audio seat) · R-A2
+escalation call · coop part 2 · D9 es/pt menu.net.* translation call
+(+ Junior's recorded reservation) · B1-T3 playtest word · shake −50%
+feel-check at next launch.
 
 ## 2026-08-25 session 72 — B1-T2 VISIBLE BOUNDARY SHIPPED (`a30837d`): threshold frames from destination safety + persistent SAFE chip + wall 34 · OWNER ORDER executed: screen shake −50% (`f67a1eb`) · TWO full wall sweeps: green except the varekka stale-manifest red (recorded, fix = s73's ratified re-cut)
 

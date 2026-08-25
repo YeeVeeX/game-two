@@ -72,3 +72,13 @@ the identical prefix and still prove their checks.
   script pairs under `tmp/s59_audit/`).
 - Repro: `tmp/dump_stream.rb` via test/support/headless_script (the
   banked etapa-0 instrument path).
+
+## §s73 — REBANK #2 (2026-08-25): the ratified re-cut landed
+
+varekka_duel ACTIVE `31c699cb…` → **`bf35628a3d2ba50b0aa7d78f9749755e`**
+(script re-cut, NOT a sim change — option (a), RATIFIED s66 line 2 by
+Junior, executed s73). Old bank preserved as `S59_HISTORY`; world_loop +
+burn_duel byte-unchanged. Prefix-diff N/A by design (new input stream);
+the honest-profile evidence and the full 17-generation pilot record:
+`drafts/_varekka-recut-20260825.md`. Wall slot GREEN again (gate +
+manifest PASS, s73).
