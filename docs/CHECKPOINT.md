@@ -1,5 +1,9 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+**CLAIMED: J-3 stats panel v0 — s74, Gabriel's seat, 2026-08-25**
+(Lane-4 ratified rung: stats panel ONLY — inventory/paper-doll stay
+parked with items).
+
 ## 2026-08-25 session 73 — VAREKKA RE-CUT (a) EXECUTED + LOBBER_VOLLEY SHIPPED: the standing wall red CLEARS · wall 34→35 · canary REBANK #2 (`31c699cb…`→`bf35628a…`, S59 bank preserved) · both scripts gate critic-ON + manifest PASS · zero src/data changes (full wall not owed — blast-radius call recorded)
 
 **The re-cut (ratified s66 line 2, Junior's pick; full record
