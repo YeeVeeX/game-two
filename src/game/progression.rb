@@ -74,6 +74,18 @@ module Game
       active
     end
 
+    # J-3 panel reader (presentation asks, progression answers): the
+    # lowest growth threshold STRICTLY above the current level for this
+    # kit — nil when no further tier exists or the kit never grows. The
+    # stats panel shows the mid/late-bloomer curve honestly without ever
+    # walking the growth table itself.
+    def next_spell_growth_level(kit_name)
+      rows = @spell_growth[kit_name]
+      return nil unless rows
+      row = rows.find { |threshold, _| threshold > @level }
+      row&.first
+    end
+
     # P2: session-earned XP counts the configured amount even when the
     # progression bar is pinned at cap (P12's observability semantics).
     def award_kill(kit_name)

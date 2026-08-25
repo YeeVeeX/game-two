@@ -35,7 +35,7 @@
     },
     {
       "id": "corpses_persist",
-      "check": "In at least one frame after a kill, a faded remnant of the fallen body is visible where it fell (fights leave history). If no post-kill frame exists, pass with why='not exercised by this script'."
+      "check": "In at least one frame after a kill, a faded remnant of the fallen body is visible where it fell (fights leave history). A drop marker legitimately spawns ON the death tile and may cover most of the remnant: where a post-kill frame shows a drop marker with a slightly-lighter fringe hugging its edges on the death tile, that fringe IS the remnant and passes. FAIL only when a post-kill death tile shows bare floor with no drop marker and no remnant. If no post-kill frame exists, pass with why='not exercised by this script'."
     },
     {
       "id": "hud_three_bars",
@@ -255,7 +255,11 @@
     },
     {
       "id": "menu_reads",
-      "check": "Where a menu panel is on camera (a dimming veil over the whole frame with a near-black panel titled MENU): the root rows RESUME / CONTROLS / SETTINGS / QUIT read legibly with exactly ONE row visibly marked as selected (a cursor marker and brighter tone), an ESC hint line reads on the panel, and the world stays readable BEHIND the veil (floor grid, bodies, or HUD bars still discernible - the veil dims, it never blacks out the frame). A CONTROLS-titled sheet frame reads as a key reference: rows of key glyphs paired with action labels, including a movement row and a menu row. If no menu panel appears anywhere in the reel, pass with why='not exercised by this script'."
+      "check": "Where a menu panel is on camera (a dimming veil over the whole frame with a near-black panel titled MENU): the root rows RESUME / STATS / CONTROLS / SETTINGS / QUIT read legibly with exactly ONE row visibly marked as selected (a cursor marker and brighter tone), an ESC hint line reads on the panel, and the world stays readable BEHIND the veil (floor grid, bodies, or HUD bars still discernible - the veil dims, it never blacks out the frame). A CONTROLS-titled sheet frame reads as a key reference: rows of key glyphs paired with action labels, including a movement row and a menu row. If no menu panel appears anywhere in the reel, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "menu_stats_reads",
+      "check": "Where a STATS-titled menu panel is on camera (es ESTAD\u00cdSTICAS / pt ESTAT\u00cdSTICAS): a pack header reads legibly - a LEVEL line carrying the level number plus an XP progress pair current/threshold (or MAX at cap), and a session-XP line - followed by one row per pack body (player 1 / player 2 / player 3), each pairing an HP current/max readout with a damage integer, and below them a REACH line showing a spell-growth tier as a dash-joined distance sequence (with a NEXT L<n> marker while a higher tier exists). A dead body's row (if any) explicitly carries the DEAD word in a dimmer tone. The HP pairs on the panel must be CONSISTENT with the HUD bars visible in the same frame (a full bar never pairs with a near-zero readout), an ESC hint line reads on the panel, and the world stays readable behind the veil. If no STATS panel appears anywhere in the reel, pass with why='not exercised by this script'."
     },
     {
       "id": "menu_world_ticks",

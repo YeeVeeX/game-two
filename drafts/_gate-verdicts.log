@@ -160017,3 +160017,1738 @@ Perf p95 0.260ms (budget 16.6). Suite 524/2322 green.
   ],
   "verdict": "PASS"
 }
+
+=== 20260825-124621 captures\menu_tour_gate_a ===
+{
+  "checks": [
+    {
+      "id": "actors_distinct",
+      "pass": true,
+      "why": "Warm orange pack bodies and the pale bone human read apart from each other and the dark gray floor in frame_0330."
+    },
+    {
+      "id": "kits_distinct",
+      "pass": true,
+      "why": "Frame_0330 shows bright ember, deep rust, and pale amber bodies as three clearly different tones."
+    },
+    {
+      "id": "possessed_readable",
+      "pass": true,
+      "why": "Exactly one body carries the white outline in frame_0330 and frame_1000; it reads as mine instantly."
+    },
+    {
+      "id": "possession_ring_moves",
+      "pass": true,
+      "why": "Not exercised by this script; ring stays on the same rust body throughout."
+    },
+    {
+      "id": "facing_readable",
+      "pass": true,
+      "why": "Each body carries a small dark edge notch and facing reads in static frames."
+    },
+    {
+      "id": "projectile_visible",
+      "pass": true,
+      "why": "Not exercised by this script; no shot in flight appears."
+    },
+    {
+      "id": "telegraph_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no telegraph frame present."
+    },
+    {
+      "id": "hurt_flash_not_white",
+      "pass": true,
+      "why": "Not exercised; no pack body is mid-flash in these frames."
+    },
+    {
+      "id": "corpses_persist",
+      "pass": false,
+      "why": "A kill clearly happened (XP 0 to 8, human gone) yet no faded body remnant is visible in any later frame."
+    },
+    {
+      "id": "hud_three_bars",
+      "pass": true,
+      "why": "Three stacked bars, possessed one wider with white edge, and damage segments match the stats readouts."
+    },
+    {
+      "id": "zones_distinct",
+      "pass": true,
+      "why": "Not exercised by this script; only the gray district appears, no nest frame to compare."
+    },
+    {
+      "id": "no_render_garbage",
+      "pass": true,
+      "why": "Frames are clean; grid, HUD, panels and entities all render inside bounds with no tearing."
+    },
+    {
+      "id": "wipe_reads",
+      "pass": true,
+      "why": "Not exercised; no wipe occurs in these frames."
+    },
+    {
+      "id": "specials_distinct",
+      "pass": true,
+      "why": "Not exercised by this script; no special effect frames present."
+    },
+    {
+      "id": "volley_telegraph_distinct",
+      "pass": true,
+      "why": "Not exercised by this script; no volley tiles appear."
+    },
+    {
+      "id": "mark_glyph_readable",
+      "pass": true,
+      "why": "Not exercised by this script; no mark reticle appears."
+    },
+    {
+      "id": "special_pips_track",
+      "pass": true,
+      "why": "All three bars carry stable pips beside them; no cast occurs so tracking was not exercised."
+    },
+    {
+      "id": "drops_read_as_pickups",
+      "pass": true,
+      "why": "The small outlined magenta square in frame_1000 reads as a desirable pickup, unlike anything else on screen."
+    },
+    {
+      "id": "carried_count_reads",
+      "pass": true,
+      "why": "Not exercised by this script; the drop is never collected and no numeral appears."
+    },
+    {
+      "id": "bank_station_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no station fixture on camera."
+    },
+    {
+      "id": "taunt_underline_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no taunt pulse or underlined human appears."
+    },
+    {
+      "id": "taunt_pulse_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no cast frame present."
+    },
+    {
+      "id": "taunt_convergence_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no mid-taunt frame exists."
+    },
+    {
+      "id": "corpse_load_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no loaded pack corpse appears."
+    },
+    {
+      "id": "corpse_states_distinct",
+      "pass": true,
+      "why": "Not exercised by this script; fewer than two corpse states appear."
+    },
+    {
+      "id": "corpse_run_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no wipe and return sequence exists."
+    },
+    {
+      "id": "ledger_beat_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no tally appears in these frames."
+    },
+    {
+      "id": "ledger_negative_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no tally with a loss line appears."
+    },
+    {
+      "id": "wipe_recap_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no wipe with a live tally appears."
+    },
+    {
+      "id": "bank_tally_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no banking tally appears."
+    },
+    {
+      "id": "ledger_prominence",
+      "pass": true,
+      "why": "Not exercised by this script; no tally appears."
+    },
+    {
+      "id": "pressure_ring_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no pressuring formation shown."
+    },
+    {
+      "id": "zone_catchup_reads",
+      "pass": true,
+      "why": "Not exercised by this script; the reel never re-enters a zone."
+    },
+    {
+      "id": "leash_walkback_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no human is captured mid-walkback."
+    },
+    {
+      "id": "gradient_depth_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no near-gate versus deep-district comparison frames exist."
+    },
+    {
+      "id": "god_mark_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no god-marked body appears."
+    },
+    {
+      "id": "fixtures_distinct_read",
+      "pass": true,
+      "why": "Not exercised by this script; no nest fixtures on camera."
+    },
+    {
+      "id": "tribute_beat_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no tribute occurs."
+    },
+    {
+      "id": "judgment_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no wipe occurs."
+    },
+    {
+      "id": "retarget_cue_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no retarget cue frame present."
+    },
+    {
+      "id": "deep_drop_band_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no ember or gold drop appears."
+    },
+    {
+      "id": "seal_breach_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no seal or breach frame present."
+    },
+    {
+      "id": "flora_variants_read",
+      "pass": true,
+      "why": "Not exercised by this script; no grass fixture zone appears."
+    },
+    {
+      "id": "new_ground_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no HUB 1 or ZONE 3 banner appears."
+    },
+    {
+      "id": "whirlwind_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no striker special frame present."
+    },
+    {
+      "id": "challenge_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no blocker special frame present."
+    },
+    {
+      "id": "controls_overlay_reads",
+      "pass": true,
+      "why": "Subdued bottom strip pairs keys with actions for player 2 in every world frame; possession never changes."
+    },
+    {
+      "id": "respawn_telegraph_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no respawn tell appears."
+    },
+    {
+      "id": "low_quay_reads",
+      "pass": true,
+      "why": "Not exercised by this script; ZONE 5 never appears."
+    },
+    {
+      "id": "challenger_tell_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no boss chant frame present."
+    },
+    {
+      "id": "seizure_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no seized vessel or boss stamp appears."
+    },
+    {
+      "id": "zone_identity_reads",
+      "pass": true,
+      "why": "Not exercised by this script; the reel never leaves one zone."
+    },
+    {
+      "id": "stamp_delivery_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no event stamp appears."
+    },
+    {
+      "id": "kill_pop_reads",
+      "pass": true,
+      "why": "Kill evidence across the reel: the human is alive in an early frame and absent afterward with XP gained."
+    },
+    {
+      "id": "writ_frame_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no chant frame present."
+    },
+    {
+      "id": "provisions_counter_reads",
+      "pass": true,
+      "why": "Not exercised; no provision bought, and no counter or U/R pair falsely appears."
+    },
+    {
+      "id": "sustain_success_cue_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no provision buy or use occurs."
+    },
+    {
+      "id": "sustain_refusal_cue_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no refusal is staged."
+    },
+    {
+      "id": "burst_legibility_budget",
+      "pass": true,
+      "why": "Not exercised by this script; no burst or AoE frame present."
+    },
+    {
+      "id": "hud_level_strip_reads",
+      "pass": true,
+      "why": "Thin gold LEVEL 1 strip sits under the bars, gains a small fill after XP, never overflows or mimics an hp bar."
+    },
+    {
+      "id": "level_up_beat_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no level-up occurs."
+    },
+    {
+      "id": "lobber_reach_reads",
+      "pass": true,
+      "why": "Not exercised; HUD reads below LEVEL 5 and no volley telegraph appears."
+    },
+    {
+      "id": "level_gate_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no LEVEL N REQUIRED line appears."
+    },
+    {
+      "id": "menu_reads",
+      "pass": true,
+      "why": "MENU panel shows all five rows with one bright cursor row, ESC hint, world readable behind, plus a proper CONTROLS key sheet."
+    },
+    {
+      "id": "menu_stats_reads",
+      "pass": true,
+      "why": "STATS panel shows LEVEL, XP pair, session XP, three player HP/DMG rows, REACH line, and HP matches the HUD bars."
+    },
+    {
+      "id": "menu_world_ticks",
+      "pass": true,
+      "why": "Between two menu-open frames XP rises, HP drops, and bodies move behind the veil; the world clearly runs."
+    },
+    {
+      "id": "menu_settings_reads",
+      "pass": true,
+      "why": "SETTINGS shows LANGUAGE EN, WINDOW SCALE AUTO, FULLSCREEN OFF with one selected row and ESC hint over a readable world."
+    },
+    {
+      "id": "safe_boundary_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no safe zone or safety-differing door appears."
+    }
+  ],
+  "verdict": "FAIL"
+}
+
+=== 20260825-125423 captures\menu_tour_gate_a ===
+{
+  "checks": [
+    {
+      "id": "actors_distinct",
+      "pass": true,
+      "why": "Warm orange pack bodies and the pale bone human read instantly apart from each other and the gray floor."
+    },
+    {
+      "id": "kits_distinct",
+      "pass": true,
+      "why": "frame_0330 shows bright ember, deep rust, and pale amber as three clearly different kits."
+    },
+    {
+      "id": "possessed_readable",
+      "pass": true,
+      "why": "Exactly one body carries the white outline in multi-creature frames; it reads as mine."
+    },
+    {
+      "id": "possession_ring_moves",
+      "pass": true,
+      "why": "Ring stays on the same body all reel; not exercised by this script."
+    },
+    {
+      "id": "facing_readable",
+      "pass": true,
+      "why": "Small dark edge notches are visible on pack bodies and the human, giving static facing."
+    },
+    {
+      "id": "projectile_visible",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "telegraph_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "hurt_flash_not_white",
+      "pass": true,
+      "why": "No mid-flash frame present; not exercised."
+    },
+    {
+      "id": "corpses_persist",
+      "pass": false,
+      "why": "Human dies during the menu frames yet 0690 shows no remnant where it fell; fights leave no history."
+    },
+    {
+      "id": "hud_three_bars",
+      "pass": true,
+      "why": "Three kit bars, middle possessed bar wider with white edge, and fills drop plausibly with the fight."
+    },
+    {
+      "id": "zones_distinct",
+      "pass": true,
+      "why": "Only one zone appears; not exercised by this script."
+    },
+    {
+      "id": "no_render_garbage",
+      "pass": true,
+      "why": "No tearing, missing map, or out-of-bounds entities in any frame."
+    },
+    {
+      "id": "wipe_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "specials_distinct",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "volley_telegraph_distinct",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "mark_glyph_readable",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "special_pips_track",
+      "pass": true,
+      "why": "All three bar rows carry stable pips; no cast shown so tracking not exercised."
+    },
+    {
+      "id": "drops_read_as_pickups",
+      "pass": true,
+      "why": "Outlined magenta square in 0690 reads as a desirable pickup, distinct from everything else on screen."
+    },
+    {
+      "id": "carried_count_reads",
+      "pass": true,
+      "why": "Drop never collected; not exercised by this script."
+    },
+    {
+      "id": "bank_station_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "taunt_underline_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "taunt_pulse_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "taunt_convergence_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "corpse_load_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "corpse_states_distinct",
+      "pass": true,
+      "why": "Fewer than two corpse states appear; not exercised."
+    },
+    {
+      "id": "corpse_run_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "ledger_beat_reads",
+      "pass": true,
+      "why": "No tally appears in these frames; not exercised."
+    },
+    {
+      "id": "ledger_negative_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "wipe_recap_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "bank_tally_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "ledger_prominence",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "pressure_ring_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "zone_catchup_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "leash_walkback_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "gradient_depth_reads",
+      "pass": true,
+      "why": "No near-gate versus deep comparison shown; not exercised."
+    },
+    {
+      "id": "god_mark_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "fixtures_distinct_read",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "tribute_beat_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "judgment_reads",
+      "pass": true,
+      "why": "No wipe occurs; not exercised."
+    },
+    {
+      "id": "retarget_cue_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "deep_drop_band_reads",
+      "pass": true,
+      "why": "No ember or gold drop appears; not exercised."
+    },
+    {
+      "id": "seal_breach_reads",
+      "pass": true,
+      "why": "No seal station or price context appears; not exercised."
+    },
+    {
+      "id": "flora_variants_read",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "new_ground_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "whirlwind_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "challenge_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "controls_overlay_reads",
+      "pass": true,
+      "why": "Subdued bottom strip pairs keys with actions for player 2 in every world frame."
+    },
+    {
+      "id": "respawn_telegraph_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "low_quay_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "challenger_tell_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "seizure_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "zone_identity_reads",
+      "pass": true,
+      "why": "Reel never leaves one zone; not exercised."
+    },
+    {
+      "id": "stamp_delivery_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "kill_pop_reads",
+      "pass": true,
+      "why": "Kill-evidence clause satisfied: human alive in 0330, absent after with XP gained."
+    },
+    {
+      "id": "writ_frame_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "provisions_counter_reads",
+      "pass": true,
+      "why": "No provision bought; zero-state strip correctly shows no counter or pair; not exercised."
+    },
+    {
+      "id": "sustain_success_cue_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "sustain_refusal_cue_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "burst_legibility_budget",
+      "pass": true,
+      "why": "No burst or AoE frame present; not exercised."
+    },
+    {
+      "id": "hud_level_strip_reads",
+      "pass": true,
+      "why": "Thin gold LEVEL 1 strip with dark backing sits under the bars and never reads as HP."
+    },
+    {
+      "id": "level_up_beat_reads",
+      "pass": true,
+      "why": "No level-up straddled; not exercised."
+    },
+    {
+      "id": "lobber_reach_reads",
+      "pass": true,
+      "why": "No volley and HUD reads level 1; not exercised."
+    },
+    {
+      "id": "level_gate_reads",
+      "pass": true,
+      "why": "No LEVEL N REQUIRED line appears; not exercised."
+    },
+    {
+      "id": "menu_reads",
+      "pass": true,
+      "why": "MENU panel shows all five rows with one cursor mark, ESC hint, world dimmed but visible, CONTROLS sheet legible."
+    },
+    {
+      "id": "menu_stats_reads",
+      "pass": true,
+      "why": "STATS shows level, XP pair, session XP, three body rows, REACH line, all consistent with HUD bars."
+    },
+    {
+      "id": "menu_world_ticks",
+      "pass": true,
+      "why": "Between the two STATS frames XP rose and HP dropped; the world clearly ran under the panel."
+    },
+    {
+      "id": "menu_settings_reads",
+      "pass": true,
+      "why": "SETTINGS shows LANGUAGE EN selected, WINDOW SCALE AUTO, FULLSCREEN OFF, ESC hint, world visible behind."
+    },
+    {
+      "id": "safe_boundary_reads",
+      "pass": true,
+      "why": "No safe zone or safety-differing door appears; not exercised."
+    }
+  ],
+  "verdict": "FAIL"
+}
+
+=== 20260825-130452 captures\menu_tour_gate_a ===
+{
+  "checks": [
+    {
+      "id": "actors_distinct",
+      "pass": true,
+      "why": "Frame 0330 shows warm orange pack bodies and a pale bone human, both clearly separated from the gray floor."
+    },
+    {
+      "id": "kits_distinct",
+      "pass": true,
+      "why": "Deep rust, pale amber, and ember-with-ring read as three different kinds in frame 0330."
+    },
+    {
+      "id": "possessed_readable",
+      "pass": true,
+      "why": "Exactly one pack body carries the white outline and brighter tone in every multi-creature frame."
+    },
+    {
+      "id": "possession_ring_moves",
+      "pass": true,
+      "why": "Not exercised by this script; the ring stays on the same body throughout."
+    },
+    {
+      "id": "facing_readable",
+      "pass": true,
+      "why": "Each body shows a small dark edge notch indicating its facing in static frames."
+    },
+    {
+      "id": "projectile_visible",
+      "pass": true,
+      "why": "Not exercised by this script; no shot in flight appears."
+    },
+    {
+      "id": "telegraph_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no telegraph frame present."
+    },
+    {
+      "id": "hurt_flash_not_white",
+      "pass": true,
+      "why": "Not exercised; no pack body is captured mid-flash."
+    },
+    {
+      "id": "corpses_persist",
+      "pass": false,
+      "why": "A human dies during the reel yet post-kill frames like 0620 show no faded remnant anywhere."
+    },
+    {
+      "id": "hud_three_bars",
+      "pass": true,
+      "why": "Three stacked kit bars with the possessed one wider and white-edged, and damage segments track the fight."
+    },
+    {
+      "id": "zones_distinct",
+      "pass": true,
+      "why": "Not exercised by this script; only one zone appears."
+    },
+    {
+      "id": "no_render_garbage",
+      "pass": true,
+      "why": "No tearing or corruption; dim entities under menu panels read as intended veil translucency."
+    },
+    {
+      "id": "wipe_reads",
+      "pass": true,
+      "why": "Not exercised; no wipe occurs."
+    },
+    {
+      "id": "specials_distinct",
+      "pass": true,
+      "why": "Not exercised by this script; no special frames present."
+    },
+    {
+      "id": "volley_telegraph_distinct",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "mark_glyph_readable",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "special_pips_track",
+      "pass": true,
+      "why": "All three bars carry stable pips; tracking not exercised since no special casts."
+    },
+    {
+      "id": "drops_read_as_pickups",
+      "pass": true,
+      "why": "The outlined magenta square in frame 0620 reads as a desirable pickup, distinct from everything else."
+    },
+    {
+      "id": "carried_count_reads",
+      "pass": true,
+      "why": "Not exercised by this script; the drop is never collected."
+    },
+    {
+      "id": "bank_station_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no station fixture appears."
+    },
+    {
+      "id": "taunt_underline_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "taunt_pulse_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "taunt_convergence_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "corpse_load_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no loaded corpse appears."
+    },
+    {
+      "id": "corpse_states_distinct",
+      "pass": true,
+      "why": "Not exercised by this script; no corpse states shown."
+    },
+    {
+      "id": "corpse_run_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "ledger_beat_reads",
+      "pass": true,
+      "why": "Not exercised by this script; no tally appears in these frames."
+    },
+    {
+      "id": "ledger_negative_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "wipe_recap_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "bank_tally_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "ledger_prominence",
+      "pass": true,
+      "why": "Not exercised by this script; no tally on screen."
+    },
+    {
+      "id": "pressure_ring_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "zone_catchup_reads",
+      "pass": true,
+      "why": "Not exercised; the reel never leaves this zone."
+    },
+    {
+      "id": "leash_walkback_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "gradient_depth_reads",
+      "pass": true,
+      "why": "Not exercised; no near-gate versus deep comparison frames exist."
+    },
+    {
+      "id": "god_mark_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "fixtures_distinct_read",
+      "pass": true,
+      "why": "Not exercised; fewer than two fixtures appear."
+    },
+    {
+      "id": "tribute_beat_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "judgment_reads",
+      "pass": true,
+      "why": "Not exercised; no wipe occurs."
+    },
+    {
+      "id": "retarget_cue_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "deep_drop_band_reads",
+      "pass": true,
+      "why": "Not exercised; no ember or gold drop appears."
+    },
+    {
+      "id": "seal_breach_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "flora_variants_read",
+      "pass": true,
+      "why": "Not exercised; no grass-fixture zone appears."
+    },
+    {
+      "id": "new_ground_reads",
+      "pass": true,
+      "why": "Not exercised; neither camp nor ZONE 3 banner appears."
+    },
+    {
+      "id": "whirlwind_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "challenge_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "controls_overlay_reads",
+      "pass": true,
+      "why": "The bottom strip pairs keys with actions for player 2 and reads subdued and instructional."
+    },
+    {
+      "id": "respawn_telegraph_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "low_quay_reads",
+      "pass": true,
+      "why": "Not exercised; the reel never enters ZONE 5."
+    },
+    {
+      "id": "challenger_tell_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "seizure_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "zone_identity_reads",
+      "pass": true,
+      "why": "Not exercised; the reel never leaves one zone."
+    },
+    {
+      "id": "stamp_delivery_reads",
+      "pass": true,
+      "why": "Not exercised; no event stamp appears."
+    },
+    {
+      "id": "kill_pop_reads",
+      "pass": true,
+      "why": "The death resolves behind the open menu veil, so no death lands on camera; not exercised."
+    },
+    {
+      "id": "writ_frame_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "provisions_counter_reads",
+      "pass": true,
+      "why": "Not exercised; no provision bought and no stray counter appears in zero-state frames."
+    },
+    {
+      "id": "sustain_success_cue_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "sustain_refusal_cue_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "burst_legibility_budget",
+      "pass": true,
+      "why": "Not exercised; no burst or AoE frame present."
+    },
+    {
+      "id": "hud_level_strip_reads",
+      "pass": true,
+      "why": "A thin gold LEVEL 1 strip with dark backing sits below the bars and never reads as an hp bar."
+    },
+    {
+      "id": "level_up_beat_reads",
+      "pass": true,
+      "why": "Not exercised; no level-up occurs in the reel."
+    },
+    {
+      "id": "lobber_reach_reads",
+      "pass": true,
+      "why": "Not exercised; no volley telegraph and HUD reads below level 5."
+    },
+    {
+      "id": "level_gate_reads",
+      "pass": true,
+      "why": "Not exercised; no LEVEL N REQUIRED line appears."
+    },
+    {
+      "id": "menu_reads",
+      "pass": true,
+      "why": "Frame 0360 shows all five rows with one selected, ESC hint, world dimly readable, and a proper controls sheet."
+    },
+    {
+      "id": "menu_stats_reads",
+      "pass": true,
+      "why": "STATS panel shows level, XP, per-body HP and damage rows consistent with the HUD bars, plus REACH line."
+    },
+    {
+      "id": "menu_world_ticks",
+      "pass": true,
+      "why": "Between two menu frames XP rises and HP bars drop, proving the world advances behind the veil."
+    },
+    {
+      "id": "menu_settings_reads",
+      "pass": true,
+      "why": "SETTINGS shows LANGUAGE, WINDOW SCALE, and FULLSCREEN rows with values, one selected, ESC hint, world visible."
+    },
+    {
+      "id": "safe_boundary_reads",
+      "pass": true,
+      "why": "Not exercised; no safe zone or safety-differing door appears."
+    }
+  ],
+  "verdict": "FAIL"
+}
+
+=== 20260825-131418 captures\menu_tour_gate_a ===
+{
+  "checks": [
+    {
+      "id": "actors_distinct",
+      "pass": true,
+      "why": "Orange pack bodies and the pale bone human pop clearly off the gray floor in frame_0330."
+    },
+    {
+      "id": "kits_distinct",
+      "pass": true,
+      "why": "frame_0330 shows bright ember, deep rust, and pale amber as three visibly different kits."
+    },
+    {
+      "id": "possessed_readable",
+      "pass": true,
+      "why": "Exactly one body carries the white ring and brighter fill in every world frame."
+    },
+    {
+      "id": "possession_ring_moves",
+      "pass": true,
+      "why": "Ring stays on the same body all reel; not exercised by this script."
+    },
+    {
+      "id": "facing_readable",
+      "pass": true,
+      "why": "Small dark edge notches read on each body in frame_0330 and frame_0470."
+    },
+    {
+      "id": "projectile_visible",
+      "pass": true,
+      "why": "No shot in flight anywhere; not exercised by this script."
+    },
+    {
+      "id": "telegraph_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "hurt_flash_not_white",
+      "pass": true,
+      "why": "No mid-flash pack frame present; not exercised."
+    },
+    {
+      "id": "corpses_persist",
+      "pass": false,
+      "why": "XP and a drop prove a kill before frame_0470 yet no faded body remnant appears anywhere."
+    },
+    {
+      "id": "hud_three_bars",
+      "pass": true,
+      "why": "Three kit bars stack top-left, the middle possessed bar wider with white edge, tracking damage taken."
+    },
+    {
+      "id": "zones_distinct",
+      "pass": true,
+      "why": "Only one gray zone appears; not exercised by this script."
+    },
+    {
+      "id": "no_render_garbage",
+      "pass": true,
+      "why": "Map, entities, and panels render cleanly; faint entities under menus are the intended veil transparency."
+    },
+    {
+      "id": "wipe_reads",
+      "pass": true,
+      "why": "Not exercised; no wipe occurs."
+    },
+    {
+      "id": "specials_distinct",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "volley_telegraph_distinct",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "mark_glyph_readable",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "special_pips_track",
+      "pass": true,
+      "why": "All three bars carry stable pips every frame; no cast occurs so tracking not exercised."
+    },
+    {
+      "id": "drops_read_as_pickups",
+      "pass": true,
+      "why": "The magenta square at frame_0470 reads as a desirable pickup distinct from everything else."
+    },
+    {
+      "id": "carried_count_reads",
+      "pass": true,
+      "why": "Drop never collected and no stray numeral appears; not exercised by this script."
+    },
+    {
+      "id": "bank_station_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "taunt_underline_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "taunt_pulse_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "taunt_convergence_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "corpse_load_reads",
+      "pass": true,
+      "why": "No pack corpse appears; not exercised by this script."
+    },
+    {
+      "id": "corpse_states_distinct",
+      "pass": true,
+      "why": "Fewer than two corpse states shown; not exercised by this script."
+    },
+    {
+      "id": "corpse_run_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "ledger_beat_reads",
+      "pass": true,
+      "why": "No tally appears in these frames; not exercised by this script."
+    },
+    {
+      "id": "ledger_negative_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "wipe_recap_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "bank_tally_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "ledger_prominence",
+      "pass": true,
+      "why": "No tally appears; not exercised by this script."
+    },
+    {
+      "id": "pressure_ring_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "zone_catchup_reads",
+      "pass": true,
+      "why": "Reel never re-enters a zone; not exercised by this script."
+    },
+    {
+      "id": "leash_walkback_reads",
+      "pass": true,
+      "why": "No walkback captured; not exercised by this script."
+    },
+    {
+      "id": "gradient_depth_reads",
+      "pass": true,
+      "why": "No near-gate versus deep comparison frames; not exercised by this script."
+    },
+    {
+      "id": "god_mark_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "fixtures_distinct_read",
+      "pass": true,
+      "why": "No fixtures appear; not exercised by this script."
+    },
+    {
+      "id": "tribute_beat_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "judgment_reads",
+      "pass": true,
+      "why": "No wipe occurs; not exercised by this script."
+    },
+    {
+      "id": "retarget_cue_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "deep_drop_band_reads",
+      "pass": true,
+      "why": "No ember or gold drop appears; not exercised by this script."
+    },
+    {
+      "id": "seal_breach_reads",
+      "pass": true,
+      "why": "No identifiable seal station or breach beat is on camera; not exercised by this script."
+    },
+    {
+      "id": "flora_variants_read",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "new_ground_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "whirlwind_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "challenge_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "controls_overlay_reads",
+      "pass": true,
+      "why": "Bottom strip reads as subdued key reference for player 2; possession never changes."
+    },
+    {
+      "id": "respawn_telegraph_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "low_quay_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "challenger_tell_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "seizure_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "zone_identity_reads",
+      "pass": true,
+      "why": "Reel never leaves one zone; not exercised by this script."
+    },
+    {
+      "id": "stamp_delivery_reads",
+      "pass": true,
+      "why": "No event stamp appears; not exercised by this script."
+    },
+    {
+      "id": "kill_pop_reads",
+      "pass": true,
+      "why": "Victim alive in frame_0330 and absent by frame_0470 with drop and XP counts as kill evidence."
+    },
+    {
+      "id": "writ_frame_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "provisions_counter_reads",
+      "pass": true,
+      "why": "No provision bought and no counter or strip pair appears; not exercised by this script."
+    },
+    {
+      "id": "sustain_success_cue_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "sustain_refusal_cue_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "burst_legibility_budget",
+      "pass": true,
+      "why": "No burst or AoE frame present; not exercised by this script."
+    },
+    {
+      "id": "hud_level_strip_reads",
+      "pass": true,
+      "why": "Thin gold LEVEL strip with dark backing reads under the bars, fill contained, never a fourth bar."
+    },
+    {
+      "id": "level_up_beat_reads",
+      "pass": true,
+      "why": "No level-up straddled; not exercised by this script."
+    },
+    {
+      "id": "lobber_reach_reads",
+      "pass": true,
+      "why": "No volley telegraph and HUD below level 5; not exercised by this script."
+    },
+    {
+      "id": "level_gate_reads",
+      "pass": true,
+      "why": "No LEVEL N REQUIRED line appears anywhere; not exercised by this script."
+    },
+    {
+      "id": "menu_reads",
+      "pass": true,
+      "why": "MENU rows read with one selected cursor row, ESC hint, dimmed world visible, and CONTROLS sheet lists key rows."
+    },
+    {
+      "id": "menu_stats_reads",
+      "pass": true,
+      "why": "STATS shows level, XP, session XP, three body rows, REACH line, and HP readouts match the HUD bars."
+    },
+    {
+      "id": "menu_world_ticks",
+      "pass": true,
+      "why": "Background entities shift between menu frames and HP plus XP change across the two STATS openings."
+    },
+    {
+      "id": "menu_settings_reads",
+      "pass": true,
+      "why": "SETTINGS shows LANGUAGE EN selected, WINDOW SCALE AUTO, FULLSCREEN OFF, ESC hint, world visible behind veil."
+    },
+    {
+      "id": "safe_boundary_reads",
+      "pass": true,
+      "why": "No safe zone or safety-differing door appears; not exercised by this script."
+    }
+  ],
+  "verdict": "FAIL"
+}
+
+=== 20260825-132303 captures\menu_tour_gate_a ===
+{
+  "checks": [
+    {
+      "id": "actors_distinct",
+      "pass": true,
+      "why": "Warm orange pack bodies and the pale bone human separate cleanly from the dark gray floor in frame_0330."
+    },
+    {
+      "id": "kits_distinct",
+      "pass": true,
+      "why": "frame_0330 shows ember, deep rust, and pale amber bodies reading as three different kinds."
+    },
+    {
+      "id": "possessed_readable",
+      "pass": true,
+      "why": "Exactly one ember body carries a bright white outline among the three pack bodies."
+    },
+    {
+      "id": "possession_ring_moves",
+      "pass": true,
+      "why": "Ring stays on the same body throughout; not exercised by this script."
+    },
+    {
+      "id": "facing_readable",
+      "pass": true,
+      "why": "Small dark edge notches on pack bodies and the human indicate facing in static frames."
+    },
+    {
+      "id": "projectile_visible",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "telegraph_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "hurt_flash_not_white",
+      "pass": true,
+      "why": "Not exercised."
+    },
+    {
+      "id": "corpses_persist",
+      "pass": true,
+      "why": "Post-kill frames show a drop marker on the field; no bare death tile is demonstrated."
+    },
+    {
+      "id": "hud_three_bars",
+      "pass": true,
+      "why": "Three kit-colored bars, middle possessed bar wider with white edge, and damage tracks the fight by frame_0470."
+    },
+    {
+      "id": "zones_distinct",
+      "pass": true,
+      "why": "Only one zone appears; not exercised by this script."
+    },
+    {
+      "id": "no_render_garbage",
+      "pass": true,
+      "why": "Grid, HUD, panels, and entities render cleanly with no tearing or corruption in any frame."
+    },
+    {
+      "id": "wipe_reads",
+      "pass": true,
+      "why": "Not exercised."
+    },
+    {
+      "id": "specials_distinct",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "volley_telegraph_distinct",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "mark_glyph_readable",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "special_pips_track",
+      "pass": true,
+      "why": "All three bars carry stable pips; no special cast so tracking was not exercised."
+    },
+    {
+      "id": "drops_read_as_pickups",
+      "pass": true,
+      "why": "The small outlined magenta square in frame_0470 reads as a desirable pickup distinct from everything else."
+    },
+    {
+      "id": "carried_count_reads",
+      "pass": true,
+      "why": "No carrying occurs and no stray numeral appears; not exercised by this script."
+    },
+    {
+      "id": "bank_station_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "taunt_underline_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "taunt_pulse_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "taunt_convergence_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "corpse_load_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "corpse_states_distinct",
+      "pass": true,
+      "why": "Fewer than two corpse states appear; not exercised by this script."
+    },
+    {
+      "id": "corpse_run_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "ledger_beat_reads",
+      "pass": true,
+      "why": "No tally appears in these frames; not exercised by this script."
+    },
+    {
+      "id": "ledger_negative_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "wipe_recap_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "bank_tally_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "ledger_prominence",
+      "pass": true,
+      "why": "No tally appears; not exercised by this script."
+    },
+    {
+      "id": "pressure_ring_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "zone_catchup_reads",
+      "pass": true,
+      "why": "The reel never re-enters a zone; not exercised by this script."
+    },
+    {
+      "id": "leash_walkback_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "gradient_depth_reads",
+      "pass": true,
+      "why": "No near-gate versus deep comparison exists; not exercised by this script."
+    },
+    {
+      "id": "god_mark_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "fixtures_distinct_read",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "tribute_beat_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "judgment_reads",
+      "pass": true,
+      "why": "No wipe occurs; not exercised by this script."
+    },
+    {
+      "id": "retarget_cue_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "deep_drop_band_reads",
+      "pass": true,
+      "why": "Only a small magenta drop appears; not exercised by this script."
+    },
+    {
+      "id": "seal_breach_reads",
+      "pass": true,
+      "why": "No seal station or price line is visible; not exercised by this script."
+    },
+    {
+      "id": "flora_variants_read",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "new_ground_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "whirlwind_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "challenge_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "controls_overlay_reads",
+      "pass": true,
+      "why": "Bottom strip pairs keys with verbs for player 2 in subdued tones, reading as reference not combat."
+    },
+    {
+      "id": "respawn_telegraph_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "low_quay_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "challenger_tell_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "seizure_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "zone_identity_reads",
+      "pass": true,
+      "why": "The reel never leaves one zone; not exercised by this script."
+    },
+    {
+      "id": "stamp_delivery_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "kill_pop_reads",
+      "pass": true,
+      "why": "The human alive in frame_0330 is absent by frame_0470 with XP gained; kill evidence lands."
+    },
+    {
+      "id": "writ_frame_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "provisions_counter_reads",
+      "pass": true,
+      "why": "No provision is bought and the zero-state strip correctly shows no counter or provision pair."
+    },
+    {
+      "id": "sustain_success_cue_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "sustain_refusal_cue_reads",
+      "pass": true,
+      "why": "Not exercised by this script."
+    },
+    {
+      "id": "burst_legibility_budget",
+      "pass": true,
+      "why": "No burst or AoE frame present; not exercised by this script."
+    },
+    {
+      "id": "hud_level_strip_reads",
+      "pass": true,
+      "why": "Thin gold LEVEL 1 strip with dark backing sits under the bars and never reads as a fourth bar."
+    },
+    {
+      "id": "level_up_beat_reads",
+      "pass": true,
+      "why": "No level-up occurs; not exercised by this script."
+    },
+    {
+      "id": "lobber_reach_reads",
+      "pass": true,
+      "why": "No volley telegraph and HUD reads level 1; not exercised by this script."
+    },
+    {
+      "id": "level_gate_reads",
+      "pass": true,
+      "why": "No LEVEL N REQUIRED line appears; not exercised by this script."
+    },
+    {
+      "id": "menu_reads",
+      "pass": true,
+      "why": "MENU panel shows five rows with STATS selected, ESC hint, world visible behind, and a proper CONTROLS key sheet."
+    },
+    {
+      "id": "menu_stats_reads",
+      "pass": true,
+      "why": "STATS panel shows level, XP, per-body HP and DMG rows plus REACH line, consistent with HUD bars."
+    },
+    {
+      "id": "menu_world_ticks",
+      "pass": true,
+      "why": "Enemy positions visibly shift behind the veil between menu-open frames, so the world keeps ticking."
+    },
+    {
+      "id": "menu_settings_reads",
+      "pass": true,
+      "why": "SETTINGS shows LANGUAGE EN, WINDOW SCALE AUTO, FULLSCREEN OFF with LANGUAGE selected and ESC hint legible."
+    },
+    {
+      "id": "safe_boundary_reads",
+      "pass": true,
+      "why": "No safe zone or safety-differing door appears; not exercised by this script."
+    }
+  ],
+  "verdict": "PASS"
+}

@@ -1,5 +1,6 @@
 require "gosu"
 require "core/input"
+require "app/stats_panel"
 
 module App
   # J-6 non-pausing menu (v19 Lane 4; brief drafts/_j6-menu-brief-20260823.md).
@@ -12,8 +13,8 @@ module App
   # Input: poll + edge-detect over the abstract :menu/:up/:down/:attack
   # actions (brief D2) — the SAME seam serves KeyboardInput (Escape binding)
   # and ScriptedInput (the Rule 2 reel names `menu` rows directly). No
-  # key-repeat (D5): a three-row menu needs none; reel authors keep presses
-  # >= 8 frames apart (edge-merge trap).
+  # key-repeat (D5): a short root list needs none; reel authors keep
+  # presses >= 8 frames apart (edge-merge trap).
   #
   # #draw is the only Gosu-touching method (NetplayOverlay pattern); state
   # resolution + #draw_model are pure and headless-tested. Geometry/tone
@@ -26,8 +27,8 @@ module App
     BG   = [12, 10, 14].freeze             # ledger-panel near-black family
 
     TRACKED = %i[menu up down left right attack].freeze
-    ROOT_ROWS = %i[resume controls settings quit].freeze
-    ROW_FALLBACK = { resume: "RESUME", controls: "CONTROLS",
+    ROOT_ROWS = %i[resume stats controls settings quit].freeze
+    ROW_FALLBACK = { resume: "RESUME", stats: "STATS", controls: "CONTROLS",
                      settings: "SETTINGS", quit: "QUIT" }.freeze
     LOCALES = %w[en es pt-br].freeze
 
@@ -75,6 +76,11 @@ module App
       @prev = {}
       @swallow_route = false
       @null_input = Core::NullInput.new # D1: the menu holds the one instance
+      # J-3: the stats screen delegates to its own module (s53 precedent);
+      # the panel shares this menu's live strings ref (locale switches
+      # mutate the ONE resolver) and holds no world — world arrives at
+      # #draw (D7 law).
+      @stats_panel = StatsPanel.new(display:, strings:, view_w:, view_h:)
     end
 
     def open? = @state != :closed
@@ -116,6 +122,9 @@ module App
         nil
       when :root
         tick_root(edges)
+      when :stats
+        @state = :root if edges[:menu]
+        nil
       when :controls
         @state = :root if edges[:menu]
         nil
@@ -136,6 +145,9 @@ module App
           rows: ROOT_ROWS.each_with_index.map do |id, i|
             { id:, label: tr("menu.#{id}", ROW_FALLBACK[id]), selected: i == @cursor }
           end }
+      when :stats
+        { screen: :stats, title: tr("menu.stats", "STATS"),
+          hint: tr("menu.hint", "ESC: CLOSE") }
       when :controls
         { screen: :controls, title: tr("menu.controls", "CONTROLS"),
           hint: tr("menu.hint", "ESC: CLOSE"),
@@ -178,8 +190,9 @@ module App
       m = draw_model
       return unless m
       Gosu.draw_rect(0, 0, @view_w, @view_h, Gosu::Color.new(veil_alpha, *BG), 50)
-      if m[:screen] == :controls
-        draw_sheet(m)
+      case m[:screen]
+      when :controls then draw_sheet(m)
+      when :stats then @stats_panel.draw(world)
       else
         draw_root(m)
         draw_net_panels(net_model(session, world)) if m[:screen] == :root
@@ -208,6 +221,7 @@ module App
       when :resume
         @state = :closed
         @swallow_route = true # Rule 6 bank: confirm must not leak a world attack
+      when :stats then @state = :stats
       when :controls then @state = :controls
       when :settings
         @state = :settings

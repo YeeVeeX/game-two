@@ -45,7 +45,9 @@ module Harness
 
       def draw
         @renderer.draw(@world)
-        @menu.draw
+        # J-3: world reaches the menu as a draw ARG (the window seam
+        # verbatim — the stats screen reads it, D7 keeps it unheld).
+        @menu.draw(world: @world)
       end
 
       def summary = @telemetry.summary

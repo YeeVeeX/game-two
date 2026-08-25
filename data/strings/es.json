@@ -69,5 +69,11 @@
   "menu.fullscreen": "PANTALLA COMPLETA",
   "menu.auto": "AUTO",
   "menu.on": "ON",
-  "menu.off": "OFF"
+  "menu.off": "OFF",
+  "menu.stats": "ESTADÍSTICAS",
+  "stats.session_xp": "XP SESIÓN",
+  "stats.damage": "DAÑO",
+  "stats.reach": "ALCANCE",
+  "stats.next": "SIGUIENTE",
+  "stats.dead": "MUERTO"
 }

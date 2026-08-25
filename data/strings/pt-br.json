@@ -69,5 +69,11 @@
   "menu.fullscreen": "TELA CHEIA",
   "menu.auto": "AUTO",
   "menu.on": "ON",
-  "menu.off": "OFF"
+  "menu.off": "OFF",
+  "menu.stats": "ESTATÍSTICAS",
+  "stats.session_xp": "XP SESSÃO",
+  "stats.damage": "DANO",
+  "stats.reach": "ALCANCE",
+  "stats.next": "PRÓXIMO",
+  "stats.dead": "MORTO"
 }

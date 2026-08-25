@@ -226,6 +226,22 @@ class ProgressionTest < Minitest::Test
     assert_same BASE, p.special_impact_distances_for(:striker, base: BASE)
   end
 
+  # J-3 panel reader: strictly-above threshold walk (the stats panel
+  # shows "NEXT L<n>" through this — threshold logic stays home).
+  def test_next_spell_growth_level_is_the_lowest_threshold_strictly_above
+    p = grown
+    assert_equal 5, p.next_spell_growth_level(:lobber), "L1 sees the first tier ahead"
+    p.load_progress!(level: 5, xp: 0)
+    assert_equal 8, p.next_spell_growth_level(:lobber),
+                 "AT a threshold the next one is STRICTLY above — the active tier is " \
+                 "never re-announced"
+    p.load_progress!(level: 8, xp: 0)
+    assert_nil p.next_spell_growth_level(:lobber), "past the last tier there is no next"
+    assert_nil p.next_spell_growth_level(:striker), "a kit with no growth has no next"
+    assert_nil prog(spell_growth: {}).next_spell_growth_level(:lobber),
+               "an empty table has no next anywhere"
+  end
+
   def test_empty_spell_growth_returns_base_identity_everywhere
     p = prog(spell_growth: {})
     p.load_progress!(level: 4, xp: 0)

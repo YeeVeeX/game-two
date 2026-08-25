@@ -82,14 +82,14 @@ class MenuTest < Minitest::Test
     m = menu
     drive(m, { 0 => ["menu"], 8 => ["up"], 16 => ["up"] })
     assert_equal 0, cursor_of(m), "up at the top row stays clamped"
-    drive(m, { 0 => ["down"], 8 => ["down"], 16 => ["down"], 24 => ["down"] })
-    assert_equal 3, cursor_of(m), "down at the bottom row stays clamped"
+    drive(m, { 0 => ["down"], 8 => ["down"], 16 => ["down"], 24 => ["down"], 32 => ["down"] })
+    assert_equal 4, cursor_of(m), "down at the bottom row stays clamped"
   end
 
   def test_quit_select_returns_quit
     m = menu
     last, = drive(m, { 0 => ["menu"], 8 => ["down"], 16 => ["down"],
-                       24 => ["down"], 32 => ["attack"] })
+                       24 => ["down"], 32 => ["down"], 40 => ["attack"] })
     assert_equal :quit, last, "QUIT row select returns :quit (the window owns the rest — D3)"
     assert m.open?, "the menu stays open — during a netplay drain it never re-ticks"
   end
@@ -103,7 +103,7 @@ class MenuTest < Minitest::Test
 
   def test_controls_transitions_and_back
     m = menu
-    drive(m, { 0 => ["menu"], 8 => ["down"], 16 => ["attack"] })
+    drive(m, { 0 => ["menu"], 8 => ["down"], 16 => ["down"], 24 => ["attack"] })
     assert_equal :controls, m.draw_model[:screen]
     drive(m, { 0 => ["menu"] })
     assert_equal :root, m.draw_model[:screen], "menu edge backs out of the sheet"
@@ -111,9 +111,30 @@ class MenuTest < Minitest::Test
     refute m.open?
   end
 
-  def test_nav_edges_are_inert_on_the_controls_sheet
+  def test_stats_transitions_and_back
+    m = menu
+    drive(m, { 0 => ["menu"], 8 => ["down"], 16 => ["attack"] })
+    model = m.draw_model
+    assert_equal :stats, model[:screen], "row 2 opens the J-3 stats screen"
+    assert_equal "STATS", model[:title]
+    assert_equal "ESC: CLOSE", model[:hint]
+    drive(m, { 0 => ["menu"] })
+    assert_equal :root, m.draw_model[:screen], "menu edge backs out of stats"
+    drive(m, { 0 => ["menu"] })
+    refute m.open?
+  end
+
+  def test_nav_edges_are_inert_on_the_stats_screen
     m = menu
     drive(m, { 0 => ["menu"], 8 => ["down"], 16 => ["attack"], 24 => ["down"], 32 => ["attack"] })
+    assert_equal :stats, m.draw_model[:screen],
+                 "attack/nav on the stats screen select nothing (menu edge is the only exit)"
+  end
+
+  def test_nav_edges_are_inert_on_the_controls_sheet
+    m = menu
+    drive(m, { 0 => ["menu"], 8 => ["down"], 16 => ["down"], 24 => ["attack"],
+               32 => ["down"], 40 => ["attack"] })
     assert_equal :controls, m.draw_model[:screen],
                  "attack/nav on the sheet select nothing (menu edge is the only exit)"
   end
@@ -148,8 +169,8 @@ class MenuTest < Minitest::Test
     assert_equal :root, model[:screen]
     assert_equal "MENU", model[:title]
     assert_equal "ESC: CLOSE", model[:hint]
-    assert_equal %w[RESUME CONTROLS SETTINGS QUIT], model[:rows].map { |r| r[:label] }
-    assert_equal [false, true, false, false], model[:rows].map { |r| r[:selected] },
+    assert_equal %w[RESUME STATS CONTROLS SETTINGS QUIT], model[:rows].map { |r| r[:label] }
+    assert_equal [false, true, false, false, false], model[:rows].map { |r| r[:selected] },
                  "exactly the cursor row reads selected"
   end
 
@@ -172,7 +193,7 @@ class MenuTest < Minitest::Test
                         on_locale: ->(v) { calls << [:locale, v]; strings.switch!(DATA, v) },
                         on_scale: ->(v) { calls << [:scale, v] },
                         on_fullscreen: ->(v) { calls << [:fullscreen, v] })
-      drive(m, { 0 => ["menu"], 8 => ["down"], 16 => ["down"], 24 => ["attack"] })
+      drive(m, { 0 => ["menu"], 8 => ["down"], 16 => ["down"], 24 => ["down"], 32 => ["attack"] })
       assert_equal :settings, m.draw_model[:screen]
       drive(m, { 0 => ["right"], 8 => ["down"], 16 => ["right"],
                  24 => ["down"], 32 => ["attack"] })
@@ -193,8 +214,8 @@ class MenuTest < Minitest::Test
       m = App::Menu.new(display: DATA["display"], strings: Core::Strings.new(DATA, locale: "en"),
                         prefs:, on_locale: ->(v) { calls << v }, on_scale: ->(v) { calls << v },
                         on_fullscreen: ->(v) { calls << v })
-      drive(m, { 0 => ["menu"], 8 => ["down"], 16 => ["down"], 24 => ["attack"],
-                 32 => ["down"], 40 => ["up"], 48 => ["menu"] })
+      drive(m, { 0 => ["menu"], 8 => ["down"], 16 => ["down"], 24 => ["down"], 32 => ["attack"],
+                 40 => ["down"], 48 => ["up"], 56 => ["menu"] })
       assert_equal :root, m.draw_model[:screen], "menu edge backs out of settings"
       assert_empty calls, "nav-only settings visit fires no callback (reel-safety law)"
       refute File.exist?(File.join(dir, "prefs.local.json")),
@@ -207,7 +228,7 @@ class MenuTest < Minitest::Test
     assert_equal %w[Escape], map.glyphs(:menu),
                  "data/bindings.json carries the menu row (brief D2)"
     m = menu(bindings: map)
-    drive(m, { 0 => ["menu"], 8 => ["down"], 16 => ["attack"] })
+    drive(m, { 0 => ["menu"], 8 => ["down"], 16 => ["down"], 24 => ["attack"] })
     model = m.draw_model
     labels = model[:rows].map { |r| r[:label] }
     assert_includes labels, "MOVE", "movement rows INCLUDED on the sheet (D5)"
