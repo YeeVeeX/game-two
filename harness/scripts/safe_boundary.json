@@ -1,0 +1,19 @@
+{
+  "scenario": "world",
+  "seed": 7,
+  "width": 960,
+  "height": 540,
+  "out_dir": "captures/safe_boundary",
+  "hold": {
+    "right": [[360, 360], [388, 388], [416, 416], [444, 444], [472, 472], [500, 500], [528, 528], [556, 556], [584, 584]],
+    "left": [[680, 680]]
+  },
+  "captures": [170, 340, 580, 660, 770],
+  "run_until": 830,
+  "start": {
+    "zone": "camp"
+  },
+  "manifest": {
+    "zone_entered": 4
+  }
+}

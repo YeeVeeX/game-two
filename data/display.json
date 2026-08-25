@@ -37,6 +37,27 @@
  "overlay_section_gap": 20,
  "overlay_pulse_frames": 45,
  "overlay_pulse_alpha": 230,
+ "safe_chip_x": 32,
+ "safe_chip_y": 98,
+ "safe_chip_rgb": [
+  120,
+  230,
+  170
+ ],
+ "safe_chip_alpha": 230,
+ "safe_chip_backing_alpha": 150,
+ "safe_threshold_rgb": [
+  120,
+  230,
+  170
+ ],
+ "safe_threshold_alpha": 210,
+ "danger_threshold_rgb": [
+  170,
+  55,
+  40
+ ],
+ "danger_threshold_alpha": 200,
  "hud_level_y": 78,
  "hud_level_bar_x": 140,
  "hud_level_bar_w": 200,

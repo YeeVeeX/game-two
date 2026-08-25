@@ -125,6 +125,7 @@ module App
       end
       draw_writ_veil(world)
       draw_hud(world)
+      draw_safe_chip(world)
       # Strip BEFORE edge pips (their bottom clamp lands inside the strip
       # band — an off-screen ally's pip must stay visible ON the strip) and
       # BEFORE the veils in call order (all default z: the wipe veil dims
@@ -260,6 +261,19 @@ module App
       !map.water_drained_by.nil? && world.breached?(zone_name, map.water_drained_by)
     end
 
+    # B1-T2 (spec D5): a door's threshold cue derives from DESTINATION
+    # safety at draw time — live transition tables, never the spec's prose
+    # inventory (fresh-eyes nit-2: the basement/dungeon returns into
+    # zone_7 are thresholds too, and only derivation catches every future
+    # edge). Same-safety edges and unknown destinations (fixture maps)
+    # carry nothing. Pure map reads — headlessly testable.
+    def self.threshold_kind(from_map, to_map)
+      return nil unless to_map
+      return :into_safety if to_map.safe && !from_map.safe
+      return :into_danger if from_map.safe && !to_map.safe
+      nil
+    end
+
     def color(rgb, alpha = 255) = Gosu::Color.new(alpha, rgb[0], rgb[1], rgb[2])
 
     def draw_map(world)
@@ -312,6 +326,13 @@ module App
         else
           Gosu.draw_rect(tx * ts + 3, ty * ts + 3, ts - 6, ts - 6, transition)
         end
+        # B1-T2 (spec D5): the visible boundary — a thin static frame at
+        # the tile border, OUTSIDE the gold fill's inset (walkability
+        # grammar underneath stays legible; slab-vs-gold keeps the lock
+        # read, the frame carries the destination fact).
+        if (kind = Renderer.threshold_kind(map, world.zone_maps[t[:to]]))
+          draw_threshold_frame(tx, ty, ts, kind)
+        end
       end
       # Ambient tint LAST over the whole map quad — a faint colored light
       # the zone sits in; actors draw after (untinted — W6, bodies anchor).
@@ -325,6 +346,31 @@ module App
       @identity_cache ||= {}
       @identity_cache[map] ||= [App::ZoneIdentity.motif_rects(map),
                                 App::ZoneIdentity.decor_rects(map)]
+    end
+
+    # B1-T2 (spec D5): mint = "reach that door = safety" (finding B's
+    # actual need, read from the DANGEROUS side); dark ember = "beyond
+    # this = danger" (read from inside the sanctuary — deliberately
+    # dimmer than the hot TELEGRAPH_EDGE: a signpost, not an attack).
+    # Static by design v0 — a persistent boundary is state, not an event;
+    # any pulse is T3-feel territory. rgb/alpha ride display.json.
+    def draw_threshold_frame(tx, ty, ts, kind)
+      rgb, alpha =
+        if kind == :into_safety
+          [@display.fetch(:safe_threshold_rgb, [120, 230, 170]),
+           @display.fetch(:safe_threshold_alpha, 210)]
+        else
+          [@display.fetch(:danger_threshold_rgb, [170, 55, 40]),
+           @display.fetch(:danger_threshold_alpha, 200)]
+        end
+      col = color(rgb, alpha)
+      x = tx * ts
+      y = ty * ts
+      t = 3
+      Gosu.draw_rect(x, y, ts, t, col)
+      Gosu.draw_rect(x, y + ts - t, ts, t, col)
+      Gosu.draw_rect(x, y + t, t, ts - t * 2, col)
+      Gosu.draw_rect(x + ts - t, y + t, t, ts - t * 2, col)
     end
 
     # J1 (s28): merged static geometry, memoized per map — a pure
@@ -973,6 +1019,26 @@ module App
       Gosu.draw_rect(bx, sy + 4, bw, bh, color(@display.fetch(:hud_level_back_rgb, [45, 32, 22])))
       fill = prog.level >= prog.level_cap ? bw : (bw * prog.xp) / prog.delta_e(prog.level + 1)
       Gosu.draw_rect(bx, sy + 4, fill, bh, gold) if fill.positive?
+    end
+
+    # B1-T2 (spec D5): the persistent SAFE chip — the zone banner is
+    # transient (zone_banner_frames), a sanctuary is a STATE (Tibia
+    # PZ-icon touchstone), so the chip renders every frame the active
+    # zone is safe: small type on a quiet near-black backing (overlay
+    # vocabulary) under the level strip in the pack status block.
+    # Pure zone read — replay determinism holds; strings via the v13
+    # resolver (EN fallback keeps a bare Renderer.new drawable).
+    def draw_safe_chip(world)
+      return unless world.map.safe
+      text = tr("safe.chip", "SAFE")
+      x = @display.fetch(:safe_chip_x, 32)
+      y = @display.fetch(:safe_chip_y, 98)
+      pad = 6
+      Gosu.draw_rect(x, y, hud_font.text_width(text) + pad * 2, 18,
+                     Gosu::Color.new(@display.fetch(:safe_chip_backing_alpha, 150), *BEAT_PANEL))
+      hud_font.draw_text(text, x + pad, y + 2, 20, 1, 1,
+                         color(@display.fetch(:safe_chip_rgb, [120, 230, 170]),
+                               @display.fetch(:safe_chip_alpha, 230)))
     end
 
     # Living off-screen kin show as kit-colored pips clamped to the viewport

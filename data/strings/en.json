@@ -31,6 +31,7 @@
   "stamp.level_up": "LEVEL",
   "hud.provisions": "PROVISION",
   "hud.level": "LEVEL",
+  "safe.chip": "SAFE",
   "cue.provision_bought": "PROVISION BOUGHT",
   "cue.provision_used": "PROVISION USED",
   "cue.provision_refused": "REFUSED",
