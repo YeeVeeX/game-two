@@ -46,7 +46,7 @@ through the normal Rule 2 wall when picked up.
 | D10 | strip label gray contrast | Lane 4 queued |
 | D11 | UNIDENTIFIED amber quad in strip (world 0701 x≈304-313 y≈522-533) | INVESTIGATE-FIRST (possible draw-order leak — flywheel class, verify against code+frame before any fix) |
 | D12-D14 | HUD backing band / half-dimmed actor / veil value | record-only until D11 resolves |
-| — | locale M1: `net.hosting` es ≈245px vs panel 230 | fold into J-6 volume-rows ticket (menu surface already opening) |
+| — | locale M1: `net.hosting` es ≈245px vs panel 230 | DISSOLVED by the M2 measured audit (see below): net.hosting is a 28-bold full-screen state line, never a 230px panel row — no overflow exists; nothing folds into J-6 |
 
 Nothing above moves while the ritual's measurement freeze arms unless it
 ships BEFORE the runsheet freezes (J-6 law applies to menu-adjacent rows).
@@ -64,3 +64,35 @@ when D1/D2 get picked up, start from those deltas and re-measure at OUR
 wall (their font/AA differs).
 
 RECEIPT: this doc (banked routing record, game-two custody).
+
+### M2 locale-parity render audit (third mail, banked s71-close 2026-08-25)
+
+Evidence-only mail (no change request; adoption stays behind our intake
++ Rule 2 wall). Every first-critique §C.2 locale ESTIMATE is now
+MEASURED through their fixture harness (en/es/pt-br per surface, extent
+probes, 2 UI-GATE PASS batches 12/12, axes separate; strings verbatim
+from our live `data/strings/*.json`, our display.json re-read — zero
+drift).
+
+- **Headline: zero overflows anywhere in the game today.** Tightest:
+  es "> ESCALA DE VENTANA: AUTO" 237/260px pad box; es net.desync
+  759/960 at 28px bold (+44.6% vs en); net panels worst row 133/190.
+- **Corrections accepted into the record** (their live-code re-read
+  beats their own first estimates): C.2 net.hosting overflow row
+  dissolves (table row amended above) · refusal cue is hud_font 14px
+  (not 12) · v18 strip adds the sustain pair + counter only while
+  provisions > 0. D1 chip at the LIVE 14px cue size: 0px accent
+  escape, 4px spare (feeds the D1 pick-up spec).
+- Diacritics/em-dash/ellipsis intact at every live size down to 12px —
+  relevant to s72/B1-T2's new `safe.chip` strings (SEGURO es/pt-br):
+  short tokens, measured headroom says no overflow class; T2's
+  human-facing-output gate still runs on its own.
+- Artifacts (repo game-two-uiux @ `10b601b`), digests VERIFIED by this
+  seat against their repo at close: `drafts/_locale-audit-20260824.md`
+  blob md5 `59987e88e2a225c316a6de57ad942c7b` ·
+  `docs/adr/0001-harness-v0.md` (font-pipeline addendum) blob md5
+  `bc92612ebcf0c165b5a23f595d3ba26d`. On-ask offers (7-pair strip
+  render, real net-banner capture critique, propose_fix mocks) stay
+  parked until a lane picks them up.
+
+RECEIPT: M2 audit banked + digest-verified; mail archived to done/.
