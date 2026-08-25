@@ -1,0 +1,27 @@
+{
+  "scenario": "world",
+  "seed": 7,
+  "width": 960,
+  "height": 540,
+  "out_dir": "captures/dungeon_fork",
+  "start": {
+    "zone": "dungeon_1",
+    "banked": 60,
+    "progression": { "level": 6, "xp": 0 }
+  },
+  "hold": {
+    "right": [[30, 58], [240, 242], [500, 590]],
+    "up": [[86, 88]],
+    "interact": [[210, 210]],
+    "attack": [
+      [270, 270], [310, 310], [350, 350], [390, 390],
+      [430, 430], [470, 470]
+    ]
+  },
+  "captures": [180, 215, 310, 380, 640, 780],
+  "run_until": 800,
+  "manifest": {
+    "zone_entered": 3,
+    "seal_breached": 1
+  }
+}

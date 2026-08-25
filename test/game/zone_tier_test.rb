@@ -31,7 +31,9 @@ class ZoneTierTest < Minitest::Test
   def test_dungeon_1_seeds_tiered_enemies
     w = world
     humans_in(w, "dungeon_1").each do |h|
-      assert_equal 100, h.max_hp, "#{h.name}: rusher-family base 50 + 100%"
+      base = DATA["balance/combat"][:kits][h.kit_name][:max_hp]
+      assert_equal base + base * 100 / 100, h.max_hp,
+                   "#{h.name}: kit base #{base} + 100% (Integer tier law)"
       assert_equal 75, h.tier_dmg_pct
     end
   end

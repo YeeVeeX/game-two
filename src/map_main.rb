@@ -34,7 +34,10 @@ module App
       { "kit" => "lobber", "hp" => 60, "inscribed" => false }
     ],
     "counters" => { "boss_1_defeats" => 3, "sessions" => 5 },
-    "progression" => { "level" => 1, "xp" => 0 }
+    # Level 6 clears the s68 deep gates: the staged-open hole [33,14]
+    # composes sealed+requires_level as independent AND legs, so the
+    # breach alone no longer draws it gold (way_locked? reads BOTH).
+    "progression" => { "level" => 6, "xp" => 0 }
   }.freeze
 
   class MapWindow < Gosu::Window

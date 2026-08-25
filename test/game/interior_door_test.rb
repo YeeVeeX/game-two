@@ -115,4 +115,38 @@ class InteriorDoorTest < Minitest::Test
     refusal = Game::SaveState.refusal_for(facts, data: DATA)
     assert_nil refusal, "an interior seal's breach tuple is a legal save fact (got: #{refusal})"
   end
+
+  # --- dungeon_1's toll-bypass fork (content-fill wave 3/3) -------------
+
+  def test_dungeon_fork_door_is_sealed_same_zone_and_the_chamber_is_walled
+    w = Game::World.new(DATA, seed: 7, save: seeded_facts)
+    w.start_in("dungeon_1")
+    door = w.map.transition_at(18, 2)
+    assert_equal "dungeon_1", door[:to], "the bypass door is a SAME-ZONE way"
+    assert door[:sealed]
+    seal = w.map.station_at(17, 2)
+    assert_equal "seal", seal[:type]
+    assert_equal [18, 2], seal[:opens]
+    # The chamber is watertight except the door teleport and the circuit
+    # mouth at [25,8]/[26,8]: column x19 (y1-7) + row-8 walls both sides.
+    (1..7).each { |y| assert w.map.wall?(19, y), "[19,#{y}] must be wall" }
+    (18..24).each { |x| assert w.map.wall?(x, 8), "[#{x},8] must be wall" }
+    (27..30).each { |x| assert w.map.wall?(x, 8), "[#{x},8] must be wall" }
+    assert w.map.passable?(25, 8), "the circuit mouth stays open"
+    assert w.map.passable?(26, 8), "the circuit mouth stays open"
+  end
+
+  def test_dungeon_toll_bypass_teleports_into_the_chamber
+    w = Game::World.new(DATA, seed: 7, save: seeded_facts)
+    w.start_in("dungeon_1")
+    w.possessed.walker.teleport(17, 2)
+    park_allies_beside(w, [17, 2])
+    assert w.interact(w.possessed), "the bypass toll is a priced station action"
+    assert w.breached?("dungeon_1", [18, 2])
+    w.possessed.walker.teleport(18, 2)
+    park_allies_beside(w, [18, 2])
+    drive(w, DATA["balance/combat"][:feel][:hitstop_frames_kill] + 6)
+    assert_equal "dungeon_1", w.zone_name
+    assert_equal [21, 2], w.possessed.tile, "the door lands the pack inside the chamber"
+  end
 end

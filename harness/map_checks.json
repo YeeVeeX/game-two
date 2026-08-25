@@ -7,11 +7,11 @@
     },
     {
       "id": "map_zone_grids_read",
-      "check": "Within each panel, walls read against floor tiles and each zone's palette differs from its neighbors - the panels read as different places, not copies. The original surface zones stay the warm clay/bone family; ZONE 7 reads as a green meadow-with-town; ZONE 8 reads as a forest-and-lake green family with a large water mass clearly distinct from its land; the FLOOR -1 panels (BASEMENT 1/2, DUNGEON 1) read darker than the surface zones (depth darkens palettes)."
+      "check": "Within each panel, walls read against floor tiles and each zone's palette differs from its neighbors - the panels read as different places, not copies. Zone identities match their ratified in-game reads: ZONE 1/ZONE 2 warm clay/bone; ZONE 3 cold slate-and-indigo; ZONE 5 drowned dark green-teal; ZONE 7 a green meadow-with-town; ZONE 8 a forest-and-lake green family with a large water mass clearly distinct from its land; the FLOOR -1 panels (BASEMENT 1/2, DUNGEON 1) read darker than the surface zones (depth darkens palettes)."
     },
     {
       "id": "map_pilot_well_reads",
-      "check": "Inside ZONE 7's town half, a small uniform ring of tiles around one gold way reads as a distinct authored feature (the drained well and its opened hole) - a deliberate basin, not corruption or a rendering hole."
+      "check": "Inside ZONE 7's town half, a small ring of tiles in a visibly DIFFERENT family from the surrounding meadow encircles one gold way (the drained well basin and its opened hole) - it reads as an authored feature, not corruption or a rendering hole. At map scale the ring is small; judge presence and distinctness, not prominence."
     },
     {
       "id": "map_seal_stamps_read",

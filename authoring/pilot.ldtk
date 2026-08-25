@@ -5283,6 +5283,509 @@
                   ]
                 }
               ]
+            },
+            {
+              "__identifier": "Transition",
+              "__grid": [
+                18,
+                2
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#5AC8EB",
+              "iid": "00000000-69ba-0003-0000-000000000001",
+              "width": 32,
+              "height": 32,
+              "defUid": 11,
+              "px": [
+                576,
+                64
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "to",
+                  "__type": "String",
+                  "__value": "dungeon_1",
+                  "__tile": null,
+                  "defUid": 110,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "dungeon_1"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "__identifier": "spawn",
+                  "__type": "Point",
+                  "__value": {
+                    "cx": 21,
+                    "cy": 2
+                  },
+                  "__tile": null,
+                  "defUid": 111,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "21,2"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "__identifier": "sealed",
+                  "__type": "Bool",
+                  "__value": true,
+                  "__tile": null,
+                  "defUid": 112,
+                  "realEditorValues": [
+                    {
+                      "id": "V_Bool",
+                      "params": [
+                        true
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "__identifier": "type",
+                  "__type": "String",
+                  "__value": null,
+                  "__tile": null,
+                  "defUid": 113,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "stairs_unlocked_by",
+                  "__type": "String",
+                  "__value": null,
+                  "__tile": null,
+                  "defUid": 114,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "requires_defeats",
+                  "__type": "Int",
+                  "__value": null,
+                  "__tile": null,
+                  "defUid": 115,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "requires_level",
+                  "__type": "Int",
+                  "__value": null,
+                  "__tile": null,
+                  "defUid": 116,
+                  "realEditorValues": []
+                }
+              ]
+            },
+            {
+              "__identifier": "Station",
+              "__grid": [
+                17,
+                2
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#EBBE5A",
+              "iid": "00000000-69ba-0003-0000-000000000002",
+              "width": 32,
+              "height": 32,
+              "defUid": 10,
+              "px": [
+                544,
+                64
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "type",
+                  "__type": "String",
+                  "__value": "seal",
+                  "__tile": null,
+                  "defUid": 100,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "seal"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "__identifier": "price",
+                  "__type": "String",
+                  "__value": "breach_cost",
+                  "__tile": null,
+                  "defUid": 101,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "breach_cost"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "__identifier": "opens",
+                  "__type": "Point",
+                  "__value": {
+                    "cx": 18,
+                    "cy": 2
+                  },
+                  "__tile": null,
+                  "defUid": 102,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "18,2"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "__identifier": "line",
+                  "__type": "String",
+                  "__value": "TOLL PAID",
+                  "__tile": null,
+                  "defUid": 103,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "TOLL PAID"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "__identifier": "EnemySpawn",
+              "__grid": [
+                28,
+                10
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#EB5A5A",
+              "iid": "00000000-69ba-0003-0000-000000000003",
+              "width": 32,
+              "height": 32,
+              "defUid": 13,
+              "px": [
+                896,
+                320
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "kind",
+                  "__type": "String",
+                  "__value": "rusher",
+                  "__tile": null,
+                  "defUid": 130,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "rusher"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "__identifier": "EnemySpawn",
+              "__grid": [
+                24,
+                16
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#EB5A5A",
+              "iid": "00000000-69ba-0003-0000-000000000004",
+              "width": 32,
+              "height": 32,
+              "defUid": 13,
+              "px": [
+                768,
+                512
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "kind",
+                  "__type": "String",
+                  "__value": "rusher",
+                  "__tile": null,
+                  "defUid": 130,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "rusher"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "__identifier": "EnemySpawn",
+              "__grid": [
+                29,
+                17
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#EB5A5A",
+              "iid": "00000000-69ba-0003-0000-000000000005",
+              "width": 32,
+              "height": 32,
+              "defUid": 13,
+              "px": [
+                928,
+                544
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "kind",
+                  "__type": "String",
+                  "__value": "rusher",
+                  "__tile": null,
+                  "defUid": 130,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "rusher"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "__identifier": "EnemySpawn",
+              "__grid": [
+                23,
+                15
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#EB5A5A",
+              "iid": "00000000-69ba-0003-0000-000000000006",
+              "width": 32,
+              "height": 32,
+              "defUid": 13,
+              "px": [
+                736,
+                480
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "kind",
+                  "__type": "String",
+                  "__value": "rusher_hater",
+                  "__tile": null,
+                  "defUid": 130,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "rusher_hater"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "__identifier": "EnemySpawn",
+              "__grid": [
+                23,
+                11
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#EB5A5A",
+              "iid": "00000000-69ba-0003-0000-000000000007",
+              "width": 32,
+              "height": 32,
+              "defUid": 13,
+              "px": [
+                736,
+                352
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "kind",
+                  "__type": "String",
+                  "__value": "husk",
+                  "__tile": null,
+                  "defUid": 130,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "husk"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "__identifier": "EnemySpawn",
+              "__grid": [
+                27,
+                12
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#EB5A5A",
+              "iid": "00000000-69ba-0003-0000-000000000008",
+              "width": 32,
+              "height": 32,
+              "defUid": 13,
+              "px": [
+                864,
+                384
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "kind",
+                  "__type": "String",
+                  "__value": "husk",
+                  "__tile": null,
+                  "defUid": 130,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "husk"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "__identifier": "EnemySpawn",
+              "__grid": [
+                23,
+                17
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#EB5A5A",
+              "iid": "00000000-69ba-0003-0000-000000000009",
+              "width": 32,
+              "height": 32,
+              "defUid": 13,
+              "px": [
+                736,
+                544
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "kind",
+                  "__type": "String",
+                  "__value": "husk",
+                  "__tile": null,
+                  "defUid": 130,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "husk"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "__identifier": "EnemySpawn",
+              "__grid": [
+                29,
+                11
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#EB5A5A",
+              "iid": "00000000-69ba-0003-0000-000000000010",
+              "width": 32,
+              "height": 32,
+              "defUid": 13,
+              "px": [
+                928,
+                352
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "kind",
+                  "__type": "String",
+                  "__value": "husk",
+                  "__tile": null,
+                  "defUid": 130,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "husk"
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
@@ -5356,7 +5859,7 @@
             2,
             2,
             2,
-            2,
+            1,
             2,
             2,
             2,
@@ -5388,7 +5891,7 @@
             2,
             2,
             2,
-            2,
+            1,
             2,
             2,
             2,
@@ -5420,42 +5923,10 @@
             2,
             2,
             2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            1,
             1,
             2,
             2,
             2,
-            2,
-            1,
-            1,
-            1,
-            1,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            1,
-            1,
-            1,
-            1,
             2,
             2,
             2,
@@ -5502,6 +5973,10 @@
             2,
             2,
             2,
+            1,
+            1,
+            1,
+            1,
             2,
             2,
             2,
@@ -5510,6 +5985,22 @@
             2,
             2,
             2,
+            2,
+            2,
+            1,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
             2,
             2,
             2,
@@ -5529,26 +6020,6 @@
             2,
             2,
             1,
-            1,
-            2,
-            2,
-            3,
-            3,
-            3,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
             2,
             2,
             2,
@@ -5571,18 +6042,6 @@
             2,
             2,
             2,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            2,
-            2,
-            2,
-            2,
             2,
             2,
             2,
@@ -5593,26 +6052,6 @@
             2,
             2,
             1,
-            1,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
             2,
             2,
             2,
@@ -5628,34 +6067,34 @@
             1,
             2,
             2,
+            3,
+            3,
+            3,
             2,
             2,
             2,
             2,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
             2,
             2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
+            1,
+            1,
+            1,
+            1,
             1,
             1,
             2,
@@ -5666,10 +6105,10 @@
             2,
             2,
             2,
-            1,
-            1,
-            1,
-            1,
+            2,
+            2,
+            2,
+            2,
             2,
             2,
             2,
@@ -5730,6 +6169,70 @@
             2,
             2,
             2,
+            1,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
             2,
             2,
             2,
@@ -5778,9 +6281,9 @@
             2,
             2,
             2,
-            2,
-            2,
-            2,
+            1,
+            1,
+            1,
             2,
             2,
             2,
@@ -5810,9 +6313,9 @@
             2,
             2,
             2,
-            2,
-            2,
-            2,
+            1,
+            1,
+            1,
             2,
             2,
             2,
