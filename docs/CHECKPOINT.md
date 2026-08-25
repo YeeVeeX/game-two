@@ -1,5 +1,7 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+CLAIMED: s76 (Gabriel hub seat, 2026-08-25) — uiux M4 capture ask (toll-during-banner dense set + provision-refusal bracket)
+
 ## 2026-08-25 session 75 — D1+D2 SHIPPED (uiux M1 adoption): refusal-cue cream-on-chip (`1d95f2c`) + economy-numeral 1px halo (`123c1cc`) · four gates critic-ON PASS · one verified critic-misread forensics (carried_count_reads narrowed) · gate-capture-dir trap recorded · uiux M7 composite audit banked · wall stays 35
 
 **The adoption (Lane-4 queue rung; full record + receipts
