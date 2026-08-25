@@ -1,8 +1,71 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-**CLAIMED: J-3 stats panel v0 — s74, Gabriel's seat, 2026-08-25**
-(Lane-4 ratified rung: stats panel ONLY — inventory/paper-doll stay
-parked with items).
+## 2026-08-25 session 74 — J-3 STATS PANEL v0 SHIPPED (`b16f143`): STATS menu row reads the REAL Progression truths · menu_tour recut with the panel's liveness pair ON CAMERA · gate critic-ON PASS + MANIFEST PASS · wall stays 35 · corpses_persist occlusion clause (verified vs code+pixels) · uiux M6 mail banked
+
+**J-3 (Lane-4 ratified rung; receipts
+`drafts/_j3-stats-panel-20260825.md`):** STATS = menu root row 2
+(RESUME · STATS · CONTROLS · SETTINGS · QUIT — menu-row-over-toggle
+call defended: zero new input surface, J-6 owns the consult-sheet
+interaction, Tibia skills-window touchstone). Own module
+`App::StatsPanel` (s53 precedent; menu D7 law kept — world arrives as
+a draw arg, never held; window.rb UNTOUCHED 266/300, world.rb
+UNTOUCHED 1731/1800). **Reader identity is the panel's law:** DMG =
+`damage_for(kit attack base)` (leveled_damage verbatim) · HP = live
+creature pair · REACH = `special_impact_distances_for` · NEXT = new
+`Progression#next_spell_growth_level` reader (threshold logic stays
+home) · dead bodies marked DEAD + dimmed. **Deviation recorded:** the
+spark said "kills_xp lifetime"; code truth is SESSION-earned (P12, not
+a save fact) — label ships SESSION XP; lifetime would be a save-schema
+decision. Body names reuse overlay.vessel.* (player 1/2/3); zero new
+display keys. Six new locale keys — **es/pt values PROVISIONAL under
+Junior's D9 reservation** (his call may rewrite). Suite 1245→1258
+(+13: reader-identity lane incl. D7/no-world-ref pin + three-locale
+key pin; menu nav recut for 5 rows; next_spell_growth_level unit).
+MenuScene#draw now passes world (the window seam verbatim).
+
+**Rule 2 (wall stays 35 — extended menu_tour, the spark-preferred
+call):** reel = root(STATS selected) → STATS mid-ally-fight (XP 0/80)
+→ close → corpse+drop beat → REOPEN STATS (XP 8/80 · SESSION XP 8 ·
+hurt HP — the A2 ally-kill feeding pack XP ON CAMERA) → CONTROLS →
+SETTINGS → aftermath; 8 captures, run_until 1040; manifest
+unchanged-honest (2/5/1 per replay, 4/10/2 per double, event-log
+verified). Gate: determinism 8/8 ×2 · vision PASS (menu_stats_reads
+NEW row, menu_settings_reads precedent; menu_reads root list updated)
+· MANIFEST PASS. **Three honest corpses_persist FAILs first:**
+pixel-diff + renderer read proved the remnant RENDERS but the drop
+spawns ON the death tile (covers it) and human-corpse grey is
+near-floor even at alpha 128; old baseline had passed the same
+occlusion on judge generosity (s72 variance precedent) →
+`corpses_persist` gains a narrow occlusion clause (drop-tile fringe
+IS the remnant; bare floor still FAILS). **Flywheel candidate BANKED
+(verified, not shipped):** human-corpse legibility (contrast/offset)
+— every-corpse-baseline blast radius, its own gated pass.
+
+**Seat mail (1 handled → done/): uiux M6 coverage-completion audit**
+(origin a967f64+4028b9b) — coverage ledger 43 rows 0 UNCOVERED; B1-T2
+safe chip audited CLEAN; N15 vitals MATCH integer-exact.
+**Take-or-leave slate grows +2 (queued behind the M5 slate):**
+nameplate 1px halo (spec+data md5 `3f0813a33cdb47c3a83245a3ae156fb8`)
+· floating-glyph 1px outline (md5 `f79a57acdf3ba94104ee14284b035acb`)
+— each = Rule 2 on adoption. Findings banked no-delta: hurt-vignette
+ceiling, drop bands on pink walls, 10 Hz hurt-flicker, level-pop/stamp
+co-occurrence y<132.
+
+**Job-0 baselines for s75:** origin tip = this docs commit · tree
+clean except `drafts/_refs/` (untracked, stays) · save
+**`0ed80c516168b41d6314aaf28c7848f7`** mtime 08-24 13:47 (UNMOVED —
+gates use replay windows, launcher untouched) · launcher logs **39** ·
+wall **35** · suite **1258** (22720) · world.rb **1731/1800** ·
+window.rb **266/300** · varekka canary **`bf35628a…`** ACTIVE
+(untouched) · map probe 13/13 (not re-run — god-view untouched).
+
+**s75 queue (Lane 4 order):** D1+D2 refusal-cue/halo (uiux M1 deltas
+banked) · uiux M4 capture ask · uiux M5 adoption slate C1/C2/C3/C6 +
+M6 additions (halo/outline) · J-6 volume-rows · corpse-legibility
+flywheel candidate. Standing: coop part 2 + focus-A/B whenever Junior
+lands · B1-T3 feel · J-5 pick · R-A2 escalation · ear-checks · T3
+renders · shake feel-check · D9 es/pt call (now also covers stats.*
+provisionals) — all owner-paced, never nag.
 
 ## 2026-08-25 session 73 — VAREKKA RE-CUT (a) EXECUTED + LOBBER_VOLLEY SHIPPED: the standing wall red CLEARS · wall 34→35 · canary REBANK #2 (`31c699cb…`→`bf35628a…`, S59 bank preserved) · both scripts gate critic-ON + manifest PASS · zero src/data changes (full wall not owed — blast-radius call recorded)
 
