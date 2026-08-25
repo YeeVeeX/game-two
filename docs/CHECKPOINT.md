@@ -1,6 +1,80 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-CLAIMED: s72 B1-T2 (visible boundary — renderer + strings + wall) — Gabriel's hub seat, 2026-08-25. Files: src/app/renderer.rb, data/display.json, data/strings/*, harness/scripts/safe_boundary.json, harness/gate_checks.json.
+## 2026-08-25 session 72 — B1-T2 VISIBLE BOUNDARY SHIPPED (`a30837d`): threshold frames from destination safety + persistent SAFE chip + wall 34 · OWNER ORDER executed: screen shake −50% (`f67a1eb`) · TWO full wall sweeps: green except the varekka stale-manifest red (recorded, fix = s73's ratified re-cut)
+
+**B1-T2 (spec §D5 executed as written; receipts
+`drafts/_b1-t2-receipts-20260825.md`):** door tiles between zones of
+DIFFERING safety carry a thin static 3px frame derived at draw time
+from live transition tables (`Renderer.threshold_kind` +
+`world.zone_maps` — world.rb UNTOUCHED, 1729): mint into safety from
+the unsafe side, dark ember into danger from inside (dimmer than
+TELEGRAPH_EDGE by design — signpost, not attack); frames compose with
+slab/gold (lock read separate from destination fact). Persistent SAFE
+chip under the LEVEL strip while the active zone is safe (Tibia
+PZ-icon touchstone; overlay vocabulary, never the transient banner).
+`safe.chip` = SAFE / SEGURO / SEGURO (human-facing-output pass, axes
+separate); 9 display.json keys; suite 1239→1245 (+6:
+threshold_kind quadrants over real TileMaps, wording pin, display-key
+pin). NEW wall script `safe_boundary.json` (camp east loop — chip
+under banner → chip past banner expiry → ember door approach → mint
+frame read from the ZONE 3 side mid-pursuit → free return; manifest
+zone_entered 4) + `safe_boundary_reads` gate row. Gates: safe_boundary
+PASS (5/5 + vision + manifest) · town_gates re-gate PASS (zone_7 chip
++ slab-frame composition co-verified, dev read the frames). God-view
+untouched by construction (map_artifact resolves its own colors).
+
+**OWNER ORDER (2026-08-25, mid-session, executed `f67a1eb`): screen
+shake −50%** — combat.json feel block: shake_hit 3→1.5 ·
+shake_player_hit 6→3 · shake_kill 8→4; decay 0.85 untouched (length
+axis). Data-only; digest-excluded presentation. Proof: headless probe
+through real Feel + live data, ratios 0.500 across all verbs; re-gates
+world_loop/specials_chain/critic_reel PASS; killer+possession
+forensics explain byte-identical wall captures (only CONTROLLED
+kills/hits shake — no wall capture samples a possessed-shake window).
+Feel verdict = owner's at next launch; clip on his word.
+
+**Wall sweeps (both detached, code frozen):** pre-shake s72_b1t2
+33/34 · post-shake s72_shake 33/34 — the ONE red both times =
+`varekka_duel` MANIFEST (gate+vision PASS; wants 6/4/2 per double
+replay, streams give 2/0/0). NOT a regression: suite stream canary
+still `31c699cb…` every hook run; the s60 record already proved the
+shipped manifest encodes the pre-J7-B door-bounce exploit; re-cut
+RATIFIED option (a) s66 — **s73 executes it** (+ the owed volley wall
+script). First full manifest-judging wall since J7-B is what surfaced
+it. ALSO: level_gate judge-variance incident resolved `8fc440b` — two
+critic samples misread the TEST 1 self-loop as two zones on
+md5-proven-unchanged bytes; zone_identity_reads now judges zone count
+by banner NAMES; re-gate PASS honest.
+
+**Ratification ledger — CLEARED THROUGH s71 (Junior, `436f52d`,
+2026-08-25):** "Ratifico todas as decisões e entregas listadas" —
+closes s66 dash-strike+covers · s56-hub asks + CLAIMED protocol · s67
+lore-reopen/v20-intake/B4/ZONE-8-GO · s68 · s69 · s70 · s71 B1-T1 +
+chant-start reopen + Aggro carve. His reservation RECORDED: coop/net
+panel's mixed technical register accepted PROVISIONALLY; a future
+task translates the panel fully to es/pt under the project's visual +
+language gates (NOT pre-approved for implementation — rides the D9
+carry). **Still owed (new this session): s72 B1-T2 ship + the
+zone_identity banner-names clause** (the shake −50% is Gabriel's own
+owner order — law on landing).
+
+**Job-0 baselines for s73:** origin tip = this docs commit · tree
+clean except `drafts/_refs/` (untracked, stays) · save
+**`0ed80c516168b41d6314aaf28c7848f7`** mtime 08-24 13:47 (UNMOVED —
+nothing launched) · launcher logs **42** · wall **34** · suite **1245**
+(22636) · world.rb **1729/1800** · varekka canary `31c699cb…` ACTIVE
+(re-cut ticket owns the rebank) · map probe print 13/13 (not re-run —
+god-view untouched).
+
+**s73 = varekka re-cut (a) + volley wall script** (clears the standing
+wall red; spark staged) → J-3 stats panel · B1-T3 feel owner-paced ·
+J-5 spike dev-paced · J-6 volume-rows queued · coop part 2 + focus-A/B
+whenever Junior lands.
+
+**Owner-pending carry (never nag):** ear-checks · T3 footstep/bed +
+calm-64s re-renders · R-A2 escalation call · coop part 2 · D9 es/pt
+menu.net.* translation call · B1-T3 playtest word · shake −50%
+feel-check at next launch.
 
 ## 2026-08-25 session 71 — B1-T1 SAFE-ZONE LAW SHIPPED (`dcce00f`): both hubs declare sanctuary, the D2 refusal has teeth, acquisition is refused at the source · world.rb 1799→1729 (Aggro carve) · suite 1227→1239 · identity pairs 33/33 scripts / 277/277 streams byte-identical
 
