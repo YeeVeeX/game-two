@@ -55,8 +55,11 @@ module Harness
       # at construction, before any tick.
       @bundle = nil
       if raw[:bundle]
+        # @scene.world is reached only through respond_to? — argument
+        # evaluation must not NoMethodError a worldless scene (moving_square)
+        # before for_script's NAMED scenario refusal fires (review s83).
         @bundle = Harness::BundleRecorder.for_script(
-          raw, world: @scene.world,
+          raw, world: (@scene.world if @scene.respond_to?(:world)),
           producer: "harness/replay_runner.rb: #{([$PROGRAM_NAME] + ARGV).join(' ')}"
         )
       end

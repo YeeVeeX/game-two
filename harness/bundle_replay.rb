@@ -55,7 +55,13 @@ module Harness
         tool: "harness/bundle_replay.rb"
       }
 
-      # 1. Member integrity — a file-level tamper (or a missing member) is
+      # 1. Fingerprint of the verifying tree — stamped on EVERY receipt
+      # (a member-mismatch RED should still name the tree that judged it —
+      # review s83); the member check below is build-independent.
+      live = Net::Fingerprint.tree_md5(root)
+      receipt[:fingerprint_at_verification] = live
+
+      # 2. Member integrity — a file-level tamper (or a missing member) is
       # a verdict on the BUNDLE: RED, without executing a tick.
       bad = member_mismatches(dir, manifest)
       unless bad.empty?
@@ -64,10 +70,8 @@ module Harness
         return write_receipt(dir, receipt)
       end
 
-      # 2. Fingerprint — the EOL-normalized handshake identity. A mismatch
-      # means this tree cannot re-execute the bundle's build: REFUSE.
-      live = Net::Fingerprint.tree_md5(root)
-      receipt[:fingerprint_at_verification] = live
+      # 3. Fingerprint match — the EOL-normalized handshake identity. A
+      # mismatch means this tree cannot re-execute the bundle's build: REFUSE.
       unless live == manifest.fetch(:fingerprint_md5)
         raise Refusal,
               "REFUSED — fingerprint: bundle #{manifest.fetch(:fingerprint_md5)} / " \
@@ -75,7 +79,7 @@ module Harness
               "same data files; pull/checkout it, then retry)"
       end
 
-      # 3. N fresh re-executions + 4. compare.
+      # 4. N fresh re-executions + 5. compare.
       recorded = read_json(dir, "digest_chain.json")
       results = Array.new(runs) { execute(dir, manifest, root: root) }
       receipt[:runs] = runs

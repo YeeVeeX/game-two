@@ -52,7 +52,7 @@ Members:
 |---|---|
 | `manifest.json` | identity + member sha256s; WRITE-ONCE at production (grill D7) |
 | `input_log.json` | per-tick seat-ordered consumed-mask arrays — byte-for-byte what `fold_input` saw (`src/net/session.rb:510` shape: `[m1, m2]`; seats=1 → `[m1]`). Ticks 0..D-1 pre-fill zeros are recorded (they ARE consumed masks) |
-| `digest_chain.json` | the FULL `[[tick, md5], …]` chain at the recorded cadence (the Session's `@digest_log`; P1 builds the same via an attached `StateDigest`) — full chain, not just the end window: windowed verification localizes a divergence to one window (grill D4) |
+| `digest_chain.json` | the FULL `[[tick, md5], …]` chain at the recorded cadence (the Session's `@digest_log`; P1 builds the same via an attached `StateDigest`) — full chain, not just the end window: windowed verification localizes a divergence to one window (grill D4) — plus a `terminal` `[tick, md5]` snapshot-only digest at end-of-run (T1 amend, s83: windows close only at cadence boundaries, so trailing ticks would otherwise be covered by member sha256s alone; residual named in `harness/bundle_writer.rb`) |
 | `preconditions.json` | constructor-time facts (§3) |
 | `save.json` | P2 non-fresh only: the canonical save-facts bytes EXACTLY as SESSION carried them (`Game::SaveState` vocabulary; strict decode refuses NAMED on re-execution) |
 

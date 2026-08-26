@@ -162,6 +162,8 @@ class BundleRoundtripTest < Minitest::Test
       assert_equal 0, receipt[:runs], "a lying member is RED before any tick executes"
       assert_match(/member sha256 mismatch/, receipt[:reason])
       assert_match(/input_log\.json/, receipt[:reason])
+      assert_match(/\A\h{32}\z/, receipt[:fingerprint_at_verification].to_s,
+                   "even a member-mismatch RED names the tree that judged it (review s83)")
       assert_equal "RED", read_json(dir, "verification.json").fetch(:verdict)
     end
   end
