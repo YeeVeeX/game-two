@@ -53,6 +53,15 @@ dedicated authoring session runs post-verdict or on owner word.
 edits, zero launches, §9 unread (spec read 1-284 + 316-end only),
 no question-topic contact with peers, R-A2 verb still unexplained.
 
+**Mid-session:** Junior pushed `05e659e` (cross-pointer between his
+v20 input doc `drafts/_junior-v20-input-20260826.md` and the peer
+slate) — diff READ, lawful docs-only; his input doc read in full
+(dungeons+bosses headline · zone_8 density fill · per-kit growth
+curves HYGIENE-BANKED · pace counterpoint "não senti [que acabou
+rápido]" — summit vs runway distinction for the grill). Rebased on
+top; his cross-pointer already bridges both docs, no slate churn
+owed.
+
 **Job-0 baselines for s87:** origin tip = this close commit · tree
 clean except `drafts/_refs/` · save `da5a0b2d…` mtime 08-26 16:08
 sessions=16 (moves at any play — re-anchor via the chain law) ·
