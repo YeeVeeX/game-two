@@ -1,5 +1,7 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+CLAIMED: Gabriel seat (s77), 2026-08-25 — uiux M5 adoption slate C1/C2/C3/C6 + M6 additions (nameplate halo, glyph outline). Scope: `src/app/renderer.rb` draw sites + `src/app/controls_overlay.rb` label key + `data/display.json` + `harness/gate_checks.json` row clauses; one delta per gate pass. NOTE: shares renderer.rb with Junior's zone-8 culling claim — my edits stay inside draw_hud/draw_nameplate/draw_creature/draw_edge_pips text+glyph sites; pull-before-push both ways.
+
 CLAIMED: Junior seat, 2026-08-25 — ZONE 8 render-performance fix. Scope: `src/app/renderer.rb`, focused renderer tests, performance receipt; static primitive culling only, zero map/gameplay changes. Evidence: `drafts/_junior-zone8-performance-20260825.md`.
 
 ## 2026-08-25 session 76 — uiux M4 CAPTURE ASK DELIVERED (`22a4c16`): two capture-service scripts under harness/service/ (NON-wall, netplay precedent) · toll-during-banner 27 frames + provision-refusal bracket 3 frames, double fresh-process byte-identical · hitstop banner-clock drift observed live (+7–8f) · M3-2 fade-handoff constraint recorded, not faked · mail receipt into the uiux seat
