@@ -1,5 +1,7 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+CLAIMED: Junior seat, 2026-08-25 — ZONE 8 render-performance fix. Scope: `src/app/renderer.rb`, focused renderer tests, performance receipt; static primitive culling only, zero map/gameplay changes. Evidence: `drafts/_junior-zone8-performance-20260825.md`.
+
 ## 2026-08-25 session 76 — uiux M4 CAPTURE ASK DELIVERED (`22a4c16`): two capture-service scripts under harness/service/ (NON-wall, netplay precedent) · toll-during-banner 27 frames + provision-refusal bracket 3 frames, double fresh-process byte-identical · hitstop banner-clock drift observed live (+7–8f) · M3-2 fade-handoff constraint recorded, not faked · mail receipt into the uiux seat
 
 **The delivery (record `drafts/_m4-captures-20260825.md`, blob
