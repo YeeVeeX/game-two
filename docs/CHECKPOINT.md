@@ -1,5 +1,7 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## CLAIMED (s81, hub, 2026-08-26): E3a capture-contract grill — spec-first, docs-only banking; spec mails to the assets seat at close
+
 ## 2026-08-26 session 80 — C2 SHIPPED: ally defensive-default engage rule + flee co-tune 0.35→0.5 — free allies acquire PROVOKED humans only (what attacks the pack / what the possessed engages), leash-back = the follow branch · sim-identity canary REBANKED per the versioned protocol (3 streams, full audit) · all owed gates green · uiux adoption-wave + gamesmith receipts banked
 
 **The ship (foundation Lane 3 row 13; decision doc
