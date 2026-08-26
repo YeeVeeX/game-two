@@ -79,6 +79,22 @@ No redirection asked. The seat's priority order, if it were his call
 alone: content at the top (2), zone_8 density (4), kit growth curves
 (5, post-ritual).
 
+## Cross-pointer: the same-evening peer slate
+
+`drafts/_v20-candidate-slate-20260826.md` (hub seat, banked minutes
+apart) carries the peers' CHAT brainstorm; this doc carries the
+play-impressions dictation. Convergences, for the grill table:
+
+- Item 5 here (striker/lobber fragile at cap, damage ask) = the
+  slate's Candidate 2 evidence line (`whirl casts=18, multi-hit 1`),
+  and its shape (b) "whirl growth" is the same per-kit growth-curve
+  fork named here. One fork, two independent sightings, both seats.
+- Item 2 here (dungeons + bosses) is NOT in the slate — it stays this
+  seat's distinct headline for the grill.
+- Item 4 here (zone_8 density) complements the slate's Candidate 3
+  geography lane (pillar placement wants exactly the kind of authored
+  pockets a zone_8 fill pass would carve).
+
 ## Parking-lot / prior-art cross-check (no duplicates banked)
 
 - "Procedural dungeon generation" stays PARKED — the ask in 2 is
