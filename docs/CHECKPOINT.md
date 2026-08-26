@@ -1,5 +1,85 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-26 session 86 — quiet dev session under the armed freeze: Job-0 ALL CLEAN (Junior's review of `e187266` confirmed banked — Rule-6 debt PAID, superseding the s85 queue line) · E3a-T3 call RECORDED: WAITS for the verdict · v20 slate KB evidence pass appended (docs-only) · zero launches, save UNMOVED, ritual untouched
+
+**No ritual declaration at open, mail inbox EMPTY (5 receipts still
+pending inbound), no new origin commits — the default dev-side item
+ran: v20 prep under the freeze (slate item 2).**
+
+**Job 0 (all clean):** origin tip = local = `2e92566` · tree clean
+except `drafts/_refs/` (by design) · save `da5a0b2d…` mtime 08-26
+16:08 sessions=16 UNMOVED (zero launches this session) · launcher
+logs 41 · freeze-watch CLEAN through `2e92566` (the full Job-0 file
+list, `cc5f356..HEAD`) · suite RUN live: **1317 runs / 27591
+assertions, 0 failures** · world.rb 1769/1800 · window.rb 267/300 ·
+wall 35 / gate rows 69 · bundles unchanged. Junior's two async
+checkpoint notes read at open: his fresh-eyes review of `e187266`
+(PASS, 0 blockers, reviewer ≠ author, pre-fix repro re-run) +
+joiner-side exposure log banked in-repo — both s85 debts CLOSED.
+
+**E3a-T3 decision (slate item 3 mandated recording it either way):
+T3 WAITS for the verdict.** Grounds from the two mandated re-reads:
+E3a spec §7 names `src/net/session.rb` (the Session close seam) as a
+required T3 file — no seam shape avoids it; ritual spec §12.6
+legalizes E3a T1–T3 only "PROVIDED rules 3–4 files stay untouched,"
+and §12.3 freezes the netplay close line IN THAT FILE (add-only
+extensions included). The Job-0 freeze-watch is file-granular on
+`src/net/session.rb`, so a T3 commit fires it by construction — not a
+doubt case, the proviso fails directly. T3 re-enters the queue the
+day the verdict lands.
+
+**v20 prep (the session's deliverable):** KB evidence pass appended
+to `drafts/_v20-candidate-slate-20260826.md` (docs-only; zero
+code/data touched) — verified-shelf pulls per candidate with vault
+paths + last_verified + tier discipline (synthesis/datamine numbers
+marked FLAGGED-class, never straight into data/). Highlights:
+consumption-on-use repeat-demand law + scale-with-faucet pricing
+(candidate 1) · niche law "protect the signature, share the edges" +
+Tibia druid = most-party-dependent caution → evidence ranks hybrid
+(c) strongest, grill decides (candidate 2) · Great Fairy Network read
+precisely = scarce/gated/earned, supports priced/contested pillar
+posture + depot placement note (candidate 3) · auto-fairy rides
+candidate 1's evidence, fence sharpened vs the R-A2 row (candidate
+4) · cycle-pace datum quantified: total curve 1→10 = 10,320 XP,
+log #41 alone earned 4069 kills_xp ≈ 39% of the whole curve — v20
+grill work item: hours-per-level script before any cap raise.
+LDtk zone sketch DEFERRED with reasoning: candidate-independent
+geometry is cheap but risks anchoring the grill before it picks
+candidates, and the WB pipeline authors zones from specs, not
+freehand — the slate's placement notes carry the prep value; a
+dedicated authoring session runs post-verdict or on owner word.
+
+**Hygiene:** armed freeze intact end-to-end — zero sim/data/oracle
+edits, zero launches, §9 unread (spec read 1-284 + 316-end only),
+no question-topic contact with peers, R-A2 verb still unexplained.
+
+**Job-0 baselines for s87:** origin tip = this close commit · tree
+clean except `drafts/_refs/` · save `da5a0b2d…` mtime 08-26 16:08
+sessions=16 (moves at any play — re-anchor via the chain law) ·
+launcher logs **41** (counting law, recorded to kill a false alarm:
+41 = the `game_two_session_<pid>.log` numeric pattern; a bare
+`game_two_*.log` glob reads 44 — rake_diag + two old fixed-name
+files are NOT launcher logs) · wall **35** / gate rows **69** (=
+len of the `checks` list in harness/gate_checks.json; a naive
+all-values count reads 70 by including the `scope` string) · suite
+**1317 (27591)** · world.rb **1769/1800 — nearing cap, any material
+touch owes its extraction** · window.rb 267/300 · varekka canary
+ACTIVE unchanged · bundles/ unchanged (one live bundle + 2 tracks) ·
+mail inbox EMPTY (receipts pending: family-block ×4 + T2 delivery) ·
+freeze-watch = the Job-0 git log line, CLEAN through this close.
+
+**s87 queue:** ritual owner-paced — if "sesión 1 del ritual" is
+declared, the skeleton harvest checklist IS the script (insurance
+copy + pre-launch save decode FIRST; link-quality read vs §11 before
+any question — tonight's exposure showed stall_ms_max=9805, expect
+the re-run conversation) · receipt harvest ×5 when they land ·
+E3a-T3 parked on the verdict (recorded above) · v20 prep continues
+drafts-only (slate accretes peer ideas, attributed + touchstoned) ·
+standing owner/peer-paced carries (never nag): B1-T3 feel · J-5
+pick · R-A2 escalation (R-E contingent) · ear-checks (audio played
+s85, no listening verdict) · T3 footstep renders · shake feel-check ·
+D9-es call · async ratifications (s72…s86).
+
 NOTE: Junior seat, 2026-08-26 — joiner-side exposure line BANKED (the s85 "may arrive by mail" item, delivered in-repo instead): `drafts/_v19-eighteenth-evidence/pre-ritual/game_two_coop_join_seat2_20260826.log` (md5 `2d90604c1470e68d456ab65c87a22fbf`) — `TELEMETRY netplay seat=2 ticks=80514 desyncs=0 stalls=1487 stall_ms_max=9690 reason=quit d=9 link_slow=false run_ms=1477302`. Matches the host line (80513/80514 ticks, both desyncs=0, both clean quit; joiner stall max 9690ms vs host 9805ms — same worst window from both ends). Joiner seat pulled `e187266` before the relaunch (handshake proved parity). Ticks counted from the join script's own log; the pre-fix attempt log (host down, 18:04) kept off the bank — no session evidence in it.
 
 CLOSED: Junior seat, 2026-08-26 — fresh-eyes review of `e187266` DONE (s86 queue head, Rule 6): **PASS, 0 blockers**. Reviewer ≠ author (Junior seat). Verified: (1) repro honesty — checked out `e187266~1` sim files and re-ran the new tests: `test_field_vat_regrow_binds_to_the_current_map_beside_the_payer` FAILS pre-fix with the exact live symptom (striker regrows at [4,14] on the 9-row slow_door map — off-map) and the AI-tick test raises; both PASS post-fix. (2) `in_grid?` closes all four OOB edges incl. negative-index Array wrap; OOB `distance`=UNREACHED / `downhill_from`=nil degrade to standing still — consistent with in-grid unreachable semantics. (3) Home-vat path byte-identical (same rebind expression moved into the branch). (4) Field regrow deterministic: fixed STEPS ring order + `taken` recomputed per member (sequential revives see each other — distinct-tiles assertion pinned); netplay-safe (same sim both seats, no RNG). (5) Suite 1317/27591 green on this seat — matches the s85 close. Accepted-by-design notes (not defects): all-8-neighbors-impassable falls back to the payer's own tile (occupancy soft, named in-code); `in_grid?` assumes ≥1 map row (TileMap invariant). Rule-6 debt from s85 is PAID.
