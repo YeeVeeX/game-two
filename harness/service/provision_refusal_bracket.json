@@ -1,0 +1,15 @@
+{
+  "scenario": "world",
+  "seed": 7,
+  "width": 960,
+  "height": 540,
+  "out_dir": "captures/service_provision_refusal",
+  "hold": {
+    "left": [[310, 310], [338, 338]],
+    "up": [[310, 310]],
+    "sustain": [[358, 358]]
+  },
+  "captures": [358, 387, 389],
+  "run_until": 399,
+  "start": { "zone": "camp" }
+}
