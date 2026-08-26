@@ -1,5 +1,7 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+CLAIMED: Junior seat, 2026-08-26 — fresh-eyes review of `e187266` (s86 queue head, Rule 6). Read-only + local verification; no code writes unless the review finds a defect (then: separate claim line first).
+
 ## 2026-08-26 session 85 — LIVE COOP NIGHT: exposure debt PAID both seats (coop part 2: `ticks=80513 desyncs=0 reason=quit`) · away-vat crash root-caused + FIXED live (`e187266`, repro pinned, canary byte-identical) · progression CAPPED (level 10) + seal 4 — owner verbatim: "llegamos al final del juego muy rápido y hace falta contenido"
 
 **The evening, in order:** host launched for the peers (owner ask).
