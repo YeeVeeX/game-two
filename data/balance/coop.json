@@ -1,7 +1,7 @@
 {
   "seats": {
     "2": {
-      "respawn_delay_scale": 2.0,
+      "respawn_delay_scale": 3.0,
       "human_hp_scale": 1.25,
       "ally_flee_hp_pct": 0.35
     }
