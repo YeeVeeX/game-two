@@ -1,9 +1,81 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-CLAIMED (s84, 2026-08-26, hub seat): **E3a-T2** — Mode T state-track
-emitter, schema "1" (spec
-`docs/superpowers/specs/2026-08-26-e3a-capture-contract.md` §5 + §7).
-In progress this session; line clears at the s84 close entry.
+## 2026-08-26 session 84 — E3a-T2 SHIPPED (`2627ed0`): Mode T state-track emitter, schema "1" — review PASS_WITH_FIXES (0 blockers, major fixed + pinned), TWO reference tracks emitted from the live bundle, delivery mail staged to the assets seat · freeze HELD (watch clean 2x, zero launches, save UNMOVED)
+
+**The ritual stayed owner-paced (zero steps fired); own inbox EMPTY at
+open and close (family-block receipts still pending), so the dev-side
+head item ran: E3a-T2 (spec §5 + §7, CLAIMED `cab1f66` before work —
+s56 race law).**
+
+**E3a-T2:** `harness/state_track.rb` (NEW — Sampler + schema builder +
+write-once track writer + per-kit constants) · `bundle_replay.rb`
+gains a read-only `observer:` seam (rides verification run 1, so the
+sampled run's chain is itself gate-checked), `emit_track`, CLI
+`--track=A..B [--track-name=NAME]` · exit statuses unchanged (0/1/2;
+RED emits NOTHING) · `test/harness/state_track_test.rb` (16 tests,
+real sim, no mocks: leaf types · consecutive frames · roster=union ·
+mask alignment (record frame F ↔ input_log[F-1], engine-verified) ·
+possessed uniqueness · per-kit constants vs combat.json · attack-cycle
+phases + positional state_frames · mid-phase windowed start · sidecar
+sha · byte-determinism · range/name/write-once refusals ·
+RED-no-track · zone-crossing refusal with two REAL worlds). Design
+pins in the ticket record `drafts/_e3a-t2-tracks-20260826.md` (record
+semantics · roster union · zone-crossing refusal · view = zone rect ·
+constants roster-kits-only "at the fingerprint" by construction).
+Fresh-eyes headless review (Rule 6): **PASS_WITH_FIXES, 0 blockers** —
+major (runs=0 vacuous PASS via malformed CLI arg) FIXED: `verify`
+refuses runs<2 NAMED + CLI aborts on malformed flags, regression
+pinned in the T1 test file; TOCTOU write-once recheck added; both
+fixes proven live (rc=2 refusal + usage abort captured).
+
+**Delivery (the T2 done-when):** mail
+`from-game-two-e3a-t2-track-delivery.md` staged into the assets inbox
+(md5 `98fb30332c8a84023eb0251de7f5757b`) — digest stamp (commit
+`2627ed0`, emitter blob `bf3c740f911ab24162f69e358212a1c0`) + TWO
+reference tracks from the s83 live bundle (fingerprint unmoved —
+harness is outside the glob): `reference-attack-window` 420..560 (141
+ticks, 18 roster, all four attack_states, sha256 `dd68c8cb…`) and
+`reference-roster-gaps-window` 561..1100 (540 ticks, 20 roster, BOTH
+gap directions machine-verified: deaths at 615/688 + respawn joins at
+916/989, sha256 `3d05a1f8…`) — the second emitted after an honesty
+check caught the mail overclaiming gaps in window 1 (corrected before
+delivery). Roster-union divergence from their draft-1 named
+PROMINENTLY (their `roster-mismatch` WILL fire until they adapt —
+their stated posture). RECEIPT pending inbound.
+
+**Hygiene (ARMED, held):** freeze-watch clean at open AND close ·
+zero bin/play launches · save `0ed80c516168b41d6314aaf28c7848f7`
+UNMOVED (insurance `tmp/world.pre-s84.json` same md5) · launcher logs
+39 · spec §9 untouched (read skipped lines 285-315 exactly) · no
+oracle/sim-number file moved (T2 = harness/test/drafts only —
+reviewer independently confirmed) · bot logs untouched.
+
+**Job-0 baselines for s85:** origin tip = the s84 close commit (this
+docs commit) · tree clean except `drafts/_refs/` · save `0ed80c51…`
+mtime 08-24 13:47 (moves at any play incl. exposure — lawful,
+re-anchor via chain law) · launcher logs **39** · wall **35** / gate
+rows **69** · suite **1312** (27570) · world.rb **1742/1800** ·
+window.rb **267/300** · varekka canary ACTIVE unchanged (C2 bank
+world_loop `982bfd66…` · varekka_duel `ecc750ec…` · burn_duel
+`36d6281c…`) · CLAUDE.md blob `e7ffe483…` (bare) · bundles/ = one
+live bundle `20260826T175326Z_p1_42` now carrying 2 tracks (machine
+evidence, verified PASS) · game-two inbox EMPTY — pending inbound: 4
+family-block receipts + the T2 delivery receipt · capture-dir trap
+carries (live truth = `_gate_a` dirs) · freeze-watch command = the
+Job-0 git log line (skeleton §anchors).
+
+**s85 queue:** ritual owner-paced (exposure → s1 → different day →
+s2 → 10 answers → fresh-session adjudication — never nag) ·
+dev-side: E3a-T3 (P2 dump — session.rb close seam is FROZEN-adjacent:
+re-read ritual spec §12.3 vs §12.6 BEFORE starting; when in doubt T3
+waits for the verdict; CLAIMED line first) · receipt harvest
+(family-block ×4 + T2 delivery; verify claimed md5s at THEIR blobs
+read-only) · assets PATH-A triage if mail lands · standing programs
+(soak/flywheel, bot law). Standing owner/peer-paced carries (never
+nag): coop part 2 + focus-A/B · B1-T3 feel · J-5 pick · R-A2
+escalation (R-E contingent) · ear-checks · T3 renders · shake
+feel-check · D9 es/pt call (F-M10-1 es SILENCIADO 269px) · async
+ratifications (s72…s83 list + **NEW s84: E3a-T2 ship**).
 
 ## 2026-08-26 session 83 — E3a-T1 SHIPPED (`c35701c`+`469a1d5`): P1 bundle emitter + headless re-executor + verification receipt, fresh-eyes PASS_WITH_FIXES (0 blockers, all fixes applied) · mirror ruling v2 executed (CLAUDE.md → bare 10-byte pointer + 4 spoke re-sync mails staged) · freeze HELD (watch clean 2x, zero launches, save UNMOVED)
 
