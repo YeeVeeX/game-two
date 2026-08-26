@@ -1,5 +1,60 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-26 session 88 — QUIET integrity session under the armed freeze: Job-0 ALL CLEAN (suite run live, freeze-watch clean, save UNMOVED) · zero peer input landed (no ritual declaration, mail EMPTY, no origin movement) · zero launches, ritual untouched, nothing manufactured
+
+**No ritual declaration at open. Origin tip = local = `a95f566`
+(Junior's seat quiet since his B1-T3 verdict). Mail inbox EMPTY —
+the same 5 receipts stay pending inbound (family-block ×4 + T2
+delivery from assets). No new peer chat ideas, no Junior doc
+accretion, no evidence-pull ask — every lawful autonomous slate move
+is conditional on peer input that did not arrive, so this session
+banks INTEGRITY ONLY (s87 precedent: nothing manufactured).**
+
+**Job 0 (all clean, run live):** origin tip `a95f566` = local, tree
+clean except `drafts/_refs/` (by design) · save `da5a0b2d…` mtime
+08-26 16:08 UNMOVED (zero launches; md5 verified byte-identical) ·
+launcher logs 41 (counting law; bare glob reads 44 ✓) · wall 35 /
+gate rows 69 (checks-list law, utf-8 read) · suite **1317 (27591) 0f
+0e** run live this session (`tmp/s88_suite.log`) · world.rb
+1769/1800 · window.rb 267/300 · varekka canary ACTIVE — current era
+rows verified in-file (`982bfd66…`/`ecc750ec…`/`36d6281c…`; NOTE for
+future greps: the canary file carries HISTORICAL eras above the live
+set — a naive first-5 grep reads the old era; the live set is the
+LAST block) · bundles/ unchanged (one live bundle + tracks/) ·
+freeze-watch CLEAN through `a95f566` (full Job-0 file list,
+`cc5f356..HEAD`).
+
+**Hygiene:** armed freeze intact end-to-end — zero sim/data/oracle
+edits, zero launches, §9 unread (spec read 1-284 + 316-end), no
+question-topic contact, R-A2 verb unexplained, no balance action on
+Junior's banked item 5.
+
+**Job-0 baselines for s89:** origin tip = this close commit · tree
+clean except `drafts/_refs/` · save `da5a0b2d…` mtime 08-26 16:08
+sessions=16 (moves at any play — re-anchor via the chain law) ·
+launcher logs **41** (numeric pattern; bare glob 44) · wall **35** /
+gate rows **69** · suite **1317 (27591)** · world.rb **1769/1800 —
+nearing cap, any material touch owes its extraction** · window.rb
+267/300 · varekka canary ACTIVE (live era = LAST block in the file) ·
+bundles/ unchanged · mail inbox EMPTY (receipts pending: family-block
+×4 + T2 delivery) · freeze-watch = the Job-0 git log line, CLEAN
+through this close.
+
+**s89 queue (unchanged from s88 — nothing moved):** ritual
+owner-paced — if "sesión 1 del ritual" is declared, the skeleton
+harvest checklist IS the script (insurance copy + pre-launch save
+decode FIRST; link-quality read vs §11 before any question — s85
+showed stall_ms_max=9805, expect the re-run conversation; joiner
+banks his REAL launcher log file per the s87 harvest note; expect
+session-1-open level=10 xp=644 if no play intervened) · receipt
+harvest ×5 when they land · E3a-T3 parked on the verdict (s86 record
+stands) · v20 prep drafts-only (slate accretes peer ideas, attributed
++ touchstoned; dungeon/boss evidence pull only if Junior asks) ·
+standing owner/peer-paced carries (never nag): J-5 pick · R-A2
+escalation (R-E contingent) · ear-checks (audio played s85, no
+listening verdict) · T3 footstep renders · shake feel-check · D9-es
+call · async ratifications (s72…s88).
+
 ## 2026-08-26 session 87 — quiet docs session under the armed freeze: Job-0 clean · Junior's B1-T3 feel verdict digested (standing item CLOSED) · evidence-digest audit: joiner capture's cited md5 DEAD → re-anchored at git blob md5, skeleton indexed + harvest note added · zero launches, save UNMOVED, ritual untouched
 
 **No ritual declaration at open, mail inbox EMPTY (5 receipts still
