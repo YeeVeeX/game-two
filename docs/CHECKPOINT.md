@@ -1,9 +1,11 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-25 session 76 — uiux M4 CAPTURE ASK DELIVERED (`06b83c7`): two capture-service scripts under harness/service/ (NON-wall, netplay precedent) · toll-during-banner 27 frames + provision-refusal bracket 3 frames, double fresh-process byte-identical · hitstop banner-clock drift observed live (+7–8f) · M3-2 fade-handoff constraint recorded, not faked · mail receipt into the uiux seat
+## 2026-08-25 session 76 — uiux M4 CAPTURE ASK DELIVERED (`22a4c16`): two capture-service scripts under harness/service/ (NON-wall, netplay precedent) · toll-during-banner 27 frames + provision-refusal bracket 3 frames, double fresh-process byte-identical · hitstop banner-clock drift observed live (+7–8f) · M3-2 fade-handoff constraint recorded, not faked · mail receipt into the uiux seat
 
 **The delivery (record `drafts/_m4-captures-20260825.md`, blob
-`0352fbb75595ab6a77cd53dd7494ef81` @ 06b83c7; their ask mail digest
+`0352fbb75595ab6a77cd53dd7494ef81` @ 22a4c16 (rebased over Junior's
+zone-8 telemetry pair mid-session; blob digest verified unchanged);
+their ask mail digest
 `61cde581fc16f0276dc99ac5c280a156`):** staged honestly via live pilot
 sessions (tmp/pilot/m4b + m4r2) then transcribed verbatim —
 **toll set** (`harness/service/toll_during_banner.json`, seed 7,
