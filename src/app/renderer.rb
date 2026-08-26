@@ -940,10 +940,23 @@ module App
 
     # The only human with a NAME (v15): small bone type above the body —
     # placeholder name per the 2026-08-16 owner order (no lore in repo).
+    # N2 (uiux M6 adoption, s77 — drafts/_m5m6-adoption-20260825.md): the
+    # 10px cream plate is the smallest type in the game and walks past
+    # light walls (~3:1 worst) — the D2 halo grammar makes it ground-
+    # independent while the bone identity and size stay.
     def draw_nameplate(c, x, y)
       name = tr("challenger.name", "BOSS 1")
       f = nameplate_font
-      f.draw_text(name, x + SIZE / 2 - f.text_width(name) / 2, y - 24, 5, 1, 1, BANNER)
+      tx = x + SIZE / 2 - f.text_width(name) / 2
+      ty = y - 24
+      hpx = @display.fetch(:nameplate_halo_px, 1)
+      if hpx.positive?
+        hc = color(@display.fetch(:nameplate_halo_rgb, [20, 14, 12]))
+        Renderer.halo_offsets(hpx).each do |(dx, dy)|
+          f.draw_text(name, tx + dx, ty + dy, 5, 1, 1, hc)
+        end
+      end
+      f.draw_text(name, tx, ty, 5, 1, 1, BANNER)
     end
 
     # Chant tell (v15): an expanding hollow DEEP-BLUE square repeating over

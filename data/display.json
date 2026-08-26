@@ -114,6 +114,12 @@
   220
  ],
  "nameplate_font_size": 10,
+ "nameplate_halo_px": 1,
+ "nameplate_halo_rgb": [
+  20,
+  14,
+  12
+ ],
  "kill_pop_flash_frames": 5,
  "kill_pop_flash_rgb": [
   255,

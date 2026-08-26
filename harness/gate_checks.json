@@ -199,7 +199,7 @@
     },
     {
       "id": "challenger_tell_reads",
-      "check": "When the boss's (BOSS 1) chant is on camera, a deep-blue expanding hollow ring centers on ONE pale human and a small hollow blue square floats above exactly one pack vessel — the pair reads as 'he is calling THAT body', clearly distinct from the rust taunt square, the teal respawn tell, the red/yellow attack telegraph, the orange volley brackets, AND the small washed-out pale-blue retarget cue block (the chant family is deeper and more saturated, and body-scale rather than an 8px block). If no chant frame is present, pass with why='not exercised by this script'."
+      "check": "When the boss's (BOSS 1) chant is on camera, a deep-blue expanding hollow ring centers on ONE pale human and a small hollow blue square floats above exactly one pack vessel — the pair reads as 'he is calling THAT body', clearly distinct from the rust taunt square, the teal respawn tell, the red/yellow attack telegraph, the orange volley brackets, AND the small washed-out pale-blue retarget cue block (the chant family is deeper and more saturated, and body-scale rather than an 8px block). Wherever the boss himself is on camera, his small cream BOSS 1 nameplate above the body reads separated from the ground behind it by a thin dark halo — raw cream glyphs melting into pale walls fail. If no chant frame and no boss body is present, pass with why='not exercised by this script'."
     },
     {
       "id": "seizure_reads",
