@@ -1,6 +1,69 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-CLAIMED: s76 (Gabriel hub seat, 2026-08-25) — uiux M4 capture ask (toll-during-banner dense set + provision-refusal bracket)
+## 2026-08-25 session 76 — uiux M4 CAPTURE ASK DELIVERED (`06b83c7`): two capture-service scripts under harness/service/ (NON-wall, netplay precedent) · toll-during-banner 27 frames + provision-refusal bracket 3 frames, double fresh-process byte-identical · hitstop banner-clock drift observed live (+7–8f) · M3-2 fade-handoff constraint recorded, not faked · mail receipt into the uiux seat
+
+**The delivery (record `drafts/_m4-captures-20260825.md`, blob
+`0352fbb75595ab6a77cd53dd7494ef81` @ 06b83c7; their ask mail digest
+`61cde581fc16f0276dc99ac5c280a156`):** staged honestly via live pilot
+sessions (tmp/pilot/m4b + m4r2) then transcribed verbatim —
+**toll set** (`harness/service/toll_during_banner.json`, seed 7,
+basement_2 family): clear 2 west husks (f146/147, 16xp — no ding) →
+exit → dwell out the ZONE 7 banner → RE-ENTER f547 (BASEMENT 2 banner
+alone) → waypointed walk dodging the [4,3] stairs → `seal_breached`
+f656 (d=+109, inside the 150f window) → idle through banner death.
+Windows: toll+0..+14 /2 (0656–0670, TOLL PAID scale-in under the
+dwelling banner = their M3-1) + expiry bracket 0683–0719 /2.
+**Finding: banner died f704–705, not nominal 697** — the f656 breach
+feel-kick's hitstop pauses the banner clock (transients law); pixel
+proof 0697=0699=0701=0703 byte-identical then gone at 0705 (zone
+banners hard-cut, no fade). **refusal set**
+(`provision_refusal_bracket.json`, camp bank, banked 0, boot banners
+dead): `provision_refused` f358 reason=broke, bracket +0/+29/+31 —
+REFUSED-on-D1-chip inked at +0/+29, gone +31; D2-haloed banked "0"
+persists (cue vs station text separation on camera).
+
+**Two staging laws verified live (in the record):** (1) basement_2's
+sub-view map pins the camera → the view-centered banner/breach bands
+sit over void, sprite-collision-free BY CONSTRUCTION; a dungeon_1
+staging was DISCARDED because camera-centered maps put the presser's
+sprite inside the rule pair (row-2 seals). (2) M3-2's
+"queue handoff during breach fade" is geometrically unstageable
+(fade-at-expiry ⇔ toll ≤ entry+50; shortest honest walk ≥ ~80f; the
+only in-window second-banner trigger drags a camera cut + 5 pocket
+hostiles into the window) — constraint mailed per the ticket's
+stop-clause, with a band-safe noisy variant offered on ask.
+
+**Determinism:** `SKIP_CRITIC=1 rake gate` ×2 scripts — 27/27 + 3/3
+byte-identical across two fresh replays; shipped dirs = byte-copies of
+run A, diff-verified vs run B. Critic calls 0 of ≤5 (capture service —
+their audit judges content). Wall stays 35 (call recorded in the
+record §head: existing rows already own these judgments). Zero
+sim/renderer code touched; suite green at baseline via hooks.
+
+**Seat mail:** OUT → `game-two-uiux/inbox/from-game-two-m4-captures.md`
+(digest-stamped, 4 RECEIPT lines). IN (deviation at Job 0, resolved):
+`from-game-two-assets-v25-repin-note.md` — fire-and-forget D1 re-pin
+(approve-by-default, game_commit e4e6474→1d95f2c, no reply owed) →
+banked to done/.
+
+**Job-0 baselines for s77:** origin tip = this close commit · tree
+clean except `drafts/_refs/` (untracked, stays) · save
+**`0ed80c516168b41d6314aaf28c7848f7`** mtime 08-24 13:47 (UNMOVED —
+pilots/replays never touch saves) · launcher logs **39** · wall **35**
+· suite **1263** (22762) · world.rb **1731/1800** · window.rb
+**266/300** · varekka canary **`bf35628a…`** ACTIVE · map probe 13/13
+(god-view untouched) · save insurance `tmp/world.pre-s76.json` (same
+md5) · NEW on disk: `harness/service/` (2 scripts, tracked) +
+`captures/service_*` dirs (gitignored evidence, md5-pinned in the
+record).
+
+**s77 queue (Lane 4 order):** uiux M5 adoption slate C1/C2/C3/C6 (C6 =
+one data value, breach_line_top 88) + M6 additions (nameplate halo
+`3f0813a3…` · glyph outline `f79a57ac…`) · J-6 volume-rows ·
+corpse-legibility flywheel candidate (s74-verified). Standing: coop
+part 2 + focus-A/B whenever Junior lands · B1-T3 feel · J-5 pick ·
+R-A2 escalation · ear-checks · T3 renders · shake feel-check · D9
+es/pt call — owner-paced, never nag.
 
 ## 2026-08-25 session 75 — D1+D2 SHIPPED (uiux M1 adoption): refusal-cue cream-on-chip (`1d95f2c`) + economy-numeral 1px halo (`123c1cc`) · four gates critic-ON PASS · one verified critic-misread forensics (carried_count_reads narrowed) · gate-capture-dir trap recorded · uiux M7 composite audit banked · wall stays 35
 
