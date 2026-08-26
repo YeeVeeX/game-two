@@ -1,5 +1,10 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+CLAIMED (s83, 2026-08-26, hub seat): **E3a-T1** — P1 bundle emitter +
+headless re-executor + verification receipt (spec
+`docs/superpowers/specs/2026-08-26-e3a-capture-contract.md` §7). In
+progress this session; line clears at the s83 close entry.
+
 ## 2026-08-26 session 82 — THE EIGHTEENTH IS STAGED (`cc5f356`): ritual spec CLOSED + question wording FROZEN (sealed §9) + runsheet + skeleton · MEASUREMENT HYGIENE ARMED (sim numbers + oracle wording + instruments frozen until the verdict) · gates: council pass (2 calls) + TWO-round fresh-eyes review (FAIL→fixed→PASS_WITH_FIXES→fixed) · docs-only, zero launches, save UNMOVED
 
 **Owner picked ritual staging live from the surfaced slate ("sure,
