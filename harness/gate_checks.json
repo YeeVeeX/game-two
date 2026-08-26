@@ -167,7 +167,7 @@
     },
     {
       "id": "seal_breach_reads",
-      "check": "When the seal is on camera SEALED, it reads as a shut, priced door: a dark slab across the corridor with a thin gold seam, the seal station beside it, and a visible price â€” a stranger could say 'locked, costs money'. When the breach beat is on camera, the way visibly OPENS (the slab turns gold) and the line 'TOLL PAID' is legible in the banner slot. If no seal or breach frame is present in this replay, pass with why='not exercised by this script'."
+      "check": "When the seal is on camera SEALED, it reads as a shut, priced door: a dark slab across the corridor with a thin gold seam, the seal station beside it, and a visible price â€” a stranger could say 'locked, costs money'. When the breach beat is on camera, the way visibly OPENS (the slab turns gold) and the line 'TOLL PAID' is legible in the banner slot; where the TOLL PAID line and a zone-name banner are live in the same frame, the two lines read as two separate lines with clear air between them (breach ink striking through or touching the zone-name line fails). If no seal or breach frame is present in this replay, pass with why='not exercised by this script'."
     },
     {
       "id": "flora_variants_read",
