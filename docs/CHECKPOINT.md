@@ -1,8 +1,73 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-CLAIMED: Gabriel seat (s77), 2026-08-25 — uiux M5 adoption slate C1/C2/C3/C6 + M6 additions (nameplate halo, glyph outline). Scope: `src/app/renderer.rb` draw sites + `src/app/controls_overlay.rb` label key + `data/display.json` + `harness/gate_checks.json` row clauses; one delta per gate pass. NOTE: shares renderer.rb with Junior's zone-8 culling claim — my edits stay inside draw_hud/draw_nameplate/draw_creature/draw_edge_pips text+glyph sites; pull-before-push both ways.
-
 CLAIMED: Junior seat, 2026-08-25 — ZONE 8 render-performance fix. Scope: `src/app/renderer.rb`, focused renderer tests, performance receipt; static primitive culling only, zero map/gameplay changes. Evidence: `drafts/_junior-zone8-performance-20260825.md`.
+
+## 2026-08-25 session 77 — uiux M5+M6 ADOPTION SLATE SHIPPED (5 deltas, 6 critic gates green): C6 breach-anchor 110 (`be03270`) · C2 strip-label lift (`e4dd3c4`) · C1 downed-bar hairline (`670ff88`) · N2 nameplate halo (`c658e0e`) · N4 glyph-outline class (`d50ac86`) · C3 pin accepted (no delta) · D11 RESOLVED = edge pip · one recorded budget deviation (6th critic call kept Rule 2 whole)
+
+**The adoption (record + full receipts
+`drafts/_m5m6-adoption-20260825.md`):** every M5/M6 digest re-verified
+against `game-two-uiux @ 3379b9d` blobs at open; un-mailed staged-delta
+digests pinned in the record. Mechanisms verbatim, our naming/keying
+calls recorded as deviations: alpha keys REFUSED everywhere (fixed 255
+— their own D4→C1 correction proves partial alpha fails the floor it
+cites), ONE shared `glyph_outline_*` family instead of per-surface
+keys, C6 taken data-only (behavior-side scale-in suppression refused
+this pass; M3-2 Δ1 TIGHT + double-peak-uncleared recorded with revisit
+trigger). Zero new strings — no D9 impact. world.rb/window.rb
+untouched; renderer.rb 1439 (uncapped), overlay + display.json + gate
+rows otherwise. Suite green via hooks at all six commits.
+
+**Gates (6 critic calls — declared ≤5, deviation recorded):**
+toll_pocket 8/8 ("TOLL PAID lands with clear air under BASEMENT 2") ·
+world_loop 10/10 for C2 ("keys pop over labels") ·
+multi_floor_descent 11/11 ("dead bars keep a thin visible outline") ·
+varekka_duel 7/7 ("nameplate legible") · world_loop 10/10 for N4 (all
+three class rows not-exercised — critic missed the dark hate cue at
+0805; pixel A/B proved the outline site-exact, 100px @ (20,14,12)) ·
+**respawn_telegraph 9/9 = the affirmative N4 judgment** (pale cue at
+0795 + NEW `edge_pip_reads` row first outing: "orange kit pip hugs the
+left viewport edge in 1265"). Plus aoe_specials SKIP_CRITIC 8/8
+determinism (costs 0).
+
+**Two forensic finds (verified vs code + exact pixels before
+recording):** (1) **D11 dissolved** — the first-critique's
+"unidentified amber quad" at world 0701 x≈304–313/y≈522–533 is the
+off-screen lobber's EDGE PIP (clamp py max 524; A/B bbox 303–314/
+523–534 byte-matches). D12–D14 unblocked for triage. (2) The one
+historical wall-script god_mark_reads pass (aoe_specials 1189) is a
+critic MISREAD — the 10×10 gold block is exact (250,235,170) =
+PROJECTILE. **No wall script stages a real god mark** (pilot reels
+do); site proven by the shared helper + A/B, read stays owed to
+whatever reel next stages one.
+
+**Seat mail (2 handled → done/):** uiux M8 design-language entry point
+(digest `83da06a1…` ✓; F-M8-1 receipt-cue finding = offer-only, noted
+in the record) · assets v26 re-pin (fire-and-forget; their pinned
+06b83c74 was the pre-rebase ref — their own hop-absorb protocol
+covers it). OWED OUT at s77 close: adoption receipt mail to the uiux
+seat (C-row results + D11 resolution + the aoe misread, for their
+coverage ledger).
+
+**Job-0 baselines for s78:** origin tip = this close commit · tree
+clean except `drafts/_refs/` (untracked, stays) · save
+**`0ed80c516168b41d6314aaf28c7848f7`** mtime 08-24 13:47 (UNMOVED) ·
+launcher logs **39** · wall **35** scripts / gate rows **69** (+
+edge_pip_reads) · suite **1263** (22762) · world.rb **1731/1800** ·
+window.rb **266/300** · varekka canary ACTIVE (suite-checked) ·
+**capture-dir trap:** plain `captures/{world_loop,respawn_telegraph,
+aoe_specials}` hold s77 px=0 PROBE frames — live truth = `_gate_a`
+dirs · Junior's zone-8 renderer.rb claim ACTIVE — pull before any
+renderer touch · ruby procs seen this session were the uiux seat's
+(their tmp/ mtime matched; no sockets, save unmoved).
+
+**s78 queue (Lane 4 order):** J-6 volume-rows · corpse-legibility
+flywheel candidate (s74-verified) · M4 follow-ups only on THEIR ask.
+Standing: coop part 2 + focus-A/B whenever Junior lands · Junior's
+camp-comparison run (E4 trigger check) · B1-T3 feel · J-5 pick · R-A2
+escalation · ear-checks · T3 renders · shake feel-check · D9 es/pt
+call · async ratifications (s72 B1-T2 · banner-names · s73 re-cuts ·
+s74 J-3 · s75 D1/D2+gate-rows · s77 this slate) — owner/peer-paced,
+never nag.
 
 ## 2026-08-25 session 76 — uiux M4 CAPTURE ASK DELIVERED (`22a4c16`): two capture-service scripts under harness/service/ (NON-wall, netplay precedent) · toll-during-banner 27 frames + provision-refusal bracket 3 frames, double fresh-process byte-identical · hitstop banner-clock drift observed live (+7–8f) · M3-2 fade-handoff constraint recorded, not faked · mail receipt into the uiux seat
 
