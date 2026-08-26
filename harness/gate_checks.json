@@ -187,7 +187,7 @@
     },
     {
       "id": "controls_overlay_reads",
-      "check": "A quiet strip at the bottom edge of the screen shows key glyphs paired with action labels for the currently possessed body. The strip updates when possession changes (a different vessel name/verb appears). A brief brighter pulse may accompany the first possession of a kind (allowed, not required). The strip reads as instructional reference, NOT as a combat element — its alpha is subdued relative to the HUD bars and the ledger tally. If the script never shows a living possessed body, pass with why='not exercised by this script'."
+      "check": "A quiet strip at the bottom edge of the screen shows key glyphs paired with action labels for the currently possessed body. Both halves of each pair read legibly against the strip's dark band — action labels melting into the backing fail — while key glyphs still read a notch brighter than their labels (reference hierarchy: keys pop, verbs stay quieter). The strip updates when possession changes (a different vessel name/verb appears). A brief brighter pulse may accompany the first possession of a kind (allowed, not required). The strip reads as instructional reference, NOT as a combat element — its alpha is subdued relative to the HUD bars and the ledger tally. If the script never shows a living possessed body, pass with why='not exercised by this script'."
     },
     {
       "id": "respawn_telegraph_reads",

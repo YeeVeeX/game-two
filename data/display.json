@@ -50,6 +50,11 @@
  "overlay_strip_height": 28,
  "overlay_strip_alpha": 140,
  "overlay_font_size": 12,
+ "overlay_label_rgb": [
+  220,
+  210,
+  192
+ ],
  "overlay_y_pad": 6,
  "overlay_x_start": 32,
  "overlay_glyph_gap": 8,

@@ -34,7 +34,6 @@ module App
     VESSEL_RGB = { striker: [235, 120, 40], blocker: [190, 80, 35],
                    lobber: [225, 170, 90] }.freeze
     GLYPH_RGB = [225, 218, 205].freeze # bright bone — the keys pop
-    LABEL_RGB = [160, 152, 140].freeze # subdued — the verbs whisper
     BACKING_RGB = [10, 8, 12].freeze   # ledger-panel near-black family
 
     def initialize(display: {}, strings: nil, bindings: nil, local_seat: 1)
@@ -107,7 +106,7 @@ module App
       font.draw_text(line[:vessel], x, ty, 0, 1, 1, vessel_col)
       x += font.text_width(line[:vessel]) + section_gap
       glyph_col = Gosu::Color.new(text_a, *GLYPH_RGB)
-      label_col = Gosu::Color.new([text_a - 40, 60].max, *LABEL_RGB)
+      label_col = Gosu::Color.new([text_a - 40, 60].max, *label_rgb)
       line[:pairs].each do |pair|
         primary, *rest = pair[:glyphs]
         font.draw_text(primary, x, ty, 0, 1, 1, glyph_col)
@@ -139,6 +138,12 @@ module App
     def strip_height = @display.fetch(:overlay_strip_height, 28)
     def strip_alpha = @display.fetch(:overlay_strip_alpha, 140)
     def font_size = @display.fetch(:overlay_font_size, 12)
+    # C2 (uiux M5 adoption, s77 — drafts/_m5m6-adoption-20260825.md): label
+    # source tone lifted from the old [160,152,140] constant — 12px verbs
+    # measured ~3.4:1 rendered against the band, under the small-text 4.5
+    # floor. Keyed, alpha arithmetic untouched: the −40 offset still keeps
+    # verbs a step under the key glyphs (hierarchy carrier).
+    def label_rgb = @display.fetch(:overlay_label_rgb, [220, 210, 192])
     def y_pad = @display.fetch(:overlay_y_pad, 6)
     def x_start = @display.fetch(:overlay_x_start, 32)
     def glyph_gap = @display.fetch(:overlay_glyph_gap, 8)
