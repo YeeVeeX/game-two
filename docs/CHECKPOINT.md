@@ -1,6 +1,92 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## CLAIMED (s81, hub, 2026-08-26): E3a capture-contract grill — spec-first, docs-only banking; spec mails to the assets seat at close
+## 2026-08-26 session 81 — E3a SPEC SHIPPED (`0f3e9e5`): capture-contract grilled spec-first, state-track schema PINNED v1, 3 tickets cut, fresh-eyes review PASS (major fixed pre-mail) · spec MAILED to the assets seat (their lane branches on arrival — 6-close wait ends) · docs-only session, zero sim/visual surface
+
+**The head item executed (foundation rider row 22, ratified fence:
+"recording at session end only, never during play, zero per-tick cost
+on either seat"):** grill record
+`drafts/_e3a-capture-contract-grill-20260826.md` (D1–D14 + fence
+audit + review gate) · spec
+`docs/superpowers/specs/2026-08-26-e3a-capture-contract.md`. Shape:
+replay bundle = write-once manifest (REQUIRED `fingerprint_md5` — the
+EOL-normalized handshake identity, not a commit SHA (W6 trap) — +
+best-effort `game_commit`, `machine`, member sha256s) + per-tick
+seat-ordered mask log (byte-for-byte the `fold_input` values,
+session.rb:510) + FULL digest chain (@digest_log already retained) +
+constructor-time preconditions (P1: script `start` staging verbatim —
+declarative, apply_start; P2: SESSION save canonical bytes). Producers
+v1: **P1** scripted (runner flag, existing WorldScene path) + **P2**
+netplay HOST-side dump-at-close (env `GAME_BUNDLE_DUMP=1`, default
+OFF, all end reasons — desync = the black box; wall/soak never set
+it; weak seat never writes, S0-J2). **P3 solo live recorder REFUSED**
+(fence plain reading — reopening = owner decision). Re-executor =
+HEADLESS (no Gosu; recorded deviation from the foundation sketch,
+defended — Mode F stays on the existing runner); verification =
+double re-execution, receipt = the intake attestation. Bundles land
+`bundles/` gitignored — NEVER `data/` (s55 twin law satisfied
+structurally: outside the fingerprint glob AND the DataStore). Schema
+v1 pins draft-1 + 4 corrections (tick_ms 16.67 verbatim ·
+constants PER-KIT, ATTACK sub-object rule, `windup_px/active_px`
+DROPPED (renderer literals, not data — review-gate catch) ·
+`possessed` added · always RUNTIME + bundle_id provenance);
+`state_frames` adopted (their parser finding correct); badge/tint
+reads named-excluded. All seven of their open questions answered in
+spec §6. Tickets: **T1** P1 emitter + headless re-executor +
+tamper-proof receipt round-trip · **T2** Mode T track emitter +
+schema tests + reference track mailed · **T3** P2 dump + netplay-gate
+re-runs. Owner-paced (sequence-unblocked: all four lanes have first
+ships).
+
+**Review gate (Rule 6, skill stage 4):** headless scrubbed-env pi,
+two-way alignment rubric — **PASS, 0 blockers, 1 major + 3 minors,
+ALL applied before mail.** The major (re-verified live before
+acting): §5 falsely claimed px offsets denormalize from combat.json —
+they are `lunge_offset` literals (renderer.rb:879-886); dropped from
+schema, selection rule named, T2 verify now assertable for every
+field. Minors: manifest `machine` field · constants selection rule ·
+budget rephrased "zero visual-delta critic spend" (T3's netplay-gate
+vision halves never confused with skippable spend).
+
+**Mail (digest-stamped, delivered to their inbox/):**
+`~/.pi/agent/mail/game-two-assets/inbox/from-game-two-e3a-capture-contract-spec.md`
+(mail md5 `d693ed6a2931608d2055b7ef43e3720e`) — spec blob
+`f531709a41e89aea5cf4409cc058a817`, grill blob
+`5235f673f33c029d6a1115b1d039a8c1`, both at `0f3e9e5` (pushed).
+Expected receipt: read + consumer-adaptation status, fire-and-forget.
+
+**Budget kept:** council 0 · gate critic calls 0 · one headless
+review call (the skill's default reviewer, not council) · no
+launches, save UNMOVED.
+
+**Job-0 baselines for s82:** origin tip = this docs commit · tree
+clean except `drafts/_refs/` (untracked, stays) · save
+**`0ed80c516168b41d6314aaf28c7848f7`** mtime 08-24 13:47 (insurance
+copy `tmp/world.pre-s81.json` same md5) · launcher logs **39** · wall
+**35** scripts / gate rows **69** · suite **1287** (23104) · world.rb
+**1742/1800** · window.rb **267/300** · varekka canary ACTIVE on the
+C2 bank (world_loop `982bfd66…` · varekka_duel `ecc750ec…` ·
+burn_duel `36d6281c…`; S73 preserved) · coop.json seats=2 = respawn
+**3.0** / hp **1.25** / flee **0.5** · capture-dir trap carries
+(plain `captures/{world_loop,respawn_telegraph,aoe_specials}` = s77
+px=0 PROBE frames, plain `menu_tour` pre-J-6 — live truth = `_gate_a`
+dirs; corpse_run's = `captures/pilot/cr3_r1_replay_gate_a`) ·
+game-two-assets inbox now carries our spec mail (unread until their
+next session).
+
+**s82 queue:** **ritual staging is the natural head** (C2 landed s80;
+ALL measured sim numbers in: respawn 3.0 · difficulty 1.25 · flee 0.5
+· defensive default — hygiene RE-ARMS at staging: question wording
+stays unwritten until spec freeze, runsheet/JUNIOR.md freeze, sim
+numbers untouchable until the verdict) · E3a T1–T3 owner-paced (spec
+is the contract; assets seat may mail findings) · C3 stance verb =
+later rung (only if the ritual says C2 insufficient) · uiux/M4 slates
+only on THEIR ask. Standing (owner/peer-paced, never nag): coop part
+2 + focus-A/B when Junior lands · B1-T3 feel · J-5 pick · R-A2
+escalation · ear-checks · T3 renders · shake feel-check · D9 es/pt
+call (carries F-M10-1: es SILENCIADO 269px vs 260px pad-limit) ·
+async ratifications (s72 B1-T2 · banner-names · s73 re-cuts · s74 J-3
+· s75 D1/D2+gate-rows · s77 slate · s78 close · s79 B5 · s80 C2 +
+rebank · **NEW s81: E3a spec + schema pin**).
 
 ## 2026-08-26 session 80 — C2 SHIPPED: ally defensive-default engage rule + flee co-tune 0.35→0.5 — free allies acquire PROVOKED humans only (what attacks the pack / what the possessed engages), leash-back = the follow branch · sim-identity canary REBANKED per the versioned protocol (3 streams, full audit) · all owed gates green · uiux adoption-wave + gamesmith receipts banked
 
