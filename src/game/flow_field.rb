@@ -36,11 +36,12 @@ module Game
       end
     end
 
-    def distance(tx, ty) = @dist[ty][tx]
+    def distance(tx, ty) = in_grid?(tx, ty) ? @dist[ty][tx] : UNREACHED
 
     # The neighbor step that best descends toward the target, or nil if
     # nothing improves (cornered / already adjacent / unreachable).
     def downhill_from(tx, ty, blocked: [])
+      return nil unless in_grid?(tx, ty)
       best = nil
       best_d = @dist[ty][tx]
       STEPS.each do |(dx, dy)|
@@ -58,6 +59,15 @@ module Game
     end
 
     private
+
+    # A query outside the grid answers "no knowledge" (UNREACHED / nil) —
+    # never a raise, never a wrap through Ruby's negative Array indexing.
+    # A foreign or corrupt tile must degrade to standing still, not kill
+    # the session (coop-night crash 2026-08-26: an away-vat regrow left a
+    # home-map tile indexing a 9-row field at y=14).
+    def in_grid?(tx, ty)
+      tx >= 0 && ty >= 0 && ty < @dist.length && tx < @dist[0].length
+    end
 
     # Diagonal steps may not cut wall corners.
     def open?(cx, cy, dx, dy)

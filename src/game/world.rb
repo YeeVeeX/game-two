@@ -1234,9 +1234,8 @@ module Game
       quote = @price_sheet.vat_quote(@zone_name)
       return station_refuse!(source.tile) unless spend_banked(source, quote[:cost], :tribute)
       @vat_mercy_armed &&= dead.empty?
-      home = @zones.fetch(@home_zone)
       dead.each do |m|
-        m.revive!(map: home, tile: home.pack_spawn[@pack.members.index(m)])
+        m.revive!(**regrow_binding(source, m))
         @bus.emit(:body_regrown, body: m)
       end
       wounded.each(&:heal_full!)
@@ -1245,6 +1244,34 @@ module Game
                 healed: wounded.length, banked: @pack.banked)
       station_cue!(:tribute, source.tile)
       true
+    end
+
+    # Regrowth binding (coop-night crash fix, 2026-08-26): at the HOME vat
+    # the hard rebind onto the home spawn tile stands byte-identical (S3
+    # law). At a FIELD vat the flesh regrows AT THE VAT, beside the payer —
+    # a body may never bind to a map the world is not showing: the old
+    # away-vat home-rebind shipped bodies into another zone's coordinate
+    # space, visibly off-map, and the ally AI's first flow-field read on
+    # the foreign tile crashed the session (repro: economy_vat_test).
+    def regrow_binding(source, member)
+      if @zone_name == @home_zone
+        home = @zones.fetch(@home_zone)
+        { map: home, tile: home.pack_spawn[@pack.members.index(member)] }
+      else
+        { map:, tile: regrow_tile_beside(source) }
+      end
+    end
+
+    # First free passable neighbor in STEPS order (deterministic — the
+    # yield_aside precedent), ignoring occupancy when everything is taken,
+    # the payer's own tile as the last resort (occupancy is soft: only
+    # voluntary movement is blocked — the respawn_pack law).
+    def regrow_tile_beside(source)
+      taken = actors.map(&:tile)
+      ring = FlowField::STEPS.map { |(dx, dy)| [source.tile[0] + dx, source.tile[1] + dy] }
+      ring.find { |t| map.passable?(*t) && !taken.include?(t) } ||
+        ring.find { |t| map.passable?(*t) } ||
+        source.tile
     end
 
     # The breach (v12): pay the toll standing at the seal, and the way

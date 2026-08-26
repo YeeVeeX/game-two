@@ -152,4 +152,41 @@ class EconomyVatTest < Minitest::Test
     assert_equal 0, e[:healed]
     assert_equal 0, e[:banked]
   end
+
+  # The coop-night crash (2026-08-26), pinned: home had advanced to a hub
+  # (v12 rehoming) and the tribute was paid at a FIELD vat — the old
+  # home-rebind revived bodies into the HOME map's coordinate space while
+  # the world showed the field zone: visibly off-map flesh, and the ally
+  # AI's first flow-field read on the foreign tile killed the whole
+  # session (coop host death). Law now: a field-vat regrow binds to the
+  # CURRENT map, beside the payer; the home vat keeps the spawn rebind.
+  def test_field_vat_regrow_binds_to_the_current_map_beside_the_payer
+    world.start_in("zone_7")    # hub entry rehomes (v12): home = zone_7 (28 rows)
+    world.start_in("slow_door") # field vat zone, 9x14 — smaller than home
+    payer = world.possessed
+    (world.pack.members - [payer]).each { |a| kill(a) }
+    world.pack.bank!(500)
+    assert world.interact(at_vat!)
+    world.bus.process
+    world.pack.members.each do |m|
+      refute m.dead?
+      assert world.map.passable?(*m.tile),
+             "#{m.kit_name} must regrow on a passable CURRENT-map tile, got #{m.tile.inspect}"
+      dist = [(m.tile[0] - payer.tile[0]).abs, (m.tile[1] - payer.tile[1]).abs].max
+      assert dist <= 1, "#{m.kit_name} regrows beside the payer, got #{m.tile.inspect}"
+    end
+    tiles = (world.pack.members - [payer]).map(&:tile)
+    assert_equal tiles.uniq, tiles, "two regrown bodies take distinct ring tiles"
+  end
+
+  def test_field_vat_regrow_survives_the_ai_ticking_afterward
+    world.start_in("zone_7")
+    world.start_in("slow_door")
+    (world.pack.members - [world.possessed]).each { |a| kill(a) }
+    world.pack.bank!(500)
+    assert world.interact(at_vat!)
+    world.bus.process
+    input = Core::NullInput.new
+    900.times { world.tick(input) } # raised NoMethodError in the flow field pre-fix
+  end
 end
