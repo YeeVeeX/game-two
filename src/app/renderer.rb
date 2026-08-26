@@ -300,21 +300,43 @@ module App
       # draws (state-dependent or above-grid by design).
       drained = Renderer.water_drained?(world, world.zone_name, map)
       tile_runs, motif_runs = static_runs(map, world)
+      # Large maps (ZONE 8 is 2048x1280) keep most static runs outside the
+      # viewport. Gosu still submits every primitive inside the translated
+      # block, so cull only immutable map rectangles against the camera in
+      # WORLD coordinates. A 1px pad preserves edge-touching grid/rect
+      # coverage under the camera's fractional lerp; visible pixels stay
+      # byte-identical while off-screen submissions disappear.
+      camera = world.camera(@local_seat)
+      static_visible = ->(rect) { Renderer.rect_visible?(rect, camera) }
       Gosu.draw_rect(0, 0, map.pixel_width, map.pixel_height,
                      color(map.palette[:floor]))
-      tile_runs.each do |(x, y, w, h, ref)|
+      tile_runs.each do |run|
+        next unless static_visible.call(run)
+        x, y, w, h, ref = run
         ref = :water_drained if ref == :water && drained
         Gosu.draw_rect(x, y, w, h, color(map.palette[ref]))
       end
       grid = color(map.palette[:grid])
-      (0..map.cols).each { |tx| Gosu.draw_rect(tx * ts, 0, 1, map.pixel_height, grid) }
-      (0..map.rows).each { |ty| Gosu.draw_rect(0, ty * ts, map.pixel_width, 1, grid) }
+      Renderer.visible_grid_indices(map.cols, ts, camera.x, camera.view_w).each do |tx|
+        Gosu.draw_rect(tx * ts, 0, 1, map.pixel_height, grid)
+      end
+      Renderer.visible_grid_indices(map.rows, ts, camera.y, camera.view_h).each do |ty|
+        Gosu.draw_rect(0, ty * ts, map.pixel_width, 1, grid)
+      end
       unless motif_runs.empty?
         mcol = color(map.palette[:motif_rgb])
-        motif_runs.each { |(x, y, w, h)| Gosu.draw_rect(x, y, w, h, mcol) }
+        motif_runs.each do |rect|
+          next unless static_visible.call(rect)
+          x, y, w, h = rect
+          Gosu.draw_rect(x, y, w, h, mcol)
+        end
       end
       _, decor = identity_rects(map)
-      decor.each { |(x, y, w, h, rgb, a)| Gosu.draw_rect(x, y, w, h, color(rgb, a)) }
+      decor.each do |rect|
+        next unless static_visible.call(rect)
+        x, y, w, h, rgb, a = rect
+        Gosu.draw_rect(x, y, w, h, color(rgb, a))
+      end
       map.transitions.each do |t|
         tx, ty = t[:at]
         if Renderer.way_locked?(world, world.zone_name, t)
@@ -340,6 +362,18 @@ module App
         Gosu.draw_rect(0, 0, map.pixel_width, map.pixel_height,
                        color(amb[0, 3], amb[3]))
       end
+    end
+
+    def self.rect_visible?(rect, camera, pad: 1)
+      x, y, w, h = rect
+      x + w >= camera.x - pad && x <= camera.x + camera.view_w + pad &&
+        y + h >= camera.y - pad && y <= camera.y + camera.view_h + pad
+    end
+
+    def self.visible_grid_indices(count, tile_size, camera_pos, view_size, pad: 1)
+      first = ((camera_pos - pad) / tile_size).floor.clamp(0, count)
+      last = ((camera_pos + view_size + pad) / tile_size).ceil.clamp(0, count)
+      first..last
     end
 
     def identity_rects(map)

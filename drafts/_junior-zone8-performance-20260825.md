@@ -91,3 +91,38 @@ vblank ~33 ms mode while camp holds ~16.9 ms. The sim update remains cheap.
 This supports a dedicated render-performance ticket for ZONE 8; it does not
 select the implementation fix. First investigation should census static map
 primitive count/visible-area work against camp before changing visuals.
+
+## Fix receipt — viewport culling (Junior seat)
+
+Primitive census through the real renderer found the direct cause:
+
+- camp `20x11`: 10 tile runs + 17 motif runs; 72 map draw primitives total;
+- ZONE 8 `64x40`: **994 tile runs + 247 motif runs**; 1,350 map draw
+  primitives total;
+- at the ZONE 8 spawn camera, only 249/994 tile runs and 47/247 motif runs
+  intersect the viewport — the renderer submitted the off-screen majority.
+
+Fix: `Renderer#draw_map` now culls only immutable tile/motif/decor rectangles
+and off-screen grid indices against the local camera, with a 1px pad for
+fractional-camera edge coverage. Floor, ambient, transitions, stations and all
+dynamic/gameplay surfaces remain unchanged. No zone data or balance changed.
+
+Same-machine isolated 600-tick post-fix evidence:
+
+- ZONE 8: frame p50 **16.9 ms** (pre 33.4), draw p50 **8.5 ms** (pre 16.4),
+  draw p95 25.1 ms (pre 35.7), over20 112 (pre 482);
+- camp: frame p50 16.7 ms, draw p50/p95 2.1/3.7 ms — no regression signal.
+
+Verification:
+
+- focused renderer tests: 10 runs / 18 assertions green;
+- full suite: 1,267 runs / 22,774 assertions green;
+- `zone8_crossing` gate determinism: 5/5 captures byte-identical across two
+  runs;
+- independent baseline-worktree vs post-fix capture proof: **5/5 PNG md5s
+  byte-identical**, so the optimization changes submission work, not pixels;
+- independent code review: PASS, zero blocking findings;
+- critic-ON visual verdict could not execute on Junior's seat: first the
+  owner-only `voice-dev` profile was absent, then every available Junior AWS
+  profile refused with `InvalidClientTokenId`. This is an infrastructure
+  block, not downgraded to a pass; hub must run the critic-ON gate before ship.
