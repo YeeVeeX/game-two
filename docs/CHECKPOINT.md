@@ -1,5 +1,11 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+**CLAIMED: C2 hub 2026-08-26** (s80 — ally defensive-default engage
+rule + `ally_flee_hp_pct` co-tune, foundation Lane 3, ratified order
+B5→C2 satisfied at `0b11cfa`; CODE change on the lockstep sim —
+suite + netplay gates + perf owed; world.rb extraction flag live at
+1731/1800).
+
 ## 2026-08-26 session 79 — B5 SHIPPED (`0b11cfa`): respawn_delay_scale 2.0 → 3.0 (seats=2, ONE knob, data-only per the R-A1 pre-registered shape) — the LAST Lane-2 data move is in; C2's re-session is sequence-unblocked · owner picked B5 live from the surfaced slate · assets v27 re-pin mail handled (approve-by-default, no reply owed)
 
 **The pick:** no queue debt at open; per the 2026-08-22 owner order the
