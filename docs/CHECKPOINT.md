@@ -1,12 +1,97 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-CLAIMED: hub seat (Gabriel), 2026-08-26 s78 — the two critic-ON verdicts owed to the hub (J-6 volume rows via menu_tour · corpse-legibility via world_loop). Gates run ONLY on this seat (voice-dev profile); banking + receipts ride this claim.
+## 2026-08-26 session 78 — HUB VERIFY+GATE PASS: both owed critic-ON verdicts PAID (J-6 via menu_tour · corpse-legibility via corpse_run) · fresh-eyes review of Junior's two ships CLEAN · gate 2 script SUBSTITUTED world_loop→corpse_run on the s77 residual-tolerance lesson · uiux M9 coverage mail banked (digests ✓, no asks)
+
+**The pivot:** the s78 spark scoped J-6 implementation; Job-0 found
+Junior shipped BOTH queue items overnight (lawful CLAIMED→close
+cycles), each owing the hub the vision half (his seat has no
+voice-dev profile). s78 = review + gates + banking. Suite re-verified
+LOCALLY on this machine: **1275/22805 green** (matches his count).
+
+**Fresh-eyes review (non-authoring seat — Rule 6): CLEAN, no
+blockers.** J-6 honors the audio receipt point-by-point (applied-trim
+persisted, mute = master-floor + prior-trim restore, unknown-bus
+ignore at boot vs the API's named refusal, boot re-apply after AUDIO
+on, rows ABSENT without the API); pure-sink + prefs-only ✓;
+window.rb 267/300 (+1). Sibling contract re-verified at open:
+`docs/integration-readiness.md` blob `a4455aa33ec09a46a8e04249151537ae`
+EXACT at their `a63655e`, `07aeb1c` is its ancestor; bridge pre-flight
+on THIS machine printed all 4 buses (rows render = strong member
+stages). Corpse delta: data-keyed, contract+direction pinned by
+`corpse_legibility_test`, orc base untouched, sim untouched. Two
+non-blocking review notes: (1) **menu_tour tail downs 960–992 land
+AFTER the 952 close** — they walk the player in-world before capture
+1000 (input-seam-restored proof by accident); the volume rows stage at
+capture 930. Junior: if cursor-over-rows was the intent, a re-cut is a
+future menu session + full Rule 2 gate — nothing owed now. (2)
+`VOLUME_STEP_DB = 6.0` is a code constant — UX step, not balance;
+acceptable beside the contract FLOOR/CEILING constants, flagged only.
+
+**Gate 1 — menu_tour critic-ON: GATE PASS** (8/8 byte-identical ×2 +
+vision PASS; log `tmp/s78_gate_menu_tour.log`, verdict appended to
+`drafts/_gate-verdicts.log`). `menu_settings_reads` read the
+AFFIRMATIVE branch: "SETTINGS shows LANGUAGE, SCALE, FULLSCREEN plus
+volume and mute rows with values, LANGUAGE selected, ESC hint" — the
+J-6 verdict is PAID on the strong member, not the rows-absent
+tolerance. corpses_persist on this reel passed the drop-marker branch
+(weak clause — drop covers the death tile, exactly s74's forensics).
+
+**Gate 2 — corpse_run critic-ON: GATE PASS** (9/9 byte-identical ×2 +
+vision PASS; log `tmp/s78_gate_corpse_run.log`). **Script substituted
+world_loop→corpse_run** per the s77 lesson (a clause with a residual
+tolerance needs the STRONG member staged for the affirmative read):
+corpse_run stages 2 pack wipes → HUMAN corpses (the tone-lift target)
++ loaded/looted states deliberately, where world_loop's kill tiles
+sit under drops. Affirmative reads landed: `corpses_persist` "Frame_0895
+shows faded dark remnants plus a magenta drop marker where husks
+fell" (remnants SEEN, not the drop-only tolerance) ·
+`corpse_load_reads` hollow pip distinct at 4262 · `corpse_run_reads`
+post-wipe return affirmed. Corpse-legibility verdict PAID; with
+Junior's banked site-exact A/B (menu_tour 0470, 184px = body+rim
+bbox) the sampling-artifact law is satisfied three ways
+(code+pixels+critic). Gate dirs: `captures/pilot/cr3_r1_replay_gate_a/`
+(the script keeps its pilot-export out_dir).
+
+**Budget:** critic calls 2 of ≤3 · refusals 0 · council 0.
+
+**Seat mail (1 handled → done/): uiux M9 coverage refresh** — both
+cited blobs verified at their `a6848ab` (`docs/specs/coverage.md`
+`11c28e03ebe0f4d8039014466f3c376f` · findings `085e83cd…`); 44 rows
+0-UNCOVERED at our `6c2b49f`, stats-panel s74 claims measured
+VERIFIED, D9 es/pt fit-audit all-fit (watch: growth row es +25.2%),
+12px hint AA straddle = known shared-hint carry, no new conviction.
+Their "J-6 NOT live → out" row went stale the same night (J-6 landed
+`7218484`) — receipt mailed back noting it + both s78 verdicts + the
+corpse-rim delta for their next walk. Their M4 mini-pass stays
+offer-on-OUR-mail — not triggered (M4 follow-ups only on THEIR ask).
+
+**Job-0 baselines for s79:** origin tip = this docs commit · tree
+clean except `drafts/_refs/` (untracked, stays) · save
+**`0ed80c516168b41d6314aaf28c7848f7`** mtime 08-24 13:47
+(UNMOVED — gates replay-window only) · launcher logs **39** · wall
+**35** scripts / gate rows **69** · suite **1275** (22805) · world.rb
+**1731/1800** · window.rb **267/300** · varekka canary ACTIVE ·
+**capture-dir trap:** plain `captures/{world_loop,respawn_telegraph,
+aoe_specials}` still hold s77 px=0 PROBE frames and plain
+`captures/menu_tour` is pre-J-6 — live truth = `_gate_a` dirs ·
+Junior's checkout of `game-two-audio` = `a63655e` (matches this
+machine's).
+
+**s79 queue:** M4 follow-ups / uiux slates only on THEIR ask · next
+v19 lane work per foundation staging (Lane 2/3 data moves precede the
+ritual stages; B5→C2 re-session order stands) — owner picks. Standing
+(owner/peer-paced, never nag): coop part 2 + focus-A/B verdict when
+Junior lands · B1-T3 feel · J-5 pick · R-A2 escalation · ear-checks ·
+T3 renders · shake feel-check · D9 es/pt call · async ratifications
+(s72 B1-T2 · banner-names · s73 re-cuts · s74 J-3 · s75 D1/D2+gate-rows
+· s77 slate · s78 this close). Camp-comparison/E4 check: SATISFIED
+(Junior's note below) — dropped from standing.
 
 NOTE: Junior seat, 2026-08-26 — the standing "Junior's camp-comparison run (E4 trigger check)" is SATISFIED by the zone-8 performance record (`drafts/_junior-zone8-performance-20260825.md`): camp vs ZONE 8 measured same-build (human + isolated A/B), culling fix shipped `30609c0`, post-fix ZONE 8 draw p50 8.5ms isolated / 3.5ms human vs camp 2.1-2.7ms, camp unregressed. E4's wake condition (perf regression on this seat) does NOT fire — E4 stays DORMANT per ledger row 24.
 
-CLOSED: Junior seat, 2026-08-26 — corpse-legibility SHIPPED (`aa1b5e8`, s74-verified flywheel candidate). draw_corpses gains a 1px near-black rim (shared [20,14,12] NOTCH family — C1/N2/N4 grammar) fading WITH the body, + human base lifted [140,135,125]→[175,165,145]; both display-keyed (`corpse_outline_px/rgb`, `corpse_human_rgb`). Placement, fade timing, drops, sim untouched. `corpses_persist` row updated in the same commit (rim clause; drop-fringe occlusion clause kept). Evidence: suite 1275/22805 green · world_loop 10/10 + menu_tour 8/8 determinism byte-identical ×2 · pixel A/B on menu_tour post-kill frame 0470 pre/post-change: 184px delta, bbox 565-586/137-152 = body rect + rim exactly (drop covers the center — the fringe now reads). OWED: critic-ON verdicts on corpse-bearing scripts ride the hub (voice-dev infra gap, J-6 precedent).
+CLOSED: Junior seat, 2026-08-26 — corpse-legibility SHIPPED (`aa1b5e8`, s74-verified flywheel candidate). draw_corpses gains a 1px near-black rim (shared [20,14,12] NOTCH family — C1/N2/N4 grammar) fading WITH the body, + human base lifted [140,135,125]→[175,165,145]; both display-keyed (`corpse_outline_px/rgb`, `corpse_human_rgb`). Placement, fade timing, drops, sim untouched. `corpses_persist` row updated in the same commit (rim clause; drop-fringe occlusion clause kept). Evidence: suite 1275/22805 green · world_loop 10/10 + menu_tour 8/8 determinism byte-identical ×2 · pixel A/B on menu_tour post-kill frame 0470 pre/post-change: 184px delta, bbox 565-586/137-152 = body rect + rim exactly (drop covers the center — the fringe now reads). OWED: critic-ON verdicts on corpse-bearing scripts ride the hub (voice-dev infra gap, J-6 precedent). [PAID s78 — corpse_run gate PASS, affirmative corpses_persist read]
 
-CLOSED: Junior seat, 2026-08-26 — J-6 volume rows SHIPPED. Four feature-detected volume rows (master/music/sfx/ui, ±6 dB steps, floor −60 = true mute) + MUTE toggle (master floor, prior trim restored) in the settings menu; prefs schema grows `volumes_db`/`muted` (D9 names, machine-local only, per-entry lenient decode); boot-apply after AUDIO on; rows ABSENT when the library lacks `set_bus_volume`/`bus_ids` (D13 detection). menu_scene now boots the REAL sibling library (noDevice) so `menu_tour` exercises the rows; `menu_settings_reads` clause extended (volume/MUTE rows when audio present, absent otherwise). Strings ×3 (`menu.volume/mute/muted` — es/pt values ride Junior's D9 reservation). Evidence: suite 1272/22799 green ×2 · audio-seat `rake gate` 9/9 incl. `replay_bus_volume` · menu_tour determinism 8/8 byte-identical ×2 · human playtest on Junior's machine (adjust + mute + persistence verified; prefs file carried `music: -60.0`). OWED: `menu_tour` critic-ON verdict from the hub — this seat's `voice-dev` AWS profile is absent (same infra gap as the zone-8 critic); determinism half is banked, vision half is Gabriel's run. Junior's sibling `game-two-audio` checkout synced to origin `a63655e` (old `ecfa12f` preserved as `game-two-audio-api-backup`).
+CLOSED: Junior seat, 2026-08-26 — J-6 volume rows SHIPPED. Four feature-detected volume rows (master/music/sfx/ui, ±6 dB steps, floor −60 = true mute) + MUTE toggle (master floor, prior trim restored) in the settings menu; prefs schema grows `volumes_db`/`muted` (D9 names, machine-local only, per-entry lenient decode); boot-apply after AUDIO on; rows ABSENT when the library lacks `set_bus_volume`/`bus_ids` (D13 detection). menu_scene now boots the REAL sibling library (noDevice) so `menu_tour` exercises the rows; `menu_settings_reads` clause extended (volume/MUTE rows when audio present, absent otherwise). Strings ×3 (`menu.volume/mute/muted` — es/pt values ride Junior's D9 reservation). Evidence: suite 1272/22799 green ×2 · audio-seat `rake gate` 9/9 incl. `replay_bus_volume` · menu_tour determinism 8/8 byte-identical ×2 · human playtest on Junior's machine (adjust + mute + persistence verified; prefs file carried `music: -60.0`). OWED: `menu_tour` critic-ON verdict from the hub — this seat's `voice-dev` AWS profile is absent (same infra gap as the zone-8 critic); determinism half is banked, vision half is Gabriel's run. [PAID s78 — menu_tour gate PASS, affirmative menu_settings_reads] Junior's sibling `game-two-audio` checkout synced to origin `a63655e` (old `ecfa12f` preserved as `game-two-audio-api-backup`).
 
 CLOSED: Junior seat — ZONE 8 render-performance fix shipped (`30609c0`) + human telemetry/feel landed (`abba4ac`+`ada64ed`): "Ficou claramente mais leve; ainda senti alguns travamentos raros." Scope released; rare mixed-zone spikes remain a separate measured tail. Evidence: `drafts/_junior-zone8-performance-20260825.md`.
 
