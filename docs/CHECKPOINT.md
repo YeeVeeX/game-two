@@ -1,5 +1,127 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-26 session 82 — THE EIGHTEENTH IS STAGED (`cc5f356`): ritual spec CLOSED + question wording FROZEN (sealed §9) + runsheet + skeleton · MEASUREMENT HYGIENE ARMED (sim numbers + oracle wording + instruments frozen until the verdict) · gates: council pass (2 calls) + TWO-round fresh-eyes review (FAIL→fixed→PASS_WITH_FIXES→fixed) · docs-only, zero launches, save UNMOVED
+
+**Owner picked ritual staging live from the surfaced slate ("sure,
+everything you want … quality first").** The head item executed: the
+frozen shape (foundation §ritual, 7 points + A-i…A-v) transcribed
+into `docs/superpowers/specs/2026-08-26-v19-eighteenth-ritual.md` —
+blob md5 `0ca46597417d6cdff9323b57c752616e` at `cc5f356`. Question
+wording EXISTS and is SEALED in spec §9 (peers must not read it;
+administration = each seat's dev, one-by-one, byte-virgin,
+capture-before-debrief with a BOUNDED window — triggers at session-2
+close, 10/10 same-day target). Owner 5 questions (es-CR) · Junior 5
+(pt-br; his difficulty + third-body are v18 BYTE-IDENTICAL re-asks —
+the clean A/B against "segue muito dificil" / "a IA morre muito").
+Runsheet (es, logistics ONLY — questions deliberately absent):
+`drafts/_v19-eighteenth-runsheet-20260826.md` (`99dfc3806f4b…`, full
+md5 in the staging dir). Skeleton (anchors + harvest checklist):
+`drafts/_v19-fun-verify-skeleton-20260826.md` (`7845cfba0d60…`).
+JUNIOR.md ritual paragraphs updated pre-freeze (18ª staged, seu-dev
+administers, don't read the spec questions) — frozen at
+`e8767560e31b8d3468e1bde87ff687f8`. AGENTS.md EIGHTEENTH block
+flipped to STAGED/ARMED.
+
+**Key spec decisions (all pre-registered, adjudication never
+improvises):** A5 progression proof reads the CYCLE baseline ("level
+above start" = above v19-open level 1; thesis pairing "stronger than
+at v19 open" + "kills mattered beyond the moment"), NOT the ritual
+window — window crossings + gap arithmetic named beside the reading,
+never a check · kills_xp>0 required both sessions (kills_xp=0 =
+shortfall re-run) · day-gap = HOST-clock (CR) calendar date at
+LAUNCH, original-file ctime recorded at banking · kill conditions K1
+(chain/desync) · K2 (day gap, unless pre-recorded owner compression —
+which forfeits the across-days reading) · K3 (ANY seat growth
+negative/null — incl. the counter-question null gloss) · K4 (BOTH
+seats "partida nueva", both votes pre-contact only) · CUMPLIDO clause
+arithmetic: growth + continuity BLOCK; boss-reach / third-body /
+session-open are ROUTED-DEBT clauses (fired row → "CUMPLIDO with
+named debts" headline; R-T1 firing = the C3 stance-verb rung UNLOCKS)
+· economy row TELEMETRY-ONLY (provisions question BURNED; all-zeros
+→ R-A2 strip escalation ELIGIBLE on owner word) · link-quality
+shortfall pre-declared (≥14% stalls or ≥2500ms max — calibrated on
+v18's two points; peer re-run option closes at the first question) ·
+serial-dependence of the two sessions pre-registered as a reading
+law · contamination law (K3 immune, K4 downgrades to R-C1).
+
+**HYGIENE ARMED from `cc5f356` until the verdict:** questions virgin
+· instruments frozen (spec §9 / runsheet / JUNIOR.md, blob md5s
+above) · oracle wording frozen (telemetry.rb close summary ·
+save_store.rb persist vocabulary · save_state.rb digest/SCHEMA ·
+session.rb netplay line · autopilot.rb marker — add-only extensions
+included) · sim numbers frozen (balance: coop · progression · tiers ·
+economy · combat · threat · death + zone gate values + the C2
+behavior code seams creature.rb/aggro.rb) · bot logs never
+fun-evidence · E3a T1–T3 / J-5 / soak stay LEGAL (fences hold) · new
+player-visible ships DISCOURAGED (each extends the exposure ledger).
+**EXPOSURE DEBT before ritual session 1 (novelty quarantine):** each
+seat ≥1 ordinary session on build ≥ `cc5f356` — recommended vehicle =
+coop part 2 (handshake proves both seats at once; pays the standing
+focus-A/B item; owner may ride the audio-v12 ear-check). Solo counts
+(HEAD recorded at exposure, the named-weaker form). Ritual sessions:
+DIFFERENT host-clock calendar days, declared in chat before launch,
+standard launchers, no env extras.
+
+**Gates paid (Rule 6/7, budget declared up front: ≤2 council + 1
+review):** council 2 calls (Kimi wording/register · DeepSeek
+measurement design) — 5 adoptions incl. the A5 cycle-baseline
+correction (my brief had planted the ritual-window misreading), K3
+any-seat bar, launch-date pin; 4 refutations recorded (terceiro-corpo
+A/B kept, no boss-naming probe). Fresh-eyes headless review round 1
+FAIL (B1 growth-question horizon re-imported the curve dice-roll · B2
+A5(b) contradicted legal between-session play — both fixed) · round 2
+PASS_WITH_FIXES 0 blockers (all 8 findings applied: §1 cross-ref ·
+console-harvest residue · ΔE notation · death.json + C2-code freeze ·
+solo-exposure attestation · K3 null gloss · debrief-window schedule +
+contamination law). Full audit trail:
+`drafts/_v19-ritual-staging-council-20260826/` (briefs + raw outputs
++ RECONCILIATION `2bf3b5e296ed7a444020d493e8a9ad60`). One review
+rc-quirk: round 2 printed prose before the JSON verdict (known
+headless-judge pattern) — verdict harvested intact.
+
+**Mail handled:** assets v28 re-pin note (approve-by-default
+receipts; E3a spec RECEIVED, their PATH A intake next sprint) —
+archived, no reply owed · uiux M11 residual-register + corpse F-row
+corrections (R13 margin-thin 3.02–3.13 worst zone_8 · R14 pack corpse
+never clears 3.0 · R32 vignette) — verified `gate_checks.json`
+carries NO numeric margins (corpses_persist judges perceptually), so
+no gate-row edit owed; RECEIPT mailed to their inbox; original
+archived. Register facts recorded here: any corpse palette/fade
+retune or floor lighter than zone_8's re-opens R13.
+
+**Job-0 baselines for s83:** origin tip = the s82 close commit (this
+docs commit, after `cc5f356`) · tree clean except `drafts/_refs/`
+(untracked, stays) · save `0ed80c516168b41d6314aaf28c7848f7` mtime
+08-24 13:47 UNMOVED (insurance `tmp/world.pre-s82.json` same md5;
+level 8 xp 1855 — moves at any play incl. the exposure session) ·
+launcher logs **39** · wall **35** scripts / gate rows **69** · suite
+**1287** (23104) · world.rb **1742/1800** · window.rb **267/300** ·
+varekka canary ACTIVE on the C2 bank (world_loop `982bfd66…` ·
+varekka_duel `ecc750ec…` · burn_duel `36d6281c…`; S73 preserved) ·
+coop.json seats=2 = respawn 3.0 / hp 1.25 / flee 0.5 (FROZEN) ·
+capture-dir trap carries (plain
+`captures/{world_loop,respawn_telegraph,aoe_specials}` = s77 px=0
+PROBE frames, plain `menu_tour` pre-J-6 — live truth = `_gate_a`
+dirs; corpse_run's = `captures/pilot/cr3_r1_replay_gate_a`) · mail
+inboxes EMPTY (game-two + uiux receipt delivered) · freeze-watch
+command lives in the skeleton §anchors.
+
+**s83 queue:** the ritual is now OWNER-PACED end-to-end — exposure
+session (coop part 2 preferred; solo legal) → ritual session 1 →
+(different day) ritual session 2 → 10 answers → fresh-session
+adjudication. Dev-side while waiting: E3a-T1 (CLAIMED line first,
+fences hold under the freeze) · triage any assets PATH-A findings
+(docs-only) · standing programs (soak/flywheel, bot law). NEVER
+touch: frozen files (spec §12.3–12.4 list), question wording,
+JUNIOR.md, runsheet. Standing owner/peer-paced carries (never nag):
+coop part 2 + focus-A/B · B1-T3 feel · J-5 pick · R-A2 escalation
+(now also the R-E telemetry row's contingent outcome) · ear-checks ·
+T3 renders · shake feel-check · D9 es/pt call (carries F-M10-1: es
+SILENCIADO 269px vs 260px pad-limit) · async ratifications (s72
+B1-T2 · banner-names · s73 re-cuts · s74 J-3 · s75 D1/D2+gate-rows ·
+s77 slate · s78 close · s79 B5 · s80 C2+rebank · s81 E3a spec ·
+**NEW s82: ritual staging + freeze**).
+
 ## 2026-08-26 session 81 — E3a SPEC SHIPPED (`0f3e9e5`): capture-contract grilled spec-first, state-track schema PINNED v1, 3 tickets cut, fresh-eyes review PASS (major fixed pre-mail) · spec MAILED to the assets seat (their lane branches on arrival — 6-close wait ends) · docs-only session, zero sim/visual surface
 
 **The head item executed (foundation rider row 22, ratified fence:
