@@ -82,6 +82,12 @@
   40
  ],
  "danger_threshold_alpha": 200,
+ "hud_bar_down_outline_px": 1,
+ "hud_bar_down_outline_rgb": [
+  140,
+  120,
+  110
+ ],
  "hud_level_y": 78,
  "hud_level_bar_x": 140,
  "hud_level_bar_w": 200,

@@ -39,7 +39,7 @@
     },
     {
       "id": "hud_three_bars",
-      "check": "The HUD shows three stacked kit-colored bars; the possessed one is wider with a white edge. Bars plausibly track the fight shown."
+      "check": "The HUD shows three stacked kit-colored bars; the possessed one is wider with a white edge. Bars plausibly track the fight shown. A downed body's bar (flat dark, no kit-colored fill) carries a thin warm hairline outline separating it from the field behind it — a dead bar melting invisibly into dark ground fails; live bars carry no such hairline (their kit fill and backing carry them). If no frame shows a downed body's bar, judge the rest of this check as usual."
     },
     {
       "id": "zones_distinct",

@@ -1067,6 +1067,16 @@ module App
         w = mine ? 260 : 200
         x = 32
         Gosu.draw_rect(x - 2, y - 2, w + 4, 18, POSSESSED_RING) if mine
+        # C1 (uiux M5 adoption, s77 — drafts/_m5m6-adoption-20260825.md): a
+        # downed bar is flat HP_DEAD over dark fields — measured ~1.04:1,
+        # swap-availability info carried by value-absence alone. A 1px
+        # full-alpha warm hairline in the ring-underdraw grammar separates
+        # it from the field; alpha deliberately UNKEYED (their D4→C1
+        # correction proves partial alpha arithmetic-fails the 3:1 floor).
+        if m.dead? && (opx = @display.fetch(:hud_bar_down_outline_px, 1)).positive?
+          Gosu.draw_rect(x - opx, y - opx, w + 2 * opx, 14 + 2 * opx,
+                         color(@display.fetch(:hud_bar_down_outline_rgb, [140, 120, 110])))
+        end
         Gosu.draw_rect(x, y, w, 14, m.dead? ? HP_DEAD : HP_BACK)
         frac = m.hp.fdiv(m.max_hp)
         if frac.positive?
