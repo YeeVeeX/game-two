@@ -271,7 +271,7 @@
     },
     {
       "id": "menu_settings_reads",
-      "check": "Where a SETTINGS-titled menu panel is on camera (es AJUSTES / pt OP\u00c7\u00d5ES): three setting rows read legibly - a LANGUAGE row, a WINDOW SCALE row, and a FULLSCREEN row - each showing a current value after a colon (e.g. EN, AUTO, OFF), with exactly ONE row visibly marked as selected (cursor marker and brighter tone), an ESC hint line on the panel, and the world still readable behind the veil. If no SETTINGS panel appears anywhere in the reel, pass with why='not exercised by this script'."
+      "check": "Where a SETTINGS-titled menu panel is on camera (es AJUSTES / pt OP\u00c7\u00d5ES): LANGUAGE, WINDOW SCALE, and FULLSCREEN rows read legibly, each showing a current value after a colon (e.g. EN, AUTO, OFF). If runtime audio is available, the same panel also shows per-bus VOLUME rows plus a MUTE row, each with a value; if audio is absent those rows must be absent rather than fake controls. Exactly ONE row is visibly selected (cursor marker and brighter tone), an ESC hint reads on the panel, and the world stays readable behind the veil. If no SETTINGS panel appears anywhere in the reel, pass with why='not exercised by this script'."
     },
     {
       "id": "safe_boundary_reads",

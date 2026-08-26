@@ -99,6 +99,23 @@ class AudioBridgeTest < Minitest::Test
     assert_match(/\AAUDIO off: bot seat/, out.string)
   end
 
+  def test_volume_feature_detection_and_pref_apply
+    audio_class = Class.new do
+      attr_reader :calls
+      def initialize = @calls = []
+      def bus_ids = %w[master music sfx ui].freeze
+      def set_bus_volume(bus, db) = @calls << [bus, db]
+    end
+    prefs = Struct.new(:volumes_db, :muted)
+                  .new({ "music" => -12.0, "stale" => -6.0 }, true)
+    audio = audio_class.new
+    assert_equal %w[master music sfx ui], App::AudioBridge.volume_bus_ids(audio)
+    assert App::AudioBridge.apply_volume_prefs(audio, prefs)
+    assert_equal [["music", -12.0], ["master", -60.0]], audio.calls
+    assert_equal [], App::AudioBridge.volume_bus_ids(Object.new)
+    refute App::AudioBridge.apply_volume_prefs(Object.new, prefs)
+  end
+
   # -- real-library paths (noDevice — the library's own gate mode) ---------
 
   def test_boot_maps_owner_cue_and_tears_down_clean

@@ -1,5 +1,6 @@
 require "gosu"
 require "core/input"
+require "app/audio_bridge"
 require "app/stats_panel"
 
 module App
@@ -31,6 +32,7 @@ module App
     ROW_FALLBACK = { resume: "RESUME", stats: "STATS", controls: "CONTROLS",
                      settings: "SETTINGS", quit: "QUIT" }.freeze
     LOCALES = %w[en es pt-br].freeze
+    VOLUME_STEP_DB = 6.0
 
     # Read-only controls sheet (D5): one row per teachable verb group,
     # movement/aim/menu INCLUDED (the v14 "movement stays off the strip"
@@ -59,13 +61,15 @@ module App
                        interact: %w[H F], sustain: %w[U R],
                        swap: %w[Tab], menu: %w[Escape] }.freeze
 
-    def initialize(display: {}, strings: nil, bindings: nil, prefs: nil,
+    def initialize(display: {}, strings: nil, bindings: nil, prefs: nil, audio: nil,
                    on_locale: nil, on_scale: nil, on_fullscreen: nil,
                    view_w: 960, view_h: 540)
       @display = display
       @strings = strings
       @bindings = bindings
       @prefs = prefs
+      @audio = audio
+      @audio_buses = App::AudioBridge.volume_bus_ids(audio)
       @on_locale = on_locale
       @on_scale = on_scale
       @on_fullscreen = on_fullscreen
@@ -262,6 +266,8 @@ module App
         value = !(@prefs&.fullscreen || false)
         @prefs.fullscreen = value if @prefs
         @on_fullscreen&.call(value)
+      else
+        change_audio_setting(@cursor - 3, step)
       end
     end
 
@@ -271,15 +277,52 @@ module App
 
     def settings_rows
       scale = @prefs&.window_scale || @display[:window_scale] || "auto"
-      [{ id: :language, label: tr("menu.language", "LANGUAGE"),
-         value: (@prefs&.locale || @strings&.locale || "en").upcase },
-       { id: :scale, label: tr("menu.scale", "WINDOW SCALE"),
-         value: scale == "auto" ? tr("menu.auto", "AUTO") : "#{scale}X" },
-       { id: :fullscreen, label: tr("menu.fullscreen", "FULLSCREEN"),
-         value: tr(@prefs&.fullscreen ? "menu.on" : "menu.off",
-                   @prefs&.fullscreen ? "ON" : "OFF") }].each_with_index.map do |row, i|
+      rows = [{ id: :language, label: tr("menu.language", "LANGUAGE"),
+                value: (@prefs&.locale || @strings&.locale || "en").upcase },
+              { id: :scale, label: tr("menu.scale", "WINDOW SCALE"),
+                value: scale == "auto" ? tr("menu.auto", "AUTO") : "#{scale}X" },
+              { id: :fullscreen, label: tr("menu.fullscreen", "FULLSCREEN"),
+                value: tr(@prefs&.fullscreen ? "menu.on" : "menu.off",
+                          @prefs&.fullscreen ? "ON" : "OFF") }]
+      unless @audio_buses.empty?
+        rows.concat(@audio_buses.map do |bus|
+          db = audio_db(bus)
+          { id: "volume_#{bus}".to_sym,
+            label: "#{tr('menu.volume', 'VOLUME')} #{bus.upcase}",
+            value: format_db(db) }
+        end)
+        rows << { id: :mute, label: tr("menu.mute", "MUTE"),
+                  value: tr(@prefs&.muted ? "menu.on" : "menu.off",
+                            @prefs&.muted ? "ON" : "OFF") }
+      end
+      rows.each_with_index.map do |row, i|
         row.merge(selected: i == @cursor, label: "#{row[:label]}: #{row[:value]}")
       end
+    end
+
+    def change_audio_setting(index, step)
+      return if @audio_buses.empty?
+      if index < @audio_buses.length
+        bus = @audio_buses.fetch(index)
+        db = (audio_db(bus) + step * VOLUME_STEP_DB)
+             .clamp(App::Prefs::AUDIO_DB_FLOOR, App::Prefs::AUDIO_DB_CEILING)
+        applied = @audio.set_bus_volume(bus, db)
+        @prefs.volume_db = [bus, applied] if @prefs
+        @audio.set_bus_volume("master", App::Prefs::AUDIO_DB_FLOOR) if @prefs&.muted
+      elsif index == @audio_buses.length
+        value = !(@prefs&.muted || false)
+        @prefs.muted = value if @prefs
+        master = value ? App::Prefs::AUDIO_DB_FLOOR : audio_db("master")
+        @audio.set_bus_volume("master", master) if @audio_buses.include?("master")
+      end
+    end
+
+    def audio_db(bus)
+      @prefs&.volumes_db&.fetch(bus, 0.0) || 0.0
+    end
+
+    def format_db(db)
+      db <= App::Prefs::AUDIO_DB_FLOOR ? tr("menu.muted", "MUTED") : format("%+.0f DB", db)
     end
 
     def glyphs_for(action)

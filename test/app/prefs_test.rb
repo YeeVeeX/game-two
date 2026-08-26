@@ -32,6 +32,32 @@ class PrefsTest < Minitest::Test
     end
   end
 
+  def test_audio_volume_and_mute_round_trip
+    with_path do |path|
+      prefs = App::Prefs.load(path)
+      prefs.volume_db = ["music", -12.0]
+      prefs.muted = true
+      loaded = App::Prefs.load(path)
+      assert_equal({ "music" => -12.0 }, loaded.volumes_db)
+      assert loaded.muted
+      assert_equal(-12.0, JSON.parse(File.read(path)).dig("volumes_db", "music"))
+    end
+  end
+
+  def test_bad_audio_values_degrade_by_entry
+    with_path do |path|
+      File.write(path, JSON.generate(volumes_db: { music: -6, sfx: -99, ui: "loud" },
+                                     muted: "yes"))
+      out = StringIO.new
+      prefs = App::Prefs.load(path, out:)
+      assert_equal({ "music" => -6.0 }, prefs.volumes_db)
+      refute prefs.muted
+      assert_includes out.string, "invalid volumes_db.sfx=-99"
+      assert_includes out.string, 'invalid volumes_db.ui="loud"'
+      assert_includes out.string, 'invalid muted="yes"'
+    end
+  end
+
   def test_bad_values_degrade_by_key_and_name_each_problem
     with_path do |path|
       File.write(path, JSON.generate(locale: "fr", window_scale: 9, fullscreen: "yes"))

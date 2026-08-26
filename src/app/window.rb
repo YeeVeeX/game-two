@@ -72,6 +72,7 @@ module App
       @relaunch = relaunch
       @saver = saver
       @audio = audio # M5a: pure sink; attach where the world is born
+      AudioBridge.apply_volume_prefs(@audio, @prefs) if @audio
       # Lane 1 (2026-08-19): bot-gated coverage start (World#start_in, the
       # harness primitive) — applied at world birth on BOTH paths; netplay
       # seats receive the same zone by construction (run_soak.sh).
@@ -95,7 +96,7 @@ module App
       # J-6 (drafts/_j6-menu-brief-20260823.md): the non-pausing menu at
       # the ONE input seam — open routes NullInput (idle frames keep
       # flowing; the sim never knows). Bots never emit :menu.
-      @menu = Menu.new(display:, strings:, bindings:, prefs: @prefs,
+      @menu = Menu.new(display:, strings:, bindings:, prefs: @prefs, audio: @audio,
                        on_locale: ->(l) { strings.switch!(data, l) },
                        on_scale: ->(k) { apply_scale(k) },
                        on_fullscreen: ->(v) { self.fullscreen = v },

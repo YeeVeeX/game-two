@@ -40,6 +40,7 @@
 # processes need no device and must stay cheap).
 require "digest"
 require "json"
+require "app/prefs"
 
 module App
   module AudioBridge
@@ -144,6 +145,25 @@ module App
         return key
       end
       table.dig("zones", zone.to_s)
+    end
+
+    def volume_bus_ids(audio)
+      return [] unless audio.respond_to?(:bus_ids) && audio.respond_to?(:set_bus_volume)
+      audio.bus_ids
+    end
+
+    # J-6 volume rider: machine-local trims flow INTO the optional sink at
+    # boot, never into sim/save/netplay. Stale/absent libraries expose no
+    # API and remain byte-identical silence. Unknown persisted buses are
+    # ignored against the library's live bus_ids truth.
+    def apply_volume_prefs(audio, prefs)
+      buses = volume_bus_ids(audio)
+      return false if buses.empty?
+      prefs.volumes_db.each do |bus, db|
+        audio.set_bus_volume(bus, db) if buses.include?(bus)
+      end
+      audio.set_bus_volume("master", Prefs::AUDIO_DB_FLOOR) if prefs.muted && buses.include?("master")
+      true
     end
 
     def null(out, line)
@@ -254,6 +274,13 @@ module App
         @poller = FootstepPoller.new
         @last_material = nil
         @last_ambience = :unset
+        # The sibling API is optional across checkout versions. Define the
+        # public bridge surface ONLY when the loaded library supports it so
+        # Menu's respond_to? feature detection stays honest.
+        if @audio.respond_to?(:set_bus_volume) && @audio.respond_to?(:bus_ids)
+          define_singleton_method(:set_bus_volume) { |bus, db| @audio.set_bus_volume(bus, db) }
+          define_singleton_method(:bus_ids) { @audio.bus_ids }
+        end
       end
 
       def active? = true

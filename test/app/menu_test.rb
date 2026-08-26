@@ -14,6 +14,16 @@ require "app/prefs"
 # REAL Core::ScriptedInput — the exact source the Rule 2 reel uses, so the
 # edge semantics tested here are the edge semantics the gate replays.
 class MenuTest < Minitest::Test
+  class VolumeAudio
+    attr_reader :calls
+    def initialize = @calls = []
+    def bus_ids = %w[master music sfx ui].freeze
+    def set_bus_volume(bus, db)
+      @calls << [bus, db]
+      db.to_f.clamp(-60.0, 0.0)
+    end
+  end
+
   DATA = Core::DataStore.new(File.expand_path("../../data", __dir__))
 
   def menu(bindings: nil)
@@ -204,6 +214,43 @@ class MenuTest < Minitest::Test
       loaded = App::Prefs.load(File.join(dir, "prefs.local.json"))
       assert_equal({ locale: "es", window_scale: 1, fullscreen: true }, loaded.to_h,
                    "every change commits to the machine-local prefs file")
+    end
+  end
+
+  def test_volume_rows_are_absent_without_runtime_audio_api
+    Dir.mktmpdir do |dir|
+      prefs = App::Prefs.load(File.join(dir, "prefs.local.json"))
+      m = App::Menu.new(display: DATA["display"], strings: Core::Strings.new(DATA, locale: "en"),
+                        prefs:)
+      drive(m, { 0 => ["menu"], 8 => ["down"], 16 => ["down"], 24 => ["down"],
+                 32 => ["attack"] })
+      assert_equal 3, m.draw_model[:rows].length
+      refute m.draw_model[:rows].any? { |r| r[:id].to_s.start_with?("volume_") }
+    end
+  end
+
+  def test_volume_rows_apply_persist_and_quick_mute_restores_master
+    Dir.mktmpdir do |dir|
+      prefs = App::Prefs.load(File.join(dir, "prefs.local.json"))
+      audio = VolumeAudio.new
+      m = App::Menu.new(display: DATA["display"], strings: Core::Strings.new(DATA, locale: "en"),
+                        prefs:, audio:)
+      drive(m, { 0 => ["menu"], 8 => ["down"], 16 => ["down"], 24 => ["down"],
+                 32 => ["attack"] })
+      rows = m.draw_model[:rows]
+      assert_equal %i[language scale fullscreen volume_master volume_music volume_sfx volume_ui mute],
+                   rows.map { |r| r[:id] }
+      drive(m, { 0 => ["down"], 8 => ["down"], 16 => ["down"],
+                 24 => ["left"] }) # master 0 -> -6
+      assert_equal ["master", -6.0], audio.calls.last
+      assert_equal({ "master" => -6.0 }, prefs.volumes_db)
+      4.times { drive(m, { 0 => ["down"] }) }
+      drive(m, { 0 => ["attack"] })
+      assert prefs.muted
+      assert_equal ["master", -60.0], audio.calls.last
+      drive(m, { 0 => ["attack"] })
+      refute prefs.muted
+      assert_equal ["master", -6.0], audio.calls.last
     end
   end
 

@@ -6,6 +6,9 @@ require "game/telemetry"
 require "app/renderer"
 require "app/key_table"
 require "app/menu"
+require "app/audio_bridge"
+require "app/prefs"
+require "tmpdir"
 require_relative "../event_log"
 
 # J-6 (brief D6): WorldScene's construction + one App::Menu at the SAME
@@ -28,7 +31,14 @@ module Harness
         strings = Core::Strings.new(data, locale: "en")
         bindings = Core::BindingMap.load(data, key_table: App::KEY_TABLE, local: false)
         @renderer = App::Renderer.new(display: data["display"], strings:, bindings:)
+        # J-6 volume rider: exercise the REAL optional sibling API in
+        # noDevice mode when available. A missing/old library remains the
+        # required rows-absent path; prefs stay temp/machine-local.
+        @audio = App::AudioBridge.boot(device: 0, smoke: false, bot: false)
+        @prefs = App::Prefs.new(path: File.join(Dir.tmpdir, "game-two-menu-scene-prefs.json"), values: {})
+        App::AudioBridge.apply_volume_prefs(@audio, @prefs)
         @menu = App::Menu.new(display: data["display"], strings:, bindings:,
+                              prefs: @prefs, audio: @audio,
                               view_w: width, view_h: height)
         Harness::EventLog.attach(@world) { |line| puts line }
         @telemetry = Game::Telemetry.new(@world.bus, world: @world)
