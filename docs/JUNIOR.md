@@ -180,8 +180,12 @@ mesmas apostas — e vocês só trocam de zona juntos.
 
 **Depois de cada partida:** cole a sua linha `TELEMETRY netplay ...`
 do console (em drafts/ ou mensagem) e responda as perguntas quando o
-Gabriel fizer — é o ritual de toda verificação (a 16ª fechou assim;
-a 17ª vem aí).
+SEU dev fizer, uma por uma — é o ritual de toda verificação (a 16ª e
+a 17ª fecharam assim; a 18ª está preparada). Na 18ª: as respostas vêm
+depois da sessão 2 e ANTES de vocês dois comentarem a partida entre
+vocês; as perguntas moram seladas na spec — não as leia antes (é o
+que faz a medição valer). O roteiro:
+`drafts/_v19-eighteenth-runsheet-20260826.md`.
 
 ### Som no jogo (novo — os sons que o Gabriel criou)
 
@@ -334,9 +338,11 @@ menu; both seats record + flush
 telemetry); DESYNC freezes honestly and points at the `tmp/netplay/`
 artifact — keep and share yours; after any end the console prints the
 exact relaunch command. After each session: paste your `TELEMETRY
-netplay` line and answer the questions when Gabriel asks — the ritual
-of every verify (the SIXTEENTH closed this way; the SEVENTEENTH is
-next).
+netplay` line and answer the questions when YOUR seat's dev asks,
+one-by-one — the ritual of every verify (the SIXTEENTH and
+SEVENTEENTH closed this way; the EIGHTEENTH is staged: answers come
+after session 2 and BEFORE the two of you debrief each other, and the
+questions live sealed in the spec — don't read them early).
 
 Persistence (v18, LIVE): the world no longer resets — banked value,
 breached seals, marks, provisions and the sessions counter survive

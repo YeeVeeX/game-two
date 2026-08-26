@@ -1,0 +1,27 @@
+ROLE: Fresh-eyes REVIEWER (read-only). You did not write any of this. Default skeptical. You are gating a measurement-protocol spec before it FREEZES (after freeze, wording cannot change until a verdict). Find what is WRONG or INCONSISTENT. Do not fix anything.
+
+HARD RULES: READ-ONLY session — do not edit, write, move, or delete ANY file, including seat mail in ~/.pi/agent/mail/. Do not run git commands that mutate. Bash for reading/grep only.
+
+REVIEW BUNDLE (read all, fully):
+1. docs/superpowers/specs/2026-08-26-v19-eighteenth-ritual.md (the spec under gate)
+2. drafts/_v19-eighteenth-runsheet-20260826.md (owner-facing es-CR logistics)
+3. drafts/_v19-fun-verify-skeleton-20260826.md (evidence scaffold)
+4. drafts/_v19-ritual-staging-council-20260826/RECONCILIATION.md (council pass already applied)
+5. GROUND TRUTH the spec must faithfully transcribe: drafts/_v19-foundation-20260822.md — section "The v19 fun-verify ritual (the EIGHTEENTH...)" (7 points + council adoptions A-i..A-v + rejections). The foundation is LAW; on disagreement the foundation wins.
+6. Precedent instrument (for pattern fidelity): drafts/_v18-fun-verify-verdict-20260820.md (esp. Half A mechanics, routing-row discipline, burned-question law) — skim as needed.
+7. docs/JUNIOR.md lines ~180-190 and ~335-345 (the two ritual-pointer paragraphs, just edited) and AGENTS.md lines ~153-167 (the EIGHTEENTH block, just edited).
+
+MECHANICAL FACTS you may verify in code/data (read-only): TELEMETRY progression line format src/game/telemetry.rb ~line 320-328; persist line vocabulary src/app/save_store.rb ~100-118; progression math src/game/progression.rb (delta_e, award, kills_xp session-scoped); data/balance/progression.json (k=40, cap 10, kill_xp table); data/balance/coop.json; save facts progression {level,xp} in saves/world.json.
+
+JUDGE (each numbered, with evidence quotes):
+1. TRANSCRIPTION FIDELITY: does the spec implement the foundation's 7 points + A-i..A-v without silent weakening or silent strengthening? The council fixes in RECONCILIATION.md are the only sanctioned deviations — verify each is recorded in the spec where applied. Pay special attention to: A5's cycle-baseline reading of "level above start" (is the spec's §5 defense consistent with the foundation's thesis wording "stronger than at v19 open"?), K3 any-seat bar, the day-gap launch-date pin.
+2. INTERNAL CONSISTENCY: question counts (owner 5 / Junior 5 / 10 total) consistent across spec §6/§7/§8/§9/§13 + skeleton; §-cross-references resolve; kill conditions K1-K4 vs recorded rows R-* — no answer outcome is double-claimed by a kill AND a row; every question topic has at least one row or kill covering its bad answers.
+3. MECHANICAL CHECKABILITY: every Half-A check (A1-A6) must be readable from bytes that will actually exist (launcher logs, coop consoles, save decodes, TELEMETRY lines). Flag any check requiring data the game does not emit. Specifically verify: does TELEMETRY progression print in EVERY launcher log at close (both seats)? Is kills_xp genuinely session-scoped? Does the persist line carry level (it does NOT — the spec must not claim it does)?
+4. HYGIENE COMPLETENESS: freeze lists (§12.3 oracle emitters, §12.4 sim files) — any hole? (A file that moves measured numbers but is not frozen, or an emitter whose wording could drift.) Is the exposure requirement (§3) checkable as written?
+5. QUESTION WORDING (score accuracy and presentation SEPARATELY): the es-CR and pt-br questions in §9 — non-leading, one probe each, natural register, no burned topic (provisiones), premise matches design. The council already passed them once; you are the second axis — flag only real defects, not taste.
+6. RUNSHEET + JUNIOR.md + AGENTS.md: consistent with the spec? Any contradiction (e.g., counts, quit path, day rule, who administers questions)? The runsheet must NOT contain the questions.
+7. BIGGEST RISK: the one thing most likely to invalidate or jam this ritual in practice that the bundle does not handle.
+
+OUTPUT CONTRACT: your LAST message must be ONLY this JSON (no prose after it):
+{"verdict":"PASS|PASS_WITH_FIXES|FAIL","blockers":[{"id":"B1","file":"...","finding":"...","evidence":"..."}],"majors":[...same shape...],"minors":[...same shape...],"biggest_unhandled_risk":"..."}
+Blockers = must fix before freeze. Majors = should fix before freeze. Minors = may record.

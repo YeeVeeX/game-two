@@ -1,0 +1,35 @@
+ROLE: Skeptical bilingual game-writing + survey-design reviewer (native-level es-CR and pt-br). Independent adversarial review. Default to REJECT when uncertain. Find what is WRONG. Do not rubber-stamp.
+
+CONTEXT: A 2-player hobby ARPG (the two owners ARE the players: Gabriel, Costa Rican Spanish; Junior, Brazilian Portuguese). A "fun-verify ritual" measures a dev cycle: two coop sessions, then each player answers frozen questions administered one-by-one, separately, verbatim-banked. Questions must be: ONE probe each, non-leading (must not suggest a desired answer direction), everyday gamer words (no internal mechanic jargon), natural register for the dialect. The previous ritual (v18) burned one topic: "provisiones" (consumable supplies) was explained to the owner after his answers — it may NEVER be re-asked; behavior telemetry measures it now. Topics this cycle (pre-ratified): across-days continuity, growth-felt (did the party's power growth FEEL real), geography of risk (safe vs dangerous places), difficulty arc (reaching the boss), third-body AI behavior, free verdict.
+
+REGISTER EVIDENCE (the players' own verbatim answers last cycle — match THIS level of language):
+- Gabriel (es-CR): "cada vez que entrabamos había que revivir a los compañeros... se sintió bien no tener que abrir todos los peajes de nuevo" / "me gusta mucho el core del juego, solamente necesita cierto balanceo y variedad"
+- Junior (pt-br): "pareceu que voltamos de onde paramos, o mundo continuou" / "um pouco mais melhor mas segue muito dificil chegar no boss" / "a IA morre muito, fica correndo pra dentro dos inimigos"
+
+V18 QUESTIONS (the proven instruments; some are re-asked byte-identical this cycle ON PURPOSE for a clean A/B):
+- es: "Al volver hoy, ¿sintieron que retomaban donde habían parado, o que era una partida nueva?" / "¿Cómo se sintió el respawn de los enemigos esta vez?" / "Veredicto libre."
+- pt: "Em dupla, como sentiu a dificuldade dessa vez?" / "O terceiro corpo (a IA) — como se comportou?" / "Veredicto livre."
+
+THE NEW FROZEN QUESTIONS UNDER REVIEW (v19):
+
+Owner (es-CR), in order:
+1. "Al volver el segundo día, ¿sintieron que retomaban donde habían parado, o que era una partida nueva?"
+2. "Del inicio de la primera sesión al final de la segunda, ¿sentiste que la fuerza del grupo cambió? Si cambió, ¿en qué lo notaste?"
+3. "Moviéndote por el mundo, ¿qué tanto se nota dónde es seguro y dónde es peligroso? ¿Eso cambia cómo juegan?"
+4. "Veredicto libre."
+
+Junior (pt-br), in order:
+1. "No segundo dia, pareceu que vocês tinham voltado pra onde pararam, ou que era uma partida nova?"
+2. "Do começo da primeira sessão ao fim da segunda, você sentiu que a força do grupo mudou? Se mudou, em que notou?"
+3. "Em dupla, como sentiu a dificuldade dessa vez?"
+4. "O terceiro corpo (a IA) — como se comportou?"
+5. "Veredicto livre."
+
+ANSWER EACH NUMBERED QUESTION with VERDICT (CONFIRMED / REFUTED / UNCERTAIN) + the exact words proving it. If you cannot verify, say so plainly instead of guessing.
+
+Q1. es-2 and pt-2 (growth): I claim "¿sentiste que la fuerza del grupo cambió?" / "você sentiu que a força do grupo mudou?" is direction-neutral (change, not growth — a player can answer "se debilitó"/"enfraqueceu" as easily as "creció"). CONFIRM or REFUTE that these are non-leading. If leading, propose the minimal fix in the same register.
+Q2. es-3 (geography): I claim asking "¿qué tanto se nota dónde es seguro y dónde es peligroso?" supplies the AXIS (safe/dangerous — which is the pre-declared topic) but not the ANSWER (the degree of legibility is open, including "no se nota nada"). CONFIRM or REFUTE that this is an acceptable topic-scoped probe rather than a manufactured answer. If REFUTED, propose the minimal fix.
+Q3. Grammar/register: for each of the 9 questions, is the Spanish natural for Costa Rica and the Portuguese natural for Brazil, at the everyday-gamer level evidenced above? Flag ANY word a CR/BR gamer wouldn't say. Note es-3 mixes "Moviéndote/notaste" (tú) with "¿Eso cambia cómo juegan?" (plural) — defect or acceptable (personal probe, shared play)?
+Q4. Does ANY question re-open the burned provisions topic, or name internal jargon the players haven't seen on screen? (On-screen vocabulary they HAVE seen: STATS panel with level/XP bars, SAFE zone chip, zone banners, menu rows.)
+Q5. One-probe check: es-2/pt-2 and es-3 each carry a follow-up clause ("Si cambió, ¿en qué lo notaste?" / "¿Eso cambia cómo juegan?"). Defensible as one probe + elaboration, or two probes that will produce mushy answers?
+Q6. The biggest wording/administration risk I have NOT thought of?

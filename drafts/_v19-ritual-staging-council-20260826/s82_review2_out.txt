@@ -1,0 +1,61 @@
+All bundle documents read in full; round-1 findings verified as applied against current bytes; mechanical facts verified live (progression line format + session-scoped `kills_xp` in `progression.rb`/`telemetry.rb`, persist-line vocabulary carries no level, k=40/cap-10/kill_xp table, coop 3.0/1.25/0.5, economy 12/100, tiers/threat/combat/zone gates, save md5 + `{level:8, xp:1855}`, 39 logs with `/tmp` == `%TEMP%`, `host-coop.cmd` no-tee, SALIR/SAIR rows, v18 P2/P3 byte-identity, §11 thresholds against v18's 13.2%/1113 vs 14.9%/3341).
+
+```json
+{
+  "verdict": "PASS_WITH_FIXES",
+  "blockers": [],
+  "majors": [
+    {
+      "id": "M1",
+      "file": "docs/superpowers/specs/2026-08-26-v19-eighteenth-ritual.md §1",
+      "finding": "Broken cross-reference in the CUMPLIDO-arithmetic paragraph: question topics are pointed at §8, which is the telemetry-only economy row (the one row with NO question); the topic/seat table is §7. Freeze makes the wrong pointer permanent inside the exact paragraph adjudication runs on.",
+      "evidence": "§1: 'growth-felt, difficulty-arc, third-body each have their own question topic (§8)' vs §8 header 'Telemetry-only economy row' and §7 header 'Question topics + seat assignment (foundation point 5; wording in §9)'."
+    },
+    {
+      "id": "M2",
+      "file": "docs/superpowers/specs/2026-08-26-v19-eighteenth-ritual.md §5 vs A6",
+      "finding": "Round-1 M3 residue: §5's harvest preamble still demands 'both hosting consoles' unconditionally, while A6 (fixed) says consoles are 'corroboration, never required' and bin/host-coop.cmd verifiably produces none (it calls play.cmd, which only redirects to the %TEMP% log). A literal §5 read makes every default-path harvest incomplete, inviting a §11 'lost log' re-run on a protocol artifact that cannot exist.",
+      "evidence": "§5: 'Harvest BEFORE any question: all four TELEMETRY netplay lines …, every TELEMETRY sustain line, both hosting consoles.' vs A6: 'hosting-console tees banked IF the launch path produced them (… bin\\host-coop.cmd does not tee — consoles are corroboration, never required)'. host-coop.cmd: 'call bin\\play.cmd es --host' with no tee."
+    }
+  ],
+  "minors": [
+    {
+      "id": "m1",
+      "file": "spec §5 (A5 curve notation)",
+      "finding": "'ΔE(L+1) = 40·(L²−3L+4)' is notationally inconsistent (LHS argument L+1, RHS written in target-level terms); the worked examples (8→9=2320, 9→10=2960) and the skeleton's 'ΔE(9)=2320' are correct against progression.rb#delta_e. One-character-class fix or leave code as arbiter.",
+      "evidence": "progression.rb: 'def delta_e(level) @k * (level * level - 3 * level + 4)' — cost of going from level−1 to level; 40·(81−27+4)=2320, 40·(100−30+4)=2960."
+    },
+    {
+      "id": "m2",
+      "file": "drafts/_v19-ritual-staging-council-20260826/RECONCILIATION.md vs spec §9",
+      "finding": "The sanctioned-deviation record and the frozen instrument do not quote each other byte-exactly: council fix 1 records '¿…se sintió igual o diferente? ¿Cómo?' / 'Como foi?' and review-B1 records the horizon as 'desde que empezaron en este mundo', while §9 froze 'Comparado con cuando empezaron en este mundo, ¿la fuerza del grupo se siente igual o diferente? ¿Por qué?' (pt 'Por quê?'). Substance (forced-alternative + cycle horizon) is faithful; the ¿Cómo?→¿Por qué? drift is recorded nowhere. Record the final byte-form in the reconciliation before freeze.",
+      "evidence": "RECONCILIATION Adopted 1: '¿la fuerza del grupo se sintió igual o diferente? ¿Cómo?'; round-1 B1 fix note: \"re-horizoned to 'desde que empezaron en este mundo'\"; spec §9 owner-2 as quoted above."
+    },
+    {
+      "id": "m3",
+      "file": "spec §12.4 (freeze hole, low-ring)",
+      "finding": "data/balance/death.json (corpse_term_frames 5400, wipe_grace_frames 2700 — the death/recovery loop the difficulty and session-open readings touch) is absent from the named sim freeze list. Mitigated: the skeleton's watch command spans all of data/balance/, so motion is visible even though unnamed; ledger.json is presentation cadence only and fine to omit.",
+      "evidence": "§12.4 names coop/progression/tiers/economy/combat/threat + zone gate values only; ls data/balance/ additionally shows death.json, ledger.json; skeleton watch: 'git log --oneline -- data/balance/ data/zones/ …'."
+    },
+    {
+      "id": "m4",
+      "file": "spec §12 (measured-system code unfrozen)",
+      "finding": "The C2 ally engage rule — a measured object of the third-body topic (s80 ship) — lives in sim CODE; §12.4 freezes only its scalar (coop.json ally_flee_hp_pct=0.5) and no freeze/watch names the engage-rule source. A mid-window ally-AI edit is legal by omission yet moves a measured system. Mitigated by §12.6's discourage clause + §3's ledger-extension law; faithful to the foundation's numbers-only freeze, so recorded, not demanded.",
+      "evidence": "§12.4: 'Frozen sim numbers (the measured set)'; §2: 'ally ally_flee_hp_pct=0.5 + defensive-default engage (s80)'; coop.json verified {respawn_delay_scale:3.0, human_hp_scale:1.25, ally_flee_hp_pct:0.5}."
+    },
+    {
+      "id": "m5",
+      "file": "spec §3 (solo exposure evidence)",
+      "finding": "Solo-path exposure evidence ('launcher-log date + that machine's checked-out commit') is not byte-provable from the log alone: solo launcher logs carry no build identity (fingerprints exist only in the netplay handshake; AUDIO sha identifies the audio lib, not the build). The recommended coop vehicle IS mechanically checkable; the solo fallback rests on reflog + peer word — weaker than foundation point 3's 'checkable from logs (AUDIO sha / build fingerprint)'.",
+      "evidence": "grep fingerprint → src/net/fingerprint.rb + protocol.rb hello only; bin/play redirects game stdout to the session log with no commit/fingerprint line in solo mode."
+    },
+    {
+      "id": "m6",
+      "file": "docs/JUNIOR.md (~line 187) + spec §10 K3 gloss",
+      "finding": "Two record-level nits: (a) the pt-br ritual paragraph closes with the Spanish phrase 'A hoja de ruta:' on a doc about to byte-freeze (register blemish, pt would be 'o roteiro/a folha de rota'); (b) whether a counter-question or incomprehension on the K3-bearing growth question reads as 'null' is not pre-registered — §6 banks counter-questions AS the answer and v18 precedent read one as the topic failing, so a one-line gloss would keep adjudication from improvising on the kill.",
+      "evidence": "JUNIOR.md: 'A hoja de ruta: drafts/_v19-eighteenth-runsheet-20260826.md'; spec §6: 'Counter-questions are recorded AS the answer'; K3: 'negative or null (\"igual\", no felt change, or weaker)'."
+    }
+  ],
+  "biggest_unhandled_risk": "The capture-before-debrief window across two households: after session 2 ends (host evening), BOTH administrations (owner es-CR + Junior pt-br via HIS seat on HIS machine) must complete before any peer contact about the sessions — but the peers share daily life (the foundation's own reason for rejecting a blackout), Junior's v18 answer set landed roughly a day after session 2 under NO debrief ban, and nothing in the bundle schedules, bounds, or even names who triggers Junior's admin session. Every hour between session-2 close and answer 10/10 is exposure; a pre-answer chat is merely 'NAMED as a deviation' with NO pre-registered reading rule (novelty got 'discounts warmth, never corrections'; contamination got nothing), so adjudication would improvise exactly where K3/K4 — the cycle's kill decisions — live, and the only clean recovery from a contaminated headline answer is an owner-priced re-ritual with question wording already spent."
+}
+```

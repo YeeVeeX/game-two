@@ -1,0 +1,45 @@
+ROLE: Skeptical measurement-design + experimental-protocol reviewer. Independent adversarial review. Default to REJECT when uncertain. Find what is WRONG. Attack my design decisions specifically.
+
+CONTEXT: A 2-player hobby ARPG. A pre-registered "ritual" adjudicates a dev cycle: two real coop sessions on a persistent shared save, on DIFFERENT calendar days, then frozen questions. Half A = mechanical checks from log bytes; Half B = felt answers. Pre-registration discipline is strict: routing rows (bad answer → outcome) and KILL conditions (what blocks the cycle from closing) are declared before the sessions. N=2 is by design (the two owners ARE the population). The previous cycle's verdict is the precedent instrument.
+
+RATIFIED DESIGN-LEVEL TEXT I MUST IMPLEMENT (verbatim, from the cycle foundation + its council pass):
+- Point 4 (Half A): "save chain intact both sessions · zero desyncs + clean quits + tick floor (36000) · ≥1 strictly-positive progression fact carried and NAMED (level above start / level-gate crossed) · AUTOPILOT-free · day-gap check."
+- Adoption A-iv (strengthening of point 4): "progression proven by state AND flow: level above start AND kill-XP earned > 0 inside the ritual sessions; per-session tick counts recorded, gross session-length imbalance named beside the reading (not a fail condition)."
+- Adoption A-v: "routing rows are TOPIC-SCOPED and the spec PRE-DECLARES its kill conditions — which rows BLOCK the close."
+- Adoption A-i: "the day-gap check LICENSES the across-days question; it never itself proves continuity."
+- Feel thesis: "both players, independently: growth was FELT ... boss-reach gap closed honestly ... session-open is not a chore ... the third body stopped being a lemming · free verdict, always."
+
+GAME ARITHMETIC (real, from data files + code):
+- XP curve: cost of going level L-1 to L is ΔE(L) = 40·(L² − 3L + 4). ΔE(9)=2320, ΔE(10)=2960. Level cap 10 (XP pins at ceiling−1 at cap; kill-XP counter still counts at cap).
+- Save at staging: level 8, xp 1855 within-level (465 short of level 9). Pre-ritual "exposure" play will legitimately move this before the ritual opens.
+- Kill XP: weakest enemy 8, common 15, elite 25, challenger 120. Historical heavy session: ~109 kills in one zone over ~21 min; sessions ≥ 10 min (36000 ticks) but historically 2-7x that. Plausible per-session kill-XP yield: roughly 400–1600.
+- kills_xp is session-scoped (zeroed each launch, printed at close per seat). Save persists {level, xp}. All lines print in both seats' logs (lockstep).
+
+MY IMPLEMENTATION UNDER REVIEW:
+
+A5 ladder (the one place I INTERPRETED the ratified text rather than transcribed):
+- Flow (required both sessions): kills_xp > 0 in each session's close line. kills_xp=0 in a ≥36000-tick session = the measured system wasn't exercised → that session RE-RUNS (shortfall class, like the tick floor), does NOT fail the ritual.
+- State (s2 close vs s1 open), pre-registered ladder:
+  1. level at s2 close > level at s1 open → strongest PASS (the named carried fact).
+  2. Ritual opens at cap (10): level-above-start impossible by design → cap NAMED as ceiling-hit; flow + xp-pin carry the proof. PASS-with-name, not a waiver.
+  3. No boundary crossed AND not at cap: PASS only if xp strictly grew across the ritual AND kills_xp>0 both sessions AND the adjudication PRINTS the gap arithmetic (XP needed at ritual open vs earned). This outcome ALSO triggers a recorded progression-pacing routing row (two real sessions couldn't move a level at that height = a real datum).
+My defense: the parent ratified requirement is "≥1 strictly-positive progression fact carried and NAMED"; xp-strictly-grown is such a fact (it persists in the save digest); a hard-fail on rung 3 would make the ritual a dice roll on where the XP curve happens to sit at ritual open, which measures the CURVE not the CYCLE. Rung 3 does not soften silently: it must print the arithmetic and it triggers a recorded pacing row.
+
+KILL CONDITIONS (block the close; everything else records):
+- K1: chain digest mismatch / joiner-handshake mismatch / any desync / unexplained save move.
+- K2: same host-clock calendar date without a PRE-RECORDED owner compression (with pre-recorded compression: not a kill; the across-days reading is forfeited and the old caveat re-bought).
+- K3: BOTH seats answer growth-felt negative/null → cycle headline failed → blocked.
+- K4: BOTH seats answer "new game" (continuity regressed) with a clean chain → blocked.
+- One-seat negatives on growth/continuity: RECORDED items, not kills.
+- Third-body still suicidal, difficulty still too hard, geography illegible, session-open chore: RECORDED items with pre-registered outcomes, not kills.
+
+DAY-GAP CLOCK LAW: the two players are in Costa Rica (UTC-6) and Brazil (UTC-3). Pre-declared: the HOST machine's (CR) local calendar date of each session log decides the different-days check; the BR dates are recorded beside but never decide.
+
+ANSWER EACH with VERDICT (CONFIRMED / REFUTED / UNCERTAIN) + your exact reasoning. If you cannot verify, say so plainly.
+
+Q1. Does my A5 rung 3 honor the ratified A-iv text or illegitimately weaken it? If weaken: is there a stricter implementation that does NOT make the check a dice roll on curve position? Attack my defense.
+Q2. Rung 2 (cap case): sound, or does it create an incentive to grind to cap during exposure play to trivially pass A5? Does that incentive corrupt any other measurement?
+Q3. K3/K4 both-seats bar: should ONE seat negative on the cycle HEADLINE (growth) block instead? The thesis says "both players, independently: growth was FELT" — does my both-negative kill bar contradict the ratified thesis wording ("both ... FELT" arguably requires BOTH positive)? This is my biggest self-doubt: attack it.
+Q4. Day-gap host-clock law: any hole? (Midnight-straddling sessions, DST, a session spanning two dates, clock skew between machines.) Which timestamp of a session decides its "date" — launch or close? I have not pinned that: propose the right pin.
+Q5. kills_xp=0 → re-run (not fail): sound, or gameable in a way that matters for N=2 owner-players with no incentive to cheat?
+Q6. The biggest measurement-validity risk in this whole protocol I have NOT addressed?

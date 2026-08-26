@@ -1,0 +1,72 @@
+```json
+{
+  "verdict": "FAIL",
+  "blockers": [
+    {
+      "id": "B1",
+      "file": "docs/superpowers/specs/2026-08-26-v19-eighteenth-ritual.md (§9 es-2/pt-2 × §10 K3 × §5)",
+      "finding": "The growth question is scoped to the RITUAL WINDOW while the thesis and the corrected A5 baseline are CYCLE-scoped, and K3 kills on any honest 'igual'. The council fixed the dice-roll-on-curve-position for Half A only; Half B re-imports it. Near/at level_cap the honest in-window answer is structurally 'igual' (no stat change can occur), which fires K3, blocks the close, routes to progression knobs that cannot fix a capped pack, and re-rituals into the same forced answer — an unkillable false-NOT-CUMPLIDO loop. This is likely, not hypothetical: the anchor save is level 8 (xp 1855; 9→10 costs 2960), live close lines show kills_xp of 1770–5125 per session, and the REQUIRED exposure session plus legal between-session play plausibly reach cap 10 before session 2.",
+      "evidence": "§9: 'Del inicio de la primera sesión al final de la segunda, ¿la fuerza del grupo se sintió igual o diferente?' vs §1/foundation thesis 'stronger than at v19 OPEN' and §5: 'A ritual-window reading ... was ... REJECTED at staging ... measuring the CURVE, not the cycle.' §10 K3: 'ANY seat answers growth-felt negative or null (\"igual\", ...) → close BLOCKED'. §5 itself pre-registers 'whether a level boundary was crossed INSIDE the ritual window, with the gap arithmetic printed' — acknowledging the window may contain zero growth. Live log: 'TELEMETRY progression level=8 xp=85 kills_xp=5125'."
+    },
+    {
+      "id": "B2",
+      "file": "docs/superpowers/specs/2026-08-26-v19-eighteenth-ritual.md (§5 A5(b) vs §4.2)",
+      "finding": "A5(b) pins session 2's opening {level, xp} to SESSION 1's closing values, but §4.2 makes ordinary play between the ritual sessions legal and world-advancing. Any legal intervening session that earns XP makes the literal A5(b) check fail on a clean chain (its failure class is K1 per A5(c)'s neighborhood), forcing the adjudicator to improvise on frozen terms. A1 already carries the correct form ('latest prior ... in mtime order'); A5(b)'s wording contradicts it.",
+      "evidence": "§5: 'session 2's opening {level, xp} == session 1's closing values (same decode law as A1)' vs §4.2: 'Ordinary play between sessions stays legal — it advances the world and its logs join the chain' vs A1: 'session 2's persist loaded digest= == the latest prior persist saved digest= in mtime order'."
+    }
+  ],
+  "majors": [
+    {
+      "id": "M1",
+      "file": "spec §12.3 + drafts/_v19-fun-verify-skeleton-20260826.md (freeze/watch hole)",
+      "finding": "The digest oracle itself — src/game/save_state.rb (SaveState.digest / canonical_bytes / SCHEMA), the arbiter behind every A1/A2/A5 compare — is absent from the §12.3 freeze list and from the skeleton's git-log watch command. A mid-window refactor of canonical serialization yields digest mismatch over identical facts = false K1. The skeleton watch command also omits data/zones/ (zone requires_level/requires_defeats are frozen by §12.4) and src/app/autopilot.rb (the frozen AUTOPILOT marker).",
+      "evidence": "§12.3 names only 'save_store.rb persist_line vocabulary · the netplay close line (src/net/session.rb) · the whole src/game/telemetry.rb close-summary ... · the AUTOPILOT marker'. src/game/save_state.rb:127: 'def digest(facts) = Digest::MD5.hexdigest(canonical_bytes(facts))'. Skeleton: 'git log --oneline -- data/balance/ src/game/telemetry.rb src/app/save_store.rb src/net/session.rb' — no data/zones/, no save_state.rb."
+    },
+    {
+      "id": "M2",
+      "file": "spec §1 vs §10/§13 (CUMPLIDO definition vs kill set)",
+      "finding": "§1 transcribes the foundation's five-clause CUMPLIDO (growth · boss-reach closed honestly · session-open not a chore · third body not a lemming · free verdict), but only growth (K3) and continuity (K4) block. If R-D1 fires — Junior repeating his v18 baseline 'segue muito dificil chegar no boss' is the single most probable answer in the set — or R-T1/R-SO fire, a thesis clause has failed while the close proceeds CUMPLIDO. A-v delegates which rows block, but the spec never pre-registers how fired non-blocking rows read against §1's CUMPLIDO sentence; the foundation is law and this WILL be re-litigated at adjudication.",
+      "evidence": "§1: 'what CUMPLIDO means ... boss-reach gap closed honestly (attainable-hard, not wall-hard) ... the third body stopped being a lemming'. §10: 'Kill conditions — these BLOCK the close (NOT-CUMPLIDO), everything else records' with boss-reach/third-body/session-open only in R-D1/R-T1/R-SO (none blocks)."
+    },
+    {
+      "id": "M3",
+      "file": "spec §5 harvest + A6 'two hosting consoles' (unproduced artifact)",
+      "finding": "A6's PASS condition requires two hosting-console artifacts, but nothing in the current pipeline produces one: bin/host-coop.cmd does not tee, and bin/play.cmd only findstr's the session log to the screen. v18's coop_console_*.log files were ad-hoc tmp/ captures. The runsheet never instructs the owner to capture console output, so at harvest A6 is unbankable by default and the session re-runs on a protocol gap, not a game fault. (Separate launches are already provable from the two unique session logs + the sessions counter.)",
+      "evidence": "A6: 'two hosting consoles, sessions counter +1 per session'. bin/host-coop.cmd ends: 'call bin\\play.cmd es --host' (no tee). bin/play.cmd: 'findstr /B /C:\"TELEMETRY netplay\" ... \"%LOG%\"' (console output not persisted). Runsheet harvest item 5 lists only launcher-log lines/files."
+    }
+  ],
+  "minors": [
+    {
+      "id": "m1",
+      "file": "spec §3 vs skeleton (exposure build floor)",
+      "finding": "Floor mismatch: spec says exposure build '≥ main 87aefb4 (or current main at exposure time)'; skeleton says 'the skeleton's exposure-build floor is THAT commit' meaning the spec+freeze commit that lands AFTER 87aefb4. Two documents, two floors.",
+      "evidence": "Spec §3: 'a build ≥ main 87aefb4'. Skeleton: 'Main at staging: 87aefb4 (the spec + freeze commit lands after — the skeleton's exposure-build floor is THAT commit...)'."
+    },
+    {
+      "id": "m2",
+      "file": "spec §4.4/A4 (launch-date byte)",
+      "finding": "A4's evidence pointer is 'the launcher log's creation/first line', but a real launcher log's first line is 'AUDIO on: ...' with no timestamp (verified live), so the launch date rides solely on NTFS creation time of the ORIGINAL file — md5-banked copies in the evidence dir will not preserve it. Dates must be recorded from originals at banking time (or from the chat declaration), which no document schedules.",
+      "evidence": "head -1 of newest %TEMP% log: 'AUDIO on: device=1 sha=15f03e0219d6 lib=...' — no date. Skeleton banks 'md5-banked log copies'."
+    },
+    {
+      "id": "m3",
+      "file": "spec §9 es-4 (premise dependency)",
+      "finding": "es-4 '¿Y eso les cambia cómo juegan?' presupposes es-3 found the safe/danger map noticeable; after a 'no se nota nada' answer to es-3 the referent 'eso' dangles. R-GEO1/R-GEO2 remain readable, but the probe's premise fails in the negative branch. Accuracy: minor premise defect; presentation/register: otherwise natural es-CR, plural consistent.",
+      "evidence": "es-3 'qué tanto se nota dónde es seguro y dónde es peligroso' → es-4 '¿Y eso les cambia cómo juegan?'; R-GEO1 pre-registers 'es-3 reads illegible' as a live outcome."
+    },
+    {
+      "id": "m4",
+      "file": "drafts/_v19-eighteenth-runsheet-20260826.md ('Qué mide' section)",
+      "finding": "The owner-facing runsheet enumerates the measured topics and flags 'Que el crecimiento del grupo se SIENTA (la apuesta grande de v19)' to the measured player — in tension with §12.1's 'no topic coaching in either direction'. Mitigated because the peer-ratified foundation already discloses the topics, but the emphasis line adds demand-characteristic pressure toward 'diferente' on the exact question K3 hangs on.",
+      "evidence": "Runsheet: 'Que el crecimiento del grupo se SIENTA (la apuesta grande de v19).' Spec §12.1: 'no topic coaching in either direction'."
+    },
+    {
+      "id": "m5",
+      "file": "drafts/_v19-fun-verify-skeleton-20260826.md (harvest checklist)",
+      "finding": "No explicit checklist row decodes the save at session-1 launch — the byte A5-state(a) needs for 'pack level > 1 at session 1 open' (TELEMETRY progression prints at close only; the persist line carries no level — verified). The step exists only implicitly in 're-verify anchors at execution open'.",
+      "evidence": "save_store.rb persist_line fields: digest/schema/banked/provisions/seals/marks/sessions/source — no level. Checklist has banking rows and chain rows but no session-1-open decode row."
+    }
+  ],
+  "biggest_unhandled_risk": "Host-side stall/lag recurrence poisoning Half B while Half A passes: v18's ritual session 2 ended on 'no se puede jugar con tanta desincronización' (host stalls 14.9%, 3.3 s spikes; desyncs=0 so no check fired), and the skeleton's own focus-A/B baseline (host 7265 vs joiner 243 stalls) says the imbalance is still live — yet the bundle pins no link-quality precondition and pre-registers no stall caveat or reading rule. A stall-soaked pair of sessions passes every A-check (stalls are unmeasured), colors all ten answers (the novelty law only discounts novelty-warmth, not lag), and could fire K3/K4 off the link rather than the cycle's design, burning the instrument and the re-ritual budget on a netplay-lane defect."
+}
+```

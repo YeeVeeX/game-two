@@ -150,15 +150,20 @@ turn-handling DEFERRED (re-decide after the J-5 pick) · E4 motif
 DORMANT (perf trigger expired) · E5 audio increments queued on owner
 word.
 
-**The EIGHTEENTH ritual (shape frozen at design level, s39 + council
-pass):** two coop sessions on the shared save, DIFFERENT calendar
-days (HARD rule, log-checked) · novelty quarantine (no first-exposure
-batch inside ritual sessions) · capture-before-debrief ·
-level+kill-XP byte proof · topic-scoped routing rows + pre-declared
-kill conditions · free verdict. Question WORDING stays UNWRITTEN
-until spec freeze (measurement hygiene re-arms at staging; the sim
-numbers it measures — progression pacing, difficulty, respawn,
-sustain — freeze then, which is why the data moves land early).
+**The EIGHTEENTH ritual — STAGED s82 (2026-08-26), HYGIENE ARMED:**
+spec CLOSED `docs/superpowers/specs/2026-08-26-v19-eighteenth-ritual.md`
+(shape transcribed from the foundation + council pass; question
+wording FROZEN there, sealed §9 — peers don't read it) · runsheet
+`drafts/_v19-eighteenth-runsheet-20260826.md` · skeleton
+`drafts/_v19-fun-verify-skeleton-20260826.md`. From the staging
+commit until the verdict: ritual questions virgin · runsheet +
+JUNIOR.md + oracle wording (telemetry/persist/netplay lines) frozen ·
+the measured sim numbers (coop.json · progression.json · tiers.json ·
+economy.json · combat.json · threat.json · zone gate values) frozen ·
+bot logs never fun-evidence. Exposure debt before ritual session 1:
+each seat ≥1 ordinary session on the current build (spec §3; coop
+part 2 = the recommended vehicle). Execution owner-paced, sessions on
+DIFFERENT calendar days (host clock), capture-before-debrief.
 
 **Standing program — quality flywheel** (owner-directed 2026-08-19;
 contract: `drafts/_quality-flywheel-plan-20260819.md`): soak
