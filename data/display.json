@@ -33,6 +33,12 @@
   14,
   12
  ],
+ "glyph_outline_px": 1,
+ "glyph_outline_rgb": [
+  20,
+  14,
+  12
+ ],
  "breach_banner_frames": 150,
  "breach_line_top": 110,
  "respawn_tell_edge_rgb": [

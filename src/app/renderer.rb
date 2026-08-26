@@ -664,6 +664,27 @@ module App
       hud_font.draw_text(text, x, y, z, 1, 1, DROP_CORE)
     end
 
+    # N4 (uiux M6 adoption, s77 — drafts/_m5m6-adoption-20260825.md): the
+    # light-valued floating glyph class (retarget cues, god mark, edge
+    # pips) rendered raw over variable ground — worst ~1.01:1 on light
+    # walls, and the off-screen-ally pips exist to be never-invisible. A
+    # 1px near-black solid underdraw (the ring-underdraw grammar) makes
+    # the boundary ground-independent; ONE shared key family on purpose
+    # (one lever, one class). Alpha deliberately UNKEYED at 255 (C1
+    # reasoning). Residual recorded, not solved: the dark hate cue rides
+    # the class but the outline cannot fully carry it on dark grounds —
+    # its color identity is the wall-critic arbitration above, untouched.
+    # The chant-blue tell stays OUT (own surface, same dark-value logic);
+    # drops keep size-as-depth custody.
+    def draw_outlined_quad(x, y, size, col)
+      opx = @display.fetch(:glyph_outline_px, 1)
+      if opx.positive?
+        Gosu.draw_rect(x - opx, y - opx, size + 2 * opx, size + 2 * opx,
+                       color(@display.fetch(:glyph_outline_rgb, [20, 14, 12])))
+      end
+      Gosu.draw_rect(x, y, size, size, col)
+    end
+
     # Station cue (D1b): success kinds flash a bright 1-tile pulse ring at
     # the transaction's own fixture (the cue carries its tile); :refused
     # draws a short dark-red X-bar.
@@ -770,7 +791,7 @@ module App
         Gosu.draw_rect(x - 3, y - 3, SIZE + 6, SIZE + 6, partner_ring)
       end
       if c.faction == :pack && c.marked?
-        Gosu.draw_rect(x + SIZE / 2 - 4, y - 10, 8, 8, GOD_MARK)
+        draw_outlined_quad(x + SIZE / 2 - 4, y - 10, 8, GOD_MARK)
         Gosu.draw_rect(x + SIZE / 2 - 2, y - 8, 4, 4, color(world.map.palette[:floor]))
       end
       draw_taunt_underline(c, x, y) if c.faction == :human && c.taunted_target
@@ -780,7 +801,7 @@ module App
       draw_seized_underline(c, x, y) if c.faction == :pack && c.seized_by
       draw_nameplate(c, x, y) if c.faction == :human && c.kit[:seize]
       if c.faction == :human && (cue = c.retarget_cue)
-        Gosu.draw_rect(x + SIZE / 2 - 4, y - 10, 8, 8, RETARGET_CUE.fetch(cue[:cause]))
+        draw_outlined_quad(x + SIZE / 2 - 4, y - 10, 8, RETARGET_CUE.fetch(cue[:cause]))
       end
       draw_pressure_outline(c, x, y, world) if c.faction == :human &&
                                                 world.pressure_role(c) == :pressuring
@@ -1157,7 +1178,7 @@ module App
         next if on_screen
         px = (sx + SIZE / 2).clamp(6, cam.view_w - 16)
         py = (sy + SIZE / 2).clamp(6, cam.view_h - 16)
-        Gosu.draw_rect(px, py, 10, 10, KIT_BODY[m.kit_name])
+        draw_outlined_quad(px, py, 10, KIT_BODY[m.kit_name])
       end
     end
 

@@ -143,7 +143,7 @@
     },
     {
       "id": "god_mark_reads",
-      "check": "When a pack body carries the god-mark (a small hollow pale-gold square floating just above the body), it reads at a glance as a persistent blessing on THAT body â€” clearly distinct from the white possession ring (full-body outline), the teal mark reticle (on humans), and magenta drop/pip glyphs. If no marked body appears in this replay, pass with why='not exercised by this script'."
+      "check": "When a pack body carries the god-mark (a small hollow pale-gold square floating just above the body), it reads at a glance as a persistent blessing on THAT body â€” clearly distinct from the white possession ring (full-body outline), the teal mark reticle (on humans), and magenta drop/pip glyphs. A thin near-black outline frames the mark's quad, separating it from whatever ground it floats over — a pale mark melting edge-less into a light wall fails. If no marked body appears in this replay, pass with why='not exercised by this script'."
     },
     {
       "id": "fixtures_distinct_read",
@@ -159,7 +159,11 @@
     },
     {
       "id": "retarget_cue_reads",
-      "check": "When a human switches targets mid-fight, a brief small block flashes above it, its color keyed to the cause (rust=kit-hate, yellow=wounded-prey, pale=proximity steal) â€” readable as 'it turned for a reason', distinct from the telegraph flare and hurt flash. If no retarget cue frame is present, pass with why='not exercised by this script'."
+      "check": "When a human switches targets mid-fight, a brief small block flashes above it, its color keyed to the cause (rust=kit-hate, yellow=wounded-prey, pale=proximity steal) â€” readable as 'it turned for a reason', distinct from the telegraph flare and hurt flash. A thin near-black outline frames the cue block so its boundary reads on any ground (the dark rust cue may still read quiet on dark floors — recorded residual, not a failure; a LIGHT cue melting edge-less into a light wall fails). If no retarget cue frame is present, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "edge_pip_reads",
+      "check": "When a living pack ally is off-screen, a small kit-colored square pip sits clamped at the viewport edge toward that ally's true position, framed by a thin near-black outline that keeps it visible on any ground — the off-screen-ally read must never be invisible (a pale pip melting edge-less into a light wall fails). The pip must not be confusable with drops (world-anchored, on floor tiles, magenta/rose/gold family) — edge pips hug the viewport boundary and wear kit colors. If no frame shows an off-screen living ally, pass with why='not exercised by this script'."
     },
     {
       "id": "deep_drop_band_reads",
