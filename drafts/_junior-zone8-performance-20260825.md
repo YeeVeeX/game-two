@@ -140,4 +140,12 @@ period p90 **33.3→19.6 ms**, draw p50 **9.4→3.5 ms**, draw p95
 **14.9→10.9 ms**, over20 **12.30%→9.81%**. The run still contains rare large
 spikes (period max 1.686 s; 21 intervals >100 ms), and it crossed zones, so
 those maxima are recorded but not attributed to ZONE 8. Audio teardown was
-clean; save closed normally. Human feel word is still pending.
+clean; save closed normally.
+
+Junior's post-fix feel verdict (verbatim, selected 2026-08-26):
+
+> "Ficou claramente mais leve; ainda senti alguns travamentos raros."
+
+Disposition: the primary ZONE 8 heaviness is human-confirmed improved. Rare
+spikes remain a separate measured tail; do not silently declare them solved or
+retune this fix around mixed-zone maxima.
