@@ -35,7 +35,7 @@
     },
     {
       "id": "corpses_persist",
-      "check": "In at least one frame after a kill, a faded remnant of the fallen body is visible where it fell (fights leave history). A drop marker legitimately spawns ON the death tile and may cover most of the remnant: where a post-kill frame shows a drop marker with a slightly-lighter fringe hugging its edges on the death tile, that fringe IS the remnant and passes. FAIL only when a post-kill death tile shows bare floor with no drop marker and no remnant. If no post-kill frame exists, pass with why='not exercised by this script'."
+      "check": "In at least one frame after a kill, a faded remnant of the fallen body is visible where it fell (fights leave history). The remnant reads as a pale warm patch carrying a thin near-black rim that separates it from the floor greys — a remnant melting invisibly into bare floor fails. A drop marker legitimately spawns ON the death tile and may cover most of the remnant: where a post-kill frame shows a drop marker with a lighter fringe (with or without its rim visible) hugging its edges on the death tile, that fringe IS the remnant and passes. FAIL only when a post-kill death tile shows bare floor with no drop marker and no remnant. If no post-kill frame exists, pass with why='not exercised by this script'."
     },
     {
       "id": "hud_three_bars",

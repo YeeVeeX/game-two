@@ -762,7 +762,13 @@ module App
     end
 
     # Bodies stay where they fell and fade out (critique: vanishing kills
-    # erase the fight's history).
+    # erase the fight's history). Corpse-legibility pass (s74-verified
+    # flywheel candidate, claimed 2026-08-26): the human remnant was
+    # near-floor grey-on-grey and the drop marker covers the death tile,
+    # so "fights leave history" was unreadable in honest play. Fix on the
+    # shipped grammar: a 1px near-black rim (C1/N2/N4 family) fading WITH
+    # the body, plus a keyed lift of the human base tone. Placement, fade
+    # timing, drops, and sim stay untouched — presentation only.
     def draw_corpses(world)
       world.corpses.each do |c|
         alpha =
@@ -772,10 +778,20 @@ module App
             age = world.frame - c[:at_frame]
             (140 * (1.0 - age.fdiv(Game::World::CORPSE_FADE_FRAMES))).clamp(0, 140).round
           end
-        base = c[:faction] == :human ? [140, 135, 125] : [150, 80, 40]
+        base = c[:faction] == :human ? human_corpse_rgb : [150, 80, 40]
+        opx = @display.fetch(:corpse_outline_px, 1)
+        if opx.positive?
+          Gosu.draw_rect(c[:x] + 4 - opx, c[:y] + 10 - opx,
+                         SIZE - 8 + 2 * opx, SIZE - 14 + 2 * opx,
+                         Gosu::Color.new(alpha, *@display.fetch(:corpse_outline_rgb, [20, 14, 12])))
+        end
         Gosu.draw_rect(c[:x] + 4, c[:y] + 10, SIZE - 8, SIZE - 14,
                        Gosu::Color.new(alpha, *base))
       end
+    end
+
+    def human_corpse_rgb
+      @display.fetch(:corpse_human_rgb, [175, 165, 145])
     end
 
     def draw_creature(c, world)
