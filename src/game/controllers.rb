@@ -95,8 +95,12 @@ module Game
 
   # Husk-grade brain (deliberately dumb — gambits are A1): aggro on the
   # nearest hostile, chase downhill on a flow field anchored on the target,
-  # swing when the target is in kit range. Allies additionally follow the
-  # possessed when nothing is in aggro range, so they never get left behind.
+  # swing when the target is in kit range. Free pack bodies are DEFENSIVE
+  # by default (C2, v19 Lane 3): their acquisition class filters to
+  # PROVOKED humans — what attacked the pack or what the possessed engaged
+  # — while taunt/anchor binds and the mark bypass as before; with nothing
+  # to engage they follow the possessed, so they never get left behind and
+  # never charge a fight the pack didn't pick.
   class AiController
     FOLLOW_DISTANCE = 2
 
@@ -158,7 +162,10 @@ module Game
       end
       bound = creature.taunted_target || anchor_victim_for(creature, view)
       marked = marked_target_for(creature, view)
-      target = bound || marked || nearest(creature, view.hostiles_for(creature))
+      # C2 defensive default: the acquisition class sees provoked humans
+      # only (binds above bypass). The aggro_tiles gate stays — automatic
+      # response is local; long-range answers are the player's (mark).
+      target = bound || marked || nearest(creature, provoked_hostiles(creature, view))
       if target && (bound || marked || chebyshev(creature.tile, target.tile) <= creature.kit[:aggro_tiles])
         engage(creature, target, view)
       elsif creature.faction == :pack && !controlled_by_view?(creature, view)
@@ -178,6 +185,14 @@ module Game
       pct = view.respond_to?(:ally_flee_hp_pct) ? view.ally_flee_hp_pct : nil
       return false unless pct
       creature.hp < creature.max_hp * pct
+    end
+
+    # C2 (s80): free allies acquire provoked humans only — hostiles are
+    # always real Creatures (verified: no test stubs them), so the flag
+    # reads directly; no duck-type escape that could silently re-arm the
+    # offensive default.
+    def provoked_hostiles(creature, view)
+      view.hostiles_for(creature).select(&:pack_provoked?)
     end
 
     # v17 decision 11: AI drives every living body NOT controlled by a
@@ -213,6 +228,10 @@ module Game
     # guard-scope) — the view owns that call; flow_home shares the anchor.
     def leash_home(creature, view)
       return if creature.leash_frames < view.threat_config[:leash_linger_frames]
+      # C2: a human that disengaged past the linger is forgiven — the
+      # defensive default must not chase a fight the human already left.
+      # Re-aggression re-stamps at take_hit (dispersed, not invulnerable).
+      creature.clear_provocation! if creature.respond_to?(:clear_provocation!)
       home = view.respond_to?(:leash_home_tile) ? view.leash_home_tile(creature) : creature.home_tile
       return if creature.tile == home
       view.human_leashed!(creature) if view.respond_to?(:human_leashed!)

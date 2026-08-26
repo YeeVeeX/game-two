@@ -201,6 +201,9 @@ class TauntTest < Minitest::Test
     human = world.humans.first
     world.humans.replace([human])
     human.walker.teleport(13, 12) # d=1 to BOTH
+    # C2: allies trail the walk instead of charging, so the walk-era sticky
+    # focus differs — drop it; the subject is the tie-break at ACQUISITION.
+    human.focus = nil
 
     drive(world, 1)
     assert_equal [-1, 0], human.facing, "distance tie goes to the striker (roster index)"

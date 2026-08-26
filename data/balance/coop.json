@@ -3,7 +3,7 @@
     "2": {
       "respawn_delay_scale": 3.0,
       "human_hp_scale": 1.25,
-      "ally_flee_hp_pct": 0.35
+      "ally_flee_hp_pct": 0.5
     }
   }
 }

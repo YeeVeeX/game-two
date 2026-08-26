@@ -45,6 +45,7 @@ module Game
       @focus = nil
       @leash_frames = 0
       @beachhead_waived = false
+      @pack_provoked = false
       # v15 seizure (victim side) + chant (challenger side). Inert for
       # every kind that never uses them — the taunt-state precedent.
       @seized_by = nil
@@ -112,6 +113,7 @@ module Game
         ["taunted_by", @taunted_by&.name], ["taunt_frames", @taunt_frames],
         ["taunt_cause", @taunt_cause],
         ["leash_frames", @leash_frames], ["beachhead_waived", @beachhead_waived],
+        ["pack_provoked", @pack_provoked],
         ["retarget_cause", @retarget_cue_cause], ["retarget_frames", @retarget_cue_frames],
         ["home_x", @home_tile[0]], ["home_y", @home_tile[1]]
       ]
@@ -228,6 +230,14 @@ module Game
     def take_hit(damage:, attacker:, knockback_tiles: 0, blocked: [])
       return false if iframes? || dead?
       waive_beachhead! if @faction == :human && attacker.faction == :pack
+      # C2 provocation (v19 Lane 3, s80): every damage arc funnels here, so
+      # this is the ONE choke point for both directions of the defensive-
+      # default law — a human the pack strikes is engaged ("what the
+      # possessed engages"), a human that strikes any pack body has
+      # attacked the pack. Body-scoped like the beachhead waiver: an echo
+      # respawns as a NEW Creature, unprovoked by construction.
+      provoke! if @faction == :human && attacker.faction == :pack
+      attacker.provoke! if @faction == :pack && attacker.faction == :human
       @hp = [@hp - damage, 0].max
       @hurt_frames = 8
       interrupt_action! if @kit[:interrupt_on_hit] || (dead? && @current_action == :special)
@@ -252,6 +262,13 @@ module Game
     def resume_leash!(frames) = @leash_frames = frames
     def beachhead_waived? = @beachhead_waived
     def waive_beachhead! = @beachhead_waived = true
+    # C2 (s80): provocation gates FREE-ALLY acquisition only — human-side
+    # AI never reads it. Set at take_hit/taunt! (creature-side) and at the
+    # chant/seize aggression sites (World); cleared when the human
+    # disengages (leash past linger) or the pack re-enters the zone.
+    def pack_provoked? = @pack_provoked
+    def provoke! = @pack_provoked = true
+    def clear_provocation! = @pack_provoked = false
 
     # Taunt lock (A0.6): victim-owned, swap-inert — bound to the taunter's
     # BODY, never the possession pointer. A fresh taunt overwrites.
@@ -261,6 +278,10 @@ module Game
       @taunted_by = taunter
       @taunt_frames = frames
       @taunt_cause = cause
+      # C2: a possessed challenge is an engage order — the pack picked this
+      # fight, so the whole pack may answer it (not just the anchor-bound
+      # taunter).
+      provoke! if @faction == :human && taunter.faction == :pack
       waive_beachhead!
     end
 

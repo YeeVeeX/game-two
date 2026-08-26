@@ -482,6 +482,7 @@ class WorldTest < Minitest::Test
 
     world.pack.clear_mark!
     blocker.revive!(map: world.map, tile: [1, 12])
+    unmarked.provoke! # C2: post-clear acquisition is defensive — provoked only
     unmarked_before = chebyshev(blocker.tile, unmarked.tile)
     drive(world, scripted({}), 1)
     assert_operator chebyshev(blocker.tile, unmarked.tile), :<, unmarked_before
@@ -536,6 +537,7 @@ class WorldTest < Minitest::Test
     lobber = world.pack.members.find { |m| m.kit_name == :lobber }
     refute_equal lobber, world.possessed, "lobber runs on AI in this scenario"
     target = world.humans.reject(&:dead?).first
+    target.provoke! # C2: retreat-then-fire is the lane under test, not acquisition
     lobber.walker.teleport(target.tile[0] - 1, target.tile[1]) # adjacent = inert before the fix
     cheb = ->(a, b) { [(a[0] - b[0]).abs, (a[1] - b[1]).abs].max }
     fired = false
@@ -652,6 +654,7 @@ class WorldTest < Minitest::Test
     rusher = world.humans.find { |h| h.kit_name == :rusher }
     skip "no rusher in district" unless rusher
     rusher.walker.teleport(10, 8) # d=2 to striker, d=4 to blocker
+    rusher.focus = nil # C2: drop the walk-era sticky focus; first-seen starts HERE
 
     # Tick once to let assign_human_focus set the rusher's focus
     drive(world, scripted({}), 1)

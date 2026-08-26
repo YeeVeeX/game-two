@@ -679,6 +679,10 @@ module Game
           h.abort_chant!
           if target && !target.dead?
             target.seize!(h, seize[:duration_frames])
+            # C2 (s80): idempotent re-stamp at the landing — the law reads
+            # "every hostile act stamps", so the hardest act in data does
+            # not depend on the chant-start stamp having survived.
+            h.provoke!
             # v16 owner order (2026-08-16): the called-stamp TEXT is removed
             # — the lore rework renames or retires it; the seizure's
             # delivery is the writ-frame + ring + seized weight until then.
@@ -715,6 +719,10 @@ module Game
         body = nearest_controlled_to(h)
         next if body.nil? || body.dead? || tile_distance(h.tile, body.tile) > seize[:range_tiles]
         h.start_chant!(body, seize[:chant_frames])
+        # C2 (s80): the chant IS the aggression — provoking at START is
+        # what lets FREE allies help interrupt it (the designed
+        # counterplay must not be possessed-only).
+        h.provoke!
         @bus.emit(:challenger_chant_started, actor: h, body:)
       end
     end
@@ -1062,6 +1070,9 @@ module Game
       advanced = 0
       @humans[name].each do |h|
         h.focus = nil
+        # C2 (s80): re-entry is a fresh slate — provocation clears with
+        # focus (the fight the pack left is over).
+        h.clear_provocation!
         next if h.dead?
         if h.tile == h.home_tile
           h.reset_leash!

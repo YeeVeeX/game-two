@@ -12,18 +12,30 @@ require_relative "../support/headless_script"
 # change's first effect) + the outgoing bank preserved below as
 # immutable history.
 #
-# ACTIVE bank (2026-08-25, s73 — RATIFIED re-cut, option (a), s66
-# line 2, Junior's pick): varekka_duel's INPUT STREAM was re-cut — not
-# a sim change. The old choreography earned its manifest through the
-# pre-J7-B door-bounce exploit (s60 evidence:
+# ACTIVE bank (2026-08-26, s80 — C2 ally defensive-default, RATIFIED
+# sim change, v19 foundation Lane 3 row 13, RATIFIED-G + RATIFIED-J
+# 2026-08-22; rebank ratification rides the standing async lane): free
+# pack bodies acquire PROVOKED humans only, so every unprovoked
+# free-ally engagement leaves the streams and all downstream combat
+# re-sequences. Stream-diff audit (prefix identity to each script's
+# first effect — world_loop line 5, varekka/burn line 3 — every
+# divergent line classed): drafts/_c2-canary-rebank-20260826.md.
+# burn_duel now ends pack_wiped under its fixed choreography (authored
+# against offensive allies) — recorded there as a ritual watch item.
+#
+# S73_HISTORY (2026-08-25, IMMUTABLE — RATIFIED re-cut, option (a),
+# s66 line 2, Junior's pick): varekka_duel's INPUT STREAM was re-cut —
+# not a sim change. The old choreography earned its manifest through
+# the pre-J7-B door-bounce exploit (s60 evidence:
 # drafts/_varekka-repilot-rebrief-20260824.md); 17 pilot generations
-# (tmp/pilot/vk3, s73) established the honest profile under current
-# laws: one chant per session (completion + vessel-died), no interrupt,
-# no boss kill — the boss's post-shed home-deafness makes any second
-# cycle unreachable pre-Lane-3 C2/C3. Prefix identity N/A (different
-# inputs by design); record: drafts/_j7b-canary-rebank-20260824.md
-# §s73 + drafts/_varekka-recut-20260825.md. world_loop + burn_duel:
-# UNCHANGED.
+# (tmp/pilot/vk3, s73) established the honest profile under the laws of
+# its day: one chant per session (completion + vessel-died), no
+# interrupt, no boss kill — the boss's post-shed home-deafness made any
+# second cycle unreachable pre-Lane-3 C2. Prefix identity N/A
+# (different inputs by design); record:
+# drafts/_j7b-canary-rebank-20260824.md §s73 +
+# drafts/_varekka-recut-20260825.md. world_loop + burn_duel were
+# UNCHANGED from S59.
 #
 # S59_HISTORY (2026-08-24, IMMUTABLE — J7-B cold catch-up, ratified
 # lane, foundation row 12): the script's mid-duel 1-frame slow_door
@@ -64,10 +76,16 @@ class SimIdentityCanaryTest < Minitest::Test
     "burn_duel" => "fedf0452fc35b62850895016710abdea"
   }.freeze
 
-  ACTIVE = {
+  S73_HISTORY = {
     "world_loop" => "a4150c43669b9783e59cb6c39c322b67",
     "varekka_duel" => "bf35628a3d2ba50b0aa7d78f9749755e",
     "burn_duel" => "fedf0452fc35b62850895016710abdea"
+  }.freeze
+
+  ACTIVE = {
+    "world_loop" => "982bfd66085005e73d808fcf5d05761d",
+    "varekka_duel" => "ecc750ec4577bed854f1d210ba41aac5",
+    "burn_duel" => "36d6281cb5988432eda9022fe16acc3c"
   }.freeze
 
   ACTIVE.each do |script, md5|

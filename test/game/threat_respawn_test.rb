@@ -74,6 +74,14 @@ class ThreatRespawnTest < Minitest::Test
       guard += 1
     end
     assert_equal "district", w.zone_name, "staging: return crossing must land"
+    # C2: ally motion no longer scatters the pack toward hostiles, so the
+    # inherited release geometry moved — pin it explicitly instead: pack in
+    # the far NW corner, living humans clustered east; the chosen tile then
+    # sits clear of the pack-block (12) and corpse-guard (10) radii. The
+    # SUBJECT (global-frame maturation) is untouched.
+    w.possessed.walker.teleport(1, 1)
+    (w.pack.members - [w.possessed]).each_with_index { |m, i| m.walker.teleport(2, 1 + i) }
+    w.humans.reject(&:dead?).each_with_index { |h, i| h.walker.teleport(25 + i, 5) }
     drive(w, scripted({}), 60) # release checks re-run at re-entry; give them a beat
     assert_equal 1, respawned.length,
                  "a matured record materializes on the first re-entry ticks " \

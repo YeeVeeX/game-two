@@ -698,6 +698,7 @@ class SaveStateTest < Minitest::Test
       "taunted_by" => :session_only, "taunt_frames" => :session_only,
       "taunt_cause" => :session_only, "leash_frames" => :session_only,
       "beachhead_waived" => :session_only,
+      "pack_provoked" => :session_only, # C2: dies with the body/session, like the waiver
       "retarget_cause" => :session_only, "retarget_frames" => :session_only,
       "home_x" => :session_only, "home_y" => :session_only
     },

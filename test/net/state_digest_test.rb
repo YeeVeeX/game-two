@@ -31,7 +31,8 @@ class StateDigestTest < Minitest::Test
                        marked seized_by seized_frames chant_left
                        chant_target chant_hp seize_cooldown engaged focus
                        taunted_by taunt_frames taunt_cause leash_frames
-                       beachhead_waived retarget_cause retarget_frames
+                       beachhead_waived pack_provoked
+                       retarget_cause retarget_frames
                        home_x home_y].freeze
   PROJECTILE_FIELDS = %w[owner tile_x tile_y dir_x dir_y damage knockback
                          range_left countdown done].freeze

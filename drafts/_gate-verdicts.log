@@ -166283,3 +166283,249 @@ Perf p95 0.260ms (budget 16.6). Suite 524/2322 green.
   ],
   "verdict": "PASS"
 }
+
+=== 20260826-074225 captures\netplay_session_gate_a ===
+{
+  "checks": [
+    {
+      "id": "hosting_state_reads",
+      "pass": true,
+      "why": "frame_0015 is full-screen black with HOSTING text and PORT 43917 beneath, no world behind."
+    },
+    {
+      "id": "connecting_state_reads",
+      "pass": true,
+      "why": "frame_0080 shows CONNECTING... centered on pure black with no world visible."
+    },
+    {
+      "id": "partner_ring_distinct",
+      "pass": true,
+      "why": "frame_0160 shows exactly one white-ringed body and one cyan-ringed body, instantly distinguishable."
+    },
+    {
+      "id": "partner_ring_moves",
+      "pass": true,
+      "why": "Between frame_0160 and frame_0300 both the white-ringed and cyan-ringed bodies occupy clearly different tiles."
+    },
+    {
+      "id": "link_slow_reads",
+      "pass": true,
+      "why": "LINK SLOW sits legibly below ZONE 1 in frame_0160 with clean spacing, no collision."
+    },
+    {
+      "id": "stall_overlay_reads",
+      "pass": true,
+      "why": "frame_0445 shows WAITING FOR PARTNER 733 ms top-center over a live world frame."
+    },
+    {
+      "id": "gate_wait_reads",
+      "pass": true,
+      "why": "frame_0535 shows the white-ringed body on the gold gate at the right edge with legible cue text."
+    },
+    {
+      "id": "no_body_reads",
+      "pass": true,
+      "why": "frame_0660 shows NO BODY WAITING with only the cyan partner alive and no bottom controls strip."
+    },
+    {
+      "id": "desync_screen_reads",
+      "pass": true,
+      "why": "not exercised by this script."
+    },
+    {
+      "id": "conn_lost_screen_reads",
+      "pass": true,
+      "why": "not exercised by this script."
+    },
+    {
+      "id": "netplay_text_legible",
+      "pass": true,
+      "why": "Every overlay line reads with strong contrast, no clipping, and no overlap on menu-less frames."
+    },
+    {
+      "id": "partner_left_screen_reads",
+      "pass": true,
+      "why": "frame_0710 is a darkened ending screen reading PARTNER LEFT SESSION ENDED with no menu overlap."
+    },
+    {
+      "id": "net_menu_panels_read",
+      "pass": true,
+      "why": "LINK and SESSION panels flank the menu and TICKS advances 371 to 466 across menu frames."
+    },
+    {
+      "id": "hud_strip_intact",
+      "pass": true,
+      "why": "Mid-run frames like frame_0160 show three HP bars and an intact bottom controls strip."
+    },
+    {
+      "id": "no_render_garbage",
+      "pass": true,
+      "why": "No tearing, missing map, out-of-bounds entities, or corrupted output in any frame."
+    }
+  ],
+  "verdict": "PASS"
+}
+
+=== 20260826-074258 captures\netplay_desync_gate_a ===
+{
+  "checks": [
+    {
+      "id": "hosting_state_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "connecting_state_reads",
+      "pass": true,
+      "why": "frame_0004 is a full-screen near-black state reading CONNECTING with no world behind it"
+    },
+    {
+      "id": "partner_ring_distinct",
+      "pass": true,
+      "why": "frame_0030 shows one white-ringed body and one clearly cyan-ringed body side by side"
+    },
+    {
+      "id": "partner_ring_moves",
+      "pass": true,
+      "why": "not exercised by this script; only one live frame shows both rings"
+    },
+    {
+      "id": "link_slow_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "stall_overlay_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "gate_wait_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "no_body_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "desync_screen_reads",
+      "pass": true,
+      "why": "frames 0090 and 0130 show DESYNC AT TICK 60 with a file path line over the darkened frozen world"
+    },
+    {
+      "id": "conn_lost_screen_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "netplay_text_legible",
+      "pass": true,
+      "why": "CONNECTING and DESYNC text render with strong contrast, unclipped and unoverlapped"
+    },
+    {
+      "id": "partner_left_screen_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "net_menu_panels_read",
+      "pass": true,
+      "why": "not exercised by this script; no menu-open netplay frame appears"
+    },
+    {
+      "id": "hud_strip_intact",
+      "pass": true,
+      "why": "frame_0030 shows all three HP bars top-left and the bottom controls strip intact"
+    },
+    {
+      "id": "no_render_garbage",
+      "pass": true,
+      "why": "no tearing, missing map, stray entities, or corrupted output in any frame"
+    }
+  ],
+  "verdict": "PASS"
+}
+
+=== 20260826-074337 captures\netplay_conn_lost_gate_a ===
+{
+  "checks": [
+    {
+      "id": "hosting_state_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "connecting_state_reads",
+      "pass": true,
+      "why": "frame_0004 is a full-screen near-black state reading CONNECTING with no world behind it."
+    },
+    {
+      "id": "partner_ring_distinct",
+      "pass": true,
+      "why": "frame_0040 shows exactly one white-ringed body and one cyan-ringed body, clearly distinct at a glance."
+    },
+    {
+      "id": "partner_ring_moves",
+      "pass": true,
+      "why": "only one live frame shows both rings clearly, so not exercised by this script."
+    },
+    {
+      "id": "link_slow_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "stall_overlay_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "gate_wait_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "no_body_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "desync_screen_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "conn_lost_screen_reads",
+      "pass": true,
+      "why": "frames 0100 and 0140 show a darkened full-screen CONNECTION LOST SESSION ENDED with the frozen world ghosting through."
+    },
+    {
+      "id": "netplay_text_legible",
+      "pass": true,
+      "why": "CONNECTING and CONNECTION LOST lines are high contrast, centered, unclipped, and free of overlapping UI."
+    },
+    {
+      "id": "partner_left_screen_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "net_menu_panels_read",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "hud_strip_intact",
+      "pass": true,
+      "why": "frame_0040 shows all three HP bars top-left and the bottom controls strip rendering normally."
+    },
+    {
+      "id": "no_render_garbage",
+      "pass": true,
+      "why": "no tearing, missing map, out-of-bounds entities, or corrupted output in any frame."
+    }
+  ],
+  "verdict": "PASS"
+}

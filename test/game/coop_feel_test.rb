@@ -125,6 +125,7 @@ class CoopFeelTest < Minitest::Test
     w.start_in("district")
     ally = free_ally(w)
     hostile = w.humans.reject(&:dead?).min_by { |h| h.name }
+    hostile.provoke! # C2: acquisition is defensive — these lanes test FLEE
     ally.walker.teleport(hostile.tile[0] + 2, hostile.tile[1])
     w.controlled_bodies.each_with_index do |b, i|
       b.walker.teleport(2, 2 + i)
@@ -206,6 +207,7 @@ class CoopFeelTest < Minitest::Test
     w.start_in("district")
     ally = w.pack.members.find { |m| !w.controlled?(m) && m.kit_name == :lobber }
     hostile = w.humans.reject(&:dead?).min_by { |h| h.name }
+    hostile.provoke! # C2: the engage rule is seat-independent — stage past it
     ally.walker.teleport(hostile.tile[0] + 2, hostile.tile[1])
     ally.load_hp!(1)
     drive(w, 1)

@@ -94,6 +94,7 @@ class ChallengeTest < Minitest::Test
     victim.stagger!(600)
     decoy = world.pack.members.find { |m| m.kit_name == :striker }
     decoy.walker.teleport(17, 12) # d=1: the victim acquires the decoy first
+    victim.focus = nil # C2: drop the walk-era sticky focus; acquisition is the staging
     drive(world, 2)
     assert_same decoy, victim.focus, "staging: victim focused on the decoy"
 
@@ -122,6 +123,7 @@ class ChallengeTest < Minitest::Test
     victim.stagger!(600)
     decoy = world.pack.members.find { |m| m.kit_name == :striker }
     decoy.walker.teleport(17, 12)
+    victim.focus = nil # C2: drop the walk-era sticky focus (same staging law as above)
     drive(world, 2)
     assert blocker.start_special(blocked: [])
     drive(world, WINDUP + 1)
