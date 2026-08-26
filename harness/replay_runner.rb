@@ -20,6 +20,7 @@ require "gosu"
 require "fileutils"
 require "core/input"
 require_relative "support"
+require_relative "bundle_writer"
 require_relative "scenes/moving_square"
 require_relative "scenes/world_scene"
 require_relative "scenes/menu_scene"
@@ -47,6 +48,18 @@ module Harness
       scene_kwargs[:start] = raw[:start] if raw[:start] && %w[world menu].include?(raw.fetch(:scenario))
       scene_kwargs[:netplay] = raw[:netplay] if raw.fetch(:scenario) == "netplay"
       @scene = SCENES.fetch(raw.fetch(:scenario)).new(**scene_kwargs)
+      # E3a-T1: script key "bundle": true records a P1 replay bundle
+      # (masks + digest chain + preconditions) and writes it at run end —
+      # spec docs/superpowers/specs/2026-08-26-e3a-capture-contract.md §4.
+      # Scope refusals (non-world scenario, non-mask actions) raise NAMED
+      # at construction, before any tick.
+      @bundle = nil
+      if raw[:bundle]
+        @bundle = Harness::BundleRecorder.for_script(
+          raw, world: @scene.world,
+          producer: "harness/replay_runner.rb: #{([$PROGRAM_NAME] + ARGV).join(' ')}"
+        )
+      end
       @input = Core::ScriptedInput.new(frames: Harness.expand_script(raw))
       @captures = raw.fetch(:captures, []).to_a
       # Video mode (quality-flywheel lane 2, 2026-08-19): VIDEO_EVERY=<n>
@@ -68,7 +81,9 @@ module Harness
 
     def update
       @input.update(@frame)
+      @bundle&.before_tick(@input)
       @scene.tick(@input)
+      @bundle&.after_tick
       if @captures.include?(@frame)
         path = File.join(@out_dir, format("frame_%04d.png", @frame))
         Harness.save_opaque(Gosu.render(width, height) { @scene.draw }, path)
@@ -83,6 +98,7 @@ module Harness
       if @frame >= @run_until
         puts @scene.summary if @scene.respond_to?(:summary)
         puts "video frames: #{@video_count} -> #{@video_dir}" if @video_every
+        puts "BUNDLE #{@bundle.write}" if @bundle
         close
       end
     end
@@ -95,6 +111,10 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   script = ARGV[0] or abort "Usage: ruby -Isrc harness/replay_runner.rb <script.json> [out_dir]"
-  Harness::ReplayWindow.new(script, ARGV[1]).show
+  begin
+    Harness::ReplayWindow.new(script, ARGV[1]).show
+  rescue Harness::BundleRefused => e
+    abort e.message
+  end
   puts "REPLAY_DONE"
 end

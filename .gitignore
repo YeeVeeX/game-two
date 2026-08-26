@@ -14,3 +14,7 @@ data/prefs.local.json
 saves/
 # pi session memory (machine-local lessons; each seat keeps its own)
 /MEMORY.md
+# E3a replay bundles: machine-written runtime evidence, top-level and
+# OUTSIDE data/ (fingerprint law, s55) — delivery is by manifest sha256s
+# + verification receipt, never git blobs.
+bundles/

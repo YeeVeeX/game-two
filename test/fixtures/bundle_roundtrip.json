@@ -1,0 +1,15 @@
+{
+  "scenario": "world",
+  "seed": 7,
+  "width": 640,
+  "height": 360,
+  "start": { "banked": 3 },
+  "hold": {
+    "right": [[0, 40]],
+    "attack": [[50, 52]],
+    "left": [[70, 90]]
+  },
+  "captures": [],
+  "run_until": 130,
+  "out_dir": "tmp/bundle_roundtrip"
+}
