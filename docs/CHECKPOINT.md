@@ -1,5 +1,86 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-26 session 87 — quiet docs session under the armed freeze: Job-0 clean · Junior's B1-T3 feel verdict digested (standing item CLOSED) · evidence-digest audit: joiner capture's cited md5 DEAD → re-anchored at git blob md5, skeleton indexed + harvest note added · zero launches, save UNMOVED, ritual untouched
+
+**No ritual declaration at open, mail inbox EMPTY (5 receipts still
+pending inbound). One new origin commit read before pull: `16d55a6`
+(Junior, docs-only, +2 checkpoint lines) — B1-T3 feel verdict LANDED
+verbatim ("sim ta perfeito" / "tudo claro" / "tem tudo e está
+perfeito"), no confusion vs gate gold or the attack telegraph. His
+build-family claim verified: `56faba8` is ancestor of `e187266`, one
+commit apart, hotfix sim-only. **B1 lane fully closed (T1 law + T2
+boundary + T3 feel) — B1-T3 drops from the standing carries.**
+R-GEO1's fold-target note: if the ritual fires R-GEO1, it now folds
+into a CLOSED item's lineage — a fresh follow-up item, not a reopen.
+
+**Job 0 (all clean):** origin tip = local = `16d55a6` after rebase ·
+tree clean except `drafts/_refs/` (by design) · save `da5a0b2d…`
+mtime 08-26 16:08 sessions=16 UNMOVED (zero launches) · launcher
+logs 41 (counting law) · freeze-watch CLEAN through `16d55a6` (full
+Job-0 file list, `cc5f356..HEAD`) · wall 35 / gate rows 69 (checks-
+list law) · world.rb 1769/1800 · window.rb 267/300 · varekka canary
+ACTIVE unchanged (`982bfd66…`/`ecc750ec…`/`36d6281c…`) · bundles
+unchanged (one live bundle + 2 tracks) · suite green via the
+pre-commit hook run at this close (docs-only session, zero code).
+
+**Evidence-digest audit (the session's deliverable — the deviation
+Job 0 caught):** verifying Junior's banked joiner capture
+(`drafts/_v19-eighteenth-evidence/pre-ritual/game_two_coop_join_seat2_20260826.log`,
+landed `6b5b7a5`) against his checkpoint-cited md5 `2d90604c…` —
+**verifies against NOTHING**: not the git blob (`ecdf6fc772…`), not
+the CRLF worktree (`8bc5172d…`), not any tested transform (LF/CRLF ×
+BOM × accent restoration × final-line strip — all misses; likely
+computed on his machine's pre-commit byte-state). Content is INTACT:
+the TELEMETRY seat=2 line byte-matches his quoted verbatim and
+cross-reads clean against host #41 (80513/80514 ticks, both
+desyncs=0, same worst stall window 9690/9805 ms from both ends), and
+the closing pt-br line is join-coop.cmd script output (line 97), not
+annotation — corroboration value stands, the ANCHOR was dead.
+Re-anchored in the skeleton at the git blob md5
+`ecdf6fc77275e3a76693a25a76374867`. Scope check on the other banked
+evidence: #40 verifies EVERYWHERE (original+worktree+blob
+`f1ffc8cf…`); #41's recorded `d8acc0ac…` anchors the ORIGINAL %TEMP%
+file (and CRLF worktree) while its LF blob reads `4d33426a8eb…` —
+recorded here so a future blob-side check doesn't false-alarm; the
+originals are the banking law's object and both verify. Skeleton
+also gained the harvest note that BINDS ritual s1/s2: a console
+capture carries no `persist loaded` line — A2 reads only from the
+joiner's REAL launcher log file; Junior's seat banks the log FILE at
+harvest, and every in-repo md5 gets re-verified at the git blob.
+
+**Hygiene:** armed freeze intact end-to-end — zero sim/data/oracle
+edits, zero launches, §9 unread (spec read 1-284 + 316-end), no
+question-topic contact, R-A2 verb unexplained. v20 prep: NO new
+accretion this session (Junior's commit was the B1-T3 verdict, not a
+v20 idea; no evidence-pull ask from him; slate + his doc stand as
+banked at s86) — nothing manufactured.
+
+**Job-0 baselines for s88:** origin tip = this close commit · tree
+clean except `drafts/_refs/` · save `da5a0b2d…` mtime 08-26 16:08
+sessions=16 (moves at any play — re-anchor via the chain law) ·
+launcher logs **41** (= the `game_two_session_<pid>.log` NUMERIC
+pattern; a bare glob reads 44) · wall **35** / gate rows **69** (=
+len of the `checks` list; naive all-values count reads 70) · suite
+**1317 (27591)** · world.rb **1769/1800 — nearing cap, any material
+touch owes its extraction** · window.rb 267/300 · varekka canary
+ACTIVE unchanged · bundles/ unchanged · mail inbox EMPTY (receipts
+pending: family-block ×4 + T2 delivery) · freeze-watch = the Job-0
+git log line, CLEAN through this close.
+
+**s88 queue:** ritual owner-paced — if "sesión 1 del ritual" is
+declared, the skeleton harvest checklist IS the script (insurance
+copy + pre-launch save decode FIRST; link-quality read vs §11 before
+any question — s85 showed stall_ms_max=9805, expect the re-run
+conversation; joiner banks his REAL launcher log file, per the s87
+harvest note) · receipt harvest ×5 when they land · E3a-T3 parked on
+the verdict (s86 record stands) · v20 prep continues drafts-only
+(slate accretes peer ideas, attributed + touchstoned; dungeon/boss
+evidence pull only if Junior asks) · standing owner/peer-paced
+carries (never nag): J-5 pick · R-A2 escalation (R-E contingent) ·
+ear-checks (audio played s85, no listening verdict) · T3 footstep
+renders · shake feel-check · D9-es call · async ratifications
+(s72…s87).
+
 ## 2026-08-26 session 86 — quiet dev session under the armed freeze: Job-0 ALL CLEAN (Junior's review of `e187266` confirmed banked — Rule-6 debt PAID, superseding the s85 queue line) · E3a-T3 call RECORDED: WAITS for the verdict · v20 slate KB evidence pass appended (docs-only) · zero launches, save UNMOVED, ritual untouched
 
 **No ritual declaration at open, mail inbox EMPTY (5 receipts still

@@ -35,7 +35,7 @@ answers).
 | Seat | Ordinary session on build ≥ staging commit? | Evidence |
 |---|---|---|
 | Gabriel (host) | **PAID 2026-08-26** | coop session, host log #41 (`game_two_session_282671153.log`, md5 `d8acc0acaee6e19c68974888151bbdba`, banked `pre-ritual/`); build `e187266` (> staging floor `cc5f356`); netplay `ticks=80513 desyncs=0 reason=quit`; handshake proves build identity |
-| Junior (joiner) | **PAID 2026-08-26** | same coop session — the v17 handshake refuses non-identical builds, so his seat ran `e187266` by construction (`NETPLAY handshake seat=1 d=9` in the host log); his own netplay line may arrive by mail (corroboration, not required for exposure) |
+| Junior (joiner) | **PAID 2026-08-26** | same coop session — the v17 handshake refuses non-identical builds, so his seat ran `e187266` by construction (`NETPLAY handshake seat=1 d=9` in the host log); his own netplay line LANDED in-repo `6b5b7a5` (joiner console capture, indexed in the chain below) — corroboration; exposure was already proven by the handshake |
 
 Recommended vehicle: coop part 2 (handshake proves both at once; pays
 the standing focus-A/B item — its baseline: host 7265 vs joiner 243
@@ -62,6 +62,26 @@ stalls).
   stalls 8862/80513 = 11.0% (<14%), `stall_ms_max=9805` (≥2500 — under
   RITUAL rules that value alone licenses an optional pre-question re-run;
   played through and called fun tonight). AUTOPILOT=0.
+- **Joiner console capture** (corroboration, not a chain link):
+  `game_two_coop_join_seat2_20260826.log` (banked `pre-ritual/` by
+  Junior's seat, `6b5b7a5`) — join-coop.cmd console tee (11 lines):
+  `TELEMETRY netplay seat=2 ticks=80514 desyncs=0 stalls=1487
+  stall_ms_max=9690 reason=quit d=9 link_slow=false run_ms=1477302`.
+  Cross-reads clean against host #41 (ticks 80513/80514, both
+  desyncs=0, worst stall window 9690 vs 9805 ms — same event from
+  both ends). **Digest re-anchor (s87):** the checkpoint-cited md5
+  `2d90604c…` verifies against NOTHING in the repo (likely computed
+  on his machine's pre-commit byte-state; CRLF/LF and accent
+  transforms all tested, none match) — the durable anchor is the git
+  blob md5 `ecdf6fc77275e3a76693a25a76374867`
+  (`git show HEAD:drafts/_v19-eighteenth-evidence/pre-ritual/game_two_coop_join_seat2_20260826.log | md5sum`);
+  content verbatim-matches his quoted line, so the corroboration
+  value is intact. **Harvest note (binds ritual s1/s2):** a console
+  capture carries NO `persist loaded` line — A2 (joiner
+  `source=handshake` digest) reads only from the joiner's REAL
+  launcher log (`/tmp/game_two_session_<pid>.log` on his machine);
+  at ritual harvest Junior's seat banks the log FILE, and every
+  banked md5 is re-verified at the GIT BLOB when it lands in-repo.
 - Exposure ledger extension (spec §3): `e187266` (field-vat regrow beside
   the payer — crash fix) is a post-staging player-visible sim fix; its
   exposure was PAID the same evening by session #41 (both seats, 13
