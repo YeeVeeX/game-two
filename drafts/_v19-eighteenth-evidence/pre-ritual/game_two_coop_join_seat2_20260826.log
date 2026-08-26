@@ -1,0 +1,11 @@
+=== game-two co-op (entrar) ===
+Already up to date.
+
+Host no tailnet: 100.127.52.49   (porta 43117)
+Comando completo:   bin\play.cmd pt-br --join 100.127.52.49
+
+AVISO: sem resposta do host no Tailscale agora - o join pode falhar; espere e rode de novo.
+Abrindo o jogo para ENTRAR na partida... saia sempre com Esc
+TELEMETRY netplay seat=2 ticks=80514 desyncs=0 stalls=1487 stall_ms_max=9690 reason=quit d=9 link_slow=false run_ms=1477302 stall_run_max=561 stall_worst_run=561
+relaunch: bin/play --join 100.127.52.49:43117
+Sessao fechada limpa com Esc. Pronto.
