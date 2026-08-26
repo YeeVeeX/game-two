@@ -1,5 +1,9 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+**CLAIMED: B5 hub 2026-08-26** (s79 — respawn scalar re-session, the
+last Lane-2 data move; owner word in the hub chat this session; ONE
+`coop.json` seats=2 knob per the foundation's pre-registered shape).
+
 ## 2026-08-26 session 78 — HUB VERIFY+GATE PASS: both owed critic-ON verdicts PAID (J-6 via menu_tour · corpse-legibility via corpse_run) · fresh-eyes review of Junior's two ships CLEAN · gate 2 script SUBSTITUTED world_loop→corpse_run on the s77 residual-tolerance lesson · uiux M9 coverage mail banked (digests ✓, no asks)
 
 **The pivot:** the s78 spark scoped J-6 implementation; Job-0 found
