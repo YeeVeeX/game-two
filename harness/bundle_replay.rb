@@ -7,6 +7,7 @@ require "net/protocol"
 require "net/state_digest"
 require "net/fingerprint"
 require_relative "support"
+require_relative "state_track"
 
 # E3a-T1 — headless bundle re-executor + verification gate (spec
 # docs/superpowers/specs/2026-08-26-e3a-capture-contract.md §4).
@@ -30,7 +31,15 @@ require_relative "support"
 # member JSON, fingerprint mismatch, save refusal — the bundle cannot be
 # JUDGED on this tree; refusals never write a receipt).
 #
-#   ruby -Isrc harness/bundle_replay.rb bundles/<bundle_id> [runs]
+#   ruby -Isrc harness/bundle_replay.rb bundles/<bundle_id> [runs] \
+#     [--track=A..B [--track-name=NAME]]
+#
+# --track (E3a-T2): after a PASS verdict, write the Mode T state track
+# for the inclusive frame window A..B (tracks/<name>.json + sidecar
+# sha256 — harness/state_track.rb). The sampler rides verification run 1,
+# so the sampled run's chain is itself gate-checked; a RED verdict emits
+# nothing (exit 1), and track refusals (bad range/name, existing track,
+# zone-crossing window) exit 2 like every refusal.
 module Harness
   module BundleReplay
     ROOT = File.expand_path("..", __dir__)
@@ -42,7 +51,16 @@ module Harness
 
     # Full verification. Returns the receipt hash (also written to
     # <dir>/verification.json unless a Refusal is raised).
-    def verify(dir, runs: 2, root: ROOT, now: Time.now.utc)
+    def verify(dir, runs: 2, root: ROOT, now: Time.now.utc, observer: nil)
+      # The gate LAW is two fresh re-executions (spec §4) — fewer cannot
+      # attest "both chains equal each other AND the recorded chain". A
+      # runs<2 request (typo'd CLI arg, misbuilt caller) must refuse, not
+      # write a vacuous PASS receipt (review s84).
+      unless runs >= 2
+        raise Refusal,
+              "REFUSED — runs=#{runs.inspect}: the verification gate is TWO fresh " \
+              "re-executions minimum (spec §4); a receipt from fewer would attest nothing"
+      end
       manifest = read_json(dir, "manifest.json")
       receipt = {
         bundle_id: manifest[:bundle_id],
@@ -81,7 +99,9 @@ module Harness
 
       # 4. N fresh re-executions + 5. compare.
       recorded = read_json(dir, "digest_chain.json")
-      results = Array.new(runs) { execute(dir, manifest, root: root) }
+      results = Array.new(runs) do |i|
+        execute(dir, manifest, root: root, observer: (i.zero? ? observer : nil))
+      end
       receipt[:runs] = runs
       if (div = first_divergence(recorded, results))
         receipt[:verdict] = "RED"
@@ -93,11 +113,28 @@ module Harness
       write_receipt(dir, receipt)
     end
 
+    # E3a-T2 — Mode T track emission (spec §5): verify with the sampler
+    # riding run 1; write the track ONLY on PASS. Returns
+    # { receipt:, track: } — track nil when the verdict blocked emission.
+    # Request-shape refusals raise BEFORE any execution burns.
+    def emit_track(dir, range:, name: nil, runs: 2, root: ROOT, now: Time.now.utc)
+      manifest = read_json(dir, "manifest.json")
+      StateTrack.validate_request!(dir, manifest, range: range, name: name)
+      sampler = StateTrack::Sampler.new(range: range)
+      receipt = verify(dir, runs: runs, root: root, now: now, observer: sampler)
+      return { receipt: receipt, track: nil } unless receipt[:verdict] == "PASS"
+      path = StateTrack.write(dir, sampler: sampler, manifest: manifest,
+                              receipt: receipt, root: root, name: name, range: range)
+      { receipt: receipt, track: path }
+    end
+
     # One fresh headless re-execution: preconditions -> World -> start
     # staging -> per-tick mask feed in the recorded order (fold BEFORE
     # tick, boundary right after — the emitter/netplay order). Returns
-    # { chain:, terminal: }.
-    def execute(dir, manifest, root: ROOT)
+    # { chain:, terminal: }. An observer (E3a-T2 Mode T sampler) sees the
+    # world + the consumed masks after every executed tick — read-only by
+    # contract; it rides run 1 only, so its run's chain is gate-checked.
+    def execute(dir, manifest, root: ROOT, observer: nil)
       pre = read_json(dir, "preconditions.json")
       data = Core::DataStore.new(File.join(root, "data"))
       world = Game::World.new(data, seed: pre.fetch(:seed),
@@ -110,6 +147,7 @@ module Harness
         digest.fold_input(world.frame, masks)
         inputs = masks.each_with_index.to_h { |m, i| [i + 1, Net::SampledInput.new(m)] }
         world.tick(inputs)
+        observer&.call(world, masks)
         (w = digest.after_tick) and chain << [w.tick, w.md5]
       end
       terminal = [world.frame,
@@ -188,15 +226,43 @@ module Harness
 end
 
 if __FILE__ == $PROGRAM_NAME
-  dir = ARGV[0] or abort "Usage: ruby -Isrc harness/bundle_replay.rb bundles/<bundle_id> [runs]"
-  runs = (ARGV[1] || 2).to_i
+  usage = "Usage: ruby -Isrc harness/bundle_replay.rb bundles/<bundle_id> [runs] " \
+          "[--track=A..B [--track-name=NAME]]"
+  track = nil
+  track_name = nil
+  args = ARGV.reject do |a|
+    case a
+    when /\A--track=(\d+)\.\.(\d+)\z/
+      track = (Regexp.last_match(1).to_i..Regexp.last_match(2).to_i)
+    when /\A--track-name=(.+)\z/
+      track_name = Regexp.last_match(1)
+    end
+  end
+  # Malformed flags must abort, never degrade to a plain verify (review
+  # s84: a space-form typo like "--track 5..10" would otherwise become a
+  # bogus runs arg / be silently ignored).
+  if (bad = args.find { |a| a.start_with?("-") })
+    abort "unrecognized argument #{bad.inspect}\n#{usage}"
+  end
+  dir = args[0] or abort usage
+  abort "--track-name needs --track\n#{usage}" if track_name && track.nil?
+  if args[1] && args[1] !~ /\A\d+\z/
+    abort "runs must be a positive integer, got #{args[1].inspect}\n#{usage}"
+  end
+  runs = (args[1] || 2).to_i
   begin
-    receipt = Harness::BundleReplay.verify(dir, runs: runs)
+    if track
+      out = Harness::BundleReplay.emit_track(dir, range: track, name: track_name, runs: runs)
+      receipt = out[:receipt]
+    else
+      receipt = Harness::BundleReplay.verify(dir, runs: runs)
+    end
     puts "verdict=#{receipt[:verdict]} runs=#{receipt[:runs]} " \
          "receipt=#{File.join(dir, 'verification.json')}"
     puts "reason=#{receipt[:reason]}" if receipt[:reason]
+    puts "track=#{out[:track]}" if track && out[:track]
     exit(receipt[:verdict] == "PASS" ? 0 : 1)
-  rescue Harness::BundleReplay::Refusal => e
+  rescue Harness::BundleReplay::Refusal, Harness::StateTrack::Refused => e
     warn e.message
     exit 2
   end

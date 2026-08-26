@@ -151,6 +151,20 @@ class BundleRoundtripTest < Minitest::Test
 
   # --- re-executor: RED directions ------------------------------------------
 
+  def test_runs_below_two_refuse_named_and_write_no_receipt
+    with_copy do |dir|
+      [0, 1].each do |n|
+        err = assert_raises(Harness::BundleReplay::Refusal) do
+          Harness::BundleReplay.verify(dir, runs: n)
+        end
+        assert_match(/TWO fresh re-executions/, err.message,
+                     "runs=#{n} must refuse — a receipt from fewer attests nothing (review s84)")
+      end
+      refute File.exist?(File.join(dir, "verification.json")),
+             "a refusal is not a verdict — no receipt may be written"
+    end
+  end
+
   def test_tampered_mask_byte_without_restamp_is_red_via_member_sha
     with_copy do |dir|
       log = read_json(dir, "input_log.json")
