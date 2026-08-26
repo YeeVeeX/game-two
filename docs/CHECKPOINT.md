@@ -2,7 +2,11 @@
 
 CLAIMED: Junior seat, 2026-08-25 — ZONE 8 render-performance fix. Scope: `src/app/renderer.rb`, focused renderer tests, performance receipt; static primitive culling only, zero map/gameplay changes. Evidence: `drafts/_junior-zone8-performance-20260825.md`.
 
-## 2026-08-25 session 77 — uiux M5+M6 ADOPTION SLATE SHIPPED (5 deltas, 6 critic gates green): C6 breach-anchor 110 (`be03270`) · C2 strip-label lift (`e4dd3c4`) · C1 downed-bar hairline (`670ff88`) · N2 nameplate halo (`c658e0e`) · N4 glyph-outline class (`d50ac86`) · C3 pin accepted (no delta) · D11 RESOLVED = edge pip · one recorded budget deviation (6th critic call kept Rule 2 whole)
+## 2026-08-25 session 77 — uiux M5+M6 ADOPTION SLATE SHIPPED (5 deltas, 6 critic gates green): C6 breach-anchor 110 (`4b1a15d`) · C2 strip-label lift (`ad0f570`) · C1 downed-bar hairline (`f49e699`) · N2 nameplate halo (`bcaabf1`) · N4 glyph-outline class (`39281d9`) · C3 pin accepted (no delta) · D11 RESOLVED = edge pip · one recorded budget deviation (6th critic call kept Rule 2 whole)
+
+(Commit refs above are POST-REBASE — the slate landed atop Junior's
+zone-8 culling trio mid-session; blob content verified unchanged by
+the rebase, suite re-ran green on the composite.)
 
 **The adoption (record + full receipts
 `drafts/_m5m6-adoption-20260825.md`):** every M5/M6 digest re-verified
@@ -52,7 +56,8 @@ coverage ledger).
 clean except `drafts/_refs/` (untracked, stays) · save
 **`0ed80c516168b41d6314aaf28c7848f7`** mtime 08-24 13:47 (UNMOVED) ·
 launcher logs **39** · wall **35** scripts / gate rows **69** (+
-edge_pip_reads) · suite **1263** (22762) · world.rb **1731/1800** ·
+edge_pip_reads) · suite **1267** (22774 — rebased composite incl.
+Junior's +4 culling tests) · world.rb **1731/1800** ·
 window.rb **266/300** · varekka canary ACTIVE (suite-checked) ·
 **capture-dir trap:** plain `captures/{world_loop,respawn_telegraph,
 aoe_specials}` hold s77 px=0 PROBE frames — live truth = `_gate_a`
