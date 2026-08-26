@@ -126,3 +126,18 @@ Verification:
   owner-only `voice-dev` profile was absent, then every available Junior AWS
   profile refused with `InvalidClientTokenId`. This is an infrastructure
   block, not downgraded to a pass; hub must run the critic-ON gate before ship.
+
+### Human post-fix confirmation
+
+Junior played the fixed build (`30609c0`) from ZONE 8 with the level-8 / banked
+200 scratch facts, then crossed through dungeon_1 and camp. Source:
+`%TEMP%/game_two_zone8_postfix_20260826002552.log`.
+
+`TELEMETRY frame_probe frames=4691 period{p50=16.8 p90=19.6 p99=67.5 max=1686.4} update{p50=0.5 p95=2.4 max=134.1} draw{p50=3.5 p95=10.9 max=451.6} over20=460 over35=200 over100=21`
+
+The ordinary tail improved materially against his long pre-fix ZONE 8 run:
+period p90 **33.3→19.6 ms**, draw p50 **9.4→3.5 ms**, draw p95
+**14.9→10.9 ms**, over20 **12.30%→9.81%**. The run still contains rare large
+spikes (period max 1.686 s; 21 intervals >100 ms), and it crossed zones, so
+those maxima are recorded but not attributed to ZONE 8. Audio teardown was
+clean; save closed normally. Human feel word is still pending.
