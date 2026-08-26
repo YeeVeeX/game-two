@@ -1,9 +1,85 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-CLAIMED (s83, 2026-08-26, hub seat): **E3a-T1** — P1 bundle emitter +
-headless re-executor + verification receipt (spec
-`docs/superpowers/specs/2026-08-26-e3a-capture-contract.md` §7). In
-progress this session; line clears at the s83 close entry.
+## 2026-08-26 session 83 — E3a-T1 SHIPPED (`c35701c`+`469a1d5`): P1 bundle emitter + headless re-executor + verification receipt, fresh-eyes PASS_WITH_FIXES (0 blockers, all fixes applied) · mirror ruling v2 executed (CLAUDE.md → bare 10-byte pointer + 4 spoke re-sync mails staged) · freeze HELD (watch clean 2x, zero launches, save UNMOVED)
+
+**The ritual stayed owner-paced (zero steps fired — exposure debt +
+both sessions still ahead); the session ran the dev-side slate.**
+
+**E3a-T1 (spec §7, CLAIMED `c6ceb8c` before work — s56 race law):**
+`"bundle": true` on the replay runner records the P1 bundle
+(write-once manifest w/ member sha256s + fingerprint_md5 REQUIRED ·
+per-tick mask log · FULL cadence chain + terminal snapshot digest ·
+preconditions w/ `start` verbatim); `harness/bundle_replay.rb`
+re-executes HEADLESS (no Gosu) behind the two-run gate — both chains
+must equal each other AND the recorded chain — and writes the
+`verification.json` receipt (0 PASS · 1 RED · 2 refusal; fingerprint
+refusal names both values and writes NO receipt). Refusals NAMED at
+construction (non-world scenarios, non-mask actions). `bundles/`
+gitignored (s55 fingerprint law). Evidence (all captured, banked
+`drafts/_e3a-t1-roundtrip-20260826.md`): suite roundtrip 8 runs/73
+asserts (PASS + BOTH tamper directions + refusals, real sim no
+mocks) · CLI world_loop-derived 1249-tick bundle → PASS runs=2 twice
+· tampered mask tick-100 + re-stamped sha → RED at window tick=120
+(D4 localization) · moving_square+bundle → NAMED refusal. Fresh-eyes
+headless review (Rule 6): PASS_WITH_FIXES, 0 blockers — major
+(runner evaluated `@scene.world` before the scenario refusal) fixed
+via respond_to? + proven live; fingerprint now stamped on member-RED
+receipts; spec §2 digest_chain row amended (terminal field).
+Record-only minors named in the ticket doc (incl. manifest
+seed/seats-vs-preconditions cross-check DECLINED, lean-tool bias).
+T2 note: tracks hang off `BundleReplay.execute`; assets-seat mail
+owed at T2, not now.
+
+**Mirror ruling v2 (owner 2026-08-26, recorded in gamesmith
+checkpoint, relayed by mail):** AGENTS.md = the main contract
+everywhere; CLAUDE.md = exactly the bare pointer `AGENTS.md` (10
+bytes, md5 `e7ffe48362bb9590a10aa47958dd5818`). Executed here:
+CLAUDE.md cut to bare (`6c57994`, blob verified) — the long-form
+mirror's content all lives in AGENTS.md/JUNIOR.md, nothing lost.
+Family-block lag report handled: 4 re-sync mails staged into
+assets/audio/lore/uiux inboxes (canonical 08-24 span inlined
+VERBATIM, span md5 `993fb261a58066039285275be1047253` verified at
+HEAD + in every mail via anchored extraction; blob-not-worktree
+verify commands included — CRLF trap). RECEIPTs will land in our
+inbox at their pace. gamesmith original archived, no receipt owed.
+Note for verifiers: sed marker-regex extraction must anchor `^...$`
+— an unanchored match hits the instruction line that MENTIONS the
+markers (caught live this session).
+
+**Hygiene (ARMED, held):** freeze-watch clean at open AND close ·
+zero bin/play launches · save `0ed80c516168b41d6314aaf28c7848f7`
+UNMOVED (insurance `tmp/world.pre-s83.json` same md5) · launcher
+logs 39 · spec §9 untouched (read skipped lines 285-315 exactly) ·
+no oracle/sim-number file moved (T1 = harness/test/gitignore/spec
+docs only) · bot logs untouched.
+
+**Job-0 baselines for s84:** origin tip = the s83 close commit (this
+docs commit) · tree clean except `drafts/_refs/` · save `0ed80c51…`
+mtime 08-24 13:47 (moves at any play incl. exposure — lawful,
+re-anchor via chain law) · launcher logs **39** · wall **35** / gate
+rows **69** · suite **1295** (23199) · world.rb **1742/1800** ·
+window.rb **267/300** · varekka canary ACTIVE unchanged (C2 bank
+world_loop `982bfd66…` · varekka_duel `ecc750ec…` · burn_duel
+`36d6281c…`) · CLAUDE.md blob `e7ffe483…` (bare) · game-two inbox
+EMPTY, 4 family-block receipts PENDING inbound · capture-dir trap
+carries (live truth = `_gate_a` dirs) · freeze-watch command = the
+Job-0 git log line (skeleton §anchors).
+
+**s84 queue:** ritual owner-paced (exposure → s1 → different day →
+s2 → 10 answers → fresh-session adjudication — never nag) ·
+dev-side: E3a-T2 (Mode T tracks; CLAIMED line first; ships the
+assets-seat mail w/ reference track + schema section) · E3a-T3 (P2
+dump — session.rb close seam is FROZEN-adjacent: the seam touch is
+legal per spec §12.6 fence but re-read §12.3 before starting) ·
+family-block receipt harvest (docs-only) · assets PATH-A triage if
+mail lands · standing programs (soak/flywheel, bot law). Standing
+owner/peer-paced carries (never nag): coop part 2 + focus-A/B ·
+B1-T3 feel · J-5 pick · R-A2 escalation (R-E contingent) ·
+ear-checks · T3 renders · shake feel-check · D9 es/pt call
+(F-M10-1 es SILENCIADO 269px) · async ratifications (s72 B1-T2 ·
+banner-names · s73 re-cuts · s74 J-3 · s75 D1/D2+gate-rows · s77
+slate · s78 close · s79 B5 · s80 C2+rebank · s81 E3a spec · s82
+ritual staging · **NEW s83: E3a-T1 + mirror-v2 moves**).
 
 ## 2026-08-26 session 82 — THE EIGHTEENTH IS STAGED (`cc5f356`): ritual spec CLOSED + question wording FROZEN (sealed §9) + runsheet + skeleton · MEASUREMENT HYGIENE ARMED (sim numbers + oracle wording + instruments frozen until the verdict) · gates: council pass (2 calls) + TWO-round fresh-eyes review (FAIL→fixed→PASS_WITH_FIXES→fixed) · docs-only, zero launches, save UNMOVED
 
