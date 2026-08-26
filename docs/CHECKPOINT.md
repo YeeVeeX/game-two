@@ -1,6 +1,6 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-CLAIMED: Junior seat, 2026-08-25 — ZONE 8 render-performance fix. Scope: `src/app/renderer.rb`, focused renderer tests, performance receipt; static primitive culling only, zero map/gameplay changes. Evidence: `drafts/_junior-zone8-performance-20260825.md`.
+CLOSED: Junior seat — ZONE 8 render-performance fix shipped (`30609c0`) + human telemetry/feel landed (`abba4ac`+`ada64ed`): "Ficou claramente mais leve; ainda senti alguns travamentos raros." Scope released; rare mixed-zone spikes remain a separate measured tail. Evidence: `drafts/_junior-zone8-performance-20260825.md`.
 
 ## 2026-08-25 session 77 — uiux M5+M6 ADOPTION SLATE SHIPPED (5 deltas, 6 critic gates green): C6 breach-anchor 110 (`4b1a15d`) · C2 strip-label lift (`ad0f570`) · C1 downed-bar hairline (`f49e699`) · N2 nameplate halo (`bcaabf1`) · N4 glyph-outline class (`39281d9`) · C3 pin accepted (no delta) · D11 RESOLVED = edge pip · one recorded budget deviation (6th critic call kept Rule 2 whole)
 
