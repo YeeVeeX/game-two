@@ -1,5 +1,80 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-26 session 85 — LIVE COOP NIGHT: exposure debt PAID both seats (coop part 2: `ticks=80513 desyncs=0 reason=quit`) · away-vat crash root-caused + FIXED live (`e187266`, repro pinned, canary byte-identical) · progression CAPPED (level 10) + seal 4 — owner verbatim: "llegamos al final del juego muy rápido y hace falta contenido"
+
+**The evening, in order:** host launched for the peers (owner ask).
+Launch #40 = CRASH ATTEMPT ~25 min in: `FlowField#downhill_from`
+NoMethodError — root cause proven by deterministic repro (NOT a C2/s80
+regression): an away-from-home FIELD-VAT regrow bound revived bodies to
+the HOME map (v12 hub rehoming had home=zone_7; the paid vat was
+slow_door 9×14) — foreign-map bodies rendered off-map (owner: "aparecieron
+fuera del mapa") and the ally AI's flow-field read on the foreign tile
+killed the host. World unmoved (crash-writes-nothing law, save md5
+verified). **Fix `e187266`:** field-vat regrow binds to the CURRENT map
+beside the payer (deterministic STEPS ring, occupancy soft; HOME-vat
+path byte-identical — S3 deviation named in-code) + FlowField OOB
+queries answer no-knowledge (nil/UNREACHED, negative-wrap closed).
+Tests +5 (economy_vat repro pair + flow_field_oob), suite 1312→1317
+(27591), sim-identity canary green, freeze-watch CLEAN including the
+fix (world.rb/flow_field.rb are outside every §12.3/12.4 set).
+**Rule-6 debt named: fresh-eyes review of `e187266` OWED — run it at
+s86 open** (shipped under live incident with deterministic evidence;
+review must confirm, not rubber-stamp).
+
+**Exposure session (#41, relaunch on the fix):** handshake proves both
+seats on `e187266` → 80513 ticks, desyncs=0, clean quit. Chain:
+`loaded 43cd395d… sessions=15` → `saved b3c37a09… sessions=16`
+(banked=102, seals=4); save file md5 `da5a0b2d0e1b97d8890bda5351807fdd`.
+`progression level=10 xp=644 kills_xp=4069` — **LEVEL CAP hit
+pre-ritual** (spec A5 at-cap note applies; growth-felt still reads on
+the cycle horizon). `sustain bought=0 used=0 refused=2{none}` (R-A2 row
+still B=0/U=0). Link: stalls 11.0%, `stall_ms_max=9805` (ritual-
+threshold datum: max ≥ 2500 licenses an optional pre-question re-run).
+Both logs md5-banked → `drafts/_v19-eighteenth-evidence/pre-ritual/`;
+skeleton updated: exposure PAID ×2 (+ the fix's own exposure, paid same
+evening: 13 tributes / 15 regrown), chain classified, HELD ×3 banked
+verbatim, deviation (live hotfix under the freeze) named. Standing
+focus-A/B item: paid by this session (joiner-side line may arrive by
+mail). Ritual questions untouched; §9 unread.
+
+**Also this session:** pulled Junior's async D9 pt-br call at open
+(`56faba8`, lawful — captures stay locale-en, no gate owed) ·
+worldsmith triage mail RECEIPTed → done/ (issue 1 = the fixed crash,
+their log-md5 claim verified MATCH; issue 2 = basement_1/2 stationless
+BY RATIFIED DESIGN B2/B3 — owner "depot" verbatim banked as HELD,
+docs-only) · own inbox otherwise EMPTY (family-block ×4 + T2 delivery
+receipts still pending inbound).
+
+**Owner direction ask (verbatim above) — answer given in chat:** close
+the cycle through the ritual (exposure PAID → s1 may be declared any
+day; s1/s2 on DIFFERENT host-clock days), verdict unlocks the frozen
+numbers and routes the recorded rows; v20 foundation brainstorm =
+content breadth on the shipped WB pipeline (LDtk authoring is legal
+prep NOW; `data/zones/` import + wire-in wait for the verdict or a
+recorded owner override). No new scope opened under the freeze.
+
+**Job-0 baselines for s86:** origin tip = this close commit · tree
+clean except `drafts/_refs/` · save `da5a0b2d…` mtime 08-26 16:08
+(sessions=16 — moves at any play, re-anchor via chain) · launcher logs
+**41** · wall **35** / gate rows **69** · suite **1317 (27591)** ·
+world.rb **1769/1800** (nearing cap — next material touch owes the
+extraction) · window.rb **267/300** · varekka canary ACTIVE unchanged ·
+bundles/ unchanged (one live bundle + 2 tracks) · mail inbox EMPTY ·
+freeze-watch = the Job-0 git log line (CLEAN through `e187266`+docs) ·
+insurance `tmp/world.pre-s85.json` = the PRE-play save (0ed80c51…,
+superseded lawfully by the clean session).
+
+**s86 queue:** fresh-eyes review of `e187266` FIRST (Rule 6) · ritual
+owner-paced — exposure PAID, next step = "ritual session 1" declared in
+chat (standard launcher, no env extras; harvest checklist is the
+script) · E3a-T3 freeze-adjacent (§12.3 vs §12.6 re-read MANDATORY;
+when in doubt it WAITS) · receipt harvest ×5 when they land · v20
+foundation prep (drafts/LDtk only under the freeze). Standing
+owner/peer-paced carries (never nag): B1-T3 feel · J-5 pick · R-A2
+escalation (R-E contingent) · ear-checks (audio played tonight but the
+owner gave no listening verdict — still pending) · T3 renders · shake
+feel-check · async ratifications (s72…s85 list).
+
 ## 2026-08-26 session 84 — E3a-T2 SHIPPED (`2627ed0`): Mode T state-track emitter, schema "1" — review PASS_WITH_FIXES (0 blockers, major fixed + pinned), TWO reference tracks emitted from the live bundle, delivery mail staged to the assets seat · freeze HELD (watch clean 2x, zero launches, save UNMOVED)
 
 **The ritual stayed owner-paced (zero steps fired); own inbox EMPTY at

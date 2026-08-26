@@ -1,0 +1,62 @@
+C:/Users/gabri/workspace/game-two/src/game/flow_field.rb:45:in 'Game::FlowField#downhill_from': undefined method '[]' for nil (NoMethodError)
+
+      best_d = @dist[ty][tx]
+                        ^^^^
+	from C:/Users/gabri/workspace/game-two/src/game/controllers.rb:368:in 'Game::AiController#chase_step'
+	from C:/Users/gabri/workspace/game-two/src/game/controllers.rb:314:in 'Game::AiController#follow'
+	from C:/Users/gabri/workspace/game-two/src/game/controllers.rb:173:in 'Game::AiController#tick'
+	from C:/Users/gabri/workspace/game-two/src/game/world.rb:617:in 'block in Game::World#tick_world'
+	from C:/Users/gabri/workspace/game-two/src/game/world.rb:617:in 'Array#each'
+	from C:/Users/gabri/workspace/game-two/src/game/world.rb:617:in 'Game::World#tick_world'
+	from C:/Users/gabri/workspace/game-two/src/game/world.rb:320:in 'Game::World#tick'
+	from C:/Users/gabri/workspace/game-two/src/net/session.rb:511:in 'Net::Session#run_tick'
+	from C:/Users/gabri/workspace/game-two/src/net/session.rb:244:in 'Net::Session#update'
+	from C:/Users/gabri/workspace/game-two/src/app/window.rb:156:in 'App::Window#update_session'
+	from C:/Users/gabri/workspace/game-two/src/app/window.rb:118:in 'App::Window#update'
+	from C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/gosu-1.4.6/lib/gosu/patches.rb:64:in 'Gosu::Window#tick'
+	from src/main.rb:181:in '<main>'
+AUDIO on: device=1 sha=15f03e0219d6 lib=C:/Users/gabri/workspace/game-two-audio
+TELEMETRY persist loaded digest=43cd395dfc12a7744ad80fd226ed9840 schema=2 banked=123 provisions=0 seals=3 marks=0 sessions=15 source=file
+hosting on port 43117 (Esc cancels)
+NETPLAY handshake seat=1 d=9 link_slow=false rtt_ms=180,181,182,198,166
+AUDIO ambience key=amb_meadow zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO footstep material=stone zone=zone_7
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO footstep material=wood zone=zone_7
+AUDIO ambience key=none zone=basement_1
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_1
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO footstep material=stone zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO ambience key=amb_meadow zone=zone_7
+AUDIO footstep material=stone zone=zone_7
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO footstep material=water zone=zone_7
+AUDIO ambience key=amb_dungeon zone=dungeon_1
+AUDIO footstep material=stone zone=dungeon_1
+AUDIO ambience key=amb_meadow zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO ambience key=none zone=low_quay
+AUDIO footstep material=stone zone=low_quay
+AUDIO ambience key=amb_meadow zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO ambience key=none zone=low_quay
+AUDIO footstep material=stone zone=low_quay
+AUDIO ambience key=amb_meadow zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO ambience key=none zone=low_quay
+AUDIO footstep material=stone zone=low_quay
+AUDIO ambience key=amb_meadow zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO ambience key=none zone=low_quay
+AUDIO footstep material=stone zone=low_quay
+AUDIO ambience key=amb_meadow zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO ambience key=none zone=low_quay
+AUDIO footstep material=stone zone=low_quay
+AUDIO ambience key=amb_meadow zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO ambience key=none zone=low_quay
+AUDIO footstep material=stone zone=low_quay
