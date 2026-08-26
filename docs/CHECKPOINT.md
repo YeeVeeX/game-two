@@ -1,10 +1,99 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-**CLAIMED: C2 hub 2026-08-26** (s80 — ally defensive-default engage
-rule + `ally_flee_hp_pct` co-tune, foundation Lane 3, ratified order
-B5→C2 satisfied at `0b11cfa`; CODE change on the lockstep sim —
-suite + netplay gates + perf owed; world.rb extraction flag live at
-1731/1800).
+## 2026-08-26 session 80 — C2 SHIPPED: ally defensive-default engage rule + flee co-tune 0.35→0.5 — free allies acquire PROVOKED humans only (what attacks the pack / what the possessed engages), leash-back = the follow branch · sim-identity canary REBANKED per the versioned protocol (3 streams, full audit) · all owed gates green · uiux adoption-wave + gamesmith receipts banked
+
+**The ship (foundation Lane 3 row 13; decision doc
+`drafts/_c2-defensive-default-20260826.md`; answers Junior R3 "a IA
+morre muito, fica correndo pra dentro dos inimigos"):** provocation is
+ONE body-scoped flag on the human Creature (the beachhead-waiver
+precedent) — stamped at `take_hit` both directions (every damage arc
+funnels there: melee/dash/projectile/volley, verified), at `taunt!`
+(a possessed challenge = engage order), at chant-start + `seize!`
+(free allies may help interrupt — the counterplay is not
+possessed-only); cleared at leash-past-linger (disengaged = forgiven)
+and zone re-entry (fresh-slate law beside `focus=nil`); an echo
+respawns unprovoked by construction (`add_human` builds fresh). The
+free-ally ACQUISITION class filters to provoked humans; taunt/anchor
+binds + the mark bypass untouched; nothing-to-engage → the existing
+follow branch (the ratified "leash back to the possessed"). The rule
+is SEAT-INDEPENDENT (faction AI law — solo allies suicided
+identically); the flee guard keeps its seats≥2 gate (v18 decision 12
+shape untouched). Human-side AI untouched. No new event (no consumer);
+flag joins `digest_fields` + coverage pin + save classification
+:session_only (W1 paid). Flee co-tune defended by the runway table in
+the doc: at 0.35 the squishy bodies' flee window ≈ one tiered husk hit
+at frontier tiers (lobber zone_8: 0.97 hits — mechanically the "dies
+mid-flee" complaint); 0.5 buys ~2 hits of escape runway, legible round
+step, data-only inside the existing seats=2 block.
+
+**Canary rebank (versioned-bank protocol EXECUTED — audit:
+`drafts/_c2-canary-rebank-20260826.md`):** old streams from a
+worktree pinned at the pre-C2 commit reproduce the outgoing ACTIVE
+bank EXACTLY; prefix identity to each script's first effect
+(world_loop line 5 · varekka/burn line 3 = the old frame-6 UNPROVOKED
+free-striker swing — the change's textbook signature); every divergent
+line classed (removed unprovoked engagements · shifted human
+acquisitions onto the clumped formation · downstream re-sequencing ·
+fixed-choreography consequences); outgoing bank preserved as
+S73_HISTORY; new bank double-replay byte-identical. WATCH ITEM for the
+ritual: burn_duel's fixed choreography now ends pack_wiped — pressure
+shifts to the possessed under defensive allies. **Async ratification
+owed (standing lane): the C2 ship + this rebank.**
+
+**Evidence:** suite **1287/23104 0F** (was 1275; +12-lane
+`test/game/provocation_test.rb`: core refusal · both provocation
+directions · pack-wide defense · selectivity · taunt/chant stamps ·
+leash + re-entry clears · echo-unprovoked · seat parity · digest
+visibility) · **netplay gates ×3 PASS** (session 15-capture · desync ·
+conn_lost; vision PASS + determinism byte-identical ×2 each;
+`tmp/s80_gate_netplay_*.log`) · `rake perf` PASS `p50=0.401ms
+p95=0.628ms` · 5 pre-existing stagings repaired with mechanism audited
+first (probe REFUTED the lowhp guess; real cause: walk-era sticky
+focus — allies trail the walk now, so pre-staging human focus
+differed; fixes pin each test to its subject) · world.rb extraction
+judged **NOT owed**: 1742/1800, ~11 choke-point stamp lines; the
+POLICY lives in controllers.rb + creature.rb — Crossing bar unmet.
+
+**Seat mail (2 handled → done/):** uiux M10 adoption wave — receipts
+only (adoption-conformance ×5 CONFORM, M4 capture ask CLOSED, D11
+closed, J-6 + corpse audits banked); ONE datum banked for the D9 lane:
+**F-M10-1 es floor state `> VOLUMEN MASTER: SILENCIADO` = 269px ink,
+9px past the 260px pad-limit** (new widest panel string; pt 258
+tight-fits; levers ours, gated on Junior's D9 call) · gamesmith —
+round7B staleness ruling receipt, nothing pending either direction.
+
+**Budget:** C2-visual critic calls 0 of 0 declared (sim-only, no
+visual delta) · netplay-gate verdicts 3 (the foundation's mandated
+re-run, not visual-delta spend) · council 0 · refusals 0.
+
+**Job-0 baselines for s81:** origin tip = this docs commit · tree
+clean except `drafts/_refs/` (untracked, stays) · save
+**`0ed80c516168b41d6314aaf28c7848f7`** mtime 08-24 13:47 (UNMOVED —
+nothing launched s80; netplay gates are replay-window only) · launcher
+logs **39** · wall **35** scripts / gate rows **69** · suite **1287**
+(23104) · world.rb **1742/1800** · window.rb **267/300** · varekka
+canary ACTIVE with the **C2 bank** (world_loop `982bfd66…` ·
+varekka_duel `ecc750ec…` · burn_duel `36d6281c…`; S73 preserved) ·
+coop.json seats=2 = respawn **3.0** / hp **1.25** / flee **0.5** ·
+capture-dir trap carries: plain
+`captures/{world_loop,respawn_telegraph,aoe_specials}` = s77 px=0
+PROBE frames, plain `captures/menu_tour` pre-J-6 — live truth =
+`_gate_a` dirs (corpse_run's = `captures/pilot/cr3_r1_replay_gate_a`).
+
+**s81 queue:** **E3a capture-contract is the head item** (grill,
+spec-first; assets seat measurably waiting — 6th close since their
+flag) · ritual staging approaches (C2 landed; hygiene re-arms at
+staging — the SIM numbers it measures are now ALL in: respawn 3.0,
+difficulty 1.25, flee 0.5, defensive default) · C3 stance verb stays a
+later rung (builds only if the ritual says C2 is insufficient; its
+research spoke only on owner word at ITS spec time) · uiux/M4 slates
+only on THEIR ask. Standing (owner/peer-paced, never nag): coop part 2
++ focus-A/B when Junior lands · B1-T3 feel · J-5 pick · R-A2
+escalation · ear-checks · T3 renders · shake feel-check · D9 es/pt
+call (now carries F-M10-1: es SILENCIADO row 269px vs 260px pad-limit)
+· async ratifications (s72 B1-T2 · banner-names · s73 re-cuts · s74
+J-3 · s75 D1/D2+gate-rows · s77 slate · s78 close · s79 B5 · **NEW
+s80: C2 ship + canary rebank**).
 
 ## 2026-08-26 session 79 — B5 SHIPPED (`0b11cfa`): respawn_delay_scale 2.0 → 3.0 (seats=2, ONE knob, data-only per the R-A1 pre-registered shape) — the LAST Lane-2 data move is in; C2's re-session is sequence-unblocked · owner picked B5 live from the surfaced slate · assets v27 re-pin mail handled (approve-by-default, no reply owed)
 
