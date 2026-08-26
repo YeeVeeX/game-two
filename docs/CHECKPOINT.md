@@ -1,8 +1,76 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-**CLAIMED: B5 hub 2026-08-26** (s79 — respawn scalar re-session, the
-last Lane-2 data move; owner word in the hub chat this session; ONE
-`coop.json` seats=2 knob per the foundation's pre-registered shape).
+## 2026-08-26 session 79 — B5 SHIPPED (`0b11cfa`): respawn_delay_scale 2.0 → 3.0 (seats=2, ONE knob, data-only per the R-A1 pre-registered shape) — the LAST Lane-2 data move is in; C2's re-session is sequence-unblocked · owner picked B5 live from the surfaced slate · assets v27 re-pin mail handled (approve-by-default, no reply owed)
+
+**The pick:** no queue debt at open; per the 2026-08-22 owner order the
+hub surfaced the REAL remaining candidates — the spark's list carried
+two already-shipped items (B4 s67 `e51e26f` · J-7 complete s66; live
+checkpoint beat the spark text) — real slate: **B5** (recommended:
+critical path, blocks C2 + ritual staging, perishable measurement
+window) · C2 (ineligible until B5) · E3a (sequence-unblocked now that
+all four lanes have first ships; assets seat measurably waiting —
+their v27 mail flagged the FIFTH consecutive empty close on the
+capture-contract spec) · coop part 2 (Junior not live). Owner word:
+**"B5"** — CLAIMED pushed `83fa832` before work (s56 race law).
+
+**B5 stage 1 (decision doc `drafts/_b5-respawn-scalar-20260826.md`,
+foundation row 10):** pre-registered shape walked verbatim — corpus
+brief §2 read FIRST (supports prep-paced retry windows; cannot settle
+the number; SIXTEENTH/SEVENTEENTH telemetry = baseline, banked in the
+doc) → ONE scalar `data/balance/coop.json` seats=2
+`respawn_delay_scale` 2.0 → **3.0** → suite + `rake perf` → no visual
+surface = no wall debt, **0 critic calls** (declared at start). Shape
+picks defended in the doc: the scalar buys PHASE LAG not rate (every
+kill schedules exactly one echo — the knob's purchase is the
+pocket-clear window, 10 s → 15 s on the base 300-frame kits); 3.0 not
+4.0 (s68's difficulty tier already moved coop pressure unmeasured —
+no compounding; ladder 1.0→2.0→3.0 legible at +5 s/step); complaint
+survives 3.0 at the ritual ⇒ stage 2 = presence-block (recorded
+structural candidate). Solo untouched by construction (seats=1 = no
+block = no arithmetic; wall + canaries replay-byte-inert). Netplay
+gates not owed for a data scalar (owed at C2, the code change).
+
+**Evidence:** suite **1275/22805 0F** post-change
+(`tmp/s79_b5_suite.log`; hook re-ran green at commit) · `rake perf`
+PASS `p50=0.398ms p95=0.614ms` (`tmp/s79_b5_perf.log`) ·
+`coop_feel_test` pins hold by design (floor `> 1.0` + expected-from-
+data — Rule 3, no constant to chase) · single read site audited
+(world.rb:1652, decision-11 schedule time).
+
+**Seat mail (1 handled → done/):** assets v27 re-pin — fire-and-
+forget, approve-by-default class (renderer culling re-emits +
+additive display keys; both value moves tracked; 20/20 derived
+constants green at `99fce31`). Signal banked: **E3a spec still
+un-mailed after 5 closes** — E3a surfaced to the owner as the honest
+second pick; their armed lane branches on arrival.
+
+**Budget:** critic calls 0 of 0 declared · council 0 · refusals 0.
+
+**Job-0 baselines for s80:** origin tip = this docs commit · tree
+clean except `drafts/_refs/` (untracked, stays) · save
+**`0ed80c516168b41d6314aaf28c7848f7`** mtime 08-24 13:47 (UNMOVED —
+nothing launched s79) · launcher logs **39** · wall **35** scripts /
+gate rows **69** (no visual delta) · suite **1275** (22805) ·
+world.rb **1731/1800** · window.rb **267/300** · varekka canary
+ACTIVE (suite-checked) · coop.json seats=2 now `respawn_delay_scale
+3.0` / `human_hp_scale 1.25` / `ally_flee_hp_pct 0.35` (the latter
+two are C2's) · **capture-dir trap carries:** plain
+`captures/{world_loop,respawn_telegraph,aoe_specials}` hold s77 px=0
+PROBE frames, plain `captures/menu_tour` pre-J-6 — live truth =
+`_gate_a` dirs.
+
+**s80 queue:** **C2 re-session is next by ratified order** (ally
+defensive-default engage + `ally_flee_hp_pct` co-tune — CODE change:
+suite + netplay gates + perf owed; world.rb extraction flag LIKELY;
+Junior = primary witness but never gate on availability) · **E3a**
+(grill-and-ticket, spec-first; assets seat waiting) = the standing
+second pick · uiux/M4 slates only on THEIR ask · ritual staging
+approaches once C2 lands (hygiene re-arms at staging). Standing
+(owner/peer-paced, never nag): coop part 2 + focus-A/B when Junior
+lands · B1-T3 feel · J-5 pick · R-A2 escalation · ear-checks · T3
+renders · shake feel-check · D9 es/pt call · async ratifications
+(s72 B1-T2 · banner-names · s73 re-cuts · s74 J-3 · s75 D1/D2+gate-
+rows · s77 slate · s78 close · **NEW s79: B5 ship**).
 
 ## 2026-08-26 session 78 — HUB VERIFY+GATE PASS: both owed critic-ON verdicts PAID (J-6 via menu_tour · corpse-legibility via corpse_run) · fresh-eyes review of Junior's two ships CLEAN · gate 2 script SUBSTITUTED world_loop→corpse_run on the s77 residual-tolerance lesson · uiux M9 coverage mail banked (digests ✓, no asks)
 
