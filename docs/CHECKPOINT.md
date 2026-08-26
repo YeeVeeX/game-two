@@ -1,5 +1,10 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+CLAIMED (s84, 2026-08-26, hub seat): **E3a-T2** — Mode T state-track
+emitter, schema "1" (spec
+`docs/superpowers/specs/2026-08-26-e3a-capture-contract.md` §5 + §7).
+In progress this session; line clears at the s84 close entry.
+
 ## 2026-08-26 session 83 — E3a-T1 SHIPPED (`c35701c`+`469a1d5`): P1 bundle emitter + headless re-executor + verification receipt, fresh-eyes PASS_WITH_FIXES (0 blockers, all fixes applied) · mirror ruling v2 executed (CLAUDE.md → bare 10-byte pointer + 4 spoke re-sync mails staged) · freeze HELD (watch clean 2x, zero launches, save UNMOVED)
 
 **The ritual stayed owner-paced (zero steps fired — exposure debt +
