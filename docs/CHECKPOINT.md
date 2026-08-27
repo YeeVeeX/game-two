@@ -2,6 +2,87 @@
 
 CLAIMED: J-T1 Junior seat 2026-08-26 — dungeon+boss dossier (parallel lane, `drafts/_junior-parallel-lane-20260826.md`; drafts-only under the armed freeze; J-T2 blueprint follows in-session if it fits).
 
+## 2026-08-26 session 89 — THE INTEGRATION SESSION: fan-out executed (uiux spec commission RUNNING · audio receipt CLOSED-verified · assets staged/seat-held) · owner content directives banked (candidates 5–9 + method ruling + E1 re-grade + cardinal topology) · worldsmith ruled (T26 ordered, spark sent) · Junior lane dispatched AND DELIVERED same-night (88f3ba4, UNREVIEWED — s90 head dev item)
+
+**Job 0 at open: ALL CLEAN** (origin `072c17d` = local · save
+`da5a0b2d…` mtime 08-26 16:08 sessions=16 — UNMOVED end-to-end,
+re-verified at close · logs 41 · wall 35 / gate rows 69 · suite 1317
+(27591) live-run green (+3 more green hook runs at commits) ·
+world.rb 1769 / window.rb 267 · canary live era verified (LAST-block
+law) · freeze-watch CLEAN — re-run at close over the FULL range incl.
+both foreign commits, still clean · mail EMPTY at open).
+
+**Shipped (all docs-only, all pushed):** `6aea1d0` slate candidate 5
+(HUD reposition+shrink, owner ask, uiux checked = no prior art) ·
+`6a75910` orchestration routing doc + Junior parallel lane (J-T1/J-T2
+assigned, pt-br agent prompt delivered via owner clipboard) ·
+`73687a1` audio receipt harvested+verified (their `2dddf5c`,
+family-block byte-exact) + agents-md-bootstrap ruling (DECLINED
+everywhere: all seats chartered; coop-harness dormant) · `b9749b5`
+owner directives banked (candidates 6–9: spells / enemy roster /
+main city hub / world breadth; cardinal-crossroads topology + city→
+dungeon→city spine in candidate 8; OWNER METHOD RULING "one at a
+time with intensive testing/debugging" = serial gated increments;
+E1 GM-tools re-grade note — v20 grill must re-grade, not
+auto-defer) + worldsmith ruling + stale AGENTS.md worldsmith line
+corrected.
+
+**Orchestration state (routing doc = the ledger):** uiux —
+family-block receipt LANDED+VERIFIED (their `393e1b7`; canonical
+block byte-exact; charter-pin drift note recorded for next resync);
+Candidate-5 spec commission RUNNING at close (spoke pid 18224, mail
+`from-game-two-candidate5-hud-spec.md` md5 `1975da61…`) · audio —
+CLOSED (route 2, receipt verified) · assets — seat HELD alive (pid
+11252), spark STAGED at `C:/tmp/sparkups-stage/s89-assets.md`, mails
+wait in their inbox · lore — seat held, family-block mail waits ·
+smiths ruling: imagesmith/gamesmith = cross-program tool seats
+(direct mail, NOT assets-managed; assets gates game-two-bound
+ARTIFACTS only) · PI_* scrub law applies to any relaunch (audio spoke
+needed it live).
+
+**Worldsmith (owner asked a/b/c):** ruled NONE as offered — T26 $0
+demand dossier ORDERED (spark-up delivered via owner clipboard,
+digests pinned at `b9749b5`: routing `ac249682…` · junior-input
+`8f874657…` · slate `4b95c13f…`); v2 grill triggers = verdict +
+J-T1-verified + T26. **BLOB-STABILITY LAW: those three files must not
+change content until T26's receipt lands** (its arbiter reads
+`show HEAD:`) — this close commit touches CHECKPOINT.md ONLY.
+
+**Junior lane (the night's win):** dispatched via pt-br clipboard
+prompt → he ran it SAME NIGHT: `4dd1cfc` (CLAIM line, +2, protocol
+followed) + `88f3ba4` (J-T1 dossier + J-T2 blueprint + handoff note,
+392 insertions, 3 drafts files). Stat-verified docs-only; freeze
+fences held; CONTENT UNREVIEWED — s90 reviews fresh-eyes (citations
+vs named sources, hygiene scan, grill-readiness) then clears the
+CLAIM line and receipts in the routing doc (mind the blob-stability
+law — append only after T26 receipts, or accept their STOP+trivial
+fix).
+
+**Hygiene: intact end-to-end** — zero launches, zero sim/data/oracle
+edits, §9 unread, no question-topic contact (all owner asks banked as
+content directives, verbatim, uncommented on feel), R-A2 unexplained,
+Junior item-5 balance untouched.
+
+**Job-0 baselines for s90:** origin tip = this close commit · tree
+clean except `drafts/_refs/` · save `da5a0b2d…` mtime 08-26 16:08
+sessions=16 · logs **41** (numeric law; bare glob 44) · wall **35** /
+gate rows **69** · suite **1317 (27591)** · world.rb **1769/1800
+NEARING CAP** · window.rb 267/300 · canary live era = LAST block ·
+bundles/ unchanged (one live + tracks) · mail inbox EMPTY at close
+(expect INBOUND by s90: uiux candidate-5 receipt · maybe assets/lore
+receipts · worldsmith T26 receipt) · freeze-watch clean through this
+close.
+
+**s90 queue:** ritual s1 if declared (skeleton checklist = the
+script; insurance copy + pre-launch decode FIRST; §11 link read —
+expect the 9805ms conversation; expect open level=10 xp=644) · ELSE
+head dev item = Junior J-T1/J-T2 fresh-eyes review · harvest uiux
+spec receipt (md5s at THEIR blobs; take-or-leave evidence; NO
+adoption under freeze) · worldsmith T26 receipt watch (never nag;
+if their session STOPPED on digest mismatch the fix = point it at
+`b9749b5`) · assets spark launch IF seat frees · v20 prep lawful
+moves only · integrity-only close remains the lawful zero-input shape.
+
 ## 2026-08-26 session 88 — QUIET integrity session under the armed freeze: Job-0 ALL CLEAN (suite run live, freeze-watch clean, save UNMOVED) · zero peer input landed (no ritual declaration, mail EMPTY, no origin movement) · zero launches, ritual untouched, nothing manufactured
 
 **No ritual declaration at open. Origin tip = local = `a95f566`
