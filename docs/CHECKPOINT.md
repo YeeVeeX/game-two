@@ -1,5 +1,7 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+CLAIMED: J-T4..J-T7 Junior seat 2026-08-27 — owner-released batch (Gabriel, hub chat, full-autonomy note): city-hub three-route dossier · BOSS 2 verb concepts · spell-select paper design · DUNGEON 2 practice LDtk (NEW file, never imported). Paper-only in drafts/ under the J-T1/T2/T3 rails; armed-freeze hygiene holds throughout.
+
 ## 2026-08-27 session 103 — eighth zero-input session post-evidence-bank · nothing moved · integrity-green docs-only close
 
 **Job 0 at open: ALL CLEAN** (origin `d28d1d4` = local · tree clean
