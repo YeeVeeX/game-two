@@ -1,0 +1,224 @@
+AUDIO on: device=1 sha=15f03e0219d6 lib=C:/Users/gabri/workspace/game-two-audio
+TELEMETRY persist loaded digest=b3c37a09823070dcdb07af116f8117d7 schema=2 banked=102 provisions=0 seals=4 marks=0 sessions=16 source=file
+hosting on port 43117 (Esc cancels)
+NETPLAY handshake seat=1 d=9 link_slow=false rtt_ms=183,183,181,180,180
+AUDIO ambience key=amb_meadow zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO ambience key=none zone=low_quay
+AUDIO footstep material=stone zone=low_quay
+AUDIO ambience key=amb_meadow zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO ambience key=none zone=low_quay
+AUDIO footstep material=stone zone=low_quay
+AUDIO ambience key=amb_meadow zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO ambience key=none zone=low_quay
+AUDIO footstep material=stone zone=low_quay
+AUDIO ambience key=amb_meadow zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO ambience key=none zone=low_quay
+AUDIO footstep material=stone zone=low_quay
+AUDIO ambience key=amb_meadow zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO ambience key=none zone=low_quay
+AUDIO footstep material=stone zone=low_quay
+TELEMETRY catchup zone=district_two elapsed=262 advanced=11
+TELEMETRY catchup zone=low_quay elapsed=10067 advanced=7
+AUDIO ambience key=amb_meadow zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO footstep material=stone zone=zone_7
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO footstep material=wood zone=zone_7
+AUDIO footstep material=stone zone=zone_7
+AUDIO footstep material=water zone=zone_7
+AUDIO footstep material=stone zone=zone_7
+AUDIO footstep material=wood zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_meadow zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO footstep material=stone zone=zone_7
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO footstep material=wood zone=zone_7
+AUDIO footstep material=stone zone=zone_7
+AUDIO footstep material=wood zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO ambience key=none zone=basement_2
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO footstep material=stone zone=zone_7
+AUDIO footstep material=water zone=zone_7
+AUDIO ambience key=amb_dungeon zone=dungeon_1
+AUDIO footstep material=stone zone=dungeon_1
+AUDIO ambience key=none zone=zone_8
+AUDIO footstep material=dirt zone=zone_8
+AUDIO footstep material=grass zone=zone_8
+AUDIO footstep material=dirt zone=zone_8
+AUDIO footstep material=grass zone=zone_8
+AUDIO footstep material=dirt zone=zone_8
+AUDIO footstep material=water zone=zone_8
+AUDIO footstep material=dirt zone=zone_8
+AUDIO footstep material=grass zone=zone_8
+AUDIO footstep material=wood zone=zone_8
+AUDIO footstep material=grass zone=zone_8
+AUDIO footstep material=dirt zone=zone_8
+AUDIO footstep material=water zone=zone_8
+AUDIO footstep material=dirt zone=zone_8
+AUDIO footstep material=grass zone=zone_8
+AUDIO footstep material=dirt zone=zone_8
+AUDIO footstep material=grass zone=zone_8
+AUDIO footstep material=dirt zone=zone_8
+AUDIO footstep material=grass zone=zone_8
+AUDIO footstep material=dirt zone=zone_8
+AUDIO ambience key=amb_dungeon zone=dungeon_1
+AUDIO footstep material=stone zone=dungeon_1
+AUDIO ambience key=amb_meadow zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO footstep material=grass zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO footstep material=grass zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO footstep material=stone zone=zone_7
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO footstep material=water zone=zone_7
+AUDIO footstep material=stone zone=zone_7
+AUDIO footstep material=water zone=zone_7
+AUDIO ambience key=amb_meadow zone=zone_7
+AUDIO footstep material=grass zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO footstep material=stone zone=zone_7
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO footstep material=water zone=zone_7
+AUDIO ambience key=amb_dungeon zone=dungeon_1
+AUDIO footstep material=stone zone=dungeon_1
+AUDIO ambience key=amb_meadow zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO footstep material=stone zone=zone_7
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO footstep material=water zone=zone_7
+AUDIO ambience key=amb_dungeon zone=dungeon_1
+AUDIO footstep material=stone zone=dungeon_1
+AUDIO footstep material=dirt zone=dungeon_1
+AUDIO footstep material=stone zone=dungeon_1
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO footstep material=water zone=zone_7
+TELEMETRY catchup zone=dungeon_1 elapsed=259 advanced=8
+AUDIO ambience key=amb_dungeon zone=dungeon_1
+AUDIO footstep material=stone zone=dungeon_1
+AUDIO ambience key=amb_meadow zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO footstep material=stone zone=zone_7
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO footstep material=water zone=zone_7
+AUDIO ambience key=amb_dungeon zone=dungeon_1
+AUDIO footstep material=stone zone=dungeon_1
+AUDIO ambience key=amb_meadow zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO footstep material=grass zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+TELEMETRY catchup zone=low_quay elapsed=21052 advanced=1
+AUDIO ambience key=none zone=low_quay
+AUDIO footstep material=stone zone=low_quay
+TELEMETRY catchup zone=low_quay elapsed=692 advanced=11
+AUDIO footstep material=dirt zone=nest
+TELEMETRY d1_fired carrying_deaths=11 wipes=9 corpse_looted=10 carried_lost=1 banked_events=7 fights=40 recovery_fights=6 negative_fights=8
+TELEMETRY a2_fired wipes=9 body_deaths=22 retargets{hate=64 lowhp=64 proximity=36 acquired=396 challenged=85} leashes=214 deepest_band=2 banked=7
+TELEMETRY d1b_fired inscriptions=9 marks_consumed=6 dissolved=14 regrown=11 tributes=10 floor_fired=7 banked_spent{inscribe=72 tribute=168} banked_end=488
+TELEMETRY q6_cadence banks{n=7 mean=95 max=276} kills_by_band{b0=42 b1=87 b2=64}
+TELEMETRY density pockets{mean=2.4 max=20} arrivals{pocket=113 seed=84 home=1} singles_pct=8
+TELEMETRY arc breach{fired=1 first_frame=26692 banked_after=485} rehomed=4 camp_visits=2 d2{entered=1 kills=102} seal2_breached=0
+TELEMETRY q6_margins banks{n=7 pure=1} amount{mean=95 max=276} hp{mean=0.29} dead{mean=0.3} wounded{mean=2.1} gap{mean_s=118}
+TELEMETRY v13 whirl{casts=5 hits{1=1 2=0 3=0 4=0 5plus=0} kills=0} challenge{casts=23 retargets=85}
+TELEMETRY drift thirds{k1=101 k2=38 k3=74} pockets{p1=7.9 p2=7.5 p3=7.4} span_thirds{k1=107 k2=32 k3=74 span=56650}
+TELEMETRY v14 telegraphs_shown=124 first_special{striker=13514 blocker=6760 lobber=13048}
+TELEMETRY quay entries=9 frames=14836 kills=76 deaths=7 banked_after{events=3 amount=415}
+TELEMETRY varekka engaged=1 chants=1 interrupted=0 seized=1 swap_escapes=0 slain=1 deaths_while_seized=1 burns=0 ends{expired=0 slain=0 died=1 zone_left=0 wiped=0}
+TELEMETRY sustain bought=0 used=0 refused=0 reasons{at_cap=0 broke=0 none=0 no_effect=0 seat_race=0}
+TELEMETRY progression level=10 xp=3679 kills_xp=3627
+TELEMETRY persist saved digest=c36cea1f9ae1afbc1fc8333ce71f92bc schema=2 banked=488 provisions=0 seals=5 marks=3 sessions=17
+TELEMETRY netplay seat=1 ticks=64834 desyncs=0 stalls=4811 stall_ms_max=591 reason=quit d=9 link_slow=false run_ms=1147818 stall_run_max=37 stall_worst_run=37
+relaunch: bin/play --host 43117
+AUDIO drift anchor tick=0 engine_pcm=11209440 tick_frames=800
+AUDIO drift tick=0 engine_pcm=11209440 expected=11209440 drift_frames=0
+AUDIO drift tick=1800 engine_pcm=13101600 expected=12649440 drift_frames=452160
+AUDIO drift tick=3600 engine_pcm=14687040 expected=14089440 drift_frames=597600
+AUDIO drift tick=5400 engine_pcm=16188480 expected=15529440 drift_frames=659040
+AUDIO drift tick=7200 engine_pcm=17713440 expected=16969440 drift_frames=744000
+AUDIO drift tick=9000 engine_pcm=19224480 expected=18409440 drift_frames=815040
+AUDIO drift tick=10800 engine_pcm=20751360 expected=19849440 drift_frames=901920
+AUDIO drift tick=12600 engine_pcm=22259520 expected=21289440 drift_frames=970080
+AUDIO drift tick=14400 engine_pcm=23762880 expected=22729440 drift_frames=1033440
+AUDIO drift tick=16200 engine_pcm=25283520 expected=24169440 drift_frames=1114080
+AUDIO drift tick=18000 engine_pcm=26785920 expected=25609440 drift_frames=1176480
+AUDIO drift tick=19800 engine_pcm=28274400 expected=27049440 drift_frames=1224960
+AUDIO drift tick=21600 engine_pcm=29770080 expected=28489440 drift_frames=1280640
+AUDIO drift tick=23400 engine_pcm=31288800 expected=29929440 drift_frames=1359360
+AUDIO drift tick=25200 engine_pcm=32820960 expected=31369440 drift_frames=1451520
+AUDIO drift tick=27000 engine_pcm=34306560 expected=32809440 drift_frames=1497120
+AUDIO drift tick=28800 engine_pcm=35808480 expected=34249440 drift_frames=1559040
+AUDIO drift tick=30600 engine_pcm=37290720 expected=35689440 drift_frames=1601280
+AUDIO drift tick=32400 engine_pcm=38772000 expected=37129440 drift_frames=1642560
+AUDIO drift tick=34200 engine_pcm=40265760 expected=38569440 drift_frames=1696320
+AUDIO drift tick=36000 engine_pcm=41782080 expected=40009440 drift_frames=1772640
+AUDIO drift tick=37800 engine_pcm=43461120 expected=41449440 drift_frames=2011680
+AUDIO drift tick=39600 engine_pcm=44977440 expected=42889440 drift_frames=2088000
+AUDIO drift tick=41400 engine_pcm=46559040 expected=44329440 drift_frames=2229600
+AUDIO drift tick=43200 engine_pcm=48107040 expected=45769440 drift_frames=2337600
+AUDIO drift tick=45000 engine_pcm=49650240 expected=47209440 drift_frames=2440800
+AUDIO drift tick=46800 engine_pcm=51154080 expected=48649440 drift_frames=2504640
+AUDIO drift tick=48600 engine_pcm=52733760 expected=50089440 drift_frames=2644320
+AUDIO drift tick=50400 engine_pcm=54222720 expected=51529440 drift_frames=2693280
+AUDIO drift tick=52200 engine_pcm=55716960 expected=52969440 drift_frames=2747520
+AUDIO drift tick=54000 engine_pcm=57221760 expected=54409440 drift_frames=2812320
+AUDIO drift tick=55800 engine_pcm=58720800 expected=55849440 drift_frames=2871360
+AUDIO drift tick=57600 engine_pcm=60224640 expected=57289440 drift_frames=2935200
+AUDIO drift tick=59400 engine_pcm=61702560 expected=58729440 drift_frames=2973120
+AUDIO drift tick=61200 engine_pcm=63192000 expected=60169440 drift_frames=3022560
+AUDIO drift tick=63000 engine_pcm=64897440 expected=61609440 drift_frames=3288000
+AUDIO drift tick=64800 engine_pcm=66531360 expected=63049440 drift_frames=3481920
+AUDIO teardown clean (dropped_cues=0)

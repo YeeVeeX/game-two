@@ -91,10 +91,10 @@ stalls).
 
 - [x] Ritual session 1 declared in chat before launch *(s104, verbatims in the session-1 block below)*
 - [x] Pre-launch save decode banked (session-1-open {level, xp} — A5 state needs it; the persist line carries no level) *(s104: level=10 xp=644 @ save `da5a0b2d…`; re-verify at launch)*
-- [ ] Session 1 host log banked (md5) — netplay + persist + progression lines verbatim; LAUNCH DATE recorded from the ORIGINAL file's ctime (copies lose it)
-- [ ] Session 1 joiner log banked (md5, Junior pastes/commits)
-- [ ] Session 1 hosting-console tee banked IF the launch path produced one (corroboration, never required — spec A6)
-- [ ] Link-quality read BEFORE questions: stalls% + stall_ms_max vs spec §11 thresholds (≥14% / ≥2500ms) — re-run window closes at the first question
+- [x] Session 1 host log banked (md5) — netplay + persist + progression lines verbatim; LAUNCH DATE recorded from the ORIGINAL file's ctime (copies lose it) *(s104: #42 `5bc9cb46…`, launch 2026-08-27 14:26:28 -0600)*
+- [ ] Session 1 joiner log banked (md5, Junior pastes/commits) *(ASKED s104 — the REAL launcher log FILE, md5 re-verified at the git blob when it lands)*
+- [x] Session 1 hosting-console tee banked IF the launch path produced one (corroboration, never required — spec A6) *(s104: none produced — `bin\host-coop.cmd` path, by construction)*
+- [x] Link-quality read BEFORE questions: stalls% + stall_ms_max vs spec §11 thresholds (≥14% / ≥2500ms) — re-run window closes at the first question *(s104: 7.4% / 591ms — neither met, session STANDS)*
 - [ ] Ritual session 2 declared in chat before launch
 - [ ] Session 2 host log banked (md5) — `loaded` == latest prior `saved` in the chain; LAUNCH DATE from original ctime
 - [ ] Session 2 joiner log banked (md5)
@@ -127,11 +127,51 @@ stalls).
   supersede this block's values (v18 supersession law).
 - **Insurance copy:** `tmp/world.pre-s104.json` md5 `da5a0b2d…`
   (identical), taken s104 before any launch.
-- **Launch protocol staged:** fork-law check (ruby-process count,
-  separate call, judged by printed output) immediately before launch ·
-  detached visible `bin\host-coop.cmd` via Start-Process, NO env
-  extras (spec §4.6) · both seats `git pull` first (handshake enforces
-  build identity). Awaiting owner word to launch.
+- **Launch protocol executed (s104):** fork check 0 ruby · save md5
+  re-verified `da5a0b2d…` UNMOVED at launch (pre-launch decode
+  stands, no re-decode owed) · visible Start-Process
+  `bin\host-coop.cmd`, NO env extras · both seats at tip `9f0c491`
+  (handshake proves build identity).
+
+### HARVEST (s104, capture-before-debrief — banked before any question)
+
+- **Host log #42** `game_two_session_66512654.log`, md5
+  `5bc9cb46244b80076bba1a6cf36bf106`, copy banked `session1/`
+  (md5 identical). **LAUNCH DATE (host clock, ORIGINAL file ctime,
+  recorded at banking): 2026-08-27 14:26:28 -0600** — corroborated by
+  the chat declaration timestamps (12:55/1:06 p.m.) and the hub
+  session's launch command. AUTOPILOT grep = 0 ✓.
+- **Oracle lines, verbatim:**
+  - `TELEMETRY persist loaded digest=b3c37a09823070dcdb07af116f8117d7 schema=2 banked=102 provisions=0 seals=4 marks=0 sessions=16 source=file`
+  - `TELEMETRY sustain bought=0 used=0 refused=0 reasons{at_cap=0 broke=0 none=0 no_effect=0 seat_race=0}` *(HELD — §8 reading waits for 10/10)*
+  - `TELEMETRY progression level=10 xp=3679 kills_xp=3627`
+  - `TELEMETRY persist saved digest=c36cea1f9ae1afbc1fc8333ce71f92bc schema=2 banked=488 provisions=0 seals=5 marks=3 sessions=17`
+  - `TELEMETRY netplay seat=1 ticks=64834 desyncs=0 stalls=4811 stall_ms_max=591 reason=quit d=9 link_slow=false run_ms=1147818 stall_run_max=37 stall_worst_run=37`
+- **Chain (A1-side, this link):** loaded `b3c37a09…` == log #41's
+  saved ✓ · clean quit saved `c36cea1f…`, sessions 16→17 (+1, A6) ·
+  post-quit save file md5 `716987ce2b1a723e1a4ea161d679e710`,
+  play-path decode digest == `c36cea1f…`, **{level=10, xp=3679}
+  carried to disk** ✓.
+- **A-check partials (s1 side):** A3: ticks 64834 ≥ 36000 ✓ ·
+  desyncs=0 ✓ · reason=quit ✓ · AUTOPILOT=0 ✓. A5 flow:
+  kills_xp=3627 > 0 ✓ (state at cap: trivially true, xp-pin named;
+  xp 644→3679 under the pin). A2 waits on the joiner's REAL launcher
+  log FILE (harvest-note law — console captures carry no `loaded`
+  line); ASK OUT to Junior's seat via checkpoint + owner chat.
+- **Link-quality read vs §11 (BEFORE any question — window honored):**
+  stalls 4811/64834 = **7.4%** (<14) · stall_ms_max **591** (<2500) —
+  **NEITHER threshold met; the optional re-run is NOT licensed. The
+  session STANDS.** (Exposure-night datum 9805 ms did not recur;
+  stall_worst_run=37 ticks.)
+- **Hosting-console tee:** none — `bin\host-coop.cmd` produces no tee
+  by construction (spec A6: corroboration, never required).
+- **Session-length note (A6):** host 64834 ticks (~18 sim-min); gross
+  imbalance vs the joiner read at s2 harvest when both logs sit in
+  the chain.
+- **Deviations this session:** none — no sim/data/oracle edits inside
+  the window (docs-only commits `709a337`/`9f0c491` landed BEFORE
+  launch); no debrief contact between peers as of banking (owner
+  reported "done" to the hub only).
 
 ## RITUAL SESSION 2 (empty)
 
@@ -140,6 +180,18 @@ stalls).
 ## JUNIOR ANSWER SET (empty — 0/5)
 
 ## HELD material (accumulates; admitted only after 10/10)
+
+- 2026-08-27 (owner, hub chat, minutes after ritual s1's clean quit,
+  verbatim): "necesitamos más variedad, y mapas así subterraneos y que
+  se conecten en ciclos redondos etc, más grandes, y largos, que haya
+  algo interesante que farmear, algo que nos motive a ir a esos
+  lugares, etc, qué sigue?" (+ reference image: four stacked
+  underground floors -1..-4, loop topology — banked LOCAL
+  `drafts/_refs/owner-underground-floors-ref-20260827.png` md5
+  `3aa93d33…`; v20 input file
+  `drafts/_v20-input-owner-underground-20260827.md`. Banked
+  uncommented — spontaneous statement, dev neither probed nor
+  replied on feel axes.)
 
 - 2026-08-26 (owner, chat, post-exposure-session, verbatim): "listo,
   estuvo divertido, llegamos al final del juego muy rápido y hace falta
