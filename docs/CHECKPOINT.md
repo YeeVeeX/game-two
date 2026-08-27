@@ -1,6 +1,6 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-CLAIMED: J-T8 Junior seat 2026-08-27 — CITY 1 paper blueprint (self-directed under the owner's full-autonomy release; follows J-T4's own R2 recommendation the way J-T2 followed J-T1). Paper-only in drafts/; armed-freeze hygiene holds.
+CLOSED: J-T8 Junior seat 2026-08-27 — CITY 1 paper blueprint DELIVERED (`drafts/_junior-city1-blueprint-20260827.md`): the crossroads city made tangible (~48×30, denser-not-bigger per the T26 wall; cardinal program with 2 live gates v1; district table = the density budget; full-sanctuary B1 pattern; zero mechanical NEW asks — the HOME question stays the one system-weight fork). Follows J-T4's R2 rec the way J-T2 followed J-T1; if the grill picks another route the PROGRAM still holds. Paper-only, freeze hygiene held.
 
 CLOSED: J-T4..J-T7 Junior seat 2026-08-27 — owner-released batch DELIVERED same-session (`b3ab265`): city-hub three-route dossier (`_junior-cityhub-dossier-20260827.md`, rec R2-then-R3) · BOSS 2 verb concepts (`_junior-boss2-verbs-20260827.md`, rec Sealbreaker) · spell-select paper (`_junior-spell-select-20260827.md`, rec loadout-through-menu) · practice LDtk (`authoring/dungeon_2_draft.ldtk`, NEW file, pilot.ldtk byte-identical `d59056b7…`, never imported; one connectivity fix self-caught via ASCII render). All paper/drafts; freeze hygiene held; suite green via hooks.
 
