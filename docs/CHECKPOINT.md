@@ -1,5 +1,47 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-27 session 95 — first ZERO-INBOUND session after the route-table close · nothing moved · integrity-green docs-only close
+
+**Job 0 at open: ALL CLEAN** (origin `4bf34b2` = local · tree clean
+except `drafts/_refs/` · save `da5a0b2d…` mtime 08-26 16:08 — UNMOVED
+end-to-end, zero launches · logs 41 counting-law glob · wall 35 / gate
+rows 69 · suite 1317 (27591) green at open · world.rb 1769/1800
+NEARING CAP · window.rb 267/300 · canary live era verified (LAST-block
+law) · freeze-watch CLEAN through `4bf34b2` · bundles/ one live ·
+worktrees main + `tmp/s59_pre` relic · mail inbox EMPTY — the expected
+state: s94's lore receipt was the LAST owed inbound, and nothing new
+arrived).
+
+**Nothing moved** — no peer input, no ritual declaration, no new mail
+(the resync program stays COMPLETE across all four family seats, route
+table fully CLOSED — this was the first session to open with zero
+expected inbound), no new brainstorm to bank (v20 pre-grill index
+stands at `drafts/_v20-pregrill-index-20260827.md`); integrity-only
+close per s87/s88/s94 precedent, no manufactured work. Hygiene intact
+end-to-end: zero launches (save md5 re-verified at close), zero
+code/data edits (docs-only: this entry), §9 unread, no question-topic
+contact, R-A2 unexplained, item-5 untouched.
+
+**Job-0 baselines for s96:** origin tip = this close commit · tree
+clean except `drafts/_refs/` · save `da5a0b2d…` mtime 08-26 16:08 ·
+logs **41** (counting-law glob `game_two_session_*.log`; bare grep
+reads 43 — two Aug-12 pre-scheme relics, investigated s93) · wall
+**35** / gate rows **69** · suite **1317 (27591)** · world.rb
+**1769/1800 NEARING CAP** · window.rb 267/300 · canary live era = LAST
+block · bundles/ one live bundle · mail inbox EMPTY (no expected
+inbound — any new mail is unexpected, triage on its own merits) ·
+freeze-watch clean · one stale pre-existing worktree `tmp/s59_pre`
+(s59 relic, not a deviation).
+
+**s95 queue → s96:** unchanged from s94 — ritual s1 if a peer declares
+it (skeleton harvest checklist = the script; expect open level=10
+xp=644; §11 link conversation — 9805ms at s85 licenses the optional
+re-run offer BEFORE any question) · v20 grill = owner-paced
+post-verdict (all inputs banked + indexed, J-5 CLOSED) ·
+integrity-only close stays the lawful zero-input shape · owner-pending
+relay: the appreciative line to Junior (three-for-three same-night
+passes) rides whenever the owner sends it.
+
 ## 2026-08-27 session 94 — lore family-block receipt LANDED + VERIFIED (resync program COMPLETE across all four family seats) · integrity-green docs-only close
 
 **Job 0 at open: ALL CLEAN** (origin `a6f5348` = local · tree clean
