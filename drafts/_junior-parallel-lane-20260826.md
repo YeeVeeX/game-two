@@ -151,6 +151,19 @@ you want the practice — never imported) · spawn/station authoring
 
 ## RELEASE 2026-08-27 (s104) — J-T4…J-T7, carte blanche on owner word
 
+> **RECONCILIATION (s104, benign two-seat race):** Junior's seat
+> executed the owner's carte blanche DIRECTLY and delivered this
+> whole batch (`33cbdd3` claim → `b3ab265` delivery → `7f59685`
+> close) BEFORE this release section reached origin — both seats
+> numbered the same four asks independently. **His numbering is the
+> numbering of record** (J-T6 = spell-select, J-T7 = practice LDtk —
+> swapped vs the tickets below, which kept the drafted J-T6 = LDtk /
+> J-T7 = selector). The ticket texts below stand as the hub's rails
+> + source map for REVIEW of the delivered files, not as pending
+> work. He also self-directed J-T8 (CITY 1 blueprint, `95ec6b6`)
+> under the same carte blanche — lawful by the owner's word recorded
+> here.
+
 Owner word (Gabriel, hub chat 1:06 p.m., verbatim): **"Go, no hace
 falta que me preguntes, puedes hacer lo que quieras plzzz"** —
 answering Junior's 1:03 p.m. ask (verbatim): "(a) dossier del
