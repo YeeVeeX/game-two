@@ -1,5 +1,99 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-27 session 92 — worldsmith T26 receipt HARVESTED (no mail was ever owed — their DoD = printed receipt lines; verified at their blobs) · blob-stability freeze LIFTED + TRIPLE UNPARK executed · assets E3a-T2 TRACK receipt landed + verified from bytes (route #3 CLOSED) · docs-only
+
+**Job 0 at open: ALL CLEAN** (origin `ea0e37c` = local · tree clean
+except `drafts/_refs/` · save `da5a0b2d…` mtime 08-26 16:08
+sessions=16 — UNMOVED end-to-end, zero launches · logs 41 numeric
+(bare glob now ALSO 41 — three non-numeric temp files evicted by
+Windows temp churn; numeric-law count unchanged) · wall 35 / gate
+rows 69 · suite 1317 (27591) green at open · world.rb 1769/1800 ·
+window.rb 267/300 · canary live era verified (LAST-block law) ·
+freeze-watch CLEAN through `ea0e37c` · trio digests verified at open
+· bundles/ one live bundle · mail: ONE inbound).
+
+**Assets E3a-T2 TRACK receipt LANDED + VERIFIED (the last route-#3
+ask):** `from-game-two-assets-v30-t2-intake-receipt.md` — t2-mail md5
+`98fb3033…` = routing-doc row · BOTH track sha256s = our bundle bytes
+EXACT (`dd68c8cb…` attack · `3d05a1f8…` roster-gaps) · their intake
+record (their HEAD `9f9bc45`) cites our HEAD `ea0e37c`, read-only
+`open()`, seat-lease honored · four union-gap claims reproduced from
+our bundle bytes THIS session (rusher1 last 615 / rusher0 last 688 /
+rusher15 first 916 / rusher16 first 989) · striker constants 13/5/4/8
+= track constants block · parser verdict zero schema violations,
+refusals all lawful-class (unrenderable-facing + unmapped-tween-class
+— up/left pose rows = a separate unrequested asset decision, their
+note), NO emitter defects, zero asks; adjudication stays
+owner-sequenced their side; C6 open + doubly gated; RUNTIME admission
+now live but bundle-gated their side. Mail → done/. **Route #3
+CLOSED** (family-block s91 · spec-review reply s91 post-close · T2
+track receipt s92).
+
+**Worldsmith T26: receipt HARVESTED — the "inbound mail" expectation
+was OUR mis-model.** T26's DoD (their ticket, read at their blob) =
+"RECEIPT lines printed" in their owner-executed session (spark went
+via owner clipboard, never a headless spoke) — no mail was ever owed;
+carry corrected, no fault their side. Verified at their blobs: ticket
+`docs/tickets/T26.md` `2653cafb…` · dossier
+`docs/references/v2-demand-dossier-2026-08-26.md` `56a6ee9b…` at
+their `4fd1f66`. Their precondition block records ALL THREE trio
+digests verified MATCH at `b9749b5` before use — the freeze held
+end-to-end, never tripped. Dossier read in full: §A zone_8 reception
+MEASURED (2560 tiles at 1.2 interactables/kilotile vs 4.9–41.7 across
+the hand-authored four; zero enemy_spawns despite non-safe + tier 150%
+— emptiness = JOINT finding, their layout + our population lane) · §B
+11-row byte-grounded gap table + B-finding (stale zone_7 fixture pin)
+· §C demand→vocabulary map (city crossroads = v1 hub_spoke fit TODAY;
+dungeons = "almost nothing honest"; spells = non-lane; §C5 floor-sign
+consumer questions are MUTUAL — neither seat has the receipt) · §D
+hypotheses H1 city-cluster / H2 dungeon archetype / H3 content-cadence
++ two-sided playability gate / H4 verticality, each CONFIRM/KILL
+tagged against the eighteenth's verdict + J-T1 picks + v20 grill.
+**Their T27 also landed (owner approved at their T26 close, "Approved,
+proceed" — their record):** the B-finding fixture re-pin already
+EXECUTED at our `4334738` + full emitter re-probe + requires_level
+emission unlock — v2-entry maintenance PRE-PAID. Trigger state: T26
+DONE + J-T1 VERIFIED (s90) → only the eighteenth's verdict remains;
+grill DEFERRED, owner-paced, never self-start.
+
+**TRIPLE UNPARK executed (the freeze LIFTS):** three parked rows
+appended VERBATIM to the routing doc §Receipts (Junior-lane s90 ·
+route #1b · Junior-lane s91 session 2) + the T26 harvest row + the
+route #3 close row. **The blob-stability law on the trio is RETIRED**
+— routing doc blob moves to `ede8e2dd8dfb0de125f65021544a16bb` this
+commit; slate `4b95c13f…` + junior-input `8f874657…` unfrozen
+(unchanged this session, digests still those values until edited).
+Normal appends resume.
+
+**Lore:** family-block mail still WAITS in their inbox (their seat
+busy with imagesmith traffic — confirmed read-only). Carry, never
+nag.
+
+**Hygiene: intact end-to-end** — zero launches (save byte-unmoved),
+zero code/data edits (docs-only session), §9 unread, no
+question-topic contact, R-A2 unexplained, item-5 untouched, bot logs
+untouched, seat-lease honored on all foreign reads (read tool +
+`git -C` slicers only).
+
+**Job-0 baselines for s93:** origin tip = this close commit · tree
+clean except `drafts/_refs/` · save `da5a0b2d…` mtime 08-26 16:08
+sessions=16 · logs **41** (numeric law) · wall **35** / gate rows
+**69** · suite **1317 (27591)** · world.rb **1769/1800 NEARING CAP** ·
+window.rb 267/300 · canary live era = LAST block · bundles/ one live
+bundle · mail inbox EMPTY (still inbound: lore family-block receipt
+ONLY — worldsmith RESOLVED s92, assets fully CLOSED) · freeze-watch
+clean · trio law RETIRED (routing doc `ede8e2dd…` mutable; hygiene
+freeze on sim/oracle/instruments still ARMED until the verdict).
+
+**s92 queue → s93:** ritual s1 if declared (skeleton checklist = the
+script; expect open level=10 xp=644; the §11 link conversation —
+9805ms at s85) · lore family-block receipt if it lands · J-5 spike on
+owner word (needs his eyes live) · v20 grill = owner-paced (dossier +
+pacing analysis + slate + uiux spec all BANKED; grill waits on the
+verdict) · integrity-only close stays the lawful zero-input shape ·
+owner-pending relay: the appreciative line to Junior (three-for-three
+same-night deliveries, all PASS) rides whenever the owner sends it.
+
 ## 2026-08-26 session 91 — J-T3 dispatched on owner word + DELIVERED same-night + REVIEWED: PASS (Junior parallel lane COMPLETE 3/3) · v20 pacing analysis banked · Junior RATIFIES s72–s90 + banner-names (standing carry DROPPED) · assets family-block receipt VERIFIED · ritual-timing inversion named once (stays owner-paced)
 
 **Job 0 at open: ALL CLEAN** (origin `60f5d9d` = local · save
