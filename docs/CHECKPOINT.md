@@ -1,6 +1,8 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-CLAIMED: J-T4..J-T7 Junior seat 2026-08-27 — owner-released batch (Gabriel, hub chat, full-autonomy note): city-hub three-route dossier · BOSS 2 verb concepts · spell-select paper design · DUNGEON 2 practice LDtk (NEW file, never imported). Paper-only in drafts/ under the J-T1/T2/T3 rails; armed-freeze hygiene holds throughout.
+CLAIMED: J-T8 Junior seat 2026-08-27 — CITY 1 paper blueprint (self-directed under the owner's full-autonomy release; follows J-T4's own R2 recommendation the way J-T2 followed J-T1). Paper-only in drafts/; armed-freeze hygiene holds.
+
+CLOSED: J-T4..J-T7 Junior seat 2026-08-27 — owner-released batch DELIVERED same-session (`b3ab265`): city-hub three-route dossier (`_junior-cityhub-dossier-20260827.md`, rec R2-then-R3) · BOSS 2 verb concepts (`_junior-boss2-verbs-20260827.md`, rec Sealbreaker) · spell-select paper (`_junior-spell-select-20260827.md`, rec loadout-through-menu) · practice LDtk (`authoring/dungeon_2_draft.ldtk`, NEW file, pilot.ldtk byte-identical `d59056b7…`, never imported; one connectivity fix self-caught via ASCII render). All paper/drafts; freeze hygiene held; suite green via hooks.
 
 ## 2026-08-27 session 103 — eighth zero-input session post-evidence-bank · nothing moved · integrity-green docs-only close
 
