@@ -95,12 +95,59 @@ Deliverable: section in the dossier or its own `drafts/_junior-dungeon2-blueprin
   Optional stretch ONLY if you want LDtk practice: a NEW file
   `authoring/dungeon_2_draft.ldtk` — never pilot.ldtk, never imported.
 
-## J-T3 — NEXT-UP (not yet assigned)
+## J-T3 — zone_8 approach pockets (ASSIGNED 2026-08-26, s91, owner word)
 
-zone_8 density-pocket sketch (your item 4): the s69 content-fill playbook
-(pockets, landmarks, interior doors) as a paper pass over zone_8's dead
-air, pairing with the DUNGEON 2 entrance pick. Starts only after J-T1/J-T2
-close or on owner word.
+Dispatch record: owner greenlit in the s91 hub chat; J-T1/J-T2 closed
+reviewed-PASS s90 (`drafts/_s90-junior-jt1-jt2-review-20260826.md` —
+zero corrections, J-T1 VERIFIED). Lane laws 1-6 above apply verbatim;
+CLAIMED line: `CLAIMED: J-T3 Junior seat <date>` at the top entry of
+`docs/CHECKPOINT.md`, pushed at START (law 6).
+
+Deliverable: `drafts/_junior-zone8-pockets-<date>.md`, committed + pushed.
+
+Anchor (FIXED by your J-T2 blueprint §"What J-T3 owes this blueprint"):
+the approach route from the east arrival [62,18] to the DUNGEON 2
+northwest entrance [~5,5] — 1-2 authored pockets ON that route, so the
+walk to DUNGEON 2 reads as territory, not dead air.
+
+Sources, all in-repo (reference-wall law — every design claim cites one):
+
+- `drafts/_junior-v20-input-20260826.md` item 4 (your words = the brief)
+- `drafts/_junior-dungeon2-blueprint-20260826.md` (the entrance pick +
+  §"What J-T3 owes this blueprint")
+- `drafts/_content-fill-design-20260824.md` — the s69 playbook: pattern
+  vocabulary (spawn pocket with drop payoff · landmark · interior door)
+  + its carried non-negotiables (no-bank-in-deep B2/B3; SIM-class one
+  gated piece at a time)
+- `data/zones/zone_8.json` READ-ONLY (live truth: 64×40, tile mix 1148
+  grass / 656 water / 468 dirt (+ 281 `#`, 7 `w`), vat [16,25] + altar
+  [18,25], pack fixture [12,26], single east transition — zone_8 is a
+  worldsmith emission with an md5 intake pin; never hand-edit)
+- `docs/superpowers/specs/2026-08-19-world-builder-pipeline.md` (region
+  layer + tile-type registry grammar, if a pocket wants region identity)
+
+Required content:
+
+a. Route read: the [62,18] → [~5,5] walk as it exists today — where the
+   dead air sits, what the water/dirt bands already give the route
+   (geometry from the JSON, not feel-surveys; your item 4 stays the only
+   feel source, same as J-T1).
+b. 1-2 pocket sketches: tile-grid sketch (ASCII or table) per pocket,
+   each with a named s69 pattern, a landmark identity, and typed
+   transitions if any (rope = interact, holes/stairs auto-fire; a seal
+   only with the s34 gating law honored).
+c. Per pocket: shipped-grammar vs NEW-asks split (SIM-class pieces named
+   only, never designed-in). NO balance numbers — kits named, counts/HP/
+   damage deferred to the grill.
+d. Pairing + open forks: how the pockets sequence anticipation toward
+   the rope way / DUNGEON 2 entrance, and the grill questions they open
+   (pocket gating rung? landmark visibility from the route? region-layer
+   ambience?) — questions, not answers.
+
+Out of scope: any `data/zones/` edit (intake pin above) · any
+`pilot.ldtk` touch (zone_8 isn't in it; optional NEW draft .ldtk only if
+you want the practice — never imported) · spawn/station authoring
+(post-verdict, WB/worldsmith lane per the grill).
 
 ## Session close (per docs/JUNIOR.md protocol)
 
