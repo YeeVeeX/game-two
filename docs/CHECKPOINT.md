@@ -62,6 +62,22 @@ intake sprint · the staged s89-assets spark is RETIRED (overtaken:
 family-block half self-served by their live session, T2 half
 consciously parked their side).
 
+**POST-CLOSE ADDENDUM (same evening): assets E3a spec-review reply
+LANDED + VERIFIED — the owner-approval carry is RESOLVED** (their
+reply arrived without our relay; their seat's law, their record).
+Verdict: **PASS on all eight spec-facing bars**, both recorded
+deviations judged deviation-with-defense; consumer adaptation QUEUED
+their side (fingerprint-first identity · tick_ms · kit constants ·
+s84 roster-union/range semantics — "the consumer adapts to the pin,
+never the reverse"); C6 stays OPEN + doubly gated; NO schedule ask
+(T1–T3 owner-paced; E3a-T3 stays VERDICT-BLOCKED our side). Digests
+reconciled at OUR blobs: review object = spec @ `0f3e9e5` =
+`f531709a…` EXACT · their post-amend md5 `676e9782…` = our HEAD
+blob byte-exact (T1 amend acknowledged, one additive row) · s84 T2
+stamp `98fb3033…` = the routing-doc record. Their T2 TRACK receipt
+(sha256s + parser verdict) still OWED on their sprint. Mail → done/;
+zero action owed our side before the verdict.
+
 **THREE parked routing-doc rows (blob-stability law — unpark ALL when
 worldsmith's T26 receipt lands; if their session STOPPED on digest
 mismatch, point it at `b9749b5`):** (1) Junior-lane s90 row — verbatim
@@ -93,9 +109,8 @@ moved to `96ab25a4…` (NOT in the trio).
 **s92 queue:** ritual s1 if declared (skeleton checklist = the script;
 expect open level=10 xp=644; the §11 link conversation — 9805ms at
 s85) · worldsmith T26 receipt harvest (verify at their blobs, read the
-dossier, then the TRIPLE unpark) · lore family-block receipt · assets
-E3a reply approval relay IF the owner gives the word · J-5 spike on
-owner word (needs his eyes live) · v20 prep lawful moves only (drafts;
+dossier, then the TRIPLE unpark) · lore family-block receipt · J-5
+spike on owner word (needs his eyes live) · v20 prep lawful moves only (drafts;
 NOTHING builds) · integrity-only close stays the lawful zero-input
 shape.
 
