@@ -1,5 +1,63 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-27 session 108 — integrity-green holding close (fourth lawful same-day open) · s2 declarable 2026-08-28+ · s109 spark staged
+
+**No ritual event (lawful — fourth same-day open in a row):** host
+clock read 2026-08-27 17:37 -0600 at open = s1's calendar day (s1
+launch ctime 14:26:28) — day-gap HARD, s2 not declarable this
+sitting. THE CLOCK IS THE GATE, NEVER THE SPARK. s2 declarable
+2026-08-28+; the binding date is the host clock at s2 LAUNCH (spec
+§4.4 — a midnight-straddling session keeps its launch date; original
+launcher-log ctime = the record). Declaration stays owner-paced
+(never nag) and lands in chat verbatim before launch.
+
+**Owner word:** standing from s106 ("Approved, lets keep working on
+our own for now") — holding pattern; zero new input this session; no
+outbound to Junior/worldsmith requested at close.
+
+**Job 0: ALL GREEN, every baseline == s107's** (tip `a5aa090` ==
+origin, no peer pushes · tree clean except `drafts/_refs/` ·
+freeze-watch CLEAN through `a5aa090` · save `716987ce…` mtime 08-27
+14:49 sessions=17, insurance `da5a0b2d…` re-verified in place · logs
+42 · wall 35 / gate rows 69 · world.rb 1769/1800 · window.rb 267/300
+· mail inbox EMPTY). Docs-only close (this entry). Hygiene
+untouched: §9 unread, instruments/oracle wording/sim numbers frozen,
+R-A2 unexplained, no peer contact on ritual topics, nothing
+manufactured.
+
+**s2 readiness carries unchanged (s106 entry = the reference):**
+chain head = saved `c36cea1f…` {level=10 xp=3679} sessions=17 — next
+loaded must equal it (ordinary-play gaps legal; classify each gap
+log, supersede open values per the v18 law) · insurance copy FIRST
+(`cp saves/world.json tmp/world.pre-s2.json`, md5 both) · pre-launch
+decode = temp `ruby -Isrc` script through `Game::SaveState` strict
+decode (s104 precedent; bank digest + {level, xp}; delete the
+script) · fork check by printed ruby-process count in a SEPARATE
+call · never TCP-probe 43117 · harvest-before-anything ·
+administration same sitting, 10/10 before any debrief · adjudication
+in a FRESH session.
+
+**Job-0 baselines for s109:** origin tip = this close commit · tree
+clean except `drafts/_refs/` · save
+**`716987ce2b1a723e1a4ea161d679e710` mtime 08-27 14:49 sessions=17**
+(insurance `tmp/world.pre-s104.json` = `da5a0b2d…`; s2 takes a NEW
+insurance copy before launch) · logs **42** (counting-law glob) ·
+wall 35 / gate rows 69 · suite **1317 (27591)** green via hook at
+this commit · world.rb 1769/1800 NEARING CAP · window.rb 267/300 ·
+canary era = LAST digest block (zero src/data edits) · freeze-watch
+CLEAN through this commit (s97–s108 docs-only) · mail inbox EMPTY ·
+bundles/ one live · worktree relic `tmp/s59_pre` (leave).
+
+**s109 queue:** (1) ritual s2 on declaration — HEAD ITEM (clock gate
+first: host clock must read 2026-08-28+ at s2 launch; skeleton
+checklist = the script; harvest-before-anything; administration same
+sitting, 10/10 banked before any debrief; adjudication in a FRESH
+session) · (2) Junior deliveries / map directions → bank on arrival,
+independent review, fetch-first · (3) v20 grill stays verdict-gated
+(input index: archaeology A-rows + underground ask + J-T4..T8) · (4)
+zero input + no ritual = integrity-green docs-only close stays
+lawful (never manufacture work).
+
 ## 2026-08-27 session 107 — integrity-green holding close (third lawful same-day open) · s2 declarable 2026-08-28+ · s108 spark staged
 
 **No ritual event (lawful — third same-day open in a row):** host
