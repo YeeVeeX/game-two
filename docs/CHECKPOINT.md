@@ -1,5 +1,69 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-27 session 96 — owner-picked slate item 2: v20 pre-grill ENGINE EVIDENCE banked (Q4 controls substrate + vertical-UP axis) · index digest-fresh · docs-only, freeze intact
+
+**Job 0 at open: ALL CLEAN** (origin `8e988ad` = local · tree clean
+except `drafts/_refs/` · save `da5a0b2d…` mtime 08-26 16:08 — UNMOVED
+end-to-end, zero launches · logs 41 counting-law glob · wall 35 / gate
+rows 69 · suite 1317 (27591) green at open · world.rb 1769/1800
+NEARING CAP · window.rb 267/300 · canary live era verified (LAST-block
+law) · freeze-watch CLEAN through `8e988ad` · bundles/ one live ·
+worktrees main + `tmp/s59_pre` relic · mail inbox EMPTY — second
+consecutive zero-inbound open, route table stays closed).
+
+**Owner word (s96 chat): "2"** — slate item 2 (v20 prep, drafts-only)
+executed as one change set, EVIDENCE-class only (decision-class
+questions left for the grill by design — answering them early =
+self-starting the grill):
+
+- **Index freshness re-verified at `8e988ad`**: all 9 pinned digests
+  recomputed in the commands that cite them (7 local @ HEAD +
+  worldsmith dossier @ `4fd1f66` + uiux block-anchor @ `3728d76`,
+  read-only pipes) — ALL MATCH.
+- **`drafts/_v20-pregrill-evidence-20260827.md` banked** (blob
+  `aad1d0a3c27d58a45855bc438adfe04e`, cross-linked as index row 10):
+  (i) open Q4 substrate — "controls surface full" (candidate 6 fence)
+  is ERGONOMIC, not physical: 13 actions bound, 28 key names free
+  (digit row 1-5 entirely free), one-key-one-action + unknown-key
+  refusal enforced load-time, true cost of a new verb = input consumer
+  + controls-strip surface (Rule 2 + i18n by construction); loadout vs
+  direct-binds stays a grill call. (ii) candidate 9 rung iii / T26 H4
+  engine side — the "NEW axis question" is ALREADY ANSWERED by the
+  shipped engine: `stairs_up` live (basement_1/2 → zone_7), `floor` is
+  a signed Int that imports positive today, `map.floor` has ZERO
+  consumers in src/ — basic towers cost zero engine work; floor-delta
+  consistency unenforced (named as fact, grill decides if it becomes
+  an importer check); floor-AWARE behaviors (per-floor ambience,
+  god-view stacking) would be their own gated pieces. Every cite
+  file:line-verified in-session.
+
+**Hygiene intact end-to-end**: zero launches (save md5 re-verified at
+close), zero code/data edits (docs-only: evidence file + index row +
+this entry), §9 unread, no question-topic contact, R-A2 unexplained,
+item-5 untouched, freeze set untouched (read-only observation of
+unfrozen engine files + two foreign blobs at their named refs).
+
+**Job-0 baselines for s97:** origin tip = this close commit · tree
+clean except `drafts/_refs/` · save `da5a0b2d…` mtime 08-26 16:08 ·
+logs **41** (counting-law glob `game_two_session_*.log`; bare grep
+reads 43 — two Aug-12 pre-scheme relics, investigated s93) · wall
+**35** / gate rows **69** · suite **1317 (27591)** · world.rb
+**1769/1800 NEARING CAP** · window.rb 267/300 · canary live era = LAST
+block · bundles/ one live bundle · mail inbox EMPTY (no expected
+inbound — any new mail is unexpected, triage on its own merits) ·
+freeze-watch clean · one stale pre-existing worktree `tmp/s59_pre`
+(s59 relic, not a deviation).
+
+**s96 queue → s97:** ritual s1 if a peer declares it (skeleton harvest
+checklist = the script; expect open level=10 xp=644; §11 link
+conversation — 9805ms at s85 licenses the optional re-run offer BEFORE
+any question) · v20 grill = owner-paced post-verdict (inputs banked +
+indexed + now evidence-grounded; remaining pre-grill prep-class work ≈
+nil — do not manufacture) · integrity-only close stays the lawful
+zero-input shape · owner-pending relay: the appreciative line to
+Junior (three-for-three same-night passes) still standing, offered
+through s96.
+
 ## 2026-08-27 session 95 — first ZERO-INBOUND session after the route-table close · nothing moved · integrity-green docs-only close
 
 **Job 0 at open: ALL CLEAN** (origin `4bf34b2` = local · tree clean
