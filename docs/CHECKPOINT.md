@@ -1,5 +1,64 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-27 session 105 — kethral archaeology dossier BANKED (owner-greenlit lane executed) · docs-only · ritual s2 awaits its calendar day
+
+**Archaeology lane EXECUTED (s104 "dale"):** mined the READ-ONLY archive
+(`Documents.stale-20260413/.../Game On(e)/`: Marrow specs + steering ·
+prototype blueprint + Tibia alignment addendum (61-source dive) + V16/V17
+changelogs · kethral V2 gap analysis · kethral_v2 relics · workspace
+status) → **`drafts/_kethral-archaeology-20260827.md` (`6d1447f`,
+exactly 150 lines)**, pure grill input for v20. 16 numbered steal
+candidates A1–A16; dev-of-record headline pulls: A1 breathing-cycle
+(TIME axis of geography-of-risk) · A5 wealth-attracts-threat (maps onto
+no-bank-in-deep) · A3/A7/A13 bestiary + death-teaches + venture-prestige
+(kills/deaths/sessions all feed visible meaning, mostly presentation) ·
+A10 enemy-AI archetype state machines · A14 BoF4 depth-through-lighting
+(direct J-5 fork input). A15 audio-parry named a **LAW CONFLICT** with
+M5a audio-pure-sink (owner-only reopen; weak sink-lawful form noted).
+FLAGGED-tunings section (never into data/ unverified); D-rows confirm
+this repo's laws from the fossils (game.py 2,663 lines = line-cap
+origin · kethral_v2 died in renderer plumbing pre-gameplay · the Godot
+migration prompt = the platform-hop precedent behind the s104 Ruby
+ruling); E-rows fence settled forks (use-based skills / death-eats-XP /
+gear-drop / pausing menu / engine hop — cite, never relitigate). ALL
+sim-touching rows carry explicit [POST-VERDICT] fences. Hygiene held:
+IDEAS ONLY, zero code/data/sim/oracle edits, no peer contact on ritual
+topics, lore left in the archive.
+
+**Ritual: NO event (lawful).** Host clock 08-27 = s1's calendar day —
+s2 not declarable (day-gap HARD). Hygiene armed and untouched (§9
+unread · instruments/oracle wording/sim numbers frozen · R-A2
+unexplained · item-5 banked · bot logs never fun-evidence). **s2
+declaration = 2026-08-28+ and is the HEAD ITEM on declaration** —
+skeleton checklist is the script: insurance copy → pre-launch decode
+(next loaded MUST == `c36cea1f…`, classify any gap logs) → fork check
+in a separate call judged by printed output → visible
+Start-Process host-coop launch, no env extras → harvest-before-anything
+(md5 + ctime + verbatim lines + §11 read BEFORE questions) → day-gap
+read vs 08-27 → administration same sitting (owner's 5 es questions
+pasted ONE-BY-ONE byte-virgin from §9; ping Junior's seat for his 5
+pt-br; 10/10 banked same day, capture-before-debrief; HELD admits only
+after 10/10; adjudication in a FRESH session).
+
+**Job-0 baselines for s106:** origin tip = this close commit · tree
+clean except `drafts/_refs/` · save
+**`716987ce2b1a723e1a4ea161d679e710` mtime 08-27 14:49 sessions=17**
+(insurance `tmp/world.pre-s104.json` = `da5a0b2d…`) · logs **42**
+(counting-law glob, %TEMP%) · wall 35 / gate rows 69 · suite **1317
+(27591)** green via hook at the dossier commit · world.rb 1769/1800
+NEARING CAP · window.rb 267/300 · canary era = LAST digest block (zero
+src/data edits all session) · freeze-watch CLEAN through this commit
+(docs-only session) · mail inbox EMPTY · bundles/ one live · worktree
+relic `tmp/s59_pre` (leave).
+
+**s106 queue:** (1) ritual s2 on declaration — HEAD ITEM (protocol
+above; the administration is the session's whole weight) · (2) Junior
+deliveries / map directions → bank on arrival, independent review,
+fetch-first · (3) v20 grill stays verdict-gated — its input index now
+includes the archaeology dossier (A-rows citable) + underground ask +
+J-T4..T8 · (4) zero input + no ritual = integrity-green docs-only close
+stays lawful (never manufacture work).
+
 ## 2026-08-27 session 104 — RITUAL S1 EXECUTED + HARVESTED (both seats, all green) · J-T4..T8 delivered+reviewed · map-lane role split · program rule ratified · archaeology greenlit
 
 **The biggest single-session day on record. Ritual session 1 of the
