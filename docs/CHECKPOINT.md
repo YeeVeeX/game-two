@@ -1,5 +1,58 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-27 session 106 — integrity-green holding close (owner-directed) · s2 still awaits its calendar day · s107 spark staged
+
+**No ritual event (lawful — second same-day open in a row):** host
+clock read 2026-08-27 16:39 -0600 at open = s1's calendar day (s1
+launch ctime 14:26:28) — day-gap HARD, s2 not declarable this
+sitting. LAW RESTATED for every future open: **THE CLOCK IS THE
+GATE, NEVER THE SPARK** (two sparks in a row anticipated a date the
+session didn't open on). s2 declarable 2026-08-28+; the binding date
+is the host clock at s2 LAUNCH (spec §4.4 — a midnight-straddling
+session keeps its launch date).
+
+**Owner word (verbatim, this session): "Approved, lets keep working
+on our own for now"** — holding pattern ratified; no outbound to
+Junior/worldsmith requested; s107 spark designed + clipboarded
+(CF_UNICODETEXT, round-trip verified).
+
+**Job 0: ALL GREEN, every baseline == s105's** (tip `54b634c` ==
+origin · tree clean except `drafts/_refs/` · freeze-watch CLEAN ·
+save `716987ce…` mtime 08-27 14:49 sessions=17, insurance
+`da5a0b2d…` in place · logs 42 · wall 35 / gate rows 69 · world.rb
+1769/1800 · window.rb 267/300 · mail inbox EMPTY). Zero code/data/
+oracle edits this session (docs-only: this entry). Hygiene
+untouched: §9 unread, instruments/oracle wording/sim numbers frozen,
+R-A2 unexplained, no peer contact on ritual topics.
+
+**s2 readiness (state fully re-absorbed: spec 1-284+316-end ·
+skeleton · dossier):** chain head = saved `c36cea1f…` {level=10
+xp=3679} sessions=17 — next loaded must equal it (ordinary play
+legal; classify gap logs, supersede open values per the v18 law).
+Pre-launch decode recipe for s107: temp `ruby -Isrc` script through
+`Game::SaveState` strict decode (s104 precedent), bank digest +
+{level, xp}, delete the script.
+
+**Job-0 baselines for s107:** origin tip = this close commit · tree
+clean except `drafts/_refs/` · save
+**`716987ce2b1a723e1a4ea161d679e710` mtime 08-27 14:49 sessions=17**
+(insurance `tmp/world.pre-s104.json` = `da5a0b2d…`; s2 takes a NEW
+insurance copy before launch) · logs **42** (counting-law glob) ·
+wall 35 / gate rows 69 · suite **1317 (27591)** green via hook at
+this commit · world.rb 1769/1800 NEARING CAP · window.rb 267/300 ·
+canary era = LAST digest block (zero src/data edits) · freeze-watch
+CLEAN through this commit (s97–s106 docs-only) · mail inbox EMPTY ·
+bundles/ one live · worktree relic `tmp/s59_pre` (leave).
+
+**s107 queue:** (1) ritual s2 on declaration — HEAD ITEM (clock gate
+first; skeleton checklist = the script; harvest-before-anything;
+administration same sitting, 10/10 before any debrief; adjudication
+in a FRESH session) · (2) Junior deliveries / map directions → bank
+on arrival, independent review, fetch-first · (3) v20 grill stays
+verdict-gated (input index: archaeology A-rows + underground ask +
+J-T4..T8) · (4) zero input + no ritual = integrity-green docs-only
+close stays lawful (never manufacture work).
+
 ## 2026-08-27 session 105 — kethral archaeology dossier BANKED (owner-greenlit lane executed) · docs-only · ritual s2 awaits its calendar day
 
 **Archaeology lane EXECUTED (s104 "dale"):** mined the READ-ONLY archive
