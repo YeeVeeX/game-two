@@ -73,3 +73,19 @@ freeze surface.
 - Route #1b (Candidate-5 spec commission): spoke alive, running.
 - Route #2 (audio): relaunched pid 16539 (env-scrubbed), running.
 - Route #3 (assets): waiting on seat — mails in place.
+- 2026-08-26 route #2 — audio family-block receipt LANDED + VERIFIED:
+  their commit `2dddf5c` pushed (master); family block at their HEAD blob
+  `993fb261a58066039285275be1047253` = canonical (byte-exact); CLAUDE.md
+  bare pointer `e7ffe48362bb9590a10aa47958dd5818` = claim; suite green
+  their side (98 runs); T3 cue-spec fence respected (untouched, done/).
+  Mail archived to done/. Route #2 CLOSED.
+
+## agents-md-bootstrap ruling (owner asked s89)
+
+Surveyed read-only: game-two + all four family seats + imagesmith +
+gamesmith + worldsmith + bedrock-council ALL carry curated charters —
+running a generator over curated law degrades it (slop injection); the
+skill's own trigger is "projects that LACK AGENTS.md". Only true gap in
+the workspace: `coop-harness` (dormant since 2026-07-27, superseded by
+in-repo netplay `harness/net`) — bootstrap ON NEXT REAL TOUCH, not now
+(no manufactured work). DECLINED everywhere; zero files generated.
