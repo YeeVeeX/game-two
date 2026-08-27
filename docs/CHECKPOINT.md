@@ -1,5 +1,7 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+CLAIMED: J-T1 Junior seat 2026-08-26 — dungeon+boss dossier (parallel lane, `drafts/_junior-parallel-lane-20260826.md`; drafts-only under the armed freeze; J-T2 blueprint follows in-session if it fits).
+
 ## 2026-08-26 session 88 — QUIET integrity session under the armed freeze: Job-0 ALL CLEAN (suite run live, freeze-watch clean, save UNMOVED) · zero peer input landed (no ritual declaration, mail EMPTY, no origin movement) · zero launches, ritual untouched, nothing manufactured
 
 **No ritual declaration at open. Origin tip = local = `a95f566`
