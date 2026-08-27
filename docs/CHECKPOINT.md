@@ -1,6 +1,90 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-CLAIMED: J-T1 Junior seat 2026-08-26 — dungeon+boss dossier (parallel lane, `drafts/_junior-parallel-lane-20260826.md`; drafts-only under the armed freeze; J-T2 blueprint follows in-session if it fits).
+## 2026-08-26 session 90 — Junior's J-T1/J-T2 REVIEWED: PASS, zero corrections (J-T1 = VERIFIED, worldsmith v2-grill trigger 2 of 3) · uiux Candidate-5 spec receipt LANDED + VERIFIED (their `3728d76`, UI-GATE 22/22) · routing-doc receipt rows PARKED under the blob-stability law (T26 still pending)
+
+**Job 0 at open: ALL CLEAN** (origin `bc4ba45` = local · save
+`da5a0b2d…` mtime 08-26 16:08 sessions=16 — UNMOVED end-to-end, zero
+launches · logs 41 · wall 35 / gate rows 69 · suite 1317 (27591)
+live-run green (`tmp/s90_suite.log`) · world.rb 1769 / window.rb 267 ·
+canary live era verified (LAST-block law) · freeze-watch CLEAN through
+`bc4ba45` · mail EMPTY at open · blob-stability trio verified at HEAD:
+routing `ac249682…` · junior-input `8f874657…` · slate `4b95c13f…`).
+
+**Head item — Junior review (fresh-eyes; this seat didn't author):
+PASS, accepted as v20 grill input, zero corrections owed.** Verdict
+doc: `drafts/_s90-junior-jt1-jt2-review-20260826.md`. Every data claim
+re-verified live (zone_8 64×40 / ONE transition / zero spawns / tile
+counts byte-exact · ladder rungs def-1→4→5→6+seal→8 exact · BOSS 1 =
+the game's only challenger spawn · progression.rb:120 exact · rusher/
+husk/challenger all live kits — the blueprint's NEW-asks list is
+honest: only BOSS 2 kit + optional `boss_2_defeats` counter);
+touchstones faithful (block-cap [high] verbatim · hunt-analyser owner
+quote exact · KB seeds 1-5 present with FLAGGED discipline); hygiene
+CLEAN (no ritual-topic probing, no balance numbers, placeholder law
+held, his item-5 left hygiene-banked); grill-READY (six real forks,
+mechanisms all shipped grammar). One cosmetic nit recorded (dossier §2
+cites AoE "principles 2/5/6" — one digit generous; substance fully
+supported), no action owed. Convergence cross-pin banked for the
+grill: DUNGEON 2 = the natural first instance of candidate-8's
+city→dungeon→city spine — fork 6 gains a third option (connect ONWARD
+to CITY 1). **J-T1 = VERIFIED satisfies worldsmith v2-grill trigger 2
+of 3** (verdict + J-T1-verified + T26). CLAIMED line cleared this
+entry; J-T3 stays next-up on owner word — never start it for him.
+
+**uiux route #1b CLOSED-verified:** receipt mail landed 19:25, spoke
+pid 18224 exited clean. Verified at THEIR blobs: spec
+`docs/specs/block-anchor.md` @ their `3728d76` (pushed, origin/main)
+blob md5 `6eb0bbba64a747b9a9a224071415ddbd` EXACT · handoff manifest
+`ffa32405ac6dc3253d317dcf119ed6cf` EXACT · UI-GATE 20260826-191600 =
+22/22 `"pass": true` (7 deterministic sets). Shape banked for the v20
+grill: anchor+offset key set (`hud_block_x/y` + 13 relative keys),
+Option B RECOMMENDED (move+shrink, −26.5% footprint, ZERO text shrink
+— hud_font is shared with world numerals), adoption cost = full-wall
+re-pin (~35 scripts ~3h) + display.json key migration + their
+mirror-refresh wave. Take-or-leave evidence; NO adoption under the
+freeze. Mail archived done/.
+
+**PARKED routing-doc rows (blob-stability law — append to
+`drafts/_s89-integration-orchestration-20260826.md` ONLY after
+worldsmith's T26 receipt lands; the trio's digests must survive until
+its arbiter reads them; if its session STOPPED on mismatch, point it
+at `b9749b5`):** (1) Junior lane receipt row — verbatim text in the
+review note §"Consequences + parked rows"; (2) route #1b close row —
+"2026-08-26 route #1b — Candidate-5 spec receipt LANDED + VERIFIED:
+their `3728d76` pushed; spec blob `6eb0bbba…` = claim; manifest
+`ffa32405…` = claim; UI-GATE 22/22 PASS (20260826-191600); grill
+evidence banked, no adoption under freeze; mail done/. Route #1b
+CLOSED."
+
+**Orchestration watch:** worldsmith T26 pending (seat active tonight,
+no receipt yet — never nag) · assets seat still HELD (pid 11252 alive
+at close; spark stays staged `C:/tmp/sparkups-stage/s89-assets.md`,
+PI_* scrub law on any launch) · lore family-block mail waits in their
+inbox.
+
+**Hygiene: intact end-to-end** — zero launches (save byte-unmoved),
+zero sim/data/oracle edits (close commit docs-only), §9 unread (spec
+read 1-284 + 316-end), no question-topic contact, R-A2 unexplained,
+Junior item-5 balance untouched.
+
+**Job-0 baselines for s91:** origin tip = this close commit · tree
+clean except `drafts/_refs/` · save `da5a0b2d…` mtime 08-26 16:08
+sessions=16 · logs **41** (numeric law; bare glob 44) · wall **35** /
+gate rows **69** · suite **1317 (27591)** · world.rb **1769/1800
+NEARING CAP — any material touch owes its extraction** · window.rb
+267/300 · canary live era = LAST block · bundles/ one live bundle +
+tracks · mail inbox EMPTY (still inbound: worldsmith T26 · assets ×2 ·
+lore family-block) · freeze-watch clean through `bc4ba45` + docs-only
+closes · blob-stability trio digests unchanged (verify at open).
+
+**s91 queue:** ritual s1 if declared (skeleton checklist = the script;
+insurance copy + pre-launch decode FIRST; §11 link read — expect the
+9805ms conversation; expect open level=10 xp=644) · worldsmith T26
+receipt harvest (verify at their blobs, read the dossier, then UNPARK
+the two routing-doc rows) · assets spark IF the seat frees (fleet
+check first) · v20 prep lawful moves only (slate append / Junior
+accretion digest; NOTHING builds) · integrity-only close stays the
+lawful zero-input shape.
 
 ## 2026-08-26 session 89 — THE INTEGRATION SESSION: fan-out executed (uiux spec commission RUNNING · audio receipt CLOSED-verified · assets staged/seat-held) · owner content directives banked (candidates 5–9 + method ruling + E1 re-grade + cardinal topology) · worldsmith ruled (T26 ordered, spark sent) · Junior lane dispatched AND DELIVERED same-night (88f3ba4, UNREVIEWED — s90 head dev item)
 
