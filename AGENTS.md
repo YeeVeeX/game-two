@@ -52,6 +52,14 @@ changes are still Rule-2 visual changes (wall + recalibration apply).
   dev of record proactively surfaces REAL recorded work items every
   session (never fabricated ones — the no-manufactured-J1 law stands).
   Peer ratifications land async in the hub chat.
+- **OWNER ORDER (2026-08-27, Gabriel, ratified in hub chat): PROGRAM
+  RULE — game-two is the SINGLE flagship.** Satellite repos work only
+  on a concrete game-two pull (commission/mail), then go back to
+  sleep; ZERO new repos/projects open; new project ideas get RECORDED
+  with a named trigger (parking-lot pattern at program level), never
+  opened. Nothing is deleted or closed by this rule; reversal = one
+  owner line. (Context: the owner named breadth as his own failure
+  mode — this rule makes the discipline mechanical, not memory.)
 - Everything else is steerable at the owner's word: lane order, freezes,
   scope promotions. Less rigidity ≠ less order: one-concern commits,
   evidence banks, forks close at brainstorms (dev recommendation + owner

@@ -1,5 +1,109 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-27 session 104 — RITUAL S1 EXECUTED + HARVESTED (both seats, all green) · J-T4..T8 delivered+reviewed · map-lane role split · program rule ratified · archaeology greenlit
+
+**The biggest single-session day on record. Ritual session 1 of the
+EIGHTEENTH: DONE — declared in chat (Junior 12:55, owner "Go"),
+pre-launch decode banked (level=10 xp=644 @ save `da5a0b2d…`), fork
+check 0 ruby, visible host-coop launch on owner word, clean quit both
+seats.** Harvest (skeleton §RITUAL SESSION 1, all BEFORE any
+question): host log #42 `game_two_session_66512654.log` md5
+`5bc9cb46…` (launch ctime 2026-08-27 14:26:28 -0600), ticks 64834 ·
+desyncs=0 · reason=quit · AUTOPILot=0 · kills_xp=3627>0 · chain
+loaded `b3c37a09…`==#41 saved → saved `c36cea1f…` sessions 16→17,
+post-quit decode == saved digest {level=10 xp=3679}. Link 7.4% /
+591ms — §11 re-run NOT licensed, session STANDS. Joiner log LANDED
+from Junior's seat (`1d095a5`): **A2 PASS** (handshake digest ==
+host file digest, byte-proven), seat-2 clean (64835 ticks ·
+desyncs=0 · quit · AUTOPILOT=0), blob re-anchor `32584f9c…`.
+Insurance `tmp/world.pre-s104.json` (`da5a0b2d…`). **Next ritual
+event: s2 declaration — tomorrow+ (different host-clock day, HARD).**
+NO debrief between peers until 10/10; administration protocol at s2
+close per spec §6 (hub administers owner's 5 es questions one-by-one
+BYTE-VIRGIN from §9 — pasted at capture time only, never into chat
+before).
+
+**Junior lane (carte blanche executed BOTH directions):** owner word
+1:06pm verbatim recorded in lane doc §RELEASE — his seat delivered
+J-T4..J-T7 same-hour (`33cbdd3`→`b3ab265`→`7f59685`) + self-directed
+J-T8 CITY 1 blueprint (`95ec6b6`) + map-editing prep (`46d7cee`) +
+joiner log (`1d095a5`). Hub review s104: **ALL FIVE PASS**
+(`drafts/_s104-junior-batch-review-20260827.md`) with INDEPENDENT
+verification (zone_7/camp bytes exact · ldtk decoded: 34×22 grid, 13
+entities, flood-fill connectivity re-proven · pilot.ldtk md5
+unmoved · substrate figures == s96 evidence). One grill-class note:
+J-T8 compass table puts D2 east vs his own spine's west — absorbed
+by his fork 3. Benign two-seat races ×2 (batch numbering + map prep)
+— reconciliation note in lane doc; **his J-T6/J-T7 numbering is the
+record** (T6 spell-select, T7 LDtk).
+
+**Map-lane role split (peer-ratified, recorded): Junior DIRECTS
+current-map edits (map pick + reference photo), hub dev EXECUTES**
+(complete edit, strategic respawns, configured transitions, zero
+bugs = the gates). `docs/MAP_EDITING.md` LIVE (`775a6c1` +
+cross-check fixes `6124076`: w=wood/~=water, zone_8 pin
+TEST-enforced via worldsmith_intake_test). Junior's parallel prep
+doc agrees law-for-law. **Directions bank pre-verdict, execute
+post-verdict — the freeze held under direct "metelo ya" pressure
+(both peers accepted the s2-tomorrow path).**
+
+**PROGRAM RULE ratified (owner "ratifico", recorded in AGENTS.md
+operating model): game-two = the single flagship; satellites on
+concrete pull only; zero new repos; new ideas bank with named
+triggers.** Owner also shared the honest breadth self-diagnosis —
+report shape changes: every close ends with a north-star line + ONE
+next thing (never a list).
+
+**Archaeology lane GREENLIT (owner "dale"): s105 headline** — mine
+the two pygame prototypes + Marrow specs at
+`C:\Users\gabri\Documents.stale-20260413\coding_projects_main\Game On(e)\`
+(`prototype/` 57py V18-era · `kethral/` 211py pygame-ce ·
+`.kiro/specs/marrow/` + steering = the owner's original vision docs;
+`kethral_v2/` = the post-mortem source, read for what-not-to-repeat).
+READ-ONLY, one session, dossier ≤150 lines as grill input: (a)
+mechanics/feel worth stealing (b) what the focused builds did better
+(c) tunings as FLAGGED refs (d) what not to repeat. Ideas yes, code
+no. Ruby-stack question answered same chat: pure Ruby STAYS (perf
+gate green, determinism is the crown jewel, Godot-migration fossil
+named); native extension only ever for a PROFILED hot loop, one
+gated piece.
+
+**Owner post-s1 content ask banked verbatim + image**
+(`drafts/_v20-input-owner-underground-20260827.md`, ref
+`drafts/_refs/owner-underground-floors-ref-20260827.png` md5
+`3aa93d33…`): variety · underground floor-stacks -1..-4 · loop
+circuits · bigger/longer · farm motivation. Mirrored as HELD in the
+skeleton (uncommented). Worldsmith floor-probe QUESTION mail answered
+same-session as RECEIPT (`~/.pi/agent/mail/worldsmith/inbox/from-game-two-floor-probe-receipt.md`
+md5 `5725f9dd…`, citations re-verified live: tile_map.rb:12/51-52/
+57/126, import_ldtk.rb:172-173/363, zero map.floor consumers);
+inbound archived done/, inbox 0.
+
+**Job-0 baselines for s105:** origin tip = this close commit · tree
+clean except `drafts/_refs/` · save **`716987ce2b1a723e1a4ea161d679e710`
+mtime 08-27 ~14:46 sessions=17** (post-s1; insurance
+`tmp/world.pre-s104.json`) · logs **42** (counting-law glob; #42 =
+ritual s1 host) · wall 35 / gate rows 69 · suite **1317 (27591)**
+green via hooks all session · world.rb 1769/1800 NEARING CAP ·
+window.rb 267/300 · canary live era = LAST block (unchanged, zero
+src/data edits all session) · freeze-watch CLEAN through this commit
+(docs-only session both seats) · bundles/ one live · worktrees main +
+`tmp/s59_pre` relic · mail inbox EMPTY (floor-probe answered+archived).
+Hygiene: §9 unread · no question-topic contact (content asks banked
+uncommented) · R-A2 unexplained · item-5 untouched · zero
+sim/data/oracle edits.
+
+**s105 queue:** (1) ritual s2 on declaration — HEAD ITEM, skeleton
+checklist = the script (day-gap read vs 08-27 · chain: loaded must ==
+`c36cea1f…` · §11 read before questions · then the 10-answer
+administration + capture-before-debrief) · (2) archaeology dossier
+(paths above; owner may send it any session) · (3) Junior's first map
+direction — bank on arrival, execute post-verdict · (4) expect more
+autonomous Junior deliveries — fetch FIRST, review with independent
+verification · (5) v20 grill stays verdict-gated; new inputs since
+the index: underground ask + J-T4..T8 + archaeology-to-come (index
+rows at grill time).
+
 CLOSED: J-T8 Junior seat 2026-08-27 — CITY 1 paper blueprint DELIVERED (`drafts/_junior-city1-blueprint-20260827.md`): the crossroads city made tangible (~48×30, denser-not-bigger per the T26 wall; cardinal program with 2 live gates v1; district table = the density budget; full-sanctuary B1 pattern; zero mechanical NEW asks — the HOME question stays the one system-weight fork). Follows J-T4's R2 rec the way J-T2 followed J-T1; if the grill picks another route the PROGRAM still holds. Paper-only, freeze hygiene held.
 
 CLOSED: J-T4..J-T7 Junior seat 2026-08-27 — owner-released batch DELIVERED same-session (`b3ab265`): city-hub three-route dossier (`_junior-cityhub-dossier-20260827.md`, rec R2-then-R3) · BOSS 2 verb concepts (`_junior-boss2-verbs-20260827.md`, rec Sealbreaker) · spell-select paper (`_junior-spell-select-20260827.md`, rec loadout-through-menu) · practice LDtk (`authoring/dungeon_2_draft.ldtk`, NEW file, pilot.ldtk byte-identical `d59056b7…`, never imported; one connectivity fix self-caught via ASCII render). All paper/drafts; freeze hygiene held; suite green via hooks.
