@@ -22,7 +22,7 @@ below, not that anyone promises hard enough.
 | Zone | Origin | Edit path | Law |
 |---|---|---|---|
 | `zone_7`, `basement_1`, `basement_2`, `dungeon_1` | LDtk importer emissions (the "pilot four") | edit `authoring/pilot.ldtk` (+ per-zone sidecar) → re-import via `tools/import_ldtk.rb` → deliberate copy into `data/zones/` | **NEVER hand-edit the JSONs** — `test/tools/pilot_authoring_test.rb` byte-compares committed JSON against a fresh emission; any drift = red suite |
-| `zone_8` | worldsmith seat emission (their v0 export, wired s70) | re-emission by the worldsmith seat, OR a consciously recorded re-pin | **NEVER hand-edit** — md5 intake pin recorded in `drafts/_worldsmith-v0-intake-20260823.md`; a hand fix breaks byte-provenance and must be a recorded re-pin decision (T27 precedent) |
+| `zone_8` | worldsmith seat emission (their v0 export, wired s70) | re-emission by the worldsmith seat, OR a consciously recorded re-pin | **NEVER hand-edit silently** — the pin is TEST-ENFORCED: `test/game/worldsmith_intake_test.rb` (`test_landed_zone_bytes_match_the_intake_record`) byte-pins `data/zones/zone_8.json` against the intake record; any edit = red suite unless the pin moves CONSCIOUSLY in the same commit (intake record: `drafts/_worldsmith-v0-intake-20260823.md`) |
 | `camp` (HUB 1), `district`, `district_two`, `low_quay`, `nest`, `gate_fixture`, `grass_fixture`, `slow_door` | hand-authored JSON (pre-WB era) | direct JSON edit, one concern per commit | strict loader refuses malformed zones NAMED at load; suite + gates still bind |
 
 New zones (post-verdict) author through the WB pipeline: LDtk → strict
@@ -37,9 +37,11 @@ placeholder law: ZONE N / HUB N / generic only) · `tile_size` · `tiles`
 `stations` · `enemy_spawns` · `pack_spawn` · `regions` · `palette` ·
 `safe` · `hub` · `gradient_anchor` · `water_drained_by`.
 
-- **`tiles`**: rows × cols of single-glyph tile classes (e.g. `#` wall,
-  `w` water). Grid dims come from the row/col counts (zone_7 = 44×28,
-  zone_8 = 64×40).
+- **`tiles`**: rows × cols of single-glyph tile classes — registry =
+  `data/tiles.json`, verified vocabulary: `#` wall · `.` floor · `,`
+  dirt · `g` grass · `w` wood · `~` water (the registry declares
+  render + footstep + passability + IntGrid id per glyph). Grid dims
+  come from the row/col counts (zone_7 = 44×28, zone_8 = 64×40).
 - **`enemy_spawns`** (the "respawns"): dict of kit → coordinate list,
   e.g. dungeon_1: `{"rusher": [[8,8],…], "rusher_hater": [[26,16],…],
   "husk": [[23,11],…]}`. Empty `{}` is legal (zone_7 is a safe hub).

@@ -155,9 +155,17 @@ stalls).
 - **A-check partials (s1 side):** A3: ticks 64834 ≥ 36000 ✓ ·
   desyncs=0 ✓ · reason=quit ✓ · AUTOPILOT=0 ✓. A5 flow:
   kills_xp=3627 > 0 ✓ (state at cap: trivially true, xp-pin named;
-  xp 644→3679 under the pin). A2 waits on the joiner's REAL launcher
-  log FILE (harvest-note law — console captures carry no `loaded`
-  line); ASK OUT to Junior's seat via checkpoint + owner chat.
+  xp 644→3679 under the pin). **A2 (session 1): PASS** — joiner log
+  LANDED (`1d095a5`, checklist note above): `loaded …
+  source=handshake` digest `b3c37a09…` == host `loaded … source=file`
+  digest ✓, byte-proven; seat-2 line clean (ticks 64835, ±1 = known
+  seat skew; desyncs=0; quit; AUTOPILOT=0 — re-run this session on
+  the in-repo file). **Digest re-anchor (harvest-note law, s87
+  precedent):** the checklist's `8d3db762…` is his machine's
+  original-file md5; the DURABLE anchor is the git blob md5
+  `32584f9c343d1c6b9f15a50fa276343a`
+  (`git show HEAD:drafts/_v19-eighteenth-evidence/session1/game_two_session_12692262.log | md5sum`,
+  computed s104) — same content, line-ending transform, both recorded.
 - **Link-quality read vs §11 (BEFORE any question — window honored):**
   stalls 4811/64834 = **7.4%** (<14) · stall_ms_max **591** (<2500) —
   **NEITHER threshold met; the optional re-run is NOT licensed. The
