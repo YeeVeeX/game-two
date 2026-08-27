@@ -138,6 +138,128 @@ Junior or me to get bored and leave the project."
   recorded, cost named. Folds naturally with the "looks too simple"
   presentation-lane pointer below if v20 promotes that family.
 
+## Candidate 6 — SPELL BREADTH ("más contenido y spells")
+
+- Origin: Gabriel (s89 chat, verbatim): "Pronto necesitamos: más
+  contenido y spells".
+- Shape: grow per-kit verb lists beyond the single special. The
+  per-spell growth LANE already exists (lobber-E precedent); candidate
+  2's shapes (b)/(c) are its striker instances — this row is the
+  GENERAL ask.
+- Touchstone: Tibia vocation spell ladders — spells gate by level and
+  vocation, bought in town (`tibia-mechanics-lore-and-virtual-world`,
+  verified 2026-04-10); composes with our live `requires_level` rungs
+  + bank economy (buy spells with banked value = a new sink, the
+  scale-with-faucet law applies).
+- Fence: balance data frozen until the verdict. Real design cost the
+  grill must price: the CONTROLS SURFACE is full — more verbs need a
+  spell-select/loadout layer (input design, J-6 menu family), not just
+  data rows.
+
+## Candidate 7 — ENEMY ROSTER ("más tipos de enemies")
+
+- Origin: Gabriel (s89 chat, verbatim): "más tipos de enemies".
+- Shape: new creature KINDS with distinct behaviors (not stat reskins);
+  creature-family identity per area — each biome/dungeon reads by its
+  fauna.
+- Touchstone: Tibia's bestiary IS its risk geography — the
+  rats→rotworms→dragons ladder maps zones to threat
+  (`tibia-mechanics-…` verified 2026-04-10; shelf risk-geography
+  thread). Our tiers.json vocabulary is the carrier.
+- Cross: J-T1 dungeon populations + BOSS 2 want exactly this; candidate
+  9's biomes want fauna to read by.
+- Fence: creature.rb/aggro.rb are FROZEN measured seams (C2) until the
+  verdict; all shapes post-verdict, one gated piece at a time.
+
+## Candidate 8 — MAIN CITY HUB ("un 'Thais'")
+
+- Origin: Gabriel (s89 chat, verbatim): "un 'Thais' (una ciudad
+  principal como 'hub' para los jugadores)".
+- Current truth: HUB 1 + zone_7's town are hamlet-scale service stops;
+  the ask is a CITY-scale anchor — services + social gravity + the
+  place that feels like HOME.
+- Touchstones: Tibia Thais — temple respawn + depot + shops as the
+  player-gravity anchor (`tibia-mechanics-…` verified 2026-04-10);
+  towns as event anchors (`world-events-towns-and-folklore-mechanics`
+  verified 2026-08-16).
+- Routes for the grill: grow zone_7 into the city · author CITY 1 via
+  WB pipeline (T1-T5 proven) · worldsmith v2 town/city archetype (T26
+  hypothesis). Placeholder law: in-game name stays generic (CITY 1 /
+  TOWN 2); "Thais" lives only as touchstone citation.
+- Fence: home-hub context is load-bearing (mercy floor B4 gates on
+  home-hub, safe zones B1) — relocating "home" is a design decision
+  the grill prices, not a map edit.
+- **Macro-topology sketch (owner, s89, verbatim):** "connect our
+  'Thais' to different zones per cardinal direction, for example:
+  north: to Desert, South: to Mountains, East: to the final Area
+  Dungeon that connects to the next city, west: starting area." Read
+  as law-shaped: the city is a CARDINAL CROSSROADS; the world spine
+  grows city → dungeon → next city; the existing six-zone intro arc
+  anchors as the WEST/starting spoke — nothing discarded, the intro
+  stays the intro.
+- Dev read on the sketch (banked for the grill): (i) cardinal spokes =
+  worldsmith v1's hub_spoke CLUSTER archetype with exit pins as
+  generation inputs — the topology is expressible at cluster level
+  TODAY; strongest capability↔demand match yet (routed to T26 §C).
+  (ii) city→dungeon→city is the macro-progression skeleton: each city
+  ring a difficulty band, the connecting dungeon its rung — composes
+  with live `requires_level` rungs + the radial danger gradient
+  (`world-events-…` verified 2026-08-16) + J-T1's ladder; Tibia
+  precedent: mainland cities chained by dangerous passages.
+  (iii) cardinal legibility is a navigation win — players give
+  directions by compass memory; pairs with the banner/landmark
+  discipline; the in-game map stays parked (E1 family).
+  (iv) desert + mountains = candidate 9's first two NAMED biomes
+  (cross-pinned there).
+
+## Candidate 9 — WORLD BREADTH: biomes · sub-areas · vertical-up ("towers")
+
+- Origin: Gabriel (s89 chat, verbatim): "more biomes/different areas,
+  sub areas, top areas (towers, etc)".
+- Shape, three rungs: (i) biome palettes + region identity (SAFE-class
+  tile/ambience vocabulary — the WB region layer + tile-type registry
+  already carry it; cheapest rung, ships freely even mid-cycle by
+  standing law); (ii) sub-areas = gated pockets (the zone_8 carve
+  pattern — J-T3's exact playbook); (iii) UPWARD floors (towers) — we
+  have downward verticality live (basements, holes, stairs); UP should
+  ride the same floor system but needs importer/renderer verification —
+  a NEW axis question, routed to worldsmith T26 + WB pipeline.
+- First two NAMED biomes: desert (north spoke) + mountains (south
+  spoke) — the owner's s89 topology sketch (candidate 8).
+- Touchstone: Tibia's seamless z-axis world (+7 above ground to -8
+  below — towers, mountains, dungeons on one grid;
+  `tibia-mechanics-…` verified 2026-04-10).
+- Fence: SIM-class tile behaviors (lava/water/tile-gated spawns) stay
+  one-gated-piece-at-a-time — now owner-re-ratified (method ruling
+  below).
+
+## s89 additions — method ruling · E1 re-grade · grill framing
+
+- **OWNER METHOD RULING (s89, recorded, verbatim): "one at a time with
+  intensive testing/debugging"** — v20 executes content SERIALLY, one
+  gated increment per re-session. This owner-ratifies the standing
+  ONE-knob law + Rule 2 wall for the whole content cycle. Lane order
+  inside v20 = grill output; the serial method is now law regardless.
+- **E1 GM-tools re-grade (owner asked "when" — s89):** stays
+  VALIDATED-DEFERRED through the freeze, but the v20 grill MUST
+  re-grade E1 on its merits instead of auto-deferring (owner interest
+  recorded twice now). Dev posture for the grill: the OFFLINE factory
+  (LDtk + strict importer + hot-reload preview + `rake map`) covers
+  authoring throughput today; live in-game god-mode editing touches
+  sim/save/netplay determinism (a mutating editor inside lockstep coop
+  is a desync machine unless designed as its own lane) — honest
+  earliest: a READ-ONLY first rung (GM map view / inspect / teleport
+  family, parked siblings) as a v20 stretch rider IF the grill promotes
+  it; mutating world-edit = v21-class.
+- **Grill framing (dev add, s89):** the peers' banked asks (potions,
+  striker, pillars, dungeons+bosses, zone_8 fill, spells, enemies,
+  city, biomes, towers) make v20 unambiguously THE CONTENT CYCLE — so
+  the grill's real question is FACTORY THROUGHPUT under quality gates:
+  size every lane against authoring capacity (WB pipeline + worldsmith
+  + serial gating), not against appetite. Cross-input: eighteenth
+  verdict rows + J-T1 dossier + worldsmith T26 dossier all land before
+  the grill opens.
+
 ## Non-candidates recorded from the same conversation
 
 - Fourth pack sibling (autonomous AI healer): both the peer table

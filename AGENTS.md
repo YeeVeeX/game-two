@@ -217,8 +217,9 @@ word: stereo ambient stems + region-acoustics (library increments).
 the next play session) · T3 footstep/bed renders (frozen cue-spec mail
 in the audio seat's inbox — water family needs a NEW mail) · coop S1
 invite (both seats READY) · the SHARED-save first crossing · the J-5
-spike call · the WorldSmith proposal (owner-authored, INCOMING — zero
-speculation until it lands).
+spike call · the worldsmith v2 grill (post-verdict + J-T1 + its T26
+dossier — hub ruling s89; v0+v1 RATIFIED in its seat, zone_8 = its v0
+export live since s70; intake stays freeze-gated).
 
 **Seats:** Gabriel's hub session (this machine) + Junior's seat (his
 machine, pi since 2026-08-23 via the shared LiteLLM gateway — AGENTS.md

@@ -89,3 +89,26 @@ skill's own trigger is "projects that LACK AGENTS.md". Only true gap in
 the workspace: `coop-harness` (dormant since 2026-07-27, superseded by
 in-repo netplay `harness/net`) — bootstrap ON NEXT REAL TOUCH, not now
 (no manufactured work). DECLINED everywhere; zero files generated.
+
+## Worldsmith ruling (owner asked s89: a) v2 grill · b) intake · c) park)
+
+NONE as offered — recorded ruling: (a) v2 grill DEFERRED with named
+triggers (the eighteenth's verdict + game-two J-T1 dungeon dossier +
+worldsmith's own T26 dossier all land first); (b) intake REFUSED under
+the armed freeze (nothing wires into data/zones now; v1 cluster
+vocabulary doesn't yet model the peers' dungeon/boss/city asks);
+(c) park REFUSED (program ratified, healthy, $9.13 of $150).
+ORDERED instead: **T26 — $0 maintenance-class v2 demand dossier** in
+the worldsmith seat (reception analysis of live zone_8 "parece vazio"
++ gap table vs the hand-authored pilot four + demand→vocabulary map
+from the owner's s89 content asks [spells · enemies · city hub ·
+biomes · sub-areas · towers · cardinal-crossroads city topology +
+city→dungeon→city spine (s89, banked in slate candidate 8)] + 2-4
+pre-registered v2 hypotheses tagged
+with confirming/killing inputs). Spark-up delivered via owner
+clipboard (owner executes in that seat). AGENTS.md's stale "WorldSmith
+proposal INCOMING — zero speculation" line corrected this commit (the
+proposal landed weeks ago; v0+v1 shipped + ratified; this doc's own
+§Smiths "zero speculation" line is superseded by this ruling).
+Owner content asks banked: slate candidates 6-9 + method ruling
+("one at a time with intensive testing/debugging") + E1 re-grade note.
