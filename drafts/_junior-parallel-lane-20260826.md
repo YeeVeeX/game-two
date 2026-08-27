@@ -149,6 +149,126 @@ Out of scope: any `data/zones/` edit (intake pin above) · any
 you want the practice — never imported) · spawn/station authoring
 (post-verdict, WB/worldsmith lane per the grill).
 
+## RELEASE 2026-08-27 (s104) — J-T4…J-T7, carte blanche on owner word
+
+Owner word (Gabriel, hub chat 1:06 p.m., verbatim): **"Go, no hace
+falta que me preguntes, puedes hacer lo que quieras plzzz"** —
+answering Junior's 1:03 p.m. ask (verbatim): "(a) dossier del
+city-hub — candidato 8, las tres rutas comparadas; (b) conceptos de
+verbo para BOSS 2 — el fork 3 de mi dossier; (c) el LDtk de práctica
+del DUNGEON 2 que la lane ya ofrecía; (d) diseño en papel del selector
+de hechizos para el menú. Todo paper-only, mismas leyes de
+J-T1/T2/T3."
+
+**All four released AT ONCE, any order, Junior's discretion** — and
+per the owner's carte blanche, new paper ideas mid-flight ride the
+same laws without further asks (bank them in their own NEW dated
+`drafts/_junior-*.md`; the pre-grill index refuses inline additions).
+Lane laws 1–6 above apply VERBATIM to every ticket below. One
+`CLAIMED: J-T<n> Junior seat <date>` checkpoint line PER TICKET,
+pushed at START (law 6). The hub seat builds none of these. Ritual
+s1 is declared for today — paper work never delays coop logistics;
+after s2, answers come before debrief (JUNIOR.md runsheet law).
+
+### J-T4 — city-hub route dossier (slate candidate 8 · grill Q7)
+
+Deliverable: `drafts/_junior-cityhub-dossier-<date>.md`, committed + pushed.
+
+Compare the THREE recorded routes — (i) grow zone_7 into the city ·
+(ii) author CITY 1 fresh via the WB pipeline (T1–T5 precedent) ·
+(iii) worldsmith v2 city archetype (index row: T26 H1) — pros/cons/
+evidence per route. **COMPARE, don't decide**: route choice is the
+grill's (open question 7); a recommendation is welcome if MARKED as
+recommendation.
+
+- Sources (in-repo): `drafts/_v20-candidate-slate-20260826.md`
+  candidate 8 (owner's cardinal-crossroads sketch verbatim + dev
+  read + Tibia/Thais touchstones) · `drafts/_v20-pregrill-index-20260827.md`
+  §1/§3 (T26 H1 = index row; the full worldsmith dossier lives in
+  Gabriel's seat — cite the index row, the hub carries the full text
+  into the grill) · `data/zones/zone_7.json` READ-ONLY (the town
+  hamlet's live truth; HUB 1 = `camp.json`, likewise read-only) · `docs/design-corpus/tibia-research.md` · your own
+  `drafts/_junior-v20-input-20260826.md`.
+- Fences: home-hub context is LOAD-BEARING (mercy floor B4 +
+  safe-zone B1 gate on home-hub) — relocating "home" is a
+  grill-priced decision, name it as a fork, never assume it ·
+  placeholder law (CITY 1 / TOWN 2; "Thais" only as touchstone
+  citation) · NO balance numbers.
+- Hygiene (law 4, sharpened for this topic): geography-FEEL is a
+  ritual question topic — geometry/design reasoning from the JSONs
+  and shelf only; your already-banked v20 input verbatims are the
+  only feel source you may cite; no new feel-surveys, no probing
+  Gabriel about safe/deep feel until after the ten answers.
+
+### J-T5 — BOSS 2 verb concepts (your dossier §6 fork 3)
+
+Deliverable: `drafts/_junior-boss2-verbs-<date>.md`, committed + pushed.
+
+2–4 verb CONCEPTS for BOSS 2, each carrying: which resource it
+threatens (your fork's own frame: position / carried value / the
+seal — BOSS 1 owns SEIZE, so a DIFFERENT resource); the counterplay
+verb the pack ALREADY owns; shipped-grammar vs NEW-ask split (name
+NEW pieces, never design them in); how it reads on-screen (telegraph/
+legibility family — presentation posture only). NO numbers anywhere.
+
+- Sources: your `drafts/_junior-dungeon-dossier-20260826.md` (§5–§6
+carry the constraint + fork) · slate candidates 2 + 7 (striker
+identity interactions — NOTE them, never decide the striker shape:
+that is grill Q2) · `drafts/_tibia-aoe-research-20260813.md` ·
+`docs/design-corpus/systemic-worlds-research-shelf.md` (tier
+vocabulary; FLAGGED numbers never land).
+- Hygiene (law 4, hard line): BOSS-1 difficulty/boss-reach is YOUR
+  ritual topic — no re-litigating how hard BOSS 1 feels, no
+  difficulty commentary beyond your already-banked verbatims, until
+  after the ten answers.
+
+### J-T6 — DUNGEON 2 practice LDtk (J-T2's stretch clause, now its own ticket)
+
+Deliverable: `authoring/dungeon_2_draft.ldtk` (the exact name J-T2
+reserved) transcribing your J-T2 blueprint, + a short practice note
+`drafts/_junior-ldtk-practice-<date>.md` (what mapped cleanly, what
+the tool fought, questions for the WB pipeline — grill fodder).
+
+- This is the ONLY non-drafts file across all four tickets, and it is
+  INERT: the provenance test pins emissions to the four pilot zones
+  read from `authoring/pilot.ldtk`; a separate new .ldtk file keeps
+  the suite green (J-T2 stretch clause, already lane-law).
+- HARD fences: NEVER touch `authoring/pilot.ldtk` · NEVER run
+  `tools/import_ldtk.rb` toward `data/zones` (the importer never
+  defaults there by design; practice emissions go to an UNCOMMITTED
+  scratch dir like `tmp/ldtk_practice/` only) · no `data/**`, no
+  `src/**` · wire-in = post-verdict, gated, its own session.
+- Tool: LDtk is free (ldtk.io); grammar reference =
+  `docs/superpowers/specs/2026-08-19-world-builder-pipeline.md`
+  (region layer · tile-type registry · typed transitions · seal
+  gating law s34).
+
+### J-T7 — spell-selector paper design (J-6 menu family · grill Q4 substrate)
+
+Deliverable: `drafts/_junior-spell-selector-<date>.md`, committed + pushed.
+
+Paper UI design for a spell-select/loadout layer in the NON-PAUSING
+menu: where it lives in the menu flow (J-6 precedent s53–56 — the
+world keeps ticking, so selection-time is a real cost: a design
+constraint, use it); slot→key mapping against the MEASURED substrate;
+ASCII/table mock of the panel; label list en/es/pt-br (placeholder
+register, functional verbs only); controls-strip interaction.
+
+- Ground truth you MUST read first:
+  `drafts/_v20-pregrill-evidence-20260827.md` §1 — measured: 13
+  actions bound · 28 free key names · digit row 1–5 entirely free ·
+  dual-binding hand economics · true cost of any new verb (input
+  consumer + strip surface + i18n + Rule 2 gate). Also slate
+  candidate 6 (+ fence) · `data/bindings.json` READ-ONLY · menu code
+  in `src/app/` READ-ONLY.
+- Fences: paper only — no binds, no src/data edits (controls strip is
+  a Rule 2 surface; nothing ships before the verdict) · the shape
+  pick (loadout layer vs direct digit binds vs special-verb overload)
+  is grill Q4 — compare, recommend marked-as-recommendation, don't
+  decide.
+- Hygiene: not a ritual topic — clean lane; law 4's general rule
+  still binds.
+
 ## Session close (per docs/JUNIOR.md protocol)
 
 Suite green (`bundle exec rake` — the hooks run it on commit/push), short

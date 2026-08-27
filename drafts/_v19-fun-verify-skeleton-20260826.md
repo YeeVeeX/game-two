@@ -89,8 +89,8 @@ stalls).
 
 ## Harvest checklist (fill at execution; BEFORE any question)
 
-- [ ] Ritual session 1 declared in chat before launch
-- [ ] Pre-launch save decode banked (session-1-open {level, xp} — A5 state needs it; the persist line carries no level)
+- [x] Ritual session 1 declared in chat before launch *(s104, verbatims in the session-1 block below)*
+- [x] Pre-launch save decode banked (session-1-open {level, xp} — A5 state needs it; the persist line carries no level) *(s104: level=10 xp=644 @ save `da5a0b2d…`; re-verify at launch)*
 - [ ] Session 1 host log banked (md5) — netplay + persist + progression lines verbatim; LAUNCH DATE recorded from the ORIGINAL file's ctime (copies lose it)
 - [ ] Session 1 joiner log banked (md5, Junior pastes/commits)
 - [ ] Session 1 hosting-console tee banked IF the launch path produced one (corroboration, never required — spec A6)
@@ -108,7 +108,30 @@ stalls).
 - [ ] HELD material admitted (sustain lines · mid-session observations · forensics)
 - [ ] Adjudication in a FRESH session → `drafts/_v19-fun-verify-verdict-<date>.md`
 
-## RITUAL SESSION 1 (empty)
+## RITUAL SESSION 1 — DECLARED 2026-08-27, pre-launch banked (s104)
+
+- **Declaration (chat, verbatim, BEFORE launch):** Junior 12:55 p.m.
+  2026-08-27: "Mae, ¿le hacemos a la sesión 1 del ritual hoy? Ya
+  estamos en otro día de calendario, así que es legal. Vos hospedás
+  como siempre y yo me conecto. ¡Pura vida!" · Gabriel 1:06 p.m.:
+  "Go…" + confirmed in the hub session ("ok got it") after the dev
+  stated s1 is declared for today. Chat timestamps corroborate the
+  launch date per spec §4.4.
+- **Pre-launch save decode (play-path strict, s104):** save md5
+  `da5a0b2d0e1b97d8890bda5351807fdd` (mtime 2026-08-26 16:08) →
+  `DECODE OK digest=b3c37a09823070dcdb07af116f8117d7` —
+  **session-1-open {level=10, xp=644}** (== log #41 close values;
+  chain continuous, no launcher log after #41). At-cap note (spec
+  A5): state reads trivially true, xp-pin named. RE-VERIFY at launch:
+  if the save md5 moved (ordinary play is legal), re-decode and
+  supersede this block's values (v18 supersession law).
+- **Insurance copy:** `tmp/world.pre-s104.json` md5 `da5a0b2d…`
+  (identical), taken s104 before any launch.
+- **Launch protocol staged:** fork-law check (ruby-process count,
+  separate call, judged by printed output) immediately before launch ·
+  detached visible `bin\host-coop.cmd` via Start-Process, NO env
+  extras (spec §4.6) · both seats `git pull` first (handshake enforces
+  build identity). Awaiting owner word to launch.
 
 ## RITUAL SESSION 2 (empty)
 
