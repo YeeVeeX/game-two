@@ -21,6 +21,7 @@ index's one-line summaries.
 | uiux Candidate-5 block-anchor spec (receipt verified s90) | `docs/specs/block-anchor.md` @ uiux `3728d76` | `6eb0bbba64a747b9a9a224071415ddbd` | HUD reposition+shrink spec of record: anchor+offset key set, options A/B (B recommended, −26.5% footprint, zero text shrink), UI-GATE PASS |
 | v19 foundation (law of the closing cycle) | `drafts/_v19-foundation-20260822.md` @ HEAD | `26a6eea214fdd5fcf27afc35ddba67c8` | The ratified decision-record pattern v20's foundation will follow; C3 stance-verb rung and staged riders live here |
 | Eighteenth ritual spec (verdict feeds the grill) | `docs/superpowers/specs/2026-08-26-v19-eighteenth-ritual.md` @ HEAD | `0ca46597417d6cdff9323b57c752616e` | §10 routing rows — the verdict's triggered rows enter the grill table as inputs with pre-registered outcomes |
+| Pre-grill engine evidence (s96, owner-directed slate item 2) | `drafts/_v20-pregrill-evidence-20260827.md` @ HEAD | `aad1d0a3c27d58a45855bc438adfe04e` | Measured code truth under open Q4 (controls surface: 13 actions bound, 28 free key names, true cost of a new verb) + candidate 9 rung iii / T26 H4 (vertical-UP axis ALREADY live: `stairs_up` shipped, signed `floor` inert metadata, zero engine work for basic towers; floor-delta consistency unenforced) — no shapes decided; also re-verified all 9 digests above fresh at `8e988ad` |
 
 Also standing (path-stable, not re-pinned here): J-5 projection pick
 CLOSED s93 — owner picked FLAT; the art-depth-on-flat-grid presentation
