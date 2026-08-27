@@ -1,5 +1,48 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-27 session 100 — fifth zero-input session post-evidence-bank · nothing moved · integrity-green docs-only close
+
+**Job 0 at open: ALL CLEAN** (origin `38ccfad` = local · tree clean
+except `drafts/_refs/` · save `da5a0b2d…` mtime 08-26 16:08 sessions=16
+— UNMOVED end-to-end, zero launches · logs 41 counting-law glob · wall
+35 / gate rows 69 · suite 1317 (27591) green at open · world.rb
+1769/1800 NEARING CAP · window.rb 267/300 · canary live era verified
+(LAST-block law: world_loop `982bfd66…` · varekka_duel `ecc750ec…` ·
+burn_duel `36d6281c…`) · freeze-watch CLEAN through `38ccfad` ·
+bundles/ one live · worktrees main + `tmp/s59_pre` relic · mail inbox
+EMPTY — sixth consecutive zero-inbound open, route table stays closed).
+
+**Nothing moved** — no peer input, no ritual declaration, no new mail,
+no new brainstorm to bank (v20 pre-grill inputs stand at TEN indexed
+rows, `drafts/_v20-pregrill-index-20260827.md`; remaining prep-class
+work ≈ NIL by design — the decision-class questions are the grill's).
+Full load order re-read at open (spec 1-284 + 316-end, §9 untouched ·
+skeleton · slate · index · evidence · routing doc). Integrity-only
+close per s87/s88/s94-s99 precedent, no manufactured work. Hygiene
+intact end-to-end: zero launches (save md5 re-verified at close), zero
+code/data edits (docs-only: this entry), §9 unread, no question-topic
+contact, R-A2 unexplained, item-5 untouched.
+
+**Job-0 baselines for s101:** origin tip = this close commit · tree
+clean except `drafts/_refs/` · save `da5a0b2d…` mtime 08-26 16:08 ·
+logs **41** (counting-law glob `game_two_session_*.log`; bare grep
+reads 43 — two Aug-12 pre-scheme relics, investigated s93) · wall
+**35** / gate rows **69** · suite **1317 (27591)** · world.rb
+**1769/1800 NEARING CAP** · window.rb 267/300 · canary live era = LAST
+block · bundles/ one live bundle · mail inbox EMPTY (no expected
+inbound — any new mail is unexpected, triage on its own merits) ·
+freeze-watch clean · one stale pre-existing worktree `tmp/s59_pre`
+(s59 relic, not a deviation).
+
+**s100 queue → s101:** unchanged from s99 — ritual s1 if a peer declares
+it (skeleton harvest checklist = the script; expect open level=10
+xp=644; §11 link conversation — 9805ms at s85 licenses the optional
+re-run offer BEFORE any question) · v20 grill = owner-paced
+post-verdict (inputs banked + indexed + evidence-grounded; do not
+manufacture) · integrity-only close stays the lawful zero-input shape ·
+owner-pending relay: the appreciative line to Junior (three-for-three
+same-night passes) still standing, offered through s100.
+
 ## 2026-08-27 session 99 — fourth zero-input session post-evidence-bank · nothing moved · integrity-green docs-only close
 
 **Job 0 at open: ALL CLEAN** (origin `19b26b2` = local · tree clean
