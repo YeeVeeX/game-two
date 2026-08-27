@@ -99,6 +99,45 @@ Junior or me to get bored and leave the project."
   existing consumable economy (Zelda's real heal there is the bottled
   fairy: a consumable). Cheap tier, zero new economy.
 
+## Candidate 5 — HUD REPOSITION + SHRINK (lower-left vitals; presentation lane)
+
+- Origin: Gabriel (s89 chat, 2026-08-26, verbatim): "Sometimes it
+  covers some important elements in the screen while playing" — asks
+  for the hp bars + status block moved to the lower-left and smaller.
+  Presentation/legibility complaint, NOT a ritual-topic feel statement
+  (hygiene-clean to bank).
+- Measured truth (live, renderer.rb `draw_hud` + safe chip): the pack
+  status block owns roughly **x 30–342, y 14–116 top-left** — 3 hp
+  bars (y 16+i·20, possessed w 260 / others 200, h 14), pips at fixed
+  x 300/314, carried numeral x 332, LEVEL strip at `hud_level_y` 78,
+  SAFE chip at y 98. Bar/pip layout is UNKEYED (hardcoded literals);
+  only level strip + safe chip + down-outline carry display.json keys.
+- uiux state checked (s89): **no reposition shipped or specced** —
+  their `docs/specs/vitals.md` records the current top-left geometry
+  as measured truth; all adoptions to date are contrast/legibility
+  deltas (C1/D2/C6/N-family), never a layout move. Their R26 residual
+  explicitly warns some literals cannot follow a re-layout — a
+  reposition is a spec job, not a nudge.
+- Design constraints already known: controls strip owns the bottom
+  band (`y = view_h - h`) — lower-left placement must clear it; edge
+  pips deliberately clamp into that band (uiux z-order S-05); smaller
+  bars must re-clear the **3:1 non-text contrast floor over the NEW
+  backgrounds** (uiux SC 1.4.11 arithmetic — the same math that
+  caught the 1.04:1 down-state); quiet-HUD law (layout never shifts)
+  carries to the new anchor.
+- Execution shape (post-verdict): commission the uiux seat for a
+  reposition+shrink spec (collision + contrast analysis — exactly
+  their charter; mail vehicle) → implement with ALL layout literals
+  promoted to display.json keys (data-driven layout, makes future
+  moves cheap) → Rule 2 gate + **full-wall re-pin priced (~35
+  scripts, ~3h detached)** + uiux mirror-refresh wave (their
+  vitals/coverage pins go stale).
+- Fence: player-visible ship — DISCOURAGED under the armed freeze
+  (extends exposure ledger §3; both seats re-owe ordinary sessions
+  before ritual s1). The verdict is the unlock; owner override =
+  recorded, cost named. Folds naturally with the "looks too simple"
+  presentation-lane pointer below if v20 promotes that family.
+
 ## Non-candidates recorded from the same conversation
 
 - Fourth pack sibling (autonomous AI healer): both the peer table
