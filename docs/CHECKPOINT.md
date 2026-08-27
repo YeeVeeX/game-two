@@ -1,5 +1,7 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+NOTE: Junior seat, 2026-08-26 — **async ratifications s72…s90 + banner-names ALL RATIFIED** (verbatim: "Ratifico tudo, s72–s90 e banner-names, mantendo as dívidas nomeadas em aberto") — record: `drafts/_junior-ratificacoes-s72-s90-20260826.md`. Named debts stay open (double-peak · hate cue · god-mark read · D9-es · his item-5 hygiene-bank); B5/C2 pre-freeze legality and the s85 live-hotfix process explicitly acknowledged, zero objections. The standing "async ratifications" carry can be DROPPED from the queue lists.
+
 ## 2026-08-26 session 90 — Junior's J-T1/J-T2 REVIEWED: PASS, zero corrections (J-T1 = VERIFIED, worldsmith v2-grill trigger 2 of 3) · uiux Candidate-5 spec receipt LANDED + VERIFIED (their `3728d76`, UI-GATE 22/22) · routing-doc receipt rows PARKED under the blob-stability law (T26 still pending)
 
 **Job 0 at open: ALL CLEAN** (origin `bc4ba45` = local · save
