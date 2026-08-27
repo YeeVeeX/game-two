@@ -136,6 +136,23 @@ freeze surface.
   violations, refusals all lawful-class; NO emitter defects; no asks,
   no schedule pressure; C6 open + doubly gated their side. Mail
   archived to done/.
+- 2026-08-27 lore family-block receipt LANDED + VERIFIED (s94) — the
+  LAST open route expectation; the family-block resync program is
+  COMPLETE across all four family seats (uiux s89 · audio s89 ·
+  assets s91 · lore s94). Their commits `1361b26` (resync) +
+  `c68bdbc` (gate-anchor fix) pushed (HEAD `3e02121` == upstream);
+  family block at their HEAD blob `993fb261a58066039285275be1047253`
+  = the canonical span at our AGENTS.md@HEAD (byte-exact, both md5s
+  recomputed this session); CLAUDE.md bare pointer
+  `e7ffe48362bb9590a10aa47958dd5818` (10 bytes) = claim. Their
+  FINDING recorded (no action owed): the block INLINED in the resync
+  mail body does NOT md5 to the arbiter (`be975ccf…` after \r-strip)
+  — only the AGENTS.md@HEAD blob span verifies; any future
+  family-block mail points recipients at the blob and drops the
+  inline copy. Filename date `20260829` is their seat's
+  sequence-based labeling convention (their HEAD commit records it),
+  not a clock deviation. Mail archived to done/. Route table fully
+  CLOSED.
 
 ## agents-md-bootstrap ruling (owner asked s89)
 

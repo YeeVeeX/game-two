@@ -1,5 +1,66 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-27 session 94 — lore family-block receipt LANDED + VERIFIED (resync program COMPLETE across all four family seats) · integrity-green docs-only close
+
+**Job 0 at open: ALL CLEAN** (origin `a6f5348` = local · tree clean
+except `drafts/_refs/` · save `da5a0b2d…` mtime 08-26 16:08 — UNMOVED
+end-to-end, zero launches · logs 41 counting-law glob · wall 35 / gate
+rows 69 · suite 1317 (27591) green at open · world.rb 1769/1800
+NEARING CAP · window.rb 267/300 · canary live era verified (LAST-block
+law) · freeze-watch CLEAN through `a6f5348` · bundles/ one live ·
+worktrees main + `tmp/s59_pre` relic · mail: ONE inbound — the
+expected one).
+
+**Lore family-block receipt — the ONLY expected inbound, landed at
+open** (`20260829-from-game-two-lore-receipt-family-block-resync.md`;
+the filename date is their seat's sequence-based labeling convention —
+their HEAD commit `3e02121` records it — not a clock deviation).
+Verified at their blobs with read-only slicers (their seat HELD by a
+live session; a first verify attempt containing a redirect was
+lawfully seat-lease-blocked — re-shaped to pure pipes, no route-around):
+their commits `1361b26` (resync) + `c68bdbc` (gate-anchor fix) pushed,
+HEAD == upstream · family-block span at their HEAD (lines 70-104) md5
+`993fb261a58066039285275be1047253` == the canonical span at our
+AGENTS.md@HEAD (lines 60-94), both recomputed this session, byte-exact
+· CLAUDE.md bare pointer `e7ffe48362bb9590a10aa47958dd5818` (10 bytes)
+= claim. **Family-block resync program COMPLETE: uiux s89 · audio
+s89 · assets s91 · lore s94** — all four family seats carry the
+canonical 2026-08-24 block. Their FINDING recorded (no action owed):
+the block INLINED in the resync mail body measures `be975ccf…` (post
+\r-strip), NOT the arbiter — only the AGENTS.md@HEAD blob span
+verifies; any future family-block mail points recipients at the blob
+and drops the inline copy. Receipt row appended to the routing doc
+(route table fully CLOSED); mail archived done/; inbox EMPTY — **no
+expected inbound remains**.
+
+**Nothing else moved** — no peer input, no ritual declaration, no new
+brainstorm to bank (v20 pre-grill index stands at
+`drafts/_v20-pregrill-index-20260827.md`); integrity-only close per
+s87/s88 precedent, no manufactured work. Hygiene intact end-to-end:
+zero launches (save md5 re-verified at close), zero code/data edits
+(docs-only: this entry + the routing-doc receipt row), §9 unread, no
+question-topic contact, R-A2 unexplained, item-5 untouched, seat-lease
+honored on foreign reads.
+
+**Job-0 baselines for s95:** origin tip = this close commit · tree
+clean except `drafts/_refs/` · save `da5a0b2d…` mtime 08-26 16:08 ·
+logs **41** (counting-law glob `game_two_session_*.log`; bare grep
+reads 43 — two Aug-12 pre-scheme relics, investigated s93) · wall
+**35** / gate rows **69** · suite **1317 (27591)** · world.rb
+**1769/1800 NEARING CAP** · window.rb 267/300 · canary live era = LAST
+block · bundles/ one live bundle · mail inbox EMPTY (no expected
+inbound — lore was the last) · freeze-watch clean · one stale
+pre-existing worktree `tmp/s59_pre` (s59 relic, not a deviation).
+
+**s94 queue → s95:** ritual s1 if a peer declares it (skeleton harvest
+checklist = the script; expect open level=10 xp=644; §11 link
+conversation — 9805ms at s85 licenses the optional re-run offer BEFORE
+any question) · v20 grill = owner-paced post-verdict (all inputs
+banked + indexed, J-5 CLOSED) · integrity-only close stays the lawful
+zero-input shape · owner-pending relay: the appreciative line to
+Junior (three-for-three same-night passes) rides whenever the owner
+sends it.
+
 ## 2026-08-27 session 93 — owner-directed slate 3+4: J-5 projection spike EXECUTED + pick CLOSED (FLAT; art-depth candidate banked) · v20 pre-grill input index BANKED · docs-only in the live tree, freeze intact
 
 **Job 0 at open: ALL CLEAN** (origin `a2f6644` = local · tree clean
