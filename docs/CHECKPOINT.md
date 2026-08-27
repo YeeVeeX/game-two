@@ -1,8 +1,103 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-CLAIMED: J-T3 Junior seat 2026-08-26 — zone_8 approach pockets (parallel lane ticket, owner word s91; paper-only under the armed freeze; anchor: east [62,18] → NW [~5,5] per the J-T2 blueprint).
+## 2026-08-26 session 91 — J-T3 dispatched on owner word + DELIVERED same-night + REVIEWED: PASS (Junior parallel lane COMPLETE 3/3) · v20 pacing analysis banked · Junior RATIFIES s72–s90 + banner-names (standing carry DROPPED) · assets family-block receipt VERIFIED · ritual-timing inversion named once (stays owner-paced)
 
-NOTE: Junior seat, 2026-08-26 — **async ratifications s72…s90 + banner-names ALL RATIFIED** (verbatim: "Ratifico tudo, s72–s90 e banner-names, mantendo as dívidas nomeadas em aberto") — record: `drafts/_junior-ratificacoes-s72-s90-20260826.md`. Named debts stay open (double-peak · hate cue · god-mark read · D9-es · his item-5 hygiene-bank); B5/C2 pre-freeze legality and the s85 live-hotfix process explicitly acknowledged, zero objections. The standing "async ratifications" carry can be DROPPED from the queue lists.
+**Job 0 at open: ALL CLEAN** (origin `60f5d9d` = local · save
+`da5a0b2d…` mtime 08-26 16:08 sessions=16 — UNMOVED end-to-end, zero
+launches · logs 41 · wall 35 / gate rows 69 · world.rb 1769 /
+window.rb 267 · canary live era verified (LAST-block law) ·
+freeze-watch CLEAN · mail EMPTY at open · trio digests verified;
+fleet's "two active sessions" flag investigated = s90's just-closed
+session file, lease held by this session alone).
+
+**Owner pacing exchange (recorded, not administered):** owner verbatim
+"There is so much to do before we play another ritual session in my
+honest opinion" — dev named the inversion ONCE (the verdict IS the
+unlock: the freeze blocks exactly the content work the pile wants;
+exposure paid, instrument staged, two evenings + ten questions), then
+dropped it. Ritual stays owner-paced, never nagged. J-5 spike offered;
+owner deferred ("can't play right now" — the spike needs his eyes) and
+picked the pacing analysis instead.
+
+**Shipped (all docs-only, all pushed):** `4334738` J-T3 ticket
+expansion + dispatch (lane doc §J-T3 full ticket; pt-br clipboard
+prompt digest-stamped `96ab25a4…`, carried the J-T1/J-T2 review-pass
+news) · `0df4d2f` **v20 pacing analysis**
+(`drafts/_v20-pacing-analysis-20260826.md`: whole 1→10 curve = 0.5–1.3
+measured sim-hours; three human sessions chain-verified 5125+1770+4069
+= 10964 = cum E(10) 10320 + 644 overflow; band 8k–20k xp/h; cap-15
+extension = +2.6× the current curve; deep pays LESS per kill (husk 8)
+than surface (rusher 15) against 150% tiers — arithmetic + grill
+questions, zero recommendations, zero feel claims) · `7d5f2d8` **J-T3
+fresh-eyes review: PASS** (`drafts/_s91-junior-jt3-review-20260826.md`;
+route read + pocket sites + zero-NEW-asks claim all verified live; ONE
+geometry correction recorded — Pocket B's SW flank is open ground, so
+as-drawn it is a strong-point, not a two-mouth toll; grill-class
+absorptions listed, NO rework owed; calibration nits: `w` = wood
+platform not well, sketch rows drift ±1 column vs prose coords which
+verify exact).
+
+**Peer commits landed mid-session:** `2ed947d` — Junior RATIFIES
+s72–s90 + banner-names (verbatim "Ratifico tudo, s72–s90 e
+banner-names, mantendo as dívidas nomeadas em aberto"; record
+`drafts/_junior-ratificacoes-s72-s90-20260826.md`; named debts stay
+open: double-peak · hate cue · god-mark read · D9-es · item-5
+hygiene-bank) — **the standing async-ratifications carry is DROPPED
+from the queue lists, this entry is the record** · `73cf85d` CLAIMED
+at start (lane law 6 honored) · `cfba28b` J-T3 delivery (190 lines,
+docs-only). CLAIMED line cleared this entry. **Junior parallel lane
+COMPLETE: J-T1 VERIFIED · J-T2 PASS · J-T3 PASS — three same-night
+deliveries, three passes.** No next ticket assigned; authoring =
+post-verdict worldsmith/WB lane on the grill's word.
+
+**Assets family-block receipt LANDED + VERIFIED** (mail 21:09 →
+done/): family-block span at their HEAD = canonical `993fb261…`
+byte-exact · CLAUDE.md mirror `e7ffe483…` exact · commit `6ba7079`
+pushed, HEAD `80b74d8` · re-pin chain healthy (`c191ab2`/`c5e7168`/
+`80b74d8`, all four game_commit pins are real game-two commits) ·
+**E3a: their intake review PASSED (their `151d8db`) and their reply
+mail sends only on RECORDED OWNER APPROVAL — owner-pending, surfaced
+once s91, never nag** · their T2-delivery receipt rides their next
+intake sprint · the staged s89-assets spark is RETIRED (overtaken:
+family-block half self-served by their live session, T2 half
+consciously parked their side).
+
+**THREE parked routing-doc rows (blob-stability law — unpark ALL when
+worldsmith's T26 receipt lands; if their session STOPPED on digest
+mismatch, point it at `b9749b5`):** (1) Junior-lane s90 row — verbatim
+in `drafts/_s90-junior-jt1-jt2-review-20260826.md` §Consequences;
+(2) route-#1b row — verbatim in the s90 checkpoint entry; (3)
+Junior-lane session-2 row — verbatim in
+`drafts/_s91-junior-jt3-review-20260826.md` §Consequences.
+
+**Hygiene: intact end-to-end** — zero launches (save byte-unmoved),
+all commits docs-only, §9 unread, no question-topic contact (the
+owner's scheduling stance banked uncommented; the pacing doc carries
+its own hygiene statement and zero feel claims), R-A2 unexplained,
+item-5 untouched, seat-lease respected on the assets verification
+(read-only slicers after the pipeline heuristic blocked sed/awk/py —
+never routed around).
+
+**Job-0 baselines for s92:** origin tip = this close commit · tree
+clean except `drafts/_refs/` · save `da5a0b2d…` mtime 08-26 16:08
+sessions=16 · logs **41** (numeric law; bare glob 44) · wall **35** /
+gate rows **69** · suite **1317 (27591)** (three green hook runs this
+session) · world.rb **1769/1800 NEARING CAP** · window.rb 267/300 ·
+canary live era = LAST block · bundles/ one live bundle + tracks ·
+mail inbox EMPTY (still inbound: worldsmith T26 · lore family-block ·
+assets T2-delivery receipt on their sprint) · freeze-watch clean
+through this close · trio digests unchanged (routing `ac249682…` ·
+junior-input `8f874657…` · slate `4b95c13f…`); lane doc consciously
+moved to `96ab25a4…` (NOT in the trio).
+
+**s92 queue:** ritual s1 if declared (skeleton checklist = the script;
+expect open level=10 xp=644; the §11 link conversation — 9805ms at
+s85) · worldsmith T26 receipt harvest (verify at their blobs, read the
+dossier, then the TRIPLE unpark) · lore family-block receipt · assets
+E3a reply approval relay IF the owner gives the word · J-5 spike on
+owner word (needs his eyes live) · v20 prep lawful moves only (drafts;
+NOTHING builds) · integrity-only close stays the lawful zero-input
+shape.
 
 ## 2026-08-26 session 90 — Junior's J-T1/J-T2 REVIEWED: PASS, zero corrections (J-T1 = VERIFIED, worldsmith v2-grill trigger 2 of 3) · uiux Candidate-5 spec receipt LANDED + VERIFIED (their `3728d76`, UI-GATE 22/22) · routing-doc receipt rows PARKED under the blob-stability law (T26 still pending)
 
