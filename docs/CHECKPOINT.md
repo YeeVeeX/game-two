@@ -1,5 +1,80 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-27 session 93 — owner-directed slate 3+4: J-5 projection spike EXECUTED + pick CLOSED (FLAT; art-depth candidate banked) · v20 pre-grill input index BANKED · docs-only in the live tree, freeze intact
+
+**Job 0 at open: ALL CLEAN** (origin `a2f6644` = local · tree clean
+except `drafts/_refs/` · save `da5a0b2d…` mtime 08-26 16:08 sessions=16
+— UNMOVED end-to-end this session, zero save-owning launches · logs 41
+numeric-law (one investigated deviation: a loose grep counted 43 — the
+two extras are `game_two_session.log`/`game_two_session2.log`, Aug-12
+pre-numbering relics; the counting-law glob `game_two_session_*.log`
+reads 41 exactly, baseline holds) · wall 35 / gate rows 69 · suite 1317
+(27591) green at open · world.rb 1769/1800 · window.rb 267/300 · canary
+live era verified (LAST-block law) · freeze-watch CLEAN through
+`a2f6644` · bundles/ one live · mail inbox EMPTY).
+
+**Owner word (s93 chat): "3 and 4 now"** — slate items 3 (J-5 spike,
+owner present) + 4 (v20 prep, drafts-only) executed as one change set.
+
+**J-5 projection spike — EXECUTED + CLOSED** (record:
+`drafts/_j5-projection-spike-20260827.md`): throwaway worktree
+`tmp/j5-spike` (detached at `a2f6644`), ONE seam edit (+22 lines,
+worktree renderer.rb only — the world pass wrapped in a
+PROJECTION-keyed screen-space transform; HUD/overlays outside by
+construction), `world_loop.json` replayed three ways (flat /
+threequarter y×0.7 / iso rot45+y×0.5, REPLAY_DONE ×3), four labeled
+triptychs composed; owner shown `compare_0441` in-chat. Dev
+recommendation defended (Tibia reference wall = flat square grid; iso =
+render-layer rewrite + input remap + full re-pin of 35 scripts/69
+rows/canary AND fights tile-locked combat legibility; 3/4 squash =
+depth-free legibility loss). **Owner pick: FLAT ("approved, proceed",
+verbatim in the record).** Banked at the pick, owner-approved:
+**ART-DEPTH-ON-FLAT-GRID** v20 presentation candidate (south wall face
+bands + body lift — the Tibia/LttP art-projection lesson; first
+concrete shape of the recorded "looks too simple" pointer). Worktree
+TORN DOWN; the four triptychs preserved LOCAL (untracked, junior-refs
+pattern) in `drafts/_refs/j5-projection-20260827/` (md5s in the
+record). Live-tree cost: ZERO code — the spike never touched the live
+checkout; no gate owed (ratified no-gate shape); adoption of any
+alternative projection REFUSED for v19/v20 geometry.
+
+**v20 pre-grill input index — BANKED**
+(`drafts/_v20-pregrill-index-20260827.md`): every grill input on one
+page, each pinned at a fresh-computed git blob md5 in the commands that
+cite them — slate `4b95c13f…` · pacing analysis `7a8feb19…` · J-T1
+`0959d0c1…` / J-T2 `0203a6cc…` / J-T3 `adc3c16e…` · worldsmith T26
+dossier `56a6ee9b…` @ their `4fd1f66` · uiux block-anchor spec
+`6eb0bbba…` @ their `3728d76` · foundation `26a6eea2…` · ritual spec
+`0ca46597…`; plus the mechanical verdict-row→grill routing map (spec
+§10, no row invented/softened) and the 8 already-recorded open
+questions. INDEX ONLY — no lane order, no promotions, no new design
+content (the art-depth candidate lives in the J-5 record, cross-linked).
+
+**Hygiene: intact end-to-end** — zero save-owning launches (harness
+replay windows in the worktree, scratch worlds, no launcher logs — log
+count 41 unchanged, save md5 re-verified at close), zero live-tree
+code/data edits (both ships are drafts/), §9 unread, no question-topic
+contact, R-A2 unexplained, item-5 untouched, seat-lease honored on
+foreign reads (`git -C` slicers only; worldsmith repo path is
+`workspace/worldsmith`, NOT game-two-worldsmith).
+
+**Job-0 baselines for s94:** origin tip = this close commit · tree
+clean except `drafts/_refs/` · save `da5a0b2d…` mtime 08-26 16:08
+sessions=16 · logs **41** (numeric law) · wall **35** / gate rows
+**69** · suite **1317 (27591)** · world.rb **1769/1800 NEARING CAP** ·
+window.rb 267/300 · canary live era = LAST block · bundles/ one live
+bundle · mail inbox EMPTY (expected inbound: lore family-block receipt
+ONLY) · freeze-watch clean · one stale pre-existing worktree
+`tmp/s59_pre` (s59 relic, untouched — not this session's).
+
+**s93 queue → s94:** ritual s1 if declared (skeleton checklist = the
+script; expect open level=10 xp=644; §11 link conversation — 9805ms at
+s85) · lore family-block receipt if it lands · v20 grill = owner-paced
+post-verdict (pre-grill index now banked; J-5 pick CLOSED — no longer a
+carry) · integrity-only close stays the lawful zero-input shape ·
+owner-pending relay: the appreciative line to Junior (three-for-three
+same-night passes) rides whenever the owner sends it.
+
 ## 2026-08-27 session 92 — worldsmith T26 receipt HARVESTED (no mail was ever owed — their DoD = printed receipt lines; verified at their blobs) · blob-stability freeze LIFTED + TRIPLE UNPARK executed · assets E3a-T2 TRACK receipt landed + verified from bytes (route #3 CLOSED) · docs-only
 
 **Job 0 at open: ALL CLEAN** (origin `ea0e37c` = local · tree clean
