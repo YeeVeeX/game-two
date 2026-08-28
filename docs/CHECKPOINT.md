@@ -1,5 +1,16 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+NOTE → JUNIOR'S SEAT (2026-08-28, standing until done): **FIRST thing
+your next session, BEFORE any other game-two reading/work/chat: administer
+your player's 5 questions** — pt-br block of spec §9
+(`docs/superpowers/specs/2026-08-26-v19-eighteenth-ritual.md`), byte-virgin,
+one-by-one, zero commentary between Q and A, bank VERBATIM into
+`drafts/_v19-fun-verify-skeleton-20260826.md` §JUNIOR ANSWER SET (typos and
+all), name any known peer contact beside the answers (§6). **Do NOT read
+`drafts/_v19-fun-verify-verdict-20260828.md` — nor the skeleton's §OWNER
+ANSWER SET — until his 5 are banked**; then read the verdict §Addendum
+protocol and execute it (K3/K4 re-read + Junior-side rows; commit + push).
+
 ## 2026-08-28 session 113 — s2 DECLARABLE (awaiting owner verbatim) · Junior ZONE 2 directions reviewed PASS · owner solo session #18 clean (chain → `1c2c35ed`, at-cap explained) · logs baseline re-anchored
 
 **SUPERSEDED SAME-SITTING by owner order — RITUAL S2 = THE SOLO
@@ -54,6 +65,26 @@ at the verdict with today's full input index (forest-first · ZONE 2
 directions · archaeology · underground ask · J-T4..T8 · wall-class
 ask · at-cap headroom · the owner's P1-supplement/P5 asks as
 adjudicated evidence).
+
+**FINAL (same sitting): ADJUDICATED — the eighteenth closes
+CUMPLIDO-PROVISIONAL-ON-JUNIOR, one named debt (R-SO → B4).** Owner
+ordered adjudication at 5/10 (verbatim in the skeleton §Deviations:
+"no importa, de momento avancemos así sin las de él … quiero ver
+resultados"); fresh read-only headless session adjudicated on §13's
+closed terms → verdict banked
+`drafts/_v19-fun-verify-verdict-20260828.md` (571 lines; every
+compression priced; addendum protocol §10 mandatory). **Freezes
+LIFTED with named survivals** (pt-br §9 virgin · verdict quarantined
+from Junior · no peer debrief · owed explanations wait · ships land
+as named novelty confounds beside his future answers) — AGENTS.md
+cycle section updated to the adjudicated state; NOTE→Junior's-seat
+staged at checkpoint top (administer-first law). Owners' queue from
+the verdict: R-SO→B4 (headline debt, data-only) · R-G1+at-cap → v20
+grill · R-GEO1→B1-T3 fold · R-E escalation eligible on owner word.
+**v20 grill OPEN** — run it next (fresh session recommended; input
+index in the verdict §Unlocks). Session s113 total: 12 commits, all
+suite-green via hooks; docs-only except zero — no src/data touched
+(the lifts change what MAY move, nothing moved yet).
 
 **→ the paragraph below is the PRE-ORDER state, kept for the
 record; its "awaiting declaration" framing is DEAD.**
