@@ -60,6 +60,21 @@ changes are still Rule-2 visual changes (wall + recalibration apply).
   opened. Nothing is deleted or closed by this rule; reversal = one
   owner line. (Context: the owner named breadth as his own failure
   mode — this rule makes the discipline mechanical, not memory.)
+- **OWNER ORDER (2026-08-28, Gabriel; ritual-cadence REFORM — applies
+  from the NINETEENTH fun-verify onward, never retro-grading the
+  eighteenth):** fun-verifies are **DELTA-TRIGGERED, never cycle- or
+  calendar-mandated** — one is owed only when unverified
+  player-facing SIM change has accumulated since the last verdict,
+  or a peer asks for one. **Nothing new ⇒ no ritual owed**; a cycle
+  may then close on its mechanical gates + one free-verdict line per
+  peer. The measurement freeze arms at DECLARATION (not staging) and
+  the declaration→verdict window TARGETS ≤48h (the eighteenth's
+  six-day staged freeze is the recorded failure this fixes). Item 2
+  above — hygiene while a fun-verify IS pending — is unchanged.
+  Precedent, same order ("count it as ritual this time"): the
+  eighteenth's s2 = a solo session counted retroactively by owner
+  word, compressions NAMED at adjudication per spec §12.4 (record:
+  skeleton §RITUAL SESSION 2).
 - Everything else is steerable at the owner's word: lane order, freezes,
   scope promotions. Less rigidity ≠ less order: one-concern commits,
   evidence banks, forks close at brainstorms (dev recommendation + owner
@@ -158,20 +173,21 @@ turn-handling DEFERRED (re-decide after the J-5 pick) · E4 motif
 DORMANT (perf trigger expired) · E5 audio increments queued on owner
 word.
 
-**The EIGHTEENTH ritual — STAGED s82 (2026-08-26), HYGIENE ARMED:**
-spec CLOSED `docs/superpowers/specs/2026-08-26-v19-eighteenth-ritual.md`
-(shape transcribed from the foundation + council pass; question
-wording FROZEN there, sealed §9 — peers don't read it) · runsheet
-`drafts/_v19-eighteenth-runsheet-20260826.md` · skeleton
-`drafts/_v19-fun-verify-skeleton-20260826.md`. From the staging
-commit until the verdict: ritual questions virgin · runsheet +
-JUNIOR.md + oracle wording (telemetry/persist/netplay lines) frozen ·
-the measured sim numbers (coop.json · progression.json · tiers.json ·
-economy.json · combat.json · threat.json · zone gate values) frozen ·
-bot logs never fun-evidence. Exposure debt before ritual session 1:
-each seat ≥1 ordinary session on the current build (spec §3; coop
-part 2 = the recommended vehicle). Execution owner-paced, sessions on
-DIFFERENT calendar days (host clock), capture-before-debrief.
+**The EIGHTEENTH ritual — EXECUTED, awaiting Junior's 5 + adjudication
+(hygiene ARMED until the verdict):** spec
+`docs/superpowers/specs/2026-08-26-v19-eighteenth-ritual.md` · evidence +
+answers: skeleton `drafts/_v19-fun-verify-skeleton-20260826.md`. State
+(s113, 2026-08-28): s1 coop GREEN both seats (s104) · s2 = the owner's
+solo session counted by RETROACTIVE OWNER ORDER (compressions named:
+coop shape · ≥36000 length · pre-declaration; day-gap itself HELD;
+spec §12.4 route) · Half A banked · owner answers 5/5 VERBATIM ·
+Junior's 5 PENDING — his seat administers byte-virgin from §9, pt-br,
+one-by-one; **the peers do not discuss the game until his 5 are banked
+(capture-before-debrief)**. Then: adjudication in a FRESH session →
+verdict doc → ONLY the verdict lifts the freezes (questions-virgin ·
+runsheet/JUNIOR.md/oracle wording · the measured sim numbers · bot-logs
+law — all still armed until then). Owed explanations + HELD material
+deliver after 10/10, never before.
 
 **Standing program — quality flywheel** (owner-directed 2026-08-19;
 contract: `drafts/_quality-flywheel-plan-20260819.md`): soak

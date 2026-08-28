@@ -34,6 +34,27 @@ cadence REFORM — executes AFTER the owner's 5 answers are banked
 as an AGENTS.md operating-model amendment applying from the
 NINETEENTH onward (never retro-grading the eighteenth).
 
+**COMPLETION (same sitting): OWNER 5/5 BANKED + REFORM EXECUTED.**
+Answers verbatim in the skeleton §OWNER ANSWER SET (commits
+`7571471`→`f6c8a06`): P1 = counter-question banked AS the answer
+(§6 law) + post-contact supplement (against-interest, full weight)
+· P2–P5 substantive; contact/discount notes recorded beside. The
+ritual-cadence REFORM is LAW in AGENTS.md §Operating model (owner
+order 2026-08-28: fun-verifies delta-triggered · nothing new ⇒ no
+ritual owed · freeze arms at declaration · declaration→verdict
+target ≤48h · applies from the NINETEENTH); the cycle section's
+eighteenth paragraph now carries the executed state. **Remaining to
+close the eighteenth: (1) Junior's 5 — HIS seat administers
+byte-virgin from §9 (pt-br, one-by-one, verbatim into the
+skeleton); owner pings him humanly; PEERS DO NOT DISCUSS THE GAME
+until his 5 are banked; (2) adjudication in a FRESH session (never
+this one) → verdict doc → the verdict lifts the freezes; (3) owed
+explanations + HELD material deliver after 10/10.** v20 grill opens
+at the verdict with today's full input index (forest-first · ZONE 2
+directions · archaeology · underground ask · J-T4..T8 · wall-class
+ask · at-cap headroom · the owner's P1-supplement/P5 asks as
+adjudicated evidence).
+
 **→ the paragraph below is the PRE-ORDER state, kept for the
 record; its "awaiting declaration" framing is DEAD.**
 
