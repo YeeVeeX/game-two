@@ -7,6 +7,8 @@ CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
 
+CLAIMED: T1 (seat: hub, 2026-08-28) — floor-1 v2b retheme, in progress.
+
 ## 2026-08-28 session 114 — v20 GRILL RATIFIED (foundation + spec + T1-T6) · ADDENDUM banked (eighteenth FINAL: CUMPLIDO, two debts) · FULL SEAT SYMMETRY law · protect-main ruleset live
 
 **The eighteenth is FINAL:** Junior's 5 banked by his seat
