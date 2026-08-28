@@ -103,7 +103,7 @@ stalls).
 - [x] AUTOPILOT grep = 0 on all four files *(three files exist: s1 host · s1 joiner · s2 solo — grep = 0 on all three)*
 - [x] Chain walk: every loaded == a previous saved, every gap classified *(s113: solo loaded `c36cea1f…` == s1 saved; zero logs in the gap; two pre-08-13 ordinary logs lost to Windows temp cleanup, named, pre-chain-era)*
 - [x] THEN: owner 5 answers (es, one-by-one, byte-virgin from spec §9) — VERBATIM below *(COMPLETE s113 2026-08-28: P1 counter-question + post-contact supplement · P2–P5 substantive; all verbatim, contact/discount notes beside)*
-- [ ] THEN: Junior 5 answers (pt-br, his seat administers) — VERBATIM below
+- [x] THEN: Junior 5 answers (pt-br, his seat administers) — VERBATIM below *(COMPLETE Junior seat 2026-08-28: P1 empty-class · P2 growth AFFIRMATIVE · P3 "muito melhor" + cap pain · P4 unchanged-IA · P5 positive + process directive; watcher-contamination surface named in the block)*
 - [ ] Deviations named beside each set (capture-before-debrief status included)
 - [ ] HELD material admitted (sustain lines · mid-session observations · forensics)
 - [ ] Adjudication in a FRESH session → `drafts/_v19-fun-verify-verdict-<date>.md`
@@ -347,7 +347,54 @@ stalls).
   **OWNER SET COMPLETE 5/5 — banked before any owed explanation;
   quarantine holds until Junior's 5 land.**
 
-## JUNIOR ANSWER SET (empty — 0/5)
+## JUNIOR ANSWER SET (5/5 — COMPLETE, Junior seat 2026-08-28)
+
+Administered by the Junior seat in his agent session, one-by-one,
+each question pasted byte-virgin from §9 in pt-br, zero commentary
+between Q and A, next question only after the previous answer (§6).
+Mid-administration the repo watcher injected summaries of the owner's
+banked answers into the session transcript — the administering seat
+DID NOT relay or discuss any of it with Junior (told him explicitly to
+ignore it), and PAUSED the watcher for the rest of the window;
+contamination surface named for the adjudicator (Junior gave no sign
+of having read the summaries; his answers show no convergence with the
+owner's content beyond the shared instrument). The day-gap premise ran
+UNAMENDED (his s1 was coop 08-27; the questions were administered
+08-28). Capture-before-debrief held: the peers had not discussed the
+sessions before these answers landed.
+
+- **P1 (pt-br, byte-virgin):** asked verbatim. **Answer (verbatim):**
+  "nao lembro pq fumo muito, desculpe." — no affirmative continuity
+  content → the P1 reading comes out EMPTY for this seat (does NOT
+  complete K4: that requires an affirmative "partida nova" from both
+  seats; the owner's P1 was also empty-class — K4 stays incomplete on
+  BOTH-empty, not fired).
+- **P2 growth-felt (the K3 line, byte-virgin):** asked verbatim.
+  **Answer (verbatim):** "sinto que os aliados estao bem mais fortes"
+  — AFFIRMATIVE growth content, felt on the pack ('aliados'). K3 does
+  NOT fire on this seat.
+- **P3 difficulty arc (v18 P2 re-ask, byte-virgin):** asked verbatim.
+  **Answer (verbatim):** "muito melhor, a limitação agora está no nv
+  10. eu penso que o ultimo mapa que foi criado precisa de mais niveis
+  para ficar um pouco mais facil" — v18 baseline ("segue muito dificil
+  chegar no boss") → "muito melhor": the arc moved. Named pain: the
+  level-10 cap binds; asks more levels for the frontier map (reads
+  onto the pacing-analysis/cap-raise grill row).
+- **P4 third body (v18 P3 re-ask, byte-virgin):** asked verbatim.
+  **Answer (verbatim):** "a IA eu sinto que segue a mesma coisa" —
+  the v18 P3 reading did NOT move on this seat (his baseline: "a IA
+  morre muito, fica correndo pra dentro dos inimigos"). Reads onto the
+  R-T1/R-T2 companion-AI rows.
+- **P5 free verdict (byte-virgin):** asked verbatim. **Answer
+  (verbatim):** "o jogo está bom e o processo eu acredio que vai mudar
+  a perceptção do jogo, mas não podemos nos focar apenas em editar os
+  mapas, temos que sgeuir produzindo coisas novas e otimizar o
+  trabalho, mesmo que as coisas novas sejam do padrao antigo e que
+  depois passe por uma reformulção, igual estamos fazendo agora com a
+  edição dos mapas iniciais" — positive on the game; process directive
+  (new content over pure retheming; iterate old-pattern content then
+  reform) — convergent with the owner's s113 "start adding stuff"
+  directive, recorded for the grill.
 
 ## HELD material (accumulates; admitted only after 10/10)
 
