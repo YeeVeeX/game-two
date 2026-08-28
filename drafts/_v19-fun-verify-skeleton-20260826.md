@@ -256,7 +256,27 @@ stalls).
   window (s105–s113 all docs-only; freeze-watch clean through
   `7dd9930`).
 
-## OWNER ANSWER SET (empty — 0/5)
+## OWNER ANSWER SET (1/5 — administration OPEN, s113)
+
+- **P1 (es, pasted byte-virgin from §9, hub chat s113; the day-gap
+  held so the premise ran UNAMENDED):** asked verbatim. **Answer
+  (verbatim, typos and all):** "qué tanto te ayuda como desarrollador
+  que respondamos esas preguntas tontas? No deberías enfocarte en el
+  juego y si algo no me gusta lo digo y ya? Qué opinas?" — a pure
+  counter-question: banked AS the answer per §6. No affirmative
+  continuity content → the P1 reading comes out EMPTY for this seat
+  (it does NOT complete K4 — that requires an affirmative "partida
+  nueva" from both seats independently; §10). Beside the answer, per
+  §6: the owner's message also re-states the process directive
+  already recorded in the s113 order ("enfocarte en el juego").
+- **Contact note (§6 contamination rule, named as it occurred):**
+  AFTER banking P1, the hub answered the owner's PROCESS question
+  (why structured capture exists at all — general terms, Kethral
+  post-mortem + aggregate v18→v19 lineage only; question-CONTENT
+  explanations, topic mappings, and all HELD material stayed
+  withheld until 10/10). Any post-contact supplement to P1, if the
+  owner volunteers one, reads DISCOUNTED on warmth/convergence per
+  §6; against-interest content keeps full weight.
 
 ## JUNIOR ANSWER SET (empty — 0/5)
 
