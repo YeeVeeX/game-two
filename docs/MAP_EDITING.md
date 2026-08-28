@@ -1,21 +1,23 @@
 # MAP EDITING — the map-lane operating manual (v1, 2026-08-27)
 
-Role split (peer-ratified 2026-08-27, hub chat, recorded s104):
-**Junior DIRECTS the editing of current maps** — he picks the zone and
-sends a reference image of the intent; **the dev seat EXECUTES** — it
-delivers the complete edit with strategically placed respawns and
-configured transitions ("portals"). Fidelity to the reference image is
-approximate BY AGREEMENT; tolerance for bugs/crashes/glitches is ZERO —
+Role split (peer-ratified 2026-08-27; **SUPERSEDED by owner order
+2026-08-28 — FULL SEAT SYMMETRY**, recorded in AGENTS.md §Operating
+model): **either peer DIRECTS, either peer EXECUTES** — a direction
+may arrive from any seat, and the executing seat may be the same one
+or the other; directions-by-reference-image and full deliveries are
+both legal from both peers. What never moves is the MECHANICS: the
+deliverable passes the gates below regardless of who lands it.
+Fidelity to a reference image stays approximate BY AGREEMENT;
+tolerance for bugs/crashes/glitches is ZERO —
 which in this repo means the deliverable passes the mechanical gates
 below, not that anyone promises hard enough.
 
-> **FREEZE GATE (read first, binds until the eighteenth's verdict):**
-> `data/zones/**` is a freeze-watched surface and respawn/difficulty
-> moves are the exact objects the pending ritual measures — measurement
-> hygiene while a fun-verify is pending relaxes under NO override
-> (AGENTS.md operating model, item 2). Directions received now are
-> BANKED (drafts/) and execute the day the verdict lands. Everything
-> in this manual is prep until then.
+> **FREEZE GATE — EXPIRED 2026-08-28:** the eighteenth's verdict
+> landed (`drafts/_v19-fun-verify-verdict-20260828.md`) and lifted the
+> measurement freezes by its own terms — zone/map executions are
+> LEGAL again under the normal gates below. This block stays as
+> history: while any FUTURE fun-verify is pending (cadence reform:
+> freeze arms at declaration), `data/zones/**` re-freezes the same way.
 
 ## 1. The zone inventory — every map has ONE lawful edit path
 

@@ -60,6 +60,13 @@ changes are still Rule-2 visual changes (wall + recalibration apply).
   opened. Nothing is deleted or closed by this rule; reversal = one
   owner line. (Context: the owner named breadth as his own failure
   mode — this rule makes the discipline mechanical, not memory.)
+- **OWNER ORDER (2026-08-28, Gabriel): FULL SEAT SYMMETRY** — Junior's
+  role = Gabriel's: equal leadership over the game's development; both
+  peers edit, iterate, and create at will, any time, any surface.
+  Supersedes the map-lane directs/executes split (2026-08-27): either
+  peer directs, either executes. Mechanical law stays seat-agnostic
+  and unchanged — lawful edit paths, hooks, gates, claims, and
+  fresh-eyes reviews bind WHOEVER lands the work.
 - **OWNER ORDER (2026-08-28, Gabriel; ritual-cadence REFORM — applies
   from the NINETEENTH fun-verify onward, never retro-grading the
   eighteenth):** fun-verifies are **DELTA-TRIGGERED, never cycle- or
