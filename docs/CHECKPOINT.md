@@ -1,5 +1,7 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+NOTE: Junior seat, 2026-08-28 — **map-lane direction intake DELIVERED**: three approved retheme concepts for ZONE 2 (all the SAME zone, three alternative versions — v1 chamber-cavern 88×52 · v2b two-spaces+4-bridges 52×88 · v3 MEDUSA LOWER 52×52), each sandbox-playtested by Junior off-repo and BFS-connectivity-proven. Record + PNGs: `drafts/_junior-zone2-map-directions-20260828.md` (+ `drafts/_refs/junior-zone2-*.png`, md5s in-doc). Execution = post-verdict per the map-lane law. One v20 ask surfaced: second wall class in the tile registry (red inner walls vs black bounds cannot coexist today).
+
 ## 2026-08-27 session 112 — integrity-green holding close (eighth lawful same-day open) · s2 declarable 2026-08-28+ · s113 spark staged
 
 **No ritual event (lawful — eighth same-day open in a row):** host
