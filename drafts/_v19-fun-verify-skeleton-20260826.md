@@ -295,6 +295,25 @@ stalls).
   muchísimo en los repos hermanos" — banked uncommented (no
   reaction given, §6); adjudication maps any rows, never this
   session. P2 re-presented after banking.
+- **P2 (es, pasted byte-virgin from §9, hub chat s113):** asked
+  verbatim (pasted twice: once pre-supplement, re-presented
+  unchanged after the P1 supplement banking). **Answer (verbatim,
+  typos and all):** "un poco mejor ya que ya entendemos un poco los
+  roles de cada cuerpo y como tenemos experiencia con Tibia hemos
+  aprendido a coordinar las habilidades de cada uno, por ejemplo:
+  casi siempre nos vamos Junior y yo adelante del blocker con el
+  striker y el lobber para lurear ya que son bastante rápidos y
+  hábiles, y ya cuando tenemos bastantes enemigos persiguiendonos,
+  nos acercamos al blocker y yo hago el cambio a controlar al
+  blocker y uso el challenge, entonces hacemos una buena
+  coordinación, pero seguimos teniendo el mismo problema con los
+  heals, no nos dura casi nada el tiempo en batalla y ya tenemos que
+  volver a un hub a curarnos" — banked uncommented. Descriptive
+  notes only (mapping = adjudication's): affirmative "un poco
+  mejor" (not null, not "igual"); attribution named by the player =
+  learned ROLE COORDINATION (Tibia-honed luring/swap/challenge
+  play-pattern described in detail), stats/levels UNMENTIONED;
+  one named pain: in-battle heal duration → forced hub returns.
 
 ## JUNIOR ANSWER SET (empty — 0/5)
 
