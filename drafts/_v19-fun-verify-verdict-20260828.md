@@ -569,3 +569,233 @@ no row softened; free verdict quoted uncut. Evidence anchors: skeleton
 checkpoint s113 · evidence dir `drafts/_v19-eighteenth-evidence/`
 (s1 host `5bc9cb46244b80076bba1a6cf36bf106` · s1 joiner blob
 `32584f9c343d1c6b9f15a50fa276343a` · s2 `3762fd9756a90e9483f141006d1a3fbd`).*
+
+---
+
+## ADDENDUM (2026-08-28) — Junior's five, adjudicated on §10's terms
+
+**Provenance (§10.3 + spec §13 fresh-session law):** fresh
+adjudication-addendum session — it did not administer any question,
+did not write the 5/10 body above, and holds no stake in the outcome.
+Closed terms only: the spec, the skeleton (§JUNIOR ANSWER SET banked
+at commit `a5997c7`, 2026-08-28; skeleton unchanged since — the
+banked bytes are the bytes read), and §10 above. The 5/10 body is
+untouched; this addendum is the eighteenth's LAST word.
+
+**Administration record (as the skeleton banks it):** his seat
+administered the five pt-br questions in his agent session,
+one-by-one, each pasted byte-virgin from spec §9, zero commentary
+between Q and A; the day-gap premise ran UNAMENDED;
+capture-before-debrief HELD (no peer debrief before banking).
+**Ships-since check (§10.1): NONE** — every commit since the 5/10
+verdict (`0f35ef4..HEAD`) is docs-only (verified read-only this
+session); his answers read on the ritual sessions (frozen build
+`9f0c491`) with zero novelty confound owed. **Contamination surface
+(named by the administering seat; weighed per §6 exactly as the
+skeleton records it):** mid-administration the repo watcher injected
+summaries of the owner's banked answers into the session transcript —
+the seat did not relay or discuss them, told Junior explicitly to
+ignore them, and paused the watcher for the rest of the window;
+Junior gave no sign of having read them. Per §6 the surface discounts
+warmth/convergence, never corrections, and can neither manufacture
+nor spare a kill. Weighed: his set shows no convergence with the
+owner's content beyond the shared instrument — his P2 is UNHEDGED and
+ally-attributed where the owner's was hedged and
+coordination-attributed, and his decisive negative (P4) runs
+against-interest, which keeps FULL weight in every case.
+
+### His five answers, VERBATIM (byte-exact from the skeleton, typos and all)
+
+**P1 — across-days continuity (pt-br, byte-virgin):**
+
+> "nao lembro pq fumo muito, desculpe."
+
+**P2 — growth-felt, the K3 line (byte-virgin):**
+
+> "sinto que os aliados estao bem mais fortes"
+
+**P3 — difficulty arc (v18 P2 byte-identical re-ask):**
+
+> "muito melhor, a limitação agora está no nv 10. eu penso que o
+> ultimo mapa que foi criado precisa de mais niveis para ficar um
+> pouco mais facil"
+
+**P4 — third body (v18 P3 byte-identical re-ask):**
+
+> "a IA eu sinto que segue a mesma coisa"
+
+**P5 — free verdict:**
+
+> "o jogo está bom e o processo eu acredio que vai mudar a perceptção
+> do jogo, mas não podemos nos focar apenas em editar os mapas, temos
+> que sgeuir produzindo coisas novas e otimizar o trabalho, mesmo que
+> as coisas novas sejam do padrao antigo e que depois passe por uma
+> reformulção, igual estamos fazendo agora com a edição dos mapas
+> iniciais"
+
+### Retro-fire checks, walked in §10's order — kill conditions first
+
+- **K3 (his P2) — NOT FIRED.** "sinto que os aliados estao bem mais
+  fortes" is AFFIRMATIVE growth content on the pack — not "igual",
+  not weaker, not null (not a counter-question, not incomprehension;
+  the null gloss does not apply). The one live retro-kill does not
+  fire; the provisional close SURVIVES. Named beside (§6):
+  contamination can neither manufacture nor spare K3, and no sparing
+  is needed — the clearance is the answer's own face content.
+  Texture: his affirmative is UNHEDGED ("bem mais fortes" — stronger
+  than the owner's "un poco mejor") and attributed to the ALLIES —
+  the pack whose stats the progression system grows.
+- **K4 (his P1) — NOT FIRED (and structurally closed, §2).** "nao
+  lembro pq fumo muito, desculpe." carries no continuity content in
+  either direction — empty-class, banked AS the answer per §6. It is
+  not a "partida nova" vote; K4, already incompletable after the
+  owner's empty P1, stays not fired. Both P1s read EMPTY — the
+  felt-affirmative continuity reading stays THIN on both seats, named
+  honestly; the mechanics remain chain-proven (Half A).
+- **R-D1 (his P3, still-too-hard direction) — NOT FIRED.** "muito
+  melhor" against his own v18 baseline ("um pouco mais melhor mas
+  segue muito dificil chegar no boss") — the difficulty arc MOVED on
+  the byte-identical instrument built to read it, grounded in the
+  sessions he was present for (coop ritual s1, 64834 ticks + exposure
+  #41, the runs that reached the deep zones and the cap). The named
+  pain is not boss-reach: "a limitação agora está no nv 10 … precisa
+  de mais niveis para ficar um pouco mais facil" — the binding
+  constraint he names is the LEVEL CAP, not the wall. That texture
+  routes to R-G1's at-cap headroom row (below); no row invented.
+- **R-D2 (his P3, too-easy direction) — NOT FIRED.** "para ficar um
+  pouco mais facil" asks for MORE ease at the frontier — nothing
+  reads too easy.
+- **R-T1 (his P4, lemming direction) — FIRED.** "a IA eu sinto que
+  segue a mesma coisa" — "a mesma coisa" is his v18 baseline: "a IA
+  morre muito, fica correndo pra dentro dos inimigos". The
+  byte-identical re-ask reads UNCHANGED after the C2 ship
+  (defensive-default engage + flee 0.5, s80 — exposed to him in coop
+  #41 and ritual s1): C2 is judged INSUFFICIENT by the instrument the
+  foundation built for exactly this. Against-interest content, FULL
+  weight (the contamination discount never touches corrections).
+  **Pre-registered outcome executes: the third-body clause is NOT
+  MET → HEADLINE DEBT + the C3 stance-verb rung UNLOCKS (the
+  foundation's own later-rung trigger) + `ally_flee_hp_pct`/engage
+  co-tune candidate, its own re-session.**
+- **R-T2 (his P4, too-passive direction) — NOT FIRED.** "a mesma
+  coisa" points at the unchanged suicidal baseline, not at passivity;
+  nothing reads won't-help.
+- **R-G1/R-G2 additions (his P2 phrasing) — R-G1 stands as FIRED
+  (owner-side) with ONE addition; R-G2 stays NOT FIRED.** His P2
+  carries no hedge and no "only numbers" phrasing — no R-G2 trigger,
+  no new hedge. ADDITION recorded to R-G1's at-cap headroom rider,
+  from his P3: "a limitação agora está no nv 10 … precisa de mais
+  niveis" — the cap now binds in BOTH players' own words (owner:
+  C-7 + HELD 2; Junior: P3), sharpening the v20 grill row (cap
+  headroom and curve height at L8–10 travel together).
+- **R-SO reinforcement (his P1/P5) — NO ADDITION.** His P1 is empty;
+  his P5 names no session-open content. R-SO stands as FIRED on the
+  owner-side evidence + HELD corroboration, unchanged in strength;
+  the B4 lane is unmoved.
+- **R-C1 (one-seat "partida nova") — NOT FIRED.** Neither P1 is a
+  "partida nova" vote (owner: pure counter-question; Junior: "nao
+  lembro…" empty-class).
+- **Free-verdict signals (his P5) — recorded, no row invented:**
+  positive on the game ("o jogo está bom") — the second seat's
+  affirmative free verdict beside the owner's. Process directive:
+  don't focus only on editing maps; keep producing NEW things and
+  optimize the work; old-pattern-then-reform is acceptable ("temos
+  que sgeuir produzindo coisas novas … mesmo que as coisas novas
+  sejam do padrao antigo e que depois passe por uma reformulção") —
+  CONVERGENT with the owner's recorded "start addint stuff" directive
+  and the P1-supp/P4/P5/HELD content asks → v20 grill input (already
+  in §9's input index; his voice now attached).
+
+### HELD material re-read beside his set (curing §0.3's named deviation)
+
+The 5/10 adjudication admitted HELD before his answers existed — a
+named deviation from the 10/10 law (§0.3). His set is now banked and
+read; the §6 order (answers first, HELD after) is RESTORED in this
+re-read:
+
+1. **Owner 08-27 variety/underground/farm-motivation ask** — now
+   coheres with his P5 new-content directive from the OTHER seat:
+   both peers independently push content expansion over retheming.
+   v20 grill input, strengthened.
+2. **Owner 08-26 content ceiling ("llegamos al final del juego muy
+   rápido y hace falta contenido")** — now paired with his P3 cap
+   pain: the at-cap headroom datum exists in both players' own words.
+   Rides R-G1's grill row.
+3. **Owner 08-26 depot stranding** — his set adds nothing on
+   session-open; the R-SO evidence base is unchanged (owner P1-supp +
+   depot stranding + floor_fired=10).
+4. **Exposure #41 telemetry oddments (`d1_fired wipes=13` ·
+   `floor_fired=10` · quay `deaths=13`)** — now ALSO texture beside
+   R-T1: the body-death rate the telemetry shows is the same
+   experience his P4 names as unchanged. The flee/engage co-tune
+   re-session inherits both.
+
+No HELD item changes any check above; the re-read confirms the 5/10
+readings and cures the order deviation.
+
+### Final clause table — all five clauses resolved (nothing PENDING-ASYNC remains)
+
+| Clause | Class | Owner seat | Junior seat | FINAL |
+|---|---|---|---|---|
+| Growth was FELT | BLOCKING (K3) | MET — "un poco mejor" (hedged; R-G1 recorded) | MET — "sinto que os aliados estao bem mais fortes" (unhedged) | **MET — K3 never fired, either seat** |
+| Across-days continuity (inherited v18 floor) | BLOCKING (K4) | No regression vote (P1 empty; "es confuso" = continuity felt as burden); mechanics chain-proven | No regression vote (P1 empty-class: "nao lembro…") | **NOT REGRESSED — K4 never fired; felt reading thin on both seats, named** |
+| Boss-reach gap closed honestly | ROUTED-DEBT (R-D1) | — (not his instrument) | "muito melhor"; the named limit = the level cap, not the wall | **MET — R-D1 not fired; cap texture → R-G1's grill row** |
+| Third body stopped being a lemming | ROUTED-DEBT (R-T1) | — (not his instrument) | "a IA eu sinto que segue a mesma coisa" | **NOT MET — NAMED DEBT → R-T1: C3 stance-verb rung UNLOCKED + flee/engage co-tune, its own re-session** |
+| Session-open is not a chore | ROUTED-DEBT (R-SO) | NOT MET — revive-chore + coin-farm at open (full weight) | no addition | **NOT MET — NAMED DEBT → B4 mercy-floor revisit lane (data-only)** |
+
+### ADDENDUM VERDICT — the close CONFIRMS
+
+**No retro-kill fired. Per §10's semantics the provisional close
+CONFIRMS: the eighteenth's headline is now CUMPLIDO with TWO final
+named debts** (the "CUMPLIDO with named debts" form, v18 precedent —
+spec §1's clause arithmetic anticipated exactly this shape, including
+a failed third-body clause that reports without voiding the cycle):
+
+1. **Session-open is still a chore — R-SO → B4 mercy-floor revisit
+   (context gate / spend pct), data-only.** (The 5/10 verdict's
+   headline debt, unchanged.)
+2. **The third body is still a lemming — R-T1 → C2 judged
+   INSUFFICIENT: the C3 stance-verb rung UNLOCKS +
+   `ally_flee_hp_pct`/defensive-engage co-tune candidate, its own
+   re-session.** (New at this addendum, from Junior's P4.)
+
+The both-players thesis, finally resolved: growth was FELT by both
+seats independently (the headline held — his unhedged "bem mais
+fortes" beside the owner's hedged "un poco mejor"); continuity did
+not regress (mechanics chain-proven across a real calendar boundary;
+both felt readings thin, named); the boss-reach gap closed honestly
+on the instrument that has watched it since v18; the third-body and
+session-open clauses FAILED and are carried as routed debts, not
+waived. Junior's free verdict stands quoted uncut above — free
+verdict, always.
+
+**Standing consequences (pre-registered, restated exactly):**
+
+- The freezes lifted at the 5/10 verdict DO NOT re-arm (no K3 route
+  executes; no re-ritual declaration exists — cadence-reform law).
+- §12.2's surviving exception is SPENT: his five are banked. The
+  quarantines §9 tied to his banking now LIFT by §9's own terms —
+  the pt-br block's live-instrument status ends, this verdict doc's
+  quarantine from Junior ends, the peers' no-game-debrief order ends,
+  and the owed explanations + question-topic mappings + HELD delivery
+  to the peers are now DELIVERABLE (the hub executes; §12.5
+  bot-logs law stays permanent, as always).
+- Owners' priority queue, final form (sequencing stays the owners'
+  word): (1) R-SO → B4 mercy-floor revisit (data-only, headline
+  debt) · (2) R-T1 → C3 stance-verb rung unlocked + flee/engage
+  co-tune, its own re-session (headline debt, this addendum) ·
+  (3) R-G1 → progression-pacing candidate + at-cap headroom to the
+  v20 grill (now in both players' words) · (4) R-GEO1 → folds into
+  standing B1-T3 (no new item) · (5) R-E → R-A2 strip escalation
+  ELIGIBLE, owner word decides, priced, never auto-executed.
+- The v20 grill (already OPEN) gains from his set: the P5 process
+  directive (new content over retheming; old-pattern-then-reform) ·
+  the P3 cap-raise/more-levels ask for the frontier map.
+- **v19's close is no longer provisional — the license is FINAL.**
+  The retro-fire window is closed; this addendum is the eighteenth's
+  last word.
+
+*Adjudicated on §10's closed terms from the skeleton's banked bytes
+(commit `a5997c7`) only; checks walked in §10's order, kill
+conditions first; no row invented, no row softened; free verdict
+quoted uncut; the 5/10 body above unmodified, not one character.*

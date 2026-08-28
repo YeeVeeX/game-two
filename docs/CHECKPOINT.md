@@ -1,15 +1,11 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-NOTE → JUNIOR'S SEAT (2026-08-28, standing until done): **FIRST thing
-your next session, BEFORE any other game-two reading/work/chat: administer
-your player's 5 questions** — pt-br block of spec §9
-(`docs/superpowers/specs/2026-08-26-v19-eighteenth-ritual.md`), byte-virgin,
-one-by-one, zero commentary between Q and A, bank VERBATIM into
-`drafts/_v19-fun-verify-skeleton-20260826.md` §JUNIOR ANSWER SET (typos and
-all), name any known peer contact beside the answers (§6). **Do NOT read
-`drafts/_v19-fun-verify-verdict-20260828.md` — nor the skeleton's §OWNER
-ANSWER SET — until his 5 are banked**; then read the verdict §Addendum
-protocol and execute it (K3/K4 re-read + Junior-side rows; commit + push).
+NOTE → JUNIOR'S SEAT: the 2026-08-28 administration NOTE is **DONE —
+SPENT** (your 5 banked verbatim at `a5997c7`; the adjudication
+addendum landed same day: K3 never fired, the eighteenth CLOSED
+CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
+All ritual quarantines are LIFTED: the verdict doc is now readable on
+your seat, peers debrief freely, owed explanations deliverable.
 
 ## 2026-08-28 session 113 — s2 DECLARABLE (awaiting owner verbatim) · Junior ZONE 2 directions reviewed PASS · owner solo session #18 clean (chain → `1c2c35ed`, at-cap explained) · logs baseline re-anchored
 

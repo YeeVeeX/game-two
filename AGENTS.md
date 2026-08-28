@@ -180,25 +180,22 @@ turn-handling DEFERRED (re-decide after the J-5 pick) · E4 motif
 DORMANT (perf trigger expired) · E5 audio increments queued on owner
 word.
 
-**The EIGHTEENTH ritual — ADJUDICATED 2026-08-28: CUMPLIDO-PROVISIONAL-ON-JUNIOR,
-one named debt (session-open chore → R-SO → B4 mercy-floor lane).**
-Verdict (fresh session, 5/10 by owner order, every compression
-priced): `drafts/_v19-fun-verify-verdict-20260828.md` — evidence +
-verbatim answers: `drafts/_v19-fun-verify-skeleton-20260826.md`.
-**Freezes LIFTED at the verdict** (sim numbers · oracle wording ·
-ship discouragement), with these SURVIVALS until Junior's 5 bank:
-spec §9's pt-br block byte-virgin · the verdict doc itself is
-QUARANTINED from Junior · peers do not debrief the game · owed
-explanations/HELD delivery wait · every player-visible ship landing
-before his answers is NAMED beside them as a novelty confound.
-Bot-logs-never-fun-evidence: permanent law. **Addendum obligation
-(mandatory): Junior's seat administers his 5 (pt-br, §9, byte-virgin,
-FIRST thing his next session) → verdict addendum re-reads K3/K4 +
-Junior-side rows (retro-fire voids the provisional close).** Owners'
-priority queue from the verdict: (1) R-SO→B4 revisit (data-only,
-headline debt) · (2) R-G1 progression pacing + at-cap headroom → v20
-grill · (3) R-GEO1 folds into standing B1-T3 · (4) R-E: R-A2 strip
-escalation ELIGIBLE, owner word decides. **v20 grill: OPEN.**
+**The EIGHTEENTH ritual — CLOSED 2026-08-28: CUMPLIDO, two named
+debts (session-open chore → R-SO → B4 mercy-floor lane · third-body
+lemming → R-T1 → C3 stance-verb rung UNLOCKED + flee/engage co-tune
+re-session).** 5/10 verdict + 10/10 ADDENDUM (both fresh sessions,
+K3 never fired, license FINAL):
+`drafts/_v19-fun-verify-verdict-20260828.md` — evidence + verbatim
+answers: `drafts/_v19-fun-verify-skeleton-20260826.md`. **All freezes
+LIFTED; all Junior-bank quarantines SPENT at the addendum** (pt-br
+block, verdict quarantine, no-debrief order — owed explanations/HELD
+now deliverable). Bot-logs-never-fun-evidence: permanent law. Owners'
+priority queue, final: (1) R-SO→B4 revisit (data-only, headline
+debt) · (2) R-T1→C3 rung + flee/engage co-tune, own re-session ·
+(3) R-G1 progression pacing + at-cap headroom → v20 grill (in BOTH
+players' words) · (4) R-GEO1 folds into standing B1-T3 · (5) R-E:
+R-A2 strip escalation ELIGIBLE, owner word decides. **v20 grill:
+OPEN.**
 
 **Standing program — quality flywheel** (owner-directed 2026-08-19;
 contract: `drafts/_quality-flywheel-plan-20260819.md`): soak
