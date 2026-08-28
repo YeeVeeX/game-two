@@ -82,7 +82,11 @@ staged at checkpoint top (administer-first law). Owners' queue from
 the verdict: R-SO→B4 (headline debt, data-only) · R-G1+at-cap → v20
 grill · R-GEO1→B1-T3 fold · R-E escalation eligible on owner word.
 **v20 grill OPEN** — run it next (fresh session recommended; input
-index in the verdict §Unlocks). Session s113 total: 12 commits, all
+index in the verdict §Unlocks). **s114 spark STAGED + on the owner's
+clipboard (read-back MATCH): `drafts/_v20-grill-spark-20260828.md`,
+git blob md5 `1890c122e20a9957dc390cf4db70845f` — the grill session
+starts from it; entry guards inside (fetch-first, Junior-addendum
+check, license-void rule).** Session s113 total: 13 commits, all
 suite-green via hooks; docs-only except zero — no src/data touched
 (the lifts change what MAY move, nothing moved yet).
 
