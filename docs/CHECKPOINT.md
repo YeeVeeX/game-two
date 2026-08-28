@@ -7,7 +7,41 @@ CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
 
-CLAIMED: T1 (seat: hub, 2026-08-28) — floor-1 v2b retheme, in progress.
+## 2026-08-28 session 115 — v20 T1 SHIPPED: ZONE 2 → descent floor -1 (Junior's v2b), gate PASS, canary rebanked, wall sweep detached
+
+**T1 DONE (CLAIMED `37be092` → landing `005eab3`; record:
+`drafts/_v20-t1-floor1-20260828.md`).** District re-authored 52×88
+through the importer door (new pilot.ldtk level + district sidecar):
+two themed halves, wall-ringed chasm (water, BFS-proven unreachable),
+4 bridges (removing wood provably disconnects the halves), 27
+arena-grouped spawns (24 rusher / 3 hater — kit vocabulary unchanged,
+zero balance edits), floor -1 + Junior's own PNG palette. Transitions:
+nest row byte-identical · camp mouth re-typed stairs_down → landing
+pocket [11,87] · sealed return + seal BYTE-IDENTICAL at [41,13]/[42,13]
+(the live chain's breach fact keeps matching — L9 honored, no
+migration) · NEW hole [40,0] → district_two (the −1→−2 continuation).
+Deviations named in the record (door pockets, 2 calm-entry spawn
+nudges).
+
+**Evidence:** suite 1318/0F · `rake gate floor1_run` **PASS** (new
+zone-own script; strong members affirmatively read: two halves, chasm
+void, mid-bridge crossing) · perf p95 0.76ms · soak N=1 PASS + explicit
+`ZONES=district` episode PASS (bots crossed floor -1, chain intact) ·
+canary versioned-rebank: world_loop re-cut (S80→history, audit in the
+record), varekka/burn BYTE-UNCHANGED. world_loop + dash_strike_rip
+re-cut; lobber_reach/lobber_volley/corpse_run/ledger_loop/district_hunt/
+low_quay_run/threat_pull retired-pending-reauthor (delta-verified,
+ledger in the record). gate_checks district rows rewritten + 3 new
+affirmative floor-1 rows.
+
+**OPEN: wall re-pin sweep running DETACHED** (`tmp/wall/v20-t1-*`,
+~35 scripts ~3h; poll the DONE marker) — verdicts owed in a same-day
+follow-up commit. Fresh-eyes review owed (Rule 6; blocks T4, not
+T2/T3). Junior ratifies the played floor at his leisure (his v2b).
+Next fresh session: **T2** (cap 12 + pacing table) or **T3** (potions
+identity — lands before T4 by law). Owner-pending unchanged.
+
+CLAIMED: T1 — RESOLVED DONE (this entry).
 
 ## 2026-08-28 session 114 — v20 GRILL RATIFIED (foundation + spec + T1-T6) · ADDENDUM banked (eighteenth FINAL: CUMPLIDO, two debts) · FULL SEAT SYMMETRY law · protect-main ruleset live
 
