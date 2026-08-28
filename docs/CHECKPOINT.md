@@ -1,6 +1,6 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-## 2026-08-28 session 113 — s2 DECLARABLE (clock gate open, awaiting owner verbatim) · Junior ZONE 2 directions reviewed PASS · logs baseline re-anchored (temp-cleanup deviation named)
+## 2026-08-28 session 113 — s2 DECLARABLE (awaiting owner verbatim) · Junior ZONE 2 directions reviewed PASS · owner solo session #18 clean (chain → `1c2c35ed`, at-cap explained) · logs baseline re-anchored
 
 **Ritual state — the gate is OPEN, the word is not given:** host
 clock read 2026-08-28 03:00:45 -0600 at open → first session on a
@@ -13,7 +13,8 @@ executed instead. s2 protocol unchanged (s106 entry = the
 reference): insurance copy FIRST (`cp saves/world.json
 tmp/world.pre-s2.json`, md5 both) · pre-launch strict decode via
 temp `ruby -Isrc` script (chain head must equal saved
-`c36cea1f9ae1afbc1fc8333ce71f92bc` {level=10 xp=3679} sessions=17;
+`1c2c35ed0fd6730583ca969e13102a27` {level=10 xp=3679} sessions=18 —
+superseded from `c36cea1f…`/17 by the lawful solo session below;
 ordinary-play gaps legal, classify each gap log) · fork check by
 printed ruby-process count in a SEPARATE call · never TCP-probe
 43117 · harvest-before-anything · administration same sitting,
@@ -65,13 +66,41 @@ src/data edits). Docs-only close. Hygiene untouched: §9 unread,
 instruments/oracle wording/sim numbers frozen, R-A2 unexplained,
 zero ritual-topic contact with the peer.
 
+**Owner solo session (ordinary play, spec §4.2 — NOT a ritual
+event, and the owner asked; answered from the spec: §4.1 pins ritual
+sessions as COOP, owner hosts + Junior joins, so solo can never be
+s2):** owner word "open the game in solo for me to explore" → full
+pre-launch drill (fork check 0 printed/separate · insurance
+`tmp/world.pre-s113-solo.json` md5 `716987ce…` == live save ·
+visible detached Start-Process `play.cmd es`). Log #41
+`game_two_session_659019373.log` (08-28 04:55): clean quit PROVEN
+(persist-saved line printed + `AUDIO teardown clean`; save written
+at clean quit only, by law) · **chain CONTINUOUS: loaded
+`c36cea1f…` == prior head → saved `1c2c35ed0fd6730583ca969e13102a27`
+sessions 17→18** · ≥10800 ticks (audio-drift cadence read) ·
+post-quit strict decode through the REAL play path
+(`App::SaveStore#load(data:)`, temp script deleted): DECODE_OK,
+digest == saved telemetry digest, {level=10 xp=3679}. **XP unmoved
+despite kills_xp=445 — EXPLAINED, not a bug: progression.json
+`level_cap: 10` reached; the curve clamps at cap** (read-only
+verification; frozen numbers untouched). Session color: varekka
+engaged (seized=1, died-while-seized=1, burns=1) · d2 entered
+kills=9 · quay kills=11 deaths=2 · banked 488→422. Owner
+spontaneous remark banked verbatim: **"there is nothing new on the
+game"** — factually consistent (build unchanged since s1: s97–s113
+docs-only, pack at cap) · recorded as ordinary-play context, NOT
+ritual evidence (questions virgin, zero follow-up probing).
+
 **Job-0 baselines for s114:** origin tip = this close commit · tree
-clean except `drafts/_refs/` · save
-**`716987ce2b1a723e1a4ea161d679e710` mtime 08-27 14:49 sessions=17**
-(insurance `da5a0b2d…`; s2 takes a NEW insurance copy before
-launch) · logs **40** (numeric law — re-anchored this session,
-temp-cleanup shrinkage is now a KNOWN mode: a DROP with save
-unmoved = benign, any RISE still demands classification) · wall 35
+clean except `drafts/_refs/` · save FILE
+**`1d71e34f9abf60a7d7ffe180fe0d55e0` mtime 08-28 04:55 sessions=18**
+· chain head (facts digest) = **`1c2c35ed0fd6730583ca969e13102a27`
+{level=10 xp=3679}** — next loaded must equal it · insurance copies
+in tmp/: `world.pre-s104.json` (`da5a0b2d…`) + `world.pre-s113-solo.json`
+(`716987ce…`, pre-solo state); s2 still takes a NEW copy before
+launch · logs **41** (numeric law — 40 re-anchored + solo log #41;
+temp-cleanup shrinkage is a KNOWN mode: a DROP with save unmoved =
+benign, any RISE demands classification) · wall 35
 / gate rows 69 · suite green via hook at this commit · world.rb
 1769/1800 · window.rb 267/300 · canary era = LAST digest block ·
 freeze-watch CLEAN through this commit (s97–s113 docs-only) · mail
@@ -83,7 +112,9 @@ chat declaration verbatim, then the s106-reference protocol) · (2)
 Junior deliveries / the ZONE 2 pick if the peers converge in chat →
 bank on arrival, independent review, fetch-first · (3) v20 grill
 stays verdict-gated (input index: forest-first + archaeology A-rows
-+ underground ask + J-T4..T8 + ZONE 2 directions + wall-class ask)
++ underground ask + J-T4..T8 + ZONE 2 directions + wall-class ask
++ at-cap observation: level_cap=10 REACHED s113, headroom is a
+natural grill row)
 · (4) zero input + no ritual = integrity-green docs-only close
 stays lawful (never manufacture work).
 
