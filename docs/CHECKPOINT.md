@@ -12,8 +12,34 @@ launcher-log ctime = the record). Declaration stays owner-paced
 (never nag) and lands in chat verbatim before launch.
 
 **Owner word:** standing from s106 ("Approved, lets keep working on
-our own for now") — holding pattern; zero new input this session; no
-outbound to Junior/worldsmith requested at close.
+our own for now") — holding pattern. LATE-SESSION INPUT: owner
+relayed Junior's restructuring proposal (chat 16:45–17:39: "vamos
+seguir con la edit de los maps … voy hacer un doc con fotos … Hacé
+un análisis minucioso y evaluá") — handled below; no outbound to
+Junior/worldsmith at close (follow-ups HELD until ritual 10/10).
+
+**JUNIOR DELIVERY BANKED + REVIEWED (docs-only, lawful under
+freeze):** proposal "A floresta como começo, a descida como prova" —
+spawn inversion into zone_8 (HUB 1 migrates to the well/services
+area) · west hole → 3-floor no-checkpoint descent reusing ZONE 2/3/5
+· contested central HEALING TOTEM per floor (kin of slate candidate
+3 — two-seat convergence) · unified darkening palette. Banked at
+`drafts/_junior-proposta-reestruturacao-20260827/` (docx md5
+`ac870ddd45d468b38e5b8f47120bab1e` + extracted text + 5 images);
+review = `drafts/_junior-proposta-reestruturacao-review-20260827.md`
+— **PASS as v20 grill input** (Junior self-scoped: nothing changes
+pre-verdict). Claims verified vs repo: zone naming CONFIRMED ·
+zone_8 vat+altar at the well CONFIRMED · dungeon_1 portal [63,19]
+CONFIRMED · HOME migration has an existing seam (`@home_zone`
+advances + `home_rehomed` event, v12) · ONE discrepancy (image says
+"4 ANDARES", text says three) — question HELD until 10/10
+(contamination guard). Grill rows recorded in the review: graph
+re-root vs parallel loop (zone_7 family placement) · save-chain
+migration law · AoE heal = SIM-CLASS one-gated-piece · 3× Rule 2
+re-theme cost · world.rb-at-cap extraction budget · pilot-four LDtk
+provenance. v20 grill input index now: archaeology A-rows +
+underground ask + J-T4..T8 + THIS (descent ≈ the underground ask
+made concrete — likely fuse).
 
 **Job 0: ALL GREEN, every baseline == s108's** (tip `13beca7` ==
 origin, no peer pushes · tree clean except `drafts/_refs/` ·

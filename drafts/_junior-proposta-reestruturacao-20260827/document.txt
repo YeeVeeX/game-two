@@ -1,0 +1,46 @@
+Proposta — A floresta como começo, a descida como prova
+Autor: Junior (co-criador) · Data: 2026-08-27 · Status: PROPOSTA para o grill v20 — nada muda no jogo antes do veredito do ritual e da decisão conjunta.
+1. A inversão: o jogo nasce na floresta
+Hoje o mundo conta a história ao contrário: o jogador nasce num acampamento apertado e a floresta gigante (ZONE 8) é o prêmio lá do fim — e chega vazia. Esta proposta vira o mapa de cabeça para baixo: a floresta É o mundo. O jogador acorda nela, o acampamento (HUB 1) vive dentro dela como uma casa-base, e os dois destinos do jogo ficam visíveis na geografia: à direita, o caminho que já existe (o portal do DUNGEON 1 — intocado); à esquerda, um buraco novo no chão — a primeira prova.
+O efeito buscado: em vez de &quot;corredores até chegar no mundo aberto&quot;, o mundo aberto é a primeira coisa que o jogador vê — e as masmorras viram o que masmorras devem ser: lugares onde se DESCE por escolha.
+2. ZONE 8 — o mapa principal
+
+Azul: o acampamento-base (HUB 1 entra aqui, perto do poço). Laranja: portal do DUNGEON 1 — intacto, não mexer. Vermelho: o novo buraco, entrada da descida.
+O acampamento entra na área do poço, onde o mapa já tem os serviços de campo (reviver e altar). Ele carrega o papel de HOME: é onde o bando renasce e onde a rede de segurança do jogo se ancora. A borda leste fica exatamente como está — a ligação com o DUNGEON 1 é patrimônio do mapa e não entra nesta reforma.
+3. A descida: três andares, sem rede
+O buraco do oeste abre uma masmorra de TRÊS andares corridos — sem vila no meio, sem checkpoint. Desceu, é combate até o fundo:
+Andar
+Mapa reaproveitado
+O que acontece
+1º
+ZONE 2 (district)
+o primeiro contato: salas largas, monstros em densidade crescente
+2º
+ZONE 3 (district_two)
+o aperto: mesmo estilo, mais fundo, mais pressão
+3º
+ZONE 5 (low_quay)
+a toca do BOSS: vencer abre o portal de volta para a floresta
+A decisão de TIRAR o checkpoint é deliberada e muda o sabor do desafio: com uma vila no meio, a descida vira duas viagens curtas; sem ela, vira UMA expedição — o jogador administra o bando inteiro do topo ao boss, e cada andar vencido aumenta o que está em jogo. É a tensão que o jogo já sabe fazer (&quot;banco agora ou desço mais?&quot;), esticada na vertical.
+4. A cura vira território: o totem
+Sem checkpoint, a masmorra precisa de OUTRA fonte de fôlego — e a proposta é que ela seja um lugar, não uma pausa: um TOTEM DE CURA no centro de cada andar, pulsando cura em área num ritmo fixo (a sugestão de partida: a cada ~15 segundos; o número final é conversa de balanço, não desta proposta).
+Por que no CENTRO: o meio do mapa é o chão mais perigoso — é onde os monstros convergem. Colocar a cura ali transforma descanso em conquista: o bando não foge da luta para se curar, ele LUTA PELO LUGAR que cura. Segurar o anel do totem entre uma onda e outra é a nova respiração do andar. No andar do boss, o mesmo totem vira a âncora tática da arena — quem controla o centro, controla a luta.
+Alternativa registrada na mesma família: pontos de cura menores espalhados (poções de chão), para andares onde um único centro ficar forte demais. As duas formas podem conviver — totem nos andares de combate, pontos avulsos onde o mapa pedir.
+
+1º andar (ZONE 2) com o totem central marcado.
+
+2º andar (ZONE 3), mesma lógica — o anel do totem é o ponto de disputa.
+
+3º andar (ZONE 5): o totem como âncora da arena do boss.
+5. Identidade visual: uma masmorra só
+Os três andares existem hoje como zonas independentes, cada uma com sua paleta. Para a descida ler como UM lugar, os três recebem o mesmo tratamento: mesma família de cores, mesmo vocabulário de decoração, escurecendo conforme desce (a regra do jogo para profundidade já é essa). O jogador deve sentir que está no MESMO buraco o tempo todo — só que cada vez mais fundo.
+6. Referência: o acampamento que migra
+
+HUB 1 hoje: os três serviços (vat de reviver · banco · altar da marca) migram com ele para dentro da floresta.
+7. Notas para a conversa (honestas)
+• Isto é reestruturação do grafo do mundo (spawn inicial, HOME, transições) — classe v20: decide-se no grill, executa-se pós-veredito.
+• Mover o HOME para dentro da ZONE 8 é a decisão de maior peso — o piso de misericórdia e o renascimento penduram nele.
+• O totem de cura é parente direto do candidato 3 do slate (os &quot;pilares de cura&quot; que este assento já propôs no chat) — na forma &quot;cadenciado e disputado&quot;, que é a que convive melhor com a economia do jogo (nunca de graça no sentido estratégico: paga-se em posição e risco, não em moeda).
+• Cura em área por tempo é comportamento novo de simulação — entra pela lei de sempre: uma peça de cada vez, com gate próprio.
+• Sem checkpoint, morrer no 2º andar significa voltar do começo — é intencional (a expedição é a prova), mas o tamanho dos andares deve respeitar isso na re-tematização.
+• Reaproveitar ZONE 2/3/5 economiza conteúdo pronto; o custo real é a unificação visual + religação de transições. Nada de números de balanço aqui — posições e ligações são design.
