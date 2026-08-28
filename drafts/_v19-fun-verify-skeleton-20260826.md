@@ -277,6 +277,24 @@ stalls).
   withheld until 10/10). Any post-contact supplement to P1, if the
   owner volunteers one, reads DISCOUNTED on warmth/convergence per
   §6; against-interest content keeps full weight.
+- **P1 POST-CONTACT SUPPLEMENT (volunteered by the owner AFTER the
+  process exchange and AFTER P2 was pasted — banked verbatim, typos
+  and all; per the contact note it reads DISCOUNTED on
+  warmth/convergence, and this text is nearly all named pains —
+  against-interest — which keep FULL weight):** "para la primera
+  pregunta mi respuesta era: es confuso dado que Junior y el otro
+  cuerpo siempre empezaban 'muertos' y había que revivirlos todas
+  las veces entonces siempre tenía que ir a farmear monedas primero
+  para poderlos revivir, y la zona verde en la que estaba el 'depot'
+  antes del dungeon 1 no tenía nada interesante, además lo que se
+  llamaba 'dungeon 1' ni si quiera era un dungeon solo era un cuarto
+  con conexiones confusas al area anterior y a la siguiente, la zona
+  8 final no tenía absolutamente nada interesante, se volvía
+  aburrido después de un rato, ya quiero avanzar con el juego ya que
+  llevamos más de una semana en lo mismo mientras hemos avanzado
+  muchísimo en los repos hermanos" — banked uncommented (no
+  reaction given, §6); adjudication maps any rows, never this
+  session. P2 re-presented after banking.
 
 ## JUNIOR ANSWER SET (empty — 0/5)
 
