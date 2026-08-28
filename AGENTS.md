@@ -123,79 +123,79 @@ changes are still Rule-2 visual changes (wall + recalibration apply).
   wins on any disagreement).
 <!-- FAMILY-BLOCK END -->
 
-## Current cycle — v19 OPEN (foundation DOUBLE-RATIFIED 2026-08-22)
+## Current cycle — v20 OPEN (the DESCENT cycle; RATIFIED-G 2026-08-28)
 
-**v19 = the growth cycle.** Vision (blessed, both peers): "v18 made
-the world persist; v19 makes the characters grow into it — power you
-can feel accumulating, a world with a real geography of risk, allies
-that fight sensibly, a client that feels like a real game." Law of
-the cycle: `drafts/_v19-foundation-20260822.md` — the decision record
-(28 ledger rows, staging, forks, verbatims), RATIFIED-G 2026-08-22 +
-RATIFIED-J same day ("ratifico tudo", `cbda479`). v18 record:
-CUMPLIDO, `drafts/_v18-fun-verify-verdict-20260820.md`. This section
-is STATE; the foundation is law — on disagreement the foundation wins.
+**v20 = the content cycle.** Vision (ratified): "v19 made the
+characters grow into the world; v20 gives that growth somewhere to
+GO — a vertical geography of risk you descend on purpose, floors you
+fight to hold, a level band with real headroom, and the first zones
+the peers built together." Law of the cycle:
+`drafts/_v20-foundation-20260828.md` — 14 ledger rows + 4 council
+amendments (grilled live with the owner, s114; council pass:
+1 DeepSeek consult, all four adopted + owner-approved).
+**RATIFIED-G COMPLETE 2026-08-28** (verbatims in the foundation);
+RATIFIED-J async pending (his forest-first destination = the
+recorded lean at L2's own gated row; his L3 pick-or-pieces call
+open). v19 record: CUMPLIDO — the EIGHTEENTH closed at 5/10 verdict
++ 10/10 addendum (K3 never fired, license FINAL), two named debts
+carried into v20 lanes: `drafts/_v19-fun-verify-verdict-20260828.md`;
+v19 foundation: `drafts/_v19-foundation-20260822.md`. This section is
+STATE; the foundation is law — on disagreement the foundation wins.
 
-**Four ratified lanes:**
+**Spec + first-wave tickets (T1-T6):**
+`docs/superpowers/specs/2026-08-28-v20-descent-cycle.md`. Serial
+execution (owner method ruling s89), one ticket per fresh session,
+CLAIMED line at start, ANY seat executes (FULL SEAT SYMMETRY).
 
-1. **PROGRESSION v1 (headline):** XP-on-kill → PACK level (carrier =
-   the pack, A2; XP-levels not use-based, A1; death never eats XP,
-   A3) → stats via integer damage/HP growth · lobber-E per-spell
-   growth (mid/late bloomer) · `requires_level` beside
-   `requires_defeats`. Spec + tickets (grill s40):
-   `docs/superpowers/specs/2026-08-22-progression-v1.md`; world.rb
-   extraction (Progression object) rides ticket 1, not afterthought.
-2. **GEOGRAPHY & ECONOMY:** stage 0 = R-A2 sustain discoverability —
-   ALREADY SHIPPED + gated 2026-08-20 (`d31f579`+`e36a227`, bank BUY
-   hint + telemetry reasons; receipts `drafts/_rA2-verify-20260820.md`);
-   its strip ESCALATION stays a recorded owner-word decision (full-wall
-   re-pin, priced) · safe zones BOTH hubs with a
-   VISIBLE boundary (B1) · no-bank-in-deep KEPT as design, TOWN 1 =
-   the deep-side anchor (B2/B3, authored via the WB pipeline) · mercy
-   floor context-gated home-hub session-open, data-only (B4) ·
-   respawn scalar first, presence-block recorded as stage 2 (B5).
-   ONE knob per re-session; ALL Lane-2/3 data moves land BEFORE the
-   ritual stages.
-3. **LIVING WORLD & AI:** J-7 = cold-tier catch-up at re-entry
-   (stamp on pack-leave, advance on re-entry; background zone-ticking
-   REFUSED this cycle on the perf prior) · ally defensive-default
-   engage rule + `ally_flee_hp_pct` co-tune (C2, its own re-session
-   after B5's) · stance verb = later rung (C3; banking-only research
-   spoke on owner word at spec time — companion-AI shelf gap
-   recorded).
-4. **PRESENTATION & LEGIBILITY:** J-6 non-pausing menu (own state
-   module over a still-ticking world, `window.rb` cap untouched;
-   ships BEFORE the ritual runsheet freezes; client prefs in their
-   own file, never the world save) · J-3 = STATS PANEL v0 only
-   (inventory/paper-doll stay parked with items) · J-5 projection
-   spike owner-paced (throwaway worktree, no gate; adoption = a
-   separate later decision) · legibility family (lobber impact-tile
-   telegraph, throw-sync) = presentation-only; sim cadence refused
-   (D1), sim hit-test evidence-gated (D2).
+**Lanes (staged; A→B→C→D serial, E anytime, F late-gated):**
 
-**Riders:** E1 GM-tools VALIDATED-DEFERRED ("too soon") · E2 ping
-earmarked as the chat-notification cue (travels with the parked chat
-item) · E3a capture-contract queued-for-v19-intake (fence:
-session-end only, zero per-tick cost; receipts mailed s40) · E3b
-turn-handling DEFERRED (re-decide after the J-5 pick) · E4 motif
-DORMANT (perf trigger expired) · E5 audio increments queued on owner
-word.
+1. **A — FLOOR 1 (first felt change):** ZONE 2 (district) rethemed
+   to Junior's v2b "two spaces + 4 bridges" as descent floor -1
+   (T1). Internal retheme is destination-independent; the descent
+   MOUTH stays on the camp→district edge — the forest-first
+   destination decision moves ONE transition row later (L2).
+2. **B — PROGRESSION + POTIONS IDENTITY:** staged cap 10→12 + k
+   re-price + `tools/pacing_table.rb` standing script (T2); potions =
+   the provisions system given its true identity + discoverability
+   (candidate 1 v1 + R-A2 strip escalation, full-wall re-pin priced;
+   T3 — lands BEFORE lane C by law).
+3. **C — TOTEM PILOT (first SIM delta; NINETEENTH's delta clock
+   starts here):** Junior's contested/cadenced heal totem at floor
+   -1's center, instrumented (totem-vs-potions telemetry,
+   pre-registered priced-flip condition), world.rb extraction rides
+   this ticket (T4).
+4. **D — FLOORS -2/-3 + BAND STEPS:** district_two + low_quay
+   rethemes (v3 MEDUSA grammar deepest — needs T5 second wall
+   class), new creature kinds with own kill_xp rows (deep pays
+   more), cap 13/15 unlock RIDING these floors.
+5. **E — DEBTS (small, anytime):** B4 mercy-floor data-only knob
+   (T6, verdict debt 1) · C3 stance-verb rung + flee/engage co-tune
+   (verdict debt 2, own re-session, second wave).
+6. **F — LATE, GATED:** destination/HOME single-row decision (graph
+   drawing + save migration law L9 + cardinal sketch) · GM read-only
+   rung (stretch; offline factory is this cycle's answer) · city
+   start (deferred, blueprints keep banking).
 
-**The EIGHTEENTH ritual — CLOSED 2026-08-28: CUMPLIDO, two named
-debts (session-open chore → R-SO → B4 mercy-floor lane · third-body
-lemming → R-T1 → C3 stance-verb rung UNLOCKED + flee/engage co-tune
-re-session).** 5/10 verdict + 10/10 ADDENDUM (both fresh sessions,
-K3 never fired, license FINAL):
-`drafts/_v19-fun-verify-verdict-20260828.md` — evidence + verbatim
-answers: `drafts/_v19-fun-verify-skeleton-20260826.md`. **All freezes
-LIFTED; all Junior-bank quarantines SPENT at the addendum** (pt-br
-block, verdict quarantine, no-debrief order — owed explanations/HELD
-now deliverable). Bot-logs-never-fun-evidence: permanent law. Owners'
-priority queue, final: (1) R-SO→B4 revisit (data-only, headline
-debt) · (2) R-T1→C3 rung + flee/engage co-tune, own re-session ·
-(3) R-G1 progression pacing + at-cap headroom → v20 grill (in BOTH
-players' words) · (4) R-GEO1 folds into standing B1-T3 · (5) R-E:
-R-A2 strip escalation ELIGIBLE, owner word decides. **v20 grill:
-OPEN.**
+**Key cycle laws:** save-chain never a migration guinea pig (L9) ·
+world.rb extraction owed INTO the first touching ticket (L10, →T4) ·
+cap never outruns content (L5) · SIM-class one gated piece at a time
+· NINETEENTH fun-verify is delta-triggered (cadence reform; map
+rethemes are presentation+graph, named beside the totem's sim delta).
+
+**v19 riders carried:** E2 ping (with parked chat) · E3b
+turn-handling (re-decide post-J-5—owner picked FLAT s93) · E4 motif
+DORMANT · E5 audio increments on owner word · candidate 5 HUD
+reposition banked with uiux spec · J-5 art-depth-on-flat candidate
+banked.
+
+**The EIGHTEENTH ritual (v19's) — CLOSED CUMPLIDO 2026-08-28** (5/10
+verdict + 10/10 addendum, K3 never fired, license FINAL; two named
+debts → v20 lanes B4/C3): `drafts/_v19-fun-verify-verdict-20260828.md`
+— evidence + verbatim answers:
+`drafts/_v19-fun-verify-skeleton-20260826.md`. All freezes lifted,
+all quarantines spent. Bot-logs-never-fun-evidence: permanent law.
+R-A2 strip escalation: executing as v20 T3 (owner-ratified at the
+grill).
 
 **Standing program — quality flywheel** (owner-directed 2026-08-19;
 contract: `drafts/_quality-flywheel-plan-20260819.md`): soak
@@ -203,7 +203,7 @@ zone-coverage · deterministic clips + self-eval critique · verified
 renderer/data fixes ONLY — **sampling-artifact law:** critics see ~4%
 of frames, so every critique claim is verified against code + exact
 frames (read the PNGs) before becoming a work item; sim-touching
-candidates route to their v19 lane. Audio tuning on owner ask.
+candidates route to their v20 lane. Audio tuning on owner ask.
 
 **Standing program — world-builder pipeline** (spec CLOSED:
 `docs/superpowers/specs/2026-08-19-world-builder-pipeline.md`; grill

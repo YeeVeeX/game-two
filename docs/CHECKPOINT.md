@@ -7,6 +7,48 @@ CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
 
+## 2026-08-28 session 114 — v20 GRILL RATIFIED (foundation + spec + T1-T6) · ADDENDUM banked (eighteenth FINAL: CUMPLIDO, two debts) · FULL SEAT SYMMETRY law · protect-main ruleset live
+
+**The eighteenth is FINAL:** Junior's 5 banked by his seat
+(`a5997c7`) → fresh headless addendum session adjudicated per verdict
+§10 (seat-lease honored — it reported, the hub banked bytes
+verbatim, `c0ff88a`): **K3 NOT fired** (his P2 "aliados bem mais
+fortes", unhedged), R-T1 FIRED (P4 "a IA segue a mesma coisa" → C3
+rung UNLOCKED + flee/engage co-tune), R-D1/R-D2 clean (P3 "muito
+melhor", cap named as the limit → R-G1), K4 closed (both P1s empty).
+Headline: **CUMPLIDO, two named debts (R-SO→B4 · R-T1→C3)**. All
+quarantines SPENT.
+
+**Owner orders recorded (law):** FULL SEAT SYMMETRY (`b4a9072` —
+Junior's role = Gabriel's, both edit/iterate/create at will;
+MAP_EDITING role split superseded; map freeze gate marked expired) ·
+repo hardening approved: **protect-main ruleset ACTIVE** (id
+21753849, blocks force-push+deletion; PRs stay optional — trunk +
+local hooks + the live green Actions CI ratified as the cooperative
+model).
+
+**v20 GRILLED AND RATIFIED same sitting (owner present in-chat):**
+foundation `drafts/_v20-foundation-20260828.md` — 14 ledger rows,
+staged descent (mouth = one late row), content-first identity,
+staged cap 10→12→13/15 content-coupled, POTIONS = provisions given
+true identity (candidate 1 v1 + R-A2 escalation, lands before the
+totem), totem pilot instrumented with pre-registered priced-flip,
+city deferred, GM = offline factory. Council pass: 1 DeepSeek
+consult, 4 amendments adopted + owner-approved.
+**RATIFIED-G COMPLETE** (verbatims in the foundation); RATIFIED-J
+async pending (destination lean forest-first at L2's gated row; L3
+pick-or-pieces his call). Spec + first-wave tickets T1-T6:
+`docs/superpowers/specs/2026-08-28-v20-descent-cycle.md`. AGENTS.md
+cycle section → v20.
+
+**Next session (fresh): T1 — floor-1 v2b retheme** (CLAIMED line
+first; Junior is iterating v2b geometry in his sandbox today —
+coordinate the transcription seat via claim, either seat lawful).
+Owner-pending unchanged (ear-checks · T3 renders · coop S1 invite ·
+shared-save crossing · worldsmith v2 grill) + NEW: owed
+explanations/HELD delivery to the peers is now UNLOCKED (deliver on
+ask, no nag).
+
 ## 2026-08-28 session 113 — s2 DECLARABLE (awaiting owner verbatim) · Junior ZONE 2 directions reviewed PASS · owner solo session #18 clean (chain → `1c2c35ed`, at-cap explained) · logs baseline re-anchored
 
 **SUPERSEDED SAME-SITTING by owner order — RITUAL S2 = THE SOLO
