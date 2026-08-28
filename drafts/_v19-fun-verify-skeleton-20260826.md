@@ -324,6 +324,12 @@ stalls).
   names the confound — memorization from repeated rituals on
   unchanged content, can't speak for a fresh player; one legible
   surface named: the safe-status line under the HP bars.
+- **P4 (es, pasted byte-virgin from §9, hub chat s113):** asked
+  verbatim. **Answer (verbatim, typos and all):** "sí obvio, no
+  vamos a jugar igual siempre, pero tampoco es como que haya mucha
+  variedad todavía" — banked uncommented. Descriptive notes only:
+  affirmative behavior read ("sí obvio"), delivered as
+  self-evident; hedge named by the player = low variety so far.
 
 ## JUNIOR ANSWER SET (empty — 0/5)
 
