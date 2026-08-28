@@ -7,6 +7,8 @@ CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
 
+CLAIMED: T1-followup — wall harvest + red triage + review receipt (seat: hub, 2026-08-28, s116 in flight).
+
 ## 2026-08-28 session 115 — v20 T1 SHIPPED: ZONE 2 → descent floor -1 (Junior's v2b), gate PASS, canary rebanked, wall sweep detached
 
 **T1 DONE (CLAIMED `37be092` → landing `005eab3`; record:
