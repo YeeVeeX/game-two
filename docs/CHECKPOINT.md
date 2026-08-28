@@ -17,6 +17,8 @@ relayed Junior's restructuring proposal (chat 16:45–17:39: "vamos
 seguir con la edit de los maps … voy hacer un doc con fotos … Hacé
 un análisis minucioso y evaluá") — handled below; no outbound to
 Junior/worldsmith at close (follow-ups HELD until ritual 10/10).
+RATIFIED post-review (owner, verbatim): "reicibido, bancado, va al
+grill v20" — the grill routing is owner law; never re-litigate.
 
 **JUNIOR DELIVERY BANKED + REVIEWED (docs-only, lawful under
 freeze):** proposal "A floresta como começo, a descida como prova" —
