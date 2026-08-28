@@ -314,6 +314,16 @@ stalls).
   learned ROLE COORDINATION (Tibia-honed luring/swap/challenge
   play-pattern described in detail), stats/levels UNMENTIONED;
   one named pain: in-battle heal duration → forced hub returns.
+- **P3 (es, pasted byte-virgin from §9, hub chat s113):** asked
+  verbatim. **Answer (verbatim, typos and all):** "no mucho,
+  prácticamente ya nos sabemos el juego de memoria de tantos
+  rituales que hemos jugado sobre el mismo contenido, entonces no sé
+  cómo lo percibiría un jugador nuevo, al menos debajo de los hp
+  bars ahi dice si es seguro" — banked uncommented. Descriptive
+  notes only: "no mucho" (legibility reads weak); the player HIMSELF
+  names the confound — memorization from repeated rituals on
+  unchanged content, can't speak for a fresh player; one legible
+  surface named: the safe-status line under the HP bars.
 
 ## JUNIOR ANSWER SET (empty — 0/5)
 
