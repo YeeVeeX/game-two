@@ -131,24 +131,36 @@ class ThreatPressureTest < Minitest::Test
     w.humans.clear
 
     target = w.pack.members.find { |m| m.kit_name == :blocker }
-    target.walker.teleport(5, 3)
+    target.walker.teleport(5, 8)
     w.pack.members.reject { |m| m.equal?(target) }.each_with_index do |m, i|
-      m.walker.teleport(1, 1 + i)
+      m.walker.teleport(40, 1 + i)
     end
 
     cap = THREAT[:engaged_cap_per_target]
     ring_r = THREAT[:pressure_ring_tiles]
 
-    # Fill engaged slots: all at d=1 so they remain engaged
-    adjacent_tiles = [[4, 2], [5, 2], [6, 2], [4, 3], [6, 3]]
+    # Fill engaged slots: all at d=1 so they remain engaged. The target
+    # backs onto the arena's NW inner corner (old-map staging parity:
+    # knockback pins it instead of drifting the staging) and sits OUTSIDE
+    # beachhead_tiles of the [1,13] arrival (the shield refuses
+    # acquisition near doors — v2b moved the doors).
+    adjacent_tiles = [[6, 7], [6, 8], [6, 9], [5, 9], [4, 9]]
     engaged_rushers = adjacent_tiles.first(cap).map { |t| make_human(w, :rusher, t) }
     engaged_rushers.each { |r| w.humans << r }
 
-    # 3 pressuring rushers start at d=3-4 (close enough to reach ring in 300 ticks)
-    pressurers = 3.times.map { |i| make_human(w, :rusher, [8, 2 + i]) }
+    # 3 pressuring rushers start at d=3 east (close enough to reach the
+    # ring in 300 ticks)
+    pressurers = [[8, 7], [8, 8], [8, 9]].map { |t| make_human(w, :rusher, t) }
     pressurers.each { |r| w.humans << r }
 
-    drive(w, 300)
+    # Staging maintenance, not law: 5 pinned attackers kill a 160hp
+    # blocker inside 300 ticks (the old map's knockback drift made them
+    # miss; the pinned corner doesn't) — top the target up so the
+    # partition under test survives the full window.
+    300.times do |i|
+      target.heal_full! if (i % 30).zero?
+      drive(w, 1)
+    end
 
     pressurers.reject(&:dead?).each do |p|
       d = chebyshev(p.tile, target.tile)
@@ -168,15 +180,15 @@ class ThreatPressureTest < Minitest::Test
     w.humans.clear
 
     target = w.pack.members.find { |m| m.kit_name == :blocker }
-    target.walker.teleport(5, 3)
+    target.walker.teleport(9, 12)
     w.pack.members.reject { |m| m.equal?(target) }.each_with_index do |m, i|
-      m.walker.teleport(1, 1 + i)
+      m.walker.teleport(40, 1 + i)
     end
 
     cap = THREAT[:engaged_cap_per_target]
 
     # cap+1 rushers so exactly 1 is pressuring
-    rushers = (cap + 1).times.map { |i| make_human(w, :rusher, [4 + i, 2]) }
+    rushers = (cap + 1).times.map { |i| make_human(w, :rusher, [8 + i, 11]) }
     rushers.each { |r| w.humans << r }
 
     # Run a tick to partition

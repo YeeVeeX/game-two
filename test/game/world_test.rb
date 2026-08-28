@@ -344,11 +344,11 @@ class WorldTest < Minitest::Test
 
   def test_volley_tiles_stop_at_the_first_wall
     lobber, = stage_volley(world)
-    lobber.walker.teleport(39, 1)
+    lobber.walker.teleport(16, 12)
     lobber.face([1, 0])
     impact = launch_volley(world, lobber)
 
-    assert_equal [[41, 1], [42, 1]], impact[:tiles]
+    assert_equal [[18, 12], [19, 12]], impact[:tiles]
   end
 
   def test_volley_survives_caster_death_with_live_owner_reference
@@ -469,9 +469,9 @@ class WorldTest < Minitest::Test
   def test_mark_overrides_ally_target_selection_and_aggro_gate
     source, marked, unmarked = stage_mark(world)
     blocker = world.pack.members.find { |member| member.kit_name == :blocker }
-    blocker.revive!(map: world.map, tile: [1, 12])
+    blocker.revive!(map: world.map, tile: [5, 12])
     marked.walker.teleport(15, 12)
-    unmarked.walker.teleport(1, 14)
+    unmarked.walker.teleport(3, 12)
     assert world.set_mark(source)
 
     marked_before = chebyshev(blocker.tile, marked.tile)
@@ -481,7 +481,7 @@ class WorldTest < Minitest::Test
     assert_operator chebyshev(blocker.tile, unmarked.tile), :>, unmarked_before
 
     world.pack.clear_mark!
-    blocker.revive!(map: world.map, tile: [1, 12])
+    blocker.revive!(map: world.map, tile: [5, 12])
     unmarked.provoke! # C2: post-clear acquisition is defensive — provoked only
     unmarked_before = chebyshev(blocker.tile, unmarked.tile)
     drive(world, scripted({}), 1)
@@ -562,12 +562,12 @@ class WorldTest < Minitest::Test
     lobber = world.pack.members.find { |m| m.kit_name == :lobber }
     refute_equal lobber, world.possessed, "lobber runs on AI in this scenario"
     hunter = world.humans.reject(&:dead?).first
-    lobber.walker.teleport(1, 1)      # district map corner (walls at x=0, y=0)
-    hunter.walker.teleport(2, 2)      # diagonal-adjacent: nothing increases distance
+    lobber.walker.teleport(1, 12)     # west-door pocket corner (walls at x=0, y=11)
+    hunter.walker.teleport(2, 13)     # diagonal-adjacent: nothing increases distance
     moved = false
     40.times do
       drive(world, scripted({}), 1)
-      moved ||= lobber.tile != [1, 1]
+      moved ||= lobber.tile != [1, 12]
     end
     assert moved, "cornered lobber side-steps along the wall instead of deadlocking"
   end
@@ -1236,26 +1236,27 @@ class WorldTest < Minitest::Test
   # --- arrival tiles + gate-distance fields (A2 Task 2) --------------------
 
   def test_district_arrival_tiles_cover_both_doors
-    # v12 meaning change (the increment, not collateral): the district has
-    # TWO doors once the camp exists — nest-side [1,13] and camp-side
-    # [40,13]; beachhead grace covers both (arrival is not an ambush).
+    # v20 T1 (descent): the district keeps TWO inbound doors — nest-side
+    # [1,13] and the camp mouth landing [11,87]; beachhead grace covers
+    # both (arrival is not an ambush).
     assert_includes world.arrival_tiles_for("district"), [1, 13]
-    assert_includes world.arrival_tiles_for("district"), [40, 13]
+    assert_includes world.arrival_tiles_for("district"), [11, 87]
     assert_equal [[28, 8]], world.arrival_tiles_for("nest")
   end
 
   def test_gate_distance_is_bfs_from_the_gradient_anchor
-    # The anchor pins the band map to the nest-side door regardless of how
-    # many arrivals exist or how they order (v12 review-verified trap).
+    # The anchor pins the band map to the descent-mouth landing [11,85]
+    # regardless of how many arrivals exist or how they order (v12
+    # review-verified trap).
     enter_district(world)
-    assert_equal 0, world.gate_distance([1, 13])
-    assert_operator world.gate_distance([35, 5]), :>=, 30
-    assert_operator world.gate_distance([42, 13]), :>=, 28, "deep east stays band 2"
+    assert_equal 0, world.gate_distance([11, 87])
+    assert_operator world.gate_distance([41, 45]), :>=, 35
+    assert_operator world.gate_distance([42, 13]), :>=, 70, "deep east stays band 2"
   end
 
   def test_district_drop_gradient_loaded
     enter_district(world)
-    assert_equal [[0, 1.0], [14, 1.5], [28, 2.0]], world.map.drop_gradient
+    assert_equal [[0, 1.0], [35, 1.5], [70, 2.0]], world.map.drop_gradient
   end
 
   def test_nest_has_no_drop_gradient

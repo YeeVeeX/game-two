@@ -102,7 +102,7 @@ class GuardScopeTest < Minitest::Test
     flunk "no human homes inside the guard radius" unless h
     world.humans.replace([h])
     # Park the pack out of aggro so the wanderer has no focus and leashes.
-    world.pack.living.each_with_index { |m, i| m.walker.teleport(1, 1 + i) }
+    world.pack.living.each_with_index { |m, i| m.walker.teleport(40, 1 + i) }
 
     shifted = world.leash_home_tile(h)
     drive(world, scripted({}), LINGER + STEP * 3 * (GUARD * 2 + 4))
@@ -114,7 +114,7 @@ class GuardScopeTest < Minitest::Test
     h = world.humans.reject(&:dead?).find { |x| dist(load[:tile], x.home_tile) <= GUARD }
     flunk "no human homes inside the guard radius" unless h
     world.humans.replace([h])
-    world.pack.living.each_with_index { |m, i| m.walker.teleport(1, 1 + i) }
+    world.pack.living.each_with_index { |m, i| m.walker.teleport(40, 1 + i) }
 
     events = []
     world.bus.subscribe(:human_leashed) { |e| events << e }

@@ -50,13 +50,12 @@ class SealBreachTest < Minitest::Test
   # --- gradient_anchor (the load-bearing correctness fix) ---------------
 
   def test_district_band_map_pinned_despite_new_zone_arrivals
-    # Adding camp.json re-orders district's arrivals (sorted zone keys put
-    # camp before nest); without an explicit anchor the gate field would
-    # flip to the east gate and invert every band. These pins are today's
-    # truth measured from the nest-side arrival [1,13].
+    # Without an explicit anchor the gate field would re-anchor on arrival
+    # order (sorted zone keys) and invert every band. These pins are v2b
+    # truth measured from the descent-mouth landing [11,85].
     enter_district!
-    assert_equal 0, world.send(:gradient_band, [2, 13]), "near the nest gate = band 0"
-    assert_equal 1, world.send(:gradient_band, [20, 13]), "mid-district = band 1"
+    assert_equal 0, world.send(:gradient_band, [11, 84]), "near the mouth landing = band 0"
+    assert_equal 1, world.send(:gradient_band, [41, 45]), "mid-floor clearing = band 1"
     assert_equal 2, world.send(:gradient_band, [42, 13]), "deep east = band 2"
   end
 

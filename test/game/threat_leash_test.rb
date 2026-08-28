@@ -46,13 +46,13 @@ class ThreatLeashTest < Minitest::Test
     w.humans.clear
 
     # Place a rusher away from its home tile, damage it to 20 hp
-    home = [10, 5]
+    home = [6, 12]
     rusher = make_human(w, :rusher, home)
     w.humans << rusher
     assert_equal home, rusher.home_tile
 
     # Move it off home (teleport to a tile ~4 away)
-    off_home = [14, 5]
+    off_home = [10, 12]
     rusher.walker.teleport(*off_home)
     assert_equal off_home, rusher.tile
 
@@ -81,10 +81,10 @@ class ThreatLeashTest < Minitest::Test
     enter_district(w)
     w.humans.clear
 
-    home = [10, 5]
+    home = [6, 12]
     rusher = make_human(w, :rusher, home)
     w.humans << rusher
-    rusher.walker.teleport(12, 5)
+    rusher.walker.teleport(8, 12)
 
     # Park pack far away
     w.pack.members.each_with_index { |m, i| m.walker.teleport(40, 1 + i) }
@@ -108,10 +108,10 @@ class ThreatLeashTest < Minitest::Test
     enter_district(w)
     w.humans.clear
 
-    home = [10, 5]
+    home = [6, 12]
     rusher = make_human(w, :rusher, home)
     w.humans << rusher
-    rusher.walker.teleport(12, 5)
+    rusher.walker.teleport(8, 12)
 
     # Park pack far away
     w.pack.members.each_with_index { |m, i| m.walker.teleport(40, 1 + i) }
@@ -143,20 +143,20 @@ class ThreatLeashTest < Minitest::Test
     # Clear all humans; place a single controlled rusher far from the gate path
     # so it survives the round trip without engaging the pack.
     w.humans.clear
-    home = [35, 5]
+    home = [16, 12]
     rusher = make_human(w, :rusher, home)
     w.humans << rusher
     assert_equal home, rusher.home_tile
 
     # Teleport off home and damage
-    off_home = [38, 5]
+    off_home = [19, 12]
     rusher.walker.teleport(*off_home)
     damage = rusher.hp - 25
     rusher.take_hit(damage: damage, attacker: w.possessed, knockback_tiles: 0, blocked: [])
     assert_equal 25, rusher.hp
     refute_equal home, rusher.tile, "rusher must be off home before zone exit"
 
-    # Walk pack to the gate (at [0,13]) — far from the rusher at [35,5]
+    # Walk pack to the gate (at [0,13]) — far from the rusher at [16,12]
     gate = w.map.transitions.first[:at]
     guard = 0
     while w.zone_name == "district" && guard < 3000
@@ -173,6 +173,11 @@ class ThreatLeashTest < Minitest::Test
       guard += 1
     end
     assert_equal "nest", w.zone_name, "must have transitioned to nest"
+
+    # Dwell in nest past the linger + the full walk budget: whether the
+    # re-entry path snaps or catch-up-walks (J7-B stamp), enough elapsed
+    # time CLAMPS the placement at home — the law under test.
+    drive(w, LINGER + 5 * STEP_FRAMES)
 
     # Now walk back to the district
     nest_gate = w.map.transitions.find { |t| t[:to] == "district" }
@@ -213,9 +218,9 @@ class ThreatLeashTest < Minitest::Test
     w = Game::World.new(DATA, seed:)
     enter_district(w)
     w.humans.clear
-    home = [10, 5]
+    home = [6, 12]
     rusher = make_human(w, :rusher, home)
-    rusher.walker.teleport(14, 5)
+    rusher.walker.teleport(10, 12)
     w.humans << rusher
     # Pack beside the gate: the crossing lands within a handful of ticks.
     w.possessed.walker.teleport(1, 13)
@@ -258,10 +263,10 @@ class ThreatLeashTest < Minitest::Test
     assert_includes out, "TELEMETRY catchup zone=district elapsed=#{elapsed} advanced=1\n"
     assert_operator tiles, :>=, 1, "staging: the wait must buy at least one tile"
     assert_operator tiles, :<=, 3, "staging: the wait must leave the walk unfinished"
-    assert_equal [14 - tiles, 5], rusher.tile,
+    assert_equal [10 - tiles, 12], rusher.tile,
                  "displaced human advances exactly (elapsed - linger) / step_frames tiles"
-    refute_equal [14, 5], rusher.tile, "catch-up ran (not at the frozen chase tile)"
-    refute_equal [10, 5], rusher.tile, "finite speed (not at home) - the teleport is dead"
+    refute_equal [10, 12], rusher.tile, "catch-up ran (not at the frozen chase tile)"
+    refute_equal [6, 12], rusher.tile, "finite speed (not at home) - the teleport is dead"
     assert_equal 30, rusher.hp, "hp is KEPT across the catch-up"
     assert_equal LINGER, rusher.leash_frames,
                  "resume_leash! pre-sets the linger (no double-linger)"
@@ -285,7 +290,7 @@ class ThreatLeashTest < Minitest::Test
     return_to_district(w, frames)
     elapsed = frames[:district] - frames[:nest]
     assert_operator elapsed, :<=, LINGER, "staging: absence must fit inside the linger"
-    assert_equal [14, 5], rusher.tile,
+    assert_equal [10, 12], rusher.tile,
                  "leave-and-immediately-return reads as nobody moved"
     assert_empty leashed, "no movement, no :human_leashed"
     assert_equal LINGER, rusher.leash_frames, "the walk still resumes without re-lingering"
@@ -296,9 +301,9 @@ class ThreatLeashTest < Minitest::Test
     enter_district(w)
     w.load_home!("district") # same-zone wipe: home IS the wipe zone
     w.humans.clear
-    home = [35, 5]
+    home = [16, 12]
     rusher = make_human(w, :rusher, home)
-    rusher.walker.teleport(38, 5)
+    rusher.walker.teleport(19, 12)
     w.humans << rusher
     w.pack.members.each { |m| m.take_hit(damage: m.hp, attacker: rusher, blocked: []) }
     drive(w, 1) # flush deaths -> wipe veil

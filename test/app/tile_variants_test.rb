@@ -30,9 +30,18 @@ class TileVariantsTest < Minitest::Test
   end
 
   def test_live_remapped_zones_draw_nothing
-    %w[nest district].each do |z|
+    # v20 T1: district retired from this list — the v2b retheme deliberately
+    # draws typed tiles (dirt trails, moss, bridges, chasm water).
+    %w[nest].each do |z|
       assert_empty App::TileVariants.rects(map(z), registry),
                    "#{z} must draw zero overlay rects (look byte-stability law)"
+    end
+  end
+
+  def test_district_draws_its_descent_surfaces
+    refs = App::TileVariants.rects(map("district"), registry).map { |(_, _, r)| r }.uniq
+    %i[dirt wood water].each do |ref|
+      assert_includes refs, ref, "floor -1 must draw its #{ref} surface"
     end
   end
 

@@ -11,7 +11,7 @@ require_relative "../../tools/import_ldtk"
 class PilotAuthoringTest < Minitest::Test
   ROOT = File.expand_path("../..", __dir__)
   PROJECT = File.join(ROOT, "authoring/pilot.ldtk")
-  ZONES = %w[zone_7 basement_1 basement_2 dungeon_1].freeze
+  ZONES = %w[zone_7 basement_1 basement_2 dungeon_1 district].freeze
 
   def test_committed_pilot_zones_are_the_importer_emission
     doc = JSON.parse(File.read(PROJECT))

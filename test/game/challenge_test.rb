@@ -65,8 +65,8 @@ class ChallengeTest < Minitest::Test
   def test_pulse_reaches_nine_and_spares_ten
     blocker, humans = stage(world, blocker_at: [12, 12], keep: 2)
     inside, outside = humans
-    inside.walker.teleport(21, 12)  # Chebyshev 9 — in
-    outside.walker.teleport(22, 12) # Chebyshev 10 — out
+    inside.walker.teleport(12, 21)  # Chebyshev 9 — in
+    outside.walker.teleport(12, 22) # Chebyshev 10 — out
     humans.each { |h| h.stagger!(600) }
 
     assert blocker.start_special(blocked: [])

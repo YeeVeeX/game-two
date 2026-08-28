@@ -43,7 +43,19 @@
     },
     {
       "id": "zones_distinct",
-      "check": "Nest frames (warm dark organic) and district frames (gray concrete city blocks) read as different places at a glance."
+      "check": "Nest frames (warm dark organic) and district frames (ZONE 2, descent floor -1: a dark canyon of tan rock walls with two themed halves split by a near-black chasm) read as different places at a glance."
+    },
+    {
+      "id": "floor1_two_halves_read",
+      "check": "When ZONE 2 frames show ground on both sides of the central chasm (or the reel crosses it), the WEST half reads dry and dark (bare dark-brown camp ground, sparse pale-green flecks) while the EAST half reads alive and mossy (dense green moss patches over the same dark ground) - two different biomes of one floor, not one flat fill. If the reel never shows both halves, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "floor1_chasm_reads",
+      "check": "When the central chasm band of ZONE 2 is on camera (a wide near-black navy column running the map's length), it reads as IMPASSABLE VOID at a glance - clearly darker and flatter than any walkable ground, bounded by the tan rock, with no body ever standing inside it in any frame. It must NOT read as decorative water the pack could wade into. If no chasm frame is present, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "floor1_bridge_reads",
+      "check": "When a ZONE 2 bridge is on camera (a straight warm-tan plank band spanning the chasm), it reads as a BUILT CROSSING: warmer and lighter than every surrounding ground family, running edge-to-edge across the void. In frames where a body stands mid-bridge, the void reads on BOTH sides of the bridge band - the crossing is a commitment, not a floor. If no bridge frame is present, pass with why='not exercised by this script'."
     },
     {
       "id": "no_render_garbage",
@@ -71,7 +83,7 @@
     },
     {
       "id": "drops_read_as_pickups",
-      "check": "When glean drops are present (small magenta/violet squares near the gate; larger warm-rose or ember-gold glowing squares deeper in the district â€” all centered on floor tiles), they read as desirable pickups, clearly distinct from corpses, projectiles, human telegraphs, the teal mark reticle, and the gold gate tiles. If a near-expiry drop is visible its fade reads as decay, not a render bug. If this replay shows no drops, pass with why='not exercised by this script'."
+      "check": "When glean drops are present (small magenta/violet squares near the descent mouth; larger warm-rose or ember-gold glowing squares deeper across the floor â€” all centered on floor tiles), they read as desirable pickups, clearly distinct from corpses, projectiles, human telegraphs, the teal mark reticle, and the gold gate tiles. If a near-expiry drop is visible its fade reads as decay, not a render bug. If this replay shows no drops, pass with why='not exercised by this script'."
     },
     {
       "id": "carried_count_reads",
@@ -139,7 +151,7 @@
     },
     {
       "id": "gradient_depth_reads",
-      "check": "Frames taken deep in the district (far from the gate at column 0) show MORE humans on screen than frames taken near the gate. The deep district reads as denser and more dangerous - more bodies visible, more threat present. Near-gate frames (beachhead area, columns 0-4) read as relatively calm with few or no humans, while deep frames (columns 14+) read as crowded and threatening. If the script does not include both near-gate and deep-district frames for comparison, pass with why='not exercised by this script'."
+      "check": "ZONE 2's threat grows AWAY from the descent mouth (the south-west landing pocket): frames taken deep in the floor (across bridges, the east half, or the far north) show more hostile presence than frames at the mouth landing, which reads as a calm arrival pocket (no hostiles adjacent on arrival). Hostiles cluster in ARENA GROUPS (camp/grove pockets) with watchers along the trails - grouped occupation, not an even smear. If the script does not include both mouth-landing and deep-floor frames for comparison, pass with why='not exercised by this script'."
     },
     {
       "id": "god_mark_reads",
@@ -199,7 +211,7 @@
     },
     {
       "id": "low_quay_reads",
-      "check": "When a ZONE 5 (low_quay) frame is on camera, the zone reads as a drowned under-harbor distinct at a glance from ZONE 3 (cold slate-and-indigo blocks) and ZONE 2 (sun-baked clay row): green-black floor with sparse ripple marks and drowned stains, a central impassable channel band — a dry stone bed crossed by two bridge gaps, its lips picked out by pale edge highlights — and a pale drowned-green colonnade; the banner 'ZONE 5' is legible when shown. If the replay never enters ZONE 5, pass with why='not exercised by this script'."
+      "check": "When a ZONE 5 (low_quay) frame is on camera, the zone reads as a drowned under-harbor distinct at a glance from ZONE 3 (cold slate-and-indigo blocks) and ZONE 2 (dark canyon halves split by a void chasm): green-black floor with sparse ripple marks and drowned stains, a central impassable channel band — a dry stone bed crossed by two bridge gaps, its lips picked out by pale edge highlights — and a pale drowned-green colonnade; the banner 'ZONE 5' is legible when shown. If the replay never enters ZONE 5, pass with why='not exercised by this script'."
     },
     {
       "id": "challenger_tell_reads",

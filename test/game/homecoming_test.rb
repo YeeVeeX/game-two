@@ -37,10 +37,11 @@ class HomecomingTest < Minitest::Test
                        name: name || "test_#{kit_name}_#{tile.join('_')}")
   end
 
-  # A district world with ONLY our staged rusher: home on a clear row,
-  # frozen 4 straight tiles east of it (the flow-home walk is the west ray).
-  HOME = [10, 5].freeze
-  FROZEN = [14, 5].freeze
+  # A district world with ONLY our staged rusher: home on a clear row
+  # (v2b west-camp arena interior, row 12), frozen 4 straight tiles east
+  # of it (the flow-home walk is the west ray).
+  HOME = [6, 12].freeze
+  FROZEN = [10, 12].freeze
 
   def staged(seed: 5)
     w = world(seed:)
@@ -71,7 +72,7 @@ class HomecomingTest < Minitest::Test
     just_short = LINGER + RUSHER_STEP - 1
     assert_equal FROZEN, placements(w, just_short).fetch(h),
                  "a partial step is no step (integer division)"
-    assert_equal [13, 5], placements(w, LINGER + RUSHER_STEP).fetch(h)
+    assert_equal [9, 12], placements(w, LINGER + RUSHER_STEP).fetch(h)
   end
 
   # --- integer division --------------------------------------------------
@@ -79,7 +80,7 @@ class HomecomingTest < Minitest::Test
   def test_tiles_advance_by_whole_kit_steps_only
     w, h = staged
     two_and_a_half = LINGER + (RUSHER_STEP * 5) / 2
-    assert_equal [12, 5], placements(w, two_and_a_half).fetch(h),
+    assert_equal [8, 12], placements(w, two_and_a_half).fetch(h),
                  "2.5 steps of walk_ticks advance exactly 2 tiles"
   end
 
@@ -107,9 +108,9 @@ class HomecomingTest < Minitest::Test
 
   def test_dead_and_at_home_humans_are_skipped
     w, displaced = staged
-    settled = make_human(w, :rusher, [20, 6], name: "test_rusher_home")
-    corpse = make_human(w, :rusher, [24, 12], name: "test_rusher_dead")
-    corpse.walker.teleport(26, 12)
+    settled = make_human(w, :rusher, [16, 12], name: "test_rusher_home")
+    corpse = make_human(w, :rusher, [14, 12], name: "test_rusher_dead")
+    corpse.walker.teleport(18, 12)
     corpse.take_hit(damage: corpse.hp, attacker: w.possessed)
     w.humans << settled << corpse
     placed = placements(w, LINGER + RUSHER_STEP * 10)

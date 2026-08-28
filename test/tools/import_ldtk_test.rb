@@ -14,7 +14,10 @@ require_relative "../../tools/import_ldtk"
 class ImportLdtkTest < Minitest::Test
   FIXTURE = File.expand_path("../fixtures/spike_district.ldtk", __dir__)
   SIDECAR = File.expand_path("../fixtures/district.sidecar.json", __dir__)
-  LIVE_DISTRICT = File.expand_path("../../data/zones/district.json", __dir__)
+  # v20 T1: the LIVE district graduated to the pilot project (its provenance
+  # pin lives in pilot_authoring_test now); the spike fixture keeps proving
+  # importer semantics against its own committed expected emission.
+  EXPECTED = File.expand_path("../fixtures/district_expected.json", __dir__)
   TILES = File.expand_path("../../data/tiles.json", __dir__)
 
   def doc = JSON.parse(File.read(FIXTURE))
@@ -46,10 +49,10 @@ class ImportLdtkTest < Minitest::Test
 
   # --- the happy path: round-trip + fixpoint -----------------------------
 
-  def test_round_trip_semantic_identity_with_live_district
+  def test_round_trip_semantic_identity_with_expected_emission
     bytes = importer.import(doc).fetch("district")
-    assert_equal JSON.parse(File.read(LIVE_DISTRICT)), JSON.parse(bytes),
-                 "imported district must be semantically identical to the live zone"
+    assert_equal JSON.parse(File.read(EXPECTED)), JSON.parse(bytes),
+                 "imported fixture district must match its committed expected emission"
   end
 
   def test_import_emit_import_fixpoint_is_byte_stable
@@ -481,7 +484,7 @@ class ImportLdtkTest < Minitest::Test
       stdout, stderr, status = Open3.capture3(*cmd)
       assert status.success?, "CLI failed: #{stderr}"
       assert_match(/IMPORTED district -> .*district\.json \(26 rows, 2 transitions\)/, stdout)
-      assert_equal JSON.parse(File.read(LIVE_DISTRICT)),
+      assert_equal JSON.parse(File.read(EXPECTED)),
                    JSON.parse(File.read(File.join(out_dir, "district.json")))
     end
   end

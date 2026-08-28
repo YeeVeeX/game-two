@@ -12,9 +12,20 @@ require_relative "../support/headless_script"
 # change's first effect) + the outgoing bank preserved below as
 # immutable history.
 #
-# ACTIVE bank (2026-08-26, s80 — C2 ally defensive-default, RATIFIED
-# sim change, v19 foundation Lane 3 row 13, RATIFIED-G + RATIFIED-J
-# 2026-08-22; rebank ratification rides the standing async lane): free
+# ACTIVE bank (2026-08-28, v20 T1 — floor-1 v2b retheme, RATIFIED map
+# change: foundation L3 + spec T1, owner-ratified live s114): district is
+# re-authored 52x88 through the importer door (two halves, wall-ringed
+# chasm, 4 bridges, 27 spawns) and world_loop's district leg was RE-CUT
+# for the new geometry (input re-cut, S73 precedent — prefix identity
+# holds through line 5 / frame 390, first divergent line = the retarget
+# actor name; every divergent class explained in
+# drafts/_v20-t1-floor1-20260828.md §canary). varekka_duel + burn_duel
+# are byte-UNCHANGED from S80 — the district roster change provably
+# shifted no other zone's stream.
+#
+# S80_HISTORY (2026-08-26, IMMUTABLE — C2 ally defensive-default,
+# RATIFIED sim change, v19 foundation Lane 3 row 13, RATIFIED-G +
+# RATIFIED-J 2026-08-22): free
 # pack bodies acquire PROVOKED humans only, so every unprovoked
 # free-ally engagement leaves the streams and all downstream combat
 # re-sequences. Stream-diff audit (prefix identity to each script's
@@ -82,8 +93,14 @@ class SimIdentityCanaryTest < Minitest::Test
     "burn_duel" => "fedf0452fc35b62850895016710abdea"
   }.freeze
 
-  ACTIVE = {
+  S80_HISTORY = {
     "world_loop" => "982bfd66085005e73d808fcf5d05761d",
+    "varekka_duel" => "ecc750ec4577bed854f1d210ba41aac5",
+    "burn_duel" => "36d6281cb5988432eda9022fe16acc3c"
+  }.freeze
+
+  ACTIVE = {
+    "world_loop" => "e0b1f38f0f6a5e3910a45a48f0f7bd3e",
     "varekka_duel" => "ecc750ec4577bed854f1d210ba41aac5",
     "burn_duel" => "36d6281cb5988432eda9022fe16acc3c"
   }.freeze

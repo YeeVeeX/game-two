@@ -53,7 +53,7 @@ class ProvocationTest < Minitest::Test
     ally = free_ally(w)
     hostile = w.humans.reject(&:dead?).min_by { |h| h.name }
     ally.walker.teleport(hostile.tile[0] + 2, hostile.tile[1])
-    w.controlled_bodies.each_with_index { |b, i| b.walker.teleport(2, 2 + i) }
+    w.controlled_bodies.each_with_index { |b, i| b.walker.teleport(1, 12 + i) }
     [w, ally, hostile]
   end
 
@@ -124,7 +124,7 @@ class ProvocationTest < Minitest::Test
     near.walker.teleport(12, 10) # dist 2, unprovoked
     far.walker.teleport(6, 10)   # dist 4, provoked
     far.provoke!
-    w.controlled_bodies.each_with_index { |b, i| b.walker.teleport(2, 2 + i) }
+    w.controlled_bodies.each_with_index { |b, i| b.walker.teleport(1, 12 + i) }
     before = chebyshev(ally.tile, far.tile)
     drive(w, KITS[:lobber][:step_frames] + 2)
     assert ally.attack_state != :idle || chebyshev(ally.tile, far.tile) < before,
@@ -155,10 +155,10 @@ class ProvocationTest < Minitest::Test
     w.start_in("district")
     h = w.humans.reject(&:dead?).min_by { |x| x.name }
     h.provoke!
-    # Pack parked across the map: nothing in the human's aggro, no focus —
+    # Pack parked across the arena: nothing in the human's aggro, no focus —
     # pre-set the linger so leash_home runs on the very next tick.
-    w.pack.members.each_with_index { |b, i| b.walker.teleport(2, 2 + i) }
-    h.walker.teleport(25, 12)
+    w.pack.members.each_with_index { |b, i| b.walker.teleport(1, 12 + i) }
+    h.walker.teleport(16, 12)
     h.resume_leash!(THREAT[:leash_linger_frames])
     drive(w, 2)
     refute h.pack_provoked?,
@@ -170,6 +170,10 @@ class ProvocationTest < Minitest::Test
     w.start_in("district")
     h = w.humans.reject(&:dead?).min_by { |x| x.name }
     h.provoke!
+    # v2b: start-in-district lands at the SW mouth; stage beside the west
+    # nest door so the round trip is a short straight walk.
+    w.possessed.walker.teleport(2, 13)
+    (w.pack.members - [w.possessed]).each_with_index { |b, i| b.walker.teleport(2, 12 + 2 * i) }
     walk_until(w, "left", "back in nest") { w.zone_name == "nest" }
     walk_until(w, "right", "district re-entry") { w.zone_name == "district" }
     refute h.pack_provoked?, "re-entry is a fresh slate (the focus=nil law)"
@@ -193,7 +197,7 @@ class ProvocationTest < Minitest::Test
     names_before = w.humans.map(&:name)
     victim.take_hit(damage: victim.hp, attacker: w.possessed) until victim.dead?
     # Park the pack away from spawn anchors so placement never defers.
-    w.pack.members.each_with_index { |b, i| b.walker.teleport(2, 2 + i) }
+    w.pack.members.each_with_index { |b, i| b.walker.teleport(40, 1 + i) }
     echo = nil
     drive_until(w, KITS[:rusher][:respawn_frames] + 900, "echo respawn") do
       echo = w.humans.find { |h| !names_before.include?(h.name) }

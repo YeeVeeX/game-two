@@ -45,7 +45,7 @@ class DensityRespawnTest < Minitest::Test
     world.pack.living.each_with_index { |m, i| m.walker.teleport(*tiles[i]) }
   end
 
-  FAR_PARK = [[1, 1], [1, 2], [1, 3]].freeze
+  FAR_PARK = [[1, 12], [1, 13], [1, 14]].freeze
 
   # Add a human that stays put: staggered far past the test horizon.
   def stage_human(world, tile, kit: :rusher)
@@ -56,7 +56,7 @@ class DensityRespawnTest < Minitest::Test
   end
 
   # Kill a freshly added human on the spot -> exactly one scheduled respawn.
-  def schedule_one_respawn(world, tile: [20, 12])
+  def schedule_one_respawn(world, tile: [16, 12])
     world.send(:add_human, "district", :rusher, tile)
     victim = world.humans.find { |c| c.tile == tile }
     victim.take_hit(damage: victim.hp, attacker: world.possessed) until victim.dead?
@@ -77,10 +77,10 @@ class DensityRespawnTest < Minitest::Test
     clear_field(w)
     r = DENSITY[:join_radius_tiles]
     # A—B at exactly join radius, C chained off B, D isolated.
-    stage_human(w, [10, 5])
-    stage_human(w, [10 + r, 5])
-    stage_human(w, [10 + 2 * r, 5])
-    stage_human(w, [30, 12])
+    stage_human(w, [4, 12])
+    stage_human(w, [4 + r, 12])
+    stage_human(w, [4 + 2 * r, 12])
+    stage_human(w, [12, 22])
     sizes = w.density_pockets.map(&:length).sort
     assert_equal [1, 3], sizes,
                  "chain distance groups A-B-C into one pocket, D alone"
@@ -90,8 +90,8 @@ class DensityRespawnTest < Minitest::Test
     w = Game::World.new(DATA, seed: 42)
     enter_district(w)
     clear_field(w)
-    stage_human(w, [10, 5])
-    doomed = stage_human(w, [12, 5])
+    stage_human(w, [6, 12])
+    doomed = stage_human(w, [8, 12])
     doomed.take_hit(damage: doomed.hp, attacker: w.possessed) until doomed.dead?
     # Not yet flushed: doomed is dead but still on the roster this instant.
     sizes = w.density_pockets.map(&:length)
@@ -107,7 +107,7 @@ class DensityRespawnTest < Minitest::Test
     stage_human(w, [40, 23])
     stage_human(w, [40, 24])
     events = record_respawn_events(w)
-    schedule_one_respawn(w) # dies at [20, 12] — the OLD law would re-home it
+    schedule_one_respawn(w) # dies at [16, 12] — the OLD law would re-home it
     park_pack(w, FAR_PARK)
     count = w.humans.length
     drive(w, scripted({}), RESPAWN + 10)
@@ -131,11 +131,11 @@ class DensityRespawnTest < Minitest::Test
     events = record_respawn_events(w)
     schedule_one_respawn(w)
     park_pack(w, FAR_PARK)
-    # Farthest rusher spawn from the pack at column 1: [40, 19].
+    # Farthest rusher spawn from the pack at the west-door pocket: [14, 76].
     drive(w, scripted({}), RESPAWN + 10)
     fresh = w.humans.first
     refute_nil fresh, "the respawn released onto the empty field"
-    assert chebyshev(fresh.tile, [40, 19]) <= DENSITY[:scatter_radius_tiles],
+    assert chebyshev(fresh.tile, [14, 76]) <= DENSITY[:scatter_radius_tiles],
            "seed anchors at the spawn tile farthest from the pack " \
            "(landed #{fresh.tile})"
     assert_equal :seed, events.first[:anchor]
@@ -146,8 +146,8 @@ class DensityRespawnTest < Minitest::Test
     enter_district(w)
     clear_field(w)
     stage_human(w, [40, 23])
-    schedule_one_respawn(w, tile: [20, 12])
-    schedule_one_respawn(w, tile: [22, 12])
+    schedule_one_respawn(w, tile: [16, 12])
+    schedule_one_respawn(w, tile: [18, 12])
     park_pack(w, FAR_PARK)
     drive(w, scripted({}), RESPAWN + 12)
     tiles = w.actors.map(&:tile)
@@ -167,7 +167,7 @@ class DensityRespawnTest < Minitest::Test
     # Park within block_radius - scatter_radius of the anchor: every
     # possible scatter tile sits inside the block radius, whatever the RNG
     # picks. Freeze the pack so 300 frames of proximity stage no combat.
-    park_pack(w, [[34, 21], [34, 22], [34, 23]])
+    park_pack(w, [[37, 24], [38, 24], [39, 24]])
     w.pack.living.each { |m| m.stagger!(30_000) }
     count = w.humans.length
     drive(w, scripted({}), RESPAWN + 20)
@@ -187,9 +187,9 @@ class DensityRespawnTest < Minitest::Test
     clear_field(w)
     events = record_respawn_events(w)
     schedule_one_respawn(w)
-    # A live corpse load 2 tiles from the seed anchor [40, 19]: every
+    # A live corpse load 2 tiles from the seed anchor [14, 76]: every
     # scatter candidate sits within corpse_guard_tiles (2 + 4 <= 6).
-    w.possessed.walker.teleport(38, 19)
+    w.possessed.walker.teleport(12, 76)
     w.possessed.pick_up(2)
     w.field_economy.spawn_corpse_load(w.possessed, nil, zone: w.zone_name)
     park_pack(w, FAR_PARK)

@@ -39,7 +39,7 @@ class ChallengerTest < Minitest::Test
     drive(world, scripted({}), 2)
     src = world.possessed
     src.walker.teleport(*seal1[:at])
-    (world.pack.living - [src]).each_with_index { |m, i| m.walker.teleport(2, 2 + i) }
+    (world.pack.living - [src]).each_with_index { |m, i| m.walker.teleport(1, 12 + i) }
     world.pack.bank!(ECO[:breach_cost])
     assert world.interact(src)
     src.walker.teleport(*seal1[:opens])

@@ -484,25 +484,34 @@ class TileMapTest < Minitest::Test
     assert_equal [3, 3], map.station_at(1, 1)[:opens]
   end
 
-  # T2 regression bar, T4 amendment: the six live-world zones stay their
-  # recorded shapes; the T3 fixture + the four T4 pilot zones are the
-  # authored v2 surface (typed transitions live ONLY there; the live
-  # graph's gates stay untyped v1 — the byte-exact bar). zone_8 is the
-  # worldsmith-intake zone (2026-08-23), wired s70: reachable through
+  # T2 regression bar, T4 amendment + v20 T1: the live-world zones stay
+  # their recorded shapes; the T3 fixture + the four T4 pilot zones + the
+  # graduated district (v20 T1 — floor -1, typed descent ways through the
+  # importer door) are the authored v2 surface. camp carries exactly ONE
+  # typed row (the descent MOUTH, stairs_down into district — v20 L2);
+  # every other live gate stays untyped v1 — the byte-exact bar. zone_8 is
+  # the worldsmith-intake zone (2026-08-23), wired s70: reachable through
   # dungeon_1's rope way, its own return stays a plain v1 edge gate.
   def test_live_zones_load_under_registry_with_declared_shapes
     data = Core::DataStore.new("data")
     reg = Core::TileRegistry.new(data["tiles"])
     zones = data.keys.grep(%r{\Azones/})
     assert_equal 13, zones.length
-    v1 = %w[zones/camp zones/district zones/district_two zones/low_quay zones/slow_door]
-    pilot = %w[zones/zone_7 zones/basement_1 zones/basement_2 zones/dungeon_1]
+    v1 = %w[zones/camp zones/district_two zones/low_quay zones/slow_door]
+    pilot = %w[zones/zone_7 zones/basement_1 zones/basement_2 zones/dungeon_1
+               zones/district]
     zones.each do |key|
       map = Core::TileMap.new(data[key])
       reg.validate_map!(map)
       if pilot.include?(key)
         map.transitions.each do |t|
           assert_includes Core::TileMap::TRANSITION_TYPES + [nil], t[:type]
+        end
+      elsif key == "zones/camp"
+        assert_equal 0, map.floor, "the hub stays surface (floor 0)"
+        map.transitions.each do |t|
+          next if t[:to] == "district" && t[:type] == "stairs_down" # the mouth
+          assert_nil t[:type], "#{key}: only the descent mouth is typed"
         end
       else
         assert_equal 0, map.floor, "#{key} must default to floor 0"
@@ -532,7 +541,7 @@ class TileMapTest < Minitest::Test
     assert_equal [33, 14], z7.water_drained_by
     assert_equal %w[town_1], z7.regions.map { |r| r[:id] }
     assert_empty z7.enemy_spawns, "ZONE 7 is threat-free by data, not by rules"
-    %w[zones/basement_1 zones/basement_2 zones/dungeon_1].each do |key|
+    %w[zones/basement_1 zones/basement_2 zones/dungeon_1 zones/district].each do |key|
       assert_equal(-1, Core::TileMap.new(data[key]).floor, "#{key} sits on FLOOR -1")
     end
     refute_empty Core::TileMap.new(data["zones/dungeon_1"]).enemy_spawns,

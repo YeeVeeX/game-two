@@ -128,7 +128,7 @@ class CoopFeelTest < Minitest::Test
     hostile.provoke! # C2: acquisition is defensive — these lanes test FLEE
     ally.walker.teleport(hostile.tile[0] + 2, hostile.tile[1])
     w.controlled_bodies.each_with_index do |b, i|
-      b.walker.teleport(2, 2 + i)
+      b.walker.teleport(1, 12 + i)
     end
     ally.load_hp!(hp) if hp
     [w, ally, hostile]

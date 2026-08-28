@@ -47,10 +47,10 @@ class DropBandTest < Minitest::Test
     w = Game::World.new(DATA, seed: 42)
     enter_district(w)
     clear_field(w)
-    w.pack.living.each_with_index { |m, i| m.walker.teleport(1, 1 + i) }
-    near = kill_at(w, "district", [5, 13])   # gate_distance ~5  -> band 0
-    mid  = kill_at(w, "district", [20, 13])  # gate_distance ~20 -> band 1
-    deep = kill_at(w, "district", [35, 5])   # gate_distance 28+ -> band 2
+    w.pack.living.each_with_index { |m, i| m.walker.teleport(1, 12 + i) }
+    near = kill_at(w, "district", [11, 84])  # gate_distance 1  -> band 0
+    mid  = kill_at(w, "district", [41, 45])  # gate_distance ~55 -> band 1
+    deep = kill_at(w, "district", [42, 13])  # gate_distance 70+ -> band 2
     assert_equal 0, near[:band], "near-gate kill stamps band 0"
     assert_equal 1, mid[:band], "mid-district kill stamps band 1"
     assert_equal 2, deep[:band], "deep kill stamps band 2"
