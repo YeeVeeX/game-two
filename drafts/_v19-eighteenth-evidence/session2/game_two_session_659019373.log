@@ -1,0 +1,65 @@
+AUDIO on: device=1 sha=15f03e0219d6 lib=C:/Users/gabri/workspace/game-two-audio
+TELEMETRY persist loaded digest=c36cea1f9ae1afbc1fc8333ce71f92bc schema=2 banked=488 provisions=0 seals=5 marks=3 sessions=17 source=file
+TELEMETRY session seed=3483633913
+AUDIO ambience key=none zone=nest
+AUDIO footstep material=dirt zone=nest
+AUDIO footstep material=stone zone=district
+AUDIO ambience key=amb_meadow zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO footstep material=grass zone=zone_7
+AUDIO footstep material=dirt zone=zone_7
+AUDIO footstep material=stone zone=zone_7
+AUDIO ambience key=amb_town zone=zone_7
+AUDIO footstep material=water zone=zone_7
+AUDIO footstep material=stone zone=zone_7
+AUDIO footstep material=water zone=zone_7
+AUDIO ambience key=amb_dungeon zone=dungeon_1
+AUDIO footstep material=stone zone=dungeon_1
+AUDIO ambience key=none zone=zone_8
+AUDIO footstep material=dirt zone=zone_8
+AUDIO footstep material=grass zone=zone_8
+AUDIO footstep material=dirt zone=zone_8
+AUDIO footstep material=grass zone=zone_8
+AUDIO footstep material=dirt zone=zone_8
+AUDIO footstep material=grass zone=zone_8
+AUDIO footstep material=dirt zone=zone_8
+AUDIO footstep material=water zone=zone_8
+AUDIO footstep material=dirt zone=zone_8
+AUDIO footstep material=grass zone=zone_8
+AUDIO footstep material=wood zone=zone_8
+AUDIO footstep material=grass zone=zone_8
+AUDIO footstep material=wood zone=zone_8
+AUDIO footstep material=grass zone=zone_8
+AUDIO footstep material=dirt zone=zone_8
+AUDIO footstep material=grass zone=zone_8
+AUDIO footstep material=dirt zone=zone_8
+AUDIO footstep material=grass zone=zone_8
+AUDIO footstep material=dirt zone=zone_8
+AUDIO footstep material=grass zone=zone_8
+AUDIO footstep material=dirt zone=zone_8
+AUDIO footstep material=grass zone=zone_8
+AUDIO footstep material=dirt zone=zone_8
+AUDIO footstep material=water zone=zone_8
+TELEMETRY d1_fired carrying_deaths=0 wipes=0 corpse_looted=0 carried_lost=0 banked_events=0 fights=3 recovery_fights=0 negative_fights=0
+TELEMETRY a2_fired wipes=0 body_deaths=4 retargets{hate=10 lowhp=8 proximity=11 acquired=108 challenged=0} leashes=2 deepest_band=2 banked=0
+TELEMETRY d1b_fired inscriptions=1 marks_consumed=0 dissolved=0 regrown=4 tributes=3 floor_fired=0 banked_spent{inscribe=8 tribute=58} banked_end=422
+TELEMETRY q6_cadence banks{n=0 mean=0 max=0} kills_by_band{b0=7 b1=14 b2=6}
+TELEMETRY density pockets{mean=2.5 max=21} arrivals{pocket=12 seed=7 home=0} singles_pct=17
+TELEMETRY arc breach{fired=0 first_frame=0 banked_after=0} rehomed=2 camp_visits=1 d2{entered=1 kills=9} seal2_breached=0
+TELEMETRY q6_margins banks{n=0 pure=0} amount{mean=0 max=0} hp{mean=0.00} dead{mean=0.0} wounded{mean=0.0} gap{mean_s=0}
+TELEMETRY v13 whirl{casts=1 hits{1=0 2=1 3=0 4=0 5plus=0} kills=2} challenge{casts=2 retargets=0}
+TELEMETRY drift thirds{k1=16 k2=11 k3=0} pockets{p1=6.4 p2=9.5 p3=0.0} span_thirds{k1=8 k2=8 k3=11 span=3906}
+TELEMETRY v14 telegraphs_shown=24 first_special{striker=4872 blocker=1497 lobber=3422}
+TELEMETRY quay entries=1 frames=1122 kills=11 deaths=2 banked_after{events=0 amount=0}
+TELEMETRY varekka engaged=1 chants=1 interrupted=0 seized=1 swap_escapes=0 slain=0 deaths_while_seized=1 burns=1 ends{expired=0 slain=0 died=1 zone_left=0 wiped=0}
+TELEMETRY sustain bought=0 used=0 refused=0 reasons{at_cap=0 broke=0 none=0 no_effect=0 seat_race=0}
+TELEMETRY progression level=10 xp=3679 kills_xp=445
+TELEMETRY persist saved digest=1c2c35ed0fd6730583ca969e13102a27 schema=2 banked=422 provisions=0 seals=5 marks=3 sessions=18
+AUDIO drift anchor tick=1800 engine_pcm=1450080 tick_frames=800
+AUDIO drift tick=1800 engine_pcm=1450080 expected=1450080 drift_frames=0
+AUDIO drift tick=3600 engine_pcm=2877600 expected=2890080 drift_frames=-12480
+AUDIO drift tick=5400 engine_pcm=4305120 expected=4330080 drift_frames=-24960
+AUDIO drift tick=7200 engine_pcm=5732640 expected=5770080 drift_frames=-37440
+AUDIO drift tick=9000 engine_pcm=7161120 expected=7210080 drift_frames=-48960
+AUDIO drift tick=10800 engine_pcm=8593440 expected=8650080 drift_frames=-56640
+AUDIO teardown clean (dropped_cues=0)

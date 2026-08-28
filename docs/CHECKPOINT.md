@@ -2,6 +2,41 @@
 
 ## 2026-08-28 session 113 — s2 DECLARABLE (awaiting owner verbatim) · Junior ZONE 2 directions reviewed PASS · owner solo session #18 clean (chain → `1c2c35ed`, at-cap explained) · logs baseline re-anchored
 
+**SUPERSEDED SAME-SITTING by owner order — RITUAL S2 = THE SOLO
+SESSION (retroactive count), administration OPEN:** owner, verbatim
+(typo and all): "count it as ritual this time and complete that
+requirement, we need to start addint stuff to our game and not
+require the ritual so often if there is nothing new". Executed per
+spec §12.4 (owner override is law, recorded, measurement
+consequences named at adjudication — NOT hidden): the solo session
+counts as ritual s2 with THREE named compressions (coop shape ·
+≥36000 length · pre-launch declaration — all owner-waived; the
+coop-across-days reading is FORFEIT, the calendar day-gap itself
+HELD: 08-27 vs 08-28). Full record + harvest + contamination
+ledger: skeleton `drafts/_v19-fun-verify-skeleton-20260826.md`
+§RITUAL SESSION 2 + §Deviations (s2 evidence banked:
+`session2/game_two_session_659019373.log` md5 `3762fd97…`, launch
+ctime 2026-08-28 04:52:51 -0600). Half A under the order: A1 ✓ A4 ✓
+A5 ✓ (xp-pin at ceiling−1 named, spec-anticipated) A6 ✓ (gross
+length imbalance named); A2/A3-netplay owner-waived for s2.
+**Administration: owner's 5 es questions being administered
+one-by-one byte-virgin from §9 in the hub chat (§9 opened by the
+administering dev AT administration — lawful); Junior's 5 pt
+questions = HIS seat administers from §9 on his machine, §6 target
+all ten banked same day — owner pings Junior humanly; capture-
+before-debrief: the peers must NOT discuss the game until Junior's
+5 are banked.** Adjudication in a FRESH session at 10/10 (never
+this one); verdict doc per spec §13; freeze lifts AT VERDICT, not
+at administration. Second owner directive same message ("not
+require the ritual so often if there is nothing new") = ritual-
+cadence REFORM — executes AFTER the owner's 5 answers are banked
+(quarantine: no design/process talk into the administration window)
+as an AGENTS.md operating-model amendment applying from the
+NINETEENTH onward (never retro-grading the eighteenth).
+
+**→ the paragraph below is the PRE-ORDER state, kept for the
+record; its "awaiting declaration" framing is DEAD.**
+
 **Ritual state — the gate is OPEN, the word is not given:** host
 clock read 2026-08-28 03:00:45 -0600 at open → first session on a
 new calendar day since s1 (08-27) — **s2 is DECLARABLE**, not

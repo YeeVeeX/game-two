@@ -95,13 +95,13 @@ stalls).
 - [x] Session 1 joiner log banked (md5, Junior pastes/commits) *(Junior seat 2026-08-27: REAL launcher log FILE → `drafts/_v19-eighteenth-evidence/session1/game_two_session_12692262.log`, md5 `8d3db762694cdfb376aa35c6ffea5400`, ORIGINAL ctime 2026-08-27 17:29:39 (Junior machine, local clock). A2 lines verbatim: `TELEMETRY persist loaded digest=b3c37a09823070dcdb07af116f8117d7 schema=2 banked=102 provisions=0 seals=4 marks=0 sessions=16 source=handshake` — loaded == the s85 chain head ✓ · `NETPLAY handshake seat=2 d=9 link_slow=false` · close `TELEMETRY netplay seat=2 ticks=64835 desyncs=0 stalls=0 stall_ms_max=0 reason=quit` (64835 vs host 64834: known one-tick seat skew) · `TELEMETRY progression level=10 xp=3679 kills_xp=3627` matches the host A5 read. AUTOPILOT grep on the file: 0.)*
 - [x] Session 1 hosting-console tee banked IF the launch path produced one (corroboration, never required — spec A6) *(s104: none produced — `bin\host-coop.cmd` path, by construction)*
 - [x] Link-quality read BEFORE questions: stalls% + stall_ms_max vs spec §11 thresholds (≥14% / ≥2500ms) — re-run window closes at the first question *(s104: 7.4% / 591ms — neither met, session STANDS)*
-- [ ] Ritual session 2 declared in chat before launch
-- [ ] Session 2 host log banked (md5) — `loaded` == latest prior `saved` in the chain; LAUNCH DATE from original ctime
-- [ ] Session 2 joiner log banked (md5)
-- [ ] Session 2 hosting-console tee banked IF produced
-- [ ] Day-gap read: host-clock LAUNCH dates (original-file ctime + chat declaration timestamps) DIFFERENT, or pre-recorded compression line quoted
-- [ ] AUTOPILOT grep = 0 on all four files
-- [ ] Chain walk: every loaded == a previous saved, every gap classified
+- [x] Ritual session 2 declared in chat before launch *(NO — RETROACTIVE owner order, the central deviation: launch 04:52, order ~05:3x; verbatim in the session-2 block. Owner override is law, recorded, consequence named at adjudication per spec §12.4)*
+- [x] Session 2 host log banked (md5) — `loaded` == latest prior `saved` in the chain; LAUNCH DATE from original ctime *(solo: `game_two_session_659019373.log` md5 `3762fd9756a90e9483f141006d1a3fbd`, launch ctime 2026-08-28 04:52:51 -0600; loaded `c36cea1f…` == s1 saved ✓)*
+- [x] Session 2 joiner log banked (md5) *(NONE EXISTS — session 2 was SOLO by owner order; A2/A3-netplay unfulfillable for s2, owner-waived; coop-across-days reading forfeited)*
+- [x] Session 2 hosting-console tee banked IF produced *(none — `play.cmd` solo path tees to the session log itself)*
+- [x] Day-gap read: host-clock LAUNCH dates (original-file ctime + chat declaration timestamps) DIFFERENT, or pre-recorded compression line quoted *(DIFFERENT ✓ — s1 2026-08-27 14:26:28, s2 2026-08-28 04:52:51: the day gap itself HELD; what was compressed is the session SHAPE — solo, short — not the calendar)*
+- [x] AUTOPILOT grep = 0 on all four files *(three files exist: s1 host · s1 joiner · s2 solo — grep = 0 on all three)*
+- [x] Chain walk: every loaded == a previous saved, every gap classified *(s113: solo loaded `c36cea1f…` == s1 saved; zero logs in the gap; two pre-08-13 ordinary logs lost to Windows temp cleanup, named, pre-chain-era)*
 - [ ] THEN: owner 5 answers (es, one-by-one, byte-virgin from spec §9) — VERBATIM below
 - [ ] THEN: Junior 5 answers (pt-br, his seat administers) — VERBATIM below
 - [ ] Deviations named beside each set (capture-before-debrief status included)
@@ -181,7 +181,80 @@ stalls).
   launch); no debrief contact between peers as of banking (owner
   reported "done" to the hub only).
 
-## RITUAL SESSION 2 (empty)
+## RITUAL SESSION 2 — SOLO, counted by RETROACTIVE OWNER ORDER (2026-08-28, s113)
+
+- **The owner order (chat, verbatim, AFTER the session — typo and
+  all):** "count it as ritual this time and complete that
+  requirement, we need to start addint stuff to our game and not
+  require the ritual so often if there is nothing new" — Gabriel,
+  2026-08-28 ~05:3x, in the hub session, upon being told solo cannot
+  be s2 under spec §4.1. Under the operating model (owner overrides
+  are LAW, recorded; spec §12.4: "Owner override stays law —
+  recorded in one line, and its measurement consequence named at
+  adjudication") this seat executes it with consequences NAMED, not
+  hidden.
+- **What the order compresses (each named for the adjudicator):**
+  (1) §4.1 coop shape — s2 was SOLO: no joiner log, no netplay
+  lines, A2/A3-netplay unfulfillable for s2 → the COOP-across-days
+  reading is FORFEIT (the v18-caveat re-buy, §4.4 spirit — note the
+  CALENDAR gap itself held: dates genuinely differ); (2) §4.3
+  length — 10800 ≤ ticks < 12600 (audio-drift cadence bound; solo
+  close prints no tick line) vs ≥36000 — a §11 shortfall class,
+  owner-waived; (3) §4.2 pre-launch declaration — retroactive.
+- **What genuinely stands:** launch drill was executed IN FULL
+  before the session (fork check 0 printed/separate · insurance
+  `tmp/world.pre-s113-solo.json` md5 `716987ce…` == pre-launch save
+  · visible detached Start-Process `play.cmd es`, no env extras) ·
+  clean quit · chain continuity · the day gap · A5 on both state and
+  flow.
+- **Session-2-open {level, xp} (A5 state):** {level=10, xp=3679} —
+  proven by chain identity: pre-launch save file md5 `716987ce…`
+  verified at s113 open AND at insurance copy == the file whose
+  play-path decode was banked at s104 close (digest `c36cea1f…`,
+  {10, 3679}). No re-decode owed (file unmoved between s104 close
+  and launch — md5-proven).
+
+### HARVEST (s113, banked before any question)
+
+- **Host log** `game_two_session_659019373.log` (log #41 by the
+  current numeric count — temp cleanup renumbered the count s113;
+  FILENAME is the stable id), md5
+  `3762fd9756a90e9483f141006d1a3fbd`, copy banked `session2/` (md5
+  identical). **LAUNCH DATE (host clock, ORIGINAL file ctime,
+  recorded at banking): 2026-08-28 04:52:51 -0600.** AUTOPILOT
+  grep = 0 ✓. No joiner log exists (solo — see the order block).
+- **Oracle lines, verbatim:**
+  - `TELEMETRY persist loaded digest=c36cea1f9ae1afbc1fc8333ce71f92bc schema=2 banked=488 provisions=0 seals=5 marks=3 sessions=17 source=file`
+  - `TELEMETRY sustain bought=0 used=0 refused=0 reasons{at_cap=0 broke=0 none=0 no_effect=0 seat_race=0}` *(HELD — §8 reading waits for 10/10)*
+  - `TELEMETRY progression level=10 xp=3679 kills_xp=445`
+  - `TELEMETRY persist saved digest=1c2c35ed0fd6730583ca969e13102a27 schema=2 banked=422 provisions=0 seals=5 marks=3 sessions=18`
+  - (no `TELEMETRY netplay` line — solo session by construction)
+- **Chain (A1, this link):** loaded `c36cea1f…` == s1's saved ✓ ·
+  clean quit PROVEN (persist-saved line + `AUDIO teardown clean`;
+  solo save writes at clean quit only, by law) · saved `1c2c35ed…`,
+  sessions 17→18 (+1, A6) · post-quit save file md5
+  `1d71e34f9abf60a7d7ffe180fe0d55e0`, play-path decode digest ==
+  `1c2c35ed…`, **{level=10, xp=3679} carried to disk** ✓ (decode run
+  s113, temp script through `App::SaveStore#load(data:)`, deleted).
+- **A-check partials (s2 side):** A1 ✓ · A2 owner-waived (no
+  joiner) · A3: ticks 10800–12600 < 36000 owner-waived · desyncs
+  n/a · reason: clean quit ✓ · AUTOPILOT=0 ✓ · A4 ✓ (dates differ,
+  see checklist) · A5 state: at-cap trivially true, **xp-pin named:
+  xp held at 3679 = ceiling−1 across kills_xp=445 (spec A5
+  anticipated exactly this)** · A5 flow: kills_xp=445 > 0 BOTH
+  sessions (s1: 3627) ✓ · A6: distinct launches, sessions +1 per
+  session ✓; **session-length imbalance NAMED: s1 64834 ticks (~18
+  sim-min) vs s2 ~10800–12600 (~3 sim-min)** — gross, recorded
+  beside the reading per A6.
+- **Link-quality read:** n/a — no netplay link existed (solo).
+- **Session color (telemetry, non-oracle):** varekka engaged=1
+  seized=1 died-while-seized=1 burns=1 · d2 entered=1 kills=9 · quay
+  entries=1 kills=11 deaths=2 · body_deaths=4 · banked 488→422.
+- **Deviations this session:** see the order block above (coop
+  shape · length · retroactive declaration) + the contamination
+  ledger under Deviations below. No sim/data/oracle edits inside the
+  window (s105–s113 all docs-only; freeze-watch clean through
+  `7dd9930`).
 
 ## OWNER ANSWER SET (empty — 0/5)
 
@@ -218,6 +291,24 @@ stalls).
 
 ## Deviations (named as they occur)
 
+- 2026-08-28 (s113, THE central one): **ritual session 2 = the solo
+  session, by retroactive owner order** — full record + named
+  compressions in the session-2 block above. The eighteenth's
+  adjudication must read the coop-continuity topics against a
+  solo-s2 evidence base: the across-days COOP reading is forfeit;
+  the across-days PERSISTENCE mechanics held (chain-proven across a
+  real calendar boundary).
+- 2026-08-28 (s113, contamination ledger for Half B — §6 rule):
+  BEFORE administration, the hub explained to the owner why the
+  build felt unchanged ("the build hasn't changed since ritual s1
+  — s97–s113 docs-only … you're at the level cap, the curve clamps")
+  — a pre-answer dev→player contact about the session's CONTENT.
+  Per §6 it discounts warmth/convergence on the novelty axis (K3
+  cannot be manufactured by it; against-interest content keeps full
+  weight). The owner's own spontaneous pre-administration remark is
+  banked verbatim in the s113 checkpoint entry: "there is nothing
+  new on the game" (against-interest, full weight). No peer
+  (Gabriel↔Junior) debrief about the sessions known as of banking.
 - 2026-08-26: exposure evening carried a live crash + hotfix cycle
   (#40 crash → `e187266` → #41 clean). The fix touched NO frozen file
   (freeze-watch clean incl. the fix commit; watch list re-run post-push).
