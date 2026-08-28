@@ -102,7 +102,7 @@ stalls).
 - [x] Day-gap read: host-clock LAUNCH dates (original-file ctime + chat declaration timestamps) DIFFERENT, or pre-recorded compression line quoted *(DIFFERENT ✓ — s1 2026-08-27 14:26:28, s2 2026-08-28 04:52:51: the day gap itself HELD; what was compressed is the session SHAPE — solo, short — not the calendar)*
 - [x] AUTOPILOT grep = 0 on all four files *(three files exist: s1 host · s1 joiner · s2 solo — grep = 0 on all three)*
 - [x] Chain walk: every loaded == a previous saved, every gap classified *(s113: solo loaded `c36cea1f…` == s1 saved; zero logs in the gap; two pre-08-13 ordinary logs lost to Windows temp cleanup, named, pre-chain-era)*
-- [ ] THEN: owner 5 answers (es, one-by-one, byte-virgin from spec §9) — VERBATIM below
+- [x] THEN: owner 5 answers (es, one-by-one, byte-virgin from spec §9) — VERBATIM below *(COMPLETE s113 2026-08-28: P1 counter-question + post-contact supplement · P2–P5 substantive; all verbatim, contact/discount notes beside)*
 - [ ] THEN: Junior 5 answers (pt-br, his seat administers) — VERBATIM below
 - [ ] Deviations named beside each set (capture-before-debrief status included)
 - [ ] HELD material admitted (sustain lines · mid-session observations · forensics)
@@ -256,7 +256,7 @@ stalls).
   window (s105–s113 all docs-only; freeze-watch clean through
   `7dd9930`).
 
-## OWNER ANSWER SET (1/5 — administration OPEN, s113)
+## OWNER ANSWER SET (5/5 — COMPLETE, s113 2026-08-28)
 
 - **P1 (es, pasted byte-virgin from §9, hub chat s113; the day-gap
   held so the premise ran UNAMENDED):** asked verbatim. **Answer
@@ -330,6 +330,22 @@ stalls).
   variedad todavía" — banked uncommented. Descriptive notes only:
   affirmative behavior read ("sí obvio"), delivered as
   self-evident; hedge named by the player = low variety so far.
+- **P5 — Veredicto libre (es, pasted byte-virgin from §9, hub chat
+  s113):** asked verbatim. **Answer (verbatim, typos and all):** "el
+  slice mostró una agradable y divertida mecánica base del juego,
+  con un combate engaging y una idea que tiene mucho potencial,
+  ahora lo que falta es expandir la idea, darnos herramientas de
+  admin/GM para ir nosotros tambien construyendo el mundo en
+  conjunto contigo y crear un mundo vivo, variado, con quests, NPCs,
+  belleza de sprites y assets, entre otras cosas que cualquier otro
+  juego del estilo se desearía" — banked uncommented. Descriptive
+  notes only: positive free verdict on the base mechanic + combat
+  ("agradable y divertida", "engaging", "mucho potencial"); asks
+  named by the player: expand the idea · admin/GM tools for
+  peer-built world (E1-family echo — mapping is adjudication's) ·
+  living varied world · quests · NPCs · sprite/asset beauty.
+  **OWNER SET COMPLETE 5/5 — banked before any owed explanation;
+  quarantine holds until Junior's 5 land.**
 
 ## JUNIOR ANSWER SET (empty — 0/5)
 
