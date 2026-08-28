@@ -380,6 +380,20 @@ stalls).
 
 ## Deviations (named as they occur)
 
+- 2026-08-28 (s113, owner order — ADJUDICATE WITHOUT JUNIOR'S SET,
+  verbatim, typos and all): "no importa, de momento avancemos así
+  sin las de él, sé que va a decir casi lo mismo que yo, y cuando
+  esté online que su agente le pregunte y actualizamos, pero de
+  momento sigamos trabajando, quiero ver resultados, está bien?" —
+  adjudication proceeds at 5/10 by owner word: Junior's 5 stay
+  PENDING-ASYNC (his seat administers byte-virgin from §9 at his
+  next session, BEFORE any other game-two talk/work; any known
+  peer contact named beside his answers per §6). Both-seat
+  conditions (K3/K4) read PROVISIONAL-ON-JUNIOR in the verdict; his
+  later set can retroactively fire them — the verdict must carve
+  exactly that. HELD material admitted at this adjudication by the
+  same compression (named). The owner's prediction ("va a decir
+  casi lo mismo") is banked as prediction, never as his answer.
 - 2026-08-28 (s113, THE central one): **ritual session 2 = the solo
   session, by retroactive owner order** — full record + named
   compressions in the session-2 block above. The eighteenth's
