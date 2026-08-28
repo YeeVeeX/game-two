@@ -1,5 +1,92 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+## 2026-08-28 session 113 — s2 DECLARABLE (clock gate open, awaiting owner verbatim) · Junior ZONE 2 directions reviewed PASS · logs baseline re-anchored (temp-cleanup deviation named)
+
+**Ritual state — the gate is OPEN, the word is not given:** host
+clock read 2026-08-28 03:00:45 -0600 at open → first session on a
+new calendar day since s1 (08-27) — **s2 is DECLARABLE**, not
+declared. Declaration stays owner-paced (never nag) and lands in
+chat verbatim before launch; the binding date = host clock at s2
+LAUNCH (spec §4.4). Owner's word this session ("proceed with
+proactive autonomy") is NOT a declaration — queue-item-2 work
+executed instead. s2 protocol unchanged (s106 entry = the
+reference): insurance copy FIRST (`cp saves/world.json
+tmp/world.pre-s2.json`, md5 both) · pre-launch strict decode via
+temp `ruby -Isrc` script (chain head must equal saved
+`c36cea1f9ae1afbc1fc8333ce71f92bc` {level=10 xp=3679} sessions=17;
+ordinary-play gaps legal, classify each gap log) · fork check by
+printed ruby-process count in a SEPARATE call · never TCP-probe
+43117 · harvest-before-anything · administration same sitting,
+10/10 before any debrief · adjudication in a FRESH session.
+
+**Peer delivery harvested (queue item 2, fetch-first honored):**
+Junior pushed `b71cc8b` 04:32 -0300 — three ZONE 2 retheme concepts
+(v1 cavern 88×52 · v2b two-spaces+4-bridges 52×88 · v3 MEDUSA LOWER
+52×52; his NOTE below), ff-merged, freeze-watch CLEAN through it
+(docs+PNGs only). **Independent review: PASS as direction intake +
+v20 grill input** — `drafts/_s113-junior-zone2-directions-review-
+20260828.md`. Verified: PNG blob md5s 3/3 == in-doc · wall-color
+limitation TRUE (one `passability: wall` type, renderer draws walls
+via single `palette[:wall]`) → the second-wall-class ask is
+well-formed, its own v20 grill row · spawn densities conservative
+(all three BELOW live district's 15/1,144 tiles) · totem =
+candidate-3 convergence (matches s109 record). Adversarial rows for
+execution: water is PASSABLE today (v1's pits need wall-rings; v2b
+already solved via rock ring) · v1 = 4,576 tiles = 1.79× zone_8 →
+`rake perf` before wire-in · pilot-four provenance pin (transcribe
+via authoring/pilot.ldtk → importer, never hand-edit) · v3 hole
+auto-fires in a guarded arena (sizing note) · graph endpoints hang
+on the grill's re-root row. Dev read (humans pick): v2b strongest
+for floor 1 (zero new asks), v3 banked for a deeper floor, v1 mined
+for arena-grouping + 3-wide-tunnel standard. **NO outbound to
+Junior until 10/10** (geography = ritual-adjacent; pick conversation
+= peers' own chat; "4 ANDARES" stays HELD).
+
+**Job 0: green with TWO named deviations, both resolved** — tip at
+open `8303c87` == s112 baseline, then lawful peer push ff-merged →
+`b71cc8b` · tree clean except untracked `drafts/_refs/` locals ·
+save `716987ce…` mtime 08-27 14:49 sessions=17 baseline-exact,
+insurance `tmp/world.pre-s104.json` = `da5a0b2d…` re-verified ·
+ruby procs 0 (printed, separate call) · **DEVIATION 1: logs 42→40**
+(numeric-law count; Windows temp cleanup ate two pre-08-13 ordinary
+logs — no unaccounted play: save md5+mtime unmoved, newest log =
+s1's own) — logs baseline RE-ANCHORED at **40**; · **DEVIATION 2
+(false alarm, recorded to kill it):** feared the s1 HOST log lived
+only in the now-proven-volatile /tmp and re-banked it — the copy
+was a byte-identical NO-OP: s104 already banked the file at
+`drafts/_v19-eighteenth-evidence/session1/game_two_session_66512654.log`
+(`7f95654`), md5 `5bc9cb46244b80076bba1a6cf36bf106` re-verified ==
+/tmp original == harvest md5. Ritual evidence was ALWAYS all
+in-repo (host + joiner logs both banked) · wall
+35 / gate rows 69 · world.rb 1769/1800 NEARING CAP · window.rb
+267/300 · mail inbox EMPTY · bundles/ one live · worktree relic
+`tmp/s59_pre` (left) · canary era = LAST digest block (zero
+src/data edits). Docs-only close. Hygiene untouched: §9 unread,
+instruments/oracle wording/sim numbers frozen, R-A2 unexplained,
+zero ritual-topic contact with the peer.
+
+**Job-0 baselines for s114:** origin tip = this close commit · tree
+clean except `drafts/_refs/` · save
+**`716987ce2b1a723e1a4ea161d679e710` mtime 08-27 14:49 sessions=17**
+(insurance `da5a0b2d…`; s2 takes a NEW insurance copy before
+launch) · logs **40** (numeric law — re-anchored this session,
+temp-cleanup shrinkage is now a KNOWN mode: a DROP with save
+unmoved = benign, any RISE still demands classification) · wall 35
+/ gate rows 69 · suite green via hook at this commit · world.rb
+1769/1800 · window.rb 267/300 · canary era = LAST digest block ·
+freeze-watch CLEAN through this commit (s97–s113 docs-only) · mail
+inbox EMPTY · bundles/ one live.
+
+**s114 queue:** (1) ritual s2 on declaration — HEAD ITEM (gate is
+OPEN: any 08-28+ host-clock day qualifies; wait for the owner's
+chat declaration verbatim, then the s106-reference protocol) · (2)
+Junior deliveries / the ZONE 2 pick if the peers converge in chat →
+bank on arrival, independent review, fetch-first · (3) v20 grill
+stays verdict-gated (input index: forest-first + archaeology A-rows
++ underground ask + J-T4..T8 + ZONE 2 directions + wall-class ask)
+· (4) zero input + no ritual = integrity-green docs-only close
+stays lawful (never manufacture work).
+
 NOTE: Junior seat, 2026-08-28 — **map-lane direction intake DELIVERED**: three approved retheme concepts for ZONE 2 (all the SAME zone, three alternative versions — v1 chamber-cavern 88×52 · v2b two-spaces+4-bridges 52×88 · v3 MEDUSA LOWER 52×52), each sandbox-playtested by Junior off-repo and BFS-connectivity-proven. Record + PNGs: `drafts/_junior-zone2-map-directions-20260828.md` (+ `drafts/_refs/junior-zone2-*.png`, md5s in-doc). Execution = post-verdict per the map-lane law. One v20 ask surfaced: second wall class in the tile registry (red inner walls vs black bounds cannot coexist today).
 
 ## 2026-08-27 session 112 — integrity-green holding close (eighth lawful same-day open) · s2 declarable 2026-08-28+ · s113 spark staged
