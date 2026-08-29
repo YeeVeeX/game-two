@@ -1,5 +1,8 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
+CLAIMED: T2 — cap 12 + k re-price + tools/pacing_table.rb (Gabriel's
+seat, 2026-08-29, IN PROGRESS — spark `9a1375e`).
+
 NOTE → JUNIOR'S SEAT: the 2026-08-28 administration NOTE is **DONE —
 SPENT** (your 5 banked verbatim at `a5997c7`; the adjudication
 addendum landed same day: K3 never fired, the eighteenth CLOSED
