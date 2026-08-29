@@ -288,6 +288,10 @@
     {
       "id": "safe_boundary_reads",
       "check": "Where frames show a safe hub interior (HUB 1 camp or ZONE 7): a small SAFE text chip on a quiet dark backing reads at the top-left status block just below the LEVEL strip, present in EVERY safe-zone frame including frames long after any zone banner has faded (persistent state, not a transient banner), and absent in every frame of unsafe zones (e.g. ZONE 3). Door tiles between zones of DIFFERING safety carry a thin static frame outlining the tile: seen from inside the safe zone, doors to unsafe zones frame in dark ember red (a quiet 'beyond this = danger' signpost, dimmer and thinner than the hot red-edge attack telegraph and never pulsing); seen from the unsafe side, the door back into safety frames in calm mint green ('reach that door = safety'), distinct from the solid gold way fill it surrounds, the pale green-white respawn tell, and the green vat fixture. Doors between two zones of the SAME safety carry no frame. If no safe zone and no safety-differing door appears in this replay, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "totem_pulse_reads",
+      "check": "Where consecutive frames dwell beside the bright green totem fixture mid-bridge (a green station tile on wood planks over dark water): at least one such frame shows a vivid green square ring expanding around that fixture (the heal pulse), clearly wider than the fixture tile and distinct in color from the rust taunt ring family. If no frame shows the pack dwelling beside the green mid-bridge fixture, pass with why='not exercised by this script'."
     }
   ]
 }
