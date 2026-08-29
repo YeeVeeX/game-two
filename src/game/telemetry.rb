@@ -295,6 +295,17 @@ module Game
           @sustain_reasons[e[:reason]] += 1 if @sustain_reasons.key?(e[:reason])
         end
       end
+      # v20 T4 totem pilot (L4 instrumentation): heals counts BODY-heal
+      # events (+1 per body actually restored per pulse), pulses counts
+      # firings (the uptime denominator — fires regardless of range
+      # occupancy). Same guarded pattern (subscriber-alive law).
+      @totem = Hash.new(0)
+      if bus.registered?(:totem_pulse)
+        bus.subscribe(:totem_pulse) do |e|
+          @totem[:pulses] += 1
+          @totem[:heals] += e[:healed]
+        end
+      end
     end
 
     def summary
@@ -314,6 +325,7 @@ module Game
         "#{v14_summary}\n" \
         "#{v15_summary}\n" \
         "#{sustain_summary}\n" \
+        "#{totem_summary}\n" \
         "#{progression_summary}"
     end
 
@@ -334,6 +346,13 @@ module Game
       reasons = SUSTAIN_REASONS.map { |r| "#{r}=#{@sustain_reasons[r]}" }.join(" ")
       "TELEMETRY sustain bought=#{@sustain[:bought]} used=#{@sustain[:used]} " \
         "refused=#{@sustain[:refused]} reasons{#{reasons}}"
+    end
+
+    # v20 T4: the totem-vs-potions arbiter row — rides beside the sustain
+    # line (`totem heals=` is the spec-named grep key; the NINETEENTH's
+    # pre-registered priced-flip condition reads BOTH lines together).
+    def totem_summary
+      "TELEMETRY totem heals=#{@totem[:heals]} pulses=#{@totem[:pulses]}"
     end
 
     # v15: quay + varekka in one line pair — the thirteenth's arbiters.

@@ -37,6 +37,7 @@ module App
     VOLLEY_CORE    = Gosu::Color.new(235, 255, 220, 150)
     MARK_GLYPH     = Gosu::Color.new(255, 75, 235, 205)
     TAUNT_RUST     = Gosu::Color.new(255, 190, 80, 35) # blocker body color — ownership
+    TOTEM_HEAL     = Gosu::Color.new(255, 120, 235, 160) # heal pulse — no other ring family owns green
     DROP_CORE      = Gosu::Color.new(255, 205, 70, 225) # glean drops — magenta/violet, owned by no other element
     DROP_BAND1     = Gosu::Color.new(255, 225, 105, 130) # mid-band drops — warm rose (v11 depth rider)
     DROP_BAND2     = Gosu::Color.new(255, 240, 170, 60)  # deep-band drops — ember/gold + glow (v11 depth rider)
@@ -117,6 +118,7 @@ module App
         world.humans.each { |h| draw_enemy_strike(h, world.map.tile_size) }
         world.projectiles.each { |p| draw_projectile(p) }
         draw_taunt_pulses(world)
+        draw_totem_pulses(world)
         draw_kill_pops(world)
         draw_level_pops(world)
         draw_chant_rings(world)
@@ -1094,18 +1096,33 @@ module App
     def draw_taunt_pulses(world)
       ts = world.map.tile_size
       world.taunt_pulses.each do |p|
-        progress = 1.0 - p[:frames_left].fdiv(p[:pulse_frames])
-        reach = (p[:range_tiles] * ts * progress).round
-        cx = p[:tile][0] * ts + ts / 2
-        cy = p[:tile][1] * ts + ts / 2
-        alpha = (220 * (1.0 - progress * 0.6)).round
-        col = Gosu::Color.new(alpha, TAUNT_RUST.red, TAUNT_RUST.green, TAUNT_RUST.blue)
-        thick = 3
-        Gosu.draw_rect(cx - reach, cy - reach, reach * 2, thick, col)
-        Gosu.draw_rect(cx - reach, cy + reach - thick, reach * 2, thick, col)
-        Gosu.draw_rect(cx - reach, cy - reach, thick, reach * 2, col)
-        Gosu.draw_rect(cx + reach - thick, cy - reach, thick, reach * 2, col)
+        draw_pulse_ring(p, ts, TAUNT_RUST)
       end
+    end
+
+    # v20 T4: the totem's heal pulse — same expanding square-ring grammar
+    # as a taunt pulse; the family separator is COLOR (heal green vs taunt
+    # rust), never shape. Ring covers the sim radius at full expansion, so
+    # what the player reads as "in range" IS the Chebyshev truth.
+    def draw_totem_pulses(world)
+      ts = world.map.tile_size
+      world.totem_pulses.each do |p|
+        draw_pulse_ring(p, ts, TOTEM_HEAL)
+      end
+    end
+
+    def draw_pulse_ring(p, ts, base)
+      progress = 1.0 - p[:frames_left].fdiv(p[:pulse_frames])
+      reach = (p[:range_tiles] * ts * progress).round
+      cx = p[:tile][0] * ts + ts / 2
+      cy = p[:tile][1] * ts + ts / 2
+      alpha = (220 * (1.0 - progress * 0.6)).round
+      col = Gosu::Color.new(alpha, base.red, base.green, base.blue)
+      thick = 3
+      Gosu.draw_rect(cx - reach, cy - reach, reach * 2, thick, col)
+      Gosu.draw_rect(cx - reach, cy + reach - thick, reach * 2, thick, col)
+      Gosu.draw_rect(cx - reach, cy - reach, thick, reach * 2, col)
+      Gosu.draw_rect(cx + reach - thick, cy - reach, thick, reach * 2, col)
     end
 
     # Three kit-colored bars; the possessed one is wider, white-edged, and

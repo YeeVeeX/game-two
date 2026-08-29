@@ -19,7 +19,8 @@ module Harness
                 seal_breached home_rehomed respawn_telegraphed
                 challenger_engaged challenger_chant_started chant_interrupted
                 vessel_seized seizure_ended inscription_burned
-                provision_bought provision_used provision_refused].freeze
+                provision_bought provision_used provision_refused
+                totem_pulse].freeze
 
     # Subscribes the standard log to a world; the sink receives each
     # formatted line (WorldScene puts it; the headless driver collects it).

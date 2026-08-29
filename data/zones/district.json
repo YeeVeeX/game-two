@@ -29,6 +29,11 @@
       140,
       60
     ],
+    "station_totem": [
+      96,
+      200,
+      120
+    ],
     "dirt": [
       66,
       52,
@@ -303,6 +308,13 @@
         13
       ],
       "line": "TOLL PAID"
+    },
+    {
+      "type": "totem",
+      "at": [
+        26,
+        55
+      ]
     }
   ],
   "transitions": [

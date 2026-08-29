@@ -38,7 +38,7 @@ module Game
       corpse_loaded corpse_looted fight_resolved
       human_retargeted human_leashed human_respawned
       inscribed banked_spent tribute_paid body_regrown body_dissolved mark_consumed vessel_kept
-      provision_bought provision_used provision_refused
+      provision_bought provision_used provision_refused totem_pulse
       seal_breached home_rehomed respawn_telegraphed
       challenger_engaged challenger_chant_started chant_interrupted vessel_seized seizure_ended
       inscription_burned level_up
@@ -147,7 +147,9 @@ module Game
       # sustain verb live in a plain object; World keeps the dispatch, the
       # guards, the seal, and every presentation write (cue callables).
       @stations = Stations.new(bus: @bus, pack: @pack, economy: @economy,
+                               sustain_cfg: data["balance/sustain"],
                                price_sheet: @price_sheet, zone: -> { @zone_name },
+                               map: method(:map),
                                cue: method(:station_cue!), refuse: method(:station_refuse!),
                                regrow_binding: method(:regrow_binding),
                                consume_mercy: ->(kept) { @vat_mercy_armed &&= kept },
@@ -233,6 +235,7 @@ module Game
     # when no coop block exists (seats=1: the flee guard never evaluates).
     def ally_flee_hp_pct = @coop && @coop[:ally_flee_hp_pct]
     def taunt_pulses = @transients.taunt_pulses
+    def totem_pulses = @transients.totem_pulses
     def kill_pops = @transients.kill_pops
     def level_up_pops = @transients.level_up_pops
     def seal_marks = @transients.seal_marks
@@ -554,6 +557,7 @@ module Game
       @projectiles.each_with_index { |p, i| groups << ["projectile.#{i}", p.digest_fields] }
       groups.concat(@volleys.digest_groups)
       groups.concat(@field.digest_groups)
+      groups.concat(@stations.digest_groups)
       @human_respawns.keys.sort.each do |zone|
         @human_respawns[zone].each_with_index do |r, i|
           groups << ["respawn.#{zone}.#{i}", [
@@ -617,6 +621,10 @@ module Game
       @field.tick_drops
       @field.tick_corpse_loads(frame: @frame)
       @field.tick_expiry_flashes
+      # v20 T4: totem cadence rides tick_world (hitstop + respawn veil
+      # pause it); heals land AFTER every damage source this tick — a body
+      # killed this frame is dead, the pulse never revives (vat monopoly).
+      @stations.tick_totems!
       @fight_ledger.tick
       telegraph_due_humans
       respawn_due_humans
@@ -1478,6 +1486,14 @@ module Game
       # kind only (||=); bus FIFO keeps the stamp deterministic.
       @bus.subscribe(:possession_changed) do |e|
         @kit_first_possessed[e[:to].kit_name] ||= @frame
+      end
+
+      # v20 T4: the pulse's world-located presentation record (taunt-pulse
+      # grammar; digest-excluded like every transient) — the sim half
+      # already happened inside Stations#tick_totems!.
+      @bus.subscribe(:totem_pulse) do |e|
+        @transients.totem_pulse!(at: e[:at], pulse_frames: @display[:totem_pulse_frames],
+                                 range_tiles: e[:range])
       end
 
       @bus.subscribe(:attack_hit) do |e|

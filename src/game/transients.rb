@@ -3,7 +3,8 @@ module Game
   # the two clocks explicitly because combat records and banner records have
   # different pause laws; no bus or IO belongs in this plain object.
   class Transients
-    attr_reader :taunt_pulses, :kill_pops, :seal_marks, :level_up_pops
+    attr_reader :taunt_pulses, :kill_pops, :seal_marks, :level_up_pops,
+                :totem_pulses
 
     def initialize(pop_frames:)
       @pop_frames = pop_frames
@@ -11,10 +12,19 @@ module Game
       @kill_pops = []
       @seal_marks = []
       @level_up_pops = []
+      @totem_pulses = []
     end
 
     def taunt_pulse!(tile:, pulse_frames:, range_tiles:)
       @taunt_pulses << { tile:, frames_left: pulse_frames,
+                         pulse_frames:, range_tiles: }
+    end
+
+    # v20 T4: the heal totem's pulse ring — same expanding-ring record
+    # shape as a taunt pulse (the renderer separates the families by
+    # color); rides the combat clock (hitstop pauses it with the sim).
+    def totem_pulse!(at:, pulse_frames:, range_tiles:)
+      @totem_pulses << { tile: at, frames_left: pulse_frames,
                          pulse_frames:, range_tiles: }
     end
 
@@ -45,6 +55,7 @@ module Game
       age!(@taunt_pulses)
       age!(@kill_pops)
       age!(@level_up_pops)
+      age!(@totem_pulses)
     end
 
     # Called from World's non-hitstop banner branch: hitstop pauses seal
@@ -58,6 +69,7 @@ module Game
       @kill_pops.clear
       @seal_marks.clear
       @level_up_pops.clear
+      @totem_pulses.clear
     end
 
     private

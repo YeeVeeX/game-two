@@ -54,12 +54,14 @@ class TelemetryTest < Minitest::Test
                    "burns=0 ends{expired=0 slain=0 died=0 zone_left=0 wiped=0}"
     expected_sustain = "TELEMETRY sustain bought=0 used=0 refused=0 " \
                        "reasons{at_cap=0 broke=0 none=0 no_effect=0 seat_race=0}"
+    expected_totem = "TELEMETRY totem heals=0 pulses=0"
     expected_progression = "TELEMETRY progression level=0 xp=0 kills_xp=0"
     assert_equal "#{expected_d1}\n#{expected_a2}\n#{expected_d1b}\n" \
                  "#{expected_q6}\n#{expected_density}\n" \
                  "#{expected_arc}\n#{expected_margins}\n" \
                  "#{expected_v13}\n#{expected_drift}\n#{expected_v14}\n" \
-                 "#{expected_v15}\n#{expected_sustain}\n#{expected_progression}",
+                 "#{expected_v15}\n#{expected_sustain}\n#{expected_totem}\n" \
+                 "#{expected_progression}",
                  t.summary
   end
 

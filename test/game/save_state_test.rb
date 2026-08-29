@@ -705,7 +705,10 @@ class SaveStateTest < Minitest::Test
     # Field records drop wholesale at the save boundary (decision 3c).
     "projectile" => :session_only_group, "impact" => :session_only_group,
     "drop" => :session_only_group, "load" => :session_only_group,
-    "respawn" => :session_only_group
+    "respawn" => :session_only_group,
+    # v20 T4: totem cadence timers re-arm each session by design (L9 —
+    # the totem is zone data; its countdown is never a save fact).
+    "totem" => :session_only_group
   }.freeze
 
   # Stages every digest group family (the state_digest_test staging
@@ -751,6 +754,7 @@ class SaveStateTest < Minitest::Test
     when /\Adrop\./ then CLASSIFICATION["drop"]
     when /\Aload\./ then CLASSIFICATION["load"]
     when /\Arespawn\./ then CLASSIFICATION["respawn"]
+    when /\Atotem\./ then CLASSIFICATION["totem"]
     end
   end
 

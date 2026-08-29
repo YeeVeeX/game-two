@@ -8361,6 +8361,69 @@
                   ]
                 }
               ]
+            },
+            {
+              "__identifier": "Station",
+              "__grid": [
+                26,
+                55
+              ],
+              "__pivot": [
+                0,
+                0
+              ],
+              "__tags": [],
+              "__tile": null,
+              "__smartColor": "#EBBE5A",
+              "iid": "00000000-d157-0001-0000-000000000099",
+              "width": 32,
+              "height": 32,
+              "defUid": 10,
+              "px": [
+                832,
+                1760
+              ],
+              "fieldInstances": [
+                {
+                  "__identifier": "type",
+                  "__type": "String",
+                  "__value": "totem",
+                  "__tile": null,
+                  "defUid": 100,
+                  "realEditorValues": [
+                    {
+                      "id": "V_String",
+                      "params": [
+                        "totem"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "__identifier": "price",
+                  "__type": "String",
+                  "__value": null,
+                  "__tile": null,
+                  "defUid": 101,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "opens",
+                  "__type": "Point",
+                  "__value": null,
+                  "__tile": null,
+                  "defUid": 102,
+                  "realEditorValues": []
+                },
+                {
+                  "__identifier": "line",
+                  "__type": "String",
+                  "__value": null,
+                  "__tile": null,
+                  "defUid": 103,
+                  "realEditorValues": []
+                }
+              ]
             }
           ]
         },

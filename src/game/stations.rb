@@ -1,24 +1,34 @@
 module Game
-  # Station transactions — extracted from World 2026-08-29 (v20 T4,
-  # foundation L10: world.rb at 1769/1800, the totem is the touching
-  # ticket). Plain object, FieldEconomy/Volleys grammar: explicit deps,
-  # World-owned effects reached through callables, no IO. World keeps
+  # Station transactions + floor sustain — extracted from World 2026-08-29
+  # (v20 T4, foundation L10: world.rb at 1769/1800, the totem is the
+  # touching ticket). Plain object, FieldEconomy/Volleys grammar: explicit
+  # deps, World-owned effects reached through callables, no IO. World keeps
   # the interact dispatch + verb guards, interact_seal (breach registry is
   # save-law-coupled), regrow_binding (zone-binding law), and every
-  # presentation write (station cues via the cue:/refuse: callables).
+  # presentation write (station cues via the cue:/refuse: callables; totem
+  # pulse records via the :totem_pulse subscription in wire_events).
   class Stations
-    def initialize(bus:, pack:, economy:, price_sheet:, zone:,
+    def initialize(bus:, pack:, economy:, sustain_cfg:, price_sheet:, zone:, map:,
                    cue:, refuse:, regrow_binding:, consume_mercy:, assign_seats:)
       @bus = bus
       @pack = pack
       @economy = economy
+      @totem = sustain_cfg[:totem]
       @price_sheet = price_sheet
       @zone = zone
+      @map = map
       @cue = cue
       @refuse = refuse
       @regrow_binding = regrow_binding
       @consume_mercy = consume_mercy
       @assign_seats = assign_seats
+      # v20 T4 totem timers: gameplay-affecting countdowns (digest fold
+      # below), keyed [zone, at] — lazily armed at the owning zone's first
+      # ticked frame, decremented only while that zone is CURRENT and the
+      # world state is :world (tick_totems! is called from tick_world, so
+      # hitstop and the respawn veil pause the cadence exactly as they
+      # pause combat). Never a save fact: totems re-arm each session.
+      @totem_timers = {}
       @sustain_done = false
     end
 
@@ -101,6 +111,40 @@ module Game
       true
     end
 
+    # v20 T4 — the contested/cadenced heal totem (foundation L4, pilot).
+    # Fixed cadence from data (Rule 3), AoE heal to LIVING pack bodies
+    # within Chebyshev radius, clamped; dead untouched (vat monopoly law).
+    # The pulse fires on cadence REGARDLESS of range occupancy (healed may
+    # be 0) — the visible idle pulse is the totem's discoverability, T3's
+    # always-on lesson applied to territory. Emits :totem_pulse (World
+    # draws the ring from its subscription; Telemetry counts heals).
+    def tick_totems!
+      zone = @zone.call
+      @map.call.stations.each do |s|
+        next unless s[:type] == "totem"
+        key = [zone, s[:at]]
+        left = (@totem_timers[key] ||= @totem[:cadence_ticks]) - 1
+        @totem_timers[key] = left
+        next if left.positive?
+        @totem_timers[key] = @totem[:cadence_ticks]
+        healed = @pack.living.select do |m|
+          m.hp < m.max_hp && chebyshev(m.tile, s[:at]) <= @totem[:radius]
+        end
+        healed.each { |m| m.heal!(@totem[:heal_amount]) }
+        @bus.emit(:totem_pulse, at: s[:at], healed: healed.length,
+                  range: @totem[:radius])
+      end
+    end
+
+    # The netplay digest fold (FieldEconomy digest_groups precedent):
+    # timers in sorted key order — stable across machines by construction.
+    def digest_groups
+      @totem_timers.keys.sort.map do |key|
+        zone, at = key
+        ["totem.#{zone}.#{at[0]}.#{at[1]}", [["timer", @totem_timers[key]]]]
+      end
+    end
+
     # Public on purpose: World's interact_seal spends through the SAME
     # audited seam (one banked_spent emitter; quote and charge never drift).
     def spend_banked(source, amount, sink)
@@ -110,6 +154,8 @@ module Game
     end
 
     private
+
+    def chebyshev((ax, ay), (bx, by)) = [(bx - ax).abs, (by - ay).abs].max
 
     # Sustain refusal (decision 9) = cue + event + NOTHING spent. Its OWN
     # cue kind (never :refused): the provision X-bar draws ABOVE the

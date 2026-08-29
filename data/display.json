@@ -15,6 +15,7 @@
  "hurt_vignette_px": 8,
  "hurt_vignette_alpha": 110,
  "station_cue_frames": 30,
+ "totem_pulse_frames": 40,
  "cue_text_rgb": [
   225,
   215,

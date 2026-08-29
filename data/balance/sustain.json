@@ -1,0 +1,7 @@
+{
+  "totem": {
+    "cadence_ticks": 900,
+    "radius": 2,
+    "heal_amount": 10
+  }
+}

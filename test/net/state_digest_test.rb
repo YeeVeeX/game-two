@@ -157,7 +157,8 @@ class StateDigestTest < Minitest::Test
       kind = seg.length == 1 ? seg[0] : "#{seg[0]}.N"
       reps[kind] ||= gi
     end
-    assert_equal %w[world pack pack.N human.N projectile.N impact.N drop.N load.N respawn.N].sort,
+    assert_equal %w[world pack pack.N human.N projectile.N impact.N drop.N load.N respawn.N
+                    totem.N].sort,
                  reps.keys.sort, "staging no longer covers every group kind"
     count = 0
     reps.each_value do |gi|
