@@ -7,7 +7,7 @@ CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
 
-CLAIMED: none — T3 fully RESOLVED (s119); next ticket = T4 via its staged spark (claim at execution start).
+CLAIMED: T4 — Gabriel's seat 2026-08-29 (totem pilot, spark `drafts/_v20-t4-spark-20260829.md`; session s120 in flight).
 
 ## 2026-08-29 session 119 — T3 CLOSED: wall harvested CLEAN under the honest-pass law; two off-pattern reds triaged with evidence; T4 UNBLOCKED (spark staged)
 
