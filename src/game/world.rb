@@ -15,6 +15,7 @@ require "game/flow_field"
 require "game/fight_ledger"
 require "game/field_economy"
 require "game/price_sheet"
+require "game/stations"
 require "game/tier_sheet"
 require "game/crossing"
 require "game/homecoming"
@@ -142,6 +143,15 @@ module Game
       @price_sheet = PriceSheet.new(economy: @economy, pack: @pack,
                                     breached: method(:breached?),
                                     mercy: ->(zone) { @vat_mercy_armed && zone == @home_zone })
+      # Station transactions (L10 extraction, v20 T4): banked sinks + the
+      # sustain verb live in a plain object; World keeps the dispatch, the
+      # guards, the seal, and every presentation write (cue callables).
+      @stations = Stations.new(bus: @bus, pack: @pack, economy: @economy,
+                               price_sheet: @price_sheet, zone: -> { @zone_name },
+                               cue: method(:station_cue!), refuse: method(:station_refuse!),
+                               regrow_binding: method(:regrow_binding),
+                               consume_mercy: ->(kept) { @vat_mercy_armed &&= kept },
+                               assign_seats: method(:assign_waiting_seats))
       # Crossing policy (T4 extraction, line-cap law): open/consent/arrival
       # decisions live in a plain object; World does the moving.
       @crossing = Crossing.new(zones: @zones, breached: method(:breached?),
@@ -482,9 +492,9 @@ module Game
       station = map.station_at(*source.tile)
       if station
         case station[:type]
-        when "bank"  then interact_bank(source)
-        when "altar" then interact_altar(source)
-        when "vat"   then interact_vat(source)
+        when "bank"  then @stations.bank(source)
+        when "altar" then @stations.altar(source)
+        when "vat"   then @stations.vat(source)
         when "seal"  then interact_seal(source, station)
         else false
         end
@@ -501,42 +511,13 @@ module Game
       cross_through(source, t)
     end
 
-    # v18 decision 9 — the sustain verb (owner law 2026-08-11: priced,
-    # portable, banked-funded — never a free cooldown). One edge-press,
-    # one resolution through the SAME station lookup interact uses:
-    # standing ON the bank station BUYS (banked reduces through the pack's
-    # guarded verb — player-initiated at a station, the never-taxed law
-    # holds); anywhere else USES (one charge, every living member healed
-    # clamped; dead untouched — the vat keeps its regrowth monopoly).
-    # Refusals cue + spend NOTHING (at_cap/broke/none/no_effect/seat_race
-    # — never a silent eat). @sustain_done is the first-success-per-tick
-    # latch (a per-tick transient reset in tick_world beside @aggro.reset!,
-    # never digest state): the seat-ordered controller loop resolves seat 1
-    # first on both machines, so a same-tick race deterministically awards
-    # the action to seat 1 and refuses seat 2 THAT tick.
+    # v18 decision 9 — the sustain verb: transaction lives in Stations
+    # (L10 extraction, v20 T4); World keeps the verb guards (input
+    # validity) and the station lookup interact shares.
     def sustain(source)
       return false unless controlled?(source)
       return false if source.dead? || source.staggered? || source.attack_state != :idle
-      return sustain_refuse!(source, :seat_race) if @sustain_done
-      station = map.station_at(*source.tile)
-      if station && station[:type] == "bank"
-        refusal = @pack.buy_provision!(cost: @economy[:provision_cost],
-                                       cap: @economy[:provision_cap])
-        return sustain_refuse!(source, refusal) if refusal
-        @sustain_done = true
-        @bus.emit(:banked_spent, actor: source, amount: @economy[:provision_cost],
-                  sink: :provision, banked: @pack.banked)
-        @bus.emit(:provision_bought, actor: source,
-                  provisions: @pack.provisions, banked: @pack.banked)
-        station_cue!(:provision_bought, source.tile)
-      else
-        refusal = @pack.use_provision!(heal: @economy[:provision_heal])
-        return sustain_refuse!(source, refusal) if refusal
-        @sustain_done = true
-        @bus.emit(:provision_used, actor: source, provisions: @pack.provisions)
-        station_cue!(:provision_used, source.tile)
-      end
-      true
+      @stations.sustain(source, station: map.station_at(*source.tile))
     end
 
     # --- v17 digest lane (spec decision 6) ------------------------------
@@ -590,7 +571,7 @@ module Game
 
     def tick_world(inputs)
       @aggro.reset!
-      @sustain_done = false
+      @stations.reset!
       @seats.each { |seat| handle_swap(seat, seat_input(inputs, seat)) }
       # Forced swap happens at bus-process time (no input in scope there), so
       # the edge-trigger re-arm is deferred to the next tick — law 2 applies
@@ -1204,47 +1185,9 @@ module Game
     end
 
     # --- D1b station verbs (the only banked sinks; spec S2-3) -----------
-
-    def interact_bank(source)
-      return false unless source.carried.positive?
-      amount = source.drain_carried!
-      @pack.bank!(amount)
-      @bus.emit(:banked, actor: source, amount:, banked: @pack.banked)
-      true
-    end
-
-    def interact_altar(source)
-      return station_refuse!(source.tile) if source.marked?
-      return station_refuse!(source.tile) unless spend_banked(source, @economy[:inscribe_cost], :inscribe)
-      source.inscribe_mark!
-      @bus.emit(:inscribed, body: source, cost: @economy[:inscribe_cost], banked: @pack.banked)
-      station_cue!(:inscribed, source.tile)
-      true
-    end
-
-    # All-or-nothing full maintenance (spec S3): one price, one decision.
-    # Regrowth is a hard rebind onto the home spawn tile (occupancy is soft:
-    # only voluntary movement is blocked — same as respawn_pack). The price
-    # comes from PriceSheet (the one vat-price source — quote and charge
-    # can never drift); B4 mercy consumption is the session's first regrow.
-    def interact_vat(source)
-      dead = @pack.members.select(&:dead?)
-      wounded = @pack.living.select { |m| m.hp < m.max_hp }
-      return station_refuse!(source.tile) if dead.empty? && wounded.empty?
-      quote = @price_sheet.vat_quote(@zone_name)
-      return station_refuse!(source.tile) unless spend_banked(source, quote[:cost], :tribute)
-      @vat_mercy_armed &&= dead.empty?
-      dead.each do |m|
-        m.revive!(**regrow_binding(source, m))
-        @bus.emit(:body_regrown, body: m)
-      end
-      wounded.each(&:heal_full!)
-      assign_waiting_seats
-      @bus.emit(:tribute_paid, cost: quote[:cost], regrown: dead.length,
-                healed: wounded.length, banked: @pack.banked)
-      station_cue!(:tribute, source.tile)
-      true
-    end
+    # Transactions live in Stations (L10 extraction, v20 T4); World keeps
+    # the seal (breach registry is save-law-coupled + presentation-heavy)
+    # and the regrow binding (zone-binding law) Stations reaches back for.
 
     # Regrowth binding (coop-night crash fix, 2026-08-26): at the HOME vat
     # the hard rebind onto the home spawn tile stands byte-identical (S3
@@ -1282,7 +1225,7 @@ module Game
       opens = station[:opens]
       return false if breached?(@zone_name, opens)
       price = @economy.fetch(station[:price].to_sym)
-      return station_refuse!(station[:at]) unless spend_banked(source, price, :breach)
+      return station_refuse!(station[:at]) unless @stations.spend_banked(source, price, :breach)
       restore_breach!(@zone_name, opens)
       @breach_line = { text: station[:line],
                        frames_left: @display[:breach_banner_frames],
@@ -1298,12 +1241,6 @@ module Game
       station_cue!(:breached, station[:at])
     end
 
-    def spend_banked(source, amount, sink)
-      return false unless @pack.spend!(amount)
-      @bus.emit(:banked_spent, actor: source, amount:, sink:, banked: @pack.banked)
-      true
-    end
-
     # The cue pins the fixture tile at transaction time — deriving it from
     # proximity at draw time would let a moving player drag the flash onto a
     # neighboring fixture (impl review, Codex finding 4). n: optional
@@ -1315,18 +1252,6 @@ module Game
 
     def station_refuse!(tile)
       station_cue!(:refused, tile)
-      false
-    end
-
-    # Sustain refusal (decision 9) = cue + event + NOTHING spent. Its OWN
-    # cue kind (never :refused): the provision X-bar draws ABOVE the
-    # presser's body with a text line — add-only, so the walled station
-    # refusals keep their exact draw. The cue rides the station-cue channel
-    # at the PRESSER's tile, pinned at press time (use refusals happen
-    # anywhere; the cue-drag law).
-    def sustain_refuse!(source, reason)
-      @bus.emit(:provision_refused, actor: source, reason:)
-      station_cue!(:provision_refused, source.tile)
       false
     end
 
