@@ -499,6 +499,8 @@ module Game
         when "altar" then @stations.altar(source)
         when "vat"   then @stations.vat(source)
         when "seal"  then interact_seal(source, station)
+        # totem: deliberate no-op — it pulses on its own clock, no
+        # interact verb (the L4 PRICED-activation flip would land here).
         else false
         end
       else

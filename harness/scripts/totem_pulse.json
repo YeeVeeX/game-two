@@ -315,7 +315,7 @@
     4581
   ],
   "manifest": {
-    "totem_pulse": 4,
+    "totem_pulse": 10,
     "fight_resolved": 10,
     "attack_hit": 20
   }

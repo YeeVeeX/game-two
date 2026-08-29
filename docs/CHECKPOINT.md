@@ -7,7 +7,70 @@ CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
 
-CLAIMED: T4 — Gabriel's seat 2026-08-29 (totem pilot, spark `drafts/_v20-t4-spark-20260829.md`; session s120 in flight).
+CLAIMED: none — T4 SHIPPED (s120); next ticket = T5 (second wall class) or lane-D content at the owner's word (claim at execution start).
+
+## 2026-08-29 session 120 — v20 T4 SHIPPED: the heal totem lives on floor -1; L10 extraction executed (world.rb 1769→1712); NINETEENTH delta clock RUNNING
+
+**T4 DONE (CLAIMED `f817686` → record `4655d9b` · extraction
+`73c3985` · totem `5b66acc` · script+gate row `4dc14a0` · evidence +
+review close follow; record:
+`drafts/_v20-t4-totem-20260829.md`).** Junior's contested/cadenced
+heal totem is LIVE at district's authored contested center —
+[26,55], mid-bridge-3, one tile south of the guardian he placed
+there: fixed 900-tick pulse (≈15 s), Chebyshev radius 2, heal 10 to
+living pack bodies, free — all numbers in NEW
+`data/balance/sustain.json` (Rule 3). Pulse fires visibly on cadence
+regardless of occupancy (T3's always-on lesson as territory);
+TOTEM_HEAL green ring, fixture from sidecar palette. **L4
+instrumentation shipped**: `TELEMETRY totem heals=N pulses=P` beside
+the sustain line + the PRICED-FLIP condition PRE-REGISTERED in the
+record §1 BEFORE code (B=0 while the totem carries sustain, judged at
+the NINETEENTH from human logs only — flip = its own gated
+re-session). **L10 executed**: station transactions extracted to
+`src/game/stations.rb` (172 lines, 6 callables reach back; seal +
+regrow binding + cue writes stay World's) — world.rb 1769→1712 NET
+-57 with the totem in; extraction proven behavior-identical (suite +
+5 headless EVENT-md5s byte-identical pre/post). Totem timers digest-
+folded (totem.N group, state_digest sweep covers it), classified
+SESSION-ONLY (L9: never a save fact).
+
+**Gates (local wall, no full sweep):** totem_pulse.json NEW wall
+member (trail→guardian fight→wounded dwell, 10 captures) gate rc=0 —
+vision 73/73 incl. the new shared `totem_pulse_reads` row read
+AFFIRMATIVELY on the strong member + honestly not-exercised on
+district_hunt; MANIFEST 10/10/42 (want tightened to 10 per review).
+floor1_run · district_hunt (re-run after a Bedrock read-timeout
+flake; det+manifest passed both runs) · world_loop · ledger_loop ·
+town_gates (locality probe): all rc=0. **Blast radius measured, not
+assumed**: all five inherited scripts' headless EVENT streams
+byte-identical modulo the new totem_pulse lines (healed_sum=0
+everywhere) — **sustain_run needs NO re-cut**, wants untouched
+repo-wide. **Soak**: N=1 default + N=1 ZONES=district both PASS
+(36k ticks/seat, desyncs=0, chains intact; both seats closed
+`TELEMETRY totem heals=0 pulses=9` byte-identical — lockstep held
+over totem state). **Fresh-eyes review (Rule 6): PASS, 0 blocking,
+2 advisories both executed** (manifest tightened + no-op comment).
+Suite 1328 runs green via hooks on every commit.
+
+**NINETEENTH delta clock: RUNNING from this ship** (cadence reform —
+delta-triggered). Accumulated deltas: the totem (SIM) + the v2b
+district retheme (presentation+graph, named at T1). No measurement
+freeze armed (arms at DECLARATION only).
+
+**Para Junior (pt-br):** o totem de cura já vive no andar -1 — teu
+desenho: no meio da ponte 3, do lado do guardião que tu mesmo
+colocaste; pulso lento (~15 s), raio 2, cura 10, de graça —
+território que se disputa. Os números são chute inicial em
+`data/balance/sustain.json` — teus para mexer. O relógio do próximo
+fun-verify começa aqui.
+
+**Owner note (s120, Gabriel en el chat):** vio el soak en vivo y
+preguntó dónde está el contenido nuevo ("solo veo el totem") —
+respuesta registrada: los soaks son evidencia mecánica (desyncs/
+chain), nunca demo de gameplay; el contenido nuevo (pisos -2/-3,
+enemigos nuevos, cap 13/15) es lane D, destrabado por T5. Si la
+prioridad es contenido YA, es una línea del owner y lane D corta
+después de T5.
 
 ## 2026-08-29 session 119 — T3 CLOSED: wall harvested CLEAN under the honest-pass law; two off-pattern reds triaged with evidence; T4 UNBLOCKED (spark staged)
 

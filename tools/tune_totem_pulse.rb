@@ -116,7 +116,7 @@ raw = {
   run_until: final,
   captures: CAPS.uniq.sort,
   manifest: {
-    totem_pulse: 4,
+    totem_pulse: [events(r, "totem_pulse").length, 1].max * 2,
     fight_resolved: [events(r, "fight_resolved").length, 1].max * 2,
     attack_hit: [events(r, "attack_hit").length / 2, 1].max * 2
   }
