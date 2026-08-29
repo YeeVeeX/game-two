@@ -1,14 +1,49 @@
 # CHECKPOINT — game-two (Ruby rebuild of Kethral)
 
-CLAIMED: T2 — cap 12 + k re-price + tools/pacing_table.rb (Gabriel's
-seat, 2026-08-29, IN PROGRESS — spark `9a1375e`).
-
 NOTE → JUNIOR'S SEAT: the 2026-08-28 administration NOTE is **DONE —
 SPENT** (your 5 banked verbatim at `a5997c7`; the adjudication
 addendum landed same day: K3 never fired, the eighteenth CLOSED
 CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
+
+## 2026-08-29 session 117 — v20 T2 SHIPPED: cap 12, k=40 table-backed unchanged, standing pacing script, live save proven intact
+
+**T2 DONE (CLAIMED `4df350b` → feat `8a8dfe9`; record:
+`drafts/_v20-t2-progression-20260829.md`).** `level_cap` 10→12, **k=40
+UNCHANGED** — the sweep table says in-band: at the measured
+coop-endgame rate (10916 XP/sim-h) the two new steps dwell 20.2 min
+(L10→11) and 24.6 min (L11→12), both central in L5's ~15-30 target;
+no k fits both band edges (band ratio 2.5 > target ratio 2, reviewer
+re-proved it), and every raise pushes L11→12 past 30 min at the
+measured coop rate while re-pricing the verified intro arc.
+`tools/pacing_table.rb` is the L5 STANDING script (live-data reads,
+formula identity via the real Progression, K_SWEEP/CAP/K/RATES modes,
+rot-smoke tested); full table banked in the record. Pin re-verified
+for cap 12: ΔE(13)−1 = 134k−1 = **5359** (tool + shipped-file award
+smoke + hand math). **Live save intact:** copy-decode through the real
+SaveStore→World path = Loaded, level=10 xp=3679, zero clamp warnings;
+live md5 `1d71e34f9abf60a7d7ffe180fe0d55e0` byte-identical before/after
+(the save sits at the OLD pin → first kill pops 10→11 instantly —
+designed pin consequence, told to the owners). **Phase-5 audit: owed
+re-gate set EMPTY, mechanically** — max level across all 36 fresh wall
+logs = 8 (zone8_crossing), mid-reel level-ups are 1→2; k unchanged ⇒
+no reel observes the cap. Zero gates run, `_gate-verdicts.log`
+untouched. **Review (Rule 6): PASS, zero blocking, four advisories —
+all executed** (sweep-test discriminator fix, probe-copy cleanup,
+scope statement, floor-framing correction: k<40 would CLAMP the pin
+xp, not refuse — integrity floor, not decodability).
+
+**Next fresh session: T3 (potions identity) — needs its own spark:**
+its full-wall DoD must reconcile the standing reds story (11
+C2-QUEUED + threat_pull + zone_catchup stand red by name; sustain_run
+may resolve inside T3) + the boot-banner-on-start-jump quirk
+(dash_strike_rip QUIRK-RED) wants its micro-fix before/beside the
+sweep. T4 stays unblocked behind T3 (L4 order law). Junior's floor -1
+ratification + L3 pick still pending async (inbox empty this
+session). Owner-pending unchanged.
+
+CLAIMED: T2 — RESOLVED DONE (this entry).
 
 ## 2026-08-28 session 116 — T1 same-day debts CLOSED: wall harvested (36 scripts), six district scripts re-cut + gated green, review PASS 0-blocking → T4 UNBLOCKED
 
