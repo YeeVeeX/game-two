@@ -7,6 +7,8 @@ CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
 
+CLAIMED: T3 (potions identity + strip escalation) — Gabriel's hub seat, 2026-08-29, in progress.
+
 ## 2026-08-29 session 117 — v20 T2 SHIPPED: cap 12, k=40 table-backed unchanged, standing pacing script, live save proven intact
 
 **T2 DONE (CLAIMED `4df350b` → feat `8a8dfe9`; record:
