@@ -76,6 +76,19 @@ class ProgressionTest < Minitest::Test
     }
   end
 
+  # v20 T2 (cap 12): the at-cap pin re-verified on the SHIPPED file —
+  # award to cap + overflow, xp must pin at ΔE(cap+1) − 1 (projector-
+  # invariant law). Formula-relative like the wiring smoke above: a
+  # future k/cap retune moves the expected value with the file.
+  def test_shipped_data_pins_capped_xp_just_under_the_next_ceiling
+    p = Game::Progression.new(config: DATA["balance/progression"])
+    cap = p.level_cap
+    p.award((2..cap).sum { |l| p.delta_e(l) } + p.delta_e(cap + 1) * 3)
+    assert_equal cap, p.level, "over-award must stop at the shipped cap"
+    assert_equal p.delta_e(cap + 1) - 1, p.xp,
+                 "capped xp pins at ΔE(cap+1)−1 under the shipped curve"
+  end
+
   # --- P1 curve values (synthetic k=50: the shelf note's Tibia row) --------
 
   def test_delta_e_quadratic_values
