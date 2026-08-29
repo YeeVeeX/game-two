@@ -7,7 +7,46 @@ CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
 
-CLAIMED: T1-followup — wall harvest + red triage + review receipt (seat: hub, 2026-08-28, s116 in flight).
+## 2026-08-28 session 116 — T1 same-day debts CLOSED: wall harvested (36 scripts), six district scripts re-cut + gated green, review PASS 0-blocking → T4 UNBLOCKED
+
+**Both s115 debts closed** (addendum: `drafts/_v20-t1-wall-20260828.md`).
+**Review (Rule 6): PASS, zero blocking, five advisories** — all
+executed (two dated CORRECTIONs in the T1 record, two test-comment
+typos fixed, PERF-banking practice adopted). **T4 is UNBLOCKED.**
+
+**Wall re-pin (v20-t1, 36 scripts):** no determinism red anywhere.
+14 green outright. The seven T1-delta scripts: **six RE-CUT and fully
+green** (corpse_run · ledger_loop · district_hunt · low_quay_run ·
+lobber_reach · lobber_volley — waypoint-tuner generation
+`tools/tune_*.rb`, headless manifest proofs + attended gates, every
+manifest want byte-unchanged; commit `95b8038`); **threat_pull
+RETIRED-PENDING-C3** (its leash surface is C2-coupled — probe-proven
+zero leashes under the provocation law; script+manifest intact,
+stands red by name). **Root-cause finding: eleven manifest reds are
+v19 C2 drift** (`04b218b` re-sequenced every free-ally fight; the
+wall was never re-pinned after it — last full green = s72_shake
+08-25). All C2-QUEUED by name to the C3 co-tune session; sustain_run
+may resolve earlier inside T3. T1 itself convicted of NOTHING
+(baseline census + canary hold).
+
+**Vision triage (sampling law, every FAIL probed):** two gate_checks
+rows were miscalibrated, not the map — `floor1_two_halves_read`
+(Junior's own v2b PNG puts the moss belt mid-east; grid==PNG exactly
+per band at the builder's lens) and `edge_pip_reads` (critic
+inferred off-screen allies from HUD-bar counting; camera probes
+convicted it twice — pips affirmatively work, zone8 f1922). Both
+rows reworded affirmative + re-verified green on strong members.
+Named new debts: boot-banner-on-start-jump quirk (dash_strike_rip
+QUIRK-RED twice, fix = apply_start banner refresh, next session or
+rides T2) · critic retry-on-timeout (7 Bedrock timeouts tonight) ·
+mouth-spawn strip occlusion (cosmetic, lane D) · level_up shard-row
+flap watch.
+
+**Next fresh session: T2 (cap 12 + pacing table) or T3 (potions
+identity — lands before T4 by L4).** Junior ratifies the played
+floor at his leisure. Owner-pending unchanged.
+
+CLAIMED: T1-followup — RESOLVED DONE (this entry).
 
 ## 2026-08-28 session 115 — v20 T1 SHIPPED: ZONE 2 → descent floor -1 (Junior's v2b), gate PASS, canary rebanked, wall sweep detached
 
