@@ -664,6 +664,16 @@ this list; nothing here starts before that debate closes:
   second owner vote, now from live coop pain; stays parked on the recorded
   trigger, but "or some system" widens it (pings/emotes count as candidate
   shapes for the v19 debate, cheaper than full chat).
+  **Third owner vote 2026-08-29 (mid-T3, approved this recording): chat with
+  REAL-TIME TRANSLATION per seat locale (Roblox pattern — owner writes es,
+  Junior reads pt-br, and vice versa).** Dev-of-record shape, owner-approved:
+  free-text + MT is a v21-class grill (text-input mode + pure-sink law +
+  runtime Bedrock creds custody; es↔pt pair itself is easy); the PROMOTABLE
+  next rung is QUICK-PHRASES — a canned functional set ("help" / "come
+  here" / "going down" / "wait") in the locale trio, each seat rendering its
+  OWN language: cross-language by construction, zero MT, zero text input,
+  wire payload = phrase ID, extends the banked E2 ping rider. One owner/peer
+  line promotes quick-phrases to a ticket post-T4.
 - **game-two-assets pipeline (parallel repo; owner invites dev contributions
   anytime)** — integration into this repo stays gated on the owner's own
   "una vez esté testeado y depurado" + the parked sprites/art cycle (v16
