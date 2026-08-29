@@ -47,6 +47,26 @@ class SceneStartTest < Minitest::Test
     assert_equal "low_quay", w.zone_name
   end
 
+  # v20 T3 (s116 named debt): a focused scene BEGINS in the named zone —
+  # the destination banner must be active at frame 0. Pre-fix the boot
+  # (home) banner dwelt over the destination's ground for its full clock
+  # (dash_strike_rip QUIRK-RED twice, wall record §7).
+  def test_apply_start_with_zone_shows_the_destination_banner_at_frame_zero
+    w = world
+    Harness.apply_start(w, { zone: "district" })
+    banner = w.active_banner
+    refute_nil banner, "arrival still announces itself"
+    assert_equal "zone.district.display_name", banner[:text_key],
+                 "the DESTINATION banner is active at frame 0 — never the stale boot banner"
+  end
+
+  def test_apply_start_without_zone_keeps_the_boot_banner
+    w = world
+    Harness.apply_start(w, { banked: 240 })
+    assert_equal "zone.nest.display_name", w.active_banner[:text_key],
+                 "no zone jump — the home arrival banner stands untouched"
+  end
+
   def test_apply_start_with_unknown_zone_raises
     w = world
     assert_raises(ArgumentError) { Harness.apply_start(w, { zone: "nowhere" }) }

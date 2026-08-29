@@ -42,7 +42,18 @@ module Harness
       end
     end
     zone = start[:zone]
-    world.start_in(zone.to_s) if zone
+    if zone
+      # v20 T3 (s116 named debt — boot-banner-on-start-jump quirk): the world
+      # boots in its home zone (arrival banner enqueued) BEFORE a focused
+      # scene jumps away, so the stale home banner dwelt over the
+      # destination's ground for its full clock (dash_strike_rip QUIRK-RED
+      # twice; wall record §7). A scene that BEGINS in the named zone owes
+      # the destination banner at frame 0: drop everything queued pre-jump,
+      # then start_in → enter_zone enqueues the arrival banner alone.
+      # Harness plumbing only — live gate crossings keep full FIFO law.
+      world.instance_variable_get(:@banner_queue).clear
+      world.start_in(zone.to_s)
+    end
     # v16 (d): stage an inscribed vessel for burn-beat scenes — the same
     # body mutation the altar performs (stationless zones cannot inscribe
     # in-run). Applied AFTER the zone move: start_in rebinds bodies, and
