@@ -7,7 +7,62 @@ CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
 
-CLAIMED: T3 (potions identity + strip escalation) — Gabriel's hub seat, 2026-08-29, in progress.
+CLAIMED: T3 — attended phases RESOLVED DONE (s118 entry); wall harvest = the one open debt (same-day law).
+
+## 2026-08-29 session 118 — v20 T3 SHIPPED (attended): potions identity ES/EN/PT + always-on strip pair + quirk fix + sustain_run re-cut; wall re-pin RUNNING detached
+
+**T3 attended work DONE (CLAIMED `2808a44` → quirk `5dacb7d` · feat
+`81cf358` · re-cut `7521b07` · record+review through `2b6a395`; record:
+`drafts/_v20-t3-potions-20260829.md`).** The provisions system now
+speaks its true identity: **potion / poción / poção** across all
+player surfaces (strip verb, counter, receipts, bank hint, map header;
+key names + events stay mechanical; REFUSED family kept — refers to
+the attempt). **R-A2 escalation executed** (foundation L14): decision
+7iii flipped — the U/R sustain pair and the POTION N counter are
+ALWAYS-ON (POTION 0 at empty is the buy motivation), layout untouched,
+zero sim/balance changes. pt-br glyphs PROVEN in a real render before
+word commitment (ç/ã clean at 12/18px). **Language critique PASS**
+(own checklist + 1 Kimi consult, accuracy/presentation separate axes,
+OVERALL SHIP; one pt-br watch: "POÇÃO 0" singular scan — kept for
+LEVEL-N grammar symmetry, take-or-leave for Junior). **Boot-banner
+quirk fixed** (s116 debt 2): apply_start clears the stale boot banner
+on start-zone jumps — dash_strike_rip's twice-red rows now read
+"Every banner names ZONE 2 only" (gate rc=0 + floor1_run rc=0).
+**sustain_run RE-CUT** for the C2-era sim (new
+`tools/tune_sustain_run.rb`, manifest wants BYTE-UNCHANGED, double-
+replay min law): gate rc=0 + MANIFEST PASS (6/2/12/6/18/2/2 ≥ wants) +
+the R-A2 hint checklist 5/5 on frozen gate_a frames ("U POTION -5"
+reads at f13714). world_loop + ledger_loop spot-gates rc=0. Critic
+retry debt (s116 debt 4) resolved by inspection: vision_critic.py
+already retries 3×/30s on timeout classes — no tooling change.
+**Fresh-eyes review (Rule 6): PASS, zero blocking, five advisories —
+all executed/accepted** (manifest line re-banked verbatim; T4 pricing
+note adopted). Suite green via hooks on every commit (1324 runs).
+
+**OPEN: full-wall re-pin RUNNING DETACHED** (`tmp/wall/v20-t3-*`,
+~11 min/script pace → ~6h; DONE marker + per-script rc lines).
+Harvest owed same-day (s116 precedent): red set must be a SUBSET of
+the named standing reds (10 C2-QUEUED after sustain_run's re-cut +
+threat_pull + zone_catchup), each for its SAME census reason; greens
+must include every v20-t1 green; any new red/class = T3 finding, STOP.
+Early rows on-pattern (corpse_run 0/0; basement_pocket + burn_duel
+manifest-red C2 class — burn_duel's VISION half now green, the quirk
+fix clearing its stale-banner frames). `_gate-verdicts.log` rides the
+harvest commit (sweep still appending).
+
+**T4 next (totem pilot, NINETEENTH delta clock starts there) —
+unblocks at wall harvest.** T4 PRICING NOTE (reviewer risk, adopted):
+the totem lands in the exact geography sustain_run's zero-slack
+choreography walks — budget a sustain_run re-cut (tuner + gate +
+hint critique) as a named T4 cost, don't discover it mid-sweep.
+Mid-ticket owner ask handled: third in-game-chat vote RECORDED in
+PARKING_LOT (real-time per-seat-locale translation, Roblox pattern;
+quick-phrases = the promotable rung, one peer line promotes it
+post-T4). gamesmith party-hunt sparkup read on owner ask: trigger NOT
+armed (fires at C3 spec time) — C3 spec author should NAME its
+evidence asks. Junior async: 2d0aa6a floor -2 concepts banked (lane D
+prep, no collision); his floor -1 ratification + L3 pick still
+pending; pt-br potion word = his to re-word at will.
 
 ## 2026-08-29 session 117 — v20 T2 SHIPPED: cap 12, k=40 table-backed unchanged, standing pacing script, live save proven intact
 
