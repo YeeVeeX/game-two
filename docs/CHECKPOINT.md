@@ -19,7 +19,7 @@ typos fixed, PERF-banking practice adopted). **T4 is UNBLOCKED.**
 green** (corpse_run · ledger_loop · district_hunt · low_quay_run ·
 lobber_reach · lobber_volley — waypoint-tuner generation
 `tools/tune_*.rb`, headless manifest proofs + attended gates, every
-manifest want byte-unchanged; commit `95b8038`); **threat_pull
+manifest want byte-unchanged; commit `9b2483a`); **threat_pull
 RETIRED-PENDING-C3** (its leash surface is C2-coupled — probe-proven
 zero leashes under the provocation law; script+manifest intact,
 stands red by name). **Root-cause finding: eleven manifest reds are
