@@ -34,12 +34,19 @@ class PacingTableToolTest < Minitest::Test
     stdout, _, status = run_tool({ "K_SWEEP" => "40,44" })
     assert status.success?
     cap = DATA["balance/progression"][:curve][:level_cap]
-    assert_includes stdout, "candidate-k dwell sweep"
+    # Assert INSIDE the sweep section only — live-k values also appear in
+    # the main table above it, which would mute the live-k assertion
+    # (review advisory, 2026-08-29).
+    sweep = stdout.split("candidate-k dwell sweep").fetch(1) do
+      flunk "sweep section missing from output"
+    end
     [40, 44].each do |k|
       curve = DATA["balance/progression"][:curve].merge(k:)
       p = Game::Progression.new(config: DATA["balance/progression"].merge(curve:))
-      assert_includes stdout, p.delta_e(cap).to_s,
+      assert_includes sweep, p.delta_e(cap).to_s,
                       "sweep must price dE(#{cap}) under candidate k=#{k}"
+      assert_includes sweep, (p.delta_e(cap + 1) - 1).to_s,
+                      "sweep must carry the pin under candidate k=#{k}"
     end
   end
 end
