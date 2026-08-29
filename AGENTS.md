@@ -426,7 +426,7 @@ program (2026-08-16): placeholders + dictionary-word functional labels only.
 
 WASD / arrows = move · Ctrl (hold) + direction = stationary aim (face without
 stepping; dodge stays live) · J / Space = attack · K / Shift = dodge · L / E = special ·
-; / Q = mark · U / R = provision (buy at bank / use afield) · H / F = interact ·
+; / Q = mark · U / R = potion (buy at bank / use afield) · H / F = interact ·
 Tab = swap possession · Esc = menu (non-pausing — the world keeps ticking;
 quit via its QUIT row · J-6, s53)
 

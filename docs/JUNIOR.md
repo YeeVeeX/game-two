@@ -212,7 +212,7 @@ mundo salvo); é só o que sai na caixa.
 ### O mundo agora continua (v18 — persistência)
 
 O mundo não zera mais a cada partida: banco, selos rompidos, marcas,
-suprimentos e o contador de sessões sobrevivem entre sessões.
+poções e o contador de sessões sobrevivem entre sessões.
 
 **De quem é o save (como funciona, sem pegadinha):**
 
@@ -268,10 +268,10 @@ suprimentos e o contador de sessões sobrevivem entre sessões.
 | Usar | em QUALQUER outro lugar, mesma tecla — cura quem estiver vivo no trio |
 | Recusa | `RECUSADO` na tela: sem saldo, no limite, sem carga, ou ninguém ferido |
 
-- O par de teclas entra na barra de baixo (`suprimentos`) e o contador
-  `SUPRIMENTOS N` aparece à direita — só enquanto você TEM carga; no
-  zero, some tudo.
-- `SUPRIMENTO COMPRADO` / `SUPRIMENTO USADO` piscam na hora, em cima
+- O par de teclas fica SEMPRE na barra de baixo (`poção`) e o contador
+  `POÇÃO N` fica sempre à direita — no zero ele mostra `POÇÃO 0`
+  (v20 T3: antes só apareciam com carga; agora ensinam o tempo todo).
+- `POÇÃO COMPRADA` / `POÇÃO USADA` piscam na hora, em cima
   da estação ou de quem usou.
 - Nunca é de graça e não regenera: é valor do banco virando fôlego de
   caçada — gaste com intenção.
@@ -345,7 +345,7 @@ after session 2 and BEFORE the two of you debrief each other, and the
 questions live sealed in the spec — don't read them early).
 
 Persistence (v18, LIVE): the world no longer resets — banked value,
-breached seals, marks, provisions and the sessions counter survive
+breached seals, marks, potions and the sessions counter survive
 across sessions. Who keeps the save: the shared world lives on the
 HOST's machine (Gabriel); it advances when he plays (solo or hosting)
 and when you JOIN him. You playing solo on your own machine = your OWN
@@ -367,11 +367,11 @@ v18 bumped the protocol to v2 and gave the save a schema — a stale
 seat is REFUSED at the handshake naming the exact field (e.g.
 `protocol version`) plus the git-pull hint.
 
-Sustain (v18): SUPRIMENTOS — buy standing on a bank station (**U** or
-R; 5 banked per charge, cap 3), use anywhere else (same key) for a
+Sustain (v18; renamed v20 T3): POÇÕES — buy standing on a bank station
+(**U** or R; 5 banked per charge, cap 3), use anywhere else (same key) for a
 heal of every living pack member; refusals flash `RECUSADO` (broke /
-at cap / no charge / nobody hurt). The strip pair (`suprimentos`) and
-the `SUPRIMENTOS N` counter appear only while you carry charges —
-at zero they vanish; buys/uses flash `SUPRIMENTO COMPRADO` /
-`SUPRIMENTO USADO`. Never free, never regenerating — banked value
-becoming hunt endurance.
+at cap / no charge / nobody hurt). The strip pair (`poção`) and the
+`POÇÃO N` counter are ALWAYS on the strip now (v20 T3 escalation —
+zero reads `POÇÃO 0`, the buy motivation); buys/uses flash
+`POÇÃO COMPRADA` / `POÇÃO USADA`. Never free, never regenerating —
+banked value becoming hunt endurance.
