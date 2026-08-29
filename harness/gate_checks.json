@@ -239,11 +239,11 @@
     },
     {
       "id": "provisions_counter_reads",
-      "check": "When the pack holds at least one provision, a small PROVISION N counter reads at the right edge of the bottom controls strip and a U/R provision pair joins the strip; in frames where the pack holds zero provisions (including any frame before the first buy), NEITHER the counter NOR the strip's provision pair appears anywhere. If the reel never shows a provision bought, pass with why='not exercised by this script'."
+      "check": "In EVERY frame where the bottom controls strip is visible, a U/R potion pair sits in the strip (after swap, seventh pair) AND a POTION N counter reads at the strip's right edge — N may be 0, and zero stock MUST read as POTION 0, never as absence. A strip frame missing either the pair or the counter FAILS. If no frame in the reel shows the controls strip at all, pass with why='not exercised by this script'."
     },
     {
       "id": "sustain_success_cue_reads",
-      "check": "A provision buy or use flashes the bright 1-tile pulse ring at the presser's tile with a functional text line (PROVISION BOUGHT / PROVISION USED) one row above it, readable against the floor. If the script never buys or uses a provision, pass with why='not exercised by this script'."
+      "check": "A potion buy or use flashes the bright 1-tile pulse ring at the presser's tile with a functional text line (POTION BOUGHT / POTION USED) one row above it, readable against the floor. If the script never buys or uses a potion, pass with why='not exercised by this script'."
     },
     {
       "id": "sustain_refusal_cue_reads",

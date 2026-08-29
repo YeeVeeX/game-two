@@ -59,7 +59,7 @@ module App
     def header_text(world)
       marks = world.pack.members.count(&:marked?)
       "BANKED #{world.pack.banked} · MARKS #{marks} · " \
-        "PROVISIONS #{world.pack.provisions} · " \
+        "POTIONS #{world.pack.provisions} · " \
         "BOSS 1 DEFEATS #{world.boss_1_defeats}"
     end
 

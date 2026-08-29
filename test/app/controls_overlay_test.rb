@@ -59,12 +59,12 @@ class ControlsOverlayTest < Minitest::Test
 
   def test_pairs_follow_action_order_with_dual_glyphs
     pairs = overlay.vessel_line(world_stub(:blocker))[:pairs]
-    assert_equal %w[J K L ; H Tab], pairs.map { |p| p[:glyphs].first },
-                 "primary glyphs, ACTIONS order"
-    assert_equal ["Space", "LShift", "E", "Q", "F", nil],
+    assert_equal %w[J K L ; H Tab U], pairs.map { |p| p[:glyphs].first },
+                 "primary glyphs, ACTIONS order + the always-on sustain pair (v20 T3)"
+    assert_equal ["Space", "LShift", "E", "Q", "F", nil, "R"],
                  pairs.map { |p| p[:glyphs][1] },
                  "secondary glyphs visible (the twelfth's dual-keybind lane); swap has none"
-    assert_equal %w[attack dodge shout mark interact swap], pairs.map { |p| p[:label] }
+    assert_equal %w[attack dodge shout mark interact swap potion], pairs.map { |p| p[:label] }
   end
 
   def test_locale_switch_translates_labels_not_vessel_names
@@ -102,26 +102,31 @@ class ControlsOverlayTest < Minitest::Test
                  "the strip reads the possessed kit every draw"
   end
 
-  # --- v18 sustain row + provisions counter (decision 7iii: the wall pin) ---
+  # --- v20 T3 sustain row + potions counter (R-A2 escalation: ALWAYS-ON,
+  # supersedes v18 decision 7iii — the eighteenth measured bought=0 with
+  # the bank hint live; the pair and counter now teach at every count) ---
 
-  def test_sustain_pair_joins_the_strip_only_with_provisions
+  def test_sustain_pair_is_always_on_the_strip
     o = overlay
     zero = o.vessel_line(world_stub(:striker))[:pairs]
-    refute zero.any? { |p| p[:label] == "provision" },
-           "provisions=0 draws NOTHING — no sustain row (7iii)"
+    assert_equal({ glyphs: %w[U R], label: "potion" }, zero.last,
+                 "provisions=0 STILL shows the sustain row — always-on (v20 T3)")
     some = o.vessel_line(world_stub(:striker, provisions: 2))[:pairs]
-    assert_equal({ glyphs: %w[U R], label: "provision" }, some.last,
-                 "the sustain row appears once a provision exists, U/R pair grammar")
-    assert_equal zero.length + 1, some.length, "add-only — the six stay"
+    assert_equal({ glyphs: %w[U R], label: "potion" }, some.last,
+                 "the sustain row holds with stock, U/R pair grammar")
+    assert_equal zero.length, some.length,
+                 "stock never changes the strip's shape — seven pairs at every count"
   end
 
-  def test_provisions_counter_gated_and_localized
+  def test_potions_counter_always_on_and_localized
     o = overlay
-    assert_nil o.provisions_line(world_stub(:striker)),
-               "provisions=0 draws NOTHING — no counter (7iii)"
-    assert_equal "PROVISION 2", o.provisions_line(world_stub(:striker, provisions: 2))
+    assert_equal "POTION 0", o.provisions_line(world_stub(:striker)),
+                 "zero stock READS as POTION 0 — the empty counter is the buy motivation"
+    assert_equal "POTION 2", o.provisions_line(world_stub(:striker, provisions: 2))
     es = overlay(locale: "es").provisions_line(world_stub(:striker, provisions: 1))
-    assert_equal "PROVISIÓN 1", es, "the counter label translates (functional word)"
+    assert_equal "POCIÓN 1", es, "the counter label translates (functional word)"
+    pt = overlay(locale: "pt-br").provisions_line(world_stub(:striker))
+    assert_equal "POÇÃO 0", pt, "pt-br speaks the potion word too"
   end
 
   def test_sustain_glyphs_ride_the_canonical_binding_map
@@ -132,16 +137,31 @@ class ControlsOverlayTest < Minitest::Test
                                  strings: Core::Strings.new(DATA, locale: "en"),
                                  bindings: map)
     pairs = o.vessel_line(world_stub(:blocker, provisions: 1))[:pairs]
-    assert_includes pairs, { glyphs: %w[U R], label: "provision" },
+    assert_includes pairs, { glyphs: %w[U R], label: "potion" },
                     "one source feeds KeyboardInput and the strip (v15 law)"
   end
 
-  def test_provisions_surfaces_absent_on_a_fresh_real_world
+  def test_sustain_pair_survives_a_partial_injected_map
+    map = Core::BindingMap.new(
+      { attack: %w[J], dodge: %w[K], special: %w[L], mark: [";"],
+        interact: %w[H], swap: %w[Tab] },
+      key_table: { "J" => 1, "K" => 2, "L" => 3, ";" => 4, "H" => 5, "Tab" => 6 }
+    )
+    o = App::ControlsOverlay.new(display: DISPLAY,
+                                 strings: Core::Strings.new(DATA, locale: "en"),
+                                 bindings: map)
+    pairs = o.vessel_line(world_stub(:blocker))[:pairs]
+    assert_equal({ glyphs: %w[U R], label: "potion" }, pairs.last,
+                 "a map without :sustain falls back to canonical glyphs — the always-on row never draws glyph-less")
+  end
+
+  def test_potions_surfaces_present_on_a_fresh_real_world
     w = Game::World.new(DATA, seed: 42)
     o = overlay
-    assert_nil o.provisions_line(w), "fresh world: no counter (7iii, real World)"
-    refute o.vessel_line(w)[:pairs].any? { |p| p[:label] == "provision" },
-           "fresh world: no sustain row (7iii, real World)"
+    assert_equal "POTION 0", o.provisions_line(w),
+                 "fresh world: the counter reads POTION 0 (always-on, real World)"
+    assert(o.vessel_line(w)[:pairs].any? { |p| p[:label] == "potion" },
+           "fresh world: the sustain row is on the strip before the first buy")
   end
 
   # --- pulse ---------------------------------------------------------------

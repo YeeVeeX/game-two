@@ -23,7 +23,7 @@
     },
     {
       "id": "map_header_reads",
-      "check": "The top header strip reads BANKED N / MARKS K / PROVISIONS P / BOSS 1 DEFEATS D with legible numerals, matching flat placeholder register (no fiction names anywhere in the artifact)."
+      "check": "The top header strip reads BANKED N / MARKS K / POTIONS P / BOSS 1 DEFEATS D with legible numerals, matching flat placeholder register (no fiction names anywhere in the artifact)."
     },
     {
       "id": "no_render_garbage",

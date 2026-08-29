@@ -47,7 +47,7 @@ module App
       { label: "menu.label.special", fallback: "SPECIAL", actions: %i[special] },
       { label: "overlay.mark", fallback: "mark", actions: %i[mark] },
       { label: "overlay.interact", fallback: "interact", actions: %i[interact] },
-      { label: "overlay.sustain", fallback: "provision", actions: %i[sustain] },
+      { label: "overlay.sustain", fallback: "potion", actions: %i[sustain] },
       { label: "overlay.swap", fallback: "swap", actions: %i[swap] },
       { label: "menu.label.menu", fallback: "MENU", actions: %i[menu] }
     ].freeze

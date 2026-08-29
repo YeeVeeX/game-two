@@ -7,7 +7,7 @@ require "game/world"
 require "app/renderer"
 require "app/key_table"
 
-# R-A2 (verdict row 4): the bank BUY hint — "U PROVISION -5" in the station
+# R-A2 (verdict row 4): the bank BUY hint — "U POTION -5" (v20 T3 noun) in the station
 # cue's text slot, ONLY when the buy would succeed (banked >= cost AND
 # provisions < cap), suppressed while a station cue lives on that bank tile
 # (the transaction receipt owns the slot). Proximity stays at the draw site:
@@ -59,7 +59,7 @@ class SustainHintTest < Minitest::Test
     r = renderer
     assert_nil r.sustain_hint(w, BANK), "banked=0: broke — no hint (spawn frames byte-identical)"
     w.pack.bank!(50)
-    assert_equal "U PROVISION -#{ECO[:provision_cost]}", r.sustain_hint(w, BANK),
+    assert_equal "U POTION -#{ECO[:provision_cost]}", r.sustain_hint(w, BANK),
                  "affordable + under cap: the hint teaches verb + price at the vendor"
     buy!(w, ECO[:provision_cap])
     expire_cue!(w)
@@ -93,7 +93,7 @@ class SustainHintTest < Minitest::Test
     altar = DATA["zones/nest"][:stations].find { |s| s[:type] == "altar" }
     assert_nil renderer.sustain_hint(w, altar), "the hint is the BANK's voice only"
     bare = App::Renderer.new
-    assert_equal "U PROVISION -#{ECO[:provision_cost]}", bare.sustain_hint(w, BANK),
+    assert_equal "U POTION -#{ECO[:provision_cost]}", bare.sustain_hint(w, BANK),
                  "strings/bindings-less construct stays drawable (VESSEL_FALLBACK law)"
   end
 
@@ -101,8 +101,8 @@ class SustainHintTest < Minitest::Test
     w = world
     w.pack.bank!(50)
     cost = ECO[:provision_cost]
-    assert_equal "U PROVISIÓN -#{cost}", renderer(locale: "es").sustain_hint(w, BANK)
-    assert_equal "U SUPRIMENTOS -#{cost}", renderer(locale: "pt-br").sustain_hint(w, BANK)
+    assert_equal "U POCIÓN -#{cost}", renderer(locale: "es").sustain_hint(w, BANK)
+    assert_equal "U POÇÃO -#{cost}", renderer(locale: "pt-br").sustain_hint(w, BANK)
   end
 
   def test_world_exposes_the_data_driven_price_readers

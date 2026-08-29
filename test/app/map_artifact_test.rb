@@ -210,7 +210,7 @@ class MapArtifactTest < Minitest::Test
   # --- header + stamps + filename -------------------------------------------
 
   def test_header_reads_the_persisted_counters
-    assert_equal "BANKED 42 · MARKS 1 · PROVISIONS 2 · BOSS 1 DEFEATS 3",
+    assert_equal "BANKED 42 · MARKS 1 · POTIONS 2 · BOSS 1 DEFEATS 3",
                  artifact.header_text(saved_world)
   end
 

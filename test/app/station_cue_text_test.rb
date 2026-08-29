@@ -18,11 +18,11 @@ class StationCueTextTest < Minitest::Test
 
   def test_provision_kinds_carry_localized_text
     r = renderer
-    assert_equal "PROVISION BOUGHT", r.station_cue_text(:provision_bought)
-    assert_equal "PROVISION USED", r.station_cue_text(:provision_used)
+    assert_equal "POTION BOUGHT", r.station_cue_text(:provision_bought)
+    assert_equal "POTION USED", r.station_cue_text(:provision_used)
     assert_equal "REFUSED", r.station_cue_text(:provision_refused)
     es = renderer(locale: "es")
-    assert_equal "PROVISIÓN COMPRADA", es.station_cue_text(:provision_bought)
+    assert_equal "POCIÓN COMPRADA", es.station_cue_text(:provision_bought)
     assert_equal "RECHAZADO", es.station_cue_text(:provision_refused)
   end
 

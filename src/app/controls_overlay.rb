@@ -28,7 +28,7 @@ module App
     VERB_FALLBACK = { striker: "spin", blocker: "shout", lobber: "lob" }.freeze
     LABEL_FALLBACK = { attack: "attack", dodge: "dodge", mark: "mark",
                        interact: "interact", swap: "swap",
-                       sustain: "provision" }.freeze
+                       sustain: "potion" }.freeze
 
     # Kit identity colors (Renderer::KIT_BODY family) + quiet text tones.
     VESSEL_RGB = { striker: [235, 120, 40], blocker: [190, 80, 35],
@@ -51,10 +51,12 @@ module App
     # speaks the kit's own verb.
     def vessel_line(world)
       kit = world.possessed(@local_seat).kit_name
-      # v18 decision 7iii (the wall pin): the sustain row exists ONLY while
-      # a provision does — provisions=0 adds nothing to the strip, so every
-      # walled capture renders the six-pair line byte-identically.
-      actions = ACTIONS + (world.pack.provisions.positive? ? [:sustain] : [])
+      # v20 T3 (R-A2 escalation, foundation L14 — supersedes the v18
+      # decision 7iii gate): the sustain pair is ALWAYS on the strip. The
+      # eighteenth's verdict measured bought=0 WITH the bank hint live —
+      # a verb nobody can see is a verb nobody buys for. The full-wall
+      # re-pin this costs is the recorded, owner-ratified price.
+      actions = ACTIONS + [:sustain]
       pairs = actions.map do |action|
         label =
           if action == :special
@@ -63,18 +65,21 @@ module App
             tr("overlay.#{action}", LABEL_FALLBACK[action])
           end
         glyphs = @bindings ? @bindings.glyphs(action) : GLYPH_FALLBACK[action]
+        # A partial injected map (no :sustain row) must not strand the
+        # always-on pair glyph-less — same fallback the bindings-less
+        # construct rides (the VESSEL_FALLBACK precedent).
+        glyphs = GLYPH_FALLBACK[action] if glyphs.nil? || glyphs.empty?
         { glyphs:, label: }
       end
       { vessel: tr("overlay.vessel.#{kit}", VESSEL_FALLBACK[kit]), pairs: }
     end
 
-    # v18 provisions counter (decision 7iii): nil at zero — the counter
-    # draws ONLY while a provision exists. Functional label + count,
-    # placeholder register (owner order 2026-08-16).
+    # v20 T3 (R-A2 escalation): the potions counter is ALWAYS drawn —
+    # POTION 0 at empty stock is the point (the stock exists and is empty:
+    # the buy motivation). Functional label + count, placeholder register
+    # (owner order 2026-08-16).
     def provisions_line(world)
-      n = world.pack.provisions
-      return nil unless n.positive?
-      "#{tr('hud.provisions', 'PROVISION')} #{n}"
+      "#{tr('hud.provisions', 'POTION')} #{world.pack.provisions}"
     end
 
     # Backing alpha now: resting, or lifted while the possessed kind is
@@ -121,12 +126,11 @@ module App
         font.draw_text(pair[:label], x, ty, 0, 1, 1, label_col)
         x += font.text_width(pair[:label]) + section_gap
       end
-      # The provisions counter sits at the strip's right edge, same quiet
-      # band — absent entirely at zero (7iii).
-      if (counter = provisions_line(world))
-        cx = world.camera(@local_seat).view_w - x_start - font.text_width(counter)
-        font.draw_text(counter, cx, ty, 0, 1, 1, glyph_col)
-      end
+      # The potions counter sits at the strip's right edge, same quiet
+      # band — always on (v20 T3 escalation; POTION 0 teaches the stock).
+      counter = provisions_line(world)
+      cx = world.camera(@local_seat).view_w - x_start - font.text_width(counter)
+      font.draw_text(counter, cx, ty, 0, 1, 1, glyph_col)
     end
 
     private

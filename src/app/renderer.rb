@@ -185,8 +185,8 @@ module App
     # walled captures cannot move (7iii family; the canary sweep is the
     # proof). Pure content resolution; EN fallbacks keep a strings-less
     # construct drawable (the ControlsOverlay precedent).
-    CUE_TEXT_FALLBACK = { provision_bought: "PROVISION BOUGHT",
-                          provision_used: "PROVISION USED",
+    CUE_TEXT_FALLBACK = { provision_bought: "POTION BOUGHT",
+                          provision_used: "POTION USED",
                           provision_refused: "REFUSED",
                           level_required: "LEVEL <N> REQUIRED" }.freeze
 
@@ -197,7 +197,7 @@ module App
     end
 
     # R-A2 (verdict row 4 — the SEVENTEENTH's bought=0 discoverability hole):
-    # the bank BUY hint, "U PROVISION -5". Speaks ONLY when the buy would
+    # the bank BUY hint, "U POTION -5" (v20 T3 noun). Speaks ONLY when the buy would
     # succeed (banked >= cost AND provisions < cap) — teaches success, never
     # a refusal — and yields its slot (the cue's y-32 text line) while a
     # station cue lives on this bank's tile: idle → hint, press → receipt,
@@ -209,7 +209,7 @@ module App
     # grammar. Proximity stays at the draw site (the ledger's radius-3 law).
     # Pure content resolution — tested headlessly (station_cue_text lane).
     SUSTAIN_GLYPH_FALLBACK = "U".freeze
-    HUD_STOCK_FALLBACK = "PROVISION".freeze
+    HUD_STOCK_FALLBACK = "POTION".freeze
 
     def sustain_hint(world, station)
       return nil unless station[:type] == "bank"
