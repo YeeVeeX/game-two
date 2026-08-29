@@ -7,7 +7,43 @@ CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
 
-CLAIMED: T3 — attended phases RESOLVED DONE (s118 entry); wall harvest = the one open debt (same-day law).
+CLAIMED: none — T3 fully RESOLVED (s119); next ticket = T4 via its staged spark (claim at execution start).
+
+## 2026-08-29 session 119 — T3 CLOSED: wall harvested CLEAN under the honest-pass law; two off-pattern reds triaged with evidence; T4 UNBLOCKED (spark staged)
+
+**Harvest (record §9, `drafts/_v20-t3-potions-20260829.md`):** 36/36
+rc lines, 2h55m. **23 greens** — sustain_run 0/0 (re-cut proven in
+full wall), dash_strike_rip 0/0 (quirk fix affirmed), all six t1
+re-cuts hold, level_up_beat PASSED (flap watch stays armed). **Red
+set = the 12 standing C2-era reds, each for its byte-identical census
+reason** (FAIL lines grepped per script vs s116 + t1 logs; burn_duel/
+varekka vision halves now GREEN — quirk-fix improvement). No
+determinism red anywhere. **Two off-pattern reds triaged
+(sampling-artifact law):** (1) taunt_anchor `challenge_reads` = REAL
+C2-class staging drift t1r under-read — `taunted victims=0`
+byte-identical in BOTH sweeps' logs, src/game/ diff 0 lines, PNG
+shows the pulse in an empty pocket → **C2-QUEUED by name beside
+aoe_specials** (same class, same C3 heir; not re-cut, row untouched).
+(2) zone8_crossing `level_gate_reads` "raw red LEVEL 2" = **critic
+misread, pixel-convicted** — the "LEVEL 2" is the strip's own
+"player 2" seat label (zoom crop banked); the refusal-cue site IS
+chip-compliant (draw_refusal_text:754); 2-of-3 standalone on frozen
+gate_a: PASS/PASS → dismissed, no row edit, manifest reason
+unchanged. **Greens ⊇ every TRUE t1 green** (taunt_anchor's t1r pass
+reclassified as under-read with both-sweeps evidence). No T3 finding.
+
+**T4 (totem pilot) UNBLOCKED — spark staged:**
+`drafts/_v20-t4-spark-20260829.md` (L4 priced-flip pre-registration
+BEFORE code, L10 world.rb extraction owed in-ticket from 1769/1800,
+authored pilot.ldtk placement, priced sustain_run re-cut contingency,
+NINETEENTH delta clock starts there). Serial law: claim at execution
+start, fresh session.
+
+**Open beside (hub, not this closeout):** two unprocessed seat mails
+— gamesmith program mail (owner-ratified depth/grid picture; names
+the owner's "too simple" line as a usable fun-verify peer-ask) + g2a
+renderer-repin note (informational, nothing owed). Junior's floor-1
+ratification landed async (`ee4cc88` — v2b approved verbatim).
 
 ## 2026-08-29 session 118 — v20 T3 SHIPPED (attended): potions identity ES/EN/PT + always-on strip pair + quirk fix + sustain_run re-cut; wall re-pin RUNNING detached
 
