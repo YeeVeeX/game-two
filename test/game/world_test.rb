@@ -1245,7 +1245,7 @@ class WorldTest < Minitest::Test
   end
 
   def test_gate_distance_is_bfs_from_the_gradient_anchor
-    # The anchor pins the band map to the descent-mouth landing [11,85]
+    # The anchor pins the band map to the descent-mouth landing [11,87]
     # regardless of how many arrivals exist or how they order (v12
     # review-verified trap).
     enter_district(world)

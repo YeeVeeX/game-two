@@ -52,7 +52,7 @@ class SealBreachTest < Minitest::Test
   def test_district_band_map_pinned_despite_new_zone_arrivals
     # Without an explicit anchor the gate field would re-anchor on arrival
     # order (sorted zone keys) and invert every band. These pins are v2b
-    # truth measured from the descent-mouth landing [11,85].
+    # truth measured from the descent-mouth landing [11,87].
     enter_district!
     assert_equal 0, world.send(:gradient_band, [11, 84]), "near the mouth landing = band 0"
     assert_equal 1, world.send(:gradient_band, [41, 45]), "mid-floor clearing = band 1"

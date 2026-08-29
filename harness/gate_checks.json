@@ -47,7 +47,7 @@
     },
     {
       "id": "floor1_two_halves_read",
-      "check": "When ZONE 2 frames show ground on both sides of the central chasm (or the reel crosses it), the WEST half reads dry and dark (bare dark-brown camp ground, sparse pale-green flecks) while the EAST half reads alive and mossy (dense green moss patches over the same dark ground) - two different biomes of one floor, not one flat fill. If the reel never shows both halves, pass with why='not exercised by this script'."
+      "check": "When ZONE 2 frames show ground on both sides of the central chasm (or the reel crosses it), the two halves read as two different biomes of one floor, never one flat fill: ground character (moss density, tone, openness) visibly differs across the void, and in mid-map latitudes (the bridge-2/3 band) the EAST half carries the dense green moss belt. FAIL if both sides read as the same flat ground. If the reel never shows both halves, pass with why='not exercised by this script'."
     },
     {
       "id": "floor1_chasm_reads",
@@ -175,7 +175,7 @@
     },
     {
       "id": "edge_pip_reads",
-      "check": "When a living pack ally is off-screen, a small kit-colored square pip sits clamped at the viewport edge toward that ally's true position, framed by a thin near-black outline that keeps it visible on any ground — the off-screen-ally read must never be invisible (a pale pip melting edge-less into a light wall fails). The pip must not be confusable with drops (world-anchored, on floor tiles, magenta/rose/gold family) — edge pips hug the viewport boundary and wear kit colors. If no frame shows an off-screen living ally, pass with why='not exercised by this script'."
+      "check": "When the reel stages a GENUINE separation - a frame where a living ally's body clearly sits beyond the viewport edge (the possessed has visibly traveled away from the pack mid-reel) - a small kit-colored square pip clamped at the viewport edge toward that ally must read, framed by a thin near-black outline that keeps it visible on any ground. The pip must not be confusable with drops (world-anchored, magenta/rose/gold family): edge pips hug the viewport boundary and wear kit colors. Counting HUD bars against visible bodies is NOT evidence of off-screen-ness: at spawn and in tight formations allies stand adjacent (and may be partially covered by the bottom controls strip) while fully on-screen. If no frame stages an unambiguous off-screen ally, pass with why='not exercised by this script'."
     },
     {
       "id": "deep_drop_band_reads",
