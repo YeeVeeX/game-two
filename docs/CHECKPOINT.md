@@ -7,7 +7,7 @@ CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
 
-CLAIMED: none — T4 SHIPPED (s120); next ticket = T5 (second wall class) or lane-D content at the owner's word (claim at execution start).
+CLAIMED: T5 (second wall class) — Gabriel's hub seat, 2026-08-29 (s121, in progress). Lane-D content spark stages at T5 close per owner content-priority ruling (s120).
 
 ## 2026-08-29 session 120 — v20 T4 SHIPPED: the heal totem lives on floor -1; L10 extraction executed (world.rb 1769→1712); NINETEENTH delta clock RUNNING
 
