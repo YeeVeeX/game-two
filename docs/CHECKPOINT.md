@@ -7,7 +7,67 @@ CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
 
-CLAIMED: T6b — hub seat (Gabriel's machine), 2026-08-29. Floor -2 content: district_two retheme (pick: v3 FIEHONJA, recorded lean), new kinds + kill_xp rows, cap 13. Spark: drafts/_v20-t6b-floor2-spark-20260829.md.
+CLAIMED: none — T6b SHIPPED (s122). Next: T6 (B4 knob) or T7 (floor -3, lane D continues) or C3 re-session; claim at execution start.
+
+## 2026-08-29 session 122 — v20 T6b SHIPPED: FLOOR -2 exists — Junior's v3 FIEHONJA live as ZONE 3, two new deep kinds, cap 13 (owner content-priority executed)
+
+**T6b DONE (CLAIMED `ecd0713` → kinds `edfd6a0` · floor `feat(v20-t6b)` ·
+cap `feat(progression)` · evidence follows; record:
+`drafts/_v20-t6b-floor2-20260829.md`).** district_two is **descent
+floor -2**: 88x44 submerged open plain per Junior's v3 FIEHONJA
+(recorded-lean pick, one-line defense in the record §1 — the only
+candidate exercising T5's wall class, his newest reference, deliberate
+geometry contrast with v2b; async ratification open, transcription
+re-runnable if the peers want v1/v2). Deep-blue Y-channel BLOCKS as
+coral-ringed water (wall_inner = his "coral nas margens" signature
+made mechanical; BFS-asserted unreachable under 8-adjacency), 4 fords
+with a NEW per-ford exit law (F2's dead-end + F3's tail caught and
+carved open — his generator proved global reachability, never
+per-ford exits), reef arena + ruin + tan banks (new SAFE tile type
+`sand`, int_grid 8). **Save law held:** seal + door byte-identical at
+[41,13]/[42,13] (live chain's breach tuple), slow_door.json untouched;
+endpoints preserved (west↔camp free, east→slow_door SEALED); the
+district hole + camp spawns re-land at [1,22].
+
+**New fauna (the gated piece, L6):** `lurker` (ambush minion: aggro 6,
+windup 14, hp 55, dmg 16, respawn 1800, **kill_xp 40**) ×31 in
+Junior's 9 arena packs · `warden` (guardian: step 24, windup 26, hp
+110, dmg 22, kb 2, respawn 2400, **kill_xp 90**) ×5 at the reef heart
++ 1 at the main ford — pure data end-to-end (spawn path proven by
+boot test; existing kill_xp rows byte-untouched; pale-green +
+jellyfish-pink KIT_BODY reads). **Cap 12→13 rides the floor (L5):**
+12→13 = 5360 XP = 134 lurkers / ~3 floor clears; pacing table banked.
+
+**Gates all green:** floor2_run wall member (L12 arriving-band reel;
+warden dies ON the ford) — determinism 10/10 ×2 + vision 77/77 with
+all four zone rows AFFIRMATIVE · canaries world_loop + floor1_run
+byte-identical to pre-change baselines (floor1's first-run vision FAIL
+= critic flip on identical bytes, re-run PASS, disrupted-gate law) ·
+safe_boundary = the one traversal member (census + byte-compare),
+versioned re-gate PASS · god-view probes **16/16** (3 new district_two
+probes: coral class / water / sealed door) + critique PASS · soak
+ZONES=district_two EP1 PASS chain intact · perf p95 0.420ms · suite
+1343→1344 runs green per commit. Wall sweep detached (T5 advisory 3),
+verdicts in the same-day follow-up.
+
+**Delta clock (NINETEENTH):** + floor -2 fauna/kill_xp/cap 13 join
+totem (T4) + potions (T3); map retheme = presentation+graph beside
+them. No freeze armed.
+
+**Para Junior (pt-br):** o piso -2 existe — teu FIEHONJA é jogável:
+planície submersa, canal azul com coral laranja (tua assinatura, agora
+parede de verdade), 5 guardiões + minions de emboscada novos que pagam
+mais, cap 13 montado no piso. Desvios nomeados no record §12 (saída
+selada presa no vau norte pela lei do save; estrada 3-wide carved no
+vau principal). Escolhi tua v3 com defesa de uma linha — veto livre,
+transcrição re-rodável.
+
+**Para Gabriel (es-CR):** el piso -2 existe — el mapa de Junior es
+jugable YA: planicie sumergida, canal azul con coral, arena del
+recife, enemigos nuevos que pagan 40/90, cap 13. Tu ruling de
+contenido quedó ejecutado en un ticket: zona nueva + enemigos nuevos +
+progresión nueva, todo por la puerta del importer con todas las
+compuertas verdes.
 
 ## 2026-08-29 session 121 — v20 T5 SHIPPED: second wall class (wall_inner) — the lane-D engine key; T6b content spark STAGED (owner ruling executed)
 

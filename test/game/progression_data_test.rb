@@ -1,5 +1,6 @@
 require_relative "../test_helper"
 require "core/data_store"
+require "game/progression"
 
 class ProgressionDataTest < Minitest::Test
   DATA = Core::DataStore.new(File.expand_path("../../data", __dir__))
@@ -41,6 +42,19 @@ class ProgressionDataTest < Minitest::Test
     assert_operator lurker.dig(:attack, :windup_frames), :<, 20, "lurker punishes faster than a rusher"
     assert_operator warden[:step_frames], :>, 16, "warden is the slow zoner"
     assert_operator warden.dig(:attack, :windup_frames), :>, 20, "warden telegraphs long"
+  end
+
+  # v20 T6b: the shipped file pays the shipped numbers through the real
+  # award path (award_kill refuses unknown kinds — the engine's own law).
+  def test_floor2_kill_awards_pay_through_the_shipped_file
+    p = Game::Progression.new(config: DATA["balance/progression"])
+    p.award_kill(:lurker)
+    assert_equal 40, p.kills_xp, "lurker pays 40"
+    assert_equal 40, p.xp, "below dE(2)=80: no level yet"
+    p.award_kill(:warden)
+    assert_equal 130, p.kills_xp, "warden adds 90 on top"
+    assert_equal 2, p.level, "130 XP crosses dE(2)=80"
+    assert_equal 50, p.xp
   end
 
   # T4 (P10, lane 5): the ctor cannot see combat.json, so data coherence
