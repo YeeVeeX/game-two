@@ -7,7 +7,85 @@ CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
 
-CLAIMED: T7 — hub seat, 2026-08-30 (floor -3 content: low_quay retheme MEDUSA LOWER + new kind + cap 15; spark `drafts/_v20-t7-floor3-spark-20260830.md`). T6 (B4 knob) / C3 stay E-lane anytime.
+CLAIMED: none — T7 SHIPPED (s123). Next: NINETEENTH fun-verify declaration is a peer/owner call (lane D closed — the accumulated delta: T3 potions + T4 totem + T6b fauna/cap13 + T7 fauna/cap15); T6 (B4 knob) / C3 stay E-lane anytime; boss-seizure choreography re-author session owed (varekka_duel + burn_duel in harness/retired/).
+
+## 2026-08-30 session 123 — v20 T7 SHIPPED: FLOOR -3 exists — Junior's MEDUSA LOWER live as ZONE 5, the game's first RANGED hostile, cap 15 (lane D closes; the whole v20 band is playable ground)
+
+**T7 DONE (CLAIMED `76c74e4` → kind `93481cc` · floor `3d8bb2a` · cap
+`d19a7fd` · evidence follows; record: `drafts/_v20-t7-floor3-20260830.md`).**
+low_quay is **descent floor -3**: 52x52 per Junior's MEDUSA LOWER
+(transcribed from his banked PNG, md5-pinned in the builder — no
+generator existed; adaptation defended in the record §1, async
+ratification open). **The abyss VOID is the second wall class**
+(wall_inner near-black, zero water tiles — no ring transform needed;
+D-VOID) coiled by the root-brown serpent; the cement core = muralha
+(`#`, pale) + cross-arm walkways + **the center hole = BOSS 1's post**
+(no floor -4 exists — the abyss bottom IS the boss; D-HOLE). Endpoints
+preserved: slow_door edge free both ways at the serpent head (his
+entry marker), zone_7 way `requires_defeats: 1` + free return at the
+tail tip (his drawn south exit); zone_7's return-spawn row moved via
+pilot.ldtk re-import (emission delta = exactly that row), slow_door
+one-line hand edit. Every boss staging re-coordinated (coordinates
+only, meanings intact — the record §5 table); importer gained sidecar
+DECOR passthrough (landmark law holds through the door).
+
+**New fauna (the gated piece, L6): `stinger` — the game's FIRST RANGED
+hostile** (arc projectile through the generic engage path, proven by
+boot+combat test BEFORE reliance: fires, lands, retreat-steps when
+hugged, melee-interruptible): hp 40, aggro 8, windup 22, dmg 14, range
+5 (inside the player lobber's 6), shots slower than lobber's, kb 0,
+respawn 1800, **kill_xp 65** ×24 along the coils · warden ×5 carried
+down as the medusas (kit/xp byte-untouched) · challenger 120 stays the
+elite (no re-price — the compress default held). Clear pays 2010 >
+floor -2's 1780 (deep out-pays at the clear grain). **Cap 13→15 rides
+the floor (L5's last band step):** 13→14 = 6320 XP ≈ 3.1 clears, 14→15
+= 7360 ≈ 3.7; pacing table banked.
+
+**Gates all green:** floor3_run wall member (L13 arriving band; BOSS 1
+marches from the core and chants ON CAMERA — first-run reel, T6b's
+five lessons baked in) — determinism 8/8 ×2 + vision 79/79 with all
+three new/reworded zone rows AFFIRMATIVE · canaries world_loop +
+floor1_run + floor2_run + town_gates + multi_floor_descent ALL
+byte-identical (census byte-proven: no wall script ever entered ZONE 5
+— zero traversal re-gates owed) · god-view probes **20/20** (4 new:
+void=wall_inner / gallery=wood / muralha=wall / tail way gate-gold at
+staged defeats) + map critique 7/7 with the abyss clause affirmative ·
+soak ZONES=low_quay EP1 PASS 36k ticks desyncs=0 chain intact · perf
+in-zone p95 0.230ms · suite green per commit (1348 runs at close) ·
+language critique N/A verified (zero new player-visible strings).
+
+**Wall consequences (named):** varekka_duel + burn_duel RETIRED to
+`harness/retired/` — their blind choreographies died with the old
+geometry BY DESIGN (burn_duel's seizure staging was already broken
+since T1, T6b-proven); **one boss-seizure choreography re-author
+session is OWED** on the new floor (their canary hashes preserved
+immutable, T7_RETIREMENT). low_quay_run DELETED — floor3_run is the
+zone's wall member (retired debt closed). Sim-identity ACTIVE bank =
+world_loop (byte-unchanged — the retheme provably moved nothing else)
++ floor3_run (new sentinel, stream md5 ×2). AGENTS.md's stale script
+example line updated.
+
+**Delta clock (NINETEENTH):** + floor -3 fauna (stinger 65, respawn
+1800) + cap 15 join T6b's fauna/cap13 + totem (T4) + potions (T3). Map
+retheme = presentation+graph beside them. No freeze armed. **Lane D is
+CLOSED — the v20 vision is playable ground: -1 sand/roots → -2
+submerged plain → -3 abyss.**
+
+**Para Junior (pt-br):** o piso -3 existe — teu MEDUSA LOWER é jogável:
+a serpente de raízes sobre o vazio, o círculo de cimento com a cruz, o
+buraco central virou o posto do BOSS 1 (não existe -4 — o abismo
+termina nele), água-viva ciano que ATIRA (primeiro ranged do jogo,
+paga 65), tuas 5 medusas seguram o núcleo, cap 15 montado. A muralha +
+bordas escuras que tu pediste no teu doc original: existem agora (o
+vazio É a segunda parede). Desvios no record §12; o builder transcreve
+teu PNG por md5 — iterar = mudar parâmetro e re-rodar.
+
+**Para Gabriel (es-CR):** el descenso está completo — los tres pisos
+ya son jugables: -1 arena/raíces, -2 planicie sumergida, -3 el abismo.
+El -3 trae el primer enemigo a distancia del juego (stinger cyan, paga
+65), las medusas de Junior cuidando el núcleo, BOSS 1 marchando desde
+su arena nueva, y cap 15. La NINETEENTH ya tiene todo su delta
+acumulado — declararla es palabra de ustedes dos, cuando quieran.
 
 ## 2026-08-29 session 122 — v20 T6b SHIPPED: FLOOR -2 exists — Junior's v3 FIEHONJA live as ZONE 3, two new deep kinds, cap 13 (owner content-priority executed)
 

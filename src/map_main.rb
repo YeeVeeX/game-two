@@ -180,7 +180,29 @@ module App
       probe "district_two save-pinned door reads sealed",
             px.call(d2x + 42 * App::MapArtifact::SCALE + 2,
                     d2y + 13 * App::MapArtifact::SCALE + 2) == [slab.red, slab.green, slab.blue]
-      puts "MAP PROBES PASS (16/16)"
+      # 7. v20 T7 floor -3: the abyss retheme's own landmarks - the void
+      # renders the SECOND wall class (wall_inner near-black, never :wall),
+      # the core gallery carries its authored pale cement floor (wood), the
+      # muralha ring renders the :wall palette (two wall classes in one
+      # panel), and the tail way reads OPEN gate-gold under the staged
+      # boss_1_defeats=3 (requires_defeats 1 satisfied - the fact-gate
+      # renders honestly).
+      lq = l[:panels].find { |p| p[:name] == "low_quay" }
+      lqx, lqy = lq[:origin]
+      lqpal = world.zone_maps.fetch("low_quay").palette
+      probe "low_quay abyss void reads the second wall class",
+            px.call(lqx + 2 * App::MapArtifact::SCALE + 2,
+                    lqy + 2 * App::MapArtifact::SCALE + 2) == lqpal[:wall_inner]
+      probe "low_quay core gallery reads the authored cement floor",
+            px.call(lqx + 28 * App::MapArtifact::SCALE + 2,
+                    lqy + 22 * App::MapArtifact::SCALE + 2) == lqpal[:wood]
+      probe "low_quay muralha ring reads the wall palette beside the void",
+            px.call(lqx + 24 * App::MapArtifact::SCALE + 2,
+                    lqy + 24 * App::MapArtifact::SCALE + 2) == lqpal[:wall]
+      probe "low_quay tail way reads gate-gold at staged defeats",
+            px.call(lqx + 23 * App::MapArtifact::SCALE + 2,
+                    lqy + 50 * App::MapArtifact::SCALE + 2) == lqpal[:transition]
+      puts "MAP PROBES PASS (20/20)"
     end
 
     def probe(name, ok)

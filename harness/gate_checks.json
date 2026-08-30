@@ -211,7 +211,7 @@
     },
     {
       "id": "low_quay_reads",
-      "check": "When a ZONE 5 (low_quay) frame is on camera, the zone reads as a drowned under-harbor distinct at a glance from ZONE 3 (submerged blue-grey plain with orange coral) and ZONE 2 (dark canyon halves split by a void chasm): green-black floor with sparse ripple marks and drowned stains, a central impassable channel band — a dry stone bed crossed by two bridge gaps, its lips picked out by pale edge highlights — and a pale drowned-green colonnade; the banner 'ZONE 5' is legible when shown. If the replay never enters ZONE 5, pass with why='not exercised by this script'."
+      "check": "When a ZONE 5 (low_quay) frame is on camera, the zone reads as the descent's ABYSS floor, distinct at a glance from ZONE 3 (submerged blue-grey plain with orange coral) and ZONE 2 (warm canyon halves): a near-black blue VOID fills all non-walkable space as solid wall-class darkness (bodies never stand on it), the walkable ground is a warm dark root-brown serpent band textured with tan sand speckles and darker root tangles, and cold dark-blue walkway lanes cross it; the banner 'ZONE 5' is legible when shown and the whole zone reads DARKER than every other floor. If the replay never enters ZONE 5, pass with why='not exercised by this script'."
     },
     {
       "id": "challenger_tell_reads",
@@ -275,7 +275,7 @@
     },
     {
       "id": "menu_stats_reads",
-      "check": "Where a STATS-titled menu panel is on camera (es ESTAD\u00cdSTICAS / pt ESTAT\u00cdSTICAS): a pack header reads legibly - a LEVEL line carrying the level number plus an XP progress pair current/threshold (or MAX at cap), and a session-XP line - followed by one row per pack body (player 1 / player 2 / player 3), each pairing an HP current/max readout with a damage integer, and below them a REACH line showing a spell-growth tier as a dash-joined distance sequence (with a NEXT L<n> marker while a higher tier exists). A dead body's row (if any) explicitly carries the DEAD word in a dimmer tone. The HP pairs on the panel must be CONSISTENT with the HUD bars visible in the same frame (a full bar never pairs with a near-zero readout), an ESC hint line reads on the panel, and the world stays readable behind the veil. If no STATS panel appears anywhere in the reel, pass with why='not exercised by this script'."
+      "check": "Where a STATS-titled menu panel is on camera (es ESTADÍSTICAS / pt ESTATÍSTICAS): a pack header reads legibly - a LEVEL line carrying the level number plus an XP progress pair current/threshold (or MAX at cap), and a session-XP line - followed by one row per pack body (player 1 / player 2 / player 3), each pairing an HP current/max readout with a damage integer, and below them a REACH line showing a spell-growth tier as a dash-joined distance sequence (with a NEXT L<n> marker while a higher tier exists). A dead body's row (if any) explicitly carries the DEAD word in a dimmer tone. The HP pairs on the panel must be CONSISTENT with the HUD bars visible in the same frame (a full bar never pairs with a near-zero readout), an ESC hint line reads on the panel, and the world stays readable behind the veil. If no STATS panel appears anywhere in the reel, pass with why='not exercised by this script'."
     },
     {
       "id": "menu_world_ticks",
@@ -283,7 +283,7 @@
     },
     {
       "id": "menu_settings_reads",
-      "check": "Where a SETTINGS-titled menu panel is on camera (es AJUSTES / pt OP\u00c7\u00d5ES): LANGUAGE, WINDOW SCALE, and FULLSCREEN rows read legibly, each showing a current value after a colon (e.g. EN, AUTO, OFF). If runtime audio is available, the same panel also shows per-bus VOLUME rows plus a MUTE row, each with a value; if audio is absent those rows must be absent rather than fake controls. Exactly ONE row is visibly selected (cursor marker and brighter tone), an ESC hint reads on the panel, and the world stays readable behind the veil. If no SETTINGS panel appears anywhere in the reel, pass with why='not exercised by this script'."
+      "check": "Where a SETTINGS-titled menu panel is on camera (es AJUSTES / pt OPÇÕES): LANGUAGE, WINDOW SCALE, and FULLSCREEN rows read legibly, each showing a current value after a colon (e.g. EN, AUTO, OFF). If runtime audio is available, the same panel also shows per-bus VOLUME rows plus a MUTE row, each with a value; if audio is absent those rows must be absent rather than fake controls. Exactly ONE row is visibly selected (cursor marker and brighter tone), an ESC hint reads on the panel, and the world stays readable behind the veil. If no SETTINGS panel appears anywhere in the reel, pass with why='not exercised by this script'."
     },
     {
       "id": "safe_boundary_reads",
@@ -308,6 +308,14 @@
     {
       "id": "floor2_plain_reads",
       "check": "Where ZONE 3 (district_two) frames show open ground away from the channel: the floor reads as a dark blue-grey submerged plain with visible green algae patches (walkable, textured with sparse ripple motif marks) and occasional tan bank clusters - clearly distinct at a glance from ZONE 2's warm dark canyon and from HUB 1's warm gray. The ZONE 3 banner is legible when shown. If no such frame is present, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "floor3_fauna_reads",
+      "check": "Where ZONE 5 (low_quay) combat frames are present: pale CYAN hostile bodies (no other body family owns cyan) engage the pack AT RANGE - at least one frame shows a small projectile square in flight between a cyan body and a pack body, and cyan bodies generally hold distance rather than crowding adjacent like melee kinds. If no ZONE 5 combat frame is present, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "floor3_boss_march_reads",
+      "check": "Where ZONE 5 (low_quay) frames show the boss (BOSS 1): he stands or advances on OPEN abyss-floor ground (the zone is his - no arena wall need be visible) with his small cream BOSS 1 nameplate legible against the dark ground, and in the frames after his engagement stamp the line BOSS 1 SPAWNED is legible in the banner slot. If no boss body or stamp frame is present, pass with why='not exercised by this script'."
     }
   ]
 }

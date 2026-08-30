@@ -114,7 +114,8 @@ class SimIdentityCanaryTest < Minitest::Test
   }.freeze
 
   ACTIVE = {
-    "world_loop" => "e0b1f38f0f6a5e3910a45a48f0f7bd3e"
+    "world_loop" => "e0b1f38f0f6a5e3910a45a48f0f7bd3e",
+    "floor3_run" => "66bbc9e2056ab8c5bd8e84eb8f246884"
   }.freeze
 
   # v20 T7 (IMMUTABLE): the boss scripts' final streams on the pre-T7 map,
