@@ -17,7 +17,13 @@ module App
       striker:      Gosu::Color.new(255, 235, 120, 40),
       blocker:      Gosu::Color.new(255, 190, 80, 35),
       lobber:       Gosu::Color.new(255, 225, 170, 90),
-      rusher_hater: HUMAN_BODY
+      rusher_hater: HUMAN_BODY,
+      # v20 T6b floor -2 fauna: each deep kind reads at a glance (L6).
+      # Lurker = pale algae-bone (green-shifted from HUMAN_BODY, pops on
+      # dark seabed AND inside green algae fields); warden = jellyfish
+      # pink (Junior's medusa marker family, no other body owns pink).
+      lurker:       Gosu::Color.new(255, 168, 205, 140),
+      warden:       Gosu::Color.new(255, 235, 150, 210)
     ).freeze
 
     POSSESSED_RING = Gosu::Color.new(255, 255, 255, 255)

@@ -226,6 +226,52 @@
     "cause": "seized"
    },
    "seizure_burns_inscription": true
+  },
+  "lurker": {
+   "max_hp": 55,
+   "step_frames": 15,
+   "aggro_tiles": 6,
+   "respawn_frames": 300,
+   "drop_table": [
+    1,
+    1,
+    2
+   ],
+   "attack": {
+    "damage": 16,
+    "windup_frames": 14,
+    "active_frames": 6,
+    "recovery_frames": 0,
+    "exhaust_frames": 66,
+    "arc": "ring",
+    "knockback_tiles": 1,
+    "knockback_frames_per_tile": 5
+   },
+   "knockback_frames_per_tile": 5,
+   "interrupt_on_hit": false
+  },
+  "warden": {
+   "max_hp": 110,
+   "step_frames": 24,
+   "aggro_tiles": 7,
+   "respawn_frames": 300,
+   "drop_table": [
+    2,
+    2,
+    3
+   ],
+   "attack": {
+    "damage": 22,
+    "windup_frames": 26,
+    "active_frames": 6,
+    "recovery_frames": 0,
+    "exhaust_frames": 90,
+    "arc": "ring",
+    "knockback_tiles": 2,
+    "knockback_frames_per_tile": 5
+   },
+   "knockback_frames_per_tile": 5,
+   "interrupt_on_hit": false
   }
  },
  "feel": {

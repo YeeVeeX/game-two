@@ -49,6 +49,13 @@
       "render": "wall_inner",
       "footstep": "stone",
       "passability": "wall"
+    },
+    "sand": {
+      "char": "s",
+      "int_grid": 8,
+      "render": "sand",
+      "footstep": "dirt",
+      "passability": "floor"
     }
   }
 }
