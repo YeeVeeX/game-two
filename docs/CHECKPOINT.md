@@ -55,6 +55,19 @@ verdicts in the same-day follow-up.
 totem (T4) + potions (T3); map retheme = presentation+graph beside
 them. No freeze armed.
 
+**Wall sweep verdict (same-day follow-up, T1 precedent):** 36/38
+gates rc=0 (floor2_run in-sweep PASS under the corrected channel row;
+mercy_floor = critic flip, standalone re-run PASS; two re-run attempts
+ate Bedrock read-timeouts first — the named infra flake). Manifest
+halves: 11 fails, ALL byte-identical to T1's baseline census (zero
+manifest regressions from this ticket). **NEW NAMED DEBT: burn_duel**
+— challenger_tell_reads fails consistently because vessel_seized=0/2
+(seizure staging broken SINCE T1's map change, baseline-proven;
+earlier sweeps passed on critic charity). Its re-author joins the
+retired-pending-reauthor list; own re-session, boss-seizure
+choreography (data-path from T6b: none — challenger kit + writ code
+untouched).
+
 **Para Junior (pt-br):** o piso -2 existe — teu FIEHONJA é jogável:
 planície submersa, canal azul com coral laranja (tua assinatura, agora
 parede de verdade), 5 guardiões + minions de emboscada novos que pagam
