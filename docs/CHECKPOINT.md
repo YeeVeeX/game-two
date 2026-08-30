@@ -7,7 +7,7 @@ CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
 
-CLAIMED: none — T5 SHIPPED (s121). Next: T6b (floor -2 content, spark staged — owner content-priority) or T6 (B4 knob); claim at execution start.
+CLAIMED: T6b — hub seat (Gabriel's machine), 2026-08-29. Floor -2 content: district_two retheme (pick: v3 FIEHONJA, recorded lean), new kinds + kill_xp rows, cap 13. Spark: drafts/_v20-t6b-floor2-spark-20260829.md.
 
 ## 2026-08-29 session 121 — v20 T5 SHIPPED: second wall class (wall_inner) — the lane-D engine key; T6b content spark STAGED (owner ruling executed)
 
