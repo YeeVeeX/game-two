@@ -1,5 +1,5 @@
 # v20 T6b: floor2_run authoring tuner — waypoint-corrected generation on the
-# FIEHONJA floor (tune_floor1_run.rb v2 pattern). Route: entry pocket -> open
+# v3 floor (tune_floor1_run.rb v2 pattern). Route: entry pocket -> open
 # plain east (lurker packs engage on the way) -> F2 main ford under its warden
 # -> east plateau -> F4 reef gap -> the arena approach (coral ring + wardens
 # on camera). Deterministic; emits harness/scripts/floor2_run.json.
@@ -93,9 +93,13 @@ script = {
   "out_dir" => "captures/floor2_run",
   "start" => { "zone" => "district_two", "progression" => { "level" => 12, "xp" => 0 } },
   "hold" => HOLDS.reject { |_, v| v.empty? }.transform_values(&:sort),
-  "captures" => [0, 150, 320, 480, 640, 820, 1000, 1200, 1450, finish - 1].uniq.sort,
+  # capture list re-cut to the EVENT frames after tuning (banner / plain /
+  # roadside kills / arena kills / advance / warden windup+kill / east
+  # road / final); manifest pins under the deterministic 13 kills /
+  # 3 fights (double-replay margin, floor1_run precedent).
+  "captures" => [0, 150, 480, 830, 1290, 1520, 2020, 2100, 2680, finish - 1].uniq.sort,
   "run_until" => finish,
-  "manifest" => { "actor_died" => 2, "fight_resolved" => 1 }
+  "manifest" => { "actor_died" => 8, "fight_resolved" => 2 }
 }
 File.write(PATH, JSON.pretty_generate(script) + "\n")
 puts "WROTE #{PATH} run_until=#{finish} kills=#{kills.length}"

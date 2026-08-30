@@ -1,0 +1,19 @@
+{
+ "verdict": "PASS",
+ "blocking": [],
+ "advisories": [
+  "Record §8 claim 'grep confirms no lurker/warden string in src/' is contradicted by the diff itself — src/app/renderer.rb KIT_BODY gains :lurker and :warden entries. The substantive law holds (spawn/award path is pure data: boot test counts 31/6 through add_human's kits fetch, Progression#award_kill refuses rowless kinds, and the renderer entries are presentation-only and separately declared in §4), but the grep claim as written is false; rescope it to src/game/ or 'no sim-path seams' in the docs pass.",
+  "Tool/artifact drift: committed tools/tune_floor2_run.rb does not reproduce the committed harness/scripts/floor2_run.json — the tuner emits captures [0,150,320,480,640,820,1000,1200,1450,finish-1] and manifest {actor_died:2, fight_resolved:1} while the shipped wall member carries [0,150,480,830,1290,1520,2020,2100,2680,3249] and {8,2}. Re-running the tuner as-committed would overwrite a gated wall member with a different script; note the hand-finalization in the tool header or align its emission.",
+  "Evidence-count inconsistency: record §7 says 'A/B/C 1343 runs' each, checkpoint says 'suite 1343→1344 runs green per commit'; the diff adds two new test methods (progression_data_test), so both can't be right — reconcile in the docs commit.",
+  "Record structure nits: duplicate queue-lines section ('## 16. Queue lines' immediately followed by a second '## 15. Queue lines') and §11 points dispositions at §14 while dispositions live at §15 — renumber at close.",
+  "Placeholder-law edge: 'FIEHONJA' (fiction-flavored concept name) appears in code comments of tools/build_district_two_v3.py and tools/tune_floor2_run.rb. Player surfaces and identifiers are clean (ZONE 3, lurker/warden, sand), and repo precedent tolerates concept codenames in docs/drafts, but the law's letter says no fiction names in code/docs — consider neutralizing to 'v3' in tool comments.",
+  "Open item at ship: full wall sweep verdicts pending (tmp/t6b/wall_sweep.log, T1/T5 same-day-follow-up precedent, named in §9) — the Rule 2 record for this ticket closes only when those verdicts bank clean.",
+  "Minor check-wording risk: floor2_channel_reads calls ford lanes 'sand-colored' but fords are dirt-type tiles rendering (50,58,74) blue-grey (the tan tiles are BANK→sand); the permissive clause makes it non-binding today, but a literal-minded critic could flake on it later. Also gate_checks.json now ships without a trailing newline."
+ ],
+ "meta": {
+  "ticket": "v20-t6b",
+  "date": "2026-08-29",
+  "reviewer": "headless scrubbed pi (read-only brief tmp/t6b/review_brief.txt = diff ecd0713..d31f814 excl. 2 emission bodies + record + laws)",
+  "dispositions": "record section 15"
+ }
+}

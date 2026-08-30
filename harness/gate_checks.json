@@ -299,7 +299,7 @@
     },
     {
       "id": "floor2_channel_reads",
-      "check": "Where ZONE 3 frames show the deep channel (a band of vivid deep-blue tiles): the channel's margins carry ORANGE coral blocks - two visibly DIFFERENT wall colors coexist in the same frame (rust-brown boundary rock and orange coral), both solid square blocking tiles - and no body ever stands ON a deep-blue channel tile in any frame (the water is a void, not a floor). Sand-colored ford lanes may interrupt the channel; bodies there are lawful. If no ZONE 3 channel frame is present, pass with why='not exercised by this script'."
+      "check": "Where ZONE 3 frames show the deep channel (a band of vivid deep-blue tiles): the channel's margins carry ORANGE coral blocks - two visibly DIFFERENT wall colors coexist in the same frame (rust-brown boundary rock and orange coral), both solid square blocking tiles - and no body ever stands ON a deep-blue channel tile in any frame (the water is a void, not a floor). Lighter walkable lane tiles (fords) may interrupt the channel; bodies there are lawful. If no ZONE 3 channel frame is present, pass with why='not exercised by this script'."
     },
     {
       "id": "floor2_fauna_reads",

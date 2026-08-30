@@ -1,4 +1,4 @@
-# v20 T6b — transcription builder: Junior's FLOOR -2 v3 "FIEHONJA" concept ->
+# v20 T6b — transcription builder: Junior's FLOOR -2 v3 concept ->
 # district_two level spliced into authoring/pilot.ldtk + sidecar.
 # Transcription, not invention: the GRID is reproduced by porting Junior's own
 # deterministic generator (drafts/_refs/junior-floor2-v3-fiehonja-gen.py,

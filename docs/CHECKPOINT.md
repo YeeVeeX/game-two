@@ -47,7 +47,8 @@ safe_boundary = the one traversal member (census + byte-compare),
 versioned re-gate PASS · god-view probes **16/16** (3 new district_two
 probes: coral class / water / sealed door) + critique PASS · soak
 ZONES=district_two EP1 PASS chain intact · perf p95 0.420ms · suite
-1343→1344 runs green per commit. Wall sweep detached (T5 advisory 3),
+green per commit (claim 1342 · A/B/C 1343 · evidence 1344). Wall sweep
+detached (T5 advisory 3),
 verdicts in the same-day follow-up.
 
 **Delta clock (NINETEENTH):** + floor -2 fauna/kill_xp/cap 13 join
