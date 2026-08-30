@@ -3,7 +3,7 @@
   "checks": [
     {
       "id": "map_all_zones_present",
-      "check": "Thirteen labeled zone panels are present (ZONE 1 through ZONE 8, HUB 1, BASEMENT 1, BASEMENT 2, DUNGEON 1, TEST 1), each showing a full tile grid distinct from the dark backing - no panel is empty, cropped, or duplicated."
+      "check": "Fourteen labeled zone panels are present (ZONE 1 through ZONE 8, HUB 1, BASEMENT 1, BASEMENT 2, DUNGEON 1, TEST 1, TEST 2), each showing a full tile grid distinct from the dark backing - no panel is empty, cropped, or duplicated."
     },
     {
       "id": "map_zone_grids_read",
