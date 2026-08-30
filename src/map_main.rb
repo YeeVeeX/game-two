@@ -163,7 +163,24 @@ module App
       probe "zone_8 free return reads gate-gold (walkable law)",
             px.call(ex + 63 * App::MapArtifact::SCALE + 2,
                     ey + 19 * App::MapArtifact::SCALE + 2) == z8pal[:transition]
-      puts "MAP PROBES PASS (13/13)"
+      # 6. v20 T6b floor -2: the retheme's own landmarks — the coral margin
+      # renders the SECOND wall class (wall_inner, never :wall), the channel
+      # keeps the water look, and the save-pinned door [42,13] reads SEALED
+      # under probe facts (no district_two breach staged — the live chain's
+      # tuple stays honest).
+      d2 = l[:panels].find { |p| p[:name] == "district_two" }
+      d2x, d2y = d2[:origin]
+      d2pal = world.zone_maps.fetch("district_two").palette
+      probe "district_two coral margin reads the second wall class",
+            px.call(d2x + 43 * App::MapArtifact::SCALE + 2,
+                    d2y + 13 * App::MapArtifact::SCALE + 2) == d2pal[:wall_inner]
+      probe "district_two channel reads the water look",
+            px.call(d2x + 43 * App::MapArtifact::SCALE + 2,
+                    d2y + 17 * App::MapArtifact::SCALE + 2) == d2pal[:water]
+      probe "district_two save-pinned door reads sealed",
+            px.call(d2x + 42 * App::MapArtifact::SCALE + 2,
+                    d2y + 13 * App::MapArtifact::SCALE + 2) == [slab.red, slab.green, slab.blue]
+      puts "MAP PROBES PASS (16/16)"
     end
 
     def probe(name, ok)

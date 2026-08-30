@@ -70,27 +70,28 @@ class DistrictTwoTest < Minitest::Test
   def test_the_keyward_declares_its_shape
     map = Core::TileMap.new(DATA["zones/district_two"])
     assert_equal "ZONE 3", map.display_name
-    assert_equal 44, map.cols
-    assert_equal 26, map.rows
+    assert_equal 88, map.cols
+    assert_equal 44, map.rows
+    assert_equal(-2, map.floor, "the descent's second step (v20 T6b)")
     refute map.hub, "new ground is not a refuge"
-    assert_equal [1, 13], map.gradient_anchor
+    assert_equal [1, 22], map.gradient_anchor
   end
 
   def test_the_keyward_seeds_a_denser_field
     enter_district_two!
     kits = world.humans.map(&:kit_name).tally
-    assert_equal 16, kits[:rusher]
-    assert_equal 4, kits[:rusher_hater]
+    assert_equal 31, kits[:lurker], "arena minions (Junior's v3 packs)"
+    assert_equal 6, kits[:warden], "5 heart guardians + the ford guardian"
   end
 
   def test_the_keyward_band_map_is_richer
     enter_district_two!
-    assert_equal 0, world.send(:gradient_band, [2, 13])
-    assert_equal 1, world.send(:gradient_band, [20, 13])
-    assert_equal 2, world.send(:gradient_band, [42, 13])
-    assert_in_delta 2.0, world.send(:gradient_multiplier, [2, 13])
-    assert_in_delta 2.5, world.send(:gradient_multiplier, [20, 13])
-    assert_in_delta 3.0, world.send(:gradient_multiplier, [42, 13])
+    assert_equal 0, world.send(:gradient_band, [2, 22])
+    assert_equal 1, world.send(:gradient_band, [44, 22])
+    assert_equal 2, world.send(:gradient_band, [67, 33])
+    assert_in_delta 2.0, world.send(:gradient_multiplier, [2, 22])
+    assert_in_delta 2.5, world.send(:gradient_multiplier, [44, 22])
+    assert_in_delta 3.0, world.send(:gradient_multiplier, [67, 33])
   end
 
   # --- the second seal (the stretch) ----------------------------------------

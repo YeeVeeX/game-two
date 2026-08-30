@@ -191,7 +191,7 @@
     },
     {
       "id": "new_ground_reads",
-      "check": "When a camp ('HUB 1') or ZONE 3 (district_two) banner frame is on camera, the banner text is legible and the zone reads distinct from ZONE 2 (district) at a glance: the camp reads safe, station-dense, and warm (warm-gray walls, ember braziers at the wall clusters); ZONE 3 reads cold slate-and-indigo with a denser hostile field. If neither zone appears in this replay, pass with why='not exercised by this script'."
+      "check": "When a camp ('HUB 1') or ZONE 3 (district_two) banner frame is on camera, the banner text is legible and the zone reads distinct from ZONE 2 (district) at a glance: the camp reads safe, station-dense, and warm (warm-gray walls, ember braziers at the wall clusters); ZONE 3 reads as a SUBMERGED open plain - dark blue-grey seabed under rust-brown boundary rock, with a vivid deep-blue channel and orange coral visible wherever the camera nears the water. If neither zone appears in this replay, pass with why='not exercised by this script'."
     },
     {
       "id": "whirlwind_reads",
@@ -211,7 +211,7 @@
     },
     {
       "id": "low_quay_reads",
-      "check": "When a ZONE 5 (low_quay) frame is on camera, the zone reads as a drowned under-harbor distinct at a glance from ZONE 3 (cold slate-and-indigo blocks) and ZONE 2 (dark canyon halves split by a void chasm): green-black floor with sparse ripple marks and drowned stains, a central impassable channel band — a dry stone bed crossed by two bridge gaps, its lips picked out by pale edge highlights — and a pale drowned-green colonnade; the banner 'ZONE 5' is legible when shown. If the replay never enters ZONE 5, pass with why='not exercised by this script'."
+      "check": "When a ZONE 5 (low_quay) frame is on camera, the zone reads as a drowned under-harbor distinct at a glance from ZONE 3 (submerged blue-grey plain with orange coral) and ZONE 2 (dark canyon halves split by a void chasm): green-black floor with sparse ripple marks and drowned stains, a central impassable channel band — a dry stone bed crossed by two bridge gaps, its lips picked out by pale edge highlights — and a pale drowned-green colonnade; the banner 'ZONE 5' is legible when shown. If the replay never enters ZONE 5, pass with why='not exercised by this script'."
     },
     {
       "id": "challenger_tell_reads",
@@ -296,6 +296,18 @@
     {
       "id": "wall_class_reads",
       "check": "Where frames show the compact two-chamber fixture zone TEST 2 (a small single-screen room grid): its outer boundary walls read as one very dark near-black solid color while interior chamber wall segments read clearly RED - two visibly DIFFERENT wall colors coexist in the SAME frame, both drawn as solid square blocking tiles of identical size (neither reads as floor tint, decor, or a station fixture). If this replay never shows the TEST 2 fixture zone, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "floor2_channel_reads",
+      "check": "Where ZONE 3 frames show the deep channel (a band of vivid deep-blue tiles): the channel's margins carry ORANGE coral blocks - two visibly DIFFERENT wall colors coexist in the same frame (rust-brown boundary rock and orange coral), both solid square blocking tiles - and no body ever stands ON a deep-blue channel tile in any frame (the water is a void, not a floor). Sand-colored ford lanes may interrupt the channel; bodies there are lawful. If no ZONE 3 channel frame is present, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "floor2_fauna_reads",
+      "check": "Where ZONE 3 (district_two) combat frames are present: hostile bodies read in TWO new tones distinct from the pale-bone humans of other zones - a pale green-tinted minion family (several per fight) and, near the channel crossing, a single larger-presence PINK body (the guardian; it moves visibly slower and telegraphs long). At least one frame shows a green-tinted hostile adjacent to a pack body mid-fight. If no ZONE 3 combat frame is present, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "floor2_plain_reads",
+      "check": "Where ZONE 3 (district_two) frames show open ground away from the channel: the floor reads as a dark blue-grey submerged plain with visible green algae patches (walkable, textured with sparse ripple motif marks) and occasional tan bank clusters - clearly distinct at a glance from ZONE 2's warm dark canyon and from HUB 1's warm gray. The ZONE 3 banner is legible when shown. If no such frame is present, pass with why='not exercised by this script'."
     }
   ]
 }

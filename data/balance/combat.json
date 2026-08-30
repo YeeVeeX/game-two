@@ -231,7 +231,7 @@
    "max_hp": 55,
    "step_frames": 15,
    "aggro_tiles": 6,
-   "respawn_frames": 300,
+   "respawn_frames": 1800,
    "drop_table": [
     1,
     1,
@@ -254,7 +254,7 @@
    "max_hp": 110,
    "step_frames": 24,
    "aggro_tiles": 7,
-   "respawn_frames": 300,
+   "respawn_frames": 2400,
    "drop_table": [
     2,
     2,

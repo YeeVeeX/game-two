@@ -514,9 +514,9 @@ class TileMapTest < Minitest::Test
     reg = Core::TileRegistry.new(data["tiles"])
     zones = data.keys.grep(%r{\Azones/})
     assert_equal 14, zones.length
-    v1 = %w[zones/camp zones/district_two zones/low_quay zones/slow_door]
+    v1 = %w[zones/camp zones/low_quay zones/slow_door]
     pilot = %w[zones/zone_7 zones/basement_1 zones/basement_2 zones/dungeon_1
-               zones/district]
+               zones/district zones/district_two]
     zones.each do |key|
       map = Core::TileMap.new(data[key])
       reg.validate_map!(map)
@@ -561,6 +561,9 @@ class TileMapTest < Minitest::Test
     %w[zones/basement_1 zones/basement_2 zones/dungeon_1 zones/district].each do |key|
       assert_equal(-1, Core::TileMap.new(data[key]).floor, "#{key} sits on FLOOR -1")
     end
+    # v20 T6b: the descent's second step — ZONE 3 is FLOOR -2 (data honesty).
+    assert_equal(-2, Core::TileMap.new(data["zones/district_two"]).floor,
+                 "zones/district_two sits on FLOOR -2")
     refute_empty Core::TileMap.new(data["zones/dungeon_1"]).enemy_spawns,
                  "DUNGEON 1 authors conservative combat"
   end

@@ -44,6 +44,6 @@
   ],
   "transitions": [
     { "at": [0, 5], "to": "district", "spawn": [11, 87], "type": "stairs_down" },
-    { "at": [19, 5], "to": "district_two", "spawn": [1, 13] }
+    { "at": [19, 5], "to": "district_two", "spawn": [1, 22] }
   ]
 }
