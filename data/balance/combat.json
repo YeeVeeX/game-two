@@ -272,6 +272,31 @@
    },
    "knockback_frames_per_tile": 5,
    "interrupt_on_hit": false
+  },
+  "stinger": {
+   "max_hp": 40,
+   "step_frames": 14,
+   "aggro_tiles": 8,
+   "respawn_frames": 1800,
+   "drop_table": [
+    1,
+    2,
+    2
+   ],
+   "attack": {
+    "damage": 14,
+    "windup_frames": 22,
+    "active_frames": 2,
+    "recovery_frames": 8,
+    "exhaust_frames": 78,
+    "arc": "projectile",
+    "range_tiles": 5,
+    "projectile_frames_per_tile": 5,
+    "knockback_tiles": 0,
+    "knockback_frames_per_tile": 5
+   },
+   "knockback_frames_per_tile": 5,
+   "interrupt_on_hit": true
   }
  },
  "feel": {

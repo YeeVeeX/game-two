@@ -44,6 +44,45 @@ class ProgressionDataTest < Minitest::Test
     assert_operator warden.dig(:attack, :windup_frames), :>, 20, "warden telegraphs long"
   end
 
+  # v20 T7 (L6): floor -3's minion continues the gradient - stinger 65
+  # sits above the -2 minion (lurker 40) and below the carried guardian
+  # (warden 90); the challenger's elite air stays clean (no re-price, the
+  # compress default). The kit is the game's first RANGED hostile: shape
+  # asserts pin the projectile contract, and the hit-and-run split lives
+  # in the numbers (fragile, interrupt-on-hit, zero knockback, sub-lobber
+  # range so the player's own projectile kit out-reaches it).
+  def test_floor3_kind_pays_deeper_and_ships_the_ranged_contract
+    xp = DATA["balance/progression"][:kill_xp]
+    assert_operator xp[:stinger], :>, xp[:lurker], "floor -3 minion out-pays floor -2's"
+    assert_operator xp[:warden], :>, xp[:stinger], "the carried guardian keeps its premium"
+    assert_operator xp[:challenger], :>, xp[:warden], "elite bounty untouched (no silent re-price)"
+    kit = DATA["balance/combat"][:kits][:stinger]
+    refute_nil kit, "combat.json ships no stinger kit"
+    %i[max_hp step_frames aggro_tiles respawn_frames drop_table attack].each do |key|
+      refute_nil kit[key], "stinger kit missing #{key}"
+    end
+    atk = kit[:attack]
+    assert_equal "projectile", atk[:arc], "the abyss minion is the first ranged hostile"
+    refute_nil atk[:range_tiles], "projectile kits declare range_tiles"
+    refute_nil atk[:projectile_frames_per_tile], "projectile kits declare shot speed"
+    lobber = DATA["balance/combat"][:kits][:lobber][:attack]
+    assert_operator atk[:range_tiles], :<, lobber[:range_tiles],
+                    "the player's lobber out-ranges the stinger (counter-snipe exists)"
+    assert_operator atk[:projectile_frames_per_tile], :>, lobber[:projectile_frames_per_tile],
+                    "stinger shots fly slower than the player's (dodgeable)"
+    assert_equal 0, atk[:knockback_tiles], "ranged knockback is stunlock misery - forbidden"
+    assert kit[:interrupt_on_hit], "melee cancels the sting (weak up close - the hit-and-run contract)"
+    assert_operator kit[:max_hp], :<, DATA["balance/combat"][:kits][:lurker][:max_hp],
+                    "reaching the stinger is decisive: fragile below the ambusher"
+  end
+
+  # v20 T7: shipped numbers through the real award path (T6b pattern).
+  def test_floor3_kill_award_pays_through_the_shipped_file
+    p = Game::Progression.new(config: DATA["balance/progression"])
+    p.award_kill(:stinger)
+    assert_equal 65, p.kills_xp, "stinger pays 65"
+  end
+
   # v20 T6b: the shipped file pays the shipped numbers through the real
   # award path (award_kill refuses unknown kinds — the engine's own law).
   def test_floor2_kill_awards_pay_through_the_shipped_file

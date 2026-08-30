@@ -23,7 +23,11 @@ module App
       # dark seabed AND inside green algae fields); warden = jellyfish
       # pink (Junior's medusa marker family, no other body owns pink).
       lurker:       Gosu::Color.new(255, 168, 205, 140),
-      warden:       Gosu::Color.new(255, 235, 150, 210)
+      warden:       Gosu::Color.new(255, 235, 150, 210),
+      # v20 T7 floor -3 fauna: stinger = pale translucent cyan (no other
+      # body owns cyan; jellyfish family beside the warden's pink) - the
+      # ranged watcher reads at a glance against the near-black abyss.
+      stinger:      Gosu::Color.new(255, 150, 215, 230)
     ).freeze
 
     POSSESSED_RING = Gosu::Color.new(255, 255, 255, 255)
