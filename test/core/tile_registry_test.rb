@@ -267,6 +267,27 @@ class TileRegistryTest < Minitest::Test
     assert_match(/"grass"/, e.message)
   end
 
+  # v20 T5 (review advisory, executed): a tile_types override may not
+  # disagree with the grid-char blocking law in either direction.
+  def test_validate_map_refuses_wall_char_remapped_to_walkable_type
+    reg = Core::TileRegistry.new(v1_grass)
+    map = map_for(tiles: ["#####", "#...#", "#####"], palette: BASE_PALETTE.dup,
+                  tile_types: { "#" => "floor" })
+    e = assert_raises(Core::TileMap::BadMap) { reg.validate_map!(map) }
+    assert_match(/is IN TileMap's wall-char set/, e.message)
+  end
+
+  def test_validate_map_refuses_wall_type_on_walkable_char
+    cfg = v1_grass
+    cfg["types"]["wall_inner"] = { "char" => "%", "int_grid" => 7, "render" => "wall_inner",
+                                   "footstep" => "stone", "passability" => "wall" }
+    reg = Core::TileRegistry.new(cfg)
+    map = map_for(tiles: ["#####", "#o..#", "#####"], palette: BASE_PALETTE.merge(wall_inner: [9, 9, 9]),
+                  tile_types: { "o" => "wall_inner" })
+    e = assert_raises(Core::TileMap::BadMap) { reg.validate_map!(map) }
+    assert_match(/is NOT in TileMap's wall-char set/, e.message)
+  end
+
   def test_validate_map_refuses_used_char_missing_variant_ref
     reg = Core::TileRegistry.new(v1_grass)
     palette = BASE_PALETTE.merge(grass: [0, 5, 0], grass_b: [0, 6, 0]) # grass_c absent

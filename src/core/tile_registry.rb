@@ -76,6 +76,20 @@ module Core
           raise Core::TileMap::BadMap,
                 "zone #{map.name}: tile char #{ch.inspect} maps to #{type_id.inspect}: unknown tile type"
         end
+        # v20 T5 (review advisory, executed): a zone's tile_types override
+        # must not LIE about blocking — the grid-char set decides passability
+        # (TileMap law), so a WALL_CHARS char remapped onto a walkable type
+        # would render floor-ish yet block, and a passability-"wall" type on
+        # a non-blocking char would read wall yet walk. Both refuse NAMED.
+        wall_char = Core::TileMap::WALL_CHARS.include?(ch)
+        wall_type = spec["passability"] == "wall"
+        if wall_char != wall_type
+          raise Core::TileMap::BadMap,
+                "zone #{map.name}: tile char #{ch.inspect} maps to #{type_id.inspect} " \
+                "(passability #{spec['passability'].inspect}) but #{ch.inspect} is " \
+                "#{wall_char ? 'IN' : 'NOT in'} TileMap's wall-char set — blocking is " \
+                "the grid-char law and the mapping may not disagree with it"
+        end
         ([spec["render"]] + (spec["variants"] || [])).each do |ref|
           next if map.palette.key?(ref.to_sym)
           raise Core::TileMap::BadMap,
