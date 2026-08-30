@@ -1,0 +1,14 @@
+{
+ "scenario": "world",
+ "seed": 6,
+ "width": 960,
+ "height": 540,
+ "out_dir": "captures/wall_fixture_walk",
+ "start": { "zone": "wall_fixture" },
+ "hold": {
+  "right": [[0, 360]],
+  "down": [[384, 404]]
+ },
+ "captures": [90, 180, 270, 360, 424],
+ "run_until": 440
+}

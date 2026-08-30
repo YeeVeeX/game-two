@@ -292,6 +292,10 @@
     {
       "id": "totem_pulse_reads",
       "check": "Where consecutive frames dwell beside the bright green totem fixture mid-bridge (a green station tile on wood planks over dark water): at least one such frame shows a vivid green square ring expanding around that fixture (the heal pulse), clearly wider than the fixture tile and distinct in color from the rust taunt ring family. If no frame shows the pack dwelling beside the green mid-bridge fixture, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "wall_class_reads",
+      "check": "Where frames show the compact two-chamber fixture zone TEST 2 (a small single-screen room grid): its outer boundary walls read as one very dark near-black solid color while interior chamber wall segments read clearly RED - two visibly DIFFERENT wall colors coexist in the SAME frame, both drawn as solid square blocking tiles of identical size (neither reads as floor tint, decor, or a station fixture). If this replay never shows the TEST 2 fixture zone, pass with why='not exercised by this script'."
     }
   ]
 }
