@@ -7,7 +7,66 @@ CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
 
-CLAIMED: T5 (second wall class) — Gabriel's hub seat, 2026-08-29 (s121, in progress). Lane-D content spark stages at T5 close per owner content-priority ruling (s120).
+CLAIMED: none — T5 SHIPPED (s121). Next: T6b (floor -2 content, spark staged — owner content-priority) or T6 (B4 knob); claim at execution start.
+
+## 2026-08-29 session 121 — v20 T5 SHIPPED: second wall class (wall_inner) — the lane-D engine key; T6b content spark STAGED (owner ruling executed)
+
+**T5 DONE (CLAIMED `c1fc4dd` → engine `1d00d12` · script+gate row
+`518eee9` · evidence `5d6e575`; record:
+`drafts/_v20-t5-wallclass-20260829.md`).** `wall_inner` (char `%`,
+int_grid 7, own `wall_inner` palette ref) joins data/tiles.json —
+Junior's v3 grammar (red inner walls + near-black bounds COEXISTING)
+now renders. Blocking = frozen `TileMap::WALL_CHARS` set (sim-inert:
+no live grid carries `%`; both chars block identically); registry
+wall law binds passability↔wall-char-set BOTH ways; renderer static
+wall pass + god-view cell_rgb resolve each wall tile's OWN render-ref
+through shared `TileVariants.specs/wall_ref` (no second color
+source); zones using `%` without the palette ref refuse NAMED at the
+IMPORTER DOOR (validate_emitted! — proven stronger than load-time)
+and at zone load (validate_map!). Importer mapping = pure data
+(char_for_int_grid): **all five pilot emissions byte-identical
+pre/post (md5 table in record §3/§4), pilot pin green.**
+
+**Fixture + gates:** `wall_fixture` (TEST 2, inbound-inert,
+grass_fixture precedent) stages red chambers beside near-black bounds;
+wall member `wall_fixture_walk.json` + 74th shared row
+`wall_class_reads` — gate PASS with the row read AFFIRMATIVELY on the
+strong member ("near-black outer boundary walls and clearly red
+interior chamber blocks in the same frame"); canaries world_loop +
+floor1_run rc=0 with script-declared frames 10/10 byte-identical vs
+pre-change baselines; god-view re-gated (probes 13/13 + critique PASS;
+map_checks census Thirteen→Fourteen (+TEST 2)); `rake perf` p95
+0.428ms; suite 1340 runs green (census pins 13→14). Locale:
+`zone.wall_fixture.display_name` = TEST 2 in en/es/pt-br
+(locale-invariant placeholder). **Delta clock: T5 accumulates NOTHING**
+(presentation + data plumbing; zero sim numbers moved).
+
+**OWNER RULING EXECUTED (s120 content priority):** lane-D first
+content ticket spark STAGED —
+`drafts/_v20-t6b-floor2-spark-20260829.md`: floor -2 (district_two
+88x44 retheme from Junior's three approved candidates, pick-or-pieces
+= peer call), new creature kinds with OWN kill_xp rows (deep pays
+more, L6), cap 12→13 riding the floor (L5), s113 adversarial rows
+binding (water wall-ringed-or-cosmetic; perf before wire-in), T1
+transcription pipeline. **The very next session ships content.**
+
+**Open for the hub (not this ticket's scope):** unprocessed gamesmith
+v2 mail in the inbox (owner-ratified depth plan + grid-blending asks,
+RECEIPT requested) — needs a hub-session pass; also an informational
+game-two-assets v33 re-pin note (nothing owed).
+
+**Para Junior (pt-br):** a segunda classe de parede existe — o motor
+já desenha teus pisos profundos (parede interna vermelha + borda
+quase-preta juntas, como no teu v3). O próximo ticket É conteúdo: teu
+piso -2 (as três versões que mandaste — a escolha é nossa), inimigos
+novos que pagam mais, cap 13. Spark pronto:
+`drafts/_v20-t6b-floor2-spark-20260829.md`.
+
+**Para Gabriel (es-CR):** la segunda clase de pared ya existe — el
+motor ya puede dibujar los pisos profundos de Junior; el próximo
+ticket ES contenido (piso -2, enemigos nuevos, cap 13). Tu ruling de
+prioridad de contenido quedó ejecutado: el spark está listo y el
+próximo asiento que abra sesión lo construye.
 
 ## 2026-08-29 session 120 — v20 T4 SHIPPED: the heal totem lives on floor -1; L10 extraction executed (world.rb 1769→1712); NINETEENTH delta clock RUNNING
 
