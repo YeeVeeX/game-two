@@ -13,10 +13,13 @@ module Core
   # `hooks` stays a reserved key name (D7 hazard/spawn_affinity) — its
   # presence refuses NAMED until its gated post-verdict cycle lands.
   #
-  # v0 wall law: TileMap#passable? stays the '#' check (byte-identical sim
-  # for the live world). The registry therefore ENFORCES that '#' and
-  # passability "wall" imply each other — rewiring passable? through the
-  # registry is a sim-visible change that ships gated, not here.
+  # v0 wall law (generalized by v20 T5): TileMap#passable? reads the frozen
+  # TileMap::WALL_CHARS set — blocking is a grid-char fact, never a registry
+  # lookup. The registry therefore ENFORCES that WALL_CHARS membership and
+  # passability "wall" imply each other — a wall type whose char TileMap
+  # would not block (or a walkable type on a blocking char) refuses NAMED.
+  # Rewiring passable? through the registry stays a sim-visible change that
+  # ships gated, not here.
   class TileRegistry
     class BadRegistry < StandardError; end
 
@@ -24,7 +27,7 @@ module Core
     OPTIONAL_TYPE_KEYS = %w[variants].freeze
     RESERVED_TYPE_KEYS = %w[hooks].freeze
     PASSABILITIES = %w[wall floor].freeze
-    WALL_CHAR = "#".freeze
+    WALL_CHARS = Core::TileMap::WALL_CHARS
 
     attr_reader :types
 
@@ -154,12 +157,14 @@ module Core
 
     def validate_wall_law!
       @types.each do |id, t|
-        if t["passability"] == "wall" && t["char"] != WALL_CHAR
-          raise BadRegistry, "tile type #{id}: passability \"wall\" requires char \"#\" in v0 " \
-                             "(TileMap's wall law; rewiring is a gated sim change)"
+        if t["passability"] == "wall" && !WALL_CHARS.include?(t["char"])
+          raise BadRegistry, "tile type #{id}: passability \"wall\" requires a char in " \
+                             "#{WALL_CHARS.inspect} (TileMap's wall-char set; rewiring " \
+                             "passable? is a gated sim change)"
         end
-        if t["char"] == WALL_CHAR && t["passability"] != "wall"
-          raise BadRegistry, "tile type #{id}: char \"#\" requires passability \"wall\" in v0"
+        if WALL_CHARS.include?(t["char"]) && t["passability"] != "wall"
+          raise BadRegistry, "tile type #{id}: char #{t['char'].inspect} is in TileMap's " \
+                             "wall-char set and requires passability \"wall\""
         end
       end
     end

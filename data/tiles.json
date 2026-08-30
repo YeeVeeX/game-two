@@ -42,6 +42,13 @@
       "render": "water",
       "footstep": "water",
       "passability": "floor"
+    },
+    "wall_inner": {
+      "char": "%",
+      "int_grid": 7,
+      "render": "wall_inner",
+      "footstep": "stone",
+      "passability": "wall"
     }
   }
 }

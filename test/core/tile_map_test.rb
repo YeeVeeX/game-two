@@ -30,6 +30,23 @@ class TileMapTest < Minitest::Test
     assert_empty Core::TileMap.new(base_cfg).stations
   end
 
+  # v20 T5 (foundation L11): the second wall char blocks EXACTLY like '#'
+  # — one wall class, two render identities. Blocking is the frozen
+  # WALL_CHARS set, never the registry.
+  def test_percent_char_blocks_like_hash
+    map = Core::TileMap.new(base_cfg.merge(tiles: ["#####", "#...#", "#..%#", "#...#", "#####"]))
+    assert map.wall?(3, 2)
+    refute map.passable?(3, 2)
+    assert map.passable?(2, 2)
+    assert_equal ["#", "%"], Core::TileMap::WALL_CHARS.sort
+  end
+
+  def test_spawn_on_percent_wall_refuses
+    cfg = base_cfg.merge(tiles: ["#####", "#%..#", "#...#", "#...#", "#####"], pack_spawn: [[1, 1], [2, 1], [3, 1]])
+    e = assert_raises(Core::TileMap::BadMap) { Core::TileMap.new(cfg) }
+    assert_match(/pack_spawn \[1, 1\] is not passable/, e.message)
+  end
+
   # v13 i18n: the renderer keys zone strings off the INTERNAL zone name
   # ("zone.<name>.display_name"); display_name stays the canonical EN text.
   def test_name_exposed_for_locale_keys
@@ -496,7 +513,7 @@ class TileMapTest < Minitest::Test
     data = Core::DataStore.new("data")
     reg = Core::TileRegistry.new(data["tiles"])
     zones = data.keys.grep(%r{\Azones/})
-    assert_equal 13, zones.length
+    assert_equal 14, zones.length
     v1 = %w[zones/camp zones/district_two zones/low_quay zones/slow_door]
     pilot = %w[zones/zone_7 zones/basement_1 zones/basement_2 zones/dungeon_1
                zones/district]

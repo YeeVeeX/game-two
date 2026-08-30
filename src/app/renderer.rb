@@ -429,9 +429,15 @@ module App
           [tx * ts, ty * ts, ts, ts, ref]
         end
         walls = []
+        wall_specs = App::TileVariants.specs(map, world.tile_registry)
         map.rows.times do |ty|
           map.cols.times do |tx|
-            walls << [tx * ts, ty * ts, ts, ts, :wall] if map.wall?(tx, ty)
+            next unless map.wall?(tx, ty)
+            # v20 T5: walls draw by the tile's OWN render-ref (wall vs
+            # wall_inner), not the :wall literal — '#' still resolves :wall,
+            # so every existing zone's runs stay byte-identical.
+            walls << [tx * ts, ty * ts, ts, ts,
+                      App::TileVariants.wall_ref(wall_specs, map, tx, ty)]
           end
         end
         motif, = identity_rects(map)

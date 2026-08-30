@@ -5,7 +5,13 @@ module Core
   class TileMap
     class BadMap < StandardError; end
 
-    WALL_CHAR = "#".freeze
+    # v20 T5 (foundation L11): the SECOND wall class. Blocking stays a pure
+    # grid-char fact — passable? reads this frozen set, never the registry
+    # (bare fixture maps keep working; the registry's wall law pins every
+    # passability:"wall" type's char INTO this set, so the two sources
+    # cannot drift). Both chars block identically: one wall CLASS, two
+    # render identities.
+    WALL_CHARS = ["#", "%"].freeze
 
     # v2 (world-builder T2): typed transitions + region intents. Absent
     # type = today's gate/breach shape — every v1 file reads unchanged.
@@ -67,7 +73,7 @@ module Core
 
     def passable?(tx, ty)
       return false if tx.negative? || ty.negative? || tx >= @cols || ty >= @rows
-      @grid[ty][tx] != WALL_CHAR
+      !WALL_CHARS.include?(@grid[ty][tx])
     end
 
     def wall?(tx, ty) = !passable?(tx, ty)

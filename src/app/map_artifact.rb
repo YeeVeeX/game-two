@@ -79,7 +79,7 @@ module App
         key = s[:type] == "bank" ? :station : :"station_#{s[:type]}"
         return map.palette[key] || map.palette[:station] || map.palette[:wall]
       end
-      return map.palette[:wall] if map.wall?(tx, ty)
+      return map.palette[wall_ref(map, world, tx, ty)] if map.wall?(tx, ty)
       ref = typed_ref(map, world, tx, ty) || :floor
       # T4: the drained-well swap rides the renderer's own condition —
       # state resolution gains no second source either.
@@ -92,6 +92,15 @@ module App
       lookup = (@typed_cache[map] ||= App::TileVariants.rects(map, world.tile_registry)
                                                        .to_h { |(x, y, ref)| [[x, y], ref] })
       lookup[[tx, ty]]
+    end
+
+    # v20 T5: wall cells resolve their OWN render-ref (wall vs wall_inner)
+    # through the SAME TileVariants derivation the renderer's wall pass
+    # draws — the no-second-color-source law, wall side.
+    def wall_ref(map, world, tx, ty)
+      @wall_specs ||= {}
+      specs = (@wall_specs[map] ||= App::TileVariants.specs(map, world.tile_registry))
+      App::TileVariants.wall_ref(specs, map, tx, ty)
     end
 
     # SEALED/OPEN stamps for every gated way — toll seals, boss

@@ -47,6 +47,21 @@ class MapArtifactTest < Minitest::Test
     assert_equal station_key, artifact.cell_rgb(w, "nest", nest, *bank)
   end
 
+  # v20 T5 (foundation L11): wall cells resolve their OWN render-ref —
+  # the god-view draws both wall classes from the zone palette, same
+  # derivation as the renderer's wall pass (no second color source).
+  def test_wall_cells_resolve_per_tile_wall_class
+    w = fresh_world
+    fixture = w.zone_maps.fetch("wall_fixture")
+    pal = DATA["zones/wall_fixture"][:palette]
+    a = artifact
+    assert_equal pal[:wall], a.cell_rgb(w, "wall_fixture", fixture, 0, 0),
+                 "boundary '#' keeps the wall color"
+    assert_equal pal[:wall_inner], a.cell_rgb(w, "wall_fixture", fixture, 23, 1),
+                 "'%' draws its own wall_inner color"
+    refute_equal pal[:wall], pal[:wall_inner], "the fixture stages two DISTINCT wall colors"
+  end
+
   # T3: typed tiles resolve through the SAME TileVariants derivation the
   # renderer uses — the god-view shows the fixture's materials (variants
   # included), while nest's footstep-only remap keeps drawing floor (the
@@ -191,8 +206,8 @@ class MapArtifactTest < Minitest::Test
 
   def test_layout_panels_every_zone_once_sorted_by_label
     l = artifact.layout(fresh_world)
-    assert_equal ["BASEMENT 1", "BASEMENT 2", "DUNGEON 1", "HUB 1", "TEST 1", "ZONE 1",
-                  "ZONE 2", "ZONE 3", "ZONE 4", "ZONE 5", "ZONE 6", "ZONE 7", "ZONE 8"],
+    assert_equal ["BASEMENT 1", "BASEMENT 2", "DUNGEON 1", "HUB 1", "TEST 1", "TEST 2",
+                  "ZONE 1", "ZONE 2", "ZONE 3", "ZONE 4", "ZONE 5", "ZONE 6", "ZONE 7", "ZONE 8"],
                  l[:panels].map { |p| p[:label] }
     assert_equal l[:panels].map { |p| p[:origin] }.uniq.length, l[:panels].length
     assert l[:width].positive? && l[:height].positive?

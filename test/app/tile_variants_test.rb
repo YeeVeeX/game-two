@@ -67,4 +67,29 @@ class TileVariantsTest < Minitest::Test
   def test_nil_registry_is_empty
     assert_empty App::TileVariants.rects(map("nest"), nil)
   end
+
+  # v20 T5 (foundation L11): walls resolve their OWN render-ref through
+  # the same specs derivation — wall_fixture is the live two-class zone.
+  def test_wall_ref_resolves_per_tile_wall_class
+    fixture = map("wall_fixture")
+    specs = App::TileVariants.specs(fixture, registry)
+    assert_equal :wall, App::TileVariants.wall_ref(specs, fixture, 0, 0),
+                 "boundary '#' keeps the :wall ref"
+    assert_equal :wall_inner, App::TileVariants.wall_ref(specs, fixture, 23, 1),
+                 "'%' resolves its own wall_inner ref"
+    assert fixture.wall?(23, 1), "the inner-wall tile still BLOCKS (one wall class)"
+  end
+
+  def test_wall_ref_falls_back_to_wall_without_registry
+    fixture = map("wall_fixture")
+    specs = App::TileVariants.specs(fixture, nil)
+    assert_equal({}, specs)
+    assert_equal :wall, App::TileVariants.wall_ref(specs, fixture, 23, 1),
+                 "registry-less fixture maps draw every wall through :wall"
+  end
+
+  def test_wall_fixture_draws_no_typed_overlays
+    assert_empty App::TileVariants.rects(map("wall_fixture"), registry),
+                 "walls never emit typed-floor rects (rects skips passability wall)"
+  end
 end

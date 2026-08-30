@@ -70,6 +70,53 @@ class ImportLdtkTest < Minitest::Test
     registry.validate_map!(map)
   end
 
+  # --- v20 T5: the second wall class rides the SAME registry door --------
+  # int_grid 7 (wall_inner) is a pure data/tiles.json addition: decode,
+  # fixpoint, and game-loader legality all hold with ZERO importer code.
+
+  def wall_inner_doc
+    d = doc
+    terrain = layer(d, "Terrain")
+    terrain["intGridCsv"][44 * 2 + 2] = 7 # plain interior floor tile [2,2], no entities
+    d
+  end
+
+  # The importer door composes the palette law: emitting '%' needs the
+  # sidecar to author its wall_inner palette ref, or import refuses NAMED
+  # (validate_emitted! — proven by the refusal test below).
+  def wall_inner_importer
+    sc = JSON.parse(JSON.generate(sidecar))
+    sc["palette"]["wall_inner"] = [158, 42, 48]
+    importer(sidecars: { "district" => sc })
+  end
+
+  def test_int_grid_seven_decodes_to_the_wall_inner_char
+    bytes = wall_inner_importer.import(wall_inner_doc).fetch("district")
+    grid = JSON.parse(bytes).fetch("tiles")
+    assert_equal "%", grid[2][2], "IntGrid 7 must emit the wall_inner glyph"
+  end
+
+  def test_wall_inner_emission_keeps_the_fixpoint_byte_stable
+    imp = wall_inner_importer
+    bytes = imp.import(wall_inner_doc).fetch("district")
+    reemitted = imp.emit(JSON.parse(bytes))
+    assert_equal bytes, reemitted, "emit(parse(emit(x))) must stay byte-identical with '%' tiles (D2)"
+  end
+
+  def test_wall_inner_emission_loads_and_blocks_through_the_game_loader
+    bytes = wall_inner_importer.import(wall_inner_doc).fetch("district")
+    map = Core::TileMap.new(JSON.parse(bytes, symbolize_names: true))
+    assert map.wall?(2, 2), "the imported wall_inner tile must BLOCK like any wall"
+    assert_equal [158, 42, 48], map.palette[:wall_inner], "the sidecar palette ref rides the emission"
+    registry.validate_map!(map)
+  end
+
+  def test_wall_inner_without_sidecar_palette_ref_refuses_at_the_importer_door
+    msg = refusal(wall_inner_doc)
+    assert_match(/emitted zone refused by the loader/, msg)
+    assert_match(/renders palette ref "wall_inner", absent/, msg)
+  end
+
   # --- D1 pin + project-shape refusals -----------------------------------
 
   def test_refuses_json_version_drift
@@ -140,9 +187,9 @@ class ImportLdtkTest < Minitest::Test
   def test_refuses_unknown_int_grid_value_with_coordinates
     d = doc
     t = layer(d, "Terrain")
-    t["intGridCsv"][0] = 7
+    t["intGridCsv"][0] = 8
     msg = refusal(d)
-    assert_match(/IntGrid value 7 at \[0,0\]/, msg)
+    assert_match(/IntGrid value 8 at \[0,0\]/, msg)
     assert_match(/deliberate data\/tiles\.json addition/, msg)
   end
 

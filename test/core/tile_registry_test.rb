@@ -19,14 +19,19 @@ class TileRegistryTest < Minitest::Test
   def test_live_registry_file_loads
     data = Core::DataStore.new("data")
     reg = Core::TileRegistry.new(data["tiles"])
-    assert_equal %w[dirt floor grass wall water wood], reg.types.keys.sort
+    assert_equal %w[dirt floor grass wall wall_inner water wood], reg.types.keys.sort
     assert_equal "wall", reg.type_for_char("#")
     assert_equal "#", reg.char_for_int_grid(1)
     assert_equal ".", reg.char_for_int_grid(2)
     assert_equal({ "#" => "wall", "." => "floor", "," => "dirt",
-                   "g" => "grass", "w" => "wood", "~" => "water" }, reg.default_char_map)
+                   "g" => "grass", "w" => "wood", "~" => "water",
+                   "%" => "wall_inner" }, reg.default_char_map)
     assert_equal %w[grass_b grass_c], reg.type("grass")["variants"]
     assert_equal %w[dirt grass stone water wood], reg.types.values.map { |t| t["footstep"] }.uniq.sort
+    # v20 T5 (L11): the second wall CLASS — same blocking, own render ref.
+    assert_equal "wall", reg.type("wall_inner")["passability"]
+    assert_equal "%", reg.char_for_int_grid(7)
+    assert_equal "wall_inner", reg.type("wall_inner")["render"]
     # T4: water WALKS in v0 ("swim" stays reserved/refused) — the well's
     # unmapped footstep_water sink key is a silent no-op until specced.
     assert_equal "floor", reg.type("water")["passability"]
@@ -165,19 +170,36 @@ class TileRegistryTest < Minitest::Test
     assert_match(/"swim" is reserved, post-verdict/, e.message)
   end
 
-  def test_wall_law_passability_wall_requires_hash_char
+  def test_wall_law_passability_wall_requires_wall_set_char
     cfg = v0
     cfg["types"]["rock"] = { "char" => "o", "int_grid" => 3, "render" => "wall",
                              "footstep" => "stone", "passability" => "wall" }
     e = assert_raises(Core::TileRegistry::BadRegistry) { Core::TileRegistry.new(cfg) }
-    assert_match(/requires char "#" in v0/, e.message)
+    assert_match(/requires a char in \["#", "%"\]/, e.message)
   end
 
   def test_wall_law_hash_char_requires_passability_wall
     cfg = v0
     cfg["types"]["wall"]["passability"] = "floor"
     e = assert_raises(Core::TileRegistry::BadRegistry) { Core::TileRegistry.new(cfg) }
-    assert_match(/char "#" requires passability "wall"/, e.message)
+    assert_match(/char "#" is in TileMap's wall-char set and requires passability "wall"/, e.message)
+  end
+
+  # v20 T5: the second wall char binds the same law, both directions.
+  def test_wall_law_percent_char_requires_passability_wall
+    cfg = v0
+    cfg["types"]["reef"] = { "char" => "%", "int_grid" => 3, "render" => "reef",
+                             "footstep" => "stone", "passability" => "floor" }
+    e = assert_raises(Core::TileRegistry::BadRegistry) { Core::TileRegistry.new(cfg) }
+    assert_match(/char "%" is in TileMap's wall-char set and requires passability "wall"/, e.message)
+  end
+
+  def test_second_wall_type_on_percent_char_is_accepted
+    cfg = v0
+    cfg["types"]["wall_inner"] = { "char" => "%", "int_grid" => 3, "render" => "wall_inner",
+                                   "footstep" => "stone", "passability" => "wall" }
+    reg = Core::TileRegistry.new(cfg)
+    assert_equal "wall_inner", reg.type_for_char("%")
   end
 
   def test_multi_char_refuses

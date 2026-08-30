@@ -11,6 +11,7 @@
   "zone.basement_2.display_name": "BASEMENT 2",
   "zone.dungeon_1.display_name": "DUNGEON 1",
   "zone.gate_fixture.display_name": "TEST 1",
+  "zone.wall_fixture.display_name": "TEST 2",
   "breach.line": "TOLL PAID",
   "overlay.vessel.striker": "player 1",
   "overlay.vessel.blocker": "player 2",
