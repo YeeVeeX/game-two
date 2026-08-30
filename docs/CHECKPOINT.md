@@ -7,7 +7,7 @@ CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
 
-CLAIMED: none — T6b SHIPPED (s122). Next: T6 (B4 knob) or T7 (floor -3, lane D continues) or C3 re-session; claim at execution start.
+CLAIMED: none — T6b SHIPPED (s122). Next: **T7 (floor -3, spark staged + owner-approved: `drafts/_v20-t7-floor3-spark-20260830.md`)**; T6 (B4 knob) / C3 stay E-lane anytime; claim at execution start.
 
 ## 2026-08-29 session 122 — v20 T6b SHIPPED: FLOOR -2 exists — Junior's v3 FIEHONJA live as ZONE 3, two new deep kinds, cap 13 (owner content-priority executed)
 
