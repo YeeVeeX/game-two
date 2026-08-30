@@ -376,8 +376,9 @@ program (2026-08-16): placeholders + dictionary-word functional labels only.
 - `rake capture SCRIPT=harness/scripts/<name>.json` — deterministic replay + frame capture.
   One script per regression surface lives in `harness/scripts/` (the wall); trust the
   directory, not an inline list here (an inline list went stale once). Canonical entry
-  points: `world_loop.json` (everyday loop), `low_quay_run.json` + `varekka_duel.json`
-  (zone-start scripts use the `start.zone` param).
+  points: `world_loop.json` (everyday loop), `floor2_run.json` + `floor3_run.json`
+  (zone-start scripts use the `start.zone` param). Retired-pending-reauthor scripts
+  live in `harness/retired/` (out of the wall, preserved for their re-author sessions).
 - `harness/run_wall.sh [tag]` — full wall sweep: every script in `harness/scripts/`
   through gate + manifest, teed logs in `tmp/wall/`, nonzero exit if any script fails
   (~5 min/script — run DETACHED, never under a bash-call timeout).

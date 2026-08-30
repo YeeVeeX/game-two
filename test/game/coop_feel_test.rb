@@ -55,7 +55,7 @@ class CoopFeelTest < Minitest::Test
 
   def test_seats2_humans_spawn_with_scaled_integer_hp
     w = world(seats: 2)
-    w.start_in("low_quay") # rushers + haters + the challenger (BOSS 1)
+    w.start_in("low_quay") # stingers + wardens + the challenger (BOSS 1)
     humans = w.humans.reject(&:dead?)
     refute_empty humans
     humans.each do |h|

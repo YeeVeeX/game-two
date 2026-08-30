@@ -98,7 +98,9 @@ class TileRegistryTest < Minitest::Test
     gate = JSON.parse(File.read("data/zones/low_quay.json"))["transitions"]
                .find { |t| t["to"] == "zone_7" }
     refute_nil gate, "low_quay: the T5 boss gate is missing"
-    assert_equal [44, 19], gate["at"]
+    # v20 T7: the retheme re-anchors the edge to the tail tip (the drawn
+    # south exit) - gate SEMANTICS unchanged (fact-gated out, free back).
+    assert_equal [23, 50], gate["at"]
     assert_equal [2, 14], gate["spawn"]
     assert_equal 1, gate["requires_defeats"],
                  "the gate must read the persisted boss fact (spec §THE GATE)"
@@ -106,7 +108,7 @@ class TileRegistryTest < Minitest::Test
               .find { |t| t["to"] == "low_quay" }
     refute_nil ret, "zone_7: the return edge is missing"
     assert_equal [1, 14], ret["at"]
-    assert_equal [43, 19], ret["spawn"]
+    assert_equal [24, 50], ret["spawn"]
     assert_nil ret["requires_defeats"], "the return is free — the defeat was already earned"
   end
 

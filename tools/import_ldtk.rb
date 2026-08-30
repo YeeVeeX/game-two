@@ -55,7 +55,7 @@ module Tools
     }.freeze
 
     SIDECAR_REQUIRED = %w[palette tile_size].freeze
-    SIDECAR_OPTIONAL = %w[drop_gradient gradient_anchor water_drained_by].freeze
+    SIDECAR_OPTIONAL = %w[drop_gradient gradient_anchor water_drained_by decor].freeze
 
     # registry: Core::TileRegistry (IntGrid value -> glyph mapping, D7).
     # sidecars: { zone_name => Hash } (plain JSON.parse, string keys).
@@ -372,6 +372,10 @@ module Tools
       out["transitions"] = ents[:transitions]
       out["drop_gradient"] = sidecar["drop_gradient"] if sidecar.key?("drop_gradient")
       out["gradient_anchor"] = sidecar["gradient_anchor"] if sidecar.key?("gradient_anchor")
+      # v20 T7: decor is pure presentation - exactly the sidecar's charter
+      # (authored landmark strips/stains; low_quay's identity law demands
+      # landmarks, and emissions are never hand-edited).
+      out["decor"] = sidecar["decor"] if sidecar.key?("decor")
       out["water_drained_by"] = sidecar["water_drained_by"] if sidecar.key?("water_drained_by")
       out["regions"] = ents[:regions] unless ents[:regions].empty?
       out

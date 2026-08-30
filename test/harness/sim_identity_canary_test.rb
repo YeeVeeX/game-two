@@ -12,7 +12,21 @@ require_relative "../support/headless_script"
 # change's first effect) + the outgoing bank preserved below as
 # immutable history.
 #
-# ACTIVE bank (2026-08-28, v20 T1 — floor-1 v2b retheme, RATIFIED map
+# ACTIVE bank (2026-08-30, v20 T7 — floor-3 MEDUSA LOWER retheme,
+# RATIFIED map change: foundation L3 + spec §SECOND WAVE, owner-approved
+# spark): low_quay is re-authored 52x52 through the importer door, and
+# the two boss scripts' choreographies died with the old geometry BY
+# DESIGN — varekka_duel + burn_duel are RETIRED to harness/retired/
+# pending their own boss-seizure re-author session (burn_duel's seizure
+# staging was already broken since T1: vessel_seized=0/2, baseline-proven
+# in the T6b sweep record). Their outgoing hashes are preserved IMMUTABLE
+# below (T7_RETIREMENT); the re-author session re-cuts inputs and rebanks
+# under this protocol (S73 precedent: input re-cut = prefix identity N/A).
+# world_loop is byte-UNCHANGED — the low_quay retheme provably shifted no
+# other zone's stream. floor3_run (the zone's new wall member) joins the
+# bank in the same ticket once its reel is tuned.
+#
+# PREVIOUS bank (2026-08-28, v20 T1 — floor-1 v2b retheme, RATIFIED map
 # change: foundation L3 + spec T1, owner-ratified live s114): district is
 # re-authored 52x88 through the importer door (two halves, wall-ringed
 # chasm, 4 bridges, 27 spawns) and world_loop's district leg was RE-CUT
@@ -100,7 +114,13 @@ class SimIdentityCanaryTest < Minitest::Test
   }.freeze
 
   ACTIVE = {
-    "world_loop" => "e0b1f38f0f6a5e3910a45a48f0f7bd3e",
+    "world_loop" => "e0b1f38f0f6a5e3910a45a48f0f7bd3e"
+  }.freeze
+
+  # v20 T7 (IMMUTABLE): the boss scripts' final streams on the pre-T7 map,
+  # preserved at retirement (never asserted, never deleted — the re-author
+  # session banks their successors).
+  T7_RETIREMENT = {
     "varekka_duel" => "ecc750ec4577bed854f1d210ba41aac5",
     "burn_duel" => "36d6281cb5988432eda9022fe16acc3c"
   }.freeze

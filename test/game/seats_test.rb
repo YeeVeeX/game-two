@@ -251,10 +251,10 @@ class SeatsTest < Minitest::Test
     boss = w.humans.find { |h| h.kit[:seize] }
     w.humans.reject { |h| h.equal?(boss) || h.dead? }.each { |h| kill(h, by: boss) }
     b2 = w.possessed(2)
-    boss.walker.teleport(10, 4)
-    b2.walker.teleport(12, 4)                 # inside seize range
-    w.possessed(1).walker.teleport(2, 4)      # seat 1 far outside
-    w.pack.members.find { |m| m.kit_name == :lobber }.walker.teleport(2, 5)
+    boss.walker.teleport(26, 25)
+    b2.walker.teleport(28, 25)                # inside seize range (the causeway)
+    w.possessed(1).walker.teleport(12, 25)    # seat 1 far outside
+    w.pack.members.find { |m| m.kit_name == :lobber }.walker.teleport(11, 25)
     chants = collect(w, :challenger_chant_started)
     drive(w, { 1 => idle, 2 => idle }, 30)
     refute_empty chants, "the boss chants at the nearest controlled body"

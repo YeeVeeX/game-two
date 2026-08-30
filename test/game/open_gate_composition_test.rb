@@ -12,11 +12,12 @@ require "game/save_state"
 # gate end-to-end before the owners' payoff walk. These tests are that walk,
 # in-suite, from a save-shaped fact hash the strict decoder itself accepts:
 #   1. the earned defeat (boss_1_defeats: 1 — the owners' banked fact)
-#      carries the pack low_quay [44,19] -> zone_7, landing on the declared
+#      carries the pack low_quay [23,50] -> zone_7, landing on the declared
 #      spawn [2,14] beside the return tile (the no-ping-pong law);
 #   2. at defeats=0 the same real slab refuses (the mfd refusal, suite-pinned);
-#   3. the return zone_7 [1,14] -> low_quay [43,19] is FREE (no fact required).
-# Spawn/at literals are the ratified T5 pins (drafts/_wb-t5-wirein-20260821.md)
+#   3. the return zone_7 [1,14] -> low_quay [24,50] is FREE (no fact required).
+# Spawn/at literals are the ratified T5 pins (drafts/_wb-t5-wirein-20260821.md),
+# re-anchored to the tail tip by the v20 T7 retheme (gate semantics unchanged)
 # — hardcoded on purpose, so data drift SCREAMS here before it can fizzle a
 # live crossing.
 class OpenGateCompositionTest < Minitest::Test
@@ -62,8 +63,8 @@ class OpenGateCompositionTest < Minitest::Test
     assert_equal 1, w.boss_1_defeats,
                  "the restore path must carry the persisted defeat into the sim"
     w.start_in("low_quay")
-    w.possessed.walker.teleport(44, 19)
-    park_allies_adjacent(w, [44, 19])
+    w.possessed.walker.teleport(23, 50)
+    park_allies_adjacent(w, [23, 50])
     drive(w)
     assert_equal "zone_7", w.zone_name,
                  "the persisted defeat must open the T5 gate on the real pair"
@@ -74,8 +75,8 @@ class OpenGateCompositionTest < Minitest::Test
   def test_the_slab_stays_locked_while_the_fact_is_unmet
     w = world(defeats: 0)
     w.start_in("low_quay")
-    w.possessed.walker.teleport(44, 19)
-    park_allies_adjacent(w, [44, 19])
+    w.possessed.walker.teleport(23, 50)
+    park_allies_adjacent(w, [23, 50])
     drive(w)
     assert_equal "low_quay", w.zone_name,
                  "at boss_1_defeats=0 the real slab refuses (the mfd refusal, in-suite)"
@@ -89,7 +90,7 @@ class OpenGateCompositionTest < Minitest::Test
     drive(w)
     assert_equal "low_quay", w.zone_name,
                  "the return crossing is free — no fact gates the way home"
-    assert_equal [43, 19], w.possessed.tile,
+    assert_equal [24, 50], w.possessed.tile,
                  "the return lands on the ratified spawn beside the quay gate"
   end
 end

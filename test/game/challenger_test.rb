@@ -82,14 +82,15 @@ class ChallengerTest < Minitest::Test
   end
 
   # Quiet-room staging: crew dead, allies parked far west, possessed at
-  # arm's length from the boss post [43,15]. Deliberately does NOT tick
-  # after the teleport — the chant triggers on the test's OWN first drive,
-  # after its event subscriptions are in place.
+  # arm's length from the boss post [33,25] (v20 T7: the hole plinth at
+  # the core; the row-25 causeway is the approach). Deliberately does NOT
+  # tick after the teleport — the chant triggers on the test's OWN first
+  # drive, after its event subscriptions are in place.
   def face_varekka!(dist: 3)
     descend!
     clear_crew!
-    (world.pack.living - [world.possessed]).each_with_index { |m, i| m.walker.teleport(2, 2 + i) }
-    world.possessed.walker.teleport(43 - dist, 15)
+    (world.pack.living - [world.possessed]).each_with_index { |m, i| m.walker.teleport(5, 20 + i) }
+    world.possessed.walker.teleport(33 - dist, 25)
   end
 
   def seize_possessed!
@@ -172,7 +173,7 @@ class ChallengerTest < Minitest::Test
     # Park the abandoned body OUT of his aggro — as a free ally it would
     # otherwise attack him and interrupt the chant (staging, not design;
     # completion needs no range: the seizure survives distance).
-    pinned.walker.teleport(30, 15)
+    pinned.walker.teleport(20, 25)
     drive(world, scripted({}), SEIZE[:chant_frames])
     assert_equal varekka, pinned.seized_by, "the pinned BODY answers, not the possessing player"
     assert_nil world.possessed.seized_by
@@ -238,7 +239,7 @@ class ChallengerTest < Minitest::Test
     assert_equal 1, seized.length
     # He calls from ACROSS the map: seizure survives distance by design —
     # and far away his melee can't kill the walking body, so expiry runs.
-    varekka.walker.teleport(2, 17)
+    varekka.walker.teleport(23, 49)
     drive(world, scripted({}), SEIZE[:duration_frames] + 5)
     assert_equal 1, ended.length
     assert_equal :expired, ended.first[:why]
@@ -284,7 +285,7 @@ class ChallengerTest < Minitest::Test
     # pack teleports through the gate — no dangling cross-zone seizure.
     input = scripted({ world.frame => [:swap] })
     drive(world, input, 2)
-    world.possessed.walker.teleport(1, 4)
+    world.possessed.walker.teleport(9, 8)
     drive(world, scripted({}), 3)
     assert_equal "slow_door", world.zone_name
     assert_equal 1, ended.length

@@ -318,6 +318,20 @@ class ImportLdtkTest < Minitest::Test
     assert_match(/sidecar missing \["palette"\]/, refusal(doc, sidecars: { "district" => s }))
   end
 
+  # v20 T7: decor is sidecar presentation (authored landmarks) - it rides
+  # the emission verbatim, slotted with the presentation keys, and stays
+  # absent when the sidecar carries none (v1-shaped bytes stay v1).
+  def test_sidecar_decor_rides_the_emission
+    strip = { "kind" => "edge", "at" => [1, 2], "w" => 3, "rgb" => [10, 20, 30], "alpha" => 70 }
+    s = sidecar.merge("decor" => [strip])
+    parsed = JSON.parse(importer(sidecars: { "district" => s }).import(doc).fetch("district"))
+    assert_equal [strip], parsed["decor"], "decor passes through byte-faithful"
+    assert_operator parsed.keys.index("decor"), :>, parsed.keys.index("transitions"),
+                    "decor slots with the presentation keys"
+    plain = JSON.parse(importer.import(doc).fetch("district"))
+    refute plain.key?("decor"), "no sidecar decor = no emitted key"
+  end
+
   # --- schema v2 emission (floor, typed transitions, regions) ---------------
 
   def test_missing_display_name_refuses

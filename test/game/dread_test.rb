@@ -73,8 +73,8 @@ class DreadTest < Minitest::Test
   def seize_possessed!
     descend!
     clear_crew!
-    (world.pack.living - [world.possessed]).each_with_index { |m, i| m.walker.teleport(2, 2 + i) }
-    world.possessed.walker.teleport(40, 15)
+    (world.pack.living - [world.possessed]).each_with_index { |m, i| m.walker.teleport(5, 20 + i) }
+    world.possessed.walker.teleport(30, 25)
     seized = collect(:vessel_seized)
     drive(world, scripted({}), SEIZE[:chant_frames] + 3)
     assert_equal 1, seized.length, "the chant completed into a seizure"
