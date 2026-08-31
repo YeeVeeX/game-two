@@ -7,7 +7,7 @@ CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
 
-CLAIMED: none — T7 SHIPPED (s123). Next: NINETEENTH fun-verify declaration is a peer/owner call (lane D closed — the accumulated delta: T3 potions + T4 totem + T6b fauna/cap13 + T7 fauna/cap15); T6 (B4 knob) / C3 stay E-lane anytime; boss-seizure choreography re-author session owed (varekka_duel + burn_duel in harness/retired/).
+CLAIMED: none — T7 SHIPPED (s123, sweep verdicts banked same-day). Next: NINETEENTH fun-verify declaration is a peer/owner call (lane D closed — the accumulated delta: T3 potions + T4 totem + T6b fauna/cap13 + T7 fauna/cap15); T6 (B4 knob) / C3 stay E-lane anytime; boss-seizure choreography re-author session owed (varekka_duel + burn_duel in harness/retired/ + aoe_specials' challenge beat, same class).
 
 ## 2026-08-30 session 123 — v20 T7 SHIPPED: FLOOR -3 exists — Junior's MEDUSA LOWER live as ZONE 5, the game's first RANGED hostile, cap 15 (lane D closes; the whole v20 band is playable ground)
 
@@ -70,6 +70,18 @@ example line updated.
 retheme = presentation+graph beside them. No freeze armed. **Lane D is
 CLOSED — the v20 vision is playable ground: -1 sand/roots → -2
 submerged plain → -3 abyss.**
+
+**Wall sweep verdict (same-day, T1/T6b precedent):** 37 scripts — 31
+gates rc=0 in-sweep + 5 re-run rc=0 standalone (3 Bedrock timeouts
+incl. taunt_anchor's double-flake; 2 critic flips on byte-stable
+frames, floor3_run's standalone PASS ×2 stands). **ONE real gate fail:
+aoe_specials challenge_reads — PRE-EXISTING since T1** (identical FAIL
+text across t1/t3/t7 sweeps, last passed v16 — T1's retheme emptied
+the room its challenge pulse fires into; earlier summaries passed it
+on critic charity). NEW NAMED DEBT: aoe_specials' challenge beat joins
+the choreography re-author class. Manifest halves: 9 fails = EXACTLY
+the T6b census minus the two retired scripts, spot-proven
+byte-identical — **zero gate or manifest regressions from T7.**
 
 **Para Junior (pt-br):** o piso -3 existe — teu MEDUSA LOWER é jogável:
 a serpente de raízes sobre o vazio, o círculo de cimento com a cruz, o
