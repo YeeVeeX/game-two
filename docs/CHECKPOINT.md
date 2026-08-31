@@ -7,7 +7,50 @@ CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
 
-CLAIMED: none — T7 SHIPPED (s123, sweep verdicts banked same-day). Next: NINETEENTH fun-verify declaration is a peer/owner call (lane D closed — the accumulated delta: T3 potions + T4 totem + T6b fauna/cap13 + T7 fauna/cap15); T6 (B4 knob) / C3 stay E-lane anytime; boss-seizure choreography re-author session owed (varekka_duel + burn_duel in harness/retired/ + aoe_specials' challenge beat, same class).
+CLAIMED: none — s124 was docs-only (declaration + ratification harvest). **The NINETEENTH is DECLARED — freeze ARMED** (spec: `docs/superpowers/specs/2026-08-30-v20-nineteenth-ritual.md`, peers don't read §7; skeleton: `drafts/_v20-fun-verify-skeleton-20260830.md`). Next: Gabriel's exposure session → ONE ritual session (coop recommended — pays the standing coop-invite) → 10 answers → fresh-session adjudication, target ~2026-09-01. Lane G (ambience) recorded, executes post-verdict; T6/C3 E-lane legal during the window ONLY if they skip frozen files (B4 touches death.json = frozen — it WAITS); boss-seizure choreography re-author = harness-only, legal.
+
+## 2026-08-30 session 124 — NINETEENTH DECLARED (first reform-shaped ritual) + lane D author-ratified 3/3 + lane G (ambience) recorded
+
+**Junior ratifications harvested (his pushes `7ded2a7` + `f7bbf90`):**
+floor -2 FIEHONJA RATIFIED-J (seal-150 mid-map + respawns approved) ·
+floor -3 MEDUSA LOWER RATIFIED-J (stinger validated as felt fun —
+"gostei muito da adiçao de inimigos que batem de longe"; whole coil
+cleared, 3 deaths, **BOSS 1 slain in the D-HOLE** — first boss defeat
+on his solo chain). Lane D is CLOSED with all three floors approved
+by their author. His "more floors below?" question answered +
+recorded in his doc: -3 is the bottom BY DESIGN.
+
+**Lane G recorded (peer direction + owner concur, same day):**
+animated region ambience, underwater-first pilot on floor -2 —
+Junior's direction verbatim + the dev's two binding laws
+(tick-driven, named re-pin cost) in his floor-2 ratification doc §2;
+Gabriel's concur: "approved, proceed" (s124 hub chat). Presentation/
+SAFE class — executes POST-verdict (data/zones sits in the freeze).
+
+**The NINETEENTH declared (owner word verbatim in the skeleton):**
+delta under verdict = T3 potions identity + T4 totem + T6b fauna/
+cap13 + T7 fauna/cap15 (map rethemes named beside as
+presentation+graph). Reform shape: freeze armed AT declaration,
+window target ≤48h, ONE ritual session per peer (one coop session
+covers both), unscripted play, 5+5 questions (three byte-identical
+A/B re-asks + two new depth instruments), totem + sustain =
+telemetry-only rows (T4's priced-flip terms quoted in spec §5; the
+eighteenth burned the provisions question — behavior measures both).
+Exposure: Junior PAID (his 4 banked ordinary sessions); **Gabriel
+OPEN** — zero sessions since the eighteenth's s2 (save mtime
+2026-08-28 04:55, md5 `1d71e34f9abf60a7d7ffe180fe0d55e0`,
+sessions=18 level=10 xp=3679); his first v20 launch doubles as the
+L9 save-compat proof on the MAIN chain. Launcher logs at
+declaration: 41. Junior's s3/s4 stay ORDINARY chain links (his totem
+heals=0 = pre-ritual context, non-firing).
+
+**Freeze set armed (spec §8):** instruments (spec §7 + runsheet +
+JUNIOR.md) · oracle wording (telemetry.rb whole, save_store
+persist_line, save_state, session close line, autopilot marker) ·
+sim numbers (all nine data/balance JSONs, zone requires_* values,
+creature.rb + aggro.rb seams). Declaration commit hash + frozen blob
+md5s: recorded in the follow-up entry below (post-commit, per
+digest law).
 
 ## 2026-08-30 session 123 — v20 T7 SHIPPED: FLOOR -3 exists — Junior's MEDUSA LOWER live as ZONE 5, the game's first RANGED hostile, cap 15 (lane D closes; the whole v20 band is playable ground)
 

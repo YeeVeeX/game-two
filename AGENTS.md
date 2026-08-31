@@ -136,7 +136,13 @@ amendments (grilled live with the owner, s114; council pass:
 **RATIFIED-G COMPLETE 2026-08-28** (verbatims in the foundation);
 RATIFIED-J async pending (his forest-first destination = the
 recorded lean at L2's own gated row; his L3 pick-or-pieces call
-open). v19 record: CUMPLIDO — the EIGHTEENTH closed at 5/10 verdict
+open). Lane D is CLOSED author-ratified 3/3 (Junior verbatims:
+floor -1 2026-08-29 · floor -2 + floor -3 2026-08-30,
+`drafts/_junior-floor{2,3}-ratification-20260830.md`). **The
+NINETEENTH fun-verify is DECLARED 2026-08-30 (owner word s124)** —
+freeze ARMED, window target ≤48h; protocol:
+`docs/superpowers/specs/2026-08-30-v20-nineteenth-ritual.md`
+(peers: don't read its §7). v19 record: CUMPLIDO — the EIGHTEENTH closed at 5/10 verdict
 + 10/10 addendum (K3 never fired, license FINAL), two named debts
 carried into v20 lanes: `drafts/_v19-fun-verify-verdict-20260828.md`;
 v19 foundation: `drafts/_v19-foundation-20260822.md`. This section is
@@ -147,7 +153,8 @@ STATE; the foundation is law — on disagreement the foundation wins.
 execution (owner method ruling s89), one ticket per fresh session,
 CLAIMED line at start, ANY seat executes (FULL SEAT SYMMETRY).
 
-**Lanes (staged; A→B→C→D serial, E anytime, F late-gated):**
+**Lanes (staged; A→B→C→D serial, E anytime, F late-gated, G
+post-verdict):**
 
 1. **A — FLOOR 1 (first felt change):** ZONE 2 (district) rethemed
    to Junior's v2b "two spaces + 4 bridges" as descent floor -1
@@ -171,7 +178,14 @@ CLAIMED line at start, ANY seat executes (FULL SEAT SYMMETRY).
 5. **E — DEBTS (small, anytime):** B4 mercy-floor data-only knob
    (T6, verdict debt 1) · C3 stance-verb rung + flee/engage co-tune
    (verdict debt 2, own re-session, second wave).
-6. **F — LATE, GATED:** destination/HOME single-row decision (graph
+6. **G — AMBIENCE (presentation, SAFE; recorded 2026-08-30):**
+   animated region ambience, underwater-first pilot on floor -2 —
+   peer direction (Junior) + owner concur, both verbatim in
+   `drafts/_junior-floor2-ratification-20260830.md` §2. Two laws
+   bind: tick-driven (never wall-clock) + affected wall manifests
+   re-pinned as NAMED ticket cost. Executes POST-verdict of the
+   NINETEENTH (data/zones sits in its freeze set).
+7. **F — LATE, GATED:** destination/HOME single-row decision (graph
    drawing + save migration law L9 + cardinal sketch) · GM read-only
    rung (stretch; offline factory is this cycle's answer) · city
    start (deferred, blueprints keep banking).
