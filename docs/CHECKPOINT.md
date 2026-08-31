@@ -48,9 +48,11 @@ heals=0 = pre-ritual context, non-firing).
 JUNIOR.md) · oracle wording (telemetry.rb whole, save_store
 persist_line, save_state, session close line, autopilot marker) ·
 sim numbers (all nine data/balance JSONs, zone requires_* values,
-creature.rb + aggro.rb seams). Declaration commit hash + frozen blob
-md5s: recorded in the follow-up entry below (post-commit, per
-digest law).
+creature.rb + aggro.rb seams). **Declaration commit = `e154588`**
+(the exposure-build floor). Frozen instrument blob md5s at that
+commit: spec `cc5fbe19b171152a22a473a29dbc85c5` · runsheet
+`6aae6fb3677e4578580b8e60790c041f` · JUNIOR.md
+`a1bcd28610a2721bd6b1e1bcbb754188`.
 
 ## 2026-08-30 session 123 — v20 T7 SHIPPED: FLOOR -3 exists — Junior's MEDUSA LOWER live as ZONE 5, the game's first RANGED hostile, cap 15 (lane D closes; the whole v20 band is playable ground)
 
