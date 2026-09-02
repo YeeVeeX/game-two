@@ -168,8 +168,10 @@ wording on P2 — his ritual session was the coop session 1):**
   coisas e se divertimos muito"
 - **Junior set COMPLETE 2026-08-31** — one-by-one no seat dele, zero
   comentário entre P e R, typos preservados (lei do verbatim).
-  Capture-before-debrief status: *(pending his word — asked at set
-  close)*.
+  Capture-before-debrief status: **CLEAN (his word, 2026-08-31,
+  recorded post-set):** não conversaram sobre a sessão antes das
+  respostas — "respondi direto do jogo" (opção 1 da pergunta de
+  protocolo no seat dele).
 
 **10/10 COMPLETE 2026-08-31 — HELD material now admissible;
 adjudication owed in a FRESH session (target ≤ 2026-09-01).**
