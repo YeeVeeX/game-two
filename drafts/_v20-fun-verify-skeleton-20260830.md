@@ -67,7 +67,8 @@ by ~2026-09-01 EOD. Adjudication stays EMPTY until a FULL harvest.
 - [ ] AUTOPILOT grep = 0 on every banked file
 - [ ] THEN: owner 5 answers (es, one-by-one, byte-virgin from spec
       §7) — VERBATIM below
-- [ ] THEN: Junior 5 answers (pt-br, his seat administers) — VERBATIM
+- [x] THEN: Junior 5 answers (pt-br, his seat administers) — VERBATIM
+      (banked 2026-08-31, his seat)
       below
 - [ ] Deviations named beside each set (capture-before-debrief status
       included)
@@ -113,8 +114,15 @@ by ~2026-09-01 EOD. Adjudication stays EMPTY until a FULL harvest.
   718/141586 = **0.5%** (<14%) · stall_ms_max **85** (<2500) ·
   desyncs=0 — session STANDS, no re-run window. Clean quit both
   ends (reason=quit).
-- Joiner log: owed from Junior's seat (his REAL launcher log FILE,
-  banked by his session — pending async).
+- Joiner log: **BANKED 2026-08-31 (Junior's seat)** —
+  `game_two_session_2497225324.log` original md5
+  `de707c5d73c2838ec0be5cd7520227b5`, copy in
+  `drafts/_v20-nineteenth-evidence/session1/`. Same world
+  (loaded digest `1c2c35ed…` source=handshake), `NETPLAY handshake
+  seat=2 d=9 link_slow=false` · close `TELEMETRY netplay seat=2
+  ticks=141588 desyncs=0 stalls=303 stall_ms_max=1466 reason=quit` ·
+  **AUTOPILOT grep = 0** ✓ (joiner ticks 141588 vs host 141586 =
+  post-drain teardown skew, benign; joiner never writes the save).
 - Save chain: loaded digest `1c2c35ed…` sessions=18 source=file →
   saved digest `f9ff646a…` sessions=19; save file md5 now
   `2bd9c92fc65caf8da34c139a2ce53e36` (was `1d71e34f…` — the L9
@@ -144,13 +152,27 @@ by ~2026-09-01 EOD. Adjudication stays EMPTY until a FULL harvest.
   hub chat, byte-virgin from spec §7, zero commentary between Q and
   A; his pre-question spontaneous line sits in HELD. Capture-before-
   debrief status: *(pending his word — asked at set close)*.
-- **Junior's 5: owed async** — his seat administers pt-br one-by-one,
-  byte-virgin from spec §7, WITHOUT exposing this file's owner
-  verbatims or HELD material to him; his answers land here by his
-  seat's commit.
+**Junior (pt-br), administered one-by-one by his seat, 2026-08-31
+(byte-virgin from §7; owner verbatims + HELD never shown; coop
+wording on P2 — his ritual session was the coop session 1):**
 
-*(10 verbatim blocks land here, owner es / Junior pt-br, deviations
-beside)*
+- **P1** (força do grupo igual/diferente): "sinto que continua a
+  mesma"
+- **P2** (em dupla, dificuldade dessa vez): "menos dificil nos mapas
+  iniciais mais dificeis nos mapas finais"
+- **P3** (terceiro corpo/IA): "eu achei igual, nao senti diferença"
+- **P4** (o que te leva a descer ou não): "se a vida estiver baixa
+  não tem como avançar"
+- **P5** (veredicto livre): "o jogo está muito bom ganhando novos
+  mapas e novo conteudo, seguimos no caminho. aprendemos muitas
+  coisas e se divertimos muito"
+- **Junior set COMPLETE 2026-08-31** — one-by-one no seat dele, zero
+  comentário entre P e R, typos preservados (lei do verbatim).
+  Capture-before-debrief status: *(pending his word — asked at set
+  close)*.
+
+**10/10 COMPLETE 2026-08-31 — HELD material now admissible;
+adjudication owed in a FRESH session (target ≤ 2026-09-01).**
 
 ## HELD material — admitted only after 10/10 (peers: don't read)
 
