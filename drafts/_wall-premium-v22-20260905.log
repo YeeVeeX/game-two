@@ -1,0 +1,251 @@
+# PREMIUM v22 wall — worktree game-two-wall3 @ 064bd80 (passes 1-4), 2026-09-05 15:24-17:52; re-gate 18:30-18:45 (same worktree)
+# Then in the main clone (546375b): basement_pocket toll_pocket menu_tour tower2_run PASS after the 4 fixes (tmp/wall/fix*_*.log).
+
+## sweep
+=== WALL aim_hold 15:24:30 ===
+GATE vision: PASS
+GATE determinism: 5 captures byte-identical across two runs
+GATE PASS
+=== aim_hold gate_rc=0 manifest_rc=0 ===
+=== WALL aoe_specials 15:26:14 ===
+GATE vision: PASS
+GATE determinism: 8 captures byte-identical across two runs
+GATE PASS
+=== aoe_specials gate_rc=0 manifest_rc=0 ===
+=== WALL basement_pocket 15:29:16 ===
+GATE vision: FAIL (see above; full verdict in drafts/_gate-verdicts.log)
+  [FAIL] no_render_garbage: World renders only in the top-left quarter while three quarters of the window is black void; the map is effectively missing.
+GATE determinism: 6 captures byte-identical across two runs
+=== basement_pocket gate_rc=1 manifest_rc=1 ===
+=== WALL brasa1_run 15:31:14 ===
+GATE vision: PASS
+GATE determinism: 10 captures byte-identical across two runs
+GATE PASS
+=== brasa1_run gate_rc=0 manifest_rc=0 ===
+=== WALL brasa2_run 15:33:39 ===
+GATE vision: PASS
+GATE determinism: 11 captures byte-identical across two runs
+GATE PASS
+=== brasa2_run gate_rc=0 manifest_rc=0 ===
+=== WALL brasa3_run 15:43:08 ===
+GATE vision: PASS
+GATE determinism: 11 captures byte-identical across two runs
+GATE PASS
+=== brasa3_run gate_rc=0 manifest_rc=0 ===
+=== WALL corpse_run 15:46:35 ===
+GATE vision: PASS
+GATE determinism: 9 captures byte-identical across two runs
+GATE PASS
+=== corpse_run gate_rc=0 manifest_rc=0 ===
+=== WALL critic_reel 15:52:57 ===
+GATE vision: PASS
+GATE determinism: 20 captures byte-identical across two runs
+GATE PASS
+=== critic_reel gate_rc=0 manifest_rc=0 ===
+=== WALL dash_strike_rip 15:55:30 ===
+GATE vision: PASS
+GATE determinism: 8 captures byte-identical across two runs
+GATE PASS
+=== dash_strike_rip gate_rc=0 manifest_rc=0 ===
+=== WALL district_hunt 15:58:00 ===
+GATE vision: PASS
+GATE determinism: 7 captures byte-identical across two runs
+GATE PASS
+=== district_hunt gate_rc=0 manifest_rc=0 ===
+=== WALL floor1_run 16:01:46 ===
+GATE vision: PASS
+GATE determinism: 10 captures byte-identical across two runs
+GATE PASS
+=== floor1_run gate_rc=0 manifest_rc=0 ===
+=== WALL floor2_run 16:04:32 ===
+GATE vision: PASS
+GATE determinism: 10 captures byte-identical across two runs
+GATE PASS
+=== floor2_run gate_rc=0 manifest_rc=0 ===
+=== WALL floor3_run 16:08:17 ===
+GATE vision: PASS
+GATE determinism: 11 captures byte-identical across two runs
+GATE PASS
+=== floor3_run gate_rc=0 manifest_rc=0 ===
+=== WALL grass_fixture_walk 16:14:08 ===
+GATE vision: PASS
+GATE determinism: 8 captures byte-identical across two runs
+GATE PASS
+=== grass_fixture_walk gate_rc=0 manifest_rc=0 ===
+=== WALL ledger_loop 16:15:46 ===
+GATE vision: PASS
+GATE determinism: 6 captures byte-identical across two runs
+GATE PASS
+=== ledger_loop gate_rc=0 manifest_rc=0 ===
+=== WALL level_gate 16:20:52 ===
+GATE vision: PASS
+GATE determinism: 5 captures byte-identical across two runs
+GATE PASS
+=== level_gate gate_rc=0 manifest_rc=1 ===
+=== WALL level_up_beat 16:22:41 ===
+GATE vision: PASS
+GATE determinism: 5 captures byte-identical across two runs
+GATE PASS
+=== level_up_beat gate_rc=0 manifest_rc=0 ===
+=== WALL lobber_reach 16:24:46 ===
+GATE vision: PASS
+GATE determinism: 7 captures byte-identical across two runs
+GATE PASS
+=== lobber_reach gate_rc=0 manifest_rc=0 ===
+=== WALL lobber_volley 16:28:40 ===
+GATE vision: PASS
+GATE determinism: 7 captures byte-identical across two runs
+GATE PASS
+=== lobber_volley gate_rc=0 manifest_rc=0 ===
+=== WALL loot_loop 16:33:17 ===
+GATE vision: PASS
+GATE determinism: 13 captures byte-identical across two runs
+GATE PASS
+=== loot_loop gate_rc=0 manifest_rc=1 ===
+=== WALL menu_tour 16:35:57 ===
+GATE vision: FAIL (see above; full verdict in drafts/_gate-verdicts.log)
+  [FAIL] possessed_readable: Possessed body wears only a white square ring; no gold ground halo or chevron anywhere.
+GATE determinism: 8 captures byte-identical across two runs
+=== menu_tour gate_rc=1 manifest_rc=0 ===
+=== WALL mercy_floor 16:38:26 ===
+GATE vision: FAIL (see above; full verdict in drafts/_gate-verdicts.log)
+  [FAIL] kits_distinct: Possessed and left body at frame_0130 read as the same orange; only the pale one differs.
+GATE determinism: 3 captures byte-identical across two runs
+=== mercy_floor gate_rc=1 manifest_rc=0 ===
+=== WALL moving_square 16:39:56 ===
+GATE vision: PASS
+GATE determinism: 3 captures byte-identical across two runs
+GATE PASS
+=== moving_square gate_rc=0 manifest_rc=0 ===
+=== WALL multi_floor_descent 16:40:35 ===
+GATE vision: FAIL (see above; full verdict in drafts/_gate-verdicts.log)
+  [FAIL] floor2_channel_reads: Deep blue band is on camera but its margins show no orange coral and no rust-brown rock anywhere.
+GATE determinism: 11 captures byte-identical across two runs
+=== multi_floor_descent gate_rc=1 manifest_rc=0 ===
+=== WALL nest_advance 16:44:30 ===
+GATE vision: PASS
+GATE determinism: 9 captures byte-identical across two runs
+GATE PASS
+=== nest_advance gate_rc=0 manifest_rc=1 ===
+=== WALL respawn_telegraph 16:49:18 ===
+GATE vision: PASS
+GATE determinism: 9 captures byte-identical across two runs
+GATE PASS
+=== respawn_telegraph gate_rc=0 manifest_rc=0 ===
+=== WALL safe_boundary 16:51:49 ===
+GATE vision: PASS
+GATE determinism: 5 captures byte-identical across two runs
+GATE PASS
+=== safe_boundary gate_rc=0 manifest_rc=0 ===
+=== WALL specials_chain 16:53:58 ===
+GATE vision: PASS
+GATE determinism: 14 captures byte-identical across two runs
+GATE PASS
+=== specials_chain gate_rc=0 manifest_rc=0 ===
+=== WALL sustain_run 16:56:50 ===
+GATE vision: PASS
+GATE determinism: 10 captures byte-identical across two runs
+GATE PASS
+=== sustain_run gate_rc=0 manifest_rc=0 ===
+=== WALL taunt_anchor 17:10:23 ===
+GATE vision: PASS
+GATE determinism: 10 captures byte-identical across two runs
+GATE PASS
+=== taunt_anchor gate_rc=0 manifest_rc=0 ===
+=== WALL threat_pull 17:13:36 ===
+GATE vision: PASS
+GATE determinism: 20 captures byte-identical across two runs
+GATE PASS
+=== threat_pull gate_rc=0 manifest_rc=1 ===
+=== WALL toll_pocket 17:18:51 ===
+GATE vision: FAIL (see above; full verdict in drafts/_gate-verdicts.log)
+  [FAIL] no_render_garbage: World and HUD render only in the top-left quarter while the rest is black; scale mismatch reads broken.
+GATE determinism: 8 captures byte-identical across two runs
+=== toll_pocket gate_rc=1 manifest_rc=1 ===
+=== WALL totem_pulse 17:20:59 ===
+GATE vision: PASS
+GATE determinism: 10 captures byte-identical across two runs
+GATE PASS
+=== totem_pulse gate_rc=0 manifest_rc=0 ===
+=== WALL tower2_run 17:25:25 ===
+GATE vision: FAIL (see above; full verdict in drafts/_gate-verdicts.log)
+  [FAIL] kits_distinct: The two follower bodies read as near copies in dark brown; only hair tone differs, not kind.
+GATE determinism: 8 captures byte-identical across two runs
+=== tower2_run gate_rc=1 manifest_rc=0 ===
+=== WALL tower3_run 17:28:37 ===
+GATE vision: PASS
+GATE determinism: 11 captures byte-identical across two runs
+GATE PASS
+=== tower3_run gate_rc=0 manifest_rc=0 ===
+=== WALL tower4_run 17:31:31 ===
+GATE vision: PASS
+GATE determinism: 12 captures byte-identical across two runs
+GATE PASS
+=== tower4_run gate_rc=0 manifest_rc=0 ===
+=== WALL town_gates 17:34:37 ===
+GATE vision: PASS
+GATE determinism: 6 captures byte-identical across two runs
+GATE PASS
+=== town_gates gate_rc=0 manifest_rc=0 ===
+=== WALL vat_economy 17:37:29 ===
+GATE vision: PASS
+GATE determinism: 8 captures byte-identical across two runs
+GATE PASS
+=== vat_economy gate_rc=0 manifest_rc=1 ===
+=== WALL wall_fixture_walk 17:42:24 ===
+GATE vision: PASS
+GATE determinism: 5 captures byte-identical across two runs
+GATE PASS
+=== wall_fixture_walk gate_rc=0 manifest_rc=0 ===
+=== WALL world_loop 17:43:52 ===
+GATE vision: PASS
+GATE determinism: 10 captures byte-identical across two runs
+GATE PASS
+=== world_loop gate_rc=0 manifest_rc=0 ===
+=== WALL zone8_crossing 17:46:14 ===
+GATE vision: PASS
+GATE determinism: 5 captures byte-identical across two runs
+GATE PASS
+=== zone8_crossing gate_rc=0 manifest_rc=1 ===
+=== WALL zone_catchup 17:49:43 ===
+GATE vision: PASS
+GATE determinism: 8 captures byte-identical across two runs
+GATE PASS
+=== zone_catchup gate_rc=0 manifest_rc=1 ===
+WALL SWEEP DONE 17:52:28 — 42 scripts, fails: basement_pocket level_gate loot_loop menu_tour mercy_floor multi_floor_descent nest_advance threat_pull toll_pocket tower2_run vat_economy zone8_crossing zone_catchup
+WALL FAIL: basement_pocket level_gate loot_loop menu_tour mercy_floor multi_floor_descent nest_advance threat_pull toll_pocket tower2_run vat_economy zone8_crossing zone_catchup
+
+## re-gate (6 vision fails)
+=== REGATE basement_pocket 18:30:16 ===
+GATE vision: FAIL (see above; full verdict in drafts/_gate-verdicts.log)
+  [FAIL] kits_distinct: Three HP bars drain yet only one warm orange body reads; other pack bodies are dark hooded blobs, not amber or rust kits.
+  [FAIL] no_render_garbage: World and HUD render only in the top-left quadrant while the controls strip spans full width; three quarters black void.
+GATE determinism: 6 captures byte-identical across two runs
+=== basement_pocket gate_rc=1 18:32:20 ===
+=== REGATE menu_tour 18:32:20 ===
+GATE vision: FAIL (see above; full verdict in drafts/_gate-verdicts.log)
+  [FAIL] possessed_readable: Possessed body wears only a white square ring; no gold ground halo and no chevron anywhere.
+GATE determinism: 8 captures byte-identical across two runs
+=== menu_tour gate_rc=1 18:34:47 ===
+=== REGATE mercy_floor 18:34:47 ===
+GATE vision: PASS
+GATE determinism: 3 captures byte-identical across two runs
+GATE PASS
+=== mercy_floor gate_rc=0 18:36:46 ===
+=== REGATE multi_floor_descent 18:36:46 ===
+GATE vision: PASS
+GATE determinism: 11 captures byte-identical across two runs
+GATE PASS
+=== multi_floor_descent gate_rc=0 18:40:10 ===
+=== REGATE toll_pocket 18:40:10 ===
+GATE vision: FAIL (see above; full verdict in drafts/_gate-verdicts.log)
+  [FAIL] no_render_garbage: World and HUD render in a quarter of the canvas while the controls strip spans full width; HUD covers map.
+  [FAIL] hud_level_strip_reads: LEVEL 5 label and coin/potion chips read, but no thin gold tick bar is discernible beneath the label.
+GATE determinism: 8 captures byte-identical across two runs
+=== toll_pocket gate_rc=1 18:42:33 ===
+=== REGATE tower2_run 18:42:33 ===
+GATE vision: FAIL (see above; full verdict in drafts/_gate-verdicts.log)
+  [FAIL] hurt_flash_not_white: In frame_0126 the wounded orange-hair body pops a pale cream flash, reading white not crimson.
+GATE determinism: 8 captures byte-identical across two runs
+=== tower2_run gate_rc=1 18:45:36 ===
+REGATE DONE 18:45:36
