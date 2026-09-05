@@ -47,6 +47,8 @@ KITS = {
     "rusher": HUMAN_BODY, "rusher_hater": HUMAN_BODY, "husk": HUMAN_BODY,
     "challenger": HUMAN_BODY, "lurker": (168, 205, 140), "warden": (235, 150, 210),
     "stinger": (150, 215, 230),
+    # FASE 4 serpent family (the tower): violet-grey scale — no other body owns violet
+    "serpent_a": (170, 140, 210),
 }
 OUTLINE = (20, 14, 12)
 CORPSE_HUMAN, CORPSE_PACK = (175, 165, 145), (150, 80, 40)
@@ -148,6 +150,14 @@ def shape(kit, facing):
             acc = tend | line(14, 1, 14, 5, 2)
         else:
             acc = tend | line(21, 12, 27, 12, 2)
+    elif kit == "serpent_a":                   # coiled S + fanned hood (the spread caster)
+        body = line(6, 22, 12, 16, 3) | line(12, 16, 16, 20, 3) | line(16, 20, 22, 10, 3) | ellipse(21, 8, 4.5, 4)
+        if facing == "down":
+            acc = {(17, 12), (21, 13), (25, 12)}
+        elif facing == "up":
+            acc = {(17, 3), (21, 2), (25, 3)}
+        else:
+            acc = {(26, 6), (27, 8), (26, 10)}
     else:
         body, acc = rect(0, 0, 27, 27), set()
     acc = {p for p in acc if 0 <= p[0] < 28 and 0 <= p[1] < 28}

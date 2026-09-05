@@ -838,6 +838,8 @@ module Game
         case cfg[:arc]
         when "projectile"
           launch_projectile(attacker, cfg) if attacker.action_can_trigger?
+        when "spread"
+          launch_spread(attacker, cfg) if attacker.action_can_trigger?
         when "dash"
           resolve_dash_action(attacker, cfg)
         when "volley"
@@ -950,6 +952,32 @@ module Game
         frames_per_tile: cfg[:projectile_frames_per_tile],
         knockback_tiles: cfg[:knockback_tiles]
       )
+      @bus.emit(:projectile_fired, attacker:)
+    end
+
+    # MUNDO VIVO FASE 4 — `spread`: a FAN of projectiles. `spread_count`
+    # shots leave the same tile in 8-way directions centered on the facing
+    # (count 3 = facing ±45°; 5 = ±90°). Each shot is an ordinary
+    # Projectile (one combat law: damage/range/knockback from the kit,
+    # friendlies pass through, walls stop). ONE projectile_fired event per
+    # volley (the manifest/telemetry grammar counts casts, not pellets).
+    # Deterministic: rotation is a table walk on the 8-way ring.
+    SPREAD_RING = [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]].freeze
+
+    def launch_spread(attacker, cfg)
+      attacker.action_triggered!
+      count = cfg.fetch(:spread_count, 3)
+      base = SPREAD_RING.index(attacker.facing) || 0
+      half = count / 2
+      (-half..half).each do |k|
+        dir = SPREAD_RING[(base + k) % 8]
+        @projectiles << Projectile.new(
+          owner: attacker, map:, tile: attacker.tile, dir:,
+          damage: leveled_damage(attacker, cfg), range_tiles: cfg[:range_tiles],
+          frames_per_tile: cfg[:projectile_frames_per_tile],
+          knockback_tiles: cfg[:knockback_tiles]
+        )
+      end
       @bus.emit(:projectile_fired, attacker:)
     end
 

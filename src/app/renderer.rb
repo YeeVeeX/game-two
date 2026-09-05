@@ -30,7 +30,10 @@ module App
       # v20 T7 floor -3 fauna: stinger = pale translucent cyan (no other
       # body owns cyan; jellyfish family beside the warden's pink) - the
       # ranged watcher reads at a glance against the near-black abyss.
-      stinger:      Gosu::Color.new(255, 150, 215, 230)
+      stinger:      Gosu::Color.new(255, 150, 215, 230),
+      # MUNDO VIVO FASE 4 serpent family (the tower): violet-grey — no other
+      # body owns violet; the quad fallback keeps the same color truth.
+      serpent_a:    Gosu::Color.new(255, 170, 140, 210)
     ).freeze
 
     POSSESSED_RING = Gosu::Color.new(255, 255, 255, 255)

@@ -189,7 +189,7 @@ module Game
         RING.map { |(dx, dy)| [tx + dx, ty + dy] }
       when "front1" # striker: one precise tile, no flanks
         [[tx + @facing[0], ty + @facing[1]]]
-      when "projectile", "volley" # World owns the shot / delayed target tiles
+      when "projectile", "volley", "spread" # World owns the shot(s) / delayed target tiles
         []
       else # "arc3": front + flanks (diagonal facing -> cardinal components)
         fx, fy = @facing

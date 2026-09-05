@@ -271,7 +271,8 @@ module Game
       end
     end
 
-    def projectile?(creature) = creature.kit[:attack][:arc] == "projectile"
+    RANGED_ARCS = %w[projectile spread].freeze
+    def projectile?(creature) = RANGED_ARCS.include?(creature.kit[:attack][:arc])
 
     # A projectile kit hugging its target is inert (needs dist >= 2). Step to
     # the first free neighbor that INCREASES distance; cornered (no such
@@ -297,7 +298,7 @@ module Game
     def in_attack_range?(creature, target, view)
       atk = creature.kit[:attack]
       dist = chebyshev(creature.tile, target.tile)
-      return dist <= 1 unless atk[:arc] == "projectile"
+      return dist <= 1 unless RANGED_ARCS.include?(atk[:arc])
 
       dx = target.tile[0] - creature.tile[0]
       dy = target.tile[1] - creature.tile[1]

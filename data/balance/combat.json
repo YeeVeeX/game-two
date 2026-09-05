@@ -297,6 +297,32 @@
    },
    "knockback_frames_per_tile": 5,
    "interrupt_on_hit": true
+  },
+  "serpent_a": {
+   "max_hp": 70,
+   "step_frames": 12,
+   "aggro_tiles": 8,
+   "respawn_frames": 1800,
+   "drop_table": [
+    2,
+    2,
+    3
+   ],
+   "attack": {
+    "damage": 12,
+    "windup_frames": 26,
+    "active_frames": 2,
+    "recovery_frames": 10,
+    "exhaust_frames": 96,
+    "arc": "spread",
+    "spread_count": 3,
+    "range_tiles": 4,
+    "projectile_frames_per_tile": 5,
+    "knockback_tiles": 0,
+    "knockback_frames_per_tile": 5
+   },
+   "knockback_frames_per_tile": 5,
+   "interrupt_on_hit": true
   }
  },
  "feel": {

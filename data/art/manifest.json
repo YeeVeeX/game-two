@@ -512,6 +512,56 @@
         }
       },
       "md5": "dab97f843d4db310ea042c1f442690a1"
+    },
+    "serpent_a": {
+      "atlas": "art/atlas/serpent_a.png",
+      "cols": 12,
+      "rows": 4,
+      "anims": {
+        "idle": {
+          "frames": [
+            0,
+            1
+          ],
+          "frames_per_step": 18
+        },
+        "walk": {
+          "frames": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "frames_per_step": 5
+        },
+        "windup": {
+          "frames": [
+            6,
+            7
+          ],
+          "frames_per_step": 4
+        },
+        "active": {
+          "frames": [
+            8,
+            9
+          ],
+          "frames_per_step": 2
+        },
+        "hurt": {
+          "frames": [
+            10
+          ],
+          "frames_per_step": 1
+        },
+        "dead": {
+          "frames": [
+            11
+          ],
+          "frames_per_step": 1
+        }
+      },
+      "md5": "2b18fff639aba0932d5cdef88c48a340"
     }
   }
 }
