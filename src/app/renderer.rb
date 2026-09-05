@@ -8,6 +8,7 @@ require "app/tileset"
 require "app/hud"
 require "app/fx"
 require "app/light"
+require "app/minimap"
 require "app/tile_variants"
 require "app/writ"
 require "app/zone_identity"
@@ -145,6 +146,8 @@ module App
                                   special: tr("menu.label.special", "SPECIAL") })
       # PREMIUM v22 pass 4: fire glows, vignette, kill punch, level flash.
       @light = App::Light.new(display: @display)
+      # PREMIUM v22 pass 9: the radar (App::Minimap), top-right.
+      @minimap = App::Minimap.new(display: @display, kit_body: KIT_BODY)
     end
 
     def draw(world)
@@ -200,6 +203,7 @@ module App
       draw_writ_veil(world)
       draw_hud(world)
       draw_boss_bar(world)
+      @minimap.draw(world, @local_seat)
       draw_safe_chip(world)
       # Strip BEFORE edge pips (their bottom clamp lands inside the strip
       # band — an off-screen ally's pip must stay visible ON the strip) and
@@ -827,13 +831,13 @@ module App
     # its color identity is the wall-critic arbitration above, untouched.
     # The chant-blue tell stays OUT (own surface, same dark-value logic);
     # drops keep size-as-depth custody.
-    def draw_outlined_quad(x, y, size, col)
+    def draw_outlined_quad(x, y, size, col, z = 0)
       opx = @display.fetch(:glyph_outline_px, 1)
       if opx.positive?
         Gosu.draw_rect(x - opx, y - opx, size + 2 * opx, size + 2 * opx,
-                       color(@display.fetch(:glyph_outline_rgb, [20, 14, 12])))
+                       color(@display.fetch(:glyph_outline_rgb, [20, 14, 12])), z)
       end
-      Gosu.draw_rect(x, y, size, size, col)
+      Gosu.draw_rect(x, y, size, size, col, z)
     end
 
     # Station cue (D1b): success kinds flash a bright 1-tile pulse ring at
@@ -1643,9 +1647,11 @@ module App
         k = [kx, ky].min
         ax = cxs + dx * k
         ay = cys + dy * k
-        # never under the HUD plate (top-left): slide below it
+        # never under the HUD plate (top-left) or the minimap (top-right): slide below
         px, py, pw, ph = @display.fetch(:hud_plate_rect, [20, 8, 352, 108])
         ay = py + ph + m if ax < px + pw + m && ay < py + ph + m
+        mx, my, mw, mh = @minimap.rect(vw)
+        ay = my + mh + m if @minimap.enabled? && ax > mx - m && ay < my + mh + m
         len = Math.sqrt(dx * dx + dy * dy)
         ux = dx / len
         uy = dy / len
@@ -1672,7 +1678,7 @@ module App
         next if on_screen
         px = (sx + SIZE / 2).clamp(6, cam.view_w - 16)
         py = (sy + SIZE / 2).clamp(6, cam.view_h - 16)
-        draw_outlined_quad(px, py, 10, KIT_BODY[m.kit_name])
+        draw_outlined_quad(px, py, 10, KIT_BODY[m.kit_name], 21) # above the minimap plate
       end
     end
 

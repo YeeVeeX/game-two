@@ -340,6 +340,10 @@
     {
       "id": "exit_signage_reads",
       "check": "Ways out are SIGNPOSTED: an open door/hole/stairs tile on camera carries a soft gold glow that breathes (never on a shut, dark-slab way); an open way OFF camera is announced by a small gold ARROWHEAD clamped to the viewport edge pointing toward it (up to four). The arrowhead is a triangle on the screen edge - not a square (ally edge pips are kit-colored squares), not the gold chevron that points DOWN over the possessed body, not a world-anchored gem. If the reel shows no zone with an off-screen open way, judge only the glow; if no transition tile is ever on camera either, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "minimap_reads",
+      "check": "A small framed RADAR box sits top-right in every frame with the HUD: the zone's layout in miniature (walls in the zone's wall color, floor darker, water blue), gold dots for open ways/stations, a magenta dot for stations, small RED dots for hostiles, kit-colored dots for pack bodies and one GOLD dot with a dark ring for the possessed — the pattern plausibly matches what is on camera (a hostile beside you on camera = a red dot beside the gold dot). It never covers the zone banner (top-center) nor the HUD plate (top-left). If no HUD frame is present, pass with why='not exercised by this script'."
     }
   ]
 }
