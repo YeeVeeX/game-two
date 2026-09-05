@@ -1,209 +1,237 @@
 {
   "palette": {
     "floor": [
-      30,
-      24,
-      20
+      12,
+      18,
+      12
     ],
     "grid": [
-      40,
-      33,
-      28
+      18,
+      26,
+      18
     ],
     "wall": [
-      128,
-      134,
-      148
-    ],
-    "wall_inner": [
-      10,
-      12,
-      22
+      98,
+      108,
+      92
     ],
     "transition": [
       235,
       190,
       90
     ],
+    "station": [
+      190,
+      140,
+      60
+    ],
+    "station_seal": [
+      190,
+      140,
+      60
+    ],
+    "moss": [
+      30,
+      66,
+      34
+    ],
     "dirt": [
-      46,
-      50,
-      66
+      40,
+      34,
+      24
     ],
     "sand": [
-      78,
-      64,
-      42
+      70,
+      62,
+      44
     ],
     "grass": [
-      44,
       34,
-      26
+      72,
+      38
     ],
     "grass_b": [
-      38,
-      29,
-      22
+      28,
+      62,
+      34
     ],
     "grass_c": [
-      50,
       40,
-      30
+      80,
+      46
     ],
     "wood": [
-      88,
-      90,
-      100
+      62,
+      54,
+      44
+    ],
+    "water": [
+      16,
+      40,
+      60
+    ],
+    "wall_inner": [
+      120,
+      130,
+      112
     ],
     "motif": "ripple",
     "motif_rgb": [
-      40,
+      20,
       34,
-      32
+      22
     ],
     "ambient_rgba": [
-      56,
-      90,
-      190,
-      16
+      60,
+      160,
+      80,
+      12
     ]
   },
   "tile_size": 32,
+  "gradient_anchor": [
+    1,
+    18
+  ],
   "drop_gradient": [
     [
       0,
       3.0
     ],
     [
-      17,
+      20,
       3.5
     ],
     [
-      34,
+      40,
       4.0
     ]
   ],
-  "gradient_anchor": [
-    10,
-    8
-  ],
   "decor": [
-    {
-      "kind": "edge",
-      "at": [
-        10,
-        24
-      ],
-      "w": 14,
-      "rgb": [
-        70,
-        110,
-        190
-      ],
-      "alpha": 70
-    },
-    {
-      "kind": "edge",
-      "at": [
-        10,
-        26
-      ],
-      "w": 14,
-      "rgb": [
-        70,
-        110,
-        190
-      ],
-      "alpha": 70
-    },
-    {
-      "kind": "edge",
-      "at": [
-        27,
-        16
-      ],
-      "w": 13,
-      "rgb": [
-        150,
-        155,
-        170
-      ],
-      "alpha": 60
-    },
     {
       "kind": "stain",
       "at": [
-        31,
-        13
+        22,
+        12
       ],
       "w": 4,
       "h": 2,
       "rgb": [
-        40,
-        90,
-        160
+        22,
+        48,
+        26
       ],
-      "alpha": 80
+      "alpha": 90
+    },
+    {
+      "kind": "stain",
+      "at": [
+        36,
+        14
+      ],
+      "w": 6,
+      "h": 2,
+      "rgb": [
+        22,
+        48,
+        26
+      ],
+      "alpha": 90
     },
     {
       "kind": "stain",
       "at": [
         40,
-        33
+        22
       ],
-      "w": 3,
+      "w": 4,
       "h": 3,
       "rgb": [
-        40,
-        90,
-        160
+        22,
+        48,
+        26
       ],
-      "alpha": 80
+      "alpha": 90
     },
     {
-      "kind": "stain",
-      "at": [
-        28,
-        20
-      ],
-      "w": 3,
-      "h": 2,
-      "rgb": [
-        16,
-        18,
-        30
-      ],
-      "alpha": 80
-    },
-    {
-      "kind": "stain",
+      "kind": "edge",
       "at": [
         35,
-        28
+        10
       ],
-      "w": 3,
-      "h": 2,
+      "w": 13,
       "rgb": [
-        16,
-        18,
-        30
+        140,
+        150,
+        130
       ],
-      "alpha": 80
+      "alpha": 90
     },
     {
-      "kind": "stain",
+      "kind": "ambience",
       "at": [
-        7,
-        6
+        36,
+        10
       ],
-      "w": 3,
-      "h": 2,
-      "rgb": [
-        20,
-        26,
-        40
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        46,
+        10
       ],
-      "alpha": 80
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        36,
+        26
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        46,
+        26
+      ],
+      "preset": "torch_flicker"
+    }
+  ],
+  "ambience_regions": [
+    {
+      "id": "spore_haze",
+      "rect": [
+        0,
+        0,
+        52,
+        36
+      ],
+      "intent": "dungeon",
+      "ambience": "spore_drift",
+      "ambience_density": 0.06,
+      "ambience_tiles": [
+        "m",
+        "."
+      ]
+    },
+    {
+      "id": "vault_shafts",
+      "rect": [
+        34,
+        10,
+        15,
+        17
+      ],
+      "intent": "dungeon",
+      "ambience": "light_shafts",
+      "ambience_density": 0.1,
+      "ambience_tiles": [
+        "m",
+        "."
+      ]
     }
   ]
 }

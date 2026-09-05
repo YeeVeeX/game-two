@@ -68,7 +68,11 @@ class WorldsmithIntakeTest < Minitest::Test
   # pack_spawn + vat/altar station pair + the free return gate at the
   # delivered gate corner [63,19]. Everything else stays the delivery.
 
-  LANDED_MD5 = "89ba053f0436b3d422cccc9dbf7f6617".freeze
+  # CONSCIOUS pin move (MUNDO VIVO FASE 6.1, 2026-09-05): the return spawn
+  # into dungeon_1 moved [29,4] -> [29,7] — [29,4] is wall in the medusa
+  # geometry that now occupies DUNGEON 1 (swap spec §1 M2). One row, same
+  # commit as the swap; previous pin 89ba053f0436b3d422cccc9dbf7f6617.
+  LANDED_MD5 = "fc7ccfc8f63cf69f84b29a857ab76508".freeze
   LANDED = File.expand_path("../../data/zones/zone_8.json", __dir__)
 
   def test_landed_zone_bytes_match_the_intake_record
@@ -88,8 +92,10 @@ class WorldsmithIntakeTest < Minitest::Test
     maps = zones.to_h { |n| [n, Core::TileMap.new(DATA["zones/#{n}"])] }
     assert_equal "ZONE 8", maps["zone_8"].display_name, "re-numbered at intake (next free N)"
 
-    way = maps["dungeon_1"].transition_at(29, 4)
-    refute_nil way, "dungeon_1's far-east chamber corridor carries the frontier way"
+    # FASE 6.1: DUNGEON 1 is the MEDUSA LOWER geometry — the frontier rope
+    # sits on the serpent head's north rim [29,7] ([29,4] is wall there).
+    way = maps["dungeon_1"].transition_at(29, 7)
+    refute_nil way, "dungeon_1's serpent-head north rim carries the frontier way"
     assert_equal "zone_8", way[:to]
     assert_equal "rope_spot", way[:type], "climbing out is the interact verb (gate-consent law)"
     assert_equal 8, way[:requires_level], "the frontier rung prices the way, not the return"
@@ -101,10 +107,10 @@ class WorldsmithIntakeTest < Minitest::Test
     assert_nil back[:type], "non-pilot zones stay untyped v1 gates (tile_map_test law)"
     assert_nil back[:requires_level], "the return is FREE"
     assert_nil back[:sealed], "the return is FREE"
-    assert_equal [29, 4], back[:spawn], "you land at the rope you'd climb back up"
+    assert_equal [29, 7], back[:spawn], "you land at the rope you'd climb back up"
 
     arrivals = Game::Crossing.validated_arrivals(maps)
     assert_equal [[62, 18]], arrivals["zone_8"], "one way in, beside \u2014 never on \u2014 the gate"
-    assert_includes arrivals["dungeon_1"], [29, 4]
+    assert_includes arrivals["dungeon_1"], [29, 7]
   end
 end

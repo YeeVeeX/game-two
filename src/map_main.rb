@@ -141,22 +141,29 @@ module App
                       zy + 5 * App::MapArtifact::SCALE + 2)
       probe "zone_7 meadow reads a grass family tone",
             [z7pal[:grass], z7pal[:grass_b], z7pal[:grass_c]].include?(grass)
+      # MUNDO VIVO FASE 6.1 (the swap): DUNGEON 1 is the MEDUSA LOWER
+      # geometry — the abyss void is the second wall class, the serpent head
+      # carries the floor, the rope back sits beside the arrival [9,8] and
+      # the frontier rope moved to the head's north rim [29,7].
       d1 = l[:panels].find { |p| p[:name] == "dungeon_1" }
       dx, dy = d1[:origin]
       d1pal = world.zone_maps.fetch("dungeon_1").palette
-      probe "dungeon_1 panel carries its own floor",
-            px.call(dx + 15 * App::MapArtifact::SCALE + 2,
+      probe "dungeon_1 abyss void reads the second wall class",
+            px.call(dx + 2 * App::MapArtifact::SCALE + 2,
+                    dy + 2 * App::MapArtifact::SCALE + 2) == d1pal[:wall_inner]
+      probe "dungeon_1 serpent head carries its own floor",
+            px.call(dx + 12 * App::MapArtifact::SCALE + 2,
                     dy + 9 * App::MapArtifact::SCALE + 2) == d1pal[:floor]
       probe "dungeon_1 rope tile reads gate-gold",
-            px.call(dx + 3 * App::MapArtifact::SCALE + 2,
-                    dy + 16 * App::MapArtifact::SCALE + 2) == d1pal[:transition]
+            px.call(dx + 9 * App::MapArtifact::SCALE + 2,
+                    dy + 8 * App::MapArtifact::SCALE + 2) == d1pal[:transition]
       # 5. s70 wire-in: the frontier way is LEVEL-GATED at the staged level
       # (6 < 8 draws the seal slab, not gold) while zone_8's free return
       # reads gate-gold — both directions of the new edge render honestly.
       slab = App::Renderer::SEAL_SLAB
       probe "dungeon_1 frontier way reads level-locked at staged level 6",
             px.call(dx + 29 * App::MapArtifact::SCALE + 2,
-                    dy + 4 * App::MapArtifact::SCALE + 2) == [slab.red, slab.green, slab.blue]
+                    dy + 7 * App::MapArtifact::SCALE + 2) == [slab.red, slab.green, slab.blue]
       z8 = l[:panels].find { |p| p[:name] == "zone_8" }
       ex, ey = z8[:origin]
       z8pal = world.zone_maps.fetch("zone_8").palette
@@ -180,29 +187,28 @@ module App
       probe "district_two save-pinned door reads sealed",
             px.call(d2x + 42 * App::MapArtifact::SCALE + 2,
                     d2y + 13 * App::MapArtifact::SCALE + 2) == [slab.red, slab.green, slab.blue]
-      # 7. v20 T7 floor -3: the abyss retheme's own landmarks - the void
-      # renders the SECOND wall class (wall_inner near-black, never :wall),
-      # the core gallery carries its authored pale cement floor (wood), the
-      # muralha ring renders the :wall palette (two wall classes in one
-      # panel), and the tail way reads OPEN gate-gold under the staged
-      # boss_1_defeats=3 (requires_defeats 1 satisfied - the fact-gate
-      # renders honestly).
+      # 7. MUNDO VIVO FASE 6.1 floor -3 = MUSGO A ("salão selado"): the
+      # moss carpets the walkable floor (its own typed ref, brighter than
+      # the loam floor), the vault's stone walls render the :wall palette,
+      # BOSS 1's post sits inside the vault, and the south door reads OPEN
+      # gate-gold under the staged boss_1_defeats=3 (requires_defeats 1
+      # satisfied - the fact-gate renders honestly).
       lq = l[:panels].find { |p| p[:name] == "low_quay" }
       lqx, lqy = lq[:origin]
       lqpal = world.zone_maps.fetch("low_quay").palette
-      probe "low_quay abyss void reads the second wall class",
-            px.call(lqx + 2 * App::MapArtifact::SCALE + 2,
-                    lqy + 2 * App::MapArtifact::SCALE + 2) == lqpal[:wall_inner]
-      probe "low_quay core gallery reads the authored cement floor",
-            px.call(lqx + 28 * App::MapArtifact::SCALE + 2,
-                    lqy + 22 * App::MapArtifact::SCALE + 2) == lqpal[:wood]
-      probe "low_quay muralha ring reads the wall palette beside the void",
+      probe "low_quay moss carpet reads the moss ref (entry hall)",
+            px.call(lqx + 7 * App::MapArtifact::SCALE + 2,
+                    lqy + 18 * App::MapArtifact::SCALE + 2) == lqpal[:moss]
+      probe "low_quay vault wall reads the wall palette",
+            px.call(lqx + 33 * App::MapArtifact::SCALE + 2,
+                    lqy + 18 * App::MapArtifact::SCALE + 2) == lqpal[:wall]
+      probe "low_quay vault interior (BOSS 1's post) is moss floor",
+            px.call(lqx + 41 * App::MapArtifact::SCALE + 2,
+                    lqy + 18 * App::MapArtifact::SCALE + 2) == lqpal[:moss]
+      probe "low_quay south door reads gate-gold at staged defeats",
             px.call(lqx + 24 * App::MapArtifact::SCALE + 2,
-                    lqy + 24 * App::MapArtifact::SCALE + 2) == lqpal[:wall]
-      probe "low_quay tail way reads gate-gold at staged defeats",
-            px.call(lqx + 23 * App::MapArtifact::SCALE + 2,
-                    lqy + 50 * App::MapArtifact::SCALE + 2) == lqpal[:transition]
-      puts "MAP PROBES PASS (20/20)"
+                    lqy + 34 * App::MapArtifact::SCALE + 2) == lqpal[:transition]
+      puts "MAP PROBES PASS (21/21)"
     end
 
     def probe(name, ok)

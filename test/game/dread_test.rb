@@ -73,8 +73,10 @@ class DreadTest < Minitest::Test
   def seize_possessed!
     descend!
     clear_crew!
-    (world.pack.living - [world.possessed]).each_with_index { |m, i| m.walker.teleport(5, 20 + i) }
-    world.possessed.walker.teleport(30, 25)
+    # FASE 6.1: BOSS 1's post is the MUSGO A vault [41,18]; allies park in
+    # the entry hall, the possessed stands 3 tiles west inside the vault.
+    (world.pack.living - [world.possessed]).each_with_index { |m, i| m.walker.teleport(5, 15 + i) }
+    world.possessed.walker.teleport(38, 18)
     seized = collect(:vessel_seized)
     drive(world, scripted({}), SEIZE[:chant_frames] + 3)
     assert_equal 1, seized.length, "the chant completed into a seizure"

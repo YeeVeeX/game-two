@@ -57,6 +57,12 @@ module App
         return Refused.new(refusal: "save file unreadable: #{@path} — #{e.class}#{bak_hint}",
                            notices:)
       end
+      # L9 retired-seal migration (FASE 6.1): named tuples leave the breach
+      # list BEFORE the strict decoder judges it — a paid door that no longer
+      # exists must never turn a whole save into a refusal.
+      Game::SaveState.migrate_retired_seals!(env).each do |(zone, tile)|
+        notices << "save migration: retired seal #{zone} #{tile.inspect} dropped (zone geometry changed; no refund)"
+      end
       refusal = Game::SaveState.envelope_refusal(env, data:)
       return Refused.new(refusal: "#{refusal}#{bak_hint}", notices:) if refusal
       facts = env["facts"]

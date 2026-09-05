@@ -116,37 +116,29 @@ class InteriorDoorTest < Minitest::Test
     assert_nil refusal, "an interior seal's breach tuple is a legal save fact (got: #{refusal})"
   end
 
-  # --- dungeon_1's toll-bypass fork (content-fill wave 3/3) -------------
+  # --- dungeon_1's toll-bypass fork: RETIRED (MUNDO VIVO FASE 6.1) ---------
+  # The swap moved the MEDUSA LOWER geometry into DUNGEON 1; the wave-3
+  # interior seal [17,2] -> [18,2] died with the old geometry. What these
+  # tests pin now: (a) the retired station/door are GONE from the live zone,
+  # (b) the L9 migration drops the retired breach tuple from a live save
+  # with a named notice instead of refusing the whole save (spec §2).
 
-  def test_dungeon_fork_door_is_sealed_same_zone_and_the_chamber_is_walled
+  def test_dungeon_fork_seal_is_retired_from_the_live_zone
     w = Game::World.new(DATA, seed: 7, save: seeded_facts)
     w.start_in("dungeon_1")
-    door = w.map.transition_at(18, 2)
-    assert_equal "dungeon_1", door[:to], "the bypass door is a SAME-ZONE way"
-    assert door[:sealed]
-    seal = w.map.station_at(17, 2)
-    assert_equal "seal", seal[:type]
-    assert_equal [18, 2], seal[:opens]
-    # The chamber is watertight except the door teleport and the circuit
-    # mouth at [25,8]/[26,8]: column x19 (y1-7) + row-8 walls both sides.
-    (1..7).each { |y| assert w.map.wall?(19, y), "[19,#{y}] must be wall" }
-    (18..24).each { |x| assert w.map.wall?(x, 8), "[#{x},8] must be wall" }
-    (27..30).each { |x| assert w.map.wall?(x, 8), "[#{x},8] must be wall" }
-    assert w.map.passable?(25, 8), "the circuit mouth stays open"
-    assert w.map.passable?(26, 8), "the circuit mouth stays open"
+    assert_nil w.map.station_at(17, 2), "the bypass seal was retired with the old geometry"
+    same_zone = w.map.transitions.select { |t| t[:to] == "dungeon_1" }
+    assert_empty same_zone, "no same-zone door survives the swap"
+    ropes = w.map.transitions.map { |t| [t[:to], t[:at]] }.sort
+    assert_equal [["zone_7", [9, 8]], ["zone_8", [29, 7]]], ropes, "the two ropes: back to town, on to the frontier"
   end
 
-  def test_dungeon_toll_bypass_teleports_into_the_chamber
-    w = Game::World.new(DATA, seed: 7, save: seeded_facts)
-    w.start_in("dungeon_1")
-    w.possessed.walker.teleport(17, 2)
-    park_allies_beside(w, [17, 2])
-    assert w.interact(w.possessed), "the bypass toll is a priced station action"
-    assert w.breached?("dungeon_1", [18, 2])
-    w.possessed.walker.teleport(18, 2)
-    park_allies_beside(w, [18, 2])
-    drive(w, DATA["balance/combat"][:feel][:hitstop_frames_kill] + 6)
-    assert_equal "dungeon_1", w.zone_name
-    assert_equal [21, 2], w.possessed.tile, "the door lands the pack inside the chamber"
+  def test_retired_dungeon_seal_tuple_is_migrated_not_refused
+    env = { "schema" => Game::SaveState::SCHEMA, "saved_at_ms" => 1,
+            "facts" => { "breached" => [["dungeon_1", [18, 2]], ["zone_7", [33, 14]]] } }
+    dropped = Game::SaveState.migrate_retired_seals!(env)
+    assert_equal [["dungeon_1", [18, 2]]], dropped, "exactly the named tuple leaves"
+    assert_equal [["zone_7", [33, 14]]], env["facts"]["breached"], "every other breach stays"
+    assert_empty Game::SaveState.migrate_retired_seals!(env), "idempotent"
   end
 end

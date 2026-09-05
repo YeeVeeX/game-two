@@ -58,6 +58,8 @@ class ChallengerTest < Minitest::Test
 
   def descend!
     enter_slow_door!
+    # slow_door's way to low_quay sits at [7,1] (unchanged); FASE 6.1 moved
+    # the ARRIVAL to the MUSGO A entry [1,18] — the walk-in is the same.
     world.possessed.walker.teleport(7, 1)
     drive(world, scripted({}), 2)
     assert_equal "low_quay", world.zone_name
@@ -81,16 +83,22 @@ class ChallengerTest < Minitest::Test
     end
   end
 
-  # Quiet-room staging: crew dead, allies parked far west, possessed at
-  # arm's length from the boss post [33,25] (v20 T7: the hole plinth at
-  # the core; the row-25 causeway is the approach). Deliberately does NOT
-  # tick after the teleport — the chant triggers on the test's OWN first
-  # drive, after its event subscriptions are in place.
+  # Quiet-room staging: crew dead, allies parked in the entry hall, possessed
+  # at arm's length from the boss post [41,18] (MUNDO VIVO FASE 6.1: the
+  # MUSGO A vault; row 18 is the vault's open middle, x34..48). Beyond the
+  # vault's west wall (x31..33) the approach continues on the spine (x<=29),
+  # so an out-of-range stance clamps there — still row 18, still walkable.
+  # Deliberately does NOT tick after the teleport — the chant triggers on
+  # the test's OWN first drive, after its event subscriptions are in place.
+  BOSS_POST = [41, 18].freeze
+
   def face_varekka!(dist: 3)
     descend!
     clear_crew!
-    (world.pack.living - [world.possessed]).each_with_index { |m, i| m.walker.teleport(5, 20 + i) }
-    world.possessed.walker.teleport(33 - dist, 25)
+    (world.pack.living - [world.possessed]).each_with_index { |m, i| m.walker.teleport(5, 15 + i) }
+    x = BOSS_POST[0] - dist
+    x = 29 if x.between?(30, 33) # the vault wall: step back onto the spine
+    world.possessed.walker.teleport(x, BOSS_POST[1])
   end
 
   def seize_possessed!
@@ -285,7 +293,7 @@ class ChallengerTest < Minitest::Test
     # pack teleports through the gate — no dangling cross-zone seizure.
     input = scripted({ world.frame => [:swap] })
     drive(world, input, 2)
-    world.possessed.walker.teleport(9, 8)
+    world.possessed.walker.teleport(1, 18) # the moss's west door (FASE 6.1)
     drive(world, scripted({}), 3)
     assert_equal "slow_door", world.zone_name
     assert_equal 1, ended.length

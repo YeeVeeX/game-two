@@ -55,9 +55,14 @@ class ZoneTierTest < Minitest::Test
     w = world
     tiered = humans_in(w, "dungeon_1").first
     plain = humans_in(w, "district").first
-    assert_equal 21, w.send(:leveled_damage, tiered, tiered.kit[:attack]),
-                 "12 + 12*75/100 = 21 (Integer division)"
-    assert_equal 12, w.send(:leveled_damage, plain, plain.kit[:attack])
+    # FASE 6.1 swap: dungeon_1's roster is the medusa fauna (stinger/warden) —
+    # the law reads the STAMPED pct against the kit's own base, whatever kind
+    # stands first (stinger 14 -> 14 + 14*75/100 = 24, Integer division).
+    tb = tiered.kit[:attack][:damage]
+    assert_equal tb + (tb * 75) / 100, w.send(:leveled_damage, tiered, tiered.kit[:attack]),
+                 "base + base*75/100 (Integer division) for the tiered zone"
+    pb = plain.kit[:attack][:damage]
+    assert_equal pb, w.send(:leveled_damage, plain, plain.kit[:attack])
   end
 
   def test_the_pack_never_tiers
@@ -90,8 +95,12 @@ class ZoneTierTest < Minitest::Test
     scale = DATA["balance/coop"][:seats][:"2"][:human_hp_scale]
     tiered = humans_in(w, "dungeon_1").first
     plain = humans_in(w, "district").first
-    assert_equal (100 * scale).round, tiered.max_hp, "tier THEN coop"
-    assert_equal (50 * scale).round, plain.max_hp
+    tier_hp = DATA["balance/tiers"][:zones][:dungeon_1][:enemy_hp_pct]
+    base_t = DATA["balance/combat"][:kits][tiered.kit_name][:max_hp]
+    base_p = DATA["balance/combat"][:kits][plain.kit_name][:max_hp]
+    tiered_base = base_t + (base_t * tier_hp) / 100 # the tier law is ADDITIVE (base + base*pct/100)
+    assert_equal (tiered_base * scale).round, tiered.max_hp, "tier THEN coop"
+    assert_equal (base_p * scale).round, plain.max_hp
   end
 
   # --- the zone_7 deep gates on live data (4 / 5 / 6) ----------------------

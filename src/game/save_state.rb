@@ -134,6 +134,25 @@ module Game
 
     # --- strict decoder (decision 6a): named refusals, never a crash ----
 
+    # MUNDO VIVO FASE 6.1 — L9 migration law, RETIRED SEALS. When a zone's
+    # geometry changes under a live save (the medusa -> DUNGEON 1 swap
+    # retired dungeon_1's internal seal [17,2] -> [18,2]), the breach
+    # tuple recorded by players who paid it no longer resolves and the
+    # strict decoder would refuse the whole save. The migration is a
+    # NAMED list, never a wildcard: only tuples on it are dropped (no
+    # refund — the door served its era; spec §2), each drop reported as a
+    # notice. Runs on the parsed envelope BEFORE validation; pure
+    # (returns the dropped list, mutates facts["breached"] only).
+    RETIRED_SEALS = [["dungeon_1", [18, 2]]].freeze
+
+    def migrate_retired_seals!(env)
+      facts = env.is_a?(Hash) ? env["facts"] : nil
+      return [] unless facts.is_a?(Hash) && facts["breached"].is_a?(Array)
+      dropped = facts["breached"].select { |e| RETIRED_SEALS.include?(e) }
+      facts["breached"] = facts["breached"] - dropped unless dropped.empty?
+      dropped
+    end
+
     def envelope_refusal(env, data:)
       return "save envelope: not an object" unless env.is_a?(Hash)
       schema = env["schema"]

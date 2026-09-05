@@ -113,8 +113,19 @@ class SimIdentityCanaryTest < Minitest::Test
     "burn_duel" => "36d6281cb5988432eda9022fe16acc3c"
   }.freeze
 
+  # MUNDO VIVO FASE 6.1 (2026-09-05, the SWAP — spec
+  # drafts/_swap-spec-medusa-to-dungeon1-20260831.md, Junior direction +
+  # Gabriel's tower concur): MEDUSA LOWER geometry moved to DUNGEON 1;
+  # low_quay became MUSGO A (Junior-approved). floor3_run was choreographed
+  # on the medusa in ZONE 5 → RETIRED with its stream preserved below
+  # (F6_RETIREMENT); the MUSGO sentinel is authored by the tuner in the
+  # follow-up ticket and joins ACTIVE then. world_loop never enters ZONE 5
+  # or DUNGEON 1 → byte-UNCHANGED (asserted).
   ACTIVE = {
-    "world_loop" => "e0b1f38f0f6a5e3910a45a48f0f7bd3e",
+    "world_loop" => "e0b1f38f0f6a5e3910a45a48f0f7bd3e"
+  }.freeze
+
+  F6_RETIREMENT = {
     "floor3_run" => "66bbc9e2056ab8c5bd8e84eb8f246884"
   }.freeze
 

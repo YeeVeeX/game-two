@@ -158,8 +158,8 @@
       ],
       "to": "dungeon_1",
       "spawn": [
-        15,
-        3
+        10,
+        8
       ],
       "sealed": true,
       "type": "hole",
@@ -199,7 +199,7 @@
       "to": "low_quay",
       "spawn": [
         24,
-        50
+        33
       ]
     }
   ],

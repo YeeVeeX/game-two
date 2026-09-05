@@ -70,13 +70,14 @@ class LowQuayTest < Minitest::Test
   def test_the_low_quay_declares_its_shape
     map = Core::TileMap.new(DATA["zones/low_quay"])
     assert_equal "ZONE 5", map.display_name
-    # v20 T7: floor -3, Junior's MEDUSA LOWER canvas (52x52), anchored at
-    # the serpent-head arrival.
+    # MUNDO VIVO FASE 6.1 (the swap): floor -3 is MUSGO A — "salão selado"
+    # (52x36, Junior-approved 2026-08-31; the MEDUSA LOWER canvas moved to
+    # DUNGEON 1). Anchored at the west door.
     assert_equal 52, map.cols
-    assert_equal 52, map.rows
-    assert_equal(-3, map.floor, "the abyss is the descent's last step")
-    refute map.hub, "the abyss is not a refuge"
-    assert_equal [10, 8], map.gradient_anchor
+    assert_equal 36, map.rows
+    assert_equal(-3, map.floor, "the moss is the descent's last step")
+    refute map.hub, "the moss is not a refuge"
+    assert_equal [1, 18], map.gradient_anchor
   end
 
   def test_the_low_quay_has_no_stations
@@ -101,7 +102,7 @@ class LowQuayTest < Minitest::Test
 
   def test_the_low_quay_returns_up_the_stair
     descend!
-    world.possessed.walker.teleport(9, 8)
+    world.possessed.walker.teleport(1, 18) # the west door (arrival lands one tile inside)
     drive(world, scripted({}), 2)
     assert_equal "slow_door", world.zone_name
   end
@@ -109,18 +110,23 @@ class LowQuayTest < Minitest::Test
   def test_the_low_quay_seeds_the_densest_field
     descend!
     kits = world.humans.map(&:kit_name).tally
-    assert_equal 24, kits[:stinger], "the abyss watchers (first ranged hostiles)"
-    assert_equal 5, kits[:warden], "the medusas hold the core (kit carried from -2)"
-    assert_equal 1, kits[:challenger], "one named human, posted deep"
+    # FASE 6.1: the spore family (FASE 4.5 poison) is the moss's fauna;
+    # stinger/warden moved to DUNGEON 1 with the serpent geometry.
+    assert_equal 14, kits[:spore_a], "the small caps: first bites in the hall and the spine"
+    assert_equal 9, kits[:spore_b], "the heavy caps gate the vault doors and hold the vault"
+    assert_equal 1, kits[:challenger], "one named human, posted deep (the vault)"
+    xp = DATA["balance/progression"][:kill_xp]
+    assert_operator 14 * xp[:spore_a] + 9 * xp[:spore_b] + xp[:challenger], :>, 1780,
+                    "the floor -3 clear out-pays floor -2 (L6 at the clear grain)"
   end
 
   def test_the_low_quay_band_map_is_richest
     descend!
-    # v20 T7: gate_distance is WALK distance - the coil detours price the
-    # gradient (head pocket 3.0, causeway 3.5, the medusa core pays max).
-    assert_in_delta 3.0, world.send(:gradient_multiplier, [12, 8])
-    assert_in_delta 3.5, world.send(:gradient_multiplier, [20, 25])
-    assert_in_delta 4.0, world.send(:gradient_multiplier, [33, 25])
+    # FASE 6.1: gate_distance is WALK distance from the west door — entry
+    # hall 3.0, the spine 3.5, the sealed vault (BOSS 1's post) pays max.
+    assert_in_delta 3.0, world.send(:gradient_multiplier, [7, 18])
+    assert_in_delta 3.5, world.send(:gradient_multiplier, [24, 18])
+    assert_in_delta 4.0, world.send(:gradient_multiplier, [41, 18])
   end
 
   # --- the challenger KIND (data-complete now; code reads it at 3-4) -------

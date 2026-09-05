@@ -66,15 +66,17 @@ class PilotLoopTest < Minitest::Test
     park_allies_beside(w, [33, 14])
     drive(w, DATA["balance/combat"][:feel][:hitstop_frames_kill] + 6)
     assert_equal "dungeon_1", w.zone_name, "falling commits"
-    assert_equal [15, 3], w.possessed.tile
+    # FASE 6.1: DUNGEON 1 is the MEDUSA LOWER geometry - the fall lands at
+    # the serpent head [10,8] (the rope back sits one tile west at [9,8]).
+    assert_equal [10, 8], w.possessed.tile
 
     # No return transition at the landing (D4 one-way law).
-    assert_nil w.map.transition_at(15, 3)
+    assert_nil w.map.transition_at(10, 8)
 
-    # Rope back up from the far corner.
-    w.possessed.walker.teleport(3, 16)
-    park_allies_beside(w, [3, 16])
-    refute w.map.transition_at(3, 16)[:sealed]
+    # Rope back up — beside the landing (FASE 6.1: the medusa head's west edge).
+    w.possessed.walker.teleport(9, 8)
+    park_allies_beside(w, [9, 8])
+    refute w.map.transition_at(9, 8)[:sealed]
     drive(w, 30)
     assert_equal "dungeon_1", w.zone_name, "resting on the rope never auto-climbs"
     assert w.interact(w.possessed), "the climb is a free interact"

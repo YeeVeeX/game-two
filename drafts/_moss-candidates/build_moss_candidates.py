@@ -205,22 +205,28 @@ def render(c):
     img.save(path)
     return path
 
-results = []
-for c in (cand_a(), cand_b(), cand_c()):
-    g = c["g"]
-    # exits/boss must sit on floor
-    for tag in ("entry", "exit7", "boss"):
-        x, y = c[tag]
-        g[y][x] = "."
-    seen = bfs(g, c["entry"])
-    ok = c["exit7"] in seen and c["boss"] in seen
-    floor_tiles = sum(row.count(".") for row in g)
-    path = render(c)
-    results.append(dict(name=c["name"], size=c["size"], reachable=len(seen),
-                        floor=floor_tiles, exits_ok=ok, png=path))
-    print(f"{c['name']}: {c['size'][0]}x{c['size'][1]} floor={floor_tiles} "
-          f"BFS={len(seen)} exits+boss reachable={ok} -> {path}")
+def main():
+  results = []
+  for c in (cand_a(), cand_b(), cand_c()):
+      g = c["g"]
+      # exits/boss must sit on floor
+      for tag in ("entry", "exit7", "boss"):
+          x, y = c[tag]
+          g[y][x] = "."
+      seen = bfs(g, c["entry"])
+      ok = c["exit7"] in seen and c["boss"] in seen
+      floor_tiles = sum(row.count(".") for row in g)
+      path = render(c)
+      results.append(dict(name=c["name"], size=c["size"], reachable=len(seen),
+                          floor=floor_tiles, exits_ok=ok, png=path))
+      print(f"{c['name']}: {c['size'][0]}x{c['size'][1]} floor={floor_tiles} "
+            f"BFS={len(seen)} exits+boss reachable={ok} -> {path}")
 
-orphans = [r for r in results if r["reachable"] != r["floor"]]
-print("\ntiles orfaos:", {r["name"]: r["floor"] - r["reachable"] for r in orphans} if orphans else "ZERO em todos")
-print("TODOS VALIDOS" if all(r["exits_ok"] for r in results) else "FALHA EM ALGUM")
+  orphans = [r for r in results if r["reachable"] != r["floor"]]
+  print("\ntiles orfaos:", {r["name"]: r["floor"] - r["reachable"] for r in orphans} if orphans else "ZERO em todos")
+  print("TODOS VALIDOS" if all(r["exits_ok"] for r in results) else "FALHA EM ALGUM")
+
+
+
+if __name__ == "__main__":
+  main()
