@@ -124,3 +124,8 @@ allies act (callouts + HUD pulse) and plays with them, (b) the brain acts
 earlier (data). This is the A3 evidence pair the owner needs: brain OFF vs ON
 under the same player, and ON-silent vs ON-announced. His word: below.
 
+His word on session 4 (numbered): **1 — "Sim: vi o Pomo beber, o Aro fechar o anel; joguei junto."**
+A3 audit closed on the Junior side: `drafts/_a3-ally-brain-audit-20260905.md` (player
+evidence + canary stream diff + one named finding: the ranged-hold stalemate in
+brasa2_run, 2 fix candidates). Owner's line owed.
+
