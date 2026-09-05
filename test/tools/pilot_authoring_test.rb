@@ -37,4 +37,25 @@ class PilotAuthoringTest < Minitest::Test
     assert_equal "1.5.3", doc["jsonVersion"], "the pilot project rides the D1 pin"
     assert_equal "Free", doc["identifierStyle"]
   end
+
+  # WB-T6 GUI-safety pin (hit live 2026-09-05): LDtk 1.5.3 ZEROES every
+  # IntGrid cell whose value the layer def does not declare -- the first GUI
+  # save of the MUNDO VIVO floors destroyed 924 cells (values 9/10/12 written
+  # by builders that skipped the T6b declaration law). The importer reads the
+  # registry, never the defs, so the suite was green while the editor was a
+  # trap. Every value a level uses must be declared, and every declaration
+  # must be a registry type.
+  def test_every_used_intgrid_value_is_declared_in_the_terrain_def
+    doc = JSON.parse(File.read(PROJECT))
+    terrain_def = doc["defs"]["layers"].find { |l| l["identifier"] == "Terrain" }
+    declared = terrain_def["intGridValues"].to_h { |v| [v["value"], v["identifier"]] }
+    registry = JSON.parse(File.read(File.join(ROOT, "data/tiles.json")))["types"]
+    registry_values = registry.to_h { |id, t| [t["int_grid"], id] }
+    used = doc["levels"].flat_map do |l|
+      l["layerInstances"].select { |li| li["__identifier"] == "Terrain" }.flat_map { |li| li["intGridCsv"] }
+    end.uniq - [0]
+    assert_empty used - declared.keys,
+                 "IntGrid value(s) used by a level but undeclared in the Terrain def -- LDtk zeroes them on save"
+    assert_equal registry_values, declared, "Terrain def declarations must mirror data/tiles.json (value => type id)"
+  end
 end

@@ -167,6 +167,48 @@
             "color": "#564C34",
             "tile": null,
             "groupUid": 0
+          },
+          {
+            "value": 9,
+            "identifier": "moss",
+            "color": "#1E4222",
+            "tile": null,
+            "groupUid": 0
+          },
+          {
+            "value": 10,
+            "identifier": "rubble",
+            "color": "#362A28",
+            "tile": null,
+            "groupUid": 0
+          },
+          {
+            "value": 11,
+            "identifier": "bones",
+            "color": "#C8C0A8",
+            "tile": null,
+            "groupUid": 0
+          },
+          {
+            "value": 12,
+            "identifier": "lava_deco",
+            "color": "#EB6E1E",
+            "tile": null,
+            "groupUid": 0
+          },
+          {
+            "value": 13,
+            "identifier": "puddle",
+            "color": "#3A5A7A",
+            "tile": null,
+            "groupUid": 0
+          },
+          {
+            "value": 14,
+            "identifier": "roots",
+            "color": "#6B4A2E",
+            "tile": null,
+            "groupUid": 0
           }
         ],
         "intGridValuesGroups": [],
