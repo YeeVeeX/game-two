@@ -2,10 +2,21 @@
 
 A grid ARPG in Ruby + Gosu where you play a pack of three bodies
 (Tab swaps): hunt enemies through connected zones, bank the value you
-collect, pay tolls to open gates, and survive BOSS 1 — the one enemy
-that can seize your body back.
+collect, pay tolls to open gates, and descend — five dungeons deep, with
+a unique boss at the bottom of each — into a living underground.
 
-![ZONE 1 gameplay: three-body pack, HUD, stations, and post-fight tally](docs/assets/gameplay.png)
+![ZONE 2 gameplay: sprite pack, animated ambience, tile relief, HUD](docs/assets/gameplay.png)
+
+**v21 MUNDO VIVO (2026-09-05):** sprites with idle/walk/windup/hit
+animation (art is a replaceable atlas), living maps (water shimmer,
+bubbles, torches, sparks, spores, fog — all tick-driven), tiles with
+relief, six new enemy behaviors (fan of shots, petrify, blink, charge,
+beam, poison, aura), phased bosses, and the world graph: the DESCENT
+(ZONE 2 → 3 → 5 with BOSS 1 in the moss vault), the MEDUSA TOWER
+(DUNGEON 1 → 4, forced loops, BOSS 2 at the bottom) and BRASA (DUNGEON
+5 → 7, lava, BOSS 4 on the forge dais). Level cap 21.
+
+![God-view: every zone, 20 panels](docs/assets/godview.png)
 
 All player-visible names are deliberate placeholders (ZONE 1, HUB 1,
 BOSS 1, player 1…): this repo carries mechanics and engine only — no
