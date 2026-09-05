@@ -30,7 +30,8 @@ module Harness
                                       strings: Core::Strings.new(data, locale: "en"),
                                       bindings: Core::BindingMap.load(
                                         data, key_table: App::KEY_TABLE, local: false
-                                      ))
+                                      ),
+                                      art: App::Art::Registry.load(data))
         # v17: the curated list + serialization live in Harness::EventLog /
         # Net::EventSerial (shared with the headless canaries and the
         # netplay digest) — these lines are the banked etapa-0 instrument

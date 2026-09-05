@@ -1,0 +1,517 @@
+{
+  "frame_w": 32,
+  "frame_h": 32,
+  "anchor": [
+    2,
+    2
+  ],
+  "facings": [
+    "down",
+    "up",
+    "left",
+    "right"
+  ],
+  "generator": "tools/gen_placeholder_art.py",
+  "kits": {
+    "striker": {
+      "atlas": "art/atlas/striker.png",
+      "cols": 12,
+      "rows": 4,
+      "anims": {
+        "idle": {
+          "frames": [
+            0,
+            1
+          ],
+          "frames_per_step": 18
+        },
+        "walk": {
+          "frames": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "frames_per_step": 5
+        },
+        "windup": {
+          "frames": [
+            6,
+            7
+          ],
+          "frames_per_step": 4
+        },
+        "active": {
+          "frames": [
+            8,
+            9
+          ],
+          "frames_per_step": 2
+        },
+        "hurt": {
+          "frames": [
+            10
+          ],
+          "frames_per_step": 1
+        },
+        "dead": {
+          "frames": [
+            11
+          ],
+          "frames_per_step": 1
+        }
+      },
+      "md5": "6813a1f2a24513ae260cb5f6170a257a"
+    },
+    "blocker": {
+      "atlas": "art/atlas/blocker.png",
+      "cols": 12,
+      "rows": 4,
+      "anims": {
+        "idle": {
+          "frames": [
+            0,
+            1
+          ],
+          "frames_per_step": 18
+        },
+        "walk": {
+          "frames": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "frames_per_step": 5
+        },
+        "windup": {
+          "frames": [
+            6,
+            7
+          ],
+          "frames_per_step": 4
+        },
+        "active": {
+          "frames": [
+            8,
+            9
+          ],
+          "frames_per_step": 2
+        },
+        "hurt": {
+          "frames": [
+            10
+          ],
+          "frames_per_step": 1
+        },
+        "dead": {
+          "frames": [
+            11
+          ],
+          "frames_per_step": 1
+        }
+      },
+      "md5": "2fbcf6dfb73c5e3b89044b23d38322a8"
+    },
+    "lobber": {
+      "atlas": "art/atlas/lobber.png",
+      "cols": 12,
+      "rows": 4,
+      "anims": {
+        "idle": {
+          "frames": [
+            0,
+            1
+          ],
+          "frames_per_step": 18
+        },
+        "walk": {
+          "frames": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "frames_per_step": 5
+        },
+        "windup": {
+          "frames": [
+            6,
+            7
+          ],
+          "frames_per_step": 4
+        },
+        "active": {
+          "frames": [
+            8,
+            9
+          ],
+          "frames_per_step": 2
+        },
+        "hurt": {
+          "frames": [
+            10
+          ],
+          "frames_per_step": 1
+        },
+        "dead": {
+          "frames": [
+            11
+          ],
+          "frames_per_step": 1
+        }
+      },
+      "md5": "3dca4b2db873b4930989b4009804c437"
+    },
+    "rusher": {
+      "atlas": "art/atlas/rusher.png",
+      "cols": 12,
+      "rows": 4,
+      "anims": {
+        "idle": {
+          "frames": [
+            0,
+            1
+          ],
+          "frames_per_step": 18
+        },
+        "walk": {
+          "frames": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "frames_per_step": 5
+        },
+        "windup": {
+          "frames": [
+            6,
+            7
+          ],
+          "frames_per_step": 4
+        },
+        "active": {
+          "frames": [
+            8,
+            9
+          ],
+          "frames_per_step": 2
+        },
+        "hurt": {
+          "frames": [
+            10
+          ],
+          "frames_per_step": 1
+        },
+        "dead": {
+          "frames": [
+            11
+          ],
+          "frames_per_step": 1
+        }
+      },
+      "md5": "acf1dec54bf4eb2b227294321f86afbb"
+    },
+    "rusher_hater": {
+      "atlas": "art/atlas/rusher_hater.png",
+      "cols": 12,
+      "rows": 4,
+      "anims": {
+        "idle": {
+          "frames": [
+            0,
+            1
+          ],
+          "frames_per_step": 18
+        },
+        "walk": {
+          "frames": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "frames_per_step": 5
+        },
+        "windup": {
+          "frames": [
+            6,
+            7
+          ],
+          "frames_per_step": 4
+        },
+        "active": {
+          "frames": [
+            8,
+            9
+          ],
+          "frames_per_step": 2
+        },
+        "hurt": {
+          "frames": [
+            10
+          ],
+          "frames_per_step": 1
+        },
+        "dead": {
+          "frames": [
+            11
+          ],
+          "frames_per_step": 1
+        }
+      },
+      "md5": "69fdd3180cf5240b3876cac6cc184dca"
+    },
+    "husk": {
+      "atlas": "art/atlas/husk.png",
+      "cols": 12,
+      "rows": 4,
+      "anims": {
+        "idle": {
+          "frames": [
+            0,
+            1
+          ],
+          "frames_per_step": 18
+        },
+        "walk": {
+          "frames": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "frames_per_step": 5
+        },
+        "windup": {
+          "frames": [
+            6,
+            7
+          ],
+          "frames_per_step": 4
+        },
+        "active": {
+          "frames": [
+            8,
+            9
+          ],
+          "frames_per_step": 2
+        },
+        "hurt": {
+          "frames": [
+            10
+          ],
+          "frames_per_step": 1
+        },
+        "dead": {
+          "frames": [
+            11
+          ],
+          "frames_per_step": 1
+        }
+      },
+      "md5": "0d373a114154b9a859e305071c139851"
+    },
+    "challenger": {
+      "atlas": "art/atlas/challenger.png",
+      "cols": 12,
+      "rows": 4,
+      "anims": {
+        "idle": {
+          "frames": [
+            0,
+            1
+          ],
+          "frames_per_step": 18
+        },
+        "walk": {
+          "frames": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "frames_per_step": 5
+        },
+        "windup": {
+          "frames": [
+            6,
+            7
+          ],
+          "frames_per_step": 4
+        },
+        "active": {
+          "frames": [
+            8,
+            9
+          ],
+          "frames_per_step": 2
+        },
+        "hurt": {
+          "frames": [
+            10
+          ],
+          "frames_per_step": 1
+        },
+        "dead": {
+          "frames": [
+            11
+          ],
+          "frames_per_step": 1
+        }
+      },
+      "md5": "9dda18fe07d21d1b49d92666bcbbac01"
+    },
+    "lurker": {
+      "atlas": "art/atlas/lurker.png",
+      "cols": 12,
+      "rows": 4,
+      "anims": {
+        "idle": {
+          "frames": [
+            0,
+            1
+          ],
+          "frames_per_step": 18
+        },
+        "walk": {
+          "frames": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "frames_per_step": 5
+        },
+        "windup": {
+          "frames": [
+            6,
+            7
+          ],
+          "frames_per_step": 4
+        },
+        "active": {
+          "frames": [
+            8,
+            9
+          ],
+          "frames_per_step": 2
+        },
+        "hurt": {
+          "frames": [
+            10
+          ],
+          "frames_per_step": 1
+        },
+        "dead": {
+          "frames": [
+            11
+          ],
+          "frames_per_step": 1
+        }
+      },
+      "md5": "1ecbd084f8678200420bbd25e0c9709f"
+    },
+    "warden": {
+      "atlas": "art/atlas/warden.png",
+      "cols": 12,
+      "rows": 4,
+      "anims": {
+        "idle": {
+          "frames": [
+            0,
+            1
+          ],
+          "frames_per_step": 18
+        },
+        "walk": {
+          "frames": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "frames_per_step": 5
+        },
+        "windup": {
+          "frames": [
+            6,
+            7
+          ],
+          "frames_per_step": 4
+        },
+        "active": {
+          "frames": [
+            8,
+            9
+          ],
+          "frames_per_step": 2
+        },
+        "hurt": {
+          "frames": [
+            10
+          ],
+          "frames_per_step": 1
+        },
+        "dead": {
+          "frames": [
+            11
+          ],
+          "frames_per_step": 1
+        }
+      },
+      "md5": "66fa04fdf778be8e3b922b29a7ad0b18"
+    },
+    "stinger": {
+      "atlas": "art/atlas/stinger.png",
+      "cols": 12,
+      "rows": 4,
+      "anims": {
+        "idle": {
+          "frames": [
+            0,
+            1
+          ],
+          "frames_per_step": 18
+        },
+        "walk": {
+          "frames": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "frames_per_step": 5
+        },
+        "windup": {
+          "frames": [
+            6,
+            7
+          ],
+          "frames_per_step": 4
+        },
+        "active": {
+          "frames": [
+            8,
+            9
+          ],
+          "frames_per_step": 2
+        },
+        "hurt": {
+          "frames": [
+            10
+          ],
+          "frames_per_step": 1
+        },
+        "dead": {
+          "frames": [
+            11
+          ],
+          "frames_per_step": 1
+        }
+      },
+      "md5": "dab97f843d4db310ea042c1f442690a1"
+    }
+  }
+}

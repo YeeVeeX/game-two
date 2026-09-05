@@ -196,5 +196,11 @@
  "menu_net_panel_w": 230,
  "menu_net_panel_gap": 14,
  "menu_net_row_h": 20,
- "menu_net_font_size": 13
+ "menu_net_font_size": 13,
+ "art_enabled": true,
+ "art_facing_notch": true,
+ "art_hurt_tint_rgb": [235, 40, 40],
+ "art_human_hurt_tint_rgb": [255, 120, 120],
+ "art_ally_dim_rgb": [200, 195, 198],
+ "art_seized_tint_rgb": [120, 140, 230]
 }

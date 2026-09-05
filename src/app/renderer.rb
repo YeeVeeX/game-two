@@ -1,3 +1,4 @@
+require "app/art"
 require "app/controls_overlay"
 require "app/kill_pop"
 require "app/stamp"
@@ -90,9 +91,14 @@ module App
     # precedent) — the fetch defaults only keep a bare Renderer.new drawable.
     # strings: Core::Strings resolver (v13 i18n) — RENDER-time only; the
     # harness constructs it pinned to "en" (replay comparability law).
-    def initialize(display: {}, strings: nil, bindings: nil, local_seat: 1)
+    def initialize(display: {}, strings: nil, bindings: nil, local_seat: 1, art: nil)
       @display = display
       @strings = strings
+      # MUNDO VIVO FASE 1: sprite registry (App::Art). nil or a kit without
+      # an atlas → the legacy quad (fallback law). display.json
+      # `art_enabled: false` forces quads everywhere (debug/perf switch).
+      @art = @display.fetch(:art_enabled, true) ? art : nil
+      @art_notch = @display.fetch(:art_facing_notch, true)
       # R-A2: the bank BUY hint speaks the sustain key's own glyph — ONE
       # source (Core::BindingMap) feeds input, strip, and hint alike.
       @bindings = bindings
@@ -816,13 +822,17 @@ module App
       lx, ly = lunge_offset(c)
       x = c.x + lx
       y = c.y + ly
+      # FASE 1: sprites carry a 1px outline + weapon overhang in the frame's
+      # 2px margin, which would eat the ring down to 2px — pad 4 under art
+      # keeps the SAME 3 visible pixels the gate learned on quads.
+      rp = @art ? 4 : 3
       if c.equal?(world.possessed(@local_seat))
-        Gosu.draw_rect(x - 3, y - 3, SIZE + 6, SIZE + 6, POSSESSED_RING)
+        Gosu.draw_rect(x - rp, y - rp, SIZE + rp * 2, SIZE + rp * 2, POSSESSED_RING)
       elsif c.faction == :pack && world.controlled?(c)
         # v17 decision 10: seat identity is RINGS ONLY — the partner's body
         # carries the second color (display.json), labels untouched.
         # Unreachable single-seat (the only controlled body IS possessed).
-        Gosu.draw_rect(x - 3, y - 3, SIZE + 6, SIZE + 6, partner_ring)
+        Gosu.draw_rect(x - rp, y - rp, SIZE + rp * 2, SIZE + rp * 2, partner_ring)
       end
       if c.faction == :pack && c.marked?
         draw_outlined_quad(x + SIZE / 2 - 4, y - 10, 8, GOD_MARK)
@@ -846,20 +856,56 @@ module App
         # The body stays visible INSIDE the flare: two adjacent telegraphing
         # humans otherwise read as an ownerless ground-tile pattern,
         # indistinguishable from Volley target tiles (gate critique finding).
-        Gosu.draw_rect(x + 5, y + 5, SIZE - 10, SIZE - 10, HUMAN_BODY)
-      else
-        Gosu.draw_rect(x, y, SIZE, SIZE, body_color(c, world))
-        Gosu.draw_rect(x, y, SIZE, SIZE, ALLY_DIM) if ally?(c, world)
-        # v16 (d): the seized body carries visual WEIGHT — darkened toward
-        # the chant's deep blue for the whole hold (underline keeps the
-        # clock; this makes the state read at body scale).
-        if c.faction == :pack && c.seized_by
-          Gosu.draw_rect(x, y, SIZE, SIZE,
-                         Gosu::Color.new(@display.fetch(:seized_weight_alpha, 110), *seized_rgb))
+        # Sprite path: the windup frame sits inside the flare (the core
+        # shows through the frame's transparent margin); quad fallback
+        # keeps the inset bone square.
+        unless App::Art::Body.draw(c, world, x, y, @art)
+          Gosu.draw_rect(x + 5, y + 5, SIZE - 10, SIZE - 10, HUMAN_BODY)
         end
+      else
+        draw_body(c, world, x, y)
       end
-      draw_facing_notch(c, x, y)
+      draw_facing_notch(c, x, y) if @art_notch || @art.nil?
       draw_attack(c, world.map.tile_size) if c.faction == :pack
+    end
+
+    # FASE 1 body: sprite (tinted for hurt/ally-dim/seized) or the legacy
+    # quad + overlays. The tint reproduces the quad grammar the gate already
+    # judges — crimson (never white) pack flash, dimmed unpossessed kin,
+    # blue weight while seized — by color MODULATION on the sprite.
+    def draw_body(c, world, x, y)
+      tint = sprite_tint(c, world)
+      return if App::Art::Body.draw(c, world, x, y, @art, tint: tint)
+      Gosu.draw_rect(x, y, SIZE, SIZE, body_color(c, world))
+      Gosu.draw_rect(x, y, SIZE, SIZE, ALLY_DIM) if ally?(c, world)
+      # v16 (d): the seized body carries visual WEIGHT — darkened toward
+      # the chant's deep blue for the whole hold (underline keeps the
+      # clock; this makes the state read at body scale).
+      if c.faction == :pack && c.seized_by
+        Gosu.draw_rect(x, y, SIZE, SIZE,
+                       Gosu::Color.new(@display.fetch(:seized_weight_alpha, 110), *seized_rgb))
+      end
+    end
+
+    def sprite_tint(c, world)
+      return nil unless @art
+      r, g, b = 255, 255, 255
+      flash = c.faction == :pack && (c.iframes? || c.hurt?) && (world.frame / 3).even?
+      if flash
+        r, g, b = @display.fetch(:art_hurt_tint_rgb, [235, 40, 40])
+      elsif c.faction == :human && c.hurt?
+        r, g, b = @display.fetch(:art_human_hurt_tint_rgb, [255, 120, 120])
+      end
+      if ally?(c, world)
+        dr, dg, db = @display.fetch(:art_ally_dim_rgb, [140, 132, 138])
+        r, g, b = r * dr / 255, g * dg / 255, b * db / 255
+      end
+      if c.faction == :pack && c.seized_by
+        sr, sg, sb = @display.fetch(:art_seized_tint_rgb, [120, 140, 230])
+        r, g, b = r * sr / 255, g * sg / 255, b * sb / 255
+      end
+      return nil if [r, g, b] == [255, 255, 255]
+      Gosu::Color.new(255, r, g, b)
     end
 
     def ally?(c, world) = c.faction == :pack && !c.equal?(world.possessed(@local_seat))

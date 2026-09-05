@@ -1,0 +1,154 @@
+require "gosu"
+
+module App
+  # MUNDO VIVO FASE 1 — the art layer. Sprites enter UNDER the existing
+  # legibility overlays (possession ring, marks, underlines, telegraph
+  # flare, pressure outline, facing notch): the renderer keeps its grammar,
+  # the body just stops being a bare quad. Contract:
+  #
+  #   data/art/manifest.json — per kit: {atlas, cols, rows, anims, md5};
+  #   atlas grid = ROWS facings (down, up, left, right) x COLS frames.
+  #   Frame choice is a PURE function of (world.frame, creature state,
+  #   facing) — deterministic, so both gate halves and both netplay seats
+  #   pick the same frame. Nothing here is read by the sim; nothing lands
+  #   in the state digest.
+  #
+  #   Fallback law: kit without a manifest entry (or manifest/atlas absent)
+  #   → Body.draw returns false and the renderer draws the legacy quad.
+  #   Adding a kit never breaks a build.
+  #
+  #   ART IS REPLACEABLE: same grid, new PNG (Gabriel's assets later),
+  #   zero code. tools/gen_placeholder_art.py is the v1 pipeline proof.
+  module Art
+    class Registry
+      # Loads manifest metadata only — Gosu images are created LAZILY on the
+      # first draw (a GL context must exist; DataStore is built before the
+      # window in some harness paths). Returns a Registry with zero kits
+      # when the manifest is absent (fallback law).
+      def self.load(data)
+        manifest = begin
+          data["art/manifest"]
+        rescue Core::DataStore::MissingKey
+          nil
+        end
+        new(manifest, data.root)
+      end
+
+      attr_reader :frame_w, :frame_h, :anchor, :facings
+
+      def initialize(manifest, root)
+        @root = root
+        @frame_w = manifest&.fetch(:frame_w, 32) || 32
+        @frame_h = manifest&.fetch(:frame_h, 32) || 32
+        @anchor = manifest&.fetch(:anchor, [2, 2]) || [2, 2]
+        @facings = (manifest&.fetch(:facings, nil) || %w[down up left right]).map(&:to_s)
+        @kits = {}
+        (manifest&.fetch(:kits, nil) || {}).each do |kit, spec|
+          @kits[kit.to_sym] = Atlas.new(spec, root: root, registry: self)
+        end
+      end
+
+      def kits = @kits.keys.sort
+      def atlas_for(kit_name) = @kits[kit_name&.to_sym]
+      def facing_row(facing) = @facings.index(facing) || 0
+    end
+
+    class Atlas
+      attr_reader :path, :cols, :rows, :anims, :md5
+
+      def initialize(spec, root:, registry:)
+        @path = File.join(root.to_s, spec.fetch(:atlas))
+        @cols = spec.fetch(:cols)
+        @rows = spec.fetch(:rows)
+        @anims = spec.fetch(:anims).transform_keys(&:to_sym)
+        @md5 = spec[:md5]
+        @registry = registry
+        @tiles = nil
+        @failed = false
+      end
+
+      def exists? = File.file?(@path)
+
+      # Frame indices of an anim (Integer columns); falls back to idle.
+      def frames(anim)
+        (@anims[anim] || @anims[:idle]).fetch(:frames)
+      end
+
+      def frames_per_step(anim)
+        (@anims[anim] || @anims[:idle]).fetch(:frames_per_step, 1)
+      end
+
+      # Lazy tile load; nil (→ quad fallback) when the PNG is missing or
+      # Gosu refuses — a broken atlas degrades, never crashes the frame.
+      def tiles
+        return nil if @failed
+        @tiles ||= begin
+          Gosu::Image.load_tiles(@path, @registry.frame_w, @registry.frame_h,
+                                 retro: true, tileable: false)
+        rescue StandardError
+          @failed = true
+          nil
+        end
+      end
+
+      def tile(row, col)
+        t = tiles
+        return nil unless t
+        t[row * @cols + col]
+      end
+    end
+
+    module Body
+      module_function
+
+      # Which manifest row a creature faces. Diagonals resolve to the
+      # dominant axis (vertical wins ties) — the notch overlay keeps the
+      # exact 8-way truth on top.
+      def facing_name(c)
+        fx, fy = c.facing
+        if fy.abs >= fx.abs && !fy.zero?
+          fy.positive? ? "down" : "up"
+        elsif fx.negative?
+          "left"
+        else
+          "right"
+        end
+      end
+
+      # Anim selection mirrors the renderer's state reads (dead > hurt >
+      # attack windup/active > walk > idle). Pure: same inputs, same anim.
+      def anim_for(c)
+        return :dead if c.dead?
+        return :hurt if c.hurt? || (c.respond_to?(:iframes?) && c.iframes?)
+        case c.attack_state
+        when :windup then :windup
+        when :active then :active
+        else c.moving? ? :walk : :idle
+        end
+      end
+
+      # Frame column for (anim, world frame) — cycles by frames_per_step.
+      def frame_col(atlas, anim, world_frame)
+        fr = atlas.frames(anim)
+        step = [atlas.frames_per_step(anim), 1].max
+        fr[(world_frame / step) % fr.length]
+      end
+
+      # Draws the body sprite at the creature's pixel position (x, y are the
+      # body's top-left, i.e. the legacy quad origin). tint = Gosu::Color
+      # modulation (crimson hurt flash, ally dim, seized weight) or nil.
+      # Returns true when a sprite was drawn, false → caller draws the quad.
+      def draw(c, world, x, y, registry, tint: nil, z: 0)
+        return false unless registry
+        atlas = registry.atlas_for(c.kit_name)
+        return false unless atlas
+        row = registry.facing_row(facing_name(c))
+        img = atlas.tile(row, frame_col(atlas, anim_for(c), world.frame))
+        return false unless img
+        ax, ay = registry.anchor
+        img.draw(x - ax, y - ay, z, 1, 1, tint || Gosu::Color::WHITE)
+        true
+      end
+    end
+  end
+end

@@ -37,5 +37,9 @@ module Core
     end
 
     def keys = @data.keys.sort
+
+    # Where the JSON tree lives — presentation loaders (art atlases) resolve
+    # non-JSON siblings (PNG) against it. Read-only; never a sim input.
+    def root = @root
   end
 end
