@@ -140,7 +140,9 @@ module App
       @controls_overlay = ControlsOverlay.new(display:, strings:, bindings:, local_seat:)
       # PREMIUM v22 pass 3: impact particles (hit sparks, death bursts,
       # footstep dust) — bus-fed, frame-keyed, presentation-only.
-      @fx = App::Fx.new(display: @display, kit_body: KIT_BODY)
+      @fx = App::Fx.new(display: @display, kit_body: KIT_BODY,
+                        labels: { drink: tr("hud.provisions", "POTION"), roll: tr("overlay.dodge", "dodge").upcase,
+                                  special: tr("menu.label.special", "SPECIAL") })
       # PREMIUM v22 pass 4: fire glows, vignette, kill punch, level flash.
       @light = App::Light.new(display: @display)
     end
@@ -1564,6 +1566,7 @@ module App
     def draw_hud(world)
       @hud ||= App::Hud.new(display: @display, strings: @strings, art: @art, kit_body: KIT_BODY,
                             hp_back: HP_BACK, hp_dead: HP_DEAD, drop_core: DROP_CORE)
+      @hud.acts = @fx.acts(world)
       @hud.draw(world, @local_seat)
     end
 

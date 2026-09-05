@@ -18,11 +18,11 @@
     "enabled": false,
     "focus_fire": true,
     "finish_pct": 0.35,
-    "drink_pct": 0.3,
+    "drink_pct": 0.45,
     "dodge_telegraphs": true,
     "use_specials": true,
     "ranged_hold_tiles": 3,
-    "ring_min_adjacent": 2
+    "ring_min_adjacent": 1
   },
   "human": {
     "enabled": false,

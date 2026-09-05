@@ -17,18 +17,22 @@ module App
     BURST_FRAMES = 22
     DUST_FRAMES = 14
     NUM_FRAMES = 40
+    CALLOUT_FRAMES = 54
     CHIP_DIRS = [[1, -1], [-1, -1], [1, 1], [-1, 1], [0, -1], [1, 0]].freeze
 
-    def initialize(display:, kit_body:)
+    # labels = { drink:, roll:, special: } already translated by the renderer
+    def initialize(display:, kit_body:, labels: {})
       @display = display
       @kit_body = kit_body
+      @labels = labels
       @worlds = {}   # world -> { sparks:, bursts:, dust:, last_tile: {creature => tile} }
       @enabled = display.fetch(:fx_enabled, true)
     end
 
     def state_for(world)
       @worlds[world] ||= begin
-        st = { sparks: [], bursts: [], dust: [], nums: [], last_tile: {}, last_hp: {} }
+        st = { sparks: [], bursts: [], dust: [], nums: [], last_tile: {}, last_hp: {},
+               callouts: [], acts: {}, last_sp: {} }
         if world.respond_to?(:bus)
           world.bus.subscribe(:attack_hit) do |ev|
             v = ev.payload[:victim]
@@ -39,6 +43,21 @@ module App
             a = ev.payload[:actor]
             next unless a
             st[:bursts] << { x: a.x + 14, y: a.y + 14, at: world.frame, rgb: rgb_of(a) }
+          end
+          # pass 7 ALLY CALLOUTS: a FREE ally announces what it did (Junior,
+          # 2026-09-05: "não notei diferença nos aliados" — the brain acted,
+          # nothing on screen said so). drink / roll come from the bus; the
+          # special from the state poll in #update. Never for the possessed
+          # (you know what you did) — ally acts only.
+          world.bus.subscribe(:provision_used) do |ev|
+            a = ev.payload[:actor]
+            next unless a && a.faction == :pack && !controlled?(world, a)
+            callout!(st, world, a, :drink)
+          end
+          world.bus.subscribe(:dodged) do |ev|
+            a = ev.payload[:actor]
+            next unless a && a.faction == :pack && !controlled?(world, a)
+            callout!(st, world, a, :roll)
           end
         end
         st
@@ -66,6 +85,13 @@ module App
                          kind: d.positive? ? :heal : (c.faction == :pack ? :taken : :dealt),
                          big: -d >= (c.max_hp * 0.25) }
         end
+        # special windup START on a free ally -> callout (poll: the sim emits
+        # no special event; presentation reads the state edge)
+        if c.faction == :pack && !controlled?(world, c)
+          sp = c.attack_state == :windup && c.respond_to?(:current_action) && c.current_action == :special
+          callout!(st, world, c, :special) if sp && !st[:last_sp][c]
+          st[:last_sp][c] = sp
+        end
         prev = st[:last_tile][c]
         st[:last_tile][c] = c.tile
         next if prev.nil? || prev == c.tile
@@ -75,7 +101,9 @@ module App
       end
       st[:last_tile].delete_if { |c, _| !seen[c] }
       st[:last_hp].delete_if { |c, _| !seen[c] }
+      st[:last_sp].delete_if { |c, _| !seen[c] }
       f = world.frame
+      st[:callouts].reject! { |p| f - p[:at] >= CALLOUT_FRAMES }
       st[:nums].reject! { |p| f - p[:at] >= NUM_FRAMES }
       st[:sparks].reject! { |p| f - p[:at] >= SPARK_FRAMES }
       st[:bursts].reject! { |p| f - p[:at] >= BURST_FRAMES }
@@ -91,13 +119,69 @@ module App
       st[:bursts].each { |p| draw_burst(p, f - p[:at], z + 1) }
     end
 
-    # Numbers draw ABOVE bodies (call after the creature pass).
+    # Numbers + callouts draw ABOVE bodies (call after the creature pass).
     def draw_numbers(world, z: 8)
       return unless @enabled
       st = state_for(world)
       f = world.frame
       st[:nums].each { |p| draw_number(p, f - p[:at], z) }
+      st[:callouts].each { |p| draw_callout(p, f - p[:at], z + 1) }
     end
+
+    # kit_name -> frame of the ally's last announced act (the HUD pulses its
+    # row for a few frames). {} when nothing happened.
+    def acts(world) = state_for(world)[:acts]
+
+    private
+
+    def controlled?(world, c)
+      world.respond_to?(:controlled?) ? world.controlled?(c) : world.possessed.equal?(c)
+    end
+
+    def callout!(st, world, c, kind)
+      return unless @display.fetch(:fx_ally_callouts, true)
+      st[:callouts] << { c: c, kind: kind, at: world.frame, rgb: rgb_of(c) }
+      st[:acts][c.kit_name] = world.frame
+    end
+
+    # A small icon (flask / chevron / kit glyph) + label rising from the
+    # ally's head, holding, then fading — quiet, not a combat element.
+    def draw_callout(p, age, z)
+      c = p[:c]
+      t = age.fdiv(CALLOUT_FRAMES)
+      rise = age < 8 ? age * 2 : 16
+      a = t < 0.7 ? 255 : (255 * (1.0 - (t - 0.7) / 0.3)).round.clamp(0, 255)
+      cx = c.x + 14
+      y = c.y - 22 - rise
+      label = @labels[p[:kind]].to_s
+      f = num_font
+      tw = f.text_width(label)
+      w = tw + 18
+      x0 = (cx - w / 2).round
+      Gosu.draw_rect(x0 - 1, y - 1, w + 2, 13, Gosu::Color.new((a * 0.85).round, 14, 10, 10), z)
+      rr, gg, bb = p[:rgb]
+      Gosu.draw_rect(x0 - 1, y - 1, w + 2, 1, Gosu::Color.new(a, rr, gg, bb), z)
+      ix = x0 + 2
+      case p[:kind]
+      when :drink
+        Gosu.draw_rect(ix + 3, y + 1, 3, 2, Gosu::Color.new(a, 220, 220, 230), z)
+        Gosu.draw_rect(ix + 1, y + 3, 7, 7, Gosu::Color.new(a, 230, 90, 140), z)
+        Gosu.draw_rect(ix + 2, y + 4, 2, 3, Gosu::Color.new(a, 255, 180, 210), z)
+      when :roll
+        [[7, 0], [5, 1], [3, 2], [1, 3]].each do |(ww, k)|
+          Gosu.draw_rect(ix + 4 - ww / 2.0, y + 2 + k * 2, ww, 2, Gosu::Color.new(a, 190, 215, 255), z)
+        end
+      else
+        Gosu.draw_rect(ix + 1, y + 1, 8, 8, Gosu::Color.new(a, rr, gg, bb), z)
+        Gosu.draw_rect(ix + 3, y + 3, 4, 4, Gosu::Color.new(a, 255, 255, 240), z)
+      end
+      halo = Gosu::Color.new(a, 20, 12, 12)
+      tx = x0 + 14
+      [[1, 0], [-1, 0], [0, 1], [0, -1]].each { |(dx, dy)| f.draw_text(label, tx + dx, y - 1 + dy, z, 1, 1, halo) }
+      f.draw_text(label, tx, y - 1, z, 1, 1, Gosu::Color.new(a, 245, 240, 225))
+    end
+
+    public
 
     # A number rises ~18px with ease-out and fades over the last third.
     # dealt = warm white (yellow when >= 25% of the victim's max: a BIG hit),

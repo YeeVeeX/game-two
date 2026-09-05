@@ -19,6 +19,10 @@ module App
     ROW_H = 20
     BAR_H = 14
     PORTRAIT = 22
+    PULSE_FRAMES = 30
+
+    # kit_name -> world frame of the ally's last announced act (from App::Fx)
+    attr_accessor :acts
 
     def initialize(display:, strings:, art:, kit_body:, hp_back:, hp_dead:, drop_core:)
       @display = display
@@ -72,6 +76,13 @@ module App
         Gosu.draw_rect(bx - opx, y - opx, bw + 2 * opx, BAR_H + 2 * opx,
                        rgb(@display.fetch(:hud_bar_down_outline_rgb, [140, 120, 110])), 20)
       else
+        Gosu.draw_rect(bx - 1, y - 1, bw + 2, BAR_H + 2, dark, 20)
+      end
+      # pass 7: the row PULSES (pale frame fading over 30 frames) when this
+      # ally just drank / rolled / fired its special — the HUD says WHO acted
+      if !mine && (at = (@acts || {})[m.kit_name]) && (age = frame - at).between?(0, PULSE_FRAMES - 1)
+        pa = (220 * (1.0 - age.fdiv(PULSE_FRAMES))).round
+        Gosu.draw_rect(bx - 2, y - 2, bw + 4, BAR_H + 4, Gosu::Color.new(pa, 245, 240, 225), 20)
         Gosu.draw_rect(bx - 1, y - 1, bw + 2, BAR_H + 2, dark, 20)
       end
       Gosu.draw_rect(bx, y, bw, BAR_H, m.dead? ? @hp_dead : @hp_back, 20)
