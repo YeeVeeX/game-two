@@ -1,9 +1,9 @@
 {
   "frame_w": 32,
-  "frame_h": 32,
+  "frame_h": 48,
   "anchor": [
     2,
-    2
+    14
   ],
   "facings": [
     "down",
@@ -11,1007 +11,1086 @@
     "left",
     "right"
   ],
-  "generator": "tools/gen_placeholder_art.py",
   "kits": {
     "striker": {
       "atlas": "art/atlas/striker.png",
-      "cols": 12,
+      "cols": 16,
       "rows": 4,
       "anims": {
         "idle": {
           "frames": [
             0,
-            1
+            1,
+            2,
+            3
           ],
-          "frames_per_step": 18
+          "frames_per_step": 12
         },
         "walk": {
           "frames": [
-            2,
-            3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9
           ],
-          "frames_per_step": 5
+          "frames_per_step": 4
         },
         "windup": {
           "frames": [
-            6,
-            7
+            10,
+            11
           ],
           "frames_per_step": 4
         },
         "active": {
           "frames": [
-            8,
-            9
+            12,
+            13
           ],
           "frames_per_step": 2
         },
         "hurt": {
           "frames": [
-            10
+            14
           ],
           "frames_per_step": 1
         },
         "dead": {
           "frames": [
-            11
+            15
           ],
           "frames_per_step": 1
         }
       },
-      "md5": "c450d25ae0b7497127373379d2edb743"
+      "md5": "3e22b6261e69e25adfee048130502db5"
     },
     "blocker": {
       "atlas": "art/atlas/blocker.png",
-      "cols": 12,
+      "cols": 16,
       "rows": 4,
       "anims": {
         "idle": {
           "frames": [
             0,
-            1
+            1,
+            2,
+            3
           ],
-          "frames_per_step": 18
+          "frames_per_step": 12
         },
         "walk": {
           "frames": [
-            2,
-            3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9
           ],
-          "frames_per_step": 5
+          "frames_per_step": 4
         },
         "windup": {
           "frames": [
-            6,
-            7
+            10,
+            11
           ],
           "frames_per_step": 4
         },
         "active": {
           "frames": [
-            8,
-            9
+            12,
+            13
           ],
           "frames_per_step": 2
         },
         "hurt": {
           "frames": [
-            10
+            14
           ],
           "frames_per_step": 1
         },
         "dead": {
           "frames": [
-            11
+            15
           ],
           "frames_per_step": 1
         }
       },
-      "md5": "1cf62d80bbee21c479746a2ea881a9f1"
+      "md5": "f6db8efcc1b12fa97d661075fb9c1eba"
     },
     "lobber": {
       "atlas": "art/atlas/lobber.png",
-      "cols": 12,
+      "cols": 16,
       "rows": 4,
       "anims": {
         "idle": {
           "frames": [
             0,
-            1
+            1,
+            2,
+            3
           ],
-          "frames_per_step": 18
+          "frames_per_step": 12
         },
         "walk": {
           "frames": [
-            2,
-            3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9
           ],
-          "frames_per_step": 5
+          "frames_per_step": 4
         },
         "windup": {
           "frames": [
-            6,
-            7
+            10,
+            11
           ],
           "frames_per_step": 4
         },
         "active": {
           "frames": [
-            8,
-            9
+            12,
+            13
           ],
           "frames_per_step": 2
         },
         "hurt": {
           "frames": [
-            10
+            14
           ],
           "frames_per_step": 1
         },
         "dead": {
           "frames": [
-            11
+            15
           ],
           "frames_per_step": 1
         }
       },
-      "md5": "98f61a76e8edeb3a4b9ccd40bc688b8b"
-    },
-    "rusher": {
-      "atlas": "art/atlas/rusher.png",
-      "cols": 12,
-      "rows": 4,
-      "anims": {
-        "idle": {
-          "frames": [
-            0,
-            1
-          ],
-          "frames_per_step": 18
-        },
-        "walk": {
-          "frames": [
-            2,
-            3,
-            4,
-            5
-          ],
-          "frames_per_step": 5
-        },
-        "windup": {
-          "frames": [
-            6,
-            7
-          ],
-          "frames_per_step": 4
-        },
-        "active": {
-          "frames": [
-            8,
-            9
-          ],
-          "frames_per_step": 2
-        },
-        "hurt": {
-          "frames": [
-            10
-          ],
-          "frames_per_step": 1
-        },
-        "dead": {
-          "frames": [
-            11
-          ],
-          "frames_per_step": 1
-        }
-      },
-      "md5": "07c62c0c70e65d85c381ed7e9059bd81"
-    },
-    "rusher_hater": {
-      "atlas": "art/atlas/rusher_hater.png",
-      "cols": 12,
-      "rows": 4,
-      "anims": {
-        "idle": {
-          "frames": [
-            0,
-            1
-          ],
-          "frames_per_step": 18
-        },
-        "walk": {
-          "frames": [
-            2,
-            3,
-            4,
-            5
-          ],
-          "frames_per_step": 5
-        },
-        "windup": {
-          "frames": [
-            6,
-            7
-          ],
-          "frames_per_step": 4
-        },
-        "active": {
-          "frames": [
-            8,
-            9
-          ],
-          "frames_per_step": 2
-        },
-        "hurt": {
-          "frames": [
-            10
-          ],
-          "frames_per_step": 1
-        },
-        "dead": {
-          "frames": [
-            11
-          ],
-          "frames_per_step": 1
-        }
-      },
-      "md5": "1e90524b19452feb690f6e364b473645"
+      "md5": "67ac4f5593d91df08fc9661a4ca6b984"
     },
     "husk": {
       "atlas": "art/atlas/husk.png",
-      "cols": 12,
+      "cols": 16,
       "rows": 4,
       "anims": {
         "idle": {
           "frames": [
             0,
-            1
+            1,
+            2,
+            3
           ],
-          "frames_per_step": 18
+          "frames_per_step": 12
         },
         "walk": {
           "frames": [
-            2,
-            3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9
           ],
-          "frames_per_step": 5
+          "frames_per_step": 4
         },
         "windup": {
           "frames": [
-            6,
-            7
+            10,
+            11
           ],
           "frames_per_step": 4
         },
         "active": {
           "frames": [
-            8,
-            9
+            12,
+            13
           ],
           "frames_per_step": 2
         },
         "hurt": {
           "frames": [
-            10
+            14
           ],
           "frames_per_step": 1
         },
         "dead": {
           "frames": [
-            11
+            15
           ],
           "frames_per_step": 1
         }
       },
-      "md5": "994bc86c232b1214ad1bdd60acd51372"
+      "md5": "2f9dd59031e52fa040abdc860c1c7f11"
+    },
+    "rusher": {
+      "atlas": "art/atlas/rusher.png",
+      "cols": 16,
+      "rows": 4,
+      "anims": {
+        "idle": {
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "frames_per_step": 12
+        },
+        "walk": {
+          "frames": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "frames_per_step": 4
+        },
+        "windup": {
+          "frames": [
+            10,
+            11
+          ],
+          "frames_per_step": 4
+        },
+        "active": {
+          "frames": [
+            12,
+            13
+          ],
+          "frames_per_step": 2
+        },
+        "hurt": {
+          "frames": [
+            14
+          ],
+          "frames_per_step": 1
+        },
+        "dead": {
+          "frames": [
+            15
+          ],
+          "frames_per_step": 1
+        }
+      },
+      "md5": "0ab09f4c965a8e9f1a786c2924d03e0e"
+    },
+    "rusher_hater": {
+      "atlas": "art/atlas/rusher_hater.png",
+      "cols": 16,
+      "rows": 4,
+      "anims": {
+        "idle": {
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "frames_per_step": 12
+        },
+        "walk": {
+          "frames": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "frames_per_step": 4
+        },
+        "windup": {
+          "frames": [
+            10,
+            11
+          ],
+          "frames_per_step": 4
+        },
+        "active": {
+          "frames": [
+            12,
+            13
+          ],
+          "frames_per_step": 2
+        },
+        "hurt": {
+          "frames": [
+            14
+          ],
+          "frames_per_step": 1
+        },
+        "dead": {
+          "frames": [
+            15
+          ],
+          "frames_per_step": 1
+        }
+      },
+      "md5": "fee447250d5b957d679fd3e33e21ac26"
     },
     "challenger": {
       "atlas": "art/atlas/challenger.png",
-      "cols": 12,
+      "cols": 16,
       "rows": 4,
       "anims": {
         "idle": {
           "frames": [
             0,
-            1
+            1,
+            2,
+            3
           ],
-          "frames_per_step": 18
+          "frames_per_step": 12
         },
         "walk": {
           "frames": [
-            2,
-            3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9
           ],
-          "frames_per_step": 5
+          "frames_per_step": 4
         },
         "windup": {
           "frames": [
-            6,
-            7
+            10,
+            11
           ],
           "frames_per_step": 4
         },
         "active": {
           "frames": [
-            8,
-            9
+            12,
+            13
           ],
           "frames_per_step": 2
         },
         "hurt": {
           "frames": [
-            10
+            14
           ],
           "frames_per_step": 1
         },
         "dead": {
           "frames": [
-            11
+            15
           ],
           "frames_per_step": 1
         }
       },
-      "md5": "68995f10b23aa3fbd176df896d9b255f"
-    },
-    "lurker": {
-      "atlas": "art/atlas/lurker.png",
-      "cols": 12,
-      "rows": 4,
-      "anims": {
-        "idle": {
-          "frames": [
-            0,
-            1
-          ],
-          "frames_per_step": 18
-        },
-        "walk": {
-          "frames": [
-            2,
-            3,
-            4,
-            5
-          ],
-          "frames_per_step": 5
-        },
-        "windup": {
-          "frames": [
-            6,
-            7
-          ],
-          "frames_per_step": 4
-        },
-        "active": {
-          "frames": [
-            8,
-            9
-          ],
-          "frames_per_step": 2
-        },
-        "hurt": {
-          "frames": [
-            10
-          ],
-          "frames_per_step": 1
-        },
-        "dead": {
-          "frames": [
-            11
-          ],
-          "frames_per_step": 1
-        }
-      },
-      "md5": "bfdbad58b8ec0f85bb2ecdbe1e4ef169"
+      "md5": "794650bd8ed74b20bf8afd4f82aa957b"
     },
     "warden": {
       "atlas": "art/atlas/warden.png",
-      "cols": 12,
+      "cols": 16,
       "rows": 4,
       "anims": {
         "idle": {
           "frames": [
             0,
-            1
+            1,
+            2,
+            3
           ],
-          "frames_per_step": 18
+          "frames_per_step": 12
         },
         "walk": {
           "frames": [
-            2,
-            3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9
           ],
-          "frames_per_step": 5
+          "frames_per_step": 4
         },
         "windup": {
           "frames": [
-            6,
-            7
+            10,
+            11
           ],
           "frames_per_step": 4
         },
         "active": {
           "frames": [
-            8,
-            9
+            12,
+            13
           ],
           "frames_per_step": 2
         },
         "hurt": {
           "frames": [
-            10
+            14
           ],
           "frames_per_step": 1
         },
         "dead": {
           "frames": [
-            11
+            15
           ],
           "frames_per_step": 1
         }
       },
-      "md5": "7020e932c9442e11dc701fd9fcbd0d4c"
+      "md5": "18188648574510f6b66028c886c5c674"
     },
     "stinger": {
       "atlas": "art/atlas/stinger.png",
-      "cols": 12,
+      "cols": 16,
       "rows": 4,
       "anims": {
         "idle": {
           "frames": [
             0,
-            1
+            1,
+            2,
+            3
           ],
-          "frames_per_step": 18
+          "frames_per_step": 12
         },
         "walk": {
           "frames": [
-            2,
-            3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9
           ],
-          "frames_per_step": 5
+          "frames_per_step": 4
         },
         "windup": {
           "frames": [
-            6,
-            7
+            10,
+            11
           ],
           "frames_per_step": 4
         },
         "active": {
           "frames": [
-            8,
-            9
+            12,
+            13
           ],
           "frames_per_step": 2
         },
         "hurt": {
           "frames": [
-            10
+            14
           ],
           "frames_per_step": 1
         },
         "dead": {
           "frames": [
-            11
+            15
           ],
           "frames_per_step": 1
         }
       },
-      "md5": "b06fde615fa4d40e95af4317792e9c82"
+      "md5": "dd900066fa0ded5fc4947c0529df535c"
+    },
+    "lurker": {
+      "atlas": "art/atlas/lurker.png",
+      "cols": 16,
+      "rows": 4,
+      "anims": {
+        "idle": {
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "frames_per_step": 12
+        },
+        "walk": {
+          "frames": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "frames_per_step": 4
+        },
+        "windup": {
+          "frames": [
+            10,
+            11
+          ],
+          "frames_per_step": 4
+        },
+        "active": {
+          "frames": [
+            12,
+            13
+          ],
+          "frames_per_step": 2
+        },
+        "hurt": {
+          "frames": [
+            14
+          ],
+          "frames_per_step": 1
+        },
+        "dead": {
+          "frames": [
+            15
+          ],
+          "frames_per_step": 1
+        }
+      },
+      "md5": "dd5c16fba47f9e634c3cb7024bf9c1a4"
     },
     "serpent_a": {
       "atlas": "art/atlas/serpent_a.png",
-      "cols": 12,
+      "cols": 16,
       "rows": 4,
       "anims": {
         "idle": {
           "frames": [
             0,
-            1
+            1,
+            2,
+            3
           ],
-          "frames_per_step": 18
+          "frames_per_step": 12
         },
         "walk": {
           "frames": [
-            2,
-            3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9
           ],
-          "frames_per_step": 5
+          "frames_per_step": 4
         },
         "windup": {
           "frames": [
-            6,
-            7
+            10,
+            11
           ],
           "frames_per_step": 4
         },
         "active": {
           "frames": [
-            8,
-            9
+            12,
+            13
           ],
           "frames_per_step": 2
         },
         "hurt": {
           "frames": [
-            10
+            14
           ],
           "frames_per_step": 1
         },
         "dead": {
           "frames": [
-            11
+            15
           ],
           "frames_per_step": 1
         }
       },
-      "md5": "614a7d25dd7221e17ae876647cec9644"
+      "md5": "a9fbb9b86cd44c7f2b8f57266bb82796"
     },
     "serpent_b": {
       "atlas": "art/atlas/serpent_b.png",
-      "cols": 12,
+      "cols": 16,
       "rows": 4,
       "anims": {
         "idle": {
           "frames": [
             0,
-            1
+            1,
+            2,
+            3
           ],
-          "frames_per_step": 18
+          "frames_per_step": 12
         },
         "walk": {
           "frames": [
-            2,
-            3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9
           ],
-          "frames_per_step": 5
+          "frames_per_step": 4
         },
         "windup": {
           "frames": [
-            6,
-            7
+            10,
+            11
           ],
           "frames_per_step": 4
         },
         "active": {
           "frames": [
-            8,
-            9
+            12,
+            13
           ],
           "frames_per_step": 2
         },
         "hurt": {
           "frames": [
-            10
+            14
           ],
           "frames_per_step": 1
         },
         "dead": {
           "frames": [
-            11
+            15
           ],
           "frames_per_step": 1
         }
       },
-      "md5": "72052509f87ac010dbdd9400daad1281"
+      "md5": "ecf31a6e919740f83e8ee302a8736550"
     },
     "serpent_c": {
       "atlas": "art/atlas/serpent_c.png",
-      "cols": 12,
+      "cols": 16,
       "rows": 4,
       "anims": {
         "idle": {
           "frames": [
             0,
-            1
+            1,
+            2,
+            3
           ],
-          "frames_per_step": 18
+          "frames_per_step": 12
         },
         "walk": {
           "frames": [
-            2,
-            3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9
           ],
-          "frames_per_step": 5
+          "frames_per_step": 4
         },
         "windup": {
           "frames": [
-            6,
-            7
+            10,
+            11
           ],
           "frames_per_step": 4
         },
         "active": {
           "frames": [
-            8,
-            9
+            12,
+            13
           ],
           "frames_per_step": 2
         },
         "hurt": {
           "frames": [
-            10
+            14
           ],
           "frames_per_step": 1
         },
         "dead": {
           "frames": [
-            11
+            15
           ],
           "frames_per_step": 1
         }
       },
-      "md5": "8838b6e398aad2da82e6043436ec06fe"
-    },
-    "ember_a": {
-      "atlas": "art/atlas/ember_a.png",
-      "cols": 12,
-      "rows": 4,
-      "anims": {
-        "idle": {
-          "frames": [
-            0,
-            1
-          ],
-          "frames_per_step": 18
-        },
-        "walk": {
-          "frames": [
-            2,
-            3,
-            4,
-            5
-          ],
-          "frames_per_step": 5
-        },
-        "windup": {
-          "frames": [
-            6,
-            7
-          ],
-          "frames_per_step": 4
-        },
-        "active": {
-          "frames": [
-            8,
-            9
-          ],
-          "frames_per_step": 2
-        },
-        "hurt": {
-          "frames": [
-            10
-          ],
-          "frames_per_step": 1
-        },
-        "dead": {
-          "frames": [
-            11
-          ],
-          "frames_per_step": 1
-        }
-      },
-      "md5": "739b139d7cb8e3e8197426032bdb898a"
-    },
-    "ember_b": {
-      "atlas": "art/atlas/ember_b.png",
-      "cols": 12,
-      "rows": 4,
-      "anims": {
-        "idle": {
-          "frames": [
-            0,
-            1
-          ],
-          "frames_per_step": 18
-        },
-        "walk": {
-          "frames": [
-            2,
-            3,
-            4,
-            5
-          ],
-          "frames_per_step": 5
-        },
-        "windup": {
-          "frames": [
-            6,
-            7
-          ],
-          "frames_per_step": 4
-        },
-        "active": {
-          "frames": [
-            8,
-            9
-          ],
-          "frames_per_step": 2
-        },
-        "hurt": {
-          "frames": [
-            10
-          ],
-          "frames_per_step": 1
-        },
-        "dead": {
-          "frames": [
-            11
-          ],
-          "frames_per_step": 1
-        }
-      },
-      "md5": "8d0219cbbc1821c1c99c8c9ea82ccd50"
-    },
-    "ember_d": {
-      "atlas": "art/atlas/ember_d.png",
-      "cols": 12,
-      "rows": 4,
-      "anims": {
-        "idle": {
-          "frames": [
-            0,
-            1
-          ],
-          "frames_per_step": 18
-        },
-        "walk": {
-          "frames": [
-            2,
-            3,
-            4,
-            5
-          ],
-          "frames_per_step": 5
-        },
-        "windup": {
-          "frames": [
-            6,
-            7
-          ],
-          "frames_per_step": 4
-        },
-        "active": {
-          "frames": [
-            8,
-            9
-          ],
-          "frames_per_step": 2
-        },
-        "hurt": {
-          "frames": [
-            10
-          ],
-          "frames_per_step": 1
-        },
-        "dead": {
-          "frames": [
-            11
-          ],
-          "frames_per_step": 1
-        }
-      },
-      "md5": "8f2946aaf895d2da288c8b8727deb53d"
+      "md5": "cf23b6eeab981fa8b5269166a93751d0"
     },
     "serpent_boss": {
       "atlas": "art/atlas/serpent_boss.png",
-      "cols": 12,
+      "cols": 16,
       "rows": 4,
       "anims": {
         "idle": {
           "frames": [
             0,
-            1
+            1,
+            2,
+            3
           ],
-          "frames_per_step": 18
+          "frames_per_step": 12
         },
         "walk": {
           "frames": [
-            2,
-            3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9
           ],
-          "frames_per_step": 5
+          "frames_per_step": 4
         },
         "windup": {
           "frames": [
-            6,
-            7
+            10,
+            11
           ],
           "frames_per_step": 4
         },
         "active": {
           "frames": [
-            8,
-            9
+            12,
+            13
           ],
           "frames_per_step": 2
         },
         "hurt": {
           "frames": [
-            10
+            14
           ],
           "frames_per_step": 1
         },
         "dead": {
           "frames": [
-            11
+            15
           ],
           "frames_per_step": 1
         }
       },
-      "md5": "c038d648d12fd136df7282845af90048"
+      "md5": "1d9be39a1e00389aff0c2eb743d34a7b"
+    },
+    "ember_a": {
+      "atlas": "art/atlas/ember_a.png",
+      "cols": 16,
+      "rows": 4,
+      "anims": {
+        "idle": {
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "frames_per_step": 12
+        },
+        "walk": {
+          "frames": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "frames_per_step": 4
+        },
+        "windup": {
+          "frames": [
+            10,
+            11
+          ],
+          "frames_per_step": 4
+        },
+        "active": {
+          "frames": [
+            12,
+            13
+          ],
+          "frames_per_step": 2
+        },
+        "hurt": {
+          "frames": [
+            14
+          ],
+          "frames_per_step": 1
+        },
+        "dead": {
+          "frames": [
+            15
+          ],
+          "frames_per_step": 1
+        }
+      },
+      "md5": "945db802e09797ce0405329be116f74c"
+    },
+    "ember_b": {
+      "atlas": "art/atlas/ember_b.png",
+      "cols": 16,
+      "rows": 4,
+      "anims": {
+        "idle": {
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "frames_per_step": 12
+        },
+        "walk": {
+          "frames": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "frames_per_step": 4
+        },
+        "windup": {
+          "frames": [
+            10,
+            11
+          ],
+          "frames_per_step": 4
+        },
+        "active": {
+          "frames": [
+            12,
+            13
+          ],
+          "frames_per_step": 2
+        },
+        "hurt": {
+          "frames": [
+            14
+          ],
+          "frames_per_step": 1
+        },
+        "dead": {
+          "frames": [
+            15
+          ],
+          "frames_per_step": 1
+        }
+      },
+      "md5": "cb848b0d7994992c4b58018731080bc5"
+    },
+    "ember_d": {
+      "atlas": "art/atlas/ember_d.png",
+      "cols": 16,
+      "rows": 4,
+      "anims": {
+        "idle": {
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "frames_per_step": 12
+        },
+        "walk": {
+          "frames": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "frames_per_step": 4
+        },
+        "windup": {
+          "frames": [
+            10,
+            11
+          ],
+          "frames_per_step": 4
+        },
+        "active": {
+          "frames": [
+            12,
+            13
+          ],
+          "frames_per_step": 2
+        },
+        "hurt": {
+          "frames": [
+            14
+          ],
+          "frames_per_step": 1
+        },
+        "dead": {
+          "frames": [
+            15
+          ],
+          "frames_per_step": 1
+        }
+      },
+      "md5": "0889e5050ec25f3f40a78a31d376ad43"
     },
     "ember_boss": {
       "atlas": "art/atlas/ember_boss.png",
-      "cols": 12,
+      "cols": 16,
       "rows": 4,
       "anims": {
         "idle": {
           "frames": [
             0,
-            1
+            1,
+            2,
+            3
           ],
-          "frames_per_step": 18
+          "frames_per_step": 12
         },
         "walk": {
           "frames": [
-            2,
-            3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9
           ],
-          "frames_per_step": 5
+          "frames_per_step": 4
         },
         "windup": {
           "frames": [
-            6,
-            7
+            10,
+            11
           ],
           "frames_per_step": 4
         },
         "active": {
           "frames": [
-            8,
-            9
+            12,
+            13
           ],
           "frames_per_step": 2
         },
         "hurt": {
           "frames": [
-            10
+            14
           ],
           "frames_per_step": 1
         },
         "dead": {
           "frames": [
-            11
+            15
           ],
           "frames_per_step": 1
         }
       },
-      "md5": "57e083ea5269b13952e1edb9ef79610e"
+      "md5": "bbe3ad571b89393d23e3263a7d1016df"
     },
     "spore_a": {
       "atlas": "art/atlas/spore_a.png",
-      "cols": 12,
+      "cols": 16,
       "rows": 4,
       "anims": {
         "idle": {
           "frames": [
             0,
-            1
+            1,
+            2,
+            3
           ],
-          "frames_per_step": 18
+          "frames_per_step": 12
         },
         "walk": {
           "frames": [
-            2,
-            3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9
           ],
-          "frames_per_step": 5
+          "frames_per_step": 4
         },
         "windup": {
           "frames": [
-            6,
-            7
+            10,
+            11
           ],
           "frames_per_step": 4
         },
         "active": {
           "frames": [
-            8,
-            9
+            12,
+            13
           ],
           "frames_per_step": 2
         },
         "hurt": {
           "frames": [
-            10
+            14
           ],
           "frames_per_step": 1
         },
         "dead": {
           "frames": [
-            11
+            15
           ],
           "frames_per_step": 1
         }
       },
-      "md5": "1a1a127f5c114894cd8b07ae519c91c8"
+      "md5": "89c1a80501e6d507e561afbf728d93b9"
     },
     "spore_b": {
       "atlas": "art/atlas/spore_b.png",
-      "cols": 12,
+      "cols": 16,
       "rows": 4,
       "anims": {
         "idle": {
           "frames": [
             0,
-            1
+            1,
+            2,
+            3
           ],
-          "frames_per_step": 18
+          "frames_per_step": 12
         },
         "walk": {
           "frames": [
-            2,
-            3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9
           ],
-          "frames_per_step": 5
+          "frames_per_step": 4
         },
         "windup": {
           "frames": [
-            6,
-            7
+            10,
+            11
           ],
           "frames_per_step": 4
         },
         "active": {
           "frames": [
-            8,
-            9
+            12,
+            13
           ],
           "frames_per_step": 2
         },
         "hurt": {
           "frames": [
-            10
+            14
           ],
           "frames_per_step": 1
         },
         "dead": {
           "frames": [
-            11
+            15
           ],
           "frames_per_step": 1
         }
       },
-      "md5": "60d0920d7b47941ed985763b7639745d"
+      "md5": "2b57a6df3e568455c266f566b9917296"
     }
   }
 }

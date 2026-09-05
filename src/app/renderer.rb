@@ -143,8 +143,14 @@ module App
         draw_expiry_flashes(world)
         draw_seal_marks(world)
         draw_respawn_tells(world)
-        world.humans.each { |h| draw_creature(h, world) }
-        world.pack.living.each { |m| draw_creature(m, world) }
+        # PREMIUM v22: one depth-sorted pass (feet y, then x, then list
+        # order) so a tall sprite standing SOUTH of another draws over its
+        # feet, never under — the depth cue every top-down game relies on.
+        # Pure and deterministic: same world -> same order on both seats.
+        bodies = world.humans.each_with_index.map { |h, i| [h, 0, i] } +
+                 world.pack.living.each_with_index.map { |m, i| [m, 1, i] }
+        bodies.sort_by! { |(c, grp, i)| [c.y, c.x, grp, i] }
+        bodies.each { |(c, _grp, _i)| draw_creature(c, world) }
         # Flywheel fix (2026-08-19, critique issue 2 — the verified gap):
         # draw_attack is pack-gated, so an enemy's ACTIVE strike rendered
         # nothing — the landed hit had no WHERE. Enemy strike tiles draw in
@@ -858,6 +864,13 @@ module App
       end
     end
 
+    # Overhang of the art frame above the body box: anchor_y - the 2px the
+    # placeholder grid used (so FASE 1 atlases lift 0). 0 without art.
+    def art_lift
+      return 0 unless @art
+      @art_lift ||= [(@art.anchor[1] || 2) - 2, 0].max
+    end
+
     def human_corpse_rgb
       @display.fetch(:corpse_human_rgb, [175, 165, 145])
     end
@@ -878,9 +891,13 @@ module App
         # Unreachable single-seat (the only controlled body IS possessed).
         Gosu.draw_rect(x - rp, y - rp, SIZE + rp * 2, SIZE + rp * 2, partner_ring)
       end
+      # PREMIUM v22: head-room. Sprites taller than the body box carry their
+      # head above y; every above-body overlay lifts by the art's overhang
+      # so the mark/cue/nameplate never sit ON a face (0 under quads).
+      lift = art_lift
       if c.faction == :pack && c.marked?
-        draw_outlined_quad(x + SIZE / 2 - 4, y - 10, 8, GOD_MARK)
-        Gosu.draw_rect(x + SIZE / 2 - 2, y - 8, 4, 4, color(world.map.palette[:floor]))
+        draw_outlined_quad(x + SIZE / 2 - 4, y - 10 - lift, 8, GOD_MARK)
+        Gosu.draw_rect(x + SIZE / 2 - 2, y - 8 - lift, 4, 4, color(world.map.palette[:floor]))
       end
       draw_taunt_underline(c, x, y) if c.faction == :human && c.taunted_target
       # v15 seizure state: the exact mirror of the taunt underline in the
@@ -889,7 +906,7 @@ module App
       draw_seized_underline(c, x, y) if c.faction == :pack && c.seized_by
       draw_nameplate(c, x, y) if c.faction == :human && (c.kit[:seize] || c.kit[:boss])
       if c.faction == :human && (cue = c.retarget_cue)
-        draw_outlined_quad(x + SIZE / 2 - 4, y - 10, 8, RETARGET_CUE.fetch(cue[:cause]))
+        draw_outlined_quad(x + SIZE / 2 - 4, y - 10 - lift, 8, RETARGET_CUE.fetch(cue[:cause]))
       end
       draw_pressure_outline(c, x, y, world) if c.faction == :human &&
                                                 world.pressure_role(c) == :pressuring
@@ -1143,7 +1160,7 @@ module App
       w = 6
       gap = 3
       x0 = x + SIZE / 2 - (n * w + (n - 1) * gap) / 2
-      py = y - 12
+      py = y - 12 - art_lift
       n.times do |i|
         px = x0 + i * (w + gap)
         if i == cur
@@ -1199,7 +1216,7 @@ module App
       draw_boss_phase_pips(c, x, y) if c.respond_to?(:boss_phase_count) && c.boss_phase_count > 1
       f = nameplate_font
       tx = x + SIZE / 2 - f.text_width(name) / 2
-      ty = y - 24
+      ty = y - 24 - art_lift
       hpx = @display.fetch(:nameplate_halo_px, 1)
       if hpx.positive?
         hc = color(@display.fetch(:nameplate_halo_rgb, [20, 14, 12]))
