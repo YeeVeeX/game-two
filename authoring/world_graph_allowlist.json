@@ -1,0 +1,128 @@
+[
+  {
+    "check": "floor",
+    "zone": "basement_2",
+    "at": [10, 1],
+    "to": "basement_2",
+    "status": "intended",
+    "reason": "intra-zone rope: the BASEMENT 2 vault loop (sealed door [6,3] -> [9,3], rope back [10,1] -> [5,3]) stays on one floor by construction; a rope inside one zone cannot change floor",
+    "record": "drafts/_wb-t4-pilot-20260821.md (T4 pilot zones)"
+  },
+  {
+    "check": "floor",
+    "zone": "grass_fixture",
+    "at": [24, 2],
+    "to": "district",
+    "status": "intended",
+    "reason": "harness fixture zone (inbound-inert law); its outbound gate exists so a wall script can exit, no floor semantics",
+    "record": "AGENTS.md INERT law; drafts/_worldsmith-v0-intake-20260823.md"
+  },
+  {
+    "check": "floor",
+    "zone": "wall_fixture",
+    "at": [24, 6],
+    "to": "district",
+    "status": "intended",
+    "reason": "harness fixture zone (v20 T5 second wall class); its outbound gate exists so a wall script can exit, no floor semantics",
+    "record": "AGENTS.md INERT law"
+  },
+  {
+    "check": "floor",
+    "zone": "zone_7",
+    "at": [1, 14],
+    "to": "low_quay",
+    "status": "intended",
+    "reason": "the T5 world join (s68): ZONE 7 <-> ZONE 5 is a plain edge gate by design (requires_defeats outbound from ZONE 5, return free); low_quay's floor -3 is the lane-D label (Junior ratified floor -3 2026-08-30) — the felt gap is the 'lane D vertical legibility' debt named for the v21 grill, a presentation question, not a graph defect",
+    "record": "drafts/_wb-t5-wirein-20260821.md; drafts/_junior-floor3-ratification-20260830.md; AGENTS.md (v21 grill items)"
+  },
+  {
+    "check": "floor",
+    "zone": "low_quay",
+    "at": [24, 34],
+    "to": "zone_7",
+    "status": "intended",
+    "reason": "return half of the T5 world join (see zone_7 [1,14]); requires_defeats: 1 outbound, plain edge gate by design",
+    "record": "drafts/_wb-t5-wirein-20260821.md"
+  },
+  {
+    "check": "floor",
+    "zone": "zone_8",
+    "at": [63, 19],
+    "to": "dungeon_1",
+    "status": "intended",
+    "reason": "s70 wire-in: the frontier rope way (dungeon_1 -> zone_8, rope_spot, requires_level 8) returns through a free v1 EDGE GATE by the recorded pattern — a plain gate at the zone edge, never a rope (the return needs no consent)",
+    "record": "docs/CHECKPOINT.md s70; AGENTS.md 'The world is JOINED'"
+  },
+  {
+    "check": "floor",
+    "zone": "camp",
+    "at": [19, 5],
+    "to": "district_two",
+    "status": "legacy",
+    "reason": "HUB 1's east door predates the v20 descent: lane A/D gave ZONE 2 floor -1 and ZONE 3 floor -2 while camp stays 0; the recorded descent MOUTH is camp -> district (stairs_down, consistent today) — this side door skips floor -1. Decision owed at the Lane F graph drawing (v20 L2: destination is a GATED LATER DECISION); fix = retype/re-floor/remove, a graph + Rule 2 move (world_loop canary traverses camp)",
+    "record": "drafts/_v20-foundation-20260828.md L2; AGENTS.md lane F"
+  },
+  {
+    "check": "floor",
+    "zone": "district_two",
+    "at": [0, 22],
+    "to": "camp",
+    "status": "legacy",
+    "reason": "return half of HUB 1's east door (see camp [19,5]) — same Lane F decision",
+    "record": "drafts/_v20-foundation-20260828.md L2"
+  },
+  {
+    "check": "floor",
+    "zone": "district",
+    "at": [0, 13],
+    "to": "nest",
+    "status": "legacy",
+    "reason": "ZONE 1 (nest, hand-authored wilderness spawn ground) carries the default floor 0 while ZONE 2 was rethemed to floor -1 (lane A, T1); nest's floor was never assigned. Fix = assign nest a floor in its hand-authored JSON (floor is metadata: no sim/renderer reads it today) or type the gates — peers decide at the Lane F drawing",
+    "record": "docs/MAP_EDITING.md §1 (hand-authored zones); drafts/_v20-foundation-20260828.md lane A"
+  },
+  {
+    "check": "floor",
+    "zone": "nest",
+    "at": [29, 8],
+    "to": "district",
+    "status": "legacy",
+    "reason": "return half of ZONE 1 <-> ZONE 2 (see district [0,13]) — same floor-metadata gap",
+    "record": "docs/MAP_EDITING.md §1"
+  },
+  {
+    "check": "floor",
+    "zone": "district_two",
+    "at": [42, 13],
+    "to": "slow_door",
+    "status": "legacy",
+    "reason": "ZONE 4 (slow_door, the moss vault, hand-authored) sits BETWEEN floors -2 (ZONE 3) and -3 (ZONE 5) in the descent but carries the default floor 0. Fix = assign slow_door a floor (-2 or -3: one side stays a same-floor plain gate, the other gets stairs/hole typing) — peers decide at the Lane F drawing",
+    "record": "AGENTS.md v21 cycle section (ZONE 4 -> the moss at floor -3); drafts/_junior-floor3-ratification-20260830.md"
+  },
+  {
+    "check": "floor",
+    "zone": "slow_door",
+    "at": [7, 7],
+    "to": "district_two",
+    "status": "legacy",
+    "reason": "return half of ZONE 3 <-> ZONE 4 (see district_two [42,13]) — same floor-metadata gap",
+    "record": "AGENTS.md v21 cycle section"
+  },
+  {
+    "check": "floor",
+    "zone": "slow_door",
+    "at": [7, 1],
+    "to": "low_quay",
+    "status": "legacy",
+    "reason": "ZONE 4 -> ZONE 5 (floor 0 -> -3 through a plain gate): same slow_door floor-metadata gap (see district_two [42,13])",
+    "record": "AGENTS.md v21 cycle section"
+  },
+  {
+    "check": "floor",
+    "zone": "low_quay",
+    "at": [1, 18],
+    "to": "slow_door",
+    "status": "legacy",
+    "reason": "return half of ZONE 4 <-> ZONE 5 (see slow_door [7,1]) — same floor-metadata gap",
+    "record": "AGENTS.md v21 cycle section"
+  }
+]
