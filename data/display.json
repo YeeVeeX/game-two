@@ -203,7 +203,7 @@
  "menu_net_row_h": 20,
  "menu_net_font_size": 13,
  "art_enabled": true,
- "art_facing_notch": true,
+ "art_facing_notch": false,
  "art_hurt_tint_rgb": [235, 40, 40],
  "art_human_hurt_tint_rgb": [215, 70, 45],
  "art_ally_dim_rgb": [200, 195, 198],

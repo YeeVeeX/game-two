@@ -19,7 +19,7 @@
     },
     {
       "id": "facing_readable",
-      "check": "Creatures carry a small dark notch on the edge they face â€” you can tell which way a body points in a static frame."
+      "check": "A body reads which way it faces in a static frame from the SPRITE itself: facing the camera shows the face/eyes and the weapon hand; facing away shows the back of the head/hood/helmet with no face; a side profile shows one eye and the weapon arm in front. Monsters read facing by their head/dart/eye side. A small dark notch on the faced edge is optional, not required. Fail only if bodies read as directionless blobs."
     },
     {
       "id": "projectile_visible",
@@ -39,7 +39,7 @@
     },
     {
       "id": "hud_three_bars",
-      "check": "The HUD shows three stacked kit-colored bars; the possessed one is wider with a white edge. Bars plausibly track the fight shown. A downed body's bar (flat dark, no kit-colored fill) carries a thin warm hairline outline separating it from the field behind it — a dead bar melting invisibly into dark ground fails; live bars carry no such hairline (their kit fill and backing carry them). If no frame shows a downed body's bar, judge the rest of this check as usual."
+      "check": "The HUD is a translucent dark PANEL top-left: three rows, each a small portrait box (the kit's face) beside a kit-colored hp bar with a dark edge; the possessed one is wider, framed in GOLD, and carries its hp numeral (n/max) at the bar's right end. Bars plausibly track the fight shown. A downed body's bar (flat dark, no kit-colored fill) carries a thin warm hairline outline separating it from the field behind it — a dead bar melting invisibly into dark ground fails; live bars carry no such hairline (their kit fill and backing carry them). If no frame shows a downed body's bar, judge the rest of this check as usual."
     },
     {
       "id": "zones_distinct",
@@ -51,7 +51,7 @@
     },
     {
       "id": "floor1_chasm_reads",
-      "check": "When the central chasm band of ZONE 2 is on camera (a wide near-black navy column running the map's length), it reads as IMPASSABLE VOID at a glance - clearly darker and flatter than any walkable ground, bounded by the tan rock, with no body ever standing inside it in any frame. It must NOT read as decorative water the pack could wade into. If no chasm frame is present, pass with why='not exercised by this script'."
+      "check": "When the central chasm band of ZONE 2 is on camera (a wide dark navy column running the map's length, a lighter shallow rim where it meets the tan rock, faint still ripple streaks and shimmer inside), it reads as a DEEP FLOOD the pack does not enter: clearly darker than any walkable ground, bounded by the rock with a curved shore, and no body ever stands inside it in any frame. Water texture is expected (it IS water); fail only if a pack body stands in the band or if the band is indistinguishable from walkable floor. If no chasm frame is present, pass with why='not exercised by this script'."
     },
     {
       "id": "floor1_bridge_reads",
@@ -83,7 +83,7 @@
     },
     {
       "id": "drops_read_as_pickups",
-      "check": "When glean drops are present (small magenta/violet squares near the descent mouth; larger warm-rose or ember-gold glowing squares deeper across the floor â€” all centered on floor tiles), they read as desirable pickups, clearly distinct from corpses, projectiles, human telegraphs, the teal mark reticle, and the gold gate tiles. If a near-expiry drop is visible its fade reads as decay, not a render bug. If this replay shows no drops, pass with why='not exercised by this script'."
+      "check": "When glean drops are present, they read as GEMS: small DIAMOND shapes (not squares) standing on a tile, bobbing slightly, with a facet highlight and a brief white sparkle; magenta/violet near the descent mouth, warm-rose or ember-gold with a soft cross-shaped glow deeper across the floor. Their diamond silhouette and motion make them clearly distinct from corpses, projectiles, the square human telegraph frame, the teal mark reticle, and the flat gold gate slab. A near-expiry drop fades (decay, not a render bug). If this replay shows no drops, pass with why='not exercised by this script'."
     },
     {
       "id": "carried_count_reads",
@@ -255,7 +255,7 @@
     },
     {
       "id": "hud_level_strip_reads",
-      "check": "Beneath the three kit hp bars a LEVEL label with a thin gold progress bar reads top-left in every frame showing the HUD; at level 1 with no XP the bar may be empty but its dark backing still frames it; the fill never overflows the backing; the strip never reads as a fourth hp bar (it is far thinner, gold rather than kit-colored, and attached to its LEVEL label)."
+      "check": "Beneath the three kit hp bars a LEVEL label with a thin gold progress bar (tick marks along its bottom) reads inside the HUD panel in every frame showing the HUD; under it a coin disc + COINS numeral and a flask + POTION numeral read as two small chips; at level 1 with no XP the bar may be empty but its dark backing still frames it; the fill never overflows the backing; the strip never reads as a fourth hp bar (it is far thinner, gold rather than kit-colored, and attached to its LEVEL label)."
     },
     {
       "id": "level_up_beat_reads",

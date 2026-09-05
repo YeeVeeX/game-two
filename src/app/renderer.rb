@@ -5,6 +5,7 @@ require "app/kill_pop"
 require "app/stamp"
 require "app/tile_art"
 require "app/tileset"
+require "app/hud"
 require "app/tile_variants"
 require "app/writ"
 require "app/zone_identity"
@@ -568,26 +569,51 @@ module App
     def draw_drops(world)
       ts = world.map.tile_size
       world.drops.each do |d|
+        band = d[:band] || 0
         outer, size, inner =
-          case d[:band] || 0
-          when 2 then [DROP_BAND2, 18, [255, 235, 180]] # bright ember core
-          when 1 then [DROP_BAND1, 16, [255, 215, 220]] # pale rose core
-          else        [DROP_CORE, d[:amount] >= 2 ? 14 : 10, [250, 225, 255]]
+          case band
+          when 2 then [DROP_BAND2, 16, [255, 235, 180]] # bright ember core
+          when 1 then [DROP_BAND1, 14, [255, 215, 220]] # pale rose core
+          else        [DROP_CORE, d[:amount] >= 2 ? 12 : 10, [250, 225, 255]]
           end
         frac = d[:frames_left].fdiv(d[:decay_frames])
         alpha = frac < (1 / 3.0) ? (255 * frac * 3).clamp(60, 255).round : 255
         tx, ty = d[:tile]
-        inset = (ts - size) / 2.0
-        if (d[:band] || 0) == 2 # the glow ring: a wider, faint halo
-          halo = size + 8
-          hi = (ts - halo) / 2.0
-          Gosu.draw_rect(tx * ts + hi, ty * ts + hi, halo, halo,
-                         Gosu::Color.new((alpha * 0.35).round, outer.red, outer.green, outer.blue))
+        # PREMIUM v22: a GEM, not a square — a diamond that bobs 2px and
+        # throws a 4-point sparkle, with a soft ground shadow. Shape +
+        # motion own the "pickup" read (the telegraph is a static square
+        # frame; the gate tile a flat slab). Tick-driven: world.frame only.
+        phase = (world.frame + tx * 7 + ty * 13) % 48
+        bob = phase < 24 ? phase / 12 : (48 - phase) / 12   # 0,1,2,1
+        cx = tx * ts + ts / 2.0
+        cy = ty * ts + ts / 2.0 - bob
+        half = size / 2
+        Gosu.draw_rect(cx - half + 2, ty * ts + ts / 2.0 + half - 1, size - 4, 2,
+                       Gosu::Color.new((alpha * 0.45).round, 0, 0, 0))
+        if band == 2 # the glow halo
+          (0...4).each do |k|
+            r = half + 2 + k * 2
+            Gosu.draw_rect(cx - r, cy - 1, r * 2, 2, Gosu::Color.new((alpha * (0.22 - k * 0.05)).round, outer.red, outer.green, outer.blue))
+            Gosu.draw_rect(cx - 1, cy - r, 2, r * 2, Gosu::Color.new((alpha * (0.22 - k * 0.05)).round, outer.red, outer.green, outer.blue))
+          end
         end
-        Gosu.draw_rect(tx * ts + inset, ty * ts + inset, size, size,
-                       Gosu::Color.new(alpha, outer.red, outer.green, outer.blue))
-        Gosu.draw_rect(tx * ts + inset + 3, ty * ts + inset + 3, size - 6, size - 6,
-                       Gosu::Color.new(alpha, *inner))
+        oc = Gosu::Color.new(alpha, outer.red, outer.green, outer.blue)
+        ic = Gosu::Color.new(alpha, *inner)
+        edge = Gosu::Color.new(alpha, (outer.red * 0.45).round, (outer.green * 0.45).round, (outer.blue * 0.45).round)
+        (-half..half).each do |dy|
+          w = half - dy.abs
+          next if w <= 0
+          Gosu.draw_rect(cx - w - 1, cy + dy, 2 * w + 2, 1, edge)
+          Gosu.draw_rect(cx - w, cy + dy, 2 * w, 1, oc)
+          Gosu.draw_rect(cx - w + 2, cy + dy, [w - 3, 0].max, 1, ic) if dy < 0 && w > 3
+        end
+        # facet highlight + sparkle (phase-gated, so it TWINKLES)
+        Gosu.draw_rect(cx - 1, cy - half + 2, 1, half - 2, Gosu::Color.new(alpha, 255, 255, 255))
+        if phase % 24 < 8
+          sp = Gosu::Color.new(alpha, 255, 255, 255)
+          Gosu.draw_rect(cx + half - 1, cy - half - 1, 1, 5, sp)
+          Gosu.draw_rect(cx + half - 3, cy - half + 1, 5, 1, sp)
+        end
       end
     end
 
@@ -1412,58 +1438,13 @@ module App
       Gosu.draw_rect(cx + reach - thick, cy - reach, thick, reach * 2, col)
     end
 
-    # Three kit-colored bars; the possessed one is wider, white-edged, and
-    # carries the exhaust-ready pip.
+    # PREMIUM v22: the HUD panel lives in App::Hud (portraits, framed bars,
+    # numerals, LEVEL strip, COINS/POTION chips). Quads path (no art) keeps
+    # the same panel with kit-colored portrait squares.
     def draw_hud(world)
-      world.pack.members.each_with_index do |m, i|
-        y = 16 + i * 20
-        mine = m.equal?(world.possessed(@local_seat))
-        w = mine ? 260 : 200
-        x = 32
-        Gosu.draw_rect(x - 2, y - 2, w + 4, 18, POSSESSED_RING) if mine
-        # C1 (uiux M5 adoption, s77 — drafts/_m5m6-adoption-20260825.md): a
-        # downed bar is flat HP_DEAD over dark fields — measured ~1.04:1,
-        # swap-availability info carried by value-absence alone. A 1px
-        # full-alpha warm hairline in the ring-underdraw grammar separates
-        # it from the field; alpha deliberately UNKEYED (their D4→C1
-        # correction proves partial alpha arithmetic-fails the 3:1 floor).
-        if m.dead? && (opx = @display.fetch(:hud_bar_down_outline_px, 1)).positive?
-          Gosu.draw_rect(x - opx, y - opx, w + 2 * opx, 14 + 2 * opx,
-                         color(@display.fetch(:hud_bar_down_outline_rgb, [140, 120, 110])))
-        end
-        Gosu.draw_rect(x, y, w, 14, m.dead? ? HP_DEAD : HP_BACK)
-        frac = m.hp.fdiv(m.max_hp)
-        if frac.positive?
-          Gosu.draw_rect(x, y, (w * frac).round, 14, KIT_BODY[m.kit_name])
-        end
-        attack_pip = !m.dead? && m.exhaust_ready? ? POSSESSED_RING : HP_BACK
-        special_ready = !m.dead? && m.kit[:special] && m.special_ready?
-        special_pip = special_ready ? KIT_BODY[m.kit_name] : HP_BACK
-        Gosu.draw_rect(300, y + 2, 10, 10, attack_pip)
-        Gosu.draw_rect(314, y + 2, 10, 10, special_pip)
-        Gosu.draw_rect(317, y + 5, 4, 4, POSSESSED_RING) if special_ready
-        # Carried numeral: possessed bar only, reserved slot right of the
-        # pips — layout never shifts (quiet-HUD law). D2 halo: the counter
-        # scrolls over world pixels (pink walls were 1.02:1).
-        if mine && m.carried.positive?
-          draw_haloed_text(m.carried.to_s, 332, y, 20)
-        end
-      end
-      # Pack level strip (T3, quiet-HUD law): label + bar-only progress —
-      # no xp numerals (exact readouts belong to J-3's stats panel). Bar
-      # starts at a fixed x so the layout never shifts under any label
-      # width. At the cap the fill draws FULL: xp pins at ceiling−1 by the
-      # award invariant, and a 99% bar forever would read "almost there".
-      prog = world.progression
-      sy = @display.fetch(:hud_level_y, 78)
-      gold = color(@display.fetch(:hud_level_rgb, [200, 160, 80]))
-      hud_font.draw_text("#{tr('hud.level', 'LEVEL')} #{prog.level}", 32, sy, 20, 1, 1, gold)
-      bx = @display.fetch(:hud_level_bar_x, 140)
-      bw = @display.fetch(:hud_level_bar_w, 200)
-      bh = @display.fetch(:hud_level_bar_h, 6)
-      Gosu.draw_rect(bx, sy + 4, bw, bh, color(@display.fetch(:hud_level_back_rgb, [45, 32, 22])))
-      fill = prog.level >= prog.level_cap ? bw : (bw * prog.xp) / prog.delta_e(prog.level + 1)
-      Gosu.draw_rect(bx, sy + 4, fill, bh, gold) if fill.positive?
+      @hud ||= App::Hud.new(display: @display, strings: @strings, art: @art, kit_body: KIT_BODY,
+                            hp_back: HP_BACK, hp_dead: HP_DEAD, drop_core: DROP_CORE)
+      @hud.draw(world, @local_seat)
     end
 
     # B1-T2 (spec D5): the persistent SAFE chip — the zone banner is
