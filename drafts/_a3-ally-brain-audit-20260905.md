@@ -31,7 +31,7 @@ earlier. Silent brain = more deaths (the player pushes deeper without knowing
 who covers him); announced brain = the pack survives. The companion "earned its
 price" only when it was legible.
 
-## 3. Stream diff — canaries OFF vs ON, same seed + inputs (`tmp/_a3_diff.rb`, re-runnable)
+## 3. Stream diff — canaries OFF vs ON, same seed + inputs (`tools/a3_stream_diff.rb`, re-runnable: `ruby tools/a3_stream_diff.rb world_loop brasa2_run floor3_run`; the §4 trace = `ruby tools/a3_leash_trace.rb`)
 
 All three OFF hashes equal the ACTIVE bank (the brain-OFF code path is
 byte-inert, as the suite's canary test already proves). ON diverges at the
