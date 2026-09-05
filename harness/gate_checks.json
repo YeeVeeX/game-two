@@ -210,8 +210,8 @@
       "check": "When a respawn tell is active (a pulsing ground indicator on a floor tile, pale green-white family), it reads as 'something is about to arrive HERE' — clearly distinct from the human attack telegraph (red-edge/yellow-core), volley impact brackets (orange), the gold gate tiles, and the taunt pulse (rust square). The tell grows or brightens over its visible lifetime and a human materializes at the tell tile at or after full intensity (a tell may legitimately HOLD at full intensity while the player stands near — deferral is honest waiting, not a defect). If no respawn tell frame is present, pass with why='not exercised by this script'."
     },
     {
-      "id": "low_quay_reads",
-      "check": "When a ZONE 5 (low_quay) frame is on camera, the zone reads as the descent's ABYSS floor, distinct at a glance from ZONE 3 (submerged blue-grey plain with orange coral) and ZONE 2 (warm canyon halves): a near-black blue VOID fills all non-walkable space as solid wall-class darkness (bodies never stand on it), the walkable ground is a warm dark root-brown serpent band textured with tan sand speckles and darker root tangles, and cold dark-blue walkway lanes cross it; the banner 'ZONE 5' is legible when shown and the whole zone reads DARKER than every other floor. If the replay never enters ZONE 5, pass with why='not exercised by this script'."
+      "id": "dungeon_1_abyss_reads",
+      "check": "When a DUNGEON 1 frame is on camera (the serpent geometry: a near-black blue VOID fills all non-walkable space as solid tiles, a root-brown coiled band of walkable ground with sand/grass/dirt flecks, a pale cement core with a cross of walkways at the center): the void reads as a second, darker wall class distinct from any rock, and the coil reads as ONE continuous serpent body, not scattered islands. If no DUNGEON 1 frame is present, pass with why='not exercised by this script'."
     },
     {
       "id": "challenger_tell_reads",
@@ -310,8 +310,8 @@
       "check": "Where ZONE 3 (district_two) frames show open ground away from the channel: the floor reads as a dark blue-grey submerged plain with visible green algae patches (walkable, textured with sparse ripple motif marks) and occasional tan bank clusters - clearly distinct at a glance from ZONE 2's warm dark canyon and from HUB 1's warm gray. The ZONE 3 banner is legible when shown. If no such frame is present, pass with why='not exercised by this script'."
     },
     {
-      "id": "floor3_fauna_reads",
-      "check": "Where ZONE 5 (low_quay) combat frames are present: pale CYAN hostile bodies (no other body family owns cyan) engage the pack AT RANGE - at least one frame shows a small projectile square in flight between a cyan body and a pack body, and cyan bodies generally hold distance rather than crowding adjacent like melee kinds. If no ZONE 5 combat frame is present, pass with why='not exercised by this script'."
+      "id": "moss_fauna_reads",
+      "check": "Where ZONE 5 (low_quay, MUSGO) combat frames are present: GREEN mushroom-cap hostiles (small thin-stem caps and broad heavy caps — no other body family owns saturated fungus green) close to melee range on the pack; a struck pack body may pulse sick-green (poison) and a struck mushroom flashes red-brown, never pink or white. If no ZONE 5 combat frame is present, pass with why='not exercised by this script'."
     },
     {
       "id": "floor3_boss_march_reads",
