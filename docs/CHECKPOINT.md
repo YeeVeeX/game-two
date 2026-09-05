@@ -7,7 +7,7 @@ CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
 
-CLAIMED: none — **s132 closed: council pass DONE, owner word ONE WORLD (v23) + TEMPLES recorded, spokes RUNNING, Junior RATIFIED-J landed; the next session runs `docs/sparkups/sparkup-v22-spec-and-tickets-20260905.md`** (owner asks one at a time → spoke harvest → spec + tickets server-ready → art charter → T0 review → T1 if headroom). Cycle state: `docs/CYCLE.md`. Law: `drafts/_v22-foundation-20260905.md` (L1–L20). Restore tags unchanged: `restore/pre-mundo-vivo-20260904` (`cf9a6a6`) · `restore/post-mundo-vivo-20260905`.
+CLAIMED: v22 spec + tickets + art charter + T0 review — Gabriel seat, s133 (docs + review only; T1 claimed separately if headroom). Previous state: **s132 closed: council pass DONE, owner word ONE WORLD (v23) + TEMPLES recorded, spokes RUNNING, Junior RATIFIED-J landed; the next session runs `docs/sparkups/sparkup-v22-spec-and-tickets-20260905.md`** (owner asks one at a time → spoke harvest → spec + tickets server-ready → art charter → T0 review → T1 if headroom). Cycle state: `docs/CYCLE.md`. Law: `drafts/_v22-foundation-20260905.md` (L1–L20). Restore tags unchanged: `restore/pre-mundo-vivo-20260904` (`cf9a6a6`) · `restore/post-mundo-vivo-20260905`.
 
 ## 2026-09-05 session 132 — v22 council pass; the owner's ONE WORLD word (server world = v23, temples in v22); seat spokes launched; Junior's RECEIPTs landed (Gabriel seat, hub, owner live)
 
