@@ -7,7 +7,85 @@ CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
 
-CLAIMED: none — s124 was docs-only (declaration + ratification harvest). **The NINETEENTH is DECLARED — freeze ARMED** (spec: `docs/superpowers/specs/2026-08-30-v20-nineteenth-ritual.md`, peers don't read §7; skeleton: `drafts/_v20-fun-verify-skeleton-20260830.md`). Next: Gabriel's exposure session → ONE ritual session (coop recommended — pays the standing coop-invite) → 10 answers → fresh-session adjudication, target ~2026-09-01. Lane G (ambience) recorded, executes post-verdict; T6/C3 E-lane legal during the window ONLY if they skip frozen files (B4 touches death.json = frozen — it WAITS); boss-seizure choreography re-author = harness-only, legal.
+CLAIMED: MUNDO VIVO cycle proposal (v21) — Junior seat, branch `junior/mundo-vivo` (restore tag `restore/pre-mundo-vivo-20260904` = `cf9a6a6`); FASE 0 plan doc + FASE 1 art layer in flight on the branch, merge to main only per fully-gated phase. **The NINETEENTH is CLOSED — CUMPLIDO WITH NAMED ITEMS (s125); ALL FREEZES LIFTED.** Verdict: `drafts/_v20-fun-verify-verdict-20260904.md`. Owner-pending (never nag): totem COEXISTENCE word (keep free / re-price / retire) · moss floor-3 pick (A/B/C) · swap-spec 3 ratifications · MUNDO VIVO cycle ratification (FASE 0 doc).
+
+## 2026-09-04 session 125 — NINETEENTH ADJUDICATED: CUMPLIDO WITH NAMED ITEMS — freezes lifted; lane G executes; 4 items named for the v21 grill (Junior seat; fresh-session adjudicator)
+
+**Adjudication ran from Junior's seat** (owner order 2026-08-22: never
+gate on peer availability — the ~48h target slipped ~3 days with no
+hub claim). Spec §9 "FRESH session (never the administering one)"
+honored mechanically: a zero-context child session (pi-subagents
+`delegate`, fresh, no fork) read spec + skeleton + eighteenth verdict
++ s124 entry and wrote the verdict alone; the administering session
+only checked law conformance afterwards (order (a)→(i) ✓, 10/10
+answers byte-exact against the skeleton ✓, HELD line + 3 TELEMETRY
+rows byte-exact ✓, zero fiction names ✓). Verdict md5
+`db0435beaadc418c3809fd0f3fa10c1c`. (Harness note: the child run was
+flagged `model_verification_failed` — the gateway reports the model
+under its alias `claude-fable-5-1` — a labeling mismatch, not a
+judgment defect; the artifact was recovered byte-identical from the
+child's write and banked at the authoritative path.)
+
+**THE VERDICT: CUMPLIDO WITH NAMED ITEMS** (`drafts/_v20-fun-verify-verdict-20260904.md`).
+Half A clean on every banked byte (save chain `1c2c35ed…`→`f9ff646a…`,
+desyncs=0, link 0.5%/85ms, AUTOPILOT=0 both seats, L9 first-load over
+the v20 rethemes PASSED). Routes: free-verdict regression **does not
+fire** (neither P5 names a delta piece) · totem §5.1 =
+**COEXISTENCE** (heals=8 pulses=19 with bought=21 — priced-flip not
+eligible) · sustain §5.2 = **LANDED** (bought=21 used=21 vs the
+eighteenth's 0/0; L14 rung does NOT enter the queue) · depth probes
+**FIRE on the owner seat** ("la verdad no tengo idea cuando bajo o
+cuándo subo…") with a seat split (Junior reads a gradient: "menos
+dificil nos mapas iniciais mais dificeis nos mapas finais") · A/B
+growth chain **moved DOWN both seats** (v19 "un poco mejor"/"bem mais
+fortes" → v20 "igual"/"continua a mesma" despite 10→13 in-session).
+Re-session owed: **NONE.**
+
+**Consequences (spec §9 "On CUMPLIDO", now in force):** frozen sim
+numbers UNLOCK (all nine balance JSONs, zone requires_*, creature.rb +
+aggro.rb seams) · oracle-wording + instrument freezes SPENT · lane G
+(ambience) EXECUTES · `data/zones` leaves the freeze set · totem
+COEXISTENCE → owners' discussion (keep free / re-price / retire —
+owner word, no work item pre-registered).
+
+**NAMED for the v21 grill (verbatim anchors in the verdict §h):**
+(1) lane D — vertical legibility (owner P4) · (2) lane B — growth
+not felt across three boundaries (both P1 + telemetry 10→13) · (3)
+objective vacuum (HELD spontaneous line + owner P5) · (4) C3
+third-body debt re-anchored (Junior P3). Process debt named:
+adjudication ~3 days past the ≤48h target.
+
+**Same session, peer direction (Junior, FULL SEAT SYMMETRY):** the
+MUNDO VIVO cycle proposal (v21) opens on branch `junior/mundo-vivo`
+— living maps (ambience), real art layer (sprites/atlas, art
+replaceable), enemy families per dungeon, unique bosses, ZONE 7 →
+city, 5 dungeons × 3–5 floors. Restore point for the peers:
+tag `restore/pre-mundo-vivo-20260904` (= `cf9a6a6`). Items (1)–(3)
+above are exactly what the proposal answers; the FASE 0 plan doc is
+the ratification surface for Gabriel. Harness (legal, machine-local):
+`harness/vision_critic.py` gained a `CRITIC_TRANSPORT=gateway`
+transport (anthropic-messages over the program gateway; Bedrock path
+byte-untouched) so Rule 2 gates run on Junior's machine (no AWS/boto3
+there) — baseline gate on `world_loop` in progress at write time.
+
+**Para Junior (pt-br):** o ritual fechou CUMPRIDO com itens nomeados
+— nada precisa ser refeito, o freeze caiu inteiro. Tua leitura da
+dificuldade ("menos dificil nos mapas iniciais, mais dificeis nos
+finais") confirmou o degrau que os pisos -2/-3 queriam; "a força
+continua a mesma" virou item de progressão pro próximo grill (subir
+de nível não está sendo sentido — os dois disseram). O pacote de
+mapas de 31/08 e o ciclo MUNDO VIVO estão destravados.
+
+**Para Gabriel (es-CR):** el ritual cerró CUMPLIDO con ítems
+nombrados; la adjudicación salió del asiento de Junior en sesión
+fresca porque la ventana de 48h ya llevaba 3 días vencida (orden
+tuya 2026-08-22: nunca esperar al otro). Tus cinco respuestas están
+leídas tal cual; tu "no distingo bajar de subir" es el ítem de lane D
+del próximo grill, y tu "repetitivo… sin objetivo" quedó registrado
+como entrada al grill. Pendiente tuyo (sin apuro): palabra sobre el
+tótem (coexistencia), elección del musgo -3, las 3 ratificaciones
+del swap, y el doc de apertura del ciclo MUNDO VIVO cuando llegue.
+Hay un tag de restauración por si querés volver todo atrás.
 
 ## 2026-08-30 session 124 — NINETEENTH DECLARED (first reform-shaped ritual) + lane D author-ratified 3/3 + lane G (ambience) recorded
 
