@@ -67,3 +67,24 @@ surfaces: torches, lava, glows, cobras, braziers).
 Ticket 1 for tomorrow (his pick): FINE POLISH — ram (ember_a) facing down,
 lurker silhouette, 32 px faces; then open him INSIDE the tower / BRASA.
 
+## Junior's second session (19:37–19:39, healed scratch save, level 15, 200 coins)
+
+~2 min: 1 fight (70 xp), paid a 40 toll at a SECOND seal (200->160: he went
+north-east to the basement stairs, not south to BRASA), Aro's taunt cast once
+-> 19 retargets (the whole room came), **Pomo (lobber) died**; Fio 29, Aro 79.
+No dungeon entered in either session. Asked in numbers, he answered **1:
+"Perdi o Pomo cedo - a cidade tá mais dura do que parece."**
+
+Reading (dev): the taunt pulls every hostile onto the pack and the ranged body
+hugs the target and has no flask reflex -> the squishiest body dies first.
+That is precisely what the ally brain (595b3ab, OFF) fixes: drink <30%, hold
+3 tiles, dodge the aimed telegraph. Second reading still stands: twice given
+TILE coordinates, twice no dungeon - the game must point the way (signage).
+
+Ticket 1 tomorrow (his pick): (a) play session with the ally brain ON
+LOCALLY (threat.json ally/human enabled=true, never committed - canary law;
+his feel = half the A3 audit); (b) read the basement/city density + taunt
+pull at level 15 and propose the tuning numbers (data only). Ticket 2:
+SIGNAGE (edge arrow to the nearest exit/stairs, light pulse on holes/doors,
+floor in the banner). Then the fine polish (ram / lurker / faces).
+
