@@ -171,6 +171,7 @@ module App
         @fx.update(world)
         @fx.draw(world)
         bodies.each { |(c, _grp, _i)| draw_creature(c, world) }
+        @fx.draw_numbers(world)
         # Flywheel fix (2026-08-19, critique issue 2 — the verified gap):
         # draw_attack is pack-gated, so an enemy's ACTIVE strike rendered
         # nothing — the landed hit had no WHERE. Enemy strike tiles draw in
@@ -196,6 +197,7 @@ module App
       @light.draw_screen(world, cam.view_w, cam.view_h)
       draw_writ_veil(world)
       draw_hud(world)
+      draw_boss_bar(world)
       draw_safe_chip(world)
       # Strip BEFORE edge pips (their bottom clamp lands inside the strip
       # band — an off-screen ally's pip must stay visible ON the strip) and
@@ -931,6 +933,79 @@ module App
 
     def possess_rgb = @possess_rgb ||= @display.fetch(:possess_halo_rgb, [255, 214, 120])
 
+    # 24x3 bar 2px above the head-room: dark socket, red->orange fill by hp
+    # fraction, 1px lighter lip. Pure function of (hp, max_hp).
+    def draw_enemy_hp_bar(c, x, y)
+      w = 24
+      h = 3
+      bx = x + SIZE / 2 - w / 2
+      by = y - 14 - art_lift
+      frac = c.hp.fdiv(c.max_hp).clamp(0.0, 1.0)
+      Gosu.draw_rect(bx - 1, by - 1, w + 2, h + 2, Gosu::Color.new(230, 16, 10, 10))
+      fw = (w * frac).round
+      return if fw <= 0
+      r = 235
+      g = (60 + 120 * frac).round
+      Gosu.draw_rect(bx, by, fw, h, Gosu::Color.new(255, r, g, 40))
+      Gosu.draw_rect(bx, by, fw, 1, Gosu::Color.new(120, 255, 255, 230))
+    end
+
+    # The BOSS BAR: for the first boss/seizer on camera, a 260x10 bar under
+    # the banner slot (top-center), its name above, phase pips below. Reads
+    # the same truths as the nameplate/pips (hp, max_hp, boss_phase).
+    def draw_boss_bar(world)
+      return unless @display.fetch(:boss_bar, true)
+      cam = world.camera(@local_seat)
+      boss = world.humans.find do |h|
+        !h.dead? && (h.kit[:boss] || h.kit[:seize]) &&
+          h.x + SIZE >= cam.x && h.x <= cam.x + cam.view_w && h.y + SIZE >= cam.y && h.y <= cam.y + cam.view_h
+      end
+      return unless boss
+      w = @display.fetch(:boss_bar_w, 260)
+      h = @display.fetch(:boss_bar_h, 10)
+      bx = (cam.view_w - w) / 2
+      by = @display.fetch(:boss_bar_y, 112)
+      name = boss.kit_name == :challenger ? tr("challenger.name", "BOSS 1") : BOSS_NAMES.fetch(boss.kit_name, "BOSS")
+      f = hud_font
+      tx = cam.view_w / 2 - f.text_width(name) / 2
+      Renderer.halo_offsets(1).each { |(dx, dy)| f.draw_text(name, tx + dx, by - 18 + dy, 20, 1, 1, Gosu::Color.new(255, 20, 14, 12)) }
+      f.draw_text(name, tx, by - 18, 20, 1, 1, BANNER)
+      Gosu.draw_rect(bx - 2, by - 2, w + 4, h + 4, Gosu::Color.new(255, 16, 10, 10), 20)
+      Gosu.draw_rect(bx - 1, by - 1, w + 2, h + 2, Gosu::Color.new(255, 90, 40, 30), 20)
+      Gosu.draw_rect(bx, by, w, h, Gosu::Color.new(255, 40, 16, 20), 20)
+      frac = boss.hp.fdiv(boss.max_hp).clamp(0.0, 1.0)
+      fw = (w * frac).round
+      if fw.positive?
+        Gosu.draw_rect(bx, by, fw, h, Gosu::Color.new(255, 200, 40, 50), 20)
+        Gosu.draw_rect(bx, by, fw, 2, Gosu::Color.new(110, 255, 255, 230), 20)
+      end
+      # phase thresholds as notches on the socket; pips under the bar
+      n = boss.boss_phase_count
+      if n > 1
+        phases = boss.kit.dig(:boss, :phases) || []
+        phases.drop(1).each do |ph|
+          nx = bx + (w * ph[:hp_pct] / 100.0).round
+          Gosu.draw_rect(nx, by - 1, 1, h + 2, Gosu::Color.new(255, 235, 215, 190), 20)
+        end
+        cur = boss.boss_phase
+        pw = 6
+        gap = 3
+        px0 = cam.view_w / 2 - (n * pw + (n - 1) * gap) / 2
+        n.times do |i|
+          px = px0 + i * (pw + gap)
+          col = Gosu::Color.new(255, 190, 90, 40)
+          if i == cur
+            Gosu.draw_rect(px, by + h + 3, pw, pw, col, 20)
+          else
+            Gosu.draw_rect(px, by + h + 3, pw, 1, col, 20)
+            Gosu.draw_rect(px, by + h + 3 + pw - 1, pw, 1, col, 20)
+            Gosu.draw_rect(px, by + h + 3, 1, pw, col, 20)
+            Gosu.draw_rect(px + pw - 1, by + h + 3, 1, pw, col, 20)
+          end
+        end
+      end
+    end
+
     # Ground halo: an ellipse of horizontal slices under the feet (outer
     # soft ring + brighter inner rim), plus an optional chevron above the
     # head that bobs 2px on a 40-frame cycle. Pure function of (x, y, frame).
@@ -1016,6 +1091,13 @@ module App
       # flesh goes to him". Pack-only slot: no collision with taunt (human).
       draw_seized_underline(c, x, y) if c.faction == :pack && c.seized_by
       draw_nameplate(c, x, y) if c.faction == :human && (c.kit[:seize] || c.kit[:boss])
+      # PREMIUM v22 pass 6: a WOUNDED hostile (hp < max, not a boss - the boss
+      # bar is on screen) wears a tiny hp bar over its head; full hp = no bar
+      # (the ARPG grammar: the bar IS the wound).
+      if c.faction == :human && !c.kit[:boss] && !c.kit[:seize] && c.hp < c.max_hp &&
+         @display.fetch(:enemy_hp_bars, true)
+        draw_enemy_hp_bar(c, x, y)
+      end
       if c.faction == :human && (cue = c.retarget_cue)
         draw_outlined_quad(x + SIZE / 2 - 4, y - 10 - lift, 8, RETARGET_CUE.fetch(cue[:cause]))
       end

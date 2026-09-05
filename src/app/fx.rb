@@ -16,6 +16,7 @@ module App
     SPARK_FRAMES = 12
     BURST_FRAMES = 22
     DUST_FRAMES = 14
+    NUM_FRAMES = 40
     CHIP_DIRS = [[1, -1], [-1, -1], [1, 1], [-1, 1], [0, -1], [1, 0]].freeze
 
     def initialize(display:, kit_body:)
@@ -27,7 +28,7 @@ module App
 
     def state_for(world)
       @worlds[world] ||= begin
-        st = { sparks: [], bursts: [], dust: [], last_tile: {} }
+        st = { sparks: [], bursts: [], dust: [], nums: [], last_tile: {}, last_hp: {} }
         if world.respond_to?(:bus)
           world.bus.subscribe(:attack_hit) do |ev|
             v = ev.payload[:victim]
@@ -55,6 +56,16 @@ module App
       seen = {}
       bodies.each do |c|
         seen[c] = true
+        # pass 6: floating numbers from the hp DELTA between polls (catches
+        # melee, shots, poison/aura ticks and heals alike — no payload change)
+        hp0 = st[:last_hp][c]
+        st[:last_hp][c] = c.hp
+        if hp0 && hp0 != c.hp && @display.fetch(:fx_damage_numbers, true)
+          d = c.hp - hp0
+          st[:nums] << { x: c.x + 14, y: c.y - 6, at: world.frame, text: (d.positive? ? "+#{d}" : (-d).to_s),
+                         kind: d.positive? ? :heal : (c.faction == :pack ? :taken : :dealt),
+                         big: -d >= (c.max_hp * 0.25) }
+        end
         prev = st[:last_tile][c]
         st[:last_tile][c] = c.tile
         next if prev.nil? || prev == c.tile
@@ -63,7 +74,9 @@ module App
         st[:dust] << { x: c.x + 14 - fx * 10, y: c.y + 26 - fy * 4, at: world.frame, dir: [-fx, -fy] }
       end
       st[:last_tile].delete_if { |c, _| !seen[c] }
+      st[:last_hp].delete_if { |c, _| !seen[c] }
       f = world.frame
+      st[:nums].reject! { |p| f - p[:at] >= NUM_FRAMES }
       st[:sparks].reject! { |p| f - p[:at] >= SPARK_FRAMES }
       st[:bursts].reject! { |p| f - p[:at] >= BURST_FRAMES }
       st[:dust].reject! { |p| f - p[:at] >= DUST_FRAMES }
@@ -77,6 +90,40 @@ module App
       st[:sparks].each { |p| draw_spark(p, f - p[:at], z + 1) }
       st[:bursts].each { |p| draw_burst(p, f - p[:at], z + 1) }
     end
+
+    # Numbers draw ABOVE bodies (call after the creature pass).
+    def draw_numbers(world, z: 8)
+      return unless @enabled
+      st = state_for(world)
+      f = world.frame
+      st[:nums].each { |p| draw_number(p, f - p[:at], z) }
+    end
+
+    # A number rises ~18px with ease-out and fades over the last third.
+    # dealt = warm white (yellow when >= 25% of the victim's max: a BIG hit),
+    # taken = crimson (your body bled), heal = green. Dark 1px halo so it
+    # reads on any ground. Not magenta, never in the HUD: the carried
+    # numeral keeps its grammar.
+    def draw_number(p, age, z)
+      t = age.fdiv(NUM_FRAMES)
+      rise = (18 * (1 - (1 - t) * (1 - t))).round
+      a = t < 0.66 ? 255 : (255 * (1.0 - (t - 0.66) / 0.34)).round.clamp(0, 255)
+      col = case p[:kind]
+            when :heal then Gosu::Color.new(a, 120, 235, 110)
+            when :taken then Gosu::Color.new(a, 240, 70, 60)
+            else p[:big] ? Gosu::Color.new(a, 255, 225, 90) : Gosu::Color.new(a, 250, 245, 230)
+            end
+      f = p[:big] ? big_font : num_font
+      tw = f.text_width(p[:text])
+      x = (p[:x] - tw / 2).round
+      y = p[:y] - rise - (p[:big] ? 4 : 0)
+      halo = Gosu::Color.new(a, 20, 12, 12)
+      [[1, 0], [-1, 0], [0, 1], [0, -1]].each { |(dx, dy)| f.draw_text(p[:text], x + dx, y + dy, z, 1, 1, halo) }
+      f.draw_text(p[:text], x, y, z, 1, 1, col)
+    end
+
+    def num_font = @num_font ||= Gosu::Font.new(@display.fetch(:fx_number_font_px, 13))
+    def big_font = @big_font ||= Gosu::Font.new(@display.fetch(:fx_number_big_px, 17))
 
     private
 
