@@ -61,7 +61,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "6813a1f2a24513ae260cb5f6170a257a"
+      "md5": "c450d25ae0b7497127373379d2edb743"
     },
     "blocker": {
       "atlas": "art/atlas/blocker.png",
@@ -111,7 +111,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "2fbcf6dfb73c5e3b89044b23d38322a8"
+      "md5": "1cf62d80bbee21c479746a2ea881a9f1"
     },
     "lobber": {
       "atlas": "art/atlas/lobber.png",
@@ -161,7 +161,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "3dca4b2db873b4930989b4009804c437"
+      "md5": "98f61a76e8edeb3a4b9ccd40bc688b8b"
     },
     "rusher": {
       "atlas": "art/atlas/rusher.png",
@@ -211,7 +211,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "acf1dec54bf4eb2b227294321f86afbb"
+      "md5": "07c62c0c70e65d85c381ed7e9059bd81"
     },
     "rusher_hater": {
       "atlas": "art/atlas/rusher_hater.png",
@@ -261,7 +261,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "69fdd3180cf5240b3876cac6cc184dca"
+      "md5": "1e90524b19452feb690f6e364b473645"
     },
     "husk": {
       "atlas": "art/atlas/husk.png",
@@ -311,7 +311,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "0d373a114154b9a859e305071c139851"
+      "md5": "994bc86c232b1214ad1bdd60acd51372"
     },
     "challenger": {
       "atlas": "art/atlas/challenger.png",
@@ -361,7 +361,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "9dda18fe07d21d1b49d92666bcbbac01"
+      "md5": "68995f10b23aa3fbd176df896d9b255f"
     },
     "lurker": {
       "atlas": "art/atlas/lurker.png",
@@ -411,7 +411,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "1ecbd084f8678200420bbd25e0c9709f"
+      "md5": "bfdbad58b8ec0f85bb2ecdbe1e4ef169"
     },
     "warden": {
       "atlas": "art/atlas/warden.png",
@@ -461,7 +461,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "66fa04fdf778be8e3b922b29a7ad0b18"
+      "md5": "7020e932c9442e11dc701fd9fcbd0d4c"
     },
     "stinger": {
       "atlas": "art/atlas/stinger.png",
@@ -511,7 +511,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "dab97f843d4db310ea042c1f442690a1"
+      "md5": "b06fde615fa4d40e95af4317792e9c82"
     },
     "serpent_a": {
       "atlas": "art/atlas/serpent_a.png",
@@ -561,7 +561,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "2b18fff639aba0932d5cdef88c48a340"
+      "md5": "614a7d25dd7221e17ae876647cec9644"
     },
     "serpent_b": {
       "atlas": "art/atlas/serpent_b.png",
@@ -611,7 +611,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "4276157d5f04a5bb71d4d3d85075d070"
+      "md5": "72052509f87ac010dbdd9400daad1281"
     },
     "serpent_c": {
       "atlas": "art/atlas/serpent_c.png",
@@ -661,7 +661,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "8653b5673c70203168bbd1a59375dfdf"
+      "md5": "8838b6e398aad2da82e6043436ec06fe"
     },
     "ember_a": {
       "atlas": "art/atlas/ember_a.png",
@@ -711,7 +711,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "bd1c90187c01701c2b875db4d221ddc7"
+      "md5": "739b139d7cb8e3e8197426032bdb898a"
     },
     "ember_b": {
       "atlas": "art/atlas/ember_b.png",
@@ -761,7 +761,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "555b10043fc8d8e088d221e510878580"
+      "md5": "8d0219cbbc1821c1c99c8c9ea82ccd50"
     },
     "ember_d": {
       "atlas": "art/atlas/ember_d.png",
@@ -811,7 +811,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "b8a7ea7f2d25a8eb6e01610c415c3518"
+      "md5": "8f2946aaf895d2da288c8b8727deb53d"
     },
     "serpent_boss": {
       "atlas": "art/atlas/serpent_boss.png",
@@ -861,7 +861,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "0acb24a64ac752bb0dec0d69ae058556"
+      "md5": "c038d648d12fd136df7282845af90048"
     },
     "ember_boss": {
       "atlas": "art/atlas/ember_boss.png",
@@ -911,7 +911,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "93671feedc40f7b179ef641d4940b7eb"
+      "md5": "57e083ea5269b13952e1edb9ef79610e"
     },
     "spore_a": {
       "atlas": "art/atlas/spore_a.png",
@@ -961,7 +961,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "b834327523db987f83427f310c0eb078"
+      "md5": "1a1a127f5c114894cd8b07ae519c91c8"
     },
     "spore_b": {
       "atlas": "art/atlas/spore_b.png",
@@ -1011,7 +1011,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "ff42591ff01ac106e93a77aeaa85e1f4"
+      "md5": "60d0920d7b47941ed985763b7639745d"
     }
   }
 }

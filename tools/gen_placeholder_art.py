@@ -324,7 +324,11 @@ def render_frame(kit, facing, anim, i):
         for p in acc:
             px[p] = acc_col
     if anim == "hurt":
-        px = {p: tuple(clamp(c + (255 - c) * 0.55) for c in col) for p, col in px.items()}
+        # hurt = brighter AND redder, never white (gate law hurt_flash_not_white:
+        # white reads as spawn/holy; a grey or pale kit at +55% white DID read
+        # white — tower3 sentinel 2026-09-05). Red channel lifts hard, the
+        # others only a little: every kit's hurt frame lands in the red family.
+        px = {p: (clamp(col[0] + (255 - col[0]) * 0.55), clamp(col[1] * 0.85), clamp(col[2] * 0.80)) for p, col in px.items()}
     for p in outline_for(set(px)):
         px.setdefault(p, OUTLINE)
     img = Image.new("RGBA", (FW, FH), (0, 0, 0, 0))
