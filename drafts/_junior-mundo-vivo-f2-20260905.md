@@ -63,9 +63,11 @@ saltea `String#hash` POR PROCESSO. Trocado por FNV sobre
 | Determinismo `floor2_run` (piloto -2) | **10/10 byte-idênticas** ×2 (após o fix) | `captures/floor2_run_gate_*` |
 | Determinismo `town_gates` (tochas) | **6/6 byte-idênticas** ×2 | `captures/town_gates_gate_*` |
 | Frames lidos | bolhas subindo com fade + shimmer na água + gotejar na ruína (piso -2); halo/chama/faíscas nas 10 tochas + shimmer no poço (ZONE 7) — tudo SOB atores/portas | `tmp/f2_zoom.png`, `tmp/z7_zoom.png` |
-| Rule 2 (crítico) `floor2_run` · `town_gates` · `zone8_crossing` | *(cadeia lançada; verdicts colados ao fechar)* | `tmp/wall/fase2_*.log` |
+| Rule 2 `town_gates` (10 tochas + poço) | **GATE PASS** (det 6/6 + vision PASS; manifest zone_entered=4) | `tmp/wall/fase2_town_gates.log` |
+| Rule 2 `zone8_crossing` (água de ZONE 8 via tiles.json) | **GATE PASS** (det + vision). Manifest FAIL `body_regrown`/`tribute_paid` = **pré-existente** (census T6b/T7: "9 fails … basement_pocket, vat_economy, zone8_crossing, zone_catchup" — eventos de SIM, inalcançáveis por presentation) | `tmp/wall/fase2_zone8_crossing.log`; `drafts/_v20-t7-floor3-20260830.md` §369 |
+| Rule 2 `floor2_run` (piloto -2) | vision FAIL `floor2_channel_reads` ("no second coral wall color visible") — **flip**: pixels de parede byte-idênticos aos quads (coral tinted `143,75,40` = 3064 amostras vs rocha `113,68,49` = 2526 no frame 2100; a ambiência não desenha sobre `#`/`%`); check passou 3/3 em runs anteriores. Manifest PASS (actor_died=26 fight_resolved=6). → re-run na parede | `tmp/wall/fase2_floor2_run.log`, `tmp/f2_full.png` |
 | Tick-driven grep | `milliseconds\|Time.now\|rand(` em ambience.rb = só no comentário da lei | — |
-| Perf | *(rake perf + frame probe colados ao fechar)* | — |
+| Perf (draw A/B, `GAME_FRAME_PROBE=1`, bot 900 ticks, máquina do Junior) | **ZONE 7:** ON `draw{p50=2.6 p95=5.0}` vs OFF `draw{p50=2.2 p95=4.5}` (+0.4/+0.5 ms) · **piso -2 (piloto):** ON `draw{p50=1.6 p95=5.1}` vs OFF `draw{p50=1.1 p95=2.9}` (+0.5/+2.2 ms). Orçamento 16.6 ms; `over35=0` em todos. Sprites+ambiência custam <1 ms p50 | `tmp/perf_on_z7.log` (ON = art+ambience; OFF = display `art_enabled:false, ambience:false`) |
 
 ## Custo de re-pin (nomeado)
 
