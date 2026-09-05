@@ -193,6 +193,41 @@ floor stays bare (LDtk v1.5.3 `LayerInstance.hx:409/935`,
 for rule-less layers — correct today, wrong the day a layer gets
 rules.
 
+### 4.5 Two GUI-safety laws measured live on the first GUI save (WB-T6, 2026-09-05)
+
+The first-ever LDtk save of the 13-zone project (through the AfterSave
+loop, screenshots in `drafts/_wb-t6-gui/`) was REFUSED by the importer
+— LDtk's load-time tidy had changed the data. Two laws follow:
+
+1. **Every IntGrid value a level uses MUST be declared in the Terrain
+   layer def (`defs.layers[Terrain].intGridValues`), and the
+   declarations mirror `data/tiles.json` (value → type id).** LDtk
+   silently ZEROES undeclared values on load and writes the zeros on
+   save: values 9/10/12 (moss/rubble/lava_deco, written by the MUNDO
+   VIVO builders without the T6b declaration law of
+   `tools/build_district_two_v3.py:381-390`) lost 924 cells across
+   low_quay/ember_1-3 in one Ctrl+S. Fixed by script (values 9–14
+   declared, `771508d`); pinned by
+   `test/tools/pilot_authoring_test.rb`
+   (`test_every_used_intgrid_value_is_declared_in_the_terrain_def`).
+   Builders adding a registry type: declare it in the def in the same
+   change.
+2. **A transition whose `spawn` cell lies OUTSIDE the SOURCE level's
+   rectangle is an INVALID field to LDtk** (Point fields are
+   level-local): it renders `<ERR: Invalid field value: Transition>` /
+   `spawn = <Value required>` in red, cannot be re-entered with the
+   point picker, and a level tidy NULLS it (hit live: ember_3 [1,15] →
+   ember_2 spawn [60,14] came back `null` when ember_3's IntGrid was
+   tidied; the four other out-of-bounds spawns — zone_7→low_quay,
+   basement_1/2→zone_7, dungeon_1→zone_8 — survived an untidied save).
+   The importer refuses the null NAMED (visible in the AfterSave
+   window), so `data/zones` is never silently damaged — but until the
+   data model moves (WB-T7 candidate: `spawn` as an EntityRef with
+   `allowOutOfLevelRef`, or a String `"x,y"`; importer + builders
+   re-pin, emissions byte-identical), **never edit those five
+   transitions in the GUI, and read every AfterSave refusal before
+   saving again.** Cross-zone spawns stay authored by builders/scripts.
+
 ## 5. Delivery workflow (one direction → one shippable edit)
 
 1. **Direction intake (Junior):** which zone + reference image +

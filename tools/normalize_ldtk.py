@@ -28,6 +28,7 @@ NAMED refusal with exit 2, never a silent pass.
 """
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -92,12 +93,12 @@ def scalar_equal(a, b):
 
 
 def diff_paths(a, b, prefix="$", out=None):
-    """Collect JSON paths where a and b differ (recursive, order-sensitive
-    for arrays -- LDtk arrays are ordered data; deterministic key order)."""
+    """Collect EVERY JSON path where a and b differ (recursive, order-sensitive
+    for arrays -- LDtk arrays are ordered data; deterministic key order).
+    Uncapped: the caller decides how many to show; the shape summary needs
+    the full set (a 1-of-1,102 nulled field hid behind a 50-path cap live)."""
     if out is None:
         out = []
-    if len(out) > MAX_DIFF_PATHS:
-        return out
     if isinstance(a, dict) and isinstance(b, dict):
         for k in list(a.keys()) + [k for k in b.keys() if k not in a]:
             if k not in a:
@@ -119,11 +120,24 @@ def diff_paths(a, b, prefix="$", out=None):
 
 
 def semantic_diff(path_a, path_b):
-    """-> [] if parsed-equal (strict scalars, ordered arrays), else the
-    differing paths (capped at MAX_DIFF_PATHS + 1)."""
+    """-> [] if parsed-equal (strict scalars, ordered arrays), else every
+    differing path."""
     _, a = load(path_a)
     _, b = load(path_b)
     return diff_paths(a, b)
+
+
+def shape_summary(paths):
+    """Group differing paths by shape (array indices collapsed to [*]) ->
+    [(count, shape, first example)] sorted by count desc. This is the line
+    that shows '924 x intGridCsv[*]' and '1 x fieldInstances[*].__value'
+    side by side when the detail list is too long to read."""
+    groups = {}
+    for p in paths:
+        shape = re.sub(r"\[\d+\]", "[*]", p.split(":", 1)[0])
+        count, example = groups.get(shape, (0, p))
+        groups[shape] = (count + 1, example)
+    return sorted(((c, s, e) for s, (c, e) in groups.items()), key=lambda t: (-t[0], t[1]))
 
 
 def main(argv):
@@ -150,11 +164,14 @@ def main(argv):
                 print(f"semantically equal: {argv[2]} == {argv[3]}")
                 return 0
             shown = paths[:MAX_DIFF_PATHS]
-            print(f"SEMANTIC DIFF {argv[2]} vs {argv[3]}: {len(paths)}{'+' if len(paths) > MAX_DIFF_PATHS else ''} differing path(s)")
+            print(f"SEMANTIC DIFF {argv[2]} vs {argv[3]}: {len(paths)} differing path(s)")
             for p in shown:
                 print("  " + p)
             if len(paths) > MAX_DIFF_PATHS:
-                print("  ...")
+                print(f"  ... {len(paths) - MAX_DIFF_PATHS} more (first {MAX_DIFF_PATHS} shown)")
+            print("BY SHAPE (count x path shape -- first example):")
+            for count, shape, example in shape_summary(paths):
+                print(f"  {count:6d} x {shape} -- {example[:140]}")
             return 1
     except (OSError, UnicodeDecodeError, json.JSONDecodeError) as e:
         print(f"NORMALIZE REFUSED: {e}")

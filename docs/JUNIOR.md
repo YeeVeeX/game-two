@@ -130,6 +130,12 @@ O arquivo dos mapas é `authoring/pilot.ldtk` (13 zonas). Regras da casa:
 - Passe o mouse nos campos das entidades: cada um tem uma dica do que
   aceita (`to` = nome da zona, `price` = chave do balance, etc.).
   Detalhes e leis: `docs/MAP_EDITING.md` §4.
+- **Cuidado (medido em 2026-09-05):** cinco passagens têm o `spawn`
+  fora do retângulo da própria zona (o destino é outra zona) — o LDtk
+  mostra `<ERR: Invalid field value>` em vermelho nelas. Não mexa nessas
+  no editor (ele pode apagar o valor); o importador recusa e a janela
+  do Ctrl+S fica aberta avisando. A correção do modelo é um ticket
+  próprio (WB-T7).
 
 ### Assistir às partidas um do outro (replays determinísticos)
 

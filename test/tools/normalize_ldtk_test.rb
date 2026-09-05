@@ -93,6 +93,25 @@ class NormalizeLdtkTest < Minitest::Test
       assert_match(/\$\.z\.k: true != 1/, stdout, "bool never equals int")
       assert_match(/\$\.s: "caf\\u00e9/, stdout, "non-ASCII values print escaped (cp1252 console safety)")
       refute_match(/\$\.x/, stdout, "1 vs 1.0 is formatting, not semantics")
+      assert_match(/BY SHAPE .*/, stdout)
+      assert_match(/\n\s+1 x \$\.y\[\*\] -- \$\.y\[1\]/, stdout, "shape summary collapses array indices")
+    end
+  end
+
+  # The summary must see EVERY path: a 1-of-1,102 nulled field hid behind the
+  # 50-path detail cap on the first live GUI save (WB-T6 record §5.6).
+  def test_semantic_diff_summary_is_uncapped
+    Dir.mktmpdir do |dir|
+      a = File.join(dir, "a.json")
+      b = File.join(dir, "b.json")
+      File.binwrite(a, JSON.generate({ "grid" => Array.new(300, 9), "spawn" => { "cx" => 60 } }))
+      File.binwrite(b, JSON.generate({ "grid" => Array.new(300, 0), "spawn" => nil }))
+      stdout, _, status = run_tool("--semantic-diff", a, b)
+      assert_equal 1, status.exitstatus
+      assert_match(/301 differing path\(s\)/, stdout)
+      assert_match(/\.\.\. 251 more \(first 50 shown\)/, stdout)
+      assert_match(/\n\s+300 x \$\.grid\[\*\] -- /, stdout)
+      assert_match(/\n\s+1 x \$\.spawn -- \$\.spawn: \{"cx": 60\} != null/, stdout, "the one-off change is visible in the summary")
     end
   end
 

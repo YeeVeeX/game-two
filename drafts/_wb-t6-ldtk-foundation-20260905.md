@@ -57,17 +57,24 @@ Approach: D1 → D3 → D4 → D5, one-concern commits, hooks run the suite, pus
 ### D5 — docs
 - [x] `docs/MAP_EDITING.md` §3 floors bullet → LINT LAW; §4 pin line gains installer md5 + decline-updates; new §4.1 normalizer law · §4.2 AfterSave loop + backups · §4.3 ergonomics (+ what is NOT in the wave) · §4.4 `autoLayerTiles: null` builder rule
 - [x] `docs/JUNIOR.md` pt-br section "Editar mapas no LDtk (WB-T6)": version pin + decline updates, the Ctrl+S loop, `where python` / `where ruby` checks, never text-edit, backups, hover docs
-- [ ] commit hash (after push):
+- [x] commit `8a6ea65` (docs + record + CLAIMED), pushed; review-fix commit `ee54fd6`; GUI-safety commit `771508d` (rebased over Junior's PREMIUM v22 `03259d0`/`1ac9e9e`, disjoint files), pushed
 
-### HUMAN STEP (owner, GUI)
-- [ ] owner opened pilot.ldtk in LDtk 1.5.3, trusted the command, saw the AfterSave window print + self-close (or DONE-PENDING-GUI recorded)
-- [ ] post-GUI: `--check` exit 0 · semantic diff read (appBuildId churn only?) · D6 diff empty · suite green · commit hash:
+### HUMAN STEP — performed BY THE SESSION at the owner's word ("can you please perform those steps for me?"), GUI driven by `tmp/wb-t6/gui.ps1` (DPI-aware SetForegroundWindow via AttachThreadInput + SendKeys/SetCursorPos; screenshots = Rule 2 artifacts, banked in `drafts/_wb-t6-gui/`)
+- [x] LDtk 1.5.3 launched on `authoring/pilot.ldtk` (install `C:\Users\gabri\AppData\Local\Programs\ldtk\LDtk.exe`, log `Version: 1.5.3-64bits (build 473703)`); no update banner (1.5.3 is the latest release)
+- [x] **Save 1 (09:24):** Ctrl+S → LDtk wrote the file → trust dialog (`01-trust-dialog.png`: "This project wants to execute the following command automatically: python ../tools/ldtk_aftersave.py ../authoring/pilot.ldtk") → clicked ALLOW → settings.cfg now `projectTrusts: [{iid 00000000-a237-…, trusted: true}]` → AfterSave ran: `normalized` · `IMPORT REFUSED: level low_quay: IntGrid value 0 at [23,3] has no tile type (0 = void …)` · `lint: skipped` · `FAILED: import` · `Terminated with code 1` — **window STAYED OPEN** (`02-aftersave-refusal-stays-open.png`, also the owner's own paste). The designed refusal path, proven live on the first real GUI save.
+- [x] Full semantic diff HEAD vs save 1 (`tmp/wb-t6/semdiff_full.py`, 1,102 paths): **924 `intGridCsv` cells 9/10/12 → 0** (low_quay 710, ember_1 44, ember_2 109, ember_3 61) — LDtk zeroes IntGrid values the Terrain def does not declare (def declared 1–8; registry has 1–14; MUNDO VIVO builders wrote 9/10/12 without the T6b declaration law) · **176 `__tags`** (instances mirror the D4 def tags; importer ignores) · **1 nulled Point:** `levels[10]`=ember_3 `[1,15] → ember_2 spawn {cx:60, cy:14} → null` (out of ember_3's 56x32 bounds; the 4 other out-of-bounds spawns survived — only the tidied level lost its point). `03-oob-spawn-value-required.png` = zone_7's low_quay transition rendering `spawn = <Value required>` before any save.
+- [x] Save 1 DISCARDED: LDtk closed, `git checkout -- authoring/pilot.ldtk` (md5 back to `4705994c…`), saved copy kept at `tmp/wb-t6/pilot_gui_save1.ldtk`
+- [x] Fix by script (`tmp/wb-t6/declare_intgrid_values.py`, deleted at close): Terrain def gains values 9–14 (moss/rubble/bones/lava_deco/puddle/roots), sorted, unique; `--check` canonical; D6 `diff -r` EMPTY; new pin `test_every_used_intgrid_value_is_declared_in_the_terrain_def` fails on HEAD's file (`Expected [9, 10, 12] to be empty`) and passes on the fix → commit `771508d`, suite 1442 / 0, pushed
+- [x] **Save 2 (09:36):** relaunch → title `pilot @ zone_7` (NOT `[UNSAVED]` — the load tidy changed nothing this time) → Ctrl+S → log: `Backing up … tmp/ldtk-backups/…_09-36-24` · `Loading HTML template commandRunner` · `Saved "pilot.ldtk"` → **no window after 7 s** (`05-after-clean-save-no-window.png`) → `tmp/ldtk_out/*.json` rewritten 09:36:25 = the importer ran green → `--check` canonical → **`authoring/pilot.ldtk` md5 `8013727dc4f20ef76639a83a80e082c3` == HEAD blob** (LDtk's writer + normalizer reproduced our bytes exactly; `--semantic-diff` HEAD vs saved: `semantically equal`) → D6 `diff -r tmp/ldtk_out.before tmp/ldtk_out` EMPTY (13/13)
+- [x] Hover check: clicking the town_1 Region shows the entity doc in its panel; hovering the `id` field's `?` shows the field doc tooltip "unique per zone, bare rec-form (^[a-z][a-z0-9_]*$)" (`04-field-doc-tooltip.png`). No edit made (title never went `[UNSAVED]`); LDtk closed via Alt+F4 (`Exiting.` logged)
+- [x] post-GUI commit: **none owed** — the saved file is byte-identical to HEAD (the strongest S0 outcome: "byte-identical file or a semantic-diff of zero", brief §4 S0)
+- [ ] optional GUI icons (embedded LdtkIcons TilesetDef): NOT done — needs a TilesetDef the app must create; stays a GUI item for a peer's own session
 
 ### Fresh-eyes review (Rule 6)
 - [ ] council verdict (model, tokens, cost, FINAL line) + reconciliation
 
 ### Close
-- [ ] CHECKPOINT entry · CLAIMED → none · RECEIPT mailed to gamesmith · `git status` clean except tmp/
+- [x] CHECKPOINT entry (s130) · CLAIMED → none · RECEIPT mailed to gamesmith (`~/.pi/agent/mail/gamesmith/inbox/from-game-two-receipt-ldtk-brief-wb-t6.md`) · one-off scripts deleted · `git status` clean except tmp/
 
 ## 3. Findings table (D3 report mode) — filled from the lint's own output
 
@@ -120,4 +127,19 @@ Net: 4 code fixes (console safety ×2 tools, `Refusal` on a missing delta law, r
 
 ## 5. Open items / follow-ons
 
-(pending)
+1. **WB-T7 (candidate, importer + builders re-pin): cross-zone `spawn` GUI-safety.** LDtk treats a Point outside the SOURCE level as invalid (renders `<ERR: Invalid field value>`, cannot be re-entered with the picker, a level tidy nulls it — ember_3 hit live). Five live transitions are affected (zone_7 [1,14]→low_quay [24,33] · basement_1 [4,3]→zone_7 [26,4] · basement_2 [4,3]→zone_7 [35,4] · dungeon_1 [29,7]→zone_8 [62,18] · ember_3 [1,15]→ember_2 [60,14]). Options: `spawn` as an EntityRef to the return Transition with `allowOutOfLevelRef` (brief §3.5, one click pairs both ends) or a String `"x,y"`; emitted zone JSON stays byte-identical by construction; builders + fixture + importer `field_value` re-pin in one ticket. Until then: MAP_EDITING §4.5 law 2 (never touch those five in the GUI).
+2. **Lane F graph drawing resolves the 8 LEGACY allowlist rows** (camp/nest/slow_door floors vs their v20 neighbours) — each fixed row must leave `authoring/world_graph_allowlist.json` (the suite forces it). Peers' decision; record it in the hub.
+3. **Entity icons via the embedded `LdtkIcons` atlas** — GUI-only (needs a TilesetDef the app creates); any peer's GUI session; importer-neutral; run `--check` + D6 after.
+4. **Junior's machine pre-flight** for the AfterSave command: `where python` / `where ruby` in cmd (JUNIOR.md); if `python` does not resolve on his PATH the command string needs a one-line change (`py` or an absolute path) — a defs-only pilot.ldtk edit by script.
+5. **LDtk log is buffered until exit** — judge a live AfterSave by the runner window / file mtimes / `--check`, not by `ldtk.log` (it showed nothing until `Exiting.`).
+6. ~~The `--semantic-diff` cap hid the 1-of-1,102 nulled Point~~ **DONE in-ticket:** `--semantic-diff` now collects every path and prints a `BY SHAPE` summary (count × path shape × first example) under the capped detail list — `924 x intGridCsv[*]` and `1 x fieldInstances[*].__value` read side by side; pinned by `test_semantic_diff_summary_is_uncapped`.
+
+## 6. Definition of done — final state
+
+- [x] `tools/normalize_ldtk.py` + tests (check / idempotent / semantic-diff + shape summary), suite green
+- [x] `tools/ldtk_aftersave.py` + `customCommands` + `backupOnSave` in pilot.ldtk; **the AfterSave window seen printing + self-closing on a clean save AND staying open on a refusal** (session-driven GUI, screenshots banked)
+- [x] `tools/lint_world_graph.rb` + findings table (17 rows, every hard row classified) + allowlist with reasons + blocking test for NEW violations (+ stale rows)
+- [x] D4 defs edits landed; D6 proves 13/13 emissions byte-identical before/after every pilot.ldtk edit AND after the GUI save; provenance test green
+- [x] `docs/MAP_EDITING.md` §3/§4.1–4.5 + `docs/JUNIOR.md` updated; this record complete with real hashes; CHECKPOINT entry; RECEIPT mailed
+- [x] fresh-eyes review recorded (2 DeepSeek consults, reconciled); all pushes done; `git status` clean except tmp/
+- BONUS (found by the loop itself, fixed in-ticket): Terrain def IntGrid declarations 9–14 + the pin test; the cross-zone `spawn` Point hazard recorded as WB-T7
