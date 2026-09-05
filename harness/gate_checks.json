@@ -316,6 +316,26 @@
     {
       "id": "floor3_boss_march_reads",
       "check": "Where ZONE 5 (low_quay) frames show the boss (BOSS 1): he stands or advances on OPEN abyss-floor ground (the zone is his - no arena wall need be visible) with his small cream BOSS 1 nameplate legible against the dark ground, and in the frames after his engagement stamp the line BOSS 1 SPAWNED is legible in the banner slot. If no boss body or stamp frame is present, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "moss_vault_reads",
+      "check": "Where frames show ZONE 5 (dark loam floor carpeted with darker green MOSS tiles, pale stone-grey walls, torches in a walled 15x17 vault to the east): the moss reads as a living carpet distinct from the loam, the vault's walls read as one continuous stone enclosure with exactly two openings, and green mushroom-cap enemies (small caps / broad heavy caps) read as a family distinct from the pale bone humans. If no ZONE 5 frame is present, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "tower_floor_reads",
+      "check": "Where frames show a MEDUSA TOWER floor (DUNGEON 2, 3 or 4: a round rust-red ring wall on dark rock, grey stone floor inside, straight rust-red interior walls forming a spiral or divider, torches on the walls): everything walkable sits INSIDE the ring, the rock outside reads as a second darker wall class, and the interior walls read as continuous barriers a player must walk around (no gaps mid-wall). Violet serpent-family bodies (coil / hooded / whip) read distinct from cyan stingers and pink wardens. If no tower frame is present, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "brasa_reads_as_fire",
+      "check": "Where frames show BRASA (DUNGEON 5, 6 or 7: near-black basalt floor, dark brown-red walls, scattered bright orange LAVA tiles, rising ember sparks, torches): the lava pools read as glowing hazards distinct from the floor and from gate gold, red-orange ember bodies (bull-wedge charger / round brazier with heat crown / tall pillar with one burning eye) read as one hot family distinct from the pack's orange, and any aura ring reads as a steady breathing square around its bearer (not an expanding pulse). If no BRASA frame is present, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "ground_telegraphs_read",
+      "check": "When a hostile CHARGE or BEAM winds up, its lane is drawn on the FLOOR (dark red squares along the run for a charge; dark ember squares along the line for a beam) BEFORE the strike, and the strike itself paints the same lane in a brighter hot orange; the ground lane reads as 'this lane is about to be hit' and is distinct from the body flare and from volley brackets. If no charge/beam frame is present, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "boss_phase_pips_read",
+      "check": "Where a boss nameplate (BOSS N) is on camera: small rust squares sit under the name, one per phase, exactly one filled — the fight arc reads at body scale. If no boss frame is present, pass with why='not exercised by this script'."
     }
   ]
 }

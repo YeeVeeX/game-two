@@ -121,8 +121,15 @@ class SimIdentityCanaryTest < Minitest::Test
   # (F6_RETIREMENT); the MUSGO sentinel is authored by the tuner in the
   # follow-up ticket and joins ACTIVE then. world_loop never enters ZONE 5
   # or DUNGEON 1 → byte-UNCHANGED (asserted).
+  # FASE 6.7 (2026-09-05): the MUSGO sentinel (floor3_run re-authored by
+  # tools/tune_sentinels.rb on floor -3's new geometry) and BRASA's maze
+  # sentinel (brasa2_run) join the ACTIVE bank as the first sim-identity
+  # sentinels of the new zones; the tower/other BRASA sentinels join as
+  # their tuner routes stabilize.
   ACTIVE = {
-    "world_loop" => "e0b1f38f0f6a5e3910a45a48f0f7bd3e"
+    "world_loop" => "e0b1f38f0f6a5e3910a45a48f0f7bd3e",
+    "floor3_run" => "648810ff4faa2123aae7c7d736a5d9df",
+    "brasa2_run" => "3fd04895ccd8dd053f784de7223a1697"
   }.freeze
 
   F6_RETIREMENT = {
