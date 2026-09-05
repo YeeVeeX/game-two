@@ -15,8 +15,13 @@ v21 MUNDO VIVO landed on `main` at `476ee32` (2026-09-05; restore tags
 graph (DESCENT · MEDUSA TOWER · BRASA), cap 21, 20 zones. The NINETEENTH
 fun-verify closed CUMPLIDO WITH NAMED ITEMS (`drafts/_v20-fun-verify-verdict-20260904.md`);
 all freezes lifted. Junior's PREMIUM v22 art wave (drawn characters 32x48 ·
-dual-grid material tiles · possession halo · HUD panel + gem drops) is on
-`main` (`03259d0` → `8551f10`), unreviewed (Rule 6 debt named for the grill).
+dual-grid material tiles · possession halo · HUD panel + gem drops · ally
+brain shipped OFF in `threat.json` under the canary law) is on `main`
+(`03259d0` → `595b3ab`), unreviewed (Rule 6 debt named for the grill). Junior's
+SYSTEMS ask (items/bag/equipment/attributes/bank/vendors/drops/status) is a
+PROPOSAL awaiting both seats — `drafts/_junior-premium-v22-systems-proposal-20260905.md`
+(7 gated tickets S1–S7; dev rec S1–S3 = the owner's "minimal item layer"; answers
+grill Q7 with a plan, not a park).
 
 The v22 grill — "THE PRICED DEATH" (hub chat 2026-09-05; spark
 `docs/sparkups/sparkup-v22-grill-priced-death-merged-20260905.md`) — is
