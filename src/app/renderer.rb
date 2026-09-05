@@ -35,6 +35,8 @@ module App
       # pack's ember ORANGE is lighter/yellower — critic-checked at gate.
       ember_a:      Gosu::Color.new(255, 210, 60, 30),
       ember_d:      Gosu::Color.new(255, 240, 90, 20),
+      serpent_boss: Gosu::Color.new(255, 150, 100, 220),
+      ember_boss:   Gosu::Color.new(255, 255, 70, 20),
       # MUNDO VIVO FASE 4 serpent family (the tower): violet-grey — no other
       # body owns violet; the quad fallback keeps the same color truth.
       serpent_a:    Gosu::Color.new(255, 170, 140, 210),
@@ -880,7 +882,7 @@ module App
       # chant's deep blue — rust says "they come to you", blue says "your
       # flesh goes to him". Pack-only slot: no collision with taunt (human).
       draw_seized_underline(c, x, y) if c.faction == :pack && c.seized_by
-      draw_nameplate(c, x, y) if c.faction == :human && c.kit[:seize]
+      draw_nameplate(c, x, y) if c.faction == :human && (c.kit[:seize] || c.kit[:boss])
       if c.faction == :human && (cue = c.retarget_cue)
         draw_outlined_quad(x + SIZE / 2 - 4, y - 10, 8, RETARGET_CUE.fetch(cue[:cause]))
       end
@@ -1094,6 +1096,31 @@ module App
                      Gosu::Color.new(alpha, TAUNT_RUST.red, TAUNT_RUST.green, TAUNT_RUST.blue))
     end
 
+    # FASE 5: phase pips under the nameplate — one hollow rust square per
+    # phase, the CURRENT one filled. A boss that changed its attacks says so
+    # at body scale (the "objective vacuum" answer starts with a legible
+    # fight arc). Presentation only: reads boss_phase (f(hp)).
+    def draw_boss_phase_pips(c, x, y)
+      n = c.boss_phase_count
+      cur = c.boss_phase
+      col = Gosu::Color.new(255, *@display.fetch(:boss_pip_rgb, [230, 120, 60]))
+      w = 6
+      gap = 3
+      x0 = x + SIZE / 2 - (n * w + (n - 1) * gap) / 2
+      py = y - 12
+      n.times do |i|
+        px = x0 + i * (w + gap)
+        if i == cur
+          Gosu.draw_rect(px, py, w, w, col)
+        else
+          Gosu.draw_rect(px, py, w, 1, col)
+          Gosu.draw_rect(px, py + w - 1, w, 1, col)
+          Gosu.draw_rect(px, py, 1, w, col)
+          Gosu.draw_rect(px + w - 1, py, 1, w, col)
+        end
+      end
+    end
+
     # v16 (d): the writ-frame — while a chant runs the court draws its
     # writ around the chanter: outside darkens hard, inside stays FULLY
     # readable (dread + the fairness ladder both served — GLM fold).
@@ -1129,8 +1156,11 @@ module App
     # 10px cream plate is the smallest type in the game and walks past
     # light walls (~3:1 worst) — the D2 halo grammar makes it ground-
     # independent while the bone identity and size stay.
+    BOSS_NAMES = { challenger: "BOSS 1", serpent_boss: "BOSS 2", ember_boss: "BOSS 4" }.freeze
+
     def draw_nameplate(c, x, y)
-      name = tr("challenger.name", "BOSS 1")
+      name = c.kit_name == :challenger ? tr("challenger.name", "BOSS 1") : BOSS_NAMES.fetch(c.kit_name, "BOSS")
+      draw_boss_phase_pips(c, x, y) if c.respond_to?(:boss_phase_count) && c.boss_phase_count > 1
       f = nameplate_font
       tx = x + SIZE / 2 - f.text_width(name) / 2
       ty = y - 24

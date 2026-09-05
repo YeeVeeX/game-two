@@ -225,7 +225,12 @@
     "cooldown_frames": 600,
     "cause": "seized"
    },
-   "seizure_burns_inscription": true
+   "seizure_burns_inscription": true,
+   "boss": {
+    "role": "final",
+    "phases": [],
+    "defeat_counts": true
+   }
   },
   "lurker": {
    "max_hp": 55,
@@ -426,6 +431,247 @@
    },
    "knockback_frames_per_tile": 5,
    "interrupt_on_hit": true
+  },
+  "serpent_boss": {
+   "max_hp": 320,
+   "step_frames": 14,
+   "aggro_tiles": 12,
+   "respawn_frames": 3600,
+   "drop_table": [
+    10
+   ],
+   "attack": {
+    "damage": 12,
+    "windup_frames": 30,
+    "active_frames": 2,
+    "recovery_frames": 12,
+    "exhaust_frames": 84,
+    "arc": "spread",
+    "spread_count": 5,
+    "range_tiles": 5,
+    "projectile_frames_per_tile": 5,
+    "knockback_tiles": 0,
+    "knockback_frames_per_tile": 5
+   },
+   "blink": {
+    "min_tiles": 5,
+    "cooldown_frames": 300,
+    "flash_frames": 10
+   },
+   "knockback_frames_per_tile": 5,
+   "interrupt_on_hit": false,
+   "boss": {
+    "role": "final",
+    "defeat_counts": true,
+    "phases": [
+     {
+      "hp_pct": 100,
+      "skills": [
+       {
+        "damage": 12,
+        "windup_frames": 30,
+        "active_frames": 2,
+        "recovery_frames": 12,
+        "exhaust_frames": 84,
+        "arc": "spread",
+        "spread_count": 5,
+        "range_tiles": 5,
+        "projectile_frames_per_tile": 5,
+        "knockback_tiles": 0,
+        "knockback_frames_per_tile": 5
+       }
+      ]
+     },
+     {
+      "hp_pct": 60,
+      "skills": [
+       {
+        "damage": 12,
+        "windup_frames": 30,
+        "active_frames": 2,
+        "recovery_frames": 12,
+        "exhaust_frames": 84,
+        "arc": "spread",
+        "spread_count": 5,
+        "range_tiles": 5,
+        "projectile_frames_per_tile": 5,
+        "knockback_tiles": 0,
+        "knockback_frames_per_tile": 5
+       },
+       {
+        "damage": 12,
+        "windup_frames": 40,
+        "active_frames": 4,
+        "recovery_frames": 14,
+        "exhaust_frames": 120,
+        "arc": "arc3",
+        "stagger_frames": 100,
+        "petrify": true,
+        "knockback_tiles": 0,
+        "knockback_frames_per_tile": 5
+       }
+      ]
+     },
+     {
+      "hp_pct": 30,
+      "skills": [
+       {
+        "damage": 24,
+        "windup_frames": 40,
+        "active_frames": 6,
+        "recovery_frames": 20,
+        "exhaust_frames": 150,
+        "arc": "beam",
+        "beam_length": 8,
+        "knockback_tiles": 0,
+        "knockback_frames_per_tile": 5
+       },
+       {
+        "damage": 12,
+        "windup_frames": 30,
+        "active_frames": 2,
+        "recovery_frames": 12,
+        "exhaust_frames": 84,
+        "arc": "spread",
+        "spread_count": 5,
+        "range_tiles": 5,
+        "projectile_frames_per_tile": 5,
+        "knockback_tiles": 0,
+        "knockback_frames_per_tile": 5
+       },
+       {
+        "damage": 12,
+        "windup_frames": 40,
+        "active_frames": 4,
+        "recovery_frames": 14,
+        "exhaust_frames": 120,
+        "arc": "arc3",
+        "stagger_frames": 100,
+        "petrify": true,
+        "knockback_tiles": 0,
+        "knockback_frames_per_tile": 5
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "ember_boss": {
+   "max_hp": 380,
+   "step_frames": 14,
+   "aggro_tiles": 12,
+   "respawn_frames": 3600,
+   "drop_table": [
+    12
+   ],
+   "attack": {
+    "damage": 16,
+    "windup_frames": 26,
+    "active_frames": 1,
+    "recovery_frames": 16,
+    "exhaust_frames": 100,
+    "arc": "dash",
+    "charge": true,
+    "max_tiles": 8,
+    "frames_per_tile": 3,
+    "knockback_tiles": 2,
+    "knockback_frames_per_tile": 5
+   },
+   "knockback_frames_per_tile": 5,
+   "interrupt_on_hit": false,
+   "boss": {
+    "role": "final",
+    "defeat_counts": true,
+    "phases": [
+     {
+      "hp_pct": 100,
+      "skills": [
+       {
+        "damage": 16,
+        "windup_frames": 26,
+        "active_frames": 1,
+        "recovery_frames": 16,
+        "exhaust_frames": 100,
+        "arc": "dash",
+        "charge": true,
+        "max_tiles": 8,
+        "frames_per_tile": 3,
+        "knockback_tiles": 2,
+        "knockback_frames_per_tile": 5
+       }
+      ]
+     },
+     {
+      "hp_pct": 50,
+      "skills": [
+       {
+        "damage": 16,
+        "windup_frames": 26,
+        "active_frames": 1,
+        "recovery_frames": 16,
+        "exhaust_frames": 100,
+        "arc": "dash",
+        "charge": true,
+        "max_tiles": 8,
+        "frames_per_tile": 3,
+        "knockback_tiles": 2,
+        "knockback_frames_per_tile": 5
+       },
+       {
+        "damage": 22,
+        "windup_frames": 44,
+        "active_frames": 6,
+        "recovery_frames": 20,
+        "exhaust_frames": 140,
+        "arc": "beam",
+        "beam_length": 10,
+        "knockback_tiles": 0,
+        "knockback_frames_per_tile": 5
+       }
+      ]
+     },
+     {
+      "hp_pct": 25,
+      "skills": [
+       {
+        "damage": 22,
+        "windup_frames": 44,
+        "active_frames": 6,
+        "recovery_frames": 20,
+        "exhaust_frames": 140,
+        "arc": "beam",
+        "beam_length": 10,
+        "knockback_tiles": 0,
+        "knockback_frames_per_tile": 5
+       },
+       {
+        "damage": 16,
+        "windup_frames": 26,
+        "active_frames": 1,
+        "recovery_frames": 16,
+        "exhaust_frames": 100,
+        "arc": "dash",
+        "charge": true,
+        "max_tiles": 8,
+        "frames_per_tile": 3,
+        "knockback_tiles": 2,
+        "knockback_frames_per_tile": 5
+       },
+       {
+        "damage": 22,
+        "windup_frames": 44,
+        "active_frames": 6,
+        "recovery_frames": 20,
+        "exhaust_frames": 140,
+        "arc": "beam",
+        "beam_length": 10,
+        "knockback_tiles": 0,
+        "knockback_frames_per_tile": 5
+       }
+      ]
+     }
+    ]
+   }
   }
  },
  "feel": {

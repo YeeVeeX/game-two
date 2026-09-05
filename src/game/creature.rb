@@ -10,7 +10,7 @@ module Game
 
     RING = [[0, -1], [1, 0], [0, 1], [-1, 0], [1, -1], [1, 1], [-1, 1], [-1, -1]].freeze
 
-    attr_reader :hp, :max_hp, :kit, :kit_name, :faction, :name, :walker,
+    attr_reader :hp, :max_hp, :kit_name, :faction, :name, :walker,
                 :facing, :attack_state, :stagger, :dodge_cooldown, :current_action,
                 :carried, :taunt_frames, :home_tile, :leash_frames
     attr_accessor :focus
@@ -60,6 +60,43 @@ module Game
       # target's flank. Inert for every kind without kit[:blink].
       @blink_cooldown = 0
       @blink_flash = 0
+      # MUNDO VIVO FASE 5 boss block: phases by hp%, each with its own skill
+      # list; the active skill overrides kit[:attack] through the merged
+      # `kit` view below. Inert (kit == @kit) for every kind without :boss.
+      @boss_skill_index = 0
+      @boss_kit_cache = {}
+    end
+
+    # The kit every reader sees. For a boss with phases, :attack is the
+    # CURRENT phase's current skill (deterministic: phase = f(hp), skill =
+    # index cycled on every attack start). Cached per (phase, index) — no
+    # per-frame allocation for the hot paths.
+    def kit
+      phases = @kit.dig(:boss, :phases)
+      return @kit if phases.nil? || phases.empty? || @boss_skill_index.nil?
+      ph = boss_phase
+      skills = phases[ph][:skills]
+      idx = @boss_skill_index % skills.length
+      @boss_kit_cache[[ph, idx]] ||= @kit.merge(attack: skills[idx])
+    end
+
+    # Phase index (0-based) = the LAST phase whose hp_pct threshold the boss
+    # is at or below; phases are authored descending (100, 60, 30).
+    def boss_phase
+      phases = @kit.dig(:boss, :phases)
+      return 0 if phases.nil? || phases.empty?
+      pct = @max_hp.zero? ? 0 : (@hp * 100) / @max_hp
+      i = 0
+      phases.each_with_index { |p, k| i = k if pct <= p[:hp_pct] }
+      i
+    end
+
+    def boss? = !@kit[:boss].nil?
+    def boss_phase_count = @kit.dig(:boss, :phases)&.length || 0
+    def boss_skill_index = @boss_skill_index
+
+    def advance_boss_skill!
+      @boss_skill_index += 1 if boss? && boss_phase_count.positive?
     end
 
     def tile = [@walker.tile_x, @walker.tile_y]
@@ -74,7 +111,7 @@ module Game
     def staggered? = @stagger.positive?
     def action_active? = @attack_state == :active && !@current_action.nil?
     def telegraphing? = @attack_state == :windup
-    def action_config = @current_action && @kit[@current_action]
+    def action_config = @current_action && kit[@current_action]
     def special_committed? = @current_action == :special && %i[windup active].include?(@attack_state)
 
     def reserved_tile
@@ -120,7 +157,8 @@ module Game
         ["pack_provoked", @pack_provoked],
         ["retarget_cause", @retarget_cue_cause], ["retarget_frames", @retarget_cue_frames],
         ["home_x", @home_tile[0]], ["home_y", @home_tile[1]],
-        ["blink_cooldown", @blink_cooldown]
+        ["blink_cooldown", @blink_cooldown],
+        ["boss_skill_index", @boss_skill_index]
       ]
     end
     def action_hit!(victim)
@@ -162,7 +200,7 @@ module Game
     # the clock runs out. Creature-owned, swap-inert by construction (law 4).
     def start_attack(blocked: [])
       return false if dead? || staggered? || @attack_state != :idle || !exhaust_ready?
-      cfg = @kit[:attack]
+      cfg = kit[:attack]
       active_frames = nil
       if cfg[:arc] == "dash"
         # FASE 4.4 charge: an ATTACK that is a dash (the striker's special
@@ -551,7 +589,7 @@ module Game
     end
 
     def begin_action(kind, active_frames: nil)
-      cfg = @kit.fetch(kind)
+      cfg = kit.fetch(kind)
       @current_action = kind
       @action_frames = {
         windup: cfg[:windup_frames],
@@ -565,6 +603,7 @@ module Game
       @state_frames = @action_frames[:windup]
       event = kind == :attack ? :attack_started : :special_started
       @bus.emit(event, attacker: self)
+      advance_boss_skill! if kind == :attack   # FASE 5: next skill in the phase's rotation
       true
     end
 

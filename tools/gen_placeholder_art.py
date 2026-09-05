@@ -54,6 +54,9 @@ KITS = {
     # FASE 4 ember family (BRASA): hot red-orange, darker/redder than the pack ember
     "ember_a": (210, 60, 30),
     "ember_d": (240, 90, 20),
+    # FASE 5 bosses: the family color, saturated, with a crown accent (BOSS N = crown)
+    "serpent_boss": (150, 100, 220),
+    "ember_boss": (255, 70, 20),
 }
 OUTLINE = (20, 14, 12)
 CORPSE_HUMAN, CORPSE_PACK = (175, 165, 145), (150, 80, 40)
@@ -199,6 +202,19 @@ def shape(kit, facing):
             acc = {(13, 3), (14, 3), (13, 4), (14, 4)} | {(13, 0)}
         else:
             acc = {(16, 6), (17, 6), (16, 7), (17, 7)} | {(20, 6), (21, 6), (22, 6)}
+    elif kit == "serpent_boss":                # the tower's floor-4 hood: wide bell + coil + crown
+        body = ellipse(14, 12, 12, 9) | line(4, 26, 24, 22, 3) | rect(3, 19, 25, 27)
+        crown = {(x, y) for x in range(5, 24, 4) for y in (2, 3)} | rect(4, 3, 24, 3)
+        acc = crown | ({(10, 11), (18, 11), (14, 14)} if facing != "up" else set())
+    elif kit == "ember_boss":                  # the forge heart: massive block, twin horns, crown of embers
+        body = rect(2, 7, 25, 27)
+        crown = {(x, y) for x in range(3, 25, 3) for y in (2, 3, 4)} | rect(2, 5, 25, 6)
+        if facing == "down":
+            acc = crown | {(8, 14), (9, 15), (19, 14), (18, 15)}
+        elif facing == "up":
+            acc = crown
+        else:
+            acc = crown | {(24, 12), (25, 13), (24, 21), (25, 20)}
     else:
         body, acc = rect(0, 0, 27, 27), set()
     acc = {p for p in acc if 0 <= p[0] < 28 and 0 <= p[1] < 28}

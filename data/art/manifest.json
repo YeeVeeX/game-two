@@ -762,6 +762,106 @@
         }
       },
       "md5": "b8a7ea7f2d25a8eb6e01610c415c3518"
+    },
+    "serpent_boss": {
+      "atlas": "art/atlas/serpent_boss.png",
+      "cols": 12,
+      "rows": 4,
+      "anims": {
+        "idle": {
+          "frames": [
+            0,
+            1
+          ],
+          "frames_per_step": 18
+        },
+        "walk": {
+          "frames": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "frames_per_step": 5
+        },
+        "windup": {
+          "frames": [
+            6,
+            7
+          ],
+          "frames_per_step": 4
+        },
+        "active": {
+          "frames": [
+            8,
+            9
+          ],
+          "frames_per_step": 2
+        },
+        "hurt": {
+          "frames": [
+            10
+          ],
+          "frames_per_step": 1
+        },
+        "dead": {
+          "frames": [
+            11
+          ],
+          "frames_per_step": 1
+        }
+      },
+      "md5": "0acb24a64ac752bb0dec0d69ae058556"
+    },
+    "ember_boss": {
+      "atlas": "art/atlas/ember_boss.png",
+      "cols": 12,
+      "rows": 4,
+      "anims": {
+        "idle": {
+          "frames": [
+            0,
+            1
+          ],
+          "frames_per_step": 18
+        },
+        "walk": {
+          "frames": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "frames_per_step": 5
+        },
+        "windup": {
+          "frames": [
+            6,
+            7
+          ],
+          "frames_per_step": 4
+        },
+        "active": {
+          "frames": [
+            8,
+            9
+          ],
+          "frames_per_step": 2
+        },
+        "hurt": {
+          "frames": [
+            10
+          ],
+          "frames_per_step": 1
+        },
+        "dead": {
+          "frames": [
+            11
+          ],
+          "frames_per_step": 1
+        }
+      },
+      "md5": "93671feedc40f7b179ef641d4940b7eb"
     }
   }
 }
