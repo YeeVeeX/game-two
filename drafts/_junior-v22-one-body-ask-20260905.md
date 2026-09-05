@@ -79,3 +79,19 @@ D6 training yard → duel arena, D2 hive → v23, D3 kept, D5 settled, D7 gate,
 D9 unchanged; swap-spec ratified). We need your line on: the pivot, the tile
 fork (Option 1 vs 2), your floors (L11), the arena, AfterSave pre-flight,
 and the .pyc notice. `RECEIPT: J-v22 <n> <answer>` per item.
+
+---
+
+## RECEIPTS — Junior (2026-09-05 15:50; escritos pelo dev seat por ordem dele: "aceito as recomendações")
+
+RECEIPT: J-v22 1 sim. As 3 FORMAS = os 3 kits atuais (Fio/Aro/Pomo): zero arte perdida, os 3 especiais ficam, a terceira forma se ganha (D). Torre e BRASA re-afinam pra um corpo; companheiros cobrem o buraco enquanto isso, como previsto.
+RECEIPT: J-v22 2 opção 2 agora (dual-grid no engine, gen_tileset.py), opção 1 pra bordas/props depois.
+RECEIPT: J-v22 3 nest -1 · slow_door -2 (antessala da descida; o -3 é o musgo) · porta leste do camp: remover.
+RECEIPT: J-v22 4 sim — o pátio de treino (D6) vira a ARENA DE DUELO; o hub segue safe fora dela.
+RECEIPT: J-v22 5 ok — pré-voo rodado 2026-09-05 15:47 no cmd: `where python` → C:\Users\q\AppData\Local\Programs\Python\Python314\python.exe (Python 3.14.7); `where ruby` → C:\Ruby34-x64\bin\ruby.exe. A linha do comando resolve como está.
+RECEIPT: J-v22 6 ciente.
+RECEIPT: J-v22 L15 S1–S3 (catálogo+ícones · bolsa+drops de item · consumíveis+status) na segunda metade do v22: SIM — a metade do Junior da linha dos dois; S4–S7 no v23. Aguarda a linha do Gabriel; nada de S1 antes dela.
+
+Evidência do dia (Junior seat): PREMIUM v22 passes 1–5b no main 03259d0→0af8c67 (personagens · tiles dual-grid · halo · HUD-painel · gemas · FX · luz · esquiva-rolagem · idle secundário + especiais), cada peça gated (visão + duplo replay byte-idêntico), suite 1463/0; parede completa (42 scripts) rodando em worktree no 064bd80.
+
+English mirror: 1 yes (the 3 forms = the 3 current kits) · 2 option 2 now, option 1 for borders/props later · 3 nest -1, slow_door -2, camp east door removed · 4 yes (arena) · 5 ok (pre-flight run, paths above) · 6 noted · L15 S1–S3 in v22's back half: YES (Junior's half of the both-seats line; S1 waits for Gabriel's).
