@@ -1,11 +1,12 @@
 # v22 FOUNDATION — ONE BODY + THE PRICED DEATH (grill record, 2026-09-05, s131)
 
-STATUS: **RATIFIED-G (owner, hub chat s131) — COUNCIL PASS DONE s132
-(§Council: 2 consults, 5 confirmed findings, amendments folded into the rows
-below as “[council s132]” notes; three sim-changing amendments await the
-owner's line in §RATIFICATION); spec + tickets cut s132
-(`docs/superpowers/specs/2026-09-05-v22-one-body-cycle.md`); RATIFIED-J
-async** (owner order 2026-08-22: development never gates on peer
+STATUS: **RATIFIED-G (owner, hub chat s131) — COUNCIL PASS DONE s132; OWNER WORD
+s132 (§RATIFICATION, verbatim): players DECOUPLED, temples / chosen respawn
+(Tibia-like), the world PERSISTENT ONLINE AS A SERVER — sequenced by his
+"Approved": v22 = ONE BODY built SERVER-READY (L19–L20), v23 = ONE WORLD
+(L18, the server fork, own grill). Spec + tickets are cut in the NEXT session
+on THIS file (`docs/superpowers/specs/2026-09-0X-v22-one-body-cycle.md`);
+RATIFIED-J async** (owner order 2026-08-22: development never gates on peer
 availability; Junior's asks in §RATIFICATION, mailed same session). On the
 council pass this doc is LAW for the cycle; `docs/CYCLE.md` carries the
 one-cycle STATE and points here. Pattern of record:
@@ -77,6 +78,12 @@ combines the best about Tibia and New World."
     ONE BODY each seat's body is its character. Approach: per-seat character
     records INSIDE the host save (host-authoritative stays; identity = seat
     key from `data/netplay.json`). Lockstep identity unchanged.
+    _[owner word s132 — SUPERSEDED in one respect:]_ records are keyed by
+    **PLAYER identity, never seat number** (a machine-local player file,
+    excluded from the fingerprint like `bindings.local.json`, sent in HELLO;
+    exact shape = the spec's T1). The guest's record still lives in the
+    host's save in v22 (joiner-never-keeps stands); v23's server holds every
+    character by the same id — that is what "server-ready" means here.
 (d) **Legibility.** Money and death were invisible on the tour. Approach:
     every new surface is a Rule 2 gate row + a named wall re-pin; the uiux
     seat specs the grammar ONCE (A3) before code.
@@ -108,6 +115,8 @@ combines the best about Tibia and New World."
       OWNERSHIP principle (one player's fine would reduce the other's
       progress) — not L6's text, which carries no progression rule
       _[council s132: both reviewers back per-character; owner line owed]_.
+      **CLOSED s132 — owner: "each player writes their own story" →
+      per-character, keyed by player identity (Rule 1c).**
 - [x] **L4 — Forms: SWAP ANYTIME, THIRD FORM EARNED.** Tab becomes form swap
       (cooldown, data-driven, `data/balance/forms.json`); the third form
       unlocks by progression (H1 irreversible-investment feel without locking
@@ -131,6 +140,13 @@ combines the best about Tibia and New World."
       now priced). In COOP the dead seat spectates for `death.json`
       `coop_respawn_frames`, then respawns at the current zone's arrival
       tile (`arrival_tiles_for`), fine already paid; both dead = solo path.
+      **RESOLVED s132 by owner word — A1 REJECTED (throwaway):** the real
+      answer is DECOUPLED players waking at their own temple, which needs
+      the v23 server world (L18). In v22: the PRICE is individual (each
+      character pays its own fine, L5/L19) and SOLO death = veil → home
+      temple; COOP death keeps TODAY'S rule (waiting-for-body spectate; both
+      dead → home) as a NAMED interim that v23 retires. No coop-respawn code
+      is written in v22.
 - [x] **L7 — Companions: OPTIONAL, PRICED, WEAKER, PvE-ONLY.** Hire a resting
       body at the vat per outing (coin sink); companions take an XP cut so a
       human partner is strictly better (economics, not prohibition — GW1's
@@ -162,7 +178,8 @@ combines the best about Tibia and New World."
       _[council s132:]_ schema 1 files REFUSE NAMED under schema 3 ("save
       schema: 1 unsupported (expected 3)") — no live v1 chain exists (both
       peers' saves are v2); `upgrade_v1` retires with its frozen key set.
-- [ ] **L10 — The TWENTIETH.** Delta = A+B+C+D. Pre-registered rows:
+- [ ] **L10 — The TWENTIETH.** Delta = A+B′+C+D (B′ = temples, L19; the
+      individual-coop-death piece moved to v23). Pre-registered rows:
       `deaths`, `xp_lost`, `xp_debt_paid`, `insured_deaths`,
       `insurance_bought/consumed`, `form_swaps`, `companion_hires`,
       `time_to_continue`; free-verdict re-asks growth A/B + "did dying cost
@@ -174,13 +191,16 @@ combines the best about Tibia and New World."
       `authoring/world_graph_allowlist.json` become visible lies. Rec:
       nest → -1, slow_door → -2 or -3 (owner pick), retype/remove the camp
       east door; each fixed row leaves the allowlist (suite forces it).
-      Junior ratifies (his floors). Owner word pending.
+      Junior ratifies (his floors). Owner word pending. **Junior's picks
+      LANDED `195a01f`: nest −1 · slow_door −2 (−3 is the moss) · camp east
+      door REMOVED** — F1 builds these unless the owner says otherwise.
 - [ ] **L12 — Art lane (presentation, owner-directed).** Baseline = the
       owner's one-line read of `captures/clips/tour_20260905_head_3e2bfb6.mp4`
       (rendered from `3e2bfb6` = Junior's HUD commit) — PENDING. References,
       palette, who draws, where tiles are authored (Option 1 LDtk bakes vs
       Option 2 engine dual-grid — brief §3.7; Junior's word, never decided
-      against him). Assets seat commissioned (§Seats).
+      against him). **Junior's word LANDED `195a01f`: Option 2 now, Option 1
+      for borders/props later.** Assets seat commissioned (§Seats).
 - [ ] **L13 — Totem COEXISTENCE word.** Pending; no work item.
 - [x] **L14 — Junior's ideas MERGED (owner: "merge Junior's ideas into the
       best product you can build").** From `drafts/_junior-mundo-vivo-plan-20260905.md`
@@ -212,6 +232,59 @@ combines the best about Tibia and New World."
       OUT on this engine** — 16.6 ms tick budget, flow-field recompute 11 ms
       at 2× (D1); named trigger = server-authoritative sim (PARKING_LOT).
       **Owner: "Approved"** (the program).
+      **RE-SEQUENCED s132 by owner word (L18):** **v23 = ONE WORLD** (the
+      server fork) · **v24 = THE REWARD** (Junior's SYSTEMS plan, unchanged
+      in content) · **v25 = RIVALS** (PvP, trade, chat — "fight against each
+      other, trade, chat" ride the server, where they are sane). Large-scale
+      wars stay OUT until the server world exists and is measured. Whether
+      S1–S3 ride v22's back half stays a BOTH-SEATS line.
+- [x] **L18 — ONE WORLD (v23): the persistent online server world.** Owner
+      word s132 (verbatim): "decouple players, they should respawn on a
+      temple or select their own place of respawn across the cities and
+      points of interest of the world (don't overdo, follow a Tibia-like
+      pattern), world should be persistant online as a server and each
+      player writes their own story while they can also meet in the world
+      and team up or fight against each other, trade, chat, etc" → dev
+      recommendation (a) — v22 ONE BODY built server-ready, v23 = the fork
+      — **Owner: "Approved".** This PROMOTES the parked always-online item
+      (PARKING_LOT, trigger "cuando tú lo decidas y lo recomiendes" fired by
+      recommendation + owner word); nothing is deleted. Shape (grilled in
+      v23's own foundation, not here): server-authoritative sim (one
+      always-on process owns the world; clients send inputs, draw the
+      server's state — Tibia's model; the desync class and the owner-side
+      CGNAT wart disappear by construction) · multi-zone World (every zone
+      with a player ticks; empty zones frozen + catch-up, today's law) · full
+      zone-state snapshot + join-in-progress · server-side persistence of
+      per-player characters · host = a small AWS instance ON THE TAILNET
+      (trusted overlay stays; ~$15–20/month, inside-AWS spend: declared,
+      not asked). Honest cost: the largest fork the project can take — on
+      the order of 10–20 sessions before both peers log in; the wall gains a
+      server+client-in-one-process harness lane (netplay scene precedent).
+      The cheaper "shared world in turns" (cloud save custody) was offered
+      and NOT chosen.
+- [x] **L19 — TEMPLES (v22, lane B′ — replaces individual coop death).**
+      Tibia pattern, "don't overdo": every HUB zone has a TEMPLE station; a
+      character's `home_zone` is a per-character fact; SET HOME = the temple's
+      station verb (interact); death → wake at YOUR home temple (solo: the
+      veil, priced). Placement = hubs only in v22; "points of interest" =
+      named by the owner later, one line each, never free placement.
+      `home_zone` already exists (per world, hub-only, save-validated) — this
+      row moves it into the character record and adds the verb; T3 (coop
+      individual death) is CANCELLED as a v22 ticket. Coop interim: L6 note.
+- [x] **L20 — SERVER-READY laws (bind every v22 ticket; the spec restates
+      them):** (1) characters are keyed by PLAYER identity, never seat; seats
+      map to characters at session start (Rule 1c). (2) No new rule assumes
+      both players share a zone — party-shared XP = "living characters in the
+      SAME zone", evaluated per zone. (3) The character record (schema 3
+      `characters`) is the persistence unit — the server's account row later.
+      (4) New surfaces (HUD row, ledger card, insurance pip) read through a
+      narrow `Character`/`Party` reader, never World internals — a thin
+      client can feed the same reader. (5) No new lockstep-only mechanism
+      beyond what exists. (6) The `world.rb` extraction owed at T2 carves a
+      per-zone state object (`ZoneState`: humans, corpses, projectiles,
+      volleys, transients, flow cache) — the FIRST multi-zone step; World
+      keeps ticking one zone in v22. (7) Nothing in v22 opens the server
+      itself (no sockets, no hosting) — that is v23's grill.
 - [x] **L16 — Debt ledger (banked):** MUNDO VIVO + PREMIUM v22 fresh-eyes
       review (T0) · `world.rb` 1767/1800 (extraction owed INTO the first
       touching ticket) · `vat_economy` 2 rows + `aoe_specials
@@ -244,8 +317,10 @@ combines the best about Tibia and New World."
   followers leave the field, camera/HUD to one body + party rows, coop =
   one body per seat. Sim identity moves everywhere → full wall re-author +
   re-pin priced as the ticket's cost. Save schema 3 rides here (L9).
-- **Lane B — YOUR DEATH IS YOURS:** individual death (L6), respawn at
-  home, spectate partner, corpse run per body.
+- **Lane B′ — TEMPLES (L19; replaces "YOUR DEATH IS YOURS" as a v22
+  lane):** per-character `home_zone` + TEMPLE station verb SET HOME at every
+  hub; solo death → veil → YOUR temple, priced. Coop death = today's rule,
+  named interim (L6 note). Individual coop death/respawn = v23 (L18).
 - **Lane C — THE PRICE:** `data/balance/death.json` fine + debt (L5) →
   insurance at the bank (L8) → death ledger card + insurance pip (Rule 2
   rows). Pure math + tests first, surfaces after the uiux spec (A3).
@@ -254,14 +329,19 @@ combines the best about Tibia and New World."
   table re-run; soaks per zone.
 - **Lane E — DEBTS:** T0 review first; then L16 items as small tickets.
 - **Lane F — FLOORS + CITY:** L11 floor truth; the 2× city with the arena
-  region drawn (L14) — the arena is INERT until v24.
+  region drawn (L14) — the arena is INERT until v25.
 - **Lane G — ART (presentation, owner-directed, parallel):** charter
   `drafts/_v22-art-lane-charter-<date>.md` (written when L12's baseline
   lands); assets seat + uiux seat commissioned by mail (§Seats); death-cycle
   and one-body surfaces designed once in the new grammar.
+- **Lane H — ONE WORLD PREP (v23 grill input, docs + spikes only):** the
+  `ZoneState` extraction (L20.6) rides T2; a v23 grill spark is written at
+  v22's close with the measured facts it needs (tick budget per zone, zone
+  snapshot size, join-in-progress shape, AWS host sizing). No server code
+  in v22 (L20.7).
 
-Order: T0 → A → B → C → D → TWENTIETH declaration; E/F/G interleave at the
-peers' word. First SIM delta ships at A (the model itself).
+Order: T0 → A → B′ → C → D → TWENTIETH declaration; E/F/G/H interleave at
+the peers' word. First SIM delta ships at A (the model itself).
 
 ## Seats (owner: "orchestrate the ui/ux and assets seats")
 
@@ -392,12 +472,41 @@ pivot replaced the grill's Q1–Q7 mid-session — Rule 5 re-plan).
   · the art-lane fork (Option 1 vs 2) · his floors (L11) · the arena in his
   city plan (L14) · AfterSave pre-flight (`where python`/`where ruby`) ·
   `.pyc` untracking notice (`735a37c`).
-- **OPEN — owner word owed (council pass s132, sim-changing):**
-  (1) **A1 coop respawn location** — solo: veil → home (priced); coop:
-  timer → the current zone's arrival tile; both dead → solo path.
-  (2) **Coop progression = per-character** inside the host save (seat 1 =
-  the save owner's character, seat 2 = the guest's) with party-shared kill
-  XP; a guest's character lives in the host's world file (v18 law stands).
-  (3) **A3 companion-brain flip** (`ally.enabled`) = its own gated piece in
-  T2 under the canary law. Each lands as one owner line here; none is
-  re-litigated after.
+  **LANDED `195a01f` (Junior, 2026-09-05 15:50 -0300, "aceito as
+  recomendações"; verbatim, harvested s132):**
+  `RECEIPT: J-v22 1 sim. As 3 FORMAS = os 3 kits atuais (Fio/Aro/Pomo): zero arte perdida, os 3 especiais ficam, a terceira forma se ganha (D). Torre e BRASA re-afinam pra um corpo; companheiros cobrem o buraco enquanto isso, como previsto.`
+  `RECEIPT: J-v22 2 opção 2 agora (dual-grid no engine, gen_tileset.py), opção 1 pra bordas/props depois.`
+  `RECEIPT: J-v22 3 nest -1 · slow_door -2 (antessala da descida; o -3 é o musgo) · porta leste do camp: remover.`
+  `RECEIPT: J-v22 4 sim — o pátio de treino (D6) vira a ARENA DE DUELO; o hub segue safe fora dela.`
+  `RECEIPT: J-v22 5 ok — pré-voo rodado 2026-09-05 15:47 no cmd: where python → C:\Users\q\AppData\Local\Programs\Python\Python314\python.exe (Python 3.14.7); where ruby → C:\Ruby34-x64\bin\ruby.exe. A linha do comando resolve como está.`
+  `RECEIPT: J-v22 6 ciente.`
+  `RECEIPT: J-v22 L15 S1–S3 (catálogo+ícones · bolsa+drops de item · consumíveis+status) na segunda metade do v22: SIM — a metade do Junior da linha dos dois; S4–S7 no v23. Aguarda a linha do Gabriel; nada de S1 antes dela.`
+  **Effect:** the pivot is RATIFIED by both peers (L1 complete); tile fork =
+  Option 2 now, Option 1 for borders/props later (L12 art charter A2 takes
+  the Option-2 branch); L11 floors = nest −1, slow_door −2, camp east door
+  REMOVED (his maps — owner word still welcome, not gating); arena yes (L14);
+  AfterSave pre-flight green on his machine; S1–S3 in v22's back half is
+  Junior's half of the BOTH-SEATS line — **Gabriel's half owed** (his
+  "S4–S7 no v23" predates the s132 re-sequence: content unchanged, that
+  cycle is now v24 THE REWARD). The kit nicknames in receipt 1 are his
+  words in his file (verbatim law); code/data/docs authored here stay on
+  kit names (T0 finding, docs-only).
+- **RATIFIED-G s132 (owner, hub chat, verbatim, in sequence):** asked A1
+  (coop respawn location) in detail → **"decouple players, they should
+  respawn on a temple or select their own place of respawn across the cities
+  and points of interest of the world (don't overdo, follow a Tibia-like
+  pattern), world should be persistant online as a server and each player
+  writes their own story while they can also meet in the world and team up
+  or fight against each other, trade, chat, etc"** → dev named the fork's
+  cost + three options (a: content now server-ready, server next · b: server
+  first · c: shared world in turns) and recommended (a) → **"Approved,
+  proceed to design the next session spark-up prompt ..."** → L18 (ONE
+  WORLD = v23), L19 (TEMPLES), L20 (server-ready laws), L15 re-sequenced,
+  L3 sub-row CLOSED per-character/per-player, L6 A1 REJECTED, T3 CANCELLED.
+- **OPEN — owner word owed (one line each; the next session asks them at
+  its start, never nags):** (1) **A3 companion-brain flip** (`ally.enabled`)
+  = its own gated piece in T2 under the canary law — process amendment,
+  council-backed. (2) **Tour baseline (L12)** — the one-line read of
+  `captures/clips/tour_20260905_head_3e2bfb6.mp4`. (3) **L11 floor picks**
+  (nest → −1, slow_door → −2 or −3, camp east door) — also Junior's. (4)
+  **L13 totem COEXISTENCE.**

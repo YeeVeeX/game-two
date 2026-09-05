@@ -653,13 +653,26 @@ this list; nothing here starts before that debate closes:
   fork, not an increment; lockstep needs all seats present, so an always-on
   lockstep host is just a lobby). Until then, persistence v1 + git/host-carried
   saves deliver the FELT version (same world every session).
+  **PROMOTED 2026-09-05 (s132) by owner word — the recorded trigger fired
+  ("cuando tú lo decidas y lo recomiendes": dev recommended, owner
+  "Approved"):** verbatim "decouple players ... world should be persistant
+  online as a server and each player writes their own story while they can
+  also meet in the world and team up or fight against each other, trade,
+  chat, etc" → **v23 = ONE WORLD** (server-authoritative persistent world,
+  AWS host on the tailnet), grilled in its own foundation after v22 ONE BODY
+  ships server-ready. Law: `drafts/_v22-foundation-20260905.md` L18–L20.
+  Nothing here is deleted; the cheaper stages (S3 backup, cloud custody)
+  remain available as v23 sub-steps if its grill wants them.
 - **AWS note (owner: Junior now has poweruser on the owner's account)** —
   unblocks the future server era + the assets pipeline (Bedrock); it was never
   the current blocker (lockstep+Tailscale runs fine; owner-side CGNAT is the
   link wart, and a cloud relay only matters post-lockstep). No infra lane now.
 - **In-game chat / Tibia-style channels** — owner himself: "talvez es un poco
   temprano". PARKED; two players have out-of-band voice/chat. Revisit with >2
-  players or the roleplay need. **Re-vote 2026-08-19 (owner, mid-ritual coop,
+  players or the roleplay need. _[s132: the owner's ONE WORLD word names
+  "trade, chat" as server-era features → sequenced to **v25 RIVALS** on the
+  v23 server (foundation L15/L18); quick-phrases stay the promotable interim
+  rung.]_ **Re-vote 2026-08-19 (owner, mid-ritual coop,
   verbatim): "we need an in-game chat to communicate or some system"** —
   second owner vote, now from live coop pain; stays parked on the recorded
   trigger, but "or some system" widens it (pings/emotes count as candidate
