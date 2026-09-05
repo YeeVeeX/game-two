@@ -210,6 +210,37 @@ TORRE 1–4 · BRASA 5–7 · BASEMENT 1–2 · fronteira ZONE 8), **20 zonas**,
 **3 bosses únicos** (BOSS 1 no cofre do musgo, BOSS 2 no fundo da torre,
 BOSS 4 no altar da forja), cap 21.
 
+## Sentinelas + gates + soak (a parede das zonas novas)
+
+`tools/tune_sentinels.rb` (tuner genérico, padrão `tune_floor3_run.rb`):
+rotas por waypoint, nível de chegada = rung do andar +2, **para no último
+frame estável** se o pack colapsa (o sentinela anda reto e não esquiva —
+ele prova legibilidade + determinismo das primeiras lutas, não a
+dificuldade do andar; essa é veredito dos peers). v1 colapsou em 5/7
+zonas (as zonas fundas MATAM um pack que anda reto — o conteúdo é difícil
+como planejado) → v2 rotas curtas + recuo no colapso: 7/7 scripts
+escritos, manifests = contagens observadas.
+
+**+5 rows no `gate_checks.json` (79 → 84):** `moss_vault_reads` ·
+`tower_floor_reads` · `brasa_reads_as_fire` · `ground_telegraphs_read` ·
+`boss_phase_pips_read` (todas com "not exercised" quando a zona não está
+em câmera). `dungeon_fork` → `harness/retired/` (o selo que ele exercitava
+morreu no swap). Canary `ACTIVE` += `floor3_run` (musgo) + `brasa2_run`.
+
+| Sentinela | Zona | 1ª passada (84 checks) | Leitura |
+|---|---|---|---|
+| tower2_run | DUNGEON 2 | **PASS 84/84** | — |
+| tower4_run | DUNGEON 4 | **PASS** | — |
+| brasa1_run | DUNGEON 5 | **PASS** | — |
+| brasa2_run | DUNGEON 6 | **PASS** | — |
+| floor3_run | ZONE 5 musgo | FAIL 3 rows de boss | crítico leu um **spore_a com flash de hurt** (verde × tint rosa = rosa) como "BOSS 1 sem nameplate" — o boss NUNCA aparece no reel (fica no cofre). Correção: 3 rows re-redigidas (boss = nameplate + corpo osso, nunca cor) + tint de hurt humano (255,120,120)→(215,70,45). Re-gate lançado |
+| tower3_run | DUNGEON 3 | FAIL `hurt_flash_not_white` | **bug real de arte**: frame `hurt` lavava 55% pra BRANCO — um serpent_b cinza ferido lia branco. Correção no gerador: hurt = +vermelho, verdes/azuis caem (nunca branco); 18 atlases regenerados, md5 re-pinados. Re-gate lançado |
+| brasa3_run | DUNGEON 7 | FAIL `pressure_ring_reads` | leitura tática do crítico sobre A2 pressure ring (aggro.rb intocado) — flip; re-gate |
+
+**Soak:** `ZONES=dungeon_2,dungeon_3,dungeon_4` **PASS** (desyncs=0) ·
+`ZONES=ember_1,ember_2,ember_3` **PASS** (desyncs=0). `ZONES=low_quay,dungeon_1`
+PASS (6.1). Zero crash em 20k+15k+15k ticks de bot nas 8 zonas novas/trocadas.
+
 ## Fila da FASE 6
 
 6.2 sentinelas (tuner): musgo `floor3_run` + `tower2_run` · re-author `dungeon_fork` (selo aposentado) · 6.6
