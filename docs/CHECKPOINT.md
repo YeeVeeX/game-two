@@ -7,7 +7,7 @@ CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
 
-CLAIMED: none — **v22 GRILL CLOSED RATIFIED-G as ONE BODY + THE PRICED DEATH (s131, 2026-09-05)**; the next session runs `docs/sparkups/sparkup-v22-one-body-20260905.md` (council pass → spec + tickets → seat spokes → art charter → T0 review). Cycle state: `docs/CYCLE.md`. Law: `drafts/_v22-foundation-20260905.md`. Junior's async ratification ask: `drafts/_junior-v22-one-body-ask-20260905.md`. Restore tags unchanged: `restore/pre-mundo-vivo-20260904` (`cf9a6a6`) · `restore/post-mundo-vivo-20260905`.
+CLAIMED: v22 spec + council + T0 review — Gabriel seat, s132 (2026-09-05; docs + review only, no src/data edits before T1 is claimed). Previous state: **v22 GRILL CLOSED RATIFIED-G as ONE BODY + THE PRICED DEATH (s131, 2026-09-05)**; the next session runs `docs/sparkups/sparkup-v22-one-body-20260905.md` (council pass → spec + tickets → seat spokes → art charter → T0 review). Cycle state: `docs/CYCLE.md`. Law: `drafts/_v22-foundation-20260905.md`. Junior's async ratification ask: `drafts/_junior-v22-one-body-ask-20260905.md`. Restore tags unchanged: `restore/pre-mundo-vivo-20260904` (`cf9a6a6`) · `restore/post-mundo-vivo-20260905`.
 
 ## 2026-09-05 session 131 — v22 GRILL: the pack retires — ONE BODY + THE PRICED DEATH ratified; Phase 0 contract hygiene landed; seats commissioned (Gabriel seat, hub, owner live)
 
