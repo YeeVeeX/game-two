@@ -96,9 +96,27 @@ Full reasons per row: `authoring/world_graph_allowlist.json` (this table truncat
 | 17 | hard | floor | zone_8 | [63, 19] | dungeon_1 | gate: floor 0 -> -1 (delta -1, plain gate expects +0) | INTENDED | s70 wire-in: the frontier rope way (dungeon_1 -> zone_8, rope_spot, requires_level 8) returns through a free v1 EDGE GATE by the recorded pattern —... |
 
 
-## 4. Review + reconciliation
+## 4. Review + reconciliation (Rule 6 — a context that did not write it)
 
-(pending)
+Two DeepSeek V3.2 consults via `council ask deepseek` (adversarial brief, full source inlined, split to fit the ~32K argv cap): **A** = normalizer + AfterSave driver + their tests (6,875 in / 1,689 out tokens); **B** = lint + lint test + findings table (8,200 in / 1,277 out). Cost ≈ $0.01 total (well under the $0.50 budget). Raw: `tmp/wb-t6/review_{a,b}.md`. Both returned **FINAL: BLOCK**; every charge re-verified below — none deleted, two produced code fixes, one produced test hardening.
+
+| # | Charge (reviewer) | Re-verification | Outcome |
+|---|---|---|---|
+| A-Q1 | CRLF replace could hit a `\n` inside a string value | CONFIRMED by the reviewer and by a live probe: `json.dumps` escapes control chars as two-char `\n`, only structural newlines are replaced | no change |
+| A-Q2 | `describe_drift` "tab-indented" could mislabel a file with tabs INSIDE strings | REFUTED live: `json.loads(b'{"a": "x\ty"}')` → `Invalid control character` — a raw tab byte never reaches `describe_drift` (strict parse rejects it first) | comment added in code |
+| A-Q4 | labelled REFUTED, but the reviewer's own trace concludes every exit path is correct | re-traced: normalize fail→1 · import fail→1 (lint skipped) · import ok + lint fail→1 · all ok→0 · lint file absent→0 with a named "skipped" line | no change (verdict label inconsistent with its evidence) |
+| A-Q5 | the no-`--out` test might write the repo's `tmp/ldtk_out` | REFUTED: normalize fails first, `main` returns before the importer step (reviewer reached the same conclusion) | no change |
+| A-Q6 | `python` may be unreliable on the other machine; `py` might be safer | UNCERTAIN, agreed — recorded as risk 2; `py` is the WindowsApps launcher (absent on a python.org install without the launcher option; also a Store stub target), `python` is the name every install method provides. JUNIOR.md carries `where python` / `where ruby` as the pre-flight | no change; documented |
+| A-Q7 | Unicode: LDtk might `\u`-escape or use another normalization → "silent corruption" | REFUTED for semantics (live: `\u00e9`/surrogate-pair input round-trips to identical code points; NFC/NFD are different code points = different data, not a formatting concern). **BUT the probe surfaced a REAL trap the charge grazed:** printing a non-ASCII value to a cp1252 Windows console raises `UnicodeEncodeError` — `--semantic-diff` printed differing values with `ensure_ascii=False` | **FIXED:** display snippets use `json.dumps(a)` (ASCII-escaped) + `sys.stdout.reconfigure(errors="backslashreplace")` in both tools; test pins it (`caf\u00e9` + an emoji in a differing value) |
+| B-Q1 | `EXPECTED_DELTA.fetch(type)` could `KeyError` on a Symbol type that TileMap lets through | REFUTED: `symbolize_names: true` symbolizes KEYS only; `validate_transition_type!` (src/core/tile_map.rb:139-144) refuses any type not in the String set. Still, a KeyError stack trace is a worse failure than a named refusal | **HARDENED:** `fetch` block raises `Refusal` naming the zone/tile/type; CLI rescues it (exit 2) |
+| B-Q3 | `x = args.shift or refuse.call` precedence | reviewer traced it: assignment happens, `nil or refuse` exits 2 — intended | no change |
+| B-Q4 | a `\|` in a message could break the `--report` Markdown table | no registry glyph or zone name can carry `\|` today (regex + tiles.json), but cheap to make true by construction | **FIXED:** table cells escape `\|` |
+| B-Q5 | the CLI "new violation" test's cell (`first.at.x + 1`) might be passable by coincidence | agreed (it was) | **HARDENED:** the synthetic edge sits on district's ARRIVAL cell into camp — passable by boot law, asserted not already a transition tile |
+| B-Q6 | `instance_variable_get(:@zones)` in a test is brittle | agreed | **FIXED:** public `zone_names` reader |
+| B-Q7 | does allowlisting every pre-existing row neuter the lint? | design opinion; the contract is "block NEW + block STALE" so the list can only shrink or grow consciously; the LEGACY rows are resolved when the Lane F graph drawing lands (retype/re-floor/remove) and each fixed row is removed from the list (the suite forces it) | recorded (§5) |
+| B-Q8 | overlay-only zones judged before the copy; relative default paths when cwd ≠ root | overlay intent is exactly "the world as it WOULD be" (the data/zones-only suite test judges the live state); the cwd point was real for a peer running the CLI by hand | **FIXED:** CLI defaults are repo-rooted (`File.expand_path("..", __dir__)`); test `test_cli_defaults_are_repo_rooted` runs it from a tmpdir |
+
+Net: 4 code fixes (console safety ×2 tools, `Refusal` on a missing delta law, repo-rooted defaults, `\|` escaping), 2 test hardenings, 1 new test; suite re-run after the fixes: normalizer+aftersave 9 runs / 54 assertions / 0 failures, lint+aftersave 21 runs / 159 assertions / 0 failures. The reviewer's two BLOCK reasons (A: `python` portability + Unicode; B: Symbol KeyError) were one UNCERTAIN-by-nature risk (documented) and two REFUTED-with-evidence charges whose neighbourhoods still yielded real fixes — the review paid for itself on the cp1252 trap alone.
 
 ## 5. Open items / follow-ons
 

@@ -55,6 +55,8 @@ def check(path):
 
 
 def describe_drift(raw, formatted):
+    # A raw TAB byte can only be indentation: json.loads (strict) has already
+    # rejected any unescaped control character inside a string value.
     if raw.startswith(b"\xef\xbb\xbf"):
         return "UTF-8 BOM present (the pin has none)"
     if b"\t" in raw and b"\t" not in formatted:
@@ -110,7 +112,9 @@ def diff_paths(a, b, prefix="$", out=None):
         for i, (x, y) in enumerate(zip(a, b)):
             diff_paths(x, y, f"{prefix}[{i}]", out)
     elif isinstance(a, (dict, list)) or isinstance(b, (dict, list)) or not scalar_equal(a, b):
-        out.append(f"{prefix}: {json.dumps(a, ensure_ascii=False)[:60]} != {json.dumps(b, ensure_ascii=False)[:60]}")
+        # ensure_ascii=True on purpose: this line goes to a Windows console
+        # (cp1252 by default) -- raw non-ASCII would raise UnicodeEncodeError.
+        out.append(f"{prefix}: {json.dumps(a)[:60]} != {json.dumps(b)[:60]}")
     return out
 
 
@@ -123,6 +127,9 @@ def semantic_diff(path_a, path_b):
 
 
 def main(argv):
+    # Console safety: paths/reasons may carry non-ASCII; never die printing a report.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(errors="backslashreplace")
     usage = ("usage: python tools/normalize_ldtk.py normalize <file> | --check <file> | "
              "--semantic-diff <a> <b>")
     try:

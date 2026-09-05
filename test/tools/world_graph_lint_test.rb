@@ -140,7 +140,7 @@ class WorldGraphLintTest < Minitest::Test
       File.write(File.join(overlay, "nest.json"), JSON.generate(nest))
       zones = Tools::WorldGraphLint.load_zones([ZONES, overlay], TILES)
       assert_equal -1, zones.fetch("nest").floor
-      assert_equal self.class.live.instance_variable_get(:@zones).length, zones.length, "overlay replaces, never adds"
+      assert_equal self.class.live.zone_names, zones.keys.sort, "overlay replaces, never adds"
     end
   end
 
@@ -158,8 +158,13 @@ class WorldGraphLintTest < Minitest::Test
       overlay = File.join(dir, "overlay")
       FileUtils.mkdir_p(overlay)
       camp = JSON.parse(File.read(File.join(ZONES, "camp.json")))
-      camp["transitions"] << { "at" => camp["transitions"].first["at"].dup.tap { |a| a[0] += 1 },
-                               "to" => "district", "spawn" => [11, 87], "type" => "stairs_up" }
+      # The synthetic edge sits on an ARRIVAL cell into camp (district's spawn
+      # there) — passable by boot law, so TileMap.validate! accepts the edge
+      # and only the lint's floor law can refuse it.
+      district = JSON.parse(File.read(File.join(ZONES, "district.json")))
+      at = district["transitions"].find { |t| t["to"] == "camp" }.fetch("spawn")
+      refute camp["transitions"].any? { |t| t["at"] == at }, "arrival cell must not already be a transition tile"
+      camp["transitions"] << { "at" => at, "to" => "district", "spawn" => [11, 87], "type" => "stairs_up" }
       File.write(File.join(overlay, "camp.json"), JSON.generate(camp))
       stdout, _, status = Open3.capture3(RbConfig.ruby, LINT, "--zones", ZONES, "--overlay", overlay,
                                          "--tiles", TILES, "--allowlist", ALLOWLIST)
@@ -172,5 +177,13 @@ class WorldGraphLintTest < Minitest::Test
     _, stderr, status = Open3.capture3(RbConfig.ruby, LINT, "--zones", File.join(ROOT, "no_such_dir"))
     assert_equal 2, status.exitstatus
     assert_match(/LINT REFUSED: zones dir .*no_such_dir.* does not exist/, stderr)
+  end
+
+  def test_cli_defaults_are_repo_rooted
+    Dir.mktmpdir do |dir|
+      stdout, stderr, status = Open3.capture3(RbConfig.ruby, LINT, chdir: dir)
+      assert status.success?, "lint must judge the same files from any cwd: #{stderr}#{stdout}"
+      assert_match(/\AWORLD GRAPH LINT: 20 zones/, stdout)
+    end
   end
 end

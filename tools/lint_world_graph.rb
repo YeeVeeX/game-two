@@ -110,6 +110,8 @@ module Tools
       @zones = zones
     end
 
+    def zone_names = @zones.keys.sort
+
     # Every finding, in zone-name order (deterministic report).
     def findings
       @findings ||= @zones.keys.sort.flat_map { |name| judge_zone(name, @zones[name]) }
@@ -157,7 +159,12 @@ module Tools
           out << Finding.new(check: :spawn, severity: :hard, zone: name, at:, to:,
                              message: "spawn #{spawn.inspect} lands on #{target.char_at(*spawn).inspect} (impassable) in #{to}")
         end
-        expected = EXPECTED_DELTA.fetch(type)
+        # TileMap.validate! already refused any type outside TRANSITION_TYPES
+        # (a String, or nil for a plain gate) — a miss here is a law gap, named.
+        expected = EXPECTED_DELTA.fetch(type) do
+          raise Refusal, "zone #{name}: transition at #{at.inspect} has type #{type.inspect} with no " \
+                         "floor-delta law (EXPECTED_DELTA must cover every TileMap::TRANSITION_TYPES member)"
+        end
         delta = target.floor - map.floor
         if delta != expected
           out << Finding.new(check: :floor, severity: :hard, zone: name, at:, to:,
@@ -179,7 +186,11 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   args = ARGV.dup
-  opts = { zones: [], tiles: "data/tiles.json", allowlist: "authoring/world_graph_allowlist.json", report: false }
+  root = File.expand_path("..", __dir__)
+  # Defaults are repo-rooted so the lint judges the same files from any cwd
+  # (the AfterSave driver runs it with cwd = repo root; a peer may not).
+  opts = { zones: [], tiles: File.join(root, "data/tiles.json"),
+           allowlist: File.join(root, "authoring/world_graph_allowlist.json"), report: false }
   usage = "usage: ruby tools/lint_world_graph.rb [--zones DIR] [--overlay DIR] [--tiles FILE] [--allowlist FILE] [--report]"
   refuse = lambda do |msg|
     warn "LINT REFUSED: #{msg}"
@@ -195,28 +206,31 @@ if __FILE__ == $PROGRAM_NAME
     else refuse.call("unknown option #{k.inspect}\n#{usage}")
     end
   end
-  opts[:zones] = ["data/zones"] if opts[:zones].empty?
+  opts[:zones] = [File.join(root, "data/zones")] if opts[:zones].empty?
 
   begin
     zones = Tools::WorldGraphLint.load_zones(opts[:zones], opts[:tiles])
     allowlist = Tools::WorldGraphLint.load_allowlist(opts[:allowlist])
+    lint = Tools::WorldGraphLint.new(zones)
+    lint.findings
   rescue Tools::WorldGraphLint::Refusal, Errno::ENOENT, JSON::ParserError => e
     refuse.call(e.message)
   end
-  lint = Tools::WorldGraphLint.new(zones)
   new_hard = lint.new_hard_findings(allowlist)
   stale = lint.stale_allowlist(allowlist)
   edges = zones.values.sum { |m| m.transitions.length }
-  puts "WORLD GRAPH LINT: #{zones.length} zones, #{edges} transitions (#{opts[:zones].join(' + ')}) — " \
+  shown = opts[:zones].map { |d| d.start_with?(root) ? d.sub("#{root}/", "") : d }
+  puts "WORLD GRAPH LINT: #{zones.length} zones, #{edges} transitions (#{shown.join(' + ')}) — " \
        "#{lint.hard_findings.length} hard finding(s) (#{lint.hard_findings.length - new_hard.length} allowlisted), " \
        "#{lint.info_findings.length} info, #{new_hard.length} NEW, #{stale.length} stale allowlist row(s)"
   if opts[:report]
+    cell = ->(s) { s.to_s.gsub("|", "\\|") }
     puts "\n| sev | check | zone | at | -> to | finding | allowlist |"
     puts "|---|---|---|---|---|---|---|"
     lint.findings.each do |f|
       row = allowlist.find { |r| Tools::WorldGraphLint.row_key(r) == f.key }
       tag = row ? "#{row['status'].upcase}: #{row['reason']}" : (f.severity == :hard ? "**NEW**" : "—")
-      puts "| #{f.severity} | #{f.check} | #{f.zone} | #{f.at.inspect} | #{f.to} | #{f.message} | #{tag} |"
+      puts "| #{f.severity} | #{f.check} | #{f.zone} | #{f.at.inspect} | #{f.to} | #{cell.call(f.message)} | #{cell.call(tag)} |"
     end
   end
   new_hard.each { |f| puts "NEW #{f}" }

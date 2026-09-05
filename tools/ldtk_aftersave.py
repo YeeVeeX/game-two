@@ -51,6 +51,13 @@ def say(msg):
     sys.stdout.flush()
 
 
+def console_safe():
+    # The LDtk runner window / cmd console is cp1252 by default on Windows;
+    # a non-ASCII path or refusal text must never crash the report itself.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(errors="backslashreplace")
+
+
 def ruby_env():
     env = dict(os.environ)
     if Path(RUBY_DIR).is_dir():
@@ -67,6 +74,7 @@ def run_ruby(ruby, args, env, label):
 
 
 def main(argv):
+    console_safe()
     args = list(argv[1:])
     out_dir = IMPORT_OUT
     if len(args) == 3 and args[1] == "--out":

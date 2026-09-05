@@ -85,12 +85,13 @@ class NormalizeLdtkTest < Minitest::Test
     Dir.mktmpdir do |dir|
       a = File.join(dir, "a.json")
       b = File.join(dir, "b.json")
-      File.binwrite(a, JSON.generate({ "x" => 1, "y" => [1, 2], "z" => { "k" => true } }))
-      File.binwrite(b, JSON.generate({ "x" => 1.0, "y" => [1, 3], "z" => { "k" => 1 } }))
-      stdout, _, status = run_tool("--semantic-diff", a, b)
-      assert_equal 1, status.exitstatus
+      File.binwrite(a, JSON.generate({ "x" => 1, "y" => [1, 2], "z" => { "k" => true }, "s" => "caf\u00e9 \u{1F600}" }))
+      File.binwrite(b, JSON.generate({ "x" => 1.0, "y" => [1, 3], "z" => { "k" => 1 }, "s" => "cafe" }))
+      stdout, stderr, status = run_tool("--semantic-diff", a, b)
+      assert_equal 1, status.exitstatus, stderr
       assert_match(/\$\.y\[1\]: 2 != 3/, stdout)
       assert_match(/\$\.z\.k: true != 1/, stdout, "bool never equals int")
+      assert_match(/\$\.s: "caf\\u00e9/, stdout, "non-ASCII values print escaped (cp1252 console safety)")
       refute_match(/\$\.x/, stdout, "1 vs 1.0 is formatting, not semantics")
     end
   end
