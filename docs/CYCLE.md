@@ -70,7 +70,10 @@ bars, boss bar. All presentation-only, gated; all inside T0's review range.
   abilities).
 - **E — DEBTS** (foundation L16). **F — FLOORS + CITY** (F1 L11 · F2 2× city,
   arena drawn INERT). **G — ART** (charter owed once the tour baseline lands;
-  uiux + assets spokes RUNNING at s132 close — receipts to
+  uiux + assets spokes launched s132: **assets HARVESTED** (critique 6/10 · 5/10,
+  style bible, Aseprite pipeline with a 0-px striker proof, tile-fork input =
+  split grammar; commit blocked on one owner line, see owner-pending), **uiux
+  RUNNING** — receipt to
   `~/.pi/agent/mail/game-two/inbox/`). **H — ONE WORLD PREP** (docs + spikes
   only; the v23 grill spark is written at v22's close).
 - **TWENTIETH fun-verify:** delta = A + B′ + C + D; pre-registered rows in
@@ -82,7 +85,9 @@ charter → T0 review → T1 if headroom).
 
 ## Owner-pending (never nag)
 
-Gabriel: **his half of the S1–S3 line** (Junior's items in v22's back half:
+Gabriel: **assets seat: "retire `ring_expand_rect` (ring → halo)"** — one line
+that unblocks the staged art-direction commit in `game-two-assets` (triage doc
+§2) · **his half of the S1–S3 line** (Junior's items in v22's back half:
 yes/no) · A3 companion-brain flip as a gated piece (one line) · the tour
 baseline line (L12) · L11 floor picks (Junior's landed; confirm or override) ·
 totem COEXISTENCE word · FASE 7 city

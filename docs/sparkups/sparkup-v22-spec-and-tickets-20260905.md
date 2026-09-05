@@ -70,12 +70,17 @@ dead); their receipts land in game-two's inbox.
 Junior's RECEIPTS are already harvested (foundation sec.RATIFICATION); if NEW `RECEIPT: J-v22`
 lines appeared since `195a01f`, append them verbatim (a "no" on the pivot is a genuine scope
 break -> stop, surface to the owner).
-Harvest the two spokes: `fleet` (lease gone = done), read each log tail + RECEIPT file, spot-
-check artifacts against the mail's DoD (spec + rubric + 7 mocks / critique + bible + pipeline +
-striker proof), record the RECEIPT lines in the triage doc sec.2, move the mails to
-`~/.pi/agent/mail/game-two/done/`. A missing/failed receipt goes to the owner with the log
+Spoke A (assets) is ALREADY HARVESTED (triage doc sec.2: 4 deliverables + striker proof 0 px
+diff; its commit is BLOCKED by its own live-pin gate pending ONE owner line -- "retire
+ring_expand_rect, ring -> halo" -- add that as Step 0b question 0, one sentence). Harvest spoke U
+(uiux): `fleet` (lease gone = done), read the log tail + RECEIPT file, spot-check against the
+mail's DoD (spec + rubric + 7 mocks), record the RECEIPT line in the triage doc sec.2, move the
+mail to `~/.pi/agent/mail/game-two/done/`. A missing/failed receipt goes to the owner with the log
 quoted (seat-orchestration skill: never a silent re-run; one relaunch only on infra failure).
-If a spoke is STILL running, leave it, record RUNNING, harvest at close.
+If it is STILL running, leave it, record RUNNING, harvest at close. The art charter's A1
+(pipeline) and A2 (tile fork) take the assets receipt as input by path (its repo:
+`C:/Users/gabri/workspace/game-two-assets` -- read tool / `git -C` only; files are STAGED, not
+committed, until the owner's line lands).
 
 ### Step 0b -- Owner lines, one at a time (human-facing-output skill; ~15 min of his time)
 Read the skill's owner-facing recipe first. Then ask, in this order, ONE question per message,
