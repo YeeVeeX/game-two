@@ -525,6 +525,15 @@ module Game
       @stations.sustain(source, station: map.station_at(*source.tile))
     end
 
+    # PREMIUM v22 ally brain: a FREE ally drinks (never buys — buying is a
+    # bank act and the player's call). Same station verb, same pack flask,
+    # same one-per-frame seat race, same events — only the seat gate differs.
+    def ally_sustain(source)
+      return false if controlled?(source)
+      return false if source.dead? || source.staggered? || source.attack_state != :idle
+      @stations.sustain(source, station: nil)
+    end
+
     # --- v17 digest lane (spec decision 6) ------------------------------
     # The authoritative desync-detection snapshot: every gameplay-affecting
     # field, as [group, [[name, scalar], ...]] with stable actor ids

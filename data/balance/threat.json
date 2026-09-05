@@ -13,5 +13,19 @@
     "pocket_cap": 6,
     "scatter_radius_tiles": 2,
     "corpse_guard_tiles": 10
+  },
+  "ally": {
+    "enabled": false,
+    "focus_fire": true,
+    "finish_pct": 0.35,
+    "drink_pct": 0.3,
+    "dodge_telegraphs": true,
+    "use_specials": true,
+    "ranged_hold_tiles": 3,
+    "ring_min_adjacent": 2
+  },
+  "human": {
+    "enabled": false,
+    "coward_pct": 0.25
   }
 }

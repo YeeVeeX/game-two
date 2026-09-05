@@ -165,13 +165,157 @@ module Game
       # C2 defensive default: the acquisition class sees provoked humans
       # only (binds above bypass). The aggro_tiles gate stays — automatic
       # response is local; long-range answers are the player's (mark).
-      target = bound || marked || nearest(creature, provoked_hostiles(creature, view))
+      ally_cfg = ally_config(view)
+      free_ally = creature.faction == :pack && !controlled_by_view?(creature, view)
+      target = bound || marked || pick_provoked(creature, view, free_ally ? ally_cfg : nil)
+      # PREMIUM v22 ally brain (data-gated, threat.json "ally"): the free
+      # ally is not an autopilot copy of the player — it reacts (dodges a
+      # telegraph about to land on it, drinks at low hp), fights by ROLE
+      # (blocker in the face, striker on the flank, lobber at range) and
+      # spends its special when the moment fits. Every rule is a pure
+      # function of sim state; nothing here reads a clock.
+      if ally_cfg && free_ally
+        return if ally_react(creature, view, ally_cfg)
+      end
       if target && (bound || marked || chebyshev(creature.tile, target.tile) <= creature.kit[:aggro_tiles])
-        engage(creature, target, view)
-      elsif creature.faction == :pack && !controlled_by_view?(creature, view)
+        if ally_cfg && free_ally
+          ally_engage(creature, target, view, ally_cfg)
+        else
+          engage(creature, target, view)
+        end
+      elsif free_ally
         anchor = follow_anchor(creature, view)
         follow(creature, anchor, view) if anchor
       end
+    end
+
+    # --- PREMIUM v22 ally brain ---------------------------------------------------
+
+    # nil unless threat.json "ally" exists AND "enabled" is true — the brain
+    # ships OFF: turning it on re-sequences every fight, which is a sim
+    # change under the canary law (owner ratification + stream-diff audit +
+    # versioned rebank). Flip `enabled` to play with it locally.
+    def ally_config(view)
+      cfg = view.respond_to?(:threat_config) ? view.threat_config : nil
+      a = cfg && cfg[:ally]
+      a && a[:enabled] ? a : nil
+    end
+
+    # Focus fire: prefer the possessed's own target when it is provoked,
+    # then the lowest-hp provoked human (finish kills), else the nearest.
+    def pick_provoked(creature, view, ally_cfg)
+      pool = provoked_hostiles(creature, view)
+      return nearest(creature, pool) if pool.empty? || ally_cfg.nil?
+      if ally_cfg[:focus_fire]
+        bodies = view.respond_to?(:controlled_bodies) ? view.controlled_bodies : [view.possessed]
+        leader_focus = bodies.compact.filter_map(&:focus).find { |f| pool.include?(f) && !f.dead? }
+        return leader_focus if leader_focus
+        low = pool.min_by.with_index { |h, i| [h.hp, i] }
+        return low if low && low.hp < low.max_hp * ally_cfg.fetch(:finish_pct, 0.35)
+      end
+      nearest(creature, pool)
+    end
+
+    # Reactions run BEFORE positioning and return true when they consumed
+    # the tick: (1) drink when hp is low and the pack has a flask;
+    # (2) dodge away from an adjacent human whose telegraph is about to land.
+    def ally_react(creature, view, cfg)
+      if cfg[:drink_pct] && view.respond_to?(:ally_sustain) && view.respond_to?(:pack) &&
+         creature.hp < creature.max_hp * cfg[:drink_pct] && view.pack.provisions.positive?
+        return true if view.ally_sustain(creature)
+      end
+      if cfg[:dodge_telegraphs] && creature.kit[:dodge] && creature.dodge_cooldown.zero?
+        # only a human that is actually swinging at THIS body (its focus)
+        # justifies a dodge — the defensive default (C2) never lets a
+        # bystander's windup pull the ally out of formation.
+        # ...and only inside a fight the pack already picked (provoked):
+        # the defensive default (C2) walks away from an unprovoked windup
+        # via follow, it does not dodge it.
+        threat = view.hostiles_for(creature).find do |h|
+          !h.dead? && h.pack_provoked? && h.telegraphing? && h.focus.equal?(creature) &&
+            chebyshev(creature.tile, h.tile) <= 1
+        end
+        if threat
+          away = [(creature.tile[0] - threat.tile[0]).clamp(-1, 1), (creature.tile[1] - threat.tile[1]).clamp(-1, 1)]
+          away = [1, 0] if away == [0, 0]
+          return true if creature.dodge(away, blocked: view.blocked_for(creature))
+        end
+      end
+      false
+    end
+
+    # Role positioning + special use. Roles come from the kit's attack arc
+    # (no per-kit AI constants): projectile = RANGED (hold N tiles, line up
+    # the shot), ring/arc = FRONT (surround slot, ring special when 2+
+    # adjacent), front1 + dash special = FLANK (dash when aligned 2..max
+    # tiles away).
+    def ally_engage(creature, target, view, cfg)
+      return if try_blink(creature, target, view)
+      dist = chebyshev(creature.tile, target.tile)
+      blocked = view.blocked_for(creature)
+      if projectile?(creature)
+        hold = cfg.fetch(:ranged_hold_tiles, 3)
+        if dist < hold - 1 && !creature.moving?
+          retreat_step(creature, target, view)
+          return
+        end
+        if in_attack_range?(creature, target, view) && aligned?(creature, target)
+          face_toward(creature, target)
+          if cfg[:use_specials] && creature.special_ready? && dist >= hold
+            return if creature.start_special(blocked:)
+          end
+          creature.start_attack(blocked:)
+        elsif !creature.moving?
+          if dist > hold + 1
+            chase_step(creature, target, view)
+          else
+            align_step(creature, target, view)
+          end
+        end
+        return
+      end
+      if cfg[:use_specials] && creature.special_ready?
+        sp = creature.kit[:special]
+        if sp && sp[:arc] == "ring" && dist <= 1 &&
+           view.hostiles_for(creature).count { |h| !h.dead? && chebyshev(creature.tile, h.tile) <= 1 } >= cfg.fetch(:ring_min_adjacent, 2)
+          face_toward(creature, target)
+          return if creature.start_special(blocked:)
+        end
+        if sp && sp[:arc] == "dash" && dist.between?(2, sp.fetch(:max_tiles, 4)) && aligned?(creature, target)
+          face_toward(creature, target)
+          return if creature.start_special(blocked:)
+        end
+      end
+      engage(creature, target, view)
+    end
+
+    def aligned?(creature, target)
+      dx = target.tile[0] - creature.tile[0]
+      dy = target.tile[1] - creature.tile[1]
+      dx.zero? || dy.zero? || dx.abs == dy.abs
+    end
+
+    # One step that puts the body on a row/column/diagonal with the target
+    # (so a shot can be lined up) without closing distance. Fixed step
+    # order = deterministic.
+    def align_step(creature, target, view)
+      return if creature.moving?
+      blocked = view.blocked_for(creature)
+      best = nil
+      Game::FlowField::STEPS.each do |(dx, dy)|
+        nx = creature.tile[0] + dx
+        ny = creature.tile[1] + dy
+        next if blocked.include?([nx, ny]) || !view.map.passable?(nx, ny)
+        ddx = target.tile[0] - nx
+        ddy = target.tile[1] - ny
+        next unless ddx.zero? || ddy.zero? || ddx.abs == ddy.abs
+        d = [ddx.abs, ddy.abs].max
+        best = [d, dx, dy] if best.nil? || d > best[0]
+      end
+      return unless best
+      _, dx, dy = best
+      creature.face([dx, dy])
+      creature.step(dx, dy, blocked:)
     end
 
     private
@@ -212,6 +356,16 @@ module Game
       target = creature.focus
       if target && !target.dead?
         creature.reset_leash!
+        # PREMIUM v22 (threat.json "human"): a kind flagged coward retreats
+        # below its hp fraction instead of trading blows to the death —
+        # the fight gets a second beat (chase it or let it go).
+        hc = view.respond_to?(:threat_config) ? view.threat_config[:human] : nil
+        hc = nil unless hc && hc[:enabled]
+        if hc && creature.kit[:coward] && creature.hp < creature.max_hp * hc.fetch(:coward_pct, 0.25) &&
+           chebyshev(creature.tile, target.tile) <= 2 && !creature.moving?
+          retreat_step(creature, target, view)
+          return
+        end
         case view.pressure_role(creature)
         when :pressuring then pressure_step(creature, target, view)
         else engage(creature, target, view)

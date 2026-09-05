@@ -178,6 +178,7 @@
    "interrupt_on_hit": false
   },
   "husk": {
+      "coward": true,
    "max_hp": 60,
    "step_frames": 17,
    "aggro_tiles": 12,
