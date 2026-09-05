@@ -153,6 +153,63 @@ zonas, god-view com DUNGEON 1–4, edges ratificados 1↔2↔3↔4, pilot ZONES.
 | `rake map PROBES=1` | 21/21 · god-view: serpente → divisória → espiral → portão (os 3 desenhos do Junior, ordem que ele aprovou "A=2, B=3, C=4") |
 | Rule 2 + soak da torre | owed: `tower{2,3,4}_run` (tuner, ticket 6.2) + `rake soak ZONES=dungeon_2,dungeon_3,dungeon_4` |
 
+## Ticket 6.7 — BRASA (DUNGEON 5/6/7): a dungeon de fogo, família ember + BOSS 4 + `aura` + cap →21
+
+**FASE 4.6 `aura`** (a primitiva que faltava pra família): campo ao redor
+do portador vivo — todo hostil a ≤ `radius_tiles` (Chebyshev) queima
+`damage` a cada `period_frames`. **Cadência = `world.frame % period`** →
+zero campo novo no digest (determinístico por construção). Dano de campo =
+`Creature#burn!` (a porta do poison generalizada: atravessa i-frames e
+knockback, morte via `actor_died` com o portador como killer). Evento
+`:aura_burn` registrado. **Leitura própria:** quadrado vazado cor-de-brasa
+no alcance, que RESPIRA na cadência do burn ("aqui tu cozinha") — distinto
+do taunt pulse (ferrugem, expande uma vez) e do totem (verde). Portador
+`ember_b`: hp 85 · ring dmg 12 · aura r2 dmg 3/20f · kill_xp **70**.
+Teste `aura_test.rb` (4): dentro queima na cadência / fora não · atravessa
+i-frames e a morte nomeia o portador · determinístico, nada de "aura" no
+digest.
+
+**BRASA** — `tools/build_brasa.py` (determinístico, idempotente,
+registry-driven, BFS em toda porta/chegada, recusa se os clears não
+subirem acima do fundo da torre). **Geometria = candidatos APROVADOS pelo
+peer re-tematizados** (o "veias" C e o "labirinto" B do musgo, 2026-08-31;
+o "santuário" da leva 1 da torre como coração da forja):
+
+| Zona | Display | Padrão | Fauna | Clear xp | Rung |
+|---|---|---|---|---|---|
+| ember_1 | DUNGEON 5 | veias (56×36) — veias de lava no basalto, câmara-coração a leste | ember_a 30 · ember_b 20 | **2750** > 2434 (fundo da torre) | 13 (boca) |
+| ember_2 | DUNGEON 6 | labirinto (62×28) — a sala de boss old-school guarda o **GUARDIÃO** (ember_d elite, D3) | ember_a 14 · ember_b 24 · ember_d 5+1 | **2970** | 15 |
+| ember_3 | DUNGEON 7 | santuário (56×32) — nave de colunatas → presbitério murado, **BOSS 4 no altar** | ember_a 8 · ember_b 20 · ember_d 10 · **ember_boss** | **3180** | 17 |
+
+Boca: **buraco no prado sul da ZONE 7 `[6,24]`** (hole, auto-fire, rung
+13 = um degrau acima da última escada da torre), corda de volta pousa
+`[6,23]`. Escadas nos 2 sentidos, retornos livres, chegadas a 1 tile das
+portas (lei do ping-pong, testada ao vivo). Piso vestido com **lava
+decorativa `L` + entulho `r`** (tipos da FASE 3; passabilidade intocada —
+teste) + 10 tochas/andar + `ember_sparks` 7% + `fog_bank` 4%; paleta
+basalto/brasa, `drop_gradient` 4.0–6.0 (a BRASA paga mais que a torre no
+grão do drop também). **Cap 18 → 21** (pacing bancado: E(21) = 108000,
+ΔE(21) = 15280 ≈ 5 clears do DUNGEON 7). Strings `zone.*.display_name`
+pros 6 novos placeholders nas 3 locales.
+
+Teste `brasa_test.rb` (7): forma/labels · boca no prado + rung 13 + corda
+livre ao lado · cadeia de escadas com rungs subindo e retornos livres · o
+fundo não desce · **uma dungeon, uma família** + clears acima da torre e
+monótonos · guardião na sala do labirinto + BOSS 4 no altar (3 fases) ·
+lava/entulho passáveis · **cair na BRASA pousa ao lado da corda e o pack
+fica**.
+
+| Prova | Resultado |
+|---|---|
+| Suite | **1417 runs, 0 failures** |
+| `rake map PROBES=1` | 21/21 (god-view com DUNGEON 1–7) |
+| Rule 2 + soak BRASA | owed: `brasa{1,2,3}_run` (tuner) + soak — cadeia após o commit |
+
+**Grafo final desta madrugada: 5 dungeons no total** (DESCIDA -1/-2/-3 ·
+TORRE 1–4 · BRASA 5–7 · BASEMENT 1–2 · fronteira ZONE 8), **20 zonas**,
+**3 bosses únicos** (BOSS 1 no cofre do musgo, BOSS 2 no fundo da torre,
+BOSS 4 no altar da forja), cap 21.
+
 ## Fila da FASE 6
 
 6.2 sentinelas (tuner): musgo `floor3_run` + `tower2_run` · re-author `dungeon_fork` (selo aposentado) · 6.6

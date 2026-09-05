@@ -1,0 +1,229 @@
+{
+  "palette": {
+    "floor": [
+      25,
+      20,
+      20
+    ],
+    "grid": [
+      36,
+      29,
+      27
+    ],
+    "wall": [
+      63,
+      41,
+      36
+    ],
+    "wall_inner": [
+      22,
+      14,
+      13
+    ],
+    "transition": [
+      235,
+      190,
+      90
+    ],
+    "station": [
+      190,
+      140,
+      60
+    ],
+    "station_seal": [
+      190,
+      140,
+      60
+    ],
+    "dirt": [
+      43,
+      32,
+      27
+    ],
+    "sand": [
+      76,
+      56,
+      40
+    ],
+    "grass": [
+      41,
+      45,
+      31
+    ],
+    "grass_b": [
+      36,
+      40,
+      27
+    ],
+    "grass_c": [
+      47,
+      50,
+      34
+    ],
+    "wood": [
+      63,
+      45,
+      32
+    ],
+    "water": [
+      27,
+      27,
+      40
+    ],
+    "lava_deco": [
+      212,
+      99,
+      27
+    ],
+    "rubble": [
+      49,
+      38,
+      36
+    ],
+    "motif": "chip",
+    "motif_rgb": [
+      40,
+      31,
+      29
+    ],
+    "ambient_rgba": [
+      255,
+      120,
+      40,
+      16
+    ]
+  },
+  "tile_size": 32,
+  "gradient_anchor": [
+    2,
+    13
+  ],
+  "drop_gradient": [
+    [
+      0,
+      4.5
+    ],
+    [
+      33,
+      5.0
+    ],
+    [
+      66,
+      5.5
+    ]
+  ],
+  "decor": [
+    {
+      "kind": "ambience",
+      "at": [
+        3,
+        2
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        45,
+        4
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        50,
+        6
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        13,
+        9
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        36,
+        11
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        21,
+        13
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        46,
+        15
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        26,
+        18
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        15,
+        21
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        18,
+        23
+      ],
+      "preset": "torch_flicker"
+    }
+  ],
+  "ambience_regions": [
+    {
+      "id": "brasa2_sparks",
+      "rect": [
+        0,
+        0,
+        62,
+        28
+      ],
+      "intent": "dungeon",
+      "ambience": "ember_sparks",
+      "ambience_density": 0.07,
+      "ambience_tiles": [
+        "."
+      ]
+    },
+    {
+      "id": "brasa2_haze",
+      "rect": [
+        0,
+        0,
+        62,
+        28
+      ],
+      "intent": "dungeon",
+      "ambience": "fog_bank",
+      "ambience_density": 0.04,
+      "ambience_tiles": [
+        "."
+      ]
+    }
+  ]
+}

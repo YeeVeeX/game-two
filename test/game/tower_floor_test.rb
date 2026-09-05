@@ -132,8 +132,9 @@ class TowerFloorTest < Minitest::Test
   end
 
   def test_cap_rides_the_floors
-    assert_equal 18, DATA["balance/progression"][:curve][:level_cap],
-                 "cap 15 -> 18 rides the tower's three floors (plan §6: one step per floor, L5)"
+    # 15 -> 18 rode the tower (one step per floor); 18 -> 21 rides BRASA
+    # (FASE 6.7) — plan §6, L5: the cap never outruns content.
+    assert_equal 21, DATA["balance/progression"][:curve][:level_cap]
   end
 
   def test_the_tower_bottom_holds_boss_2_and_no_further_stairs

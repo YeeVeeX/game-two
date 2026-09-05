@@ -34,6 +34,7 @@ module App
       # MUNDO VIVO FASE 4 ember family (BRASA): hot red-orange bodies; the
       # pack's ember ORANGE is lighter/yellower — critic-checked at gate.
       ember_a:      Gosu::Color.new(255, 210, 60, 30),
+      ember_b:      Gosu::Color.new(255, 225, 110, 40),
       ember_d:      Gosu::Color.new(255, 240, 90, 20),
       # FASE 4.5 spore family (MUSGO, floor -3): yellow-green caps — the
       # lurker is pale algae, spores are saturated fungus green
@@ -923,6 +924,29 @@ module App
       # FASE 4.3 blink arrival tell: a violet hollow square snapping shut on
       # the body over the flash frames — "it was not there a moment ago".
       draw_blink_flash(c, x, y) if c.respond_to?(:blink_flash?) && c.blink_flash?
+      draw_aura(c, world) if c.faction == :human && c.kit[:aura]
+    end
+
+    # FASE 4.6 aura tell: a hollow ember square at the aura's reach that
+    # BREATHES on the burn cadence (bright at the tick, fading to the next)
+    # — "stand here and you cook". Distinct from the taunt pulse (rust,
+    # expanding once) and the totem ring (green): steady, hot, sized to
+    # the radius. Tick-driven: reads world.frame only.
+    def draw_aura(c, world)
+      aura = c.kit[:aura]
+      ts = world.map.tile_size
+      period = [aura[:period_frames], 1].max
+      phase = (world.frame % period).fdiv(period)
+      alpha = (@display.fetch(:aura_alpha_max, 150) * (1.0 - phase * 0.7)).round
+      reach = aura[:radius_tiles] * ts + ts / 2
+      cx = c.tile[0] * ts + ts / 2
+      cy = c.tile[1] * ts + ts / 2
+      col = Gosu::Color.new(alpha, *@display.fetch(:aura_rgb, [255, 120, 40]))
+      t = 2
+      Gosu.draw_rect(cx - reach, cy - reach, reach * 2, t, col)
+      Gosu.draw_rect(cx - reach, cy + reach - t, reach * 2, t, col)
+      Gosu.draw_rect(cx - reach, cy - reach, t, reach * 2, col)
+      Gosu.draw_rect(cx + reach - t, cy - reach, t, reach * 2, col)
     end
 
     def draw_blink_flash(c, x, y)

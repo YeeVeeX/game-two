@@ -214,5 +214,7 @@
  "beam_telegraph_rgb": [200, 90, 30],
  "beam_stroke_rgb": [255, 170, 60],
  "boss_pip_rgb": [230, 120, 60],
- "art_poison_tint_rgb": [120, 235, 90]
+ "art_poison_tint_rgb": [120, 235, 90],
+ "aura_rgb": [255, 120, 40],
+ "aura_alpha_max": 150
 }

@@ -728,6 +728,34 @@
    },
    "knockback_frames_per_tile": 5,
    "interrupt_on_hit": true
+  },
+  "ember_b": {
+   "max_hp": 85,
+   "step_frames": 15,
+   "aggro_tiles": 8,
+   "respawn_frames": 2100,
+   "drop_table": [
+    2,
+    3,
+    3
+   ],
+   "attack": {
+    "damage": 12,
+    "windup_frames": 20,
+    "active_frames": 5,
+    "recovery_frames": 12,
+    "exhaust_frames": 90,
+    "arc": "ring",
+    "knockback_tiles": 1,
+    "knockback_frames_per_tile": 5
+   },
+   "aura": {
+    "radius_tiles": 2,
+    "damage": 3,
+    "period_frames": 20
+   },
+   "knockback_frames_per_tile": 5,
+   "interrupt_on_hit": true
   }
  },
  "feel": {

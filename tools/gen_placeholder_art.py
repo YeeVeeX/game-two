@@ -53,6 +53,7 @@ KITS = {
     "serpent_c": (120, 90, 170),    # deep violet: the blinker, darkest of the family
     # FASE 4 ember family (BRASA): hot red-orange, darker/redder than the pack ember
     "ember_a": (210, 60, 30),
+    "ember_b": (225, 110, 40),
     "ember_d": (240, 90, 20),
     # FASE 5 bosses: the family color, saturated, with a crown accent (BOSS N = crown)
     "serpent_boss": (150, 100, 220),
@@ -196,6 +197,9 @@ def shape(kit, facing):
         else:
             body = {(y, x) for (x, y) in wedge(18, 14, 14, 26)} | rect(2, 8, 13, 19)
             acc = {(24, 7), (25, 8), (24, 20), (25, 19)}
+    elif kit == "ember_b":                     # the aura bearer: round brazier body + heat crown
+        body = ellipse(14, 16, 10, 9) | rect(9, 4, 18, 8)
+        acc = {(9, 3), (12, 2), (15, 2), (18, 3), (11, 6), (16, 6)}
     elif kit == "ember_d":                     # the beam caster: tall pillar + single burning eye
         body = rect(10, 2, 17, 26) | rect(7, 22, 20, 26)
         eye = {(13, 6), (14, 6), (13, 7), (14, 7)}

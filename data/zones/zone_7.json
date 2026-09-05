@@ -201,6 +201,19 @@
         24,
         33
       ]
+    },
+    {
+      "at": [
+        6,
+        24
+      ],
+      "to": "ember_1",
+      "spawn": [
+        2,
+        18
+      ],
+      "type": "hole",
+      "requires_level": 13
     }
   ],
   "gradient_anchor": [

@@ -36,7 +36,7 @@ module Game
       zone_entered possession_changed pack_wiped pack_respawned projectile_fired pack_mark_set
       drop_spawned drop_picked_up drop_decayed banked carried_lost taunted
       corpse_loaded corpse_looted fight_resolved
-      human_retargeted human_leashed human_respawned blinked poisoned
+      human_retargeted human_leashed human_respawned blinked poisoned aura_burn
       inscribed banked_spent tribute_paid body_regrown body_dissolved mark_consumed vessel_kept
       provision_bought provision_used provision_refused totem_pulse
       seal_breached home_rehomed respawn_telegraphed
@@ -615,6 +615,7 @@ module Game
       @volleys.tick!
       @transients.tick_combat!
       resolve_attacks
+      tick_auras
       tick_projectiles
       # AFTER every damage source on purpose: a body killed this frame ends
       # its seizure THIS frame (why=:died — the zero-frame seizure is legal
@@ -1002,6 +1003,27 @@ module Game
     # Creation order = resolution order (deterministic). The projectile only
     # reports the victim; damage resolves here from the OWNER's kit, exactly
     # like melee — one law for all combat.
+    # MUNDO VIVO FASE 4.6 — `aura` (ember family): while an aura-bearer
+    # lives, every hostile within kit[:aura][:radius_tiles] (Chebyshev)
+    # burns kit[:aura][:damage] every kit[:aura][:period_frames] frames.
+    # Cadence = world.frame % period (no per-creature clock → nothing new
+    # in the digest; deterministic by construction). Emits :aura_burn once
+    # per victim per tick for telemetry/manifests.
+    def tick_auras
+      actors.each do |bearer|
+        aura = bearer.kit[:aura]
+        next unless aura && (@frame % aura[:period_frames]).zero?
+        bx, by = bearer.tile
+        hostiles_for(bearer).each do |foe|
+          next if foe.dead?
+          fx, fy = foe.tile
+          next if [(fx - bx).abs, (fy - by).abs].max > aura[:radius_tiles]
+          next unless foe.burn!(leveled_damage(bearer, aura), by: bearer)
+          @bus.emit(:aura_burn, attacker: bearer, victim: foe)
+        end
+      end
+    end
+
     def tick_projectiles
       @projectiles.each do |p|
         victim = p.tick(hostiles: hostiles_for(p.owner))

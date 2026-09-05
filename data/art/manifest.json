@@ -713,6 +713,56 @@
       },
       "md5": "bd1c90187c01701c2b875db4d221ddc7"
     },
+    "ember_b": {
+      "atlas": "art/atlas/ember_b.png",
+      "cols": 12,
+      "rows": 4,
+      "anims": {
+        "idle": {
+          "frames": [
+            0,
+            1
+          ],
+          "frames_per_step": 18
+        },
+        "walk": {
+          "frames": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "frames_per_step": 5
+        },
+        "windup": {
+          "frames": [
+            6,
+            7
+          ],
+          "frames_per_step": 4
+        },
+        "active": {
+          "frames": [
+            8,
+            9
+          ],
+          "frames_per_step": 2
+        },
+        "hurt": {
+          "frames": [
+            10
+          ],
+          "frames_per_step": 1
+        },
+        "dead": {
+          "frames": [
+            11
+          ],
+          "frames_per_step": 1
+        }
+      },
+      "md5": "555b10043fc8d8e088d221e510878580"
+    },
     "ember_d": {
       "atlas": "art/atlas/ember_d.png",
       "cols": 12,

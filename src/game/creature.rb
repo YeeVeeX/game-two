@@ -350,6 +350,21 @@ module Game
       @poison_by = by
     end
 
+    # FASE 4.6 aura: non-hit damage from a field (bypasses i-frames and
+    # knockback like poison; death walks the actor_died door with the
+    # field's owner as killer). Shared by every future field effect.
+    def burn!(amount, by:)
+      return false if dead? || amount <= 0
+      @hp = [@hp - amount, 0].max
+      if dead?
+        interrupt_action!
+        @bus.emit(:actor_died, actor: self, killer: by, faction: @faction)
+      else
+        @bus.emit(:damage_dealt, target: self, hp: @hp, attacker: by)
+      end
+      true
+    end
+
     def poisoned? = @poison_ticks.positive?
     def poison_ticks = @poison_ticks
 
