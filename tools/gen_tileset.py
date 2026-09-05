@@ -351,11 +351,11 @@ def piece(material, mask, var):
                 if mask != 15:
                     db = d_out[v][u]
                     if cls == "wall":
-                        down = march(g, u, v, 0, 1, 8)
+                        down = march(g, u, v, 0, 1, 11)
                         up = march(g, u, v, 0, -1, 2)
-                        if down <= 8:
+                        if down <= 11:
                             # cliff face: darker, horizontal brick seams, vertical joints
-                            lum = 0.50 + 0.06 * ((down + 1) % 2) - 0.02 * down / 8
+                            lum = 0.50 + 0.06 * ((down + 1) % 2) - 0.02 * down / 11
                             if (v % 4) == 3:
                                 lum = 0.36
                             if ((u + (v // 4) * 5) % 9) == 0:
@@ -375,9 +375,9 @@ def piece(material, mask, var):
                 if mask == 15:
                     continue
                 if cls == "wall":
-                    up = march(g, u, v, 0, -1, 6)
-                    if up <= 6:
-                        px[u, v] = (0, 0, 0, max(0, 110 - 16 * up))
+                    up = march(g, u, v, 0, -1, 8)
+                    if up <= 8:
+                        px[u, v] = (0, 0, 0, max(0, 120 - 14 * up))
                         continue
                 di = d_in[v][u]
                 if di < 1.8:

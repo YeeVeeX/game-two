@@ -120,7 +120,7 @@ module App
     def draw_portrait(m, x, y, frame)
       Gosu.draw_rect(x - 1, y - 1, PORTRAIT + 2, PORTRAIT + 2, dark, 20)
       Gosu.draw_rect(x, y, PORTRAIT, PORTRAIT, Gosu::Color.new(255, 30, 24, 26), 20)
-      img = portrait_image(m)
+      img = portrait_image(m, frame)
       if img
         tint = m.dead? ? Gosu::Color.new(255, 120, 90, 96) : Gosu::Color::WHITE
         # head + shoulders: a pre-cropped 22x22 window of the idle frame
@@ -136,13 +136,19 @@ module App
     # The idle-down frame cropped to the head+shoulders window (frame rows
     # 8..29, cols 5..26 for the 32x48 grid), memoized per kit. Image#subimage
     # is a view on the same texture (no re-upload).
-    def portrait_image(m)
+    # The portrait BREATHES: the idle cycle's frame for this world frame
+    # (same pure column pick the body uses), cropped to head+shoulders and
+    # memoized per (kit, column). Image#subimage is a texture view.
+    def portrait_image(m, frame)
       return nil unless @art
-      @portraits ||= {}
-      return @portraits[m.kit_name] if @portraits.key?(m.kit_name)
       atlas = @art.atlas_for(m.kit_name)
-      full = atlas && atlas.tile(@art.facing_row("down"), atlas.frames(:idle).first)
-      @portraits[m.kit_name] =
+      return nil unless atlas
+      col = m.dead? ? atlas.frames(:idle).first : App::Art::Body.frame_col(atlas, :idle, frame)
+      @portraits ||= {}
+      key = [m.kit_name, col]
+      return @portraits[key] if @portraits.key?(key)
+      full = atlas.tile(@art.facing_row("down"), col)
+      @portraits[key] =
         if full
           ox = @display.fetch(:hud_portrait_ox, 5)
           oy = @display.fetch(:hud_portrait_oy, 8)

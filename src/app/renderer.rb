@@ -6,6 +6,7 @@ require "app/stamp"
 require "app/tile_art"
 require "app/tileset"
 require "app/hud"
+require "app/fx"
 require "app/tile_variants"
 require "app/writ"
 require "app/zone_identity"
@@ -136,6 +137,9 @@ module App
       # byte-identical by default.
       @local_seat = local_seat
       @controls_overlay = ControlsOverlay.new(display:, strings:, bindings:, local_seat:)
+      # PREMIUM v22 pass 3: impact particles (hit sparks, death bursts,
+      # footstep dust) — bus-fed, frame-keyed, presentation-only.
+      @fx = App::Fx.new(display: @display, kit_body: KIT_BODY)
     end
 
     def draw(world)
@@ -157,6 +161,8 @@ module App
         bodies = world.humans.each_with_index.map { |h, i| [h, 0, i] } +
                  world.pack.living.each_with_index.map { |m, i| [m, 1, i] }
         bodies.sort_by! { |(c, grp, i)| [c.y, c.x, grp, i] }
+        @fx.update(world)
+        @fx.draw(world)
         bodies.each { |(c, _grp, _i)| draw_creature(c, world) }
         # Flywheel fix (2026-08-19, critique issue 2 — the verified gap):
         # draw_attack is pack-gated, so an enemy's ACTIVE strike rendered
@@ -890,6 +896,14 @@ module App
             age = world.frame - c[:at_frame]
             (140 * (1.0 - age.fdiv(Game::World::CORPSE_FADE_FRAMES))).clamp(0, 140).round
           end
+        # PREMIUM v22 pass 3: with art, the corpse IS the kit's dead frame
+        # (fading with the same alpha clock) — you see WHO fell. Quads path
+        # keeps the legacy rect.
+        if @art && c[:kit_name] && (img = App::Art::Body.dead_image(c[:kit_name], @art))
+          ax, ay = @art.anchor
+          img.draw(c[:x] - ax, c[:y] - ay, 0, 1, 1, Gosu::Color.new((alpha * 1.6).clamp(0, 255).round, 235, 225, 215))
+          next
+        end
         base = c[:faction] == :human ? human_corpse_rgb : [150, 80, 40]
         opx = @display.fetch(:corpse_outline_px, 1)
         if opx.positive?

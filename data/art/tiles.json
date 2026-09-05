@@ -113,14 +113,14 @@
       "priority": 40,
       "class": "wall",
       "png": "art/tiles/rock_wall.png",
-      "md5": "7be7923b218cac4f0647e1ba1c0c9de4"
+      "md5": "738be785efb44503d7ae136ea025d395"
     },
     "wall": {
       "texture": "rock_wall",
       "priority": 42,
       "class": "wall",
       "png": "art/tiles/rock_wall.png",
-      "md5": "7be7923b218cac4f0647e1ba1c0c9de4"
+      "md5": "738be785efb44503d7ae136ea025d395"
     }
   },
   "details": {

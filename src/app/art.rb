@@ -146,8 +146,34 @@ module App
         img = atlas.tile(row, frame_col(atlas, anim_for(c), world.frame))
         return false unless img
         ax, ay = registry.anchor
-        img.draw(x - ax, y - ay, z, 1, 1, tint || Gosu::Color::WHITE)
+        # PREMIUM v22 pass 3: a struck body SQUASHES (wider, shorter) for the
+        # hurt window, anchored at the feet — impact you can see without a
+        # number. hurt_frames counts down 8..1 (Creature#take_hit); squash
+        # decays with it. Pure function of creature state (no clock).
+        hf = c.respond_to?(:hurt_frames) ? c.hurt_frames : 0
+        if hf.positive? && !c.dead?
+          k = hf.fdiv(8).clamp(0.0, 1.0)
+          sx = 1.0 + 0.18 * k
+          sy = 1.0 - 0.14 * k
+          fw = registry.frame_w
+          fh = registry.frame_h
+          # feet = frame bottom minus the 6px shadow rows; keep them fixed
+          feet_y = y - ay + fh - 6
+          cx = x - ax + fw / 2.0
+          img.draw(cx - fw * sx / 2.0, feet_y - (fh - 6) * sy, z, sx, sy, tint || Gosu::Color::WHITE)
+        else
+          img.draw(x - ax, y - ay, z, 1, 1, tint || Gosu::Color::WHITE)
+        end
         true
+      end
+
+      # The DEAD frame of a kit (down row) for corpse presentation; nil ->
+      # caller draws the legacy corpse rect.
+      def dead_image(kit_name, registry)
+        return nil unless registry
+        atlas = registry.atlas_for(kit_name)
+        return nil unless atlas
+        atlas.tile(registry.facing_row("down"), atlas.frames(:dead).first)
       end
     end
   end

@@ -130,7 +130,8 @@ module Game
     def leave_corpse(actor, zone:, frame:)
       list = @corpses[zone]
       record = { tile: actor.tile, x: actor.x, y: actor.y,
-                 faction: actor.faction, at_frame: frame }
+                 faction: actor.faction, at_frame: frame,
+                 kit_name: actor.kit_name } # presentation: the corpse sprite
       list << record
       if list.length > CORPSE_CAP
         evict = list.index { |c| !c[:container_id] }

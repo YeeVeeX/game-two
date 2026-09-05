@@ -112,6 +112,7 @@ module Game
     def dead? = @hp <= 0
     def moving? = @walker.moving?
     def hurt? = @hurt_frames.positive?
+    def hurt_frames = @hurt_frames
     def iframes? = @iframes.positive?
     def exhaust_ready? = @exhaust <= 0
     def special_ready? = @special_exhaust <= 0
