@@ -78,10 +78,51 @@ viraram **prova da aposentadoria + da migração L9**.
 | Determinismo `dungeon_fork` | 6/6 byte-idênticas ×2 |
 | Rule 2 crítico (`dungeon_fork`, `town_gates`, `multi_floor_descent`, `zone8_crossing`) + sentinela do musgo + soak `ZONES=low_quay,dungeon_1` | *owed: cadeia lançada após o commit; sweep 1+2+3+6 antes do merge* |
 
+## Ticket 6.3 — `dungeon_2` (torre andar 2 = padrão A "divisória") + cap 15→16
+
+**Ferramenta genérica:** `tools/build_tower_floor.py <n> [--down]` — n=2/3/4
+= padrões A/B/C (`drafts/_medusa-tower/build_tower_candidates.py`, agora
+importável); splice do level `dungeon_<n>` no `pilot.ldtk` + sidecar,
+idempotente (rebuild determinístico); liga o andar de CIMA com
+`stairs_down` no tile de saída dele (dungeon_1 = buraco central `[33,25]`);
+`--down` liga este andar ao de baixo quando ele existir. **Leis mecânicas
+no tool:** rocha fora do anel = `%` (2ª classe de parede), muralha = `#`,
+piso = `.`; chegadas a 1 tile de toda porta (ping-pong law); BFS
+chegada→escada; **ratio da volta forçada impresso e recusado se < 1.8**.
+
+- **dungeon_2**: 52×52, floor -2, "DUNGEON 2". Porta de cima `[28,44]`
+  (stairs_up → dungeon_1 `[33,24]`, livre); chegada `[29,44]`; escada de
+  descida `[33,22]` (INERTE até dungeon_3). **Volta forçada: real 59 vs
+  Manhattan 27 = 2.19×** (a mecânica do T da Medusa Tower, pinada em
+  teste). dungeon_1 ganhou `stairs_down` `[33,25]` → dungeon_2 `[29,44]`
+  **`requires_level: 8`** (proposta: 8/10/12 nos andares 2/3/4 — a
+  fronteira já pede 8).
+- **Fauna (serpent, tier ≤ 3):** stinger ×8 · warden ×4 · serpent_a ×10
+  · serpent_b ×5, distribuídas por bandas de distância da chegada (fraco
+  → forte), Chebyshev ≥ 2 entre spawns. **Clear 2055 > dungeon_1 2010**
+  (L6). Sidecar: pedra cinza / muralha ferrugem / rocha escura,
+  `drop_gradient` 3.5/4.0/4.5, 8 tochas nas paredes internas, `dust_motes`.
+- **Cap 15→16** (L5 riding o andar; `pacing_table.rb` bancado: E(16) =
+  46000, ΔE 8480 ≈ 566 kills de stinger ≈ 4.1 clears do andar 2).
+- **`test/game/tower_floor_test.rb` (7)** — tabela por andar (cresce com
+  6.4/6.5): forma/profundidade · **tudo andável dentro do anel e
+  alcançável; fora = rocha** · **volta forçada ≥ 1.8×** · escadas nos 2
+  sentidos, gate só na descida, chegadas a 1 tile e passáveis ·
+  fauna = censo autorado e clear > andar de cima · **descer da medusa
+  aterrissa ao lado da escada e o pack FICA** (anti ping-pong ao vivo) ·
+  cap 16. Pins atualizados: `tile_registry_test` (edge ratificado
+  dungeon_1↔dungeon_2), `tile_map_test` (15 zonas), `map_artifact_test`
+  (DUNGEON 2 no god-view), `interior_door_test` (3 ways no dungeon_1),
+  `pilot_authoring_test` ZONES += dungeon_2.
+
+| Prova | Resultado |
+|---|---|
+| Suite | **1404 runs, 47911 assertions, 0 failures** |
+| `rake map PROBES=1` | 21/21 · god-view mostra a torre redonda com a divisória (fiel ao shot) |
+| FASE 6.1 gates (cadeia) | `dungeon_fork` **GATE PASS** (manifest `seal_breached` FAIL = **esperado**: o selo foi aposentado — script owed re-author) · `multi_floor_descent` **GATE PASS + MANIFEST PASS** · zone8_crossing + soak: em curso |
+
 ## Fila da FASE 6
 
-6.2 sentinela `floor3_run` do musgo (tuner) + soak · 6.3 `dungeon_2` (torre
-"A divisória", stairs no buraco central, cap 15→16) · 6.4 `dungeon_3` (B
-espiral) · 6.5 `dungeon_4` (C portão + `serpent_boss`, cap →18) · 6.6
+6.2 sentinelas (tuner): musgo `floor3_run` + `tower2_run` · re-author `dungeon_fork` (selo aposentado) · 6.4 `dungeon_3` (B espiral, `--down` no 2, cap →17) · 6.5 `dungeon_4` (C portão + `serpent_boss`, cap →18) · 6.6
 `basement_3` · 6.7 BRASA (4 andares, `ember_*` + `ember_boss`, cap →21) ·
 6.8 D5 (palavra dos peers).

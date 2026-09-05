@@ -1,5 +1,5 @@
 {
-  "curve": { "k": 40, "level_cap": 15 },
+  "curve": { "k": 40, "level_cap": 16 },
   "growth": { "dmg_growth_pct": 8, "hp_growth_pct": 6 },
   "kill_xp": { "husk": 8, "rusher": 15, "rusher_hater": 25, "challenger": 120, "lurker": 40, "warden": 90, "stinger": 65, "serpent_a": 75, "serpent_b": 85, "serpent_c": 88, "ember_a": 45, "ember_d": 110, "serpent_boss": 240, "ember_boss": 320, "spore_a": 70, "spore_b": 95 },
   "spell_growth": {

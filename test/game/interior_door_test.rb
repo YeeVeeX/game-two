@@ -129,8 +129,9 @@ class InteriorDoorTest < Minitest::Test
     assert_nil w.map.station_at(17, 2), "the bypass seal was retired with the old geometry"
     same_zone = w.map.transitions.select { |t| t[:to] == "dungeon_1" }
     assert_empty same_zone, "no same-zone door survives the swap"
-    ropes = w.map.transitions.map { |t| [t[:to], t[:at]] }.sort
-    assert_equal [["zone_7", [9, 8]], ["zone_8", [29, 7]]], ropes, "the two ropes: back to town, on to the frontier"
+    ways = w.map.transitions.map { |t| [t[:to], t[:at]] }.sort
+    assert_equal [["dungeon_2", [33, 25]], ["zone_7", [9, 8]], ["zone_8", [29, 7]]], ways,
+                 "two ropes (town, frontier) + the tower's stairs down at the center hole (FASE 6.3)"
   end
 
   def test_retired_dungeon_seal_tuple_is_migrated_not_refused

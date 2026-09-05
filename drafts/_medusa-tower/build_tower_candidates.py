@@ -415,60 +415,66 @@ def render(c, path):
     img = img.resize((W * px * 2, H * px * 2), Image.NEAREST)
     img.save(path)
 
-floors = {
-    "ANDAR_2": [f2_replica(), f2_ruina(), f2_complexo()],
-    "ANDAR_3": [f3_ninho(), f3_galeria(), f3_colmeia()],
-    "ANDAR_4": [f4_arena(), f4_sino(), f4_santuario()],
-}
-ok_all = True
-for floor, cands in floors.items():
-    for c in cands:
-        g = c["g"]
-        for tag in ("entry", "out", "boss"):
-            if c.get(tag):
-                x, y = c[tag]
-                g[y][x] = "."
-        seen = bfs(g, c["entry"])
-        target = c.get("out") or c.get("boss")
-        reach = target in seen
-        floor_tiles = sum(row.count(".") for row in g)
-        orphan = floor_tiles - len(seen)
-        ok = reach and orphan == 0
-        ok_all &= ok
-        render(c, f"{OUT}/{c['name']}.png")
-        print(f"{c['name']}: {c['size'][0]}x{c['size'][1]} tiles={floor_tiles} "
-              f"alvo_alcancavel={reach} orfaos={orphan} {'OK' if ok else 'FALHA'}")
-print("TODOS VALIDOS" if ok_all else ">>> FALHA EM ALGUM <<<")
 
-# montagem por andar
-try:
-    font = ImageFont.truetype("arial.ttf", 21)
-except OSError:
-    font = ImageFont.load_default()
-labels = {
-    "F2_A_divisoria": "2.1 A - piso -1 do Tibia: o 5 + bolso 1, divisoria ate a muralha sul",
-    "F2_fiel_ruina": "2.2 B - piso +1 (ESCOLHA DO JUNIOR, intocada): espiral retangular",
-    "F2_C_portao": "2.3 C - portao-pedagio: sala de 2 portas, unica ponte entre as metades",
-    "F3_ninho": "3.1 NINHO - camaras-ovo organicas ligadas por tubos",
-    "F3_galeria": "3.2 GALERIA INUNDADA - aguas profundas recortando o piso, 4 vaus",
-    "F3_colmeia": "3.3 COLMEIA - celulas em treliça hexagonal, loops por toda parte",
-    "F4_arena": "4.1 ARENA - circulo classico, anel de 8 pilares, posto do boss no centro",
-    "F4_sino": "4.2 SINO - camara-sino de agua-viva, colunas-tentaculo, boss no foco",
-    "F4_santuario": "4.3 SANTUARIO - salao com colunatas, presbiterio elevado, boss no altar",
-}
-for floor, cands in floors.items():
-    imgs = [(labels[c["name"]], Image.open(f"{OUT}/{c['name']}.png")) for c in cands]
-    W = max(im.width for _, im in imgs) + 40
-    header = 38
-    H = sum(im.height + header + 16 for _, im in imgs) + 16
-    canvas = Image.new("RGB", (W, H), (16, 14, 12))
-    d = ImageDraw.Draw(canvas)
-    y = 16
-    d.text((20, y), "", font=font)
-    for t, im in imgs:
-        d.text((20, y), t, fill=(225, 215, 200), font=font)
-        y += header
-        canvas.paste(im, ((W - im.width) // 2, y))
-        y += im.height + 16
-    canvas.save(f"{OUT}/{floor}.png")
-    print(f"montagem {floor}.png: {canvas.size}")
+def main():
+    floors = {
+        "ANDAR_2": [f2_replica(), f2_ruina(), f2_complexo()],
+        "ANDAR_3": [f3_ninho(), f3_galeria(), f3_colmeia()],
+        "ANDAR_4": [f4_arena(), f4_sino(), f4_santuario()],
+    }
+    ok_all = True
+    for floor, cands in floors.items():
+        for c in cands:
+            g = c["g"]
+            for tag in ("entry", "out", "boss"):
+                if c.get(tag):
+                    x, y = c[tag]
+                    g[y][x] = "."
+            seen = bfs(g, c["entry"])
+            target = c.get("out") or c.get("boss")
+            reach = target in seen
+            floor_tiles = sum(row.count(".") for row in g)
+            orphan = floor_tiles - len(seen)
+            ok = reach and orphan == 0
+            ok_all &= ok
+            render(c, f"{OUT}/{c['name']}.png")
+            print(f"{c['name']}: {c['size'][0]}x{c['size'][1]} tiles={floor_tiles} "
+                  f"alvo_alcancavel={reach} orfaos={orphan} {'OK' if ok else 'FALHA'}")
+    print("TODOS VALIDOS" if ok_all else ">>> FALHA EM ALGUM <<<")
+
+    # montagem por andar
+    try:
+        font = ImageFont.truetype("arial.ttf", 21)
+    except OSError:
+        font = ImageFont.load_default()
+    labels = {
+        "F2_A_divisoria": "2.1 A - piso -1 do Tibia: o 5 + bolso 1, divisoria ate a muralha sul",
+        "F2_fiel_ruina": "2.2 B - piso +1 (ESCOLHA DO JUNIOR, intocada): espiral retangular",
+        "F2_C_portao": "2.3 C - portao-pedagio: sala de 2 portas, unica ponte entre as metades",
+        "F3_ninho": "3.1 NINHO - camaras-ovo organicas ligadas por tubos",
+        "F3_galeria": "3.2 GALERIA INUNDADA - aguas profundas recortando o piso, 4 vaus",
+        "F3_colmeia": "3.3 COLMEIA - celulas em treliça hexagonal, loops por toda parte",
+        "F4_arena": "4.1 ARENA - circulo classico, anel de 8 pilares, posto do boss no centro",
+        "F4_sino": "4.2 SINO - camara-sino de agua-viva, colunas-tentaculo, boss no foco",
+        "F4_santuario": "4.3 SANTUARIO - salao com colunatas, presbiterio elevado, boss no altar",
+    }
+    for floor, cands in floors.items():
+        imgs = [(labels[c["name"]], Image.open(f"{OUT}/{c['name']}.png")) for c in cands]
+        W = max(im.width for _, im in imgs) + 40
+        header = 38
+        H = sum(im.height + header + 16 for _, im in imgs) + 16
+        canvas = Image.new("RGB", (W, H), (16, 14, 12))
+        d = ImageDraw.Draw(canvas)
+        y = 16
+        d.text((20, y), "", font=font)
+        for t, im in imgs:
+            d.text((20, y), t, fill=(225, 215, 200), font=font)
+            y += header
+            canvas.paste(im, ((W - im.width) // 2, y))
+            y += im.height + 16
+        canvas.save(f"{OUT}/{floor}.png")
+        print(f"montagem {floor}.png: {canvas.size}")
+
+
+if __name__ == "__main__":
+    main()

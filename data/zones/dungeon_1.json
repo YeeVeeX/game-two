@@ -288,6 +288,19 @@
       ],
       "type": "rope_spot",
       "requires_level": 8
+    },
+    {
+      "at": [
+        33,
+        25
+      ],
+      "to": "dungeon_2",
+      "spawn": [
+        29,
+        44
+      ],
+      "type": "stairs_down",
+      "requires_level": 8
     }
   ],
   "drop_gradient": [
