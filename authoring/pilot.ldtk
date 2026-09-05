@@ -61,7 +61,7 @@
         "inactiveOpacity": 0.45,
         "hideInList": false,
         "hideFieldsWhenInactive": false,
-        "canSelectWhenInactive": true,
+        "canSelectWhenInactive": false,
         "renderInWorldView": true,
         "pxOffsetX": 0,
         "pxOffsetY": 0,
@@ -96,7 +96,7 @@
         "guideGridWid": 0,
         "guideGridHei": 0,
         "displayOpacity": 1,
-        "inactiveOpacity": 1,
+        "inactiveOpacity": 0.5,
         "hideInList": false,
         "hideFieldsWhenInactive": true,
         "canSelectWhenInactive": true,
@@ -182,10 +182,12 @@
       {
         "identifier": "Station",
         "uid": 10,
-        "tags": [],
+        "tags": [
+          "structure"
+        ],
         "exportToToc": false,
         "allowOutOfBounds": false,
-        "doc": null,
+        "doc": "A station tile (bank / vat / altar / seal). One tile, one entity. `type` picks the kind; `price` is a KEY into data/balance, never a number; `opens` (seal only) names a Transition tile in THIS zone whose `sealed` is true; `line` is the stamp text (placeholder register).",
         "width": 32,
         "height": 32,
         "resizableX": false,
@@ -215,7 +217,7 @@
         "fieldDefs": [
           {
             "identifier": "type",
-            "doc": null,
+            "doc": "bank | vat | altar | seal",
             "__type": "String",
             "uid": 100,
             "type": "F_String",
@@ -252,7 +254,7 @@
           },
           {
             "identifier": "price",
-            "doc": null,
+            "doc": "a KEY into data/balance (e.g. breach_cost), never a number (data-driven law)",
             "__type": "String",
             "uid": 101,
             "type": "F_String",
@@ -289,7 +291,7 @@
           },
           {
             "identifier": "opens",
-            "doc": null,
+            "doc": "seal only: the Transition tile this seal opens -- same zone, and that Transition must carry sealed = true (seal gating law s34)",
             "__type": "Point",
             "uid": 102,
             "type": "F_Point",
@@ -297,7 +299,7 @@
             "canBeNull": true,
             "arrayMinLength": null,
             "arrayMaxLength": null,
-            "editorDisplayMode": "NameAndValue",
+            "editorDisplayMode": "PointStar",
             "editorDisplayScale": 1,
             "editorDisplayPos": "Center",
             "editorLinkStyle": "CurvedArrow",
@@ -326,7 +328,7 @@
           },
           {
             "identifier": "line",
-            "doc": null,
+            "doc": "stamp text shown when the seal pays out -- placeholder register only (TOLL PAID)",
             "__type": "String",
             "uid": 103,
             "type": "F_String",
@@ -366,10 +368,12 @@
       {
         "identifier": "Transition",
         "uid": 11,
-        "tags": [],
+        "tags": [
+          "structure"
+        ],
         "exportToToc": false,
         "allowOutOfBounds": false,
-        "doc": null,
+        "doc": "A crossing tile. `to` = target zone (bare rec-form name, must exist in the project or data/zones); `spawn` = the arrival cell IN THE TARGET zone (must be passable there -- the world-graph lint checks it). `type`: stairs_down / hole = one floor DOWN, stairs_up / rope_spot = one floor UP, empty = same-floor gate (floor deltas are lint law). rope_spot fires on interact; stairs and holes auto-fire on step. `sealed` needs a seal Station whose `opens` points here.",
         "width": 32,
         "height": 32,
         "resizableX": false,
@@ -399,7 +403,7 @@
         "fieldDefs": [
           {
             "identifier": "to",
-            "doc": null,
+            "doc": "target zone name, bare rec-form (^[a-z][a-z0-9_]*$); must exist in the project or data/zones -- the importer refuses unknown zones",
             "__type": "String",
             "uid": 110,
             "type": "F_String",
@@ -422,7 +426,7 @@
             "searchable": false,
             "min": null,
             "max": null,
-            "regex": null,
+            "regex": "/^[a-z][a-z0-9_]*$/g",
             "acceptFileTypes": null,
             "defaultOverride": null,
             "textLanguageMode": null,
@@ -436,7 +440,7 @@
           },
           {
             "identifier": "spawn",
-            "doc": null,
+            "doc": "arrival cell in the TARGET zone (its coordinates, not this zone's) -- must be passable there (world-graph lint)",
             "__type": "Point",
             "uid": 111,
             "type": "F_Point",
@@ -473,7 +477,7 @@
           },
           {
             "identifier": "sealed",
-            "doc": null,
+            "doc": "true = shut until a seal Station in this zone pays it open (its `opens` names this tile)",
             "__type": "Bool",
             "uid": 112,
             "type": "F_Bool",
@@ -510,7 +514,7 @@
           },
           {
             "identifier": "type",
-            "doc": null,
+            "doc": "stairs_down | hole (floor -1) · stairs_up | rope_spot (floor +1) · empty = same-floor gate. rope_spot = interact; others auto-fire",
             "__type": "String",
             "uid": 113,
             "type": "F_String",
@@ -547,7 +551,7 @@
           },
           {
             "identifier": "stairs_unlocked_by",
-            "doc": null,
+            "doc": "stairs only: the zone whose clear unlocks this shortcut (D4 law)",
             "__type": "String",
             "uid": 114,
             "type": "F_String",
@@ -584,7 +588,7 @@
           },
           {
             "identifier": "requires_defeats",
-            "doc": null,
+            "doc": "boss fact-gate: BOSS 1 defeats needed to cross (>= 1)",
             "__type": "Int",
             "uid": 115,
             "type": "F_Int",
@@ -621,7 +625,7 @@
           },
           {
             "identifier": "requires_level",
-            "doc": null,
+            "doc": "level fact-gate: pack level needed to cross (>= 1); returns are conventionally free",
             "__type": "Int",
             "uid": 116,
             "type": "F_Int",
@@ -661,10 +665,12 @@
       {
         "identifier": "PackSpawn",
         "uid": 12,
-        "tags": [],
+        "tags": [
+          "spawn"
+        ],
         "exportToToc": false,
         "allowOutOfBounds": false,
-        "doc": null,
+        "doc": "The pack's entry cells: at least 3, distinct, passable. `order` is the law -- array order is fragile; duplicates refuse at import.",
         "width": 32,
         "height": 32,
         "resizableX": false,
@@ -694,7 +700,7 @@
         "fieldDefs": [
           {
             "identifier": "order",
-            "doc": null,
+            "doc": "entry order (0, 1, 2 ...) -- the law; duplicates refuse at import",
             "__type": "Int",
             "uid": 120,
             "type": "F_Int",
@@ -734,10 +740,12 @@
       {
         "identifier": "EnemySpawn",
         "uid": 13,
-        "tags": [],
+        "tags": [
+          "spawn"
+        ],
         "exportToToc": false,
         "allowOutOfBounds": false,
-        "doc": null,
+        "doc": "A respawn cell. `kind` = a creature kit id from data/balance (stats live there, never here). Not allowed in a zone with `safe` = true.",
         "width": 32,
         "height": 32,
         "resizableX": false,
@@ -767,7 +775,7 @@
         "fieldDefs": [
           {
             "identifier": "kind",
-            "doc": null,
+            "doc": "creature kit id from data/balance (^[a-z][a-z0-9_]*$), e.g. rusher, husk",
             "__type": "String",
             "uid": 130,
             "type": "F_String",
@@ -790,7 +798,7 @@
             "searchable": false,
             "min": null,
             "max": null,
-            "regex": null,
+            "regex": "/^[a-z][a-z0-9_]*$/g",
             "acceptFileTypes": null,
             "defaultOverride": null,
             "textLanguageMode": null,
@@ -807,10 +815,12 @@
       {
         "identifier": "Region",
         "uid": 14,
-        "tags": [],
+        "tags": [
+          "region"
+        ],
         "exportToToc": false,
         "allowOutOfBounds": false,
-        "doc": null,
+        "doc": "A named rect DATA LAYER over the grid (may cover stations; size snaps to the grid). `id` unique per zone; `intent` = town / dungeon / guard. Presentation ambience rects live in the sidecar.",
         "width": 32,
         "height": 32,
         "resizableX": true,
@@ -840,7 +850,7 @@
         "fieldDefs": [
           {
             "identifier": "id",
-            "doc": null,
+            "doc": "unique per zone, bare rec-form (^[a-z][a-z0-9_]*$)",
             "__type": "String",
             "uid": 140,
             "type": "F_String",
@@ -863,7 +873,7 @@
             "searchable": false,
             "min": null,
             "max": null,
-            "regex": null,
+            "regex": "/^[a-z][a-z0-9_]*$/g",
             "acceptFileTypes": null,
             "defaultOverride": null,
             "textLanguageMode": null,
@@ -877,7 +887,7 @@
           },
           {
             "identifier": "intent",
-            "doc": null,
+            "doc": "town | dungeon | guard",
             "__type": "String",
             "uid": 141,
             "type": "F_String",
@@ -921,7 +931,7 @@
     "levelFields": [
       {
         "identifier": "display_name",
-        "doc": null,
+        "doc": "player-visible name -- placeholder law: ZONE N / HUB N / DUNGEON N / BASEMENT N only, no fiction names",
         "__type": "String",
         "uid": 200,
         "type": "F_String",
@@ -958,7 +968,7 @@
       },
       {
         "identifier": "floor",
-        "doc": null,
+        "doc": "signed Int, default 0; down = negative. Linked zones must differ by the transition type's delta (world-graph lint)",
         "__type": "Int",
         "uid": 201,
         "type": "F_Int",
@@ -995,7 +1005,7 @@
       },
       {
         "identifier": "hub",
-        "doc": null,
+        "doc": "home-hub flag -- LOAD-BEARING (mercy floor, rehoming hang off it); moving home is a design decision, never a map edit",
         "__type": "Bool",
         "uid": 202,
         "type": "F_Bool",
@@ -1032,7 +1042,7 @@
       },
       {
         "identifier": "safe",
-        "doc": null,
+        "doc": "sanctuary flag (B1): no EnemySpawn allowed in this zone",
         "__type": "Bool",
         "uid": 203,
         "type": "F_Bool",
