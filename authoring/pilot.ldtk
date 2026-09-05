@@ -33,12 +33,17 @@
   "imageExportMode": "None",
   "exportLevelBg": true,
   "pngFilePattern": null,
-  "backupOnSave": false,
+  "backupOnSave": true,
   "backupLimit": 10,
-  "backupRelPath": null,
+  "backupRelPath": "../tmp/ldtk-backups",
   "levelNamePattern": "%world_Level_%idx",
   "tutorialDesc": null,
-  "customCommands": [],
+  "customCommands": [
+    {
+      "command": "python ../tools/ldtk_aftersave.py ../authoring/pilot.ldtk",
+      "when": "AfterSave"
+    }
+  ],
   "flags": [],
   "defs": {
     "layers": [
