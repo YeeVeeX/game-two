@@ -150,12 +150,29 @@ free / re-price / retire) · sustain = LANDED (L14 stays untriggered)
 · depth probes FIRED on the owner seat. **Named for the v21 grill:**
 lane D vertical legibility · lane B growth-not-felt (both seats,
 10→13 in-session) · objective vacuum · C3 third-body debt
-re-anchored. Lane G (ambience) EXECUTES. **v21 proposal OPEN
-(Junior direction, FULL SEAT SYMMETRY, 2026-09-04): MUNDO VIVO** —
-plan + decisions D1–D9 for Gabriel's ratification:
-`drafts/_junior-mundo-vivo-plan-20260905.md`; work on branch
-`junior/mundo-vivo`, restore tag `restore/pre-mundo-vivo-20260904`.
-v19 record: CUMPLIDO — the EIGHTEENTH closed at 5/10 verdict
+re-anchored. Lane G (ambience) EXECUTED (FASE 2). **v21 MUNDO VIVO —
+LANDED ON MAIN 2026-09-05 (Junior direction, FULL SEAT SYMMETRY;
+merged `476ee32` after the full wall: 2 sweeps + 7 sentinels + 3 soaks
+green, suite 1419/0).** What the game is now: sprite art layer (atlas
+REPLACEABLE, quad fallback law) · living maps (`App::Ambience`, 13
+presets, tick-driven) · tile faces, grid OFF (D7) · 7 enemy primitives
+(spread/petrify/blink/charge/beam/poison/aura) · boss block (BOSS 1
+byte-identical; BOSS 2 + BOSS 4 phased) · **the world graph: DESCENT
+(ZONE 2→3→5, BOSS 1 in the MUSGO vault) · MEDUSA TOWER (DUNGEON 1→4,
+Junior's Tibia patterns, forced loops 2.2–2.8×, BOSS 2) · BRASA
+(DUNGEON 5→7, ember family, BOSS 4)** · cap 21 · 20 zones · L9
+retired-seal migration (live saves load clean). Plan + decisions:
+`drafts/_junior-mundo-vivo-plan-20260905.md`; evidence
+`drafts/_junior-mundo-vivo-f{1..7}-*.md`; restore tag
+`restore/pre-mundo-vivo-20260904` (= `cf9a6a6`, pre-cycle) +
+`restore/post-mundo-vivo-20260905` (= the merge). **Gabriel's
+ratification owed (never nag):** plan D1–D9 (D1 has a number; D3/D5/D7
+executed on dev recommendation, reversible) · swap-spec 3 decisions ·
+totem COEXISTENCE word. **FASE 7 city = PROPOSAL ONLY**
+(`drafts/_junior-mundo-vivo-f7-city-proposal-20260905.md`; touches the
+live save — both peers decide). Named debts: `vat_economy` 2 HUD/volley
+rows + `aoe_specials challenge_reads` (re-author class) · basement_3
+(`pull`/`summon`) · D5 · `pool`. v19 record: CUMPLIDO — the EIGHTEENTH closed at 5/10 verdict
 + 10/10 addendum (K3 never fired, license FINAL), two named debts
 carried into v20 lanes: `drafts/_v19-fun-verify-verdict-20260828.md`;
 v19 foundation: `drafts/_v19-foundation-20260822.md`. This section is
