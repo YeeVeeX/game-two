@@ -456,7 +456,10 @@ module App
       # Ambient tint LAST over the whole map quad — a faint colored light
       # the zone sits in; actors draw after (untinted — W6, bodies anchor).
       if (amb = App::ZoneIdentity.ambient(map))
-        Gosu.draw_rect(0, 0, map.pixel_width, map.pixel_height,
+        # covers the whole view (the tileset now draws rock past the map's
+        # edge for pocket zones smaller than the window); same pixels where
+        # the map already filled the view.
+        Gosu.draw_rect(camera.x - ts * 2, camera.y - ts * 2, camera.view_w + ts * 4, camera.view_h + ts * 4,
                        color(amb[0, 3], amb[3]))
       end
     end
@@ -1195,7 +1198,10 @@ module App
       # pass 5: the crimson flash means HIT (hurt window only). A dodging
       # body (i-frames, not hurt) reads cool instead — "untouchable", not
       # "bleeding".
-      flash = c.faction == :pack && c.hurt? && (world.frame / 3).even?
+      # ...and it holds for the whole hurt window (no odd/even blink: the
+      # untinted hurt frame of a pale kit read WHITE on the even frames -
+      # tower2_run re-gate 2026-09-05; "never white" is the law, blinking is not)
+      flash = c.faction == :pack && c.hurt?
       if flash
         r, g, b = @display.fetch(:art_hurt_tint_rgb, [235, 40, 40])
       elsif c.faction == :pack && c.iframes? && !c.hurt?

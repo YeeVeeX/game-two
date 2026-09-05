@@ -28,7 +28,12 @@ module Game
 
     private
 
-    def clamp_x(v) = v.clamp(0.0, [@world_w - @view_w, 0].max.to_f)
-    def clamp_y(v) = v.clamp(0.0, [@world_h - @view_h, 0].max.to_f)
+    # A world SMALLER than the view is CENTERED (both bounds collapse to the
+    # same negative offset), never pinned to the top-left corner under the
+    # HUD (pocket zones, PREMIUM v22 pass 6 re-gate). Worlds larger than the
+    # view keep the exact previous clamp. Presentation only: the camera is
+    # excluded from the digest by law.
+    def clamp_x(v) = v.clamp([@world_w - @view_w, 0].min.to_f, [@world_w - @view_w, 0].max.to_f)
+    def clamp_y(v) = v.clamp([@world_h - @view_h, 0].min.to_f, [@world_h - @view_h, 0].max.to_f)
   end
 end

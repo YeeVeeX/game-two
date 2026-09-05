@@ -30,7 +30,12 @@ module Harness
         # never change a capture).
         strings = Core::Strings.new(data, locale: "en")
         bindings = Core::BindingMap.load(data, key_table: App::KEY_TABLE, local: false)
-        @renderer = App::Renderer.new(display: data["display"], strings:, bindings:)
+        # same presentation stack as the world scene (art / ambience / tiles):
+        # the menu reel judges the possession halo and the tiles too.
+        @renderer = App::Renderer.new(display: data["display"], strings:, bindings:,
+                                      art: App::Art::Registry.load(data),
+                                      ambience: App::Ambience.load(data, display: data["display"]),
+                                      tileset: App::Tileset.load(data, display: data["display"]))
         # J-6 volume rider: exercise the REAL optional sibling API in
         # noDevice mode when available. A missing/old library remains the
         # required rows-absent path; prefs stay temp/machine-local.

@@ -182,16 +182,28 @@ module App
     # Draws every visual cell that intersects the camera. `drained` swaps
     # the water tint (the geometry never changes — the drained pool is the
     # same shape in another color, exactly like the flat-run path).
+    # The world ends in ROCK, not in void: every visual cell the camera can
+    # see is drawn — cells outside the map are solid wall (their four
+    # corners are all out-of-bounds, so the full-mask wall piece), which is
+    # what a pocket zone smaller than the window needs (basement_1/2 are
+    # 512x448 in a 960x540 view: the void read as a broken render).
     def draw(map, registry, camera, drained: false, z: 0)
       ts = map.tile_size
       grid = cells(map, registry)
-      j0 = ((camera.y - ts) / ts).floor.clamp(0, map.rows)
-      j1 = ((camera.y + camera.view_h + ts) / ts).ceil.clamp(0, map.rows)
-      i0 = ((camera.x - ts) / ts).floor.clamp(0, map.cols)
-      i1 = ((camera.x + camera.view_w + ts) / ts).ceil.clamp(0, map.cols)
+      j0 = ((camera.y - ts * 2) / ts).floor
+      j1 = ((camera.y + camera.view_h + ts * 2) / ts).ceil
+      i0 = ((camera.x - ts * 2) / ts).floor
+      i1 = ((camera.x + camera.view_w + ts * 2) / ts).ceil
+      half = ts / 2
+      oob = oob_ref(map, nil)
       (j0..j1).each do |j|
-        row = grid[j]
+        row = j.between?(0, map.rows) ? grid[j] : nil
         (i0..i1).each do |i|
+          unless row && i.between?(0, map.cols)
+            img = image(oob, 15, App::TileVariants.pick(map.name.to_s, i, j, @variants))
+            img&.draw(i * ts - half, j * ts - half, z, 1, 1, tint(map, oob))
+            next
+          end
           px, py, pieces = row[i]
           pieces.each do |pc|
             img = image(pc.ref, pc.mask, pc.var)
