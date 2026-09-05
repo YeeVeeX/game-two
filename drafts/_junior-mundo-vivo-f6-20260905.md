@@ -121,8 +121,40 @@ chegada→escada; **ratio da volta forçada impresso e recusado se < 1.8**.
 | `rake map PROBES=1` | 21/21 · god-view mostra a torre redonda com a divisória (fiel ao shot) |
 | FASE 6.1 gates (cadeia) | `dungeon_fork` **GATE PASS** (manifest `seal_breached` FAIL = **esperado**: o selo foi aposentado — script owed re-author) · `multi_floor_descent` **GATE PASS + MANIFEST PASS** · zone8_crossing + soak: em curso |
 
+## Tickets 6.4 + 6.5 — `dungeon_3` (B espiral) + `dungeon_4` (C portão-pedágio, o FUNDO com BOSS 2) + cap →18
+
+Mesmo tool (`build_tower_floor.py 3` · `4` · `2 --down` · `3 --down`):
+a torre inteira está LIGADA — zone_7 hole → DUNGEON 1 (medusa) → `[33,25]`
+stairs (lvl 8) → DUNGEON 2 → `[33,22]` stairs (lvl 10) → DUNGEON 3 →
+`[34,27]` stairs (lvl 12) → **DUNGEON 4 = o fundo** (sem descida; a
+"escada" do padrão C vira piso comum). Voltas livres em toda escada.
+
+| Andar | Padrão | Volta forçada (real/Manhattan) | Fauna | Clear xp |
+|---|---|---|---|---|
+| DUNGEON 1 | medusa (serpente) | — | stinger 24 · warden 5 | 2010 |
+| DUNGEON 2 | A divisória | **59/27 = 2.19×** | stinger 8 · warden 4 · serpent_a 10 · serpent_b 5 | 2055 |
+| DUNGEON 3 | B espiral | **71/25 = 2.84×** | stinger 6 · warden 4 · serpent_a 8 · serpent_b 8 · serpent_c 4 | 2382 |
+| DUNGEON 4 | C portão-pedágio | **56/20 = 2.80×** | warden 4 · serpent_a 6 · serpent_b 8 · serpent_c 8 · **serpent_boss (BOSS 2)** @ `[25,13]` (a ponta mais longe da chegada, dist ≥ 40) | 2434 |
+
+**L6 monotônico no grão do clear** (2010 < 2055 < 2382 < 2434) e no grão
+do kind (tier ≤ n+1 por andar). **Cap 15 → 18** em três degraus (16/17/18
+riding 2/3/4, plano §6; `pacing_table.rb`: E(18) = 66640, ΔE(18) = 10960 ≈
+731 stingers ≈ 4.5 clears do andar 4). Rungs 8/10/12 monótonas, a primeira
+= a da fronteira (recorded: proposta ajustável pelos peers).
+
+**Testes (`tower_floor_test.rb`, 9):** a tabela FLOORS cobre os 3 andares
+— cada lei verificada em cada andar; + **o fundo tem BOSS 2 (3 fases) na
+ponta da volta e nenhuma escada adiante** + rungs monótonas. Pins: 17
+zonas, god-view com DUNGEON 1–4, edges ratificados 1↔2↔3↔4, pilot ZONES.
+
+| Prova | Resultado |
+|---|---|
+| Suite | **1406 runs, 57717 assertions, 0 failures** |
+| `rake map PROBES=1` | 21/21 · god-view: serpente → divisória → espiral → portão (os 3 desenhos do Junior, ordem que ele aprovou "A=2, B=3, C=4") |
+| Rule 2 + soak da torre | owed: `tower{2,3,4}_run` (tuner, ticket 6.2) + `rake soak ZONES=dungeon_2,dungeon_3,dungeon_4` |
+
 ## Fila da FASE 6
 
-6.2 sentinelas (tuner): musgo `floor3_run` + `tower2_run` · re-author `dungeon_fork` (selo aposentado) · 6.4 `dungeon_3` (B espiral, `--down` no 2, cap →17) · 6.5 `dungeon_4` (C portão + `serpent_boss`, cap →18) · 6.6
+6.2 sentinelas (tuner): musgo `floor3_run` + `tower2_run` · re-author `dungeon_fork` (selo aposentado) · 6.6
 `basement_3` · 6.7 BRASA (4 andares, `ember_*` + `ember_boss`, cap →21) ·
 6.8 D5 (palavra dos peers).

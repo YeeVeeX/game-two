@@ -1,0 +1,193 @@
+{
+  "palette": {
+    "floor": [
+      104,
+      104,
+      108
+    ],
+    "grid": [
+      87,
+      87,
+      92
+    ],
+    "wall": [
+      148,
+      49,
+      30
+    ],
+    "wall_inner": [
+      29,
+      22,
+      17
+    ],
+    "transition": [
+      235,
+      190,
+      90
+    ],
+    "station": [
+      190,
+      140,
+      60
+    ],
+    "station_seal": [
+      190,
+      140,
+      60
+    ],
+    "dirt": [
+      50,
+      39,
+      30
+    ],
+    "sand": [
+      76,
+      66,
+      47
+    ],
+    "grass": [
+      39,
+      59,
+      39
+    ],
+    "grass_b": [
+      34,
+      52,
+      34
+    ],
+    "grass_c": [
+      44,
+      66,
+      44
+    ],
+    "wood": [
+      82,
+      60,
+      35
+    ],
+    "water": [
+      15,
+      35,
+      44
+    ],
+    "moss": [
+      34,
+      64,
+      37
+    ],
+    "motif": "chip",
+    "motif_rgb": [
+      94,
+      94,
+      99
+    ],
+    "ambient_rgba": [
+      120,
+      90,
+      160,
+      12
+    ]
+  },
+  "tile_size": 32,
+  "gradient_anchor": [
+    27,
+    44
+  ],
+  "drop_gradient": [
+    [
+      0,
+      4.0
+    ],
+    [
+      23,
+      4.5
+    ],
+    [
+      47,
+      5.0
+    ]
+  ],
+  "decor": [
+    {
+      "kind": "ambience",
+      "at": [
+        24,
+        5
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        12,
+        11
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        37,
+        15
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        46,
+        20
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        47,
+        24
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        46,
+        30
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        43,
+        33
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        40,
+        41
+      ],
+      "preset": "torch_flicker"
+    }
+  ],
+  "ambience_regions": [
+    {
+      "id": "tower3_dust",
+      "rect": [
+        0,
+        0,
+        52,
+        52
+      ],
+      "intent": "dungeon",
+      "ambience": "dust_motes",
+      "ambience_density": 0.05,
+      "ambience_tiles": [
+        "."
+      ]
+    }
+  ]
+}

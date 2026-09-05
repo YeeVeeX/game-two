@@ -16,7 +16,13 @@ class TowerFloorTest < Minitest::Test
 
   FLOORS = {
     "dungeon_2" => { above: "dungeon_1", above_exit: [33, 25], door_up: [28, 44], stairs_down: [33, 22], req: 8,
-                     fauna: { stinger: 8, warden: 4, serpent_a: 10, serpent_b: 5 } }
+                     fauna: { stinger: 8, warden: 4, serpent_a: 10, serpent_b: 5 } },
+    "dungeon_3" => { above: "dungeon_2", above_exit: [33, 22], door_up: [26, 44], stairs_down: [34, 27], req: 10,
+                     fauna: { stinger: 6, warden: 4, serpent_a: 8, serpent_b: 8, serpent_c: 4 } },
+    # the FUNDO: the C pattern's stairs tile is BOSS 2's arena side — the
+    # tower ends here (no dungeon_5; the "stairs" tile stays a plain floor)
+    "dungeon_4" => { above: "dungeon_3", above_exit: [34, 27], door_up: [26, 44], stairs_down: [14, 36], req: 12,
+                     fauna: { warden: 4, serpent_a: 6, serpent_b: 8, serpent_c: 8, serpent_boss: 1 } }
   }.freeze
 
   def map(z) = Core::TileMap.new(DATA["zones/#{z}"])
@@ -125,7 +131,26 @@ class TowerFloorTest < Minitest::Test
     assert_equal "dungeon_2", w.zone_name, "…and the pack STAYS (the door did not fire back)"
   end
 
-  def test_cap_rides_the_floor
-    assert_equal 16, DATA["balance/progression"][:curve][:level_cap], "cap 15 -> 16 rides dungeon_2 (L5)"
+  def test_cap_rides_the_floors
+    assert_equal 18, DATA["balance/progression"][:curve][:level_cap],
+                 "cap 15 -> 18 rides the tower's three floors (plan §6: one step per floor, L5)"
+  end
+
+  def test_the_tower_bottom_holds_boss_2_and_no_further_stairs
+    m = map("dungeon_4")
+    assert_nil m.transitions.find { |t| t[:type] == "stairs_down" }, "the FUNDO has no way further down"
+    w = Game::World.new(DATA)
+    w.start_in("dungeon_4")
+    boss = w.humans.find { |h| h.kit_name == :serpent_boss }
+    refute_nil boss, "BOSS 2 guards the bottom"
+    assert boss.boss? && boss.boss_phase_count == 3
+    dist = bfs(m, m.pack_spawn.first)
+    assert_operator dist.fetch(boss.tile), :>=, 40, "BOSS 2 sits at the far end of the forced loop"
+  end
+
+  def test_the_frontier_and_tower_rungs_climb_monotonically
+    reqs = FLOORS.map { |z, f| f[:req] }
+    assert_equal reqs.sort, reqs, "8 -> 10 -> 12: deeper floors price higher"
+    assert_operator reqs.first, :>=, 8, "the tower's first rung is the frontier's (zone_8 rope = 8)"
   end
 end

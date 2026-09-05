@@ -291,6 +291,19 @@
         24
       ],
       "type": "stairs_up"
+    },
+    {
+      "at": [
+        33,
+        22
+      ],
+      "to": "dungeon_3",
+      "spawn": [
+        27,
+        44
+      ],
+      "type": "stairs_down",
+      "requires_level": 10
     }
   ],
   "drop_gradient": [

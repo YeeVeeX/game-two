@@ -74,10 +74,11 @@ class TileRegistryTest < Minitest::Test
   # MUNDO VIVO FASE 6.3 (2026-09-05): the tower descends — dungeon_1
   # (MEDUSA LOWER) <-> dungeon_2 (A divisória) is a ratified pair (level-8
   # gated down, free up); every new tower floor joins here as it lands.
-  INERT_ZONES = %w[grass_fixture zone_7 basement_1 basement_2 dungeon_1 dungeon_2].freeze
+  INERT_ZONES = %w[grass_fixture zone_7 basement_1 basement_2 dungeon_1 dungeon_2 dungeon_3 dungeon_4].freeze
   RATIFIED_EDGES = { "low_quay" => %w[zone_7], "zone_7" => %w[low_quay],
                      "dungeon_1" => %w[zone_8 dungeon_2], "zone_8" => %w[dungeon_1],
-                     "dungeon_2" => %w[dungeon_1] }.freeze
+                     "dungeon_2" => %w[dungeon_1 dungeon_3], "dungeon_3" => %w[dungeon_2 dungeon_4],
+                     "dungeon_4" => %w[dungeon_3] }.freeze
 
   def test_pilot_and_fixture_zones_stay_inert
     live = Dir["data/zones/*.json"].reject { |p| INERT_ZONES.include?(File.basename(p, ".json")) }
@@ -88,7 +89,7 @@ class TileRegistryTest < Minitest::Test
       assert_empty stray,
                    "#{path}: the live graph must not reach authored zones beyond the T5-ratified edge (D12)"
     end
-    pilot = %w[zone_7 basement_1 basement_2 dungeon_1 dungeon_2]
+    pilot = %w[zone_7 basement_1 basement_2 dungeon_1 dungeon_2 dungeon_3 dungeon_4]
     live_names = live.map { |p| File.basename(p, ".json") }
     pilot.each do |zone|
       targets = JSON.parse(File.read("data/zones/#{zone}.json")).fetch("transitions", []).map { |t| t["to"] }

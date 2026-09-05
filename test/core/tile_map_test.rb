@@ -513,9 +513,9 @@ class TileMapTest < Minitest::Test
     data = Core::DataStore.new("data")
     reg = Core::TileRegistry.new(data["tiles"])
     zones = data.keys.grep(%r{\Azones/})
-    assert_equal 15, zones.length # FASE 6.3: + dungeon_2 (the tower's floor 2)
+    assert_equal 17, zones.length # FASE 6.3-6.5: + dungeon_2/3/4 (the tower)
     v1 = %w[zones/camp zones/slow_door]
-    pilot = %w[zones/zone_7 zones/basement_1 zones/basement_2 zones/dungeon_1 zones/dungeon_2
+    pilot = %w[zones/zone_7 zones/basement_1 zones/basement_2 zones/dungeon_1 zones/dungeon_2 zones/dungeon_3 zones/dungeon_4
                zones/district zones/district_two zones/low_quay]
     zones.each do |key|
       map = Core::TileMap.new(data[key])
