@@ -207,6 +207,7 @@ module App
       # it, ledger beats at z=29-31 stay above everything).
       @controls_overlay.draw(world)
       draw_edge_pips(world)
+      draw_exit_arrows(world)
       draw_banner(world) if world.banner?
       draw_breach_line(world)
       draw_wipe_overlay(world) if world.states.current == :nest_respawn
@@ -453,6 +454,18 @@ module App
         # read, the frame carries the destination fact).
         if (kind = Renderer.threshold_kind(map, world.zone_maps[t[:to]]))
           draw_threshold_frame(tx, ty, ts, kind)
+        end
+        # PREMIUM v22 pass 8 SIGNAGE: an OPEN way BREATHES - a soft additive
+        # gold glow pulsing on a 90-frame cycle, phase per tile so a hub's
+        # exits do not blink in lockstep. Shut ways stay dark (the slab +
+        # seam already say "door, locked"). Tick-driven: world.frame only.
+        if @display.fetch(:exit_pulse, true) && !Renderer.way_locked?(world, world.zone_name, t)
+          ph = (world.frame + tx * 11 + ty * 7) % 90
+          k = ph < 45 ? ph / 45.0 : (90 - ph) / 45.0
+          gold_rgb = map.palette[:transition] || [235, 190, 90]
+          a = (@display.fetch(:exit_pulse_alpha, 120) * (0.55 + 0.45 * k)).round
+          @light.glow_at(tx * ts + ts / 2, ty * ts + ts / 2, 0.6 + 0.3 * k, a, gold_rgb)
+          @light.glow_at(tx * ts + ts / 2, ty * ts + ts / 2, 0.28 + 0.1 * k, (a * 0.9).round, [255, 240, 200])
         end
       end
       # Ambient tint LAST over the whole map quad — a faint colored light
@@ -1592,6 +1605,63 @@ module App
 
     # Living off-screen kin show as kit-colored pips clamped to the viewport
     # edge toward their true position — ally state is never invisible.
+    # PREMIUM v22 pass 8 SIGNAGE: every OPEN way that is OFF-SCREEN gets a
+    # small gold arrowhead clamped to the viewport edge, pointing at it (the
+    # ARPG "there is a door that way" grammar). Screen space, above the
+    # vignette, under the HUD plate (an arrow that would land under the plate
+    # slides below it). Kit pips (allies) are squares; the possession chevron
+    # points DOWN over a body; this is a gold arrowhead on the edge pointing
+    # OUT - three shapes, three meanings. Pure function of (camera, map).
+    def draw_exit_arrows(world)
+      return unless @display.fetch(:exit_arrows, true)
+      cam = world.camera(@local_seat)
+      map = world.map
+      ts = map.tile_size
+      vw = cam.view_w
+      vh = cam.view_h
+      m = @display.fetch(:exit_arrow_margin, 12)
+      bottom = vh - @display.fetch(:overlay_strip_height, 28) - m
+      cxs = vw / 2.0
+      cys = vh / 2.0
+      gold = color(map.palette[:transition] || [235, 190, 90])
+      edge = Gosu::Color.new(255, 30, 20, 12)
+      z = 18
+      shown = 0
+      map.transitions.each do |t|
+        break if shown >= @display.fetch(:exit_arrow_max, 4)
+        next if Renderer.way_locked?(world, world.zone_name, t)
+        tx, ty = t[:at]
+        sx = tx * ts + ts / 2.0 - cam.x
+        sy = ty * ts + ts / 2.0 - cam.y
+        next if sx.between?(0, vw) && sy.between?(0, vh) # on screen: the pulse carries it
+        dx = sx - cxs
+        dy = sy - cys
+        next if dx.zero? && dy.zero?
+        # ray from the view center to the inset rectangle boundary
+        kx = dx.zero? ? Float::INFINITY : ((dx.positive? ? vw - m : m) - cxs) / dx
+        ky = dy.zero? ? Float::INFINITY : ((dy.positive? ? bottom : m) - cys) / dy
+        k = [kx, ky].min
+        ax = cxs + dx * k
+        ay = cys + dy * k
+        # never under the HUD plate (top-left): slide below it
+        px, py, pw, ph = @display.fetch(:hud_plate_rect, [20, 8, 352, 108])
+        ay = py + ph + m if ax < px + pw + m && ay < py + ph + m
+        len = Math.sqrt(dx * dx + dy * dy)
+        ux = dx / len
+        uy = dy / len
+        tipx = ax + ux * 6
+        tipy = ay + uy * 6
+        bx = ax - ux * 6
+        by = ay - uy * 6
+        wx = -uy * 6
+        wy = ux * 6
+        Gosu.draw_triangle(tipx + ux * 2, tipy + uy * 2, edge, bx + wx * 1.4 - ux * 2, by + wy * 1.4 - uy * 2, edge,
+                           bx - wx * 1.4 - ux * 2, by - wy * 1.4 - uy * 2, edge, z)
+        Gosu.draw_triangle(tipx, tipy, gold, bx + wx, by + wy, gold, bx - wx, by - wy, gold, z)
+        shown += 1
+      end
+    end
+
     def draw_edge_pips(world)
       cam = world.camera(@local_seat)
       world.pack.living.each do |m|

@@ -96,6 +96,13 @@ module App
       end
     end
 
+    # One additive glow at a world point (exit pulses, later: pickups). scale
+    # 1.0 = 96px diameter blob; alpha 0..255. No-op when glows are off.
+    def glow_at(cx, cy, scale, alpha, rgb, z: 0)
+      return unless @enabled && @display.fetch(:light_glows, true)
+      glow_image.draw_rot(cx, cy, z, 0, 0.5, 0.5, scale, scale, Gosu::Color.new(alpha.clamp(0, 255), *rgb), :additive)
+    end
+
     # ---- screen space: vignette + level flash --------------------------------------
     def draw_screen(world, view_w, view_h)
       return unless @enabled

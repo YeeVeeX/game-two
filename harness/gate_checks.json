@@ -336,6 +336,10 @@
     {
       "id": "boss_phase_pips_read",
       "check": "Where a boss NAMEPLATE (cream BOSS N text with a dark halo, above a body) is on camera: small rust squares sit under the name, one per phase, exactly one filled — the fight arc reads at body scale. A body without a nameplate is not a boss (pink/red-flashing hostiles are hurt bodies). If no nameplated boss is present, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "exit_signage_reads",
+      "check": "Ways out are SIGNPOSTED: an open door/hole/stairs tile on camera carries a soft gold glow that breathes (never on a shut, dark-slab way); an open way OFF camera is announced by a small gold ARROWHEAD clamped to the viewport edge pointing toward it (up to four). The arrowhead is a triangle on the screen edge - not a square (ally edge pips are kit-colored squares), not the gold chevron that points DOWN over the possessed body, not a world-anchored gem. If the reel shows no zone with an off-screen open way, judge only the glow; if no transition tile is ever on camera either, pass with why='not exercised by this script'."
     }
   ]
 }
