@@ -41,7 +41,9 @@
       "int_grid": 6,
       "render": "water",
       "footstep": "water",
-      "passability": "floor"
+      "passability": "floor",
+      "ambience": "water_shimmer",
+      "ambience_density": 0.6
     },
     "wall_inner": {
       "char": "%",

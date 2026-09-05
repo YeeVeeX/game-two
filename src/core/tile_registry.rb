@@ -24,7 +24,9 @@ module Core
     class BadRegistry < StandardError; end
 
     REQUIRED_TYPE_KEYS = %w[char int_grid render footstep passability].freeze
-    OPTIONAL_TYPE_KEYS = %w[variants].freeze
+    # ambience / ambience_density (MUNDO VIVO FASE 2): presentation-only
+    # keys — App::Ambience reads them, the sim never does (SAFE-class).
+    OPTIONAL_TYPE_KEYS = %w[variants ambience ambience_density].freeze
     RESERVED_TYPE_KEYS = %w[hooks].freeze
     PASSABILITIES = %w[wall floor].freeze
     WALL_CHARS = Core::TileMap::WALL_CHARS

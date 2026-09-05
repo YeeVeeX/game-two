@@ -55,7 +55,11 @@ module Tools
     }.freeze
 
     SIDECAR_REQUIRED = %w[palette tile_size].freeze
-    SIDECAR_OPTIONAL = %w[drop_gradient gradient_anchor water_drained_by decor].freeze
+    # ambience_regions (MUNDO VIVO FASE 2): presentation-only named rects
+    # ({id, rect, intent, ambience, ambience_density, ambience_tiles}) the
+    # sidecar appends AFTER the LDtk Region entities — same D2 charter as
+    # decor (LDtk owns spatial truth; the sidecar owns how it LOOKS).
+    SIDECAR_OPTIONAL = %w[drop_gradient gradient_anchor water_drained_by decor ambience_regions].freeze
 
     # registry: Core::TileRegistry (IntGrid value -> glyph mapping, D7).
     # sidecars: { zone_name => Hash } (plain JSON.parse, string keys).
@@ -377,7 +381,8 @@ module Tools
       # landmarks, and emissions are never hand-edited).
       out["decor"] = sidecar["decor"] if sidecar.key?("decor")
       out["water_drained_by"] = sidecar["water_drained_by"] if sidecar.key?("water_drained_by")
-      out["regions"] = ents[:regions] unless ents[:regions].empty?
+      regions = ents[:regions] + Array(sidecar["ambience_regions"])
+      out["regions"] = regions unless regions.empty?
       out
     end
 

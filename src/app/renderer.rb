@@ -1,3 +1,4 @@
+require "app/ambience"
 require "app/art"
 require "app/controls_overlay"
 require "app/kill_pop"
@@ -91,9 +92,12 @@ module App
     # precedent) — the fetch defaults only keep a bare Renderer.new drawable.
     # strings: Core::Strings resolver (v13 i18n) — RENDER-time only; the
     # harness constructs it pinned to "en" (replay comparability law).
-    def initialize(display: {}, strings: nil, bindings: nil, local_seat: 1, art: nil)
+    def initialize(display: {}, strings: nil, bindings: nil, local_seat: 1, art: nil, ambience: nil)
       @display = display
       @strings = strings
+      # MUNDO VIVO FASE 2: animated ambient layers (App::Ambience::Scene);
+      # nil = none. display.json `ambience: false` is honored inside it.
+      @ambience = ambience
       # MUNDO VIVO FASE 1: sprite registry (App::Art). nil or a kit without
       # an atlas → the legacy quad (fallback law). display.json
       # `art_enabled: false` forces quads everywhere (debug/perf switch).
@@ -355,6 +359,10 @@ module App
         x, y, w, h, rgb, a = rect
         Gosu.draw_rect(x, y, w, h, color(rgb, a))
       end
+      # FASE 2: living layer — over floor/decor, under gates, actors and
+      # the ambient tint (the tint colors it like everything else). Tick-
+      # driven: every value derives from world.frame (see App::Ambience).
+      @ambience&.draw(world, camera, world.tile_registry)
       map.transitions.each do |t|
         tx, ty = t[:at]
         if Renderer.way_locked?(world, world.zone_name, t)

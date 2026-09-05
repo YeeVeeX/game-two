@@ -39,8 +39,8 @@ module App
         y = d.fetch(:at)[1] * ts
         w = d.fetch(:w, 1) * ts
         h = d.fetch(:h, 1) * ts
-        rgb = d.fetch(:rgb)
-        alpha = d.fetch(:alpha)
+        rgb = d.fetch(:rgb, nil)     # ambience points carry a preset, not a color
+        alpha = d.fetch(:alpha, nil)
         case d[:kind]
         when "stain"
           [[x, y, w, h, rgb, alpha]]
@@ -52,6 +52,10 @@ module App
         when "edge"
           # A thin lip highlight along the tile-row top: silhouette, not bar.
           [[x, y, w, 2, rgb, alpha]]
+        when "ambience"
+          # FASE 2: an animated point source (torch, vent, fire) — drawn by
+          # App::Ambience each frame, nothing static here.
+          []
         else
           raise ArgumentError, "unknown decor kind #{d[:kind]}"
         end

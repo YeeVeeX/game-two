@@ -101,5 +101,42 @@
   "gradient_anchor": [
     1,
     22
+  ],
+  "ambience_regions": [
+    {
+      "id": "submerged_plain",
+      "rect": [
+        0,
+        0,
+        88,
+        44
+      ],
+      "intent": "dungeon",
+      "ambience": "bubbles",
+      "ambience_density": 0.1,
+      "ambience_tiles": [
+        ".",
+        "s",
+        "g",
+        ",",
+        "w"
+      ]
+    },
+    {
+      "id": "reef_drips",
+      "rect": [
+        8,
+        2,
+        12,
+        8
+      ],
+      "intent": "dungeon",
+      "ambience": "drips",
+      "ambience_density": 0.3,
+      "ambience_tiles": [
+        ".",
+        "s"
+      ]
+    }
   ]
 }

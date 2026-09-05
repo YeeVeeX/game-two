@@ -103,7 +103,8 @@ module App
                        view_w: @view_width, view_h: @view_height)
       @renderer = Renderer.new(display: display, strings:, bindings: bindings,
                                local_seat: @session ? @session.seat : 1,
-                               art: App::Art::Registry.load(data))
+                               art: App::Art::Registry.load(data),
+                               ambience: App::Ambience.load(data, display: display))
       @overruns = 0
       @overrun_font = Gosu::Font.new(14)
       # Lag P0 T1b: env-gated frame probe — nil when off, so every site

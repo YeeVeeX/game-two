@@ -17,6 +17,7 @@ require "core/tile_map"
 # the forest reads dark ground / pale treeline under the same laws.
 class ZoneIdentityDataTest < Minitest::Test
   DATA = Core::DataStore.new(File.expand_path("../../data", __dir__))
+  AMBIENCE_PRESETS = DATA["ambience"][:presets].keys.map(&:to_s).freeze
   ZONES = %w[nest district district_two camp slow_door low_quay
              zone_7 basement_1 basement_2 dungeon_1 zone_8].freeze
 
@@ -73,8 +74,15 @@ class ZoneIdentityDataTest < Minitest::Test
         h = d.fetch(:h, 1)
         assert tx >= 0 && ty >= 0 && tx + w <= map.cols && ty + h <= map.rows,
                "#{name}: decor #{d[:kind]} at #{d[:at]} spans off-map"
-        assert_equal 3, d[:rgb].length, "#{name}: decor rgb malformed"
-        assert d[:alpha].is_a?(Integer), "#{name}: decor alpha malformed"
+        if d[:kind] == "ambience"
+          # FASE 2 point source: carries a preset, not a color (App::Ambience
+          # animates it; the preset must exist or the point is dead data).
+          assert AMBIENCE_PRESETS.include?(d[:preset].to_s),
+                 "#{name}: decor ambience at #{d[:at]} names unknown preset #{d[:preset].inspect}"
+        else
+          assert_equal 3, d[:rgb].length, "#{name}: decor rgb malformed"
+          assert d[:alpha].is_a?(Integer), "#{name}: decor alpha malformed"
+        end
       end
     end
   end

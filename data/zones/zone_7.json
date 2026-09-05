@@ -207,6 +207,88 @@
     4,
     14
   ],
+  "decor": [
+    {
+      "kind": "ambience",
+      "at": [
+        22,
+        10
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        22,
+        13
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        22,
+        16
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        43,
+        10
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        43,
+        13
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        43,
+        16
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        25,
+        18
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        30,
+        18
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        36,
+        18
+      ],
+      "preset": "torch_flicker"
+    },
+    {
+      "kind": "ambience",
+      "at": [
+        41,
+        18
+      ],
+      "preset": "torch_flicker"
+    }
+  ],
   "water_drained_by": [
     33,
     14

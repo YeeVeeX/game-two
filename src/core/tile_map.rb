@@ -206,7 +206,13 @@ module Core
     end
 
     def normalize_region(r)
-      { id: r[:id], rect: r[:rect], intent: r[:intent] }
+      # ambience / ambience_density / ambience_tiles (FASE 2): presentation
+      # riders on the data layer — App::Ambience reads them, rules never do.
+      out = { id: r[:id], rect: r[:rect], intent: r[:intent] }
+      out[:ambience] = r[:ambience] if r[:ambience]
+      out[:ambience_density] = r[:ambience_density] if r[:ambience_density]
+      out[:ambience_tiles] = r[:ambience_tiles] if r[:ambience_tiles]
+      out
     end
 
     # T4 shape law: a drained-look link needs a legal tile AND the palette
