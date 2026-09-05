@@ -53,3 +53,17 @@ refinada ... não gosto desse quadro branco ... itens, inventário, equipamentos
   weak; 32 px faces are suggested, not drawn; the boss bar has no name string
   per form yet (BOSS N only).
 - Fresh-eyes review of the whole PREMIUM wave (Rule 6) = Gabriel's T0.
+
+## Junior's verdict (2026-09-05 19:07–19:33, human seat, scratch save tmp/junior_play.json)
+
+Session: 26 min in ZONE 7 (the city), 1 fight (292 kill-xp), 0 deaths, 0 potions,
+no dungeon entered (quay entries=0, d2 entered=0). Pack at close: Fio 38, Aro 70,
+Pomo 60. Asked "what was the session?" (numbered, his format), he answered **1:
+"Fiquei olhando — o visual me prendeu."** (the visual held me). Reading: the
+premium wave passed the only gate that matters; the city alone held 26 minutes.
+He has not yet SEEN the dungeons as a player (tower / BRASA are the richest
+surfaces: torches, lava, glows, cobras, braziers).
+
+Ticket 1 for tomorrow (his pick): FINE POLISH — ram (ember_a) facing down,
+lurker silhouette, 32 px faces; then open him INSIDE the tower / BRASA.
+
