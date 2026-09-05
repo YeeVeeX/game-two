@@ -110,3 +110,17 @@ data (drink 30% -> 45%, ring_min_adjacent 2 -> 1) so the acts happen EARLIER
 and more often. Ticket 3: density / lowhp-retarget tuning at level 15 (23
 retargets in 2 min hammers the wounded). Then a LONGER session (10 min+).
 
+## Junior's fourth session (19:55-19:59, brain ON locally + ally CALLOUTS d626550 + thresholds drink .45 / ring_min 1; reverted after)
+
+4 min (14398 frames), same start/route as session 3. Brain ON without callouts
+(2 min) -> brain ON with callouts + earlier thresholds (4 min): fights 5 -> 11 ·
+kill-xp 1230 -> 3440 · wipes 2 -> **0** · deaths 4 -> 1 (corpse recovered) ·
+ZONE 5: 39 s / 8 kills -> 74 s / 27 kills / 0 deaths · BOSS 1 defeated again ·
+Aro ring 2 -> **12 casts, 8 kills** · all three kits fired specials · flasks 3 ·
+banked 200 -> **451 (3 deposits)** · close: Fio 147, Aro 294, Pomo 110 - all alive.
+
+Dev reading: same brain, same route; the deltas are (a) the player SEES the
+allies act (callouts + HUD pulse) and plays with them, (b) the brain acts
+earlier (data). This is the A3 evidence pair the owner needs: brain OFF vs ON
+under the same player, and ON-silent vs ON-announced. His word: below.
+
