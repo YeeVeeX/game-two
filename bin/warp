@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# DEV WARP (owner order 2026-09-05): start the game in ANY zone at the level
+# cap, on a SCRATCH save (tmp/dev/world.json — regenerated every launch by
+# tools/dev_save.rb, strict-decode verified). The live save is never read
+# or written: Cli + main.rb refuse --start-zone on the persistence path.
+#
+#   bin/warp <zone> [locale] [level]      e.g.  bin/warp dungeon_4 es
+#   bin/warp                               lists the zones
+#
+# Log: /tmp/game_two_warp_<pid>.log — NOT game_two_session_* on purpose:
+# fun-verify harvests glob human session logs; a warp is dev inspection,
+# never fun evidence.
+cd "$(dirname "$0")/.." || exit 1
+export PATH="/c/Ruby34-x64/bin:$PATH"
+zone="$1"
+if [ -z "$zone" ]; then
+  echo "usage: bin/warp <zone> [locale] [level]"
+  echo "zones (internal name -> label):"
+  for f in data/zones/*.json; do
+    n=$(basename "$f" .json)
+    label=$(grep -o "\"zone\.$n\.display_name\": *\"[^\"]*\"" data/strings/en.json | sed 's/.*: *"\(.*\)"/\1/')
+    printf '  %-14s %s\n' "$n" "$label"
+  done
+  exit 2
+fi
+[ -f "data/zones/$zone.json" ] || { echo "unknown zone: $zone (bin/warp with no args lists them)"; exit 2; }
+[ -n "$2" ] && export GAME_LOCALE="$2"
+SAVE="tmp/dev/world.json"
+ruby -Isrc tools/dev_save.rb "$SAVE" ${3:+"$3"} || exit 1
+LOG="/tmp/game_two_warp_$$.log"
+echo "warp -> $zone (log: $LOG)"
+ruby -Isrc src/main.rb --save "$SAVE" --start-zone "$zone" > "$LOG" 2>&1
+code=$?
+if [ $code -ne 0 ]; then
+  echo "game exited with code $code — log: $LOG"
+  tail -20 "$LOG"
+fi
+exit $code

@@ -6,7 +6,7 @@ module App
   # precedent: the message reaches the person who typed the command).
   module Cli
     USAGE = "usage: bin/play [locale] [--fresh | --host [port] | --join <ip[:port]>] " \
-            "[--save <path>] [--bot [seed] [--bot-ticks <n>] [--start-zone <zone>]] " \
+            "[--save <path>] [--bot [seed] [--bot-ticks <n>]] [--start-zone <zone>] " \
             "[--audio-smoke]".freeze
 
     # Exit-status seam (v17 SIXTEENTH support): the coop launchers relaunch
@@ -41,12 +41,15 @@ module App
       bot = extract_bot!(args)
       # Quality-flywheel lane 1 (2026-08-19): --start-zone begins the
       # session in a named zone (World#start_in, the harness primitive).
-      # BOT-GATED by law: on a human seat this would be a teleport cheat
-      # on the real save (the in-game map/teleport lane stays parked).
+      # The law: NEVER on the live save — a human start-zone there would
+      # be a teleport cheat on the real chain (the in-game map/teleport
+      # lane stays parked). Lawful carriers: --bot (soak; --save
+      # quarantined) or an explicit --save <scratch> (the DEV WARP, owner
+      # order 2026-09-05 — `bin/warp`; main.rb refuses the live path by
+      # name). A joiner never owns a save, so it carries the flag freely.
       # Both netplay seats must receive the SAME zone (lockstep identity;
       # run_soak.sh passes it to both by construction).
       start_zone = extract_value!(args, "--start-zone")
-      raise ArgumentError, "--start-zone needs --bot\n#{USAGE}" if start_zone && !bot
       # M5a: --audio-smoke is an order-free dev modifier — the audio bridge
       # plays its fixed cue choreography (ear-check tooling; sim untouched).
       smoke = !args.reject! { |a| a == "--audio-smoke" }.nil?
@@ -58,6 +61,7 @@ module App
       mods[:audio_smoke] = true if smoke
       if args.empty?
         require_bot_save!(mods)
+        require_start_zone_carrier!(mods)
         return { mode: :solo }.merge(mods)
       end
       case (flag = args.shift)
@@ -65,6 +69,7 @@ module App
         port = args.shift
         raise ArgumentError, "--host takes at most a port\n#{USAGE}" unless args.empty?
         require_bot_save!(mods)
+        require_start_zone_carrier!(mods)
         { mode: :host, port: port ? parse_port(port) : default_port }.merge(mods)
       when "--join"
         raise ArgumentError, "--fresh cannot join (no save custody)\n#{USAGE}" if fresh
@@ -119,6 +124,15 @@ module App
       raise ArgumentError,
             "--bot needs --save <path> in solo or --host mode " \
             "(a bot never touches the real save)\n#{USAGE}"
+    end
+
+    # Dev-warp refusal (save-owning seats only; the joiner keeps no save):
+    # a start zone rides a bot or a scratch save, never the live chain.
+    def require_start_zone_carrier!(mods)
+      return unless mods[:start_zone] && !mods[:bot] && !mods[:save]
+      raise ArgumentError,
+            "--start-zone needs --bot or --save <scratch path> " \
+            "(never the live save)\n#{USAGE}"
     end
 
     def parse_port(raw)

@@ -392,6 +392,13 @@ program (2026-08-16): placeholders + dictionary-word functional labels only.
 
 - `rake` — run all tests
 - `bin/play` (Git Bash) or `bin\play.cmd` (double-click / cmd) — launch the game
+- **Dev warp (owner order 2026-09-05):** `bin/warp <zone> [locale] [level]` / `bin\warp.cmd`
+  — start in ANY zone at the level cap on a SCRATCH save (`tmp/dev/world.json`, regenerated
+  per launch by `tools/dev_save.rb`: every seal open, BOSS 1 defeated, bank 9999, strict-
+  decode verified). No args = zone list. The live save is never read or written:
+  `--start-zone` on a human seat needs `--save <scratch>` (Cli) and refuses the persistence
+  path by name (main.rb). Warp logs are `game_two_warp_*` — outside the fun-verify harvest
+  glob; a warp is dev inspection, never fun evidence.
 - **Netplay (v17):** `bin/play [locale] --host [port]` / `bin/play [locale] --join
   <ip[:port]>` — lockstep co-op over Tailscale (port defaults from `data/netplay.json`;
   handshake refusal prints the differing field and exits nonzero). Esc = clean quit

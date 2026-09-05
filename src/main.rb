@@ -53,13 +53,20 @@ if (bot = opts&.dig(:bot))
                                  quit_tick: bot[:ticks] || App::Autopilot::DEFAULT_QUIT_TICK)
   puts autopilot.banner
 end
-# Quality-flywheel lane 1 (2026-08-19): bot-gated start zone (Cli refused
-# it without --bot). The line is soak-oracle surface: chain_check asserts
-# it per zoned episode on BOTH seats.
+# Quality-flywheel lane 1 (2026-08-19): start zone rides a bot or a scratch
+# save (Cli refused it bare). The line is soak-oracle surface: chain_check
+# asserts it per zoned episode on BOTH seats.
 start_zone = opts&.dig(:start_zone)
-puts "START_ZONE zone=#{start_zone}" if start_zone
 save_path = opts&.dig(:save)
 save_path = File.expand_path(save_path) if save_path
+# Dev-warp law (owner order 2026-09-05): a human start zone NEVER lands on
+# the live save — an explicit --save that resolves to the persistence path
+# is refused by name, pre-window (the bindings-error precedent).
+live_save = File.expand_path("../#{data['persistence'][:save_path]}", __dir__)
+if start_zone && autopilot.nil? && save_path == live_save
+  abort "--start-zone refuses the live save #{save_path} (point --save at a scratch file; bin/warp does)"
+end
+puts "START_ZONE zone=#{start_zone}" if start_zone
 
 # M5a: audio boots per contract §3 (engine + sink before the window; ONE
 # engine per process). Optional by law — absent library / bot seat = one

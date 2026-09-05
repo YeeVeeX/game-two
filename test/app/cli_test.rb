@@ -159,8 +159,9 @@ class CliTest < Minitest::Test
   end
 
   # Quality-flywheel lane 1 (2026-08-19): --start-zone is soak coverage
-  # tooling — bot-gated by law (a human start-zone would be a teleport
-  # cheat on the real save; the in-game map/teleport lane stays parked).
+  # tooling. The law is "never on the live save": it rides --bot or an
+  # explicit --save <scratch> (the dev warp, owner order 2026-09-05 —
+  # bin/warp); the in-game map/teleport lane stays parked.
   def test_start_zone_parses_with_bot
     assert_equal({ mode: :solo, save: "tmp/x.json", start_zone: "low_quay",
                    bot: { seed: 5, ticks: nil } },
@@ -174,9 +175,22 @@ class CliTest < Minitest::Test
     assert_equal "district", join[:start_zone]
   end
 
-  def test_start_zone_without_bot_refuses_named
+  def test_start_zone_without_bot_or_save_refuses_named
     err = assert_raises(ArgumentError) { parse("--start-zone", "district") }
-    assert_match(/--start-zone needs --bot/, err.message)
+    assert_match(/--start-zone needs --bot or --save/, err.message)
+    err = assert_raises(ArgumentError) { parse("--host", "--start-zone", "district") }
+    assert_match(/--start-zone needs --bot or --save/, err.message)
+  end
+
+  # The dev warp: a human seat on a SCRATCH save may start anywhere (solo
+  # or host); the joiner keeps no save, so it carries the flag freely.
+  def test_start_zone_parses_for_humans_on_a_scratch_save
+    assert_equal({ mode: :solo, save: "tmp/dev/world.json", start_zone: "dungeon_4" },
+                 parse("--save", "tmp/dev/world.json", "--start-zone", "dungeon_4"))
+    host = parse("--host", "--save", "tmp/dev/world.json", "--start-zone", "ember_3")
+    assert_equal({ mode: :host, port: DEFAULT, save: "tmp/dev/world.json", start_zone: "ember_3" }, host)
+    join = parse("--join", "1.2.3.4", "--start-zone", "ember_3")
+    assert_equal "ember_3", join[:start_zone]
   end
 
   def test_start_zone_needs_a_value
