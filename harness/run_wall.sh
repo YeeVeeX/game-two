@@ -30,6 +30,9 @@ for script in harness/scripts/*.json; do
   bundle exec rake manifest SCRIPT="$script" LOG="$log" 2>&1 | tee -a "$log"
   man_rc=${PIPESTATUS[0]}
   echo "=== $s gate_rc=$gate_rc manifest_rc=$man_rc ===" | tee -a "$log"
+  # Pin ledger (v22 prep): one row per script per sweep, written immediately so a
+  # sweep killed midway keeps the pins it earned. `rake pins` reads it back.
+  ruby harness/pins.rb record --script "$s" --tag "$TAG" --gate-rc "$gate_rc" --manifest-rc "$man_rc" 2>&1 | tee -a "$log"
   if [ "$gate_rc" -ne 0 ] || [ "$man_rc" -ne 0 ]; then
     fails="$fails $s"
   fi

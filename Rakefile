@@ -18,6 +18,11 @@ task :run do
   sh "ruby -Isrc src/main.rb"
 end
 
+desc "Wall pin ledger (v22 prep): per wall script, the last gate+manifest verdict and whether src/app, src/game or data/ moved since. Reads harness/pins.json (run_wall.sh writes it); never a gate."
+task :pins do
+  sh "ruby harness/pins.rb report"
+end
+
 desc "Deterministic replay + frame capture (Rule 2). SCRIPT=harness/scripts/<name>.json"
 task :capture do
   script = ENV.fetch("SCRIPT") { abort "Usage: rake capture SCRIPT=harness/scripts/<name>.json" }

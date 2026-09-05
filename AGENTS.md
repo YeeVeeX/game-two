@@ -11,10 +11,10 @@ hub chat and get RECORDED here or in the checkpoint.
 
 ## Scope contract (the #1 Kethral failure was ignoring this — it is enforced here)
 
-**One cycle lives in this file.** Previous cycles: `git log --follow -- AGENTS.md` +
-specs in `docs/superpowers/specs/`; verdict/telemetry narratives live in
-`drafts/`, never here. Session-by-session state: `docs/CHECKPOINT.md`
-(top entry = latest).
+**One cycle lives in `docs/CYCLE.md`** (pointer section below); specs in
+`docs/superpowers/specs/`; verdict/telemetry narratives live in `drafts/`,
+never here. Session-by-session state: `docs/CHECKPOINT.md` (top entry =
+latest; a CLAIMED line at ticket start).
 
 **STANDING OWNER ORDER (2026-08-16) — NO LORE IN THIS REPO.** All lore,
 fiction names, and creative writing are REMOVED from the project and repo
@@ -123,189 +123,40 @@ changes are still Rule-2 visual changes (wall + recalibration apply).
   wins on any disagreement).
 <!-- FAMILY-BLOCK END -->
 
-## Current cycle — v20 OPEN (the DESCENT cycle; RATIFIED-G 2026-08-28)
+## Current cycle — see `docs/CYCLE.md`
 
-**v20 = the content cycle.** Vision (ratified): "v19 made the
-characters grow into the world; v20 gives that growth somewhere to
-GO — a vertical geography of risk you descend on purpose, floors you
-fight to hold, a level band with real headroom, and the first zones
-the peers built together." Law of the cycle:
-`drafts/_v20-foundation-20260828.md` — 14 ledger rows + 4 council
-amendments (grilled live with the owner, s114; council pass:
-1 DeepSeek consult, all four adopted + owner-approved).
-**RATIFIED-G COMPLETE 2026-08-28** (verbatims in the foundation);
-RATIFIED-J async pending (his forest-first destination = the
-recorded lean at L2's own gated row; his L3 pick-or-pieces call
-open). Lane D is CLOSED author-ratified 3/3 (Junior verbatims:
-floor -1 2026-08-29 · floor -2 + floor -3 2026-08-30,
-`drafts/_junior-floor{2,3}-ratification-20260830.md`). **The
-NINETEENTH fun-verify — CLOSED 2026-09-04: CUMPLIDO WITH NAMED
-ITEMS** (declared s124 2026-08-30, coop ritual session 2026-08-31,
-10/10 answers byte-exact, fresh-session adjudication from Junior's
-seat s125; verdict `drafts/_v20-fun-verify-verdict-20260904.md`).
-**ALL FREEZES LIFTED** — sim numbers, zones, seams, oracle wording,
-instruments. Routes: free-verdict regression did NOT fire (no
-re-session owed) · totem = COEXISTENCE (owner word pending: keep
-free / re-price / retire) · sustain = LANDED (L14 stays untriggered)
-· depth probes FIRED on the owner seat. **Named for the v21 grill:**
-lane D vertical legibility · lane B growth-not-felt (both seats,
-10→13 in-session) · objective vacuum · C3 third-body debt
-re-anchored. Lane G (ambience) EXECUTED (FASE 2). **v21 MUNDO VIVO —
-LANDED ON MAIN 2026-09-05 (Junior direction, FULL SEAT SYMMETRY;
-merged `476ee32` after the full wall: 2 sweeps + 7 sentinels + 3 soaks
-green, suite 1419/0).** What the game is now: sprite art layer (atlas
-REPLACEABLE, quad fallback law) · living maps (`App::Ambience`, 13
-presets, tick-driven) · tile faces, grid OFF (D7) · 7 enemy primitives
-(spread/petrify/blink/charge/beam/poison/aura) · boss block (BOSS 1
-byte-identical; BOSS 2 + BOSS 4 phased) · **the world graph: DESCENT
-(ZONE 2→3→5, BOSS 1 in the MUSGO vault) · MEDUSA TOWER (DUNGEON 1→4,
-Junior's Tibia patterns, forced loops 2.2–2.8×, BOSS 2) · BRASA
-(DUNGEON 5→7, ember family, BOSS 4)** · cap 21 · 20 zones · L9
-retired-seal migration (live saves load clean). Plan + decisions:
-`drafts/_junior-mundo-vivo-plan-20260905.md`; evidence
-`drafts/_junior-mundo-vivo-f{1..7}-*.md`; restore tag
-`restore/pre-mundo-vivo-20260904` (= `cf9a6a6`, pre-cycle) +
-`restore/post-mundo-vivo-20260905` (= the merge). **Gabriel's
-ratification owed (never nag):** plan D1–D9 (D1 has a number; D3/D5/D7
-executed on dev recommendation, reversible) · swap-spec 3 decisions ·
-totem COEXISTENCE word. **FASE 7 city = PROPOSAL ONLY**
-(`drafts/_junior-mundo-vivo-f7-city-proposal-20260905.md`; touches the
-live save — both peers decide). Named debts: `vat_economy` 2 HUD/volley
-rows + `aoe_specials challenge_reads` (re-author class) · basement_3
-(`pull`/`summon`) · D5 · `pool`. v19 record: CUMPLIDO — the EIGHTEENTH closed at 5/10 verdict
-+ 10/10 addendum (K3 never fired, license FINAL), two named debts
-carried into v20 lanes: `drafts/_v19-fun-verify-verdict-20260828.md`;
-v19 foundation: `drafts/_v19-foundation-20260822.md`. This section is
-STATE; the foundation is law — on disagreement the foundation wins.
+**One cycle lives in `docs/CYCLE.md`** (STATE, rewritten each cycle; the
+cycle's foundation `drafts/_vNN-foundation-<date>.md` is LAW and wins on
+disagreement). Owner-pending items live there, never here. Previous cycles:
+`git log --follow -- docs/CYCLE.md AGENTS.md`; v20/v21 verbatim in
+`drafts/_v21-record-20260905.md`.
 
-**Spec + first-wave tickets (T1-T6):**
-`docs/superpowers/specs/2026-08-28-v20-descent-cycle.md`. Serial
-execution (owner method ruling s89), one ticket per fresh session,
-CLAIMED line at start, ANY seat executes (FULL SEAT SYMMETRY).
+## Standing programs + laws (cycle-independent; the linked doc is the source)
 
-**Lanes (staged; A→B→C→D serial, E anytime, F late-gated, G
-post-verdict):**
-
-1. **A — FLOOR 1 (first felt change):** ZONE 2 (district) rethemed
-   to Junior's v2b "two spaces + 4 bridges" as descent floor -1
-   (T1). Internal retheme is destination-independent; the descent
-   MOUTH stays on the camp→district edge — the forest-first
-   destination decision moves ONE transition row later (L2).
-2. **B — PROGRESSION + POTIONS IDENTITY:** staged cap 10→12 + k
-   re-price + `tools/pacing_table.rb` standing script (T2); potions =
-   the provisions system given its true identity + discoverability
-   (candidate 1 v1 + R-A2 strip escalation, full-wall re-pin priced;
-   T3 — lands BEFORE lane C by law).
-3. **C — TOTEM PILOT (first SIM delta; NINETEENTH's delta clock
-   starts here):** Junior's contested/cadenced heal totem at floor
-   -1's center, instrumented (totem-vs-potions telemetry,
-   pre-registered priced-flip condition), world.rb extraction rides
-   this ticket (T4).
-4. **D — FLOORS -2/-3 + BAND STEPS:** district_two + low_quay
-   rethemes (v3 MEDUSA grammar deepest — needs T5 second wall
-   class), new creature kinds with own kill_xp rows (deep pays
-   more), cap 13/15 unlock RIDING these floors.
-5. **E — DEBTS (small, anytime):** B4 mercy-floor data-only knob
-   (T6, verdict debt 1) · C3 stance-verb rung + flee/engage co-tune
-   (verdict debt 2, own re-session, second wave).
-6. **G — AMBIENCE (presentation, SAFE; recorded 2026-08-30):**
-   animated region ambience, underwater-first pilot on floor -2 —
-   peer direction (Junior) + owner concur, both verbatim in
-   `drafts/_junior-floor2-ratification-20260830.md` §2. Two laws
-   bind: tick-driven (never wall-clock) + affected wall manifests
-   re-pinned as NAMED ticket cost. Executes POST-verdict of the
-   NINETEENTH (data/zones sits in its freeze set).
-7. **F — LATE, GATED:** destination/HOME single-row decision (graph
-   drawing + save migration law L9 + cardinal sketch) · GM read-only
-   rung (stretch; offline factory is this cycle's answer) · city
-   start (deferred, blueprints keep banking).
-
-**Key cycle laws:** save-chain never a migration guinea pig (L9) ·
-world.rb extraction owed INTO the first touching ticket (L10, →T4) ·
-cap never outruns content (L5) · SIM-class one gated piece at a time
-· NINETEENTH fun-verify is delta-triggered (cadence reform; map
-rethemes are presentation+graph, named beside the totem's sim delta).
-
-**v19 riders carried:** E2 ping (with parked chat) · E3b
-turn-handling (re-decide post-J-5—owner picked FLAT s93) · E4 motif
-DORMANT · E5 audio increments on owner word · candidate 5 HUD
-reposition banked with uiux spec · J-5 art-depth-on-flat candidate
-banked.
-
-**The EIGHTEENTH ritual (v19's) — CLOSED CUMPLIDO 2026-08-28** (5/10
-verdict + 10/10 addendum, K3 never fired, license FINAL; two named
-debts → v20 lanes B4/C3): `drafts/_v19-fun-verify-verdict-20260828.md`
-— evidence + verbatim answers:
-`drafts/_v19-fun-verify-skeleton-20260826.md`. All freezes lifted,
-all quarantines spent. Bot-logs-never-fun-evidence: permanent law.
-R-A2 strip escalation: executing as v20 T3 (owner-ratified at the
-grill).
-
-**Standing program — quality flywheel** (owner-directed 2026-08-19;
-contract: `drafts/_quality-flywheel-plan-20260819.md`): soak
-zone-coverage · deterministic clips + self-eval critique · verified
-renderer/data fixes ONLY — **sampling-artifact law:** critics see ~4%
-of frames, so every critique claim is verified against code + exact
-frames (read the PNGs) before becoming a work item; sim-touching
-candidates route to their v20 lane. Audio tuning on owner ask.
-
-**Standing program — world-builder pipeline** (spec CLOSED:
-`docs/superpowers/specs/2026-08-19-world-builder-pipeline.md`; grill
-`drafts/_world-builder-grill-20260819.md`): the six-zone world is the
-game's INTRODUCTION ARC; expansion grows outward via LDtk → strict
-importer → zone JSON + hot-reload preview + floors + region layer +
-tile-type registry. **T1–T5 ALL SHIPPED** — ZONE 7 (town hub, THE
-WELL) + BASEMENT 1/2 + DUNGEON 1 authored and WIRED IN (tickets
-`drafts/_wb-t*-*.md`; T5 record `drafts/_wb-t5-wirein-20260821.md`).
-Live authoring laws:
-
-- **The world is JOINED**: low_quay [44,19] ↔ zone_7 [1,14]
-  (`requires_defeats: 1` outbound; the return is free); zone_7's deep
-  ways gate by pack level (s68): basement_1 at 4, basement_2 at 5,
-  dungeon_1 at 6 (composes with its seal) — returns free; dungeon_1's
-  far-east rope way [29,4] ↔ zone_8 [63,19] (s70 wire-in:
-  `requires_level: 8` outbound, the frontier rung; return = free v1
-  edge gate). **INERT law:** grass_fixture inbound-inert; zone_8's
-  intake debt is EXECUTED (s70 — record:
-  `drafts/_worldsmith-v0-intake-20260823.md` §Wire-in debt).
-- **Typed transitions**: rope = interact (gate-consent law),
-  holes/stairs auto-fire. **Seal GATING law** (s34, `abe04d6`): a
-  seal's `opens` must name a transition with TRUTHY `sealed` —
-  unsealed or `requires_defeats`-only targets refuse NAMED at zone
-  load (`drafts/_s34-seal-gating-20260821.md`).
-- **SAFE tile behaviors** (decorative variants, footstep materials,
-  region ambience) ship freely; **SIM-CLASS tile behaviors** (lava,
-  water, tile-gated spawns) route through their v19 lane, ONE gated
-  piece at a time. Live in-game god-mode editing stays a staged later
-  rung (E1 family).
-- First human crossing landed 2026-08-21 (Junior, his solo save:
-  `drafts/_junior-primeira-travessia-20260821.md`); the SHARED-save
-  crossing is still ahead.
-
-**Audio (M5a SHIPPED 2026-08-18 — standing law):** audio is a PURE
-SINK (never sim/saves/netplay), OPTIONAL at boot (absent/refused = one
-named line, game runs silent), owner originals only. Verdict:
-`drafts/_m5a-verdict-20260818.md`; asks 5–9 executed 2026-08-20
-(sources banked: `game-two-audio/handoff/audio-v12/`). Queued on owner
-word: stereo ambient stems + region-acoustics (library increments).
-
-**Owner-pending (never nag):** ear-checks of the audio-v12 batch (ride
-the next play session) · T3 footstep/bed renders (frozen cue-spec mail
-in the audio seat's inbox — water family needs a NEW mail) · coop S1
-invite (both seats READY) · the SHARED-save first crossing · the J-5
-spike call · the worldsmith v2 grill (post-verdict + J-T1 + its T26
-dossier — hub ruling s89; v0+v1 RATIFIED in its seat, zone_8 = its v0
-export live since s70; intake stays freeze-gated).
-
-**Seats:** Gabriel's hub session (this machine) + Junior's seat (his
-machine, pi since 2026-08-23 via the shared LiteLLM gateway — AGENTS.md
-auto-injects; CLAUDE.md stays a thin mirror for any stray Claude
-session). Working language English; player surfaces es-CR / pt-br.
-Junior's seat is a FULL PEER seat — code, design, creative direction,
-playtesting, CI — under the same laws as every seat: pull before push,
-hooks run the suite, gates block ships, handoffs via drafts/ +
-`swarmforge handoff validate`. His machine specifics + pt-br surfaces
-+ agent-session protocol: `docs/JUNIOR.md`.
+- **Quality flywheel** (`drafts/_quality-flywheel-plan-20260819.md`):
+  verified renderer/data fixes ONLY. **Sampling-artifact law:** critics see
+  ~4% of frames — verify every critique claim against code + the exact PNGs
+  before it becomes a work item; sim-touching candidates route to a lane.
+- **World-builder pipeline** (LDtk → strict importer → zone JSON): every law
+  is in `docs/MAP_EDITING.md` — §1 one lawful edit path per zone · §3
+  transitions + seal GATING + floor-delta lint · §4.1 normalizer · §4.2
+  AfterSave loop · §4.3 ergonomics · §4.4 `autoLayerTiles: null` · §4.5
+  GUI-safety (declared IntGrid values; 5 out-of-bounds `spawn` rows untouched
+  until WB-T7). WB-T6 record: `drafts/_wb-t6-ldtk-foundation-20260905.md`.
+  SAFE tile behaviors ship freely; SIM-class ones route through a lane, ONE
+  gated piece at a time.
+- **Audio (M5a):** a PURE SINK (never sim/saves/netplay), OPTIONAL at boot
+  (absent = one named line), owner originals only;
+  `drafts/_m5a-verdict-20260818.md`.
+- **Prose-number law (2026-09-05):** a number computable from a file is
+  computed or pointed at, never hardcoded — wall size = `ls harness/scripts
+  | wc -l`, frame size/anchor = `data/art/manifest.json`, verdict currency
+  = `rake pins`.
+- **Seats:** Gabriel's hub session + Junior's FULL PEER seat (pi via the
+  shared LiteLLM gateway; CLAUDE.md = thin mirror), same laws for both: pull
+  before push, hooks run the suite, gates block ships. Working language
+  English; player surfaces es-CR / pt-br. Junior's machine + protocol:
+  `docs/JUNIOR.md`.
 
 **OUT of scope — goes to PARKING_LOT.md, never to code:**
 always-online/server-authoritative world (named trigger recorded);
@@ -432,7 +283,9 @@ program (2026-08-16): placeholders + dictionary-word functional labels only.
   live in `harness/retired/` (out of the wall, preserved for their re-author sessions).
 - `harness/run_wall.sh [tag]` — full wall sweep: every script in `harness/scripts/`
   through gate + manifest, teed logs in `tmp/wall/`, nonzero exit if any script fails
-  (~5 min/script — run DETACHED, never under a bash-call timeout).
+  (~5 min/script — run DETACHED, never under a bash-call timeout). Each script's
+  verdict is recorded as a PIN (`harness/pins.json`); `rake pins` lists PINNED / STALE
+  (render or sim paths moved since) / FAILED / UNPINNED per script — a ledger, never a gate.
 - `rake gate SCRIPT=harness/scripts/<name>.json` — the BLOCKING Rule 2 gate: double replay +
   md5 compare + structured vision verdict (exit nonzero on any failure). `SKIP_CRITIC=1` runs
   the determinism half only (iteration aid, not a shippable pass). Optional `CHECKS=<file>`

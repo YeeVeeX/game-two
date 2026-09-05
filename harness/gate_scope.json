@@ -1,0 +1,48 @@
+{
+  "_doc": [
+    "Gate-checks SCOPE (v22 prep, s131). Binds two sources that must agree but had no test between them:",
+    "harness/gate_checks.json rows that read a SPECIFIC zone's surface, and the wall scripts (harness/scripts/*.json)",
+    "that stage a start zone (`start.zone`; absent = the world's HOME_ZONE). test/harness/gate_checks_audit_test.rb",
+    "enforces: every scoped id exists in gate_checks.json; every zone here exists in data/zones/; every scoped check",
+    "has at least one wall script starting in one of its zones; every wall start zone is read by a scoped check OR",
+    "is listed under unread_start_zones with a reason (exact both ways - a stale row fails, a new gap fails).",
+    "Zone-generic rows (HUD, telegraphs, corpses, zone_identity_reads...) are deliberately NOT scoped."
+  ],
+  "scope": {
+    "zones_distinct": ["nest", "district"],
+    "floor1_two_halves_read": ["district"],
+    "floor1_chasm_reads": ["district"],
+    "floor1_bridge_reads": ["district"],
+    "gradient_depth_reads": ["district"],
+    "deep_drop_band_reads": ["district"],
+    "totem_pulse_reads": ["district"],
+    "corpse_run_reads": ["nest", "district"],
+    "bank_station_reads": ["nest"],
+    "fixtures_distinct_read": ["nest"],
+    "tribute_beat_reads": ["nest"],
+    "judgment_reads": ["nest"],
+    "new_ground_reads": ["camp", "district_two"],
+    "safe_boundary_reads": ["camp", "zone_7"],
+    "flora_variants_read": ["grass_fixture"],
+    "wall_class_reads": ["wall_fixture"],
+    "seal_breach_reads": ["basement_2", "dungeon_1"],
+    "dungeon_1_abyss_reads": ["dungeon_1"],
+    "floor2_channel_reads": ["district_two"],
+    "floor2_fauna_reads": ["district_two"],
+    "floor2_plain_reads": ["district_two"],
+    "moss_fauna_reads": ["low_quay"],
+    "floor3_boss_march_reads": ["low_quay"],
+    "moss_vault_reads": ["low_quay"],
+    "challenger_tell_reads": ["low_quay"],
+    "seizure_reads": ["low_quay"],
+    "writ_frame_reads": ["low_quay"],
+    "tower_floor_reads": ["dungeon_2", "dungeon_3", "dungeon_4"],
+    "brasa_reads_as_fire": ["ember_1", "ember_2", "ember_3"],
+    "ground_telegraphs_read": ["ember_1", "ember_2", "ember_3", "dungeon_4"],
+    "boss_phase_pips_read": ["dungeon_4", "ember_3", "low_quay"]
+  },
+  "unread_start_zones": {
+    "basement_1": "BASEMENT 1 is staged by basement_pocket.json but no gate row reads its surface by name (only zone-generic rows judge it). Candidate gate row for the v22 art lane (A4); recorded 2026-09-05.",
+    "gate_fixture": "TEST 1 is a fixture zone: level_gate.json and menu_tour.json start here to stage SURFACES (level_gate_reads, menu_* rows), none of which names the zone - by design, the surfaces belong to every zone with a requires_level way."
+  }
+}

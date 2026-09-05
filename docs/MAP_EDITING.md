@@ -282,8 +282,10 @@ loop, screenshots in `drafts/_wb-t6-gui/`) was REFUSED by the importer
 
 Suite ~2 min (hooks, every commit) · one gate run ~5 min/script ·
 a NEW zone = wall script + gate rows + zone-identity row (~1 session,
-T1–T5 precedent) · broad visual moves owe a full-wall re-pin (~35
-scripts, ~3h detached) · spawn/difficulty moves post-verdict read
+T1–T5 precedent) · broad visual moves owe a full-wall re-pin (every
+script in `harness/scripts/` — count it with `ls harness/scripts | wc -l`,
+never quote a number; ~5 min/script detached; `rake pins` lists which
+scripts' verdicts predate a render/sim change) · spawn/difficulty moves post-verdict read
 against the ritual's routed rows first (R-D1/R-D2 lineage). Editing an
 importer-emission zone without the pipeline costs a red suite
 immediately — the table in §1 is the first thing to check, every time.
