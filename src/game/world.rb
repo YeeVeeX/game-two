@@ -36,7 +36,7 @@ module Game
       zone_entered possession_changed pack_wiped pack_respawned projectile_fired pack_mark_set
       drop_spawned drop_picked_up drop_decayed banked carried_lost taunted
       corpse_loaded corpse_looted fight_resolved
-      human_retargeted human_leashed human_respawned blinked
+      human_retargeted human_leashed human_respawned blinked poisoned
       inscribed banked_spent tribute_paid body_regrown body_dissolved mark_consumed vessel_kept
       provision_bought provision_used provision_refused totem_pulse
       seal_breached home_rehomed respawn_telegraphed
@@ -937,6 +937,11 @@ module Game
       if landed
         victim.stagger!(cfg[:stagger_frames]) if cfg[:stagger_frames]
         victim.interrupt_action! if cfg[:interrupt_windup]
+        if (ps = cfg[:poison]) && !victim.dead?
+          victim.poison!(ticks: ps[:ticks], dmg_per: ps[:dmg_per],
+                         interval_frames: ps[:interval_frames], by: attacker)
+          @bus.emit(:poisoned, attacker:, victim:)
+        end
       end
       emit_attack_hit(attacker, victim, landed)
     end

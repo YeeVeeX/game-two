@@ -65,6 +65,13 @@ module Game
       # `kit` view below. Inert (kit == @kit) for every kind without :boss.
       @boss_skill_index = 0
       @boss_kit_cache = {}
+      # MUNDO VIVO FASE 4.5 poison (spore family): a DOT — ticks_left ticks
+      # of dmg_per every interval frames. Inert for every kind never poisoned.
+      @poison_ticks = 0
+      @poison_dmg = 0
+      @poison_interval = 0
+      @poison_countdown = 0
+      @poison_by = nil
     end
 
     # The kit every reader sees. For a boss with phases, :attack is the
@@ -158,7 +165,9 @@ module Game
         ["retarget_cause", @retarget_cue_cause], ["retarget_frames", @retarget_cue_frames],
         ["home_x", @home_tile[0]], ["home_y", @home_tile[1]],
         ["blink_cooldown", @blink_cooldown],
-        ["boss_skill_index", @boss_skill_index]
+        ["boss_skill_index", @boss_skill_index],
+        ["poison_ticks", @poison_ticks], ["poison_dmg", @poison_dmg],
+        ["poison_countdown", @poison_countdown], ["poison_by", @poison_by&.name]
       ]
     end
     def action_hit!(victim)
@@ -180,6 +189,7 @@ module Game
       @retarget_cue_frames -= 1 if @retarget_cue_frames&.positive?
       @blink_cooldown -= 1 if @blink_cooldown.positive?
       @blink_flash -= 1 if @blink_flash.positive?
+      tick_poison
       if @taunt_frames.positive?
         @taunt_frames -= 1
         clear_taunt! if @taunt_frames.zero? || @taunted_by&.dead?
@@ -327,6 +337,38 @@ module Game
     # caller as passable + unoccupied), facing the target, then a cooldown
     # from kit[:blink][:cooldown_frames]. A presentation flash counter (never
     # digested) lets the renderer draw the departure/arrival tell.
+    # FASE 4.5 poison: applied by a landed hit whose cfg carries :poison
+    # {ticks, dmg_per, interval_frames}. Re-application REFRESHES (max of
+    # ticks, latest dmg) — never stacks. Damage bypasses i-frames and
+    # knockback (it is not a hit), but DEATH walks the same door as every
+    # hit: actor_died with the poisoner as killer (drops/xp/corpse laws hold).
+    def poison!(ticks:, dmg_per:, interval_frames:, by:)
+      @poison_ticks = [@poison_ticks, ticks].max
+      @poison_dmg = dmg_per
+      @poison_interval = interval_frames
+      @poison_countdown = interval_frames if @poison_countdown.zero?
+      @poison_by = by
+    end
+
+    def poisoned? = @poison_ticks.positive?
+    def poison_ticks = @poison_ticks
+
+    def tick_poison
+      return unless poisoned? && !dead?
+      @poison_countdown -= 1
+      return if @poison_countdown.positive?
+      @poison_countdown = @poison_interval
+      @poison_ticks -= 1
+      @hp = [@hp - @poison_dmg, 0].max
+      if dead?
+        @poison_ticks = 0
+        interrupt_action!
+        @bus.emit(:actor_died, actor: self, killer: @poison_by, faction: @faction)
+      else
+        @bus.emit(:damage_dealt, target: self, hp: @hp, attacker: @poison_by)
+      end
+    end
+
     def blink_ready? = !@kit[:blink].nil? && @blink_cooldown.zero? && @attack_state == :idle && !staggered? && !dead?
     def blink_flash? = @blink_flash.positive?
     def blink_cooldown = @blink_cooldown

@@ -672,6 +672,62 @@
      }
     ]
    }
+  },
+  "spore_a": {
+   "max_hp": 55,
+   "step_frames": 14,
+   "aggro_tiles": 7,
+   "respawn_frames": 1800,
+   "drop_table": [
+    2,
+    2,
+    3
+   ],
+   "attack": {
+    "damage": 8,
+    "windup_frames": 18,
+    "active_frames": 4,
+    "recovery_frames": 10,
+    "exhaust_frames": 84,
+    "arc": "arc3",
+    "poison": {
+     "ticks": 3,
+     "dmg_per": 4,
+     "interval_frames": 30
+    },
+    "knockback_tiles": 0,
+    "knockback_frames_per_tile": 5
+   },
+   "knockback_frames_per_tile": 5,
+   "interrupt_on_hit": true
+  },
+  "spore_b": {
+   "max_hp": 90,
+   "step_frames": 16,
+   "aggro_tiles": 7,
+   "respawn_frames": 2100,
+   "drop_table": [
+    2,
+    3,
+    3
+   ],
+   "attack": {
+    "damage": 10,
+    "windup_frames": 24,
+    "active_frames": 5,
+    "recovery_frames": 12,
+    "exhaust_frames": 110,
+    "arc": "ring",
+    "poison": {
+     "ticks": 4,
+     "dmg_per": 5,
+     "interval_frames": 30
+    },
+    "knockback_tiles": 1,
+    "knockback_frames_per_tile": 5
+   },
+   "knockback_frames_per_tile": 5,
+   "interrupt_on_hit": true
   }
  },
  "feel": {

@@ -35,6 +35,10 @@ module App
       # pack's ember ORANGE is lighter/yellower — critic-checked at gate.
       ember_a:      Gosu::Color.new(255, 210, 60, 30),
       ember_d:      Gosu::Color.new(255, 240, 90, 20),
+      # FASE 4.5 spore family (MUSGO, floor -3): yellow-green caps — the
+      # lurker is pale algae, spores are saturated fungus green
+      spore_a:      Gosu::Color.new(255, 150, 200, 70),
+      spore_b:      Gosu::Color.new(255, 110, 170, 60),
       serpent_boss: Gosu::Color.new(255, 150, 100, 220),
       ember_boss:   Gosu::Color.new(255, 255, 70, 20),
       # MUNDO VIVO FASE 4 serpent family (the tower): violet-grey — no other
@@ -968,6 +972,12 @@ module App
         sr, sg, sb = @display.fetch(:art_seized_tint_rgb, [120, 140, 230])
         r, g, b = r * sr / 255, g * sg / 255, b * sb / 255
       end
+      # FASE 4.5 poison: sick-green pulse (every other 6-frame window) —
+      # no other body state owns green; the DOT reads without a number.
+      if c.respond_to?(:poisoned?) && c.poisoned? && ((world.frame / 6) % 2).zero?
+        pr, pg, pb = @display.fetch(:art_poison_tint_rgb, [120, 235, 90])
+        r, g, b = r * pr / 255, g * pg / 255, b * pb / 255
+      end
       return nil if [r, g, b] == [255, 255, 255]
       Gosu::Color.new(255, r, g, b)
     end
@@ -975,7 +985,9 @@ module App
     def ally?(c, world) = c.faction == :pack && !c.equal?(world.possessed(@local_seat))
 
     def body_color(c, world)
-      if c.faction == :pack && c.iframes? && (world.frame / 3).even?
+      if c.respond_to?(:poisoned?) && c.poisoned? && ((world.frame / 6) % 2).zero?
+        Gosu::Color.new(255, *@display.fetch(:art_poison_tint_rgb, [120, 235, 90]))
+      elsif c.faction == :pack && c.iframes? && (world.frame / 3).even?
         PACK_HURT
       elsif c.faction == :human && c.hurt?
         HUMAN_HURT

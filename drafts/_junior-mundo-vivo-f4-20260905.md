@@ -139,7 +139,38 @@ dos irmãos (requisito §4.5). Boss final (BOSS 2) = FASE 5.
 (T1 + T4; `aura` e `pool` = próximos, precisam de loop de tick próprio +
 estado novo no digest). Suite **1388 runs, 0 failures**. world.rb 1740/1800.
 
+## Ticket 4.5 — `poison` (dano ao longo do tempo) · portadores: `spore_a` (T1), `spore_b` (T2) — a família do MUSGO (piso -3)
+
+- **`creature.rb`**: estado `poison_ticks/dmg/interval/countdown/by`;
+  `poison!` (re-aplicação REFRESCA — max(ticks), nunca acumula);
+  `tick_poison` em `tick_body` — o tick **atravessa i-frames e ignora
+  knockback** (não é um golpe) mas **a morte passa pela mesma porta**
+  (`actor_died` com o envenenador como killer → xp/drops/corpse pela lei
+  única). 4 campos no digest (`session_only` no save, como
+  iframes/hurt_frames).
+- **`world.rb`**: `apply_action_hit` aplica `cfg[:poison]` no acerto que
+  aterrissa + evento registrado **`:poisoned`**.
+- **Leitura visual própria:** pulso verde-doente no corpo envenenado
+  (janelas de 6 frames; sprite tint E quad fallback) — nenhum outro
+  estado de corpo é verde; o DOT lê sem número.
+- `combat.json`: `spore_a` hp 55 · arc3 dmg 8 · poison 3×4 a cada 30f ·
+  kill_xp **70** · `spore_b` hp 90 · ring dmg 10 kb 1 · poison 4×5/30f ·
+  kill_xp **95**. Arte: cogumelo fino (a) / capuz largo com anel de
+  esporos (b), verde-fungo saturado (o lurker é alga pálida).
+- **Economia do piso -3 (musgo A):** 14×spore_a + 9×spore_b + BOSS 1 =
+  **1955 xp/clear > 1780 do -2** (L6 "deep pays more" preservado — a
+  regressão interim do spec do swap deixa de existir).
+- **Teste `test/game/poison_test.rb` (5):** forma + gradiente L6 + clear
+  > -2 · **golpe envenena, tick passa pelos i-frames, DOT expira** ·
+  refresh sem stack · **morte por veneno = actor_died com killer =
+  envenenador** · digested e determinístico.
+
+**FASE 4 fechada nesta sessão: 6 primitivas** (`spread` `petrify` `blink`
+`charge` `beam` `poison`), 3 famílias servidas (serpent T1–T4, ember
+T1+T4, spore T1–T2). Suite **1398 runs, 0 failures**. world.rb 1745/1800.
+Ficam: `aura` `pool` `pull` `summon` (tick loop + estado próprio).
+
 ## Fila (ordem do plano FASE 0 §4)
 
-`aura` → `pool` (brasa; tick loop + digest) · `pull` → `summon` (basement) · `poison` (musgo) · D2 decide os
+`aura` → `pool` (brasa) · `pull` → `summon` (basement) · `pull` → `summon` (basement) · D2 decide os
 da dungeon 5. Bloco `boss` = FASE 5.

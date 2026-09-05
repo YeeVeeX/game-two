@@ -702,7 +702,10 @@ class SaveStateTest < Minitest::Test
       "retarget_cause" => :session_only, "retarget_frames" => :session_only,
       "home_x" => :session_only, "home_y" => :session_only,
       "blink_cooldown" => :session_only, # FASE 4.3: a beat clock, dies with the session like seize_cooldown
-      "boss_skill_index" => :session_only # FASE 5: rotation pointer; a boss re-enters at skill 0 (phase = f(hp) anyway)
+      "boss_skill_index" => :session_only, # FASE 5: rotation pointer; a boss re-enters at skill 0 (phase = f(hp) anyway)
+      # FASE 4.5 poison: a DOT in flight dies with the session (like iframes/hurt_frames)
+      "poison_ticks" => :session_only, "poison_dmg" => :session_only,
+      "poison_countdown" => :session_only, "poison_by" => :session_only
     },
     # Field records drop wholesale at the save boundary (decision 3c).
     "projectile" => :session_only_group, "impact" => :session_only_group,

@@ -57,6 +57,9 @@ KITS = {
     # FASE 5 bosses: the family color, saturated, with a crown accent (BOSS N = crown)
     "serpent_boss": (150, 100, 220),
     "ember_boss": (255, 70, 20),
+    # FASE 4.5 spore family (MUSGO): saturated fungus green (lurker is pale algae)
+    "spore_a": (150, 200, 70),
+    "spore_b": (110, 170, 60),
 }
 OUTLINE = (20, 14, 12)
 CORPSE_HUMAN, CORPSE_PACK = (175, 165, 145), (150, 80, 40)
@@ -215,6 +218,12 @@ def shape(kit, facing):
             acc = crown
         else:
             acc = crown | {(24, 12), (25, 13), (24, 21), (25, 20)}
+    elif kit == "spore_a":                     # small cap mushroom on a thin stem
+        body = ellipse(14, 10, 9, 6) | rect(12, 12, 15, 24)
+        acc = {(9, 8), (13, 6), (18, 9)} | ({(11, 26), (16, 26)} if facing != "up" else set())
+    elif kit == "spore_b":                     # broad heavy cap, squat stem, spore-dust ring
+        body = ellipse(14, 11, 12, 7) | rect(9, 14, 18, 25)
+        acc = {(6, 9), (10, 6), (14, 5), (18, 6), (22, 9)} | {(5, 26), (22, 26)}
     else:
         body, acc = rect(0, 0, 27, 27), set()
     acc = {p for p in acc if 0 <= p[0] < 28 and 0 <= p[1] < 28}

@@ -33,7 +33,8 @@ class StateDigestTest < Minitest::Test
                        taunted_by taunt_frames taunt_cause leash_frames
                        beachhead_waived pack_provoked
                        retarget_cause retarget_frames
-                       home_x home_y blink_cooldown boss_skill_index].freeze
+                       home_x home_y blink_cooldown boss_skill_index
+                       poison_ticks poison_dmg poison_countdown poison_by].freeze
   PROJECTILE_FIELDS = %w[owner tile_x tile_y dir_x dir_y damage knockback
                          range_left countdown done].freeze
   SCALARS = [Integer, Float, String, Symbol, NilClass, TrueClass, FalseClass].freeze
