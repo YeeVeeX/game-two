@@ -215,7 +215,7 @@
     },
     {
       "id": "challenger_tell_reads",
-      "check": "When the boss's (BOSS 1) chant is on camera, a deep-blue expanding hollow ring centers on ONE pale human and a small hollow blue square floats above exactly one pack vessel — the pair reads as 'he is calling THAT body', clearly distinct from the rust taunt square, the teal respawn tell, the red/yellow attack telegraph, the orange volley brackets, AND the small washed-out pale-blue retarget cue block (the chant family is deeper and more saturated, and body-scale rather than an 8px block). Wherever the boss himself is on camera, his small cream BOSS 1 nameplate above the body reads separated from the ground behind it by a thin dark halo — raw cream glyphs melting into pale walls fail. If no chant frame and no boss body is present, pass with why='not exercised by this script'."
+      "check": "When the boss's (BOSS 1) chant is on camera, a deep-blue expanding hollow ring centers on ONE pale human and a small hollow blue square floats above exactly one pack vessel — the pair reads as 'he is calling THAT body', clearly distinct from the rust taunt square, the teal respawn tell, the red/yellow attack telegraph, the orange volley brackets, AND the small washed-out pale-blue retarget cue block (the chant family is deeper and more saturated, and body-scale rather than an 8px block). Wherever the boss himself is on camera, his small cream BOSS 1 nameplate above the body reads separated from the ground behind it by a thin dark halo — raw cream glyphs melting into pale walls fail. The boss is identified ONLY by his cream BOSS 1 nameplate over a pale-bone human body — a pink or red-tinted mushroom/jellyfish body is a hurt-flashing hostile, never the boss. If no chant frame and no nameplated boss body is present, pass with why='not exercised by this script'."
     },
     {
       "id": "seizure_reads",
@@ -315,7 +315,7 @@
     },
     {
       "id": "floor3_boss_march_reads",
-      "check": "Where ZONE 5 (low_quay) frames show the boss (BOSS 1): he stands or advances on OPEN abyss-floor ground (the zone is his - no arena wall need be visible) with his small cream BOSS 1 nameplate legible against the dark ground, and in the frames after his engagement stamp the line BOSS 1 SPAWNED is legible in the banner slot. If no boss body or stamp frame is present, pass with why='not exercised by this script'."
+      "check": "Where ZONE 5 (low_quay, MUSGO: loam floor with dark-green moss, pale stone walls) frames show the boss (BOSS 1, a pale-bone human wearing the cream BOSS 1 nameplate): he holds the walled vault to the east and his nameplate reads separated from the moss by its dark halo; in the frames after his engagement stamp the line BOSS 1 SPAWNED is legible in the banner slot. Green mushroom bodies (even when flashing red from a hit) are spore hostiles, NOT the boss. If no nameplated boss body or stamp frame is present, pass with why='not exercised by this script'."
     },
     {
       "id": "moss_vault_reads",
@@ -335,7 +335,7 @@
     },
     {
       "id": "boss_phase_pips_read",
-      "check": "Where a boss nameplate (BOSS N) is on camera: small rust squares sit under the name, one per phase, exactly one filled — the fight arc reads at body scale. If no boss frame is present, pass with why='not exercised by this script'."
+      "check": "Where a boss NAMEPLATE (cream BOSS N text with a dark halo, above a body) is on camera: small rust squares sit under the name, one per phase, exactly one filled — the fight arc reads at body scale. A body without a nameplate is not a boss (pink/red-flashing hostiles are hurt bodies). If no nameplated boss is present, pass with why='not exercised by this script'."
     }
   ]
 }
