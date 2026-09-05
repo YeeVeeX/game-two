@@ -7,6 +7,7 @@ require "app/tile_art"
 require "app/tileset"
 require "app/hud"
 require "app/fx"
+require "app/light"
 require "app/tile_variants"
 require "app/writ"
 require "app/zone_identity"
@@ -140,10 +141,16 @@ module App
       # PREMIUM v22 pass 3: impact particles (hit sparks, death bursts,
       # footstep dust) — bus-fed, frame-keyed, presentation-only.
       @fx = App::Fx.new(display: @display, kit_body: KIT_BODY)
+      # PREMIUM v22 pass 4: fire glows, vignette, kill punch, level flash.
+      @light = App::Light.new(display: @display)
     end
 
     def draw(world)
       cam = world.camera(@local_seat)
+      # pass 4 kill punch: a 2-frame zoom about the view center wraps the
+      # whole world pass (screen-space layers below stay unscaled).
+      punch = @light.punch(world)
+      Gosu.scale(punch, punch, cam.view_w / 2.0, cam.view_h / 2.0) do
       Gosu.translate(world.feel.shake_x - cam.x, world.feel.shake_y - cam.y) do
         draw_map(world)
         draw_impacts(world)
@@ -180,7 +187,13 @@ module App
         draw_chant_rings(world)
         draw_mark(world)
         draw_station_ledger(world)
+        # pass 4: additive fire light over everything in the world pass
+        @light.draw_glows(world, cam, @ambience ? @ambience.sources(world.map, world.tile_registry) : [],
+                          world.map.tile_size)
       end
+      end
+      # pass 4: screen-space vignette + level flash, under the HUD
+      @light.draw_screen(world, cam.view_w, cam.view_h)
       draw_writ_veil(world)
       draw_hud(world)
       draw_safe_chip(world)

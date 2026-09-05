@@ -71,6 +71,10 @@ module Core
       validate!
     end
 
+    # zone flags (presentation reads these: vignette strength, safe chip)
+    def safe? = @safe
+    def hub? = @hub
+
     def passable?(tx, ty)
       return false if tx.negative? || ty.negative? || tx >= @cols || ty >= @rows
       !WALL_CHARS.include?(@grid[ty][tx])
