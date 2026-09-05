@@ -38,6 +38,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
+sys.dont_write_bytecode = True  # never litter tools/ with __pycache__ on every Ctrl+S
 sys.path.insert(0, str(HERE))
 import normalize_ldtk  # noqa: E402  (sibling module, stdlib-only)
 
