@@ -1110,9 +1110,14 @@ module App
     def sprite_tint(c, world)
       return nil unless @art
       r, g, b = 255, 255, 255
-      flash = c.faction == :pack && (c.iframes? || c.hurt?) && (world.frame / 3).even?
+      # pass 5: the crimson flash means HIT (hurt window only). A dodging
+      # body (i-frames, not hurt) reads cool instead — "untouchable", not
+      # "bleeding".
+      flash = c.faction == :pack && c.hurt? && (world.frame / 3).even?
       if flash
         r, g, b = @display.fetch(:art_hurt_tint_rgb, [235, 40, 40])
+      elsif c.faction == :pack && c.iframes? && !c.hurt?
+        r, g, b = @display.fetch(:art_dodge_tint_rgb, [190, 215, 255])
       elsif c.faction == :human && c.hurt?
         r, g, b = @display.fetch(:art_human_hurt_tint_rgb, [255, 120, 120])
       end

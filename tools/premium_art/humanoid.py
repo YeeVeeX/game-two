@@ -30,6 +30,15 @@ def pose(anim, i, T):
         p["scarf"] = 2
     elif anim == "hurt":
         p["body_dy"], p["squash"], p["blink"] = 1, 1, True
+    elif anim == "dodge":
+        # tuck: body drops 3px, torso compresses 2, head ducks; frame 1 leans
+        # further into the roll (legs together, arms in) — a ball, not a stance
+        p["body_dy"] = (3, 4)[i]
+        p["squash"] = (2, 2)[i]
+        p["blink"] = True
+        p["swing"] = 0
+        p["scarf"] = 2
+        p["tuck"] = (1, 2)[i]
     p["head_cy"] = 16 + p["body_dy"] - tall + slouch
     p["torso_top"] = p["head_cy"] + 5 + p["squash"]
     p["torso_h"] = 9 - p["squash"] + tall - slouch
@@ -43,8 +52,9 @@ def legs(cv, facing, P, T):
     leg = P["leg"]
     boot_h = 2
     h = max(3, FEET - boot_h - top + 1)
+    tuck = P.get("tuck", 0)
     if facing in ("down", "up"):
-        for side, x0 in ((-1, CX - 5), (1, CX + 1)):
+        for side, x0 in ((-1, CX - 5 + tuck), (1, CX + 1 - tuck)):  # tuck: legs together
             dy = 0
             dx = 0
             if leg is not None:
@@ -59,8 +69,8 @@ def legs(cv, facing, P, T):
         stride = 0
         if leg is not None:
             stride = (0, 2, 3, 0, -2, -3)[leg]
-        back_x = CX - 2 - stride
-        front_x = CX - 1 + stride
+        back_x = CX - 2 - stride + tuck
+        front_x = CX - 1 + stride - tuck
         cv.box(back_x, top, 4, h, "pants", 1)
         cv.box(back_x - 1, FEET - boot_h + 1, 5, boot_h, "boot", 1)
         cv.box(front_x, top, 4, h, "pants", 2)
@@ -145,7 +155,7 @@ def arms(cv, facing, P, T):
     top = P["torso_top"]
     mat = T.get("sleeve", T.get("torso", "cloth"))
     swing = P["swing"]
-    h = P["torso_h"] - 1
+    h = P["torso_h"] - 1 - P.get("tuck", 0)
     hand = "skin" if not T.get("gloves") else "leather"
     if facing in ("down", "up"):
         w = 11 + (2 if T.get("plate") else 0)
@@ -468,6 +478,8 @@ def staff(cv, facing, P, T, st, before):
 def weapon(cv, facing, P, T, before):
     w = T.get("weapon")
     st = P["wstate"]
+    if P.get("tuck"):
+        return  # the roll: no weapon out (arms in)
     if w == "blade":
         if (facing == "up") == before:
             blade(cv, facing, P, T, st)

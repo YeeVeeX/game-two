@@ -19,6 +19,8 @@ def fdir(facing):
 # JELLY: warden (pink medusa) and stinger (cyan dart)
 # --------------------------------------------------------------------------
 def jelly(cv, facing, anim, i, T):
+    if anim == "dodge":
+        anim, i = "idle", (0, 2)[i]
     dart = T.get("dart", False)
     m = "body"
     fx, fy = fdir(facing)
@@ -123,6 +125,8 @@ def jelly(cv, facing, anim, i, T):
 # LURKER: pale-green water memory - low, wide, ripples, two glowing eyes
 # --------------------------------------------------------------------------
 def lurker(cv, facing, anim, i, T):
+    if anim == "dodge":
+        anim, i = "idle", (0, 2)[i]
     m = "body"
     fx, fy = fdir(facing)
     cx, cy = CX, FEET - 6
@@ -216,6 +220,8 @@ def serpent_geo(facing, phase, big=False):
 
 
 def serpent(cv, facing, anim, i, T):
+    if anim == "dodge":
+        anim, i = "idle", (0, 2)[i]
     kind = T.get("kind", "a")
     big = T.get("big", False)
     m = "body"
@@ -322,6 +328,8 @@ def serpent(cv, facing, anim, i, T):
 # EMBER RAM (ember_a): low armored quadruped, lava seams, wedge head
 # --------------------------------------------------------------------------
 def ram(cv, facing, anim, i, T):
+    if anim == "dodge":
+        anim, i = "idle", (0, 2)[i]
     m = "body"
     fx, fy = fdir(facing)
     cx, cy = CX, FEET - 8
@@ -424,6 +432,8 @@ def ram(cv, facing, anim, i, T):
 # BRAZIER (ember_b, ember_boss): a walking cauldron of coals
 # --------------------------------------------------------------------------
 def brazier(cv, facing, anim, i, T):
+    if anim == "dodge":
+        anim, i = "idle", (0, 2)[i]
     boss = T.get("big", False)
     m = "body"
     fx, fy = fdir(facing)
@@ -494,6 +504,8 @@ def brazier(cv, facing, anim, i, T):
 # BEACON (ember_d): a tall stone pillar with one great eye
 # --------------------------------------------------------------------------
 def beacon(cv, facing, anim, i, T):
+    if anim == "dodge":
+        anim, i = "idle", (0, 2)[i]
     m = "body"
     fx, fy = fdir(facing)
     cx = CX
@@ -566,6 +578,8 @@ def beacon(cv, facing, anim, i, T):
 # MUSHROOM (spore_a thin dripping cap / spore_b broad colony)
 # --------------------------------------------------------------------------
 def mushroom(cv, facing, anim, i, T):
+    if anim == "dodge":
+        anim, i = "idle", (0, 2)[i]
     broad = T.get("broad", False)
     m = "cap"
     fx, fy = fdir(facing)

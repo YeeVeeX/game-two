@@ -63,7 +63,8 @@ class ArtRegistryTest < Minitest::Test
                  "diagonal resolves to the vertical axis (notch keeps the 8-way truth)"
     assert_equal :dead, b.anim_for(Fake.new([1, 0], :idle, false, true, false, false, :striker))
     assert_equal :hurt, b.anim_for(Fake.new([1, 0], :idle, false, false, true, false, :striker))
-    assert_equal :hurt, b.anim_for(Fake.new([1, 0], :idle, false, false, false, true, :striker))
+    assert_equal :dodge, b.anim_for(Fake.new([1, 0], :idle, false, false, false, true, :striker)),
+                 "i-frames without hurt = rolling, not recoiling (pass 5)"
     assert_equal :windup, b.anim_for(Fake.new([1, 0], :windup, true, false, false, false, :striker))
     assert_equal :active, b.anim_for(Fake.new([1, 0], :active, false, false, false, false, :striker))
     assert_equal :walk, b.anim_for(Fake.new([1, 0], :idle, true, false, false, false, :striker))

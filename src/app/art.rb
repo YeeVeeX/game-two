@@ -117,9 +117,14 @@ module App
 
       # Anim selection mirrors the renderer's state reads (dead > hurt >
       # attack windup/active > walk > idle). Pure: same inputs, same anim.
+      # pass 5: i-frames come ONLY from a dodge or a dash-special (Creature:
+      # take_hit never grants them), so i-frames without hurt = the body is
+      # ROLLING, not recoiling -> :dodge (falls back to idle in an atlas
+      # without the anim, by Atlas#frames' law).
       def anim_for(c)
         return :dead if c.dead?
-        return :hurt if c.hurt? || (c.respond_to?(:iframes?) && c.iframes?)
+        return :hurt if c.hurt?
+        return :dodge if c.respond_to?(:iframes?) && c.iframes?
         case c.attack_state
         when :windup then :windup
         when :active then :active

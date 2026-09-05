@@ -14,7 +14,7 @@
   "kits": {
     "striker": {
       "atlas": "art/atlas/striker.png",
-      "cols": 16,
+      "cols": 18,
       "rows": 4,
       "anims": {
         "idle": {
@@ -62,13 +62,20 @@
             15
           ],
           "frames_per_step": 1
+        },
+        "dodge": {
+          "frames": [
+            16,
+            17
+          ],
+          "frames_per_step": 3
         }
       },
-      "md5": "3e22b6261e69e25adfee048130502db5"
+      "md5": "1c7d6d183dbd0a1bf00efaa7650a5631"
     },
     "blocker": {
       "atlas": "art/atlas/blocker.png",
-      "cols": 16,
+      "cols": 18,
       "rows": 4,
       "anims": {
         "idle": {
@@ -116,13 +123,20 @@
             15
           ],
           "frames_per_step": 1
+        },
+        "dodge": {
+          "frames": [
+            16,
+            17
+          ],
+          "frames_per_step": 3
         }
       },
-      "md5": "f6db8efcc1b12fa97d661075fb9c1eba"
+      "md5": "37140b1f2abec6397f06810afa2e2f92"
     },
     "lobber": {
       "atlas": "art/atlas/lobber.png",
-      "cols": 16,
+      "cols": 18,
       "rows": 4,
       "anims": {
         "idle": {
@@ -170,13 +184,20 @@
             15
           ],
           "frames_per_step": 1
+        },
+        "dodge": {
+          "frames": [
+            16,
+            17
+          ],
+          "frames_per_step": 3
         }
       },
-      "md5": "67ac4f5593d91df08fc9661a4ca6b984"
+      "md5": "2234f17e41a016eeb4b276aa46b1308f"
     },
     "husk": {
       "atlas": "art/atlas/husk.png",
-      "cols": 16,
+      "cols": 18,
       "rows": 4,
       "anims": {
         "idle": {
@@ -224,13 +245,20 @@
             15
           ],
           "frames_per_step": 1
+        },
+        "dodge": {
+          "frames": [
+            16,
+            17
+          ],
+          "frames_per_step": 3
         }
       },
-      "md5": "2f9dd59031e52fa040abdc860c1c7f11"
+      "md5": "427d22c8a980f0d8c66a0e14c444ee55"
     },
     "rusher": {
       "atlas": "art/atlas/rusher.png",
-      "cols": 16,
+      "cols": 18,
       "rows": 4,
       "anims": {
         "idle": {
@@ -278,13 +306,20 @@
             15
           ],
           "frames_per_step": 1
+        },
+        "dodge": {
+          "frames": [
+            16,
+            17
+          ],
+          "frames_per_step": 3
         }
       },
-      "md5": "0ab09f4c965a8e9f1a786c2924d03e0e"
+      "md5": "d0288df44510d8b5492bda5ffa0d3a87"
     },
     "rusher_hater": {
       "atlas": "art/atlas/rusher_hater.png",
-      "cols": 16,
+      "cols": 18,
       "rows": 4,
       "anims": {
         "idle": {
@@ -332,13 +367,20 @@
             15
           ],
           "frames_per_step": 1
+        },
+        "dodge": {
+          "frames": [
+            16,
+            17
+          ],
+          "frames_per_step": 3
         }
       },
-      "md5": "fee447250d5b957d679fd3e33e21ac26"
+      "md5": "a99f2c6e089f91d057ca6e8b8124c2b8"
     },
     "challenger": {
       "atlas": "art/atlas/challenger.png",
-      "cols": 16,
+      "cols": 18,
       "rows": 4,
       "anims": {
         "idle": {
@@ -386,13 +428,20 @@
             15
           ],
           "frames_per_step": 1
+        },
+        "dodge": {
+          "frames": [
+            16,
+            17
+          ],
+          "frames_per_step": 3
         }
       },
-      "md5": "794650bd8ed74b20bf8afd4f82aa957b"
+      "md5": "4834e531982d73aab3721476051d96a6"
     },
     "warden": {
       "atlas": "art/atlas/warden.png",
-      "cols": 16,
+      "cols": 18,
       "rows": 4,
       "anims": {
         "idle": {
@@ -440,13 +489,20 @@
             15
           ],
           "frames_per_step": 1
+        },
+        "dodge": {
+          "frames": [
+            16,
+            17
+          ],
+          "frames_per_step": 3
         }
       },
-      "md5": "18188648574510f6b66028c886c5c674"
+      "md5": "70611d611561a3beb6c3380c2cefb8c4"
     },
     "stinger": {
       "atlas": "art/atlas/stinger.png",
-      "cols": 16,
+      "cols": 18,
       "rows": 4,
       "anims": {
         "idle": {
@@ -494,13 +550,20 @@
             15
           ],
           "frames_per_step": 1
+        },
+        "dodge": {
+          "frames": [
+            16,
+            17
+          ],
+          "frames_per_step": 3
         }
       },
-      "md5": "dd900066fa0ded5fc4947c0529df535c"
+      "md5": "3e2a15936a138594d4f4959e4f65857a"
     },
     "lurker": {
       "atlas": "art/atlas/lurker.png",
-      "cols": 16,
+      "cols": 18,
       "rows": 4,
       "anims": {
         "idle": {
@@ -548,13 +611,20 @@
             15
           ],
           "frames_per_step": 1
+        },
+        "dodge": {
+          "frames": [
+            16,
+            17
+          ],
+          "frames_per_step": 3
         }
       },
-      "md5": "dd5c16fba47f9e634c3cb7024bf9c1a4"
+      "md5": "e1e7173776bd6c04df009b4e5b9a9f4d"
     },
     "serpent_a": {
       "atlas": "art/atlas/serpent_a.png",
-      "cols": 16,
+      "cols": 18,
       "rows": 4,
       "anims": {
         "idle": {
@@ -602,13 +672,20 @@
             15
           ],
           "frames_per_step": 1
+        },
+        "dodge": {
+          "frames": [
+            16,
+            17
+          ],
+          "frames_per_step": 3
         }
       },
-      "md5": "a9fbb9b86cd44c7f2b8f57266bb82796"
+      "md5": "bc990e2049e3602101875fe30713fae7"
     },
     "serpent_b": {
       "atlas": "art/atlas/serpent_b.png",
-      "cols": 16,
+      "cols": 18,
       "rows": 4,
       "anims": {
         "idle": {
@@ -656,13 +733,20 @@
             15
           ],
           "frames_per_step": 1
+        },
+        "dodge": {
+          "frames": [
+            16,
+            17
+          ],
+          "frames_per_step": 3
         }
       },
-      "md5": "ecf31a6e919740f83e8ee302a8736550"
+      "md5": "921943d4c0eb7b6b4b2d87628ab7949d"
     },
     "serpent_c": {
       "atlas": "art/atlas/serpent_c.png",
-      "cols": 16,
+      "cols": 18,
       "rows": 4,
       "anims": {
         "idle": {
@@ -710,13 +794,20 @@
             15
           ],
           "frames_per_step": 1
+        },
+        "dodge": {
+          "frames": [
+            16,
+            17
+          ],
+          "frames_per_step": 3
         }
       },
-      "md5": "cf23b6eeab981fa8b5269166a93751d0"
+      "md5": "4f34a70880560990c1d1ebe44a5e28fb"
     },
     "serpent_boss": {
       "atlas": "art/atlas/serpent_boss.png",
-      "cols": 16,
+      "cols": 18,
       "rows": 4,
       "anims": {
         "idle": {
@@ -764,13 +855,20 @@
             15
           ],
           "frames_per_step": 1
+        },
+        "dodge": {
+          "frames": [
+            16,
+            17
+          ],
+          "frames_per_step": 3
         }
       },
-      "md5": "1d9be39a1e00389aff0c2eb743d34a7b"
+      "md5": "ffb5c9deb4233d72e7ede07ecf4e4247"
     },
     "ember_a": {
       "atlas": "art/atlas/ember_a.png",
-      "cols": 16,
+      "cols": 18,
       "rows": 4,
       "anims": {
         "idle": {
@@ -818,13 +916,20 @@
             15
           ],
           "frames_per_step": 1
+        },
+        "dodge": {
+          "frames": [
+            16,
+            17
+          ],
+          "frames_per_step": 3
         }
       },
-      "md5": "945db802e09797ce0405329be116f74c"
+      "md5": "2b400d2e03f7cca5301214259a52f898"
     },
     "ember_b": {
       "atlas": "art/atlas/ember_b.png",
-      "cols": 16,
+      "cols": 18,
       "rows": 4,
       "anims": {
         "idle": {
@@ -872,13 +977,20 @@
             15
           ],
           "frames_per_step": 1
+        },
+        "dodge": {
+          "frames": [
+            16,
+            17
+          ],
+          "frames_per_step": 3
         }
       },
-      "md5": "cb848b0d7994992c4b58018731080bc5"
+      "md5": "9dc7700ec6086b281f2a3704c21f3e96"
     },
     "ember_d": {
       "atlas": "art/atlas/ember_d.png",
-      "cols": 16,
+      "cols": 18,
       "rows": 4,
       "anims": {
         "idle": {
@@ -926,13 +1038,20 @@
             15
           ],
           "frames_per_step": 1
+        },
+        "dodge": {
+          "frames": [
+            16,
+            17
+          ],
+          "frames_per_step": 3
         }
       },
-      "md5": "0889e5050ec25f3f40a78a31d376ad43"
+      "md5": "6fdcf6c74f313a1795f52869fbab047e"
     },
     "ember_boss": {
       "atlas": "art/atlas/ember_boss.png",
-      "cols": 16,
+      "cols": 18,
       "rows": 4,
       "anims": {
         "idle": {
@@ -980,13 +1099,20 @@
             15
           ],
           "frames_per_step": 1
+        },
+        "dodge": {
+          "frames": [
+            16,
+            17
+          ],
+          "frames_per_step": 3
         }
       },
-      "md5": "bbe3ad571b89393d23e3263a7d1016df"
+      "md5": "06a894554407e952250b51d42ebacf25"
     },
     "spore_a": {
       "atlas": "art/atlas/spore_a.png",
-      "cols": 16,
+      "cols": 18,
       "rows": 4,
       "anims": {
         "idle": {
@@ -1034,13 +1160,20 @@
             15
           ],
           "frames_per_step": 1
+        },
+        "dodge": {
+          "frames": [
+            16,
+            17
+          ],
+          "frames_per_step": 3
         }
       },
-      "md5": "89c1a80501e6d507e561afbf728d93b9"
+      "md5": "72f475885c2c1769ac3f6ab47fd8d272"
     },
     "spore_b": {
       "atlas": "art/atlas/spore_b.png",
-      "cols": 16,
+      "cols": 18,
       "rows": 4,
       "anims": {
         "idle": {
@@ -1088,9 +1221,16 @@
             15
           ],
           "frames_per_step": 1
+        },
+        "dodge": {
+          "frames": [
+            16,
+            17
+          ],
+          "frames_per_step": 3
         }
       },
-      "md5": "2b57a6df3e568455c266f566b9917296"
+      "md5": "bae20f5c76d3d4e2888ac407a869dad9"
     }
   }
 }

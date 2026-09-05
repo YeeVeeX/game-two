@@ -14,17 +14,20 @@ BODY = 28
 FEET = AY + BODY - 1   # 41 = sole row
 CX = 16
 FACINGS = ["down", "up", "left", "right"]
-COLS = 16
+COLS = 18
 FRAMES = [("idle", 0), ("idle", 1), ("idle", 2), ("idle", 3),
           ("walk", 0), ("walk", 1), ("walk", 2), ("walk", 3), ("walk", 4), ("walk", 5),
           ("windup", 0), ("windup", 1), ("active", 0), ("active", 1),
-          ("hurt", 0), ("dead", 0)]
+          ("hurt", 0), ("dead", 0), ("dodge", 0), ("dodge", 1)]
 ANIMS = {"idle": {"frames": [0, 1, 2, 3], "frames_per_step": 12},
          "walk": {"frames": [4, 5, 6, 7, 8, 9], "frames_per_step": 4},
          "windup": {"frames": [10, 11], "frames_per_step": 4},
          "active": {"frames": [12, 13], "frames_per_step": 2},
          "hurt": {"frames": [14], "frames_per_step": 1},
-         "dead": {"frames": [15], "frames_per_step": 1}}
+         "dead": {"frames": [15], "frames_per_step": 1},
+         # pass 5: the DODGE (i-frames from a dodge/dash, not a hit): a tuck
+         # that rolls toward the facing — 2 frames, 3 world frames each
+         "dodge": {"frames": [16, 17], "frames_per_step": 3}}
 
 
 def ramp(rgb, dark_hue=-0.045, light_hue=0.03):
