@@ -88,3 +88,25 @@ pull at level 15 and propose the tuning numbers (data only). Ticket 2:
 SIGNAGE (edge arrow to the nearest exit/stairs, light pulse on holes/doors,
 floor in the banner). Then the fine polish (ram / lurker / faces).
 
+## Junior's third session (19:42-19:44, ally brain ON LOCALLY, threat.json reverted after)
+
+Same start, same ~2 min. Brain OFF -> ON: fights 1 -> 5 · kill-xp 70 -> 1230 ·
+zones city only -> city + ZONE 5 (39 s, 8 kills) · **BOSS 1 defeated** (0 -> 1)
+· specials: Aro ring x2, Fio dash + Pomo volley 3 frames apart (the brain, not
+him) · flasks 0 -> 3 used · deaths 1 -> 4 (2 wipes) · enemy lowhp retargets
+4 -> 23. Asked in numbers, he answered **1: "Não notei diferença nos aliados."**
+
+Dev reading (disagreeing with the conclusion, not the perception): the brain
+ACTED (telemetry above) but nothing on screen SAYS an ally did it — no callout
+when an ally drinks / rolls / fires its special; and 2 min with 2 wipes leaves
+no attention for the bodies beside you. Finding = LEGIBILITY of ally acts, not
+brain strength. His feel is still half the A3 audit: "did the companion earn
+its price?" -> today: not yet visible.
+
+Ticket 1 tomorrow: ALLY CALLOUTS (presentation): a small icon pop over the
+ally on drink (flask), roll (chevron), special (kit glyph) + a 1-line quiet
+banner ("POMO BEBEU" / "ARO: ANEL"); HUD row pulse. Ticket 2: thresholds as
+data (drink 30% -> 45%, ring_min_adjacent 2 -> 1) so the acts happen EARLIER
+and more often. Ticket 3: density / lowhp-retarget tuning at level 15 (23
+retargets in 2 min hammers the wounded). Then a LONGER session (10 min+).
+
