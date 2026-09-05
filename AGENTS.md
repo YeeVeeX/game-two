@@ -139,10 +139,23 @@ recorded lean at L2's own gated row; his L3 pick-or-pieces call
 open). Lane D is CLOSED author-ratified 3/3 (Junior verbatims:
 floor -1 2026-08-29 · floor -2 + floor -3 2026-08-30,
 `drafts/_junior-floor{2,3}-ratification-20260830.md`). **The
-NINETEENTH fun-verify is DECLARED 2026-08-30 (owner word s124)** —
-freeze ARMED, window target ≤48h; protocol:
-`docs/superpowers/specs/2026-08-30-v20-nineteenth-ritual.md`
-(peers: don't read its §7). v19 record: CUMPLIDO — the EIGHTEENTH closed at 5/10 verdict
+NINETEENTH fun-verify — CLOSED 2026-09-04: CUMPLIDO WITH NAMED
+ITEMS** (declared s124 2026-08-30, coop ritual session 2026-08-31,
+10/10 answers byte-exact, fresh-session adjudication from Junior's
+seat s125; verdict `drafts/_v20-fun-verify-verdict-20260904.md`).
+**ALL FREEZES LIFTED** — sim numbers, zones, seams, oracle wording,
+instruments. Routes: free-verdict regression did NOT fire (no
+re-session owed) · totem = COEXISTENCE (owner word pending: keep
+free / re-price / retire) · sustain = LANDED (L14 stays untriggered)
+· depth probes FIRED on the owner seat. **Named for the v21 grill:**
+lane D vertical legibility · lane B growth-not-felt (both seats,
+10→13 in-session) · objective vacuum · C3 third-body debt
+re-anchored. Lane G (ambience) EXECUTES. **v21 proposal OPEN
+(Junior direction, FULL SEAT SYMMETRY, 2026-09-04): MUNDO VIVO** —
+plan + decisions D1–D9 for Gabriel's ratification:
+`drafts/_junior-mundo-vivo-plan-20260905.md`; work on branch
+`junior/mundo-vivo`, restore tag `restore/pre-mundo-vivo-20260904`.
+v19 record: CUMPLIDO — the EIGHTEENTH closed at 5/10 verdict
 + 10/10 addendum (K3 never fired, license FINAL), two named debts
 carried into v20 lanes: `drafts/_v19-fun-verify-verdict-20260828.md`;
 v19 foundation: `drafts/_v19-foundation-20260822.md`. This section is
