@@ -1,0 +1,132 @@
+{
+  "tile": 32,
+  "masks": 16,
+  "variants": 4,
+  "phase": 16,
+  "corner_bits": {
+    "tl": 1,
+    "tr": 2,
+    "bl": 4,
+    "br": 8
+  },
+  "materials": {
+    "lava_deco": {
+      "texture": "lava_liquid",
+      "priority": 0,
+      "class": "liquid",
+      "png": "art/tiles/lava_liquid.png",
+      "md5": "c81718b6b43f1edd0736e55e58982894"
+    },
+    "water": {
+      "texture": "water_liquid",
+      "priority": 1,
+      "class": "liquid",
+      "png": "art/tiles/water_liquid.png",
+      "md5": "f9f091f895e4f6a40103e6e94ed98986"
+    },
+    "puddle": {
+      "texture": "water_liquid",
+      "priority": 2,
+      "class": "liquid",
+      "png": "art/tiles/water_liquid.png",
+      "md5": "f9f091f895e4f6a40103e6e94ed98986"
+    },
+    "floor": {
+      "texture": "floor_ground",
+      "priority": 10,
+      "class": "ground",
+      "png": "art/tiles/floor_ground.png",
+      "md5": "815557268fcb6a28529c726bec5f98e8"
+    },
+    "sand": {
+      "texture": "sand_ground",
+      "priority": 12,
+      "class": "ground",
+      "png": "art/tiles/sand_ground.png",
+      "md5": "f26c1e9bede8061848e53c2afb0e993a"
+    },
+    "dirt": {
+      "texture": "dirt_ground",
+      "priority": 14,
+      "class": "ground",
+      "png": "art/tiles/dirt_ground.png",
+      "md5": "7a7032624cb3c3a325f8f9fa3d45b65d"
+    },
+    "grass": {
+      "texture": "grass_ground",
+      "priority": 16,
+      "class": "ground",
+      "png": "art/tiles/grass_ground.png",
+      "md5": "bb34c76b86d926966f9e78ad75ca2d9b"
+    },
+    "grass_b": {
+      "texture": "grass_ground",
+      "priority": 16,
+      "class": "ground",
+      "png": "art/tiles/grass_ground.png",
+      "md5": "bb34c76b86d926966f9e78ad75ca2d9b"
+    },
+    "grass_c": {
+      "texture": "grass_ground",
+      "priority": 16,
+      "class": "ground",
+      "png": "art/tiles/grass_ground.png",
+      "md5": "bb34c76b86d926966f9e78ad75ca2d9b"
+    },
+    "moss": {
+      "texture": "moss_ground",
+      "priority": 18,
+      "class": "ground",
+      "png": "art/tiles/moss_ground.png",
+      "md5": "0d16bb8f8196b77773d93394baa37821"
+    },
+    "wood": {
+      "texture": "wood_ground",
+      "priority": 20,
+      "class": "ground",
+      "png": "art/tiles/wood_ground.png",
+      "md5": "e0dfaa87e019dbb8e0c2d7cfcc8509bb"
+    },
+    "rubble": {
+      "texture": "rubble_ground",
+      "priority": 22,
+      "class": "ground",
+      "png": "art/tiles/rubble_ground.png",
+      "md5": "e83c288be7503616ffb51cb0a14dbc01"
+    },
+    "bones": {
+      "texture": "bones_ground",
+      "priority": 24,
+      "class": "ground",
+      "png": "art/tiles/bones_ground.png",
+      "md5": "506e260119cb23acb792685cf5f10e70"
+    },
+    "roots": {
+      "texture": "roots_ground",
+      "priority": 26,
+      "class": "ground",
+      "png": "art/tiles/roots_ground.png",
+      "md5": "ceca8bcfe643091dbb39a436f482ffcf"
+    },
+    "wall_inner": {
+      "texture": "rock_wall",
+      "priority": 40,
+      "class": "wall",
+      "png": "art/tiles/rock_wall.png",
+      "md5": "7be7923b218cac4f0647e1ba1c0c9de4"
+    },
+    "wall": {
+      "texture": "rock_wall",
+      "priority": 42,
+      "class": "wall",
+      "png": "art/tiles/rock_wall.png",
+      "md5": "7be7923b218cac4f0647e1ba1c0c9de4"
+    }
+  },
+  "details": {
+    "png": "art/tiles/details_ground.png",
+    "count": 8,
+    "md5": "ff77e2df5f9fa457c0fae75e91474d16",
+    "density": 0.09
+  }
+}

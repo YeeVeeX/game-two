@@ -32,7 +32,8 @@ module Harness
                                         data, key_table: App::KEY_TABLE, local: false
                                       ),
                                       art: App::Art::Registry.load(data),
-                                      ambience: App::Ambience.load(data, display: data["display"]))
+                                      ambience: App::Ambience.load(data, display: data["display"]),
+                                      tileset: App::Tileset.load(data, display: data["display"]))
         # v17: the curated list + serialization live in Harness::EventLog /
         # Net::EventSerial (shared with the headless canaries and the
         # netplay digest) — these lines are the banked etapa-0 instrument

@@ -4,6 +4,7 @@ require "app/controls_overlay"
 require "app/kill_pop"
 require "app/stamp"
 require "app/tile_art"
+require "app/tileset"
 require "app/tile_variants"
 require "app/writ"
 require "app/zone_identity"
@@ -109,9 +110,14 @@ module App
     # precedent) — the fetch defaults only keep a bare Renderer.new drawable.
     # strings: Core::Strings resolver (v13 i18n) — RENDER-time only; the
     # harness constructs it pinned to "en" (replay comparability law).
-    def initialize(display: {}, strings: nil, bindings: nil, local_seat: 1, art: nil, ambience: nil)
+    def initialize(display: {}, strings: nil, bindings: nil, local_seat: 1, art: nil, ambience: nil,
+                   tileset: nil)
       @display = display
       @strings = strings
+      # PREMIUM v22: dual-grid material tiles (App::Tileset). nil -> the
+      # flat-run + FASE 3 face path below (fallback law, byte-identical to
+      # v21). display.json `tileset: false` forces the fallback.
+      @tileset = tileset
       # MUNDO VIVO FASE 2: animated ambient layers (App::Ambience::Scene);
       # nil = none. display.json `ambience: false` is honored inside it.
       @ambience = ambience
@@ -355,20 +361,26 @@ module App
       static_visible = ->(rect) { Renderer.rect_visible?(rect, camera) }
       Gosu.draw_rect(0, 0, map.pixel_width, map.pixel_height,
                      color(map.palette[:floor]))
-      tile_runs.each do |run|
-        next unless static_visible.call(run)
-        x, y, w, h, ref = run
-        ref = :water_drained if ref == :water && drained
-        Gosu.draw_rect(x, y, w, h, color(map.palette[ref]))
-      end
-      # FASE 3: tile faces (wall cliffs, rims, floor shadows, water foam) —
-      # memoized pure geometry, culled. Drawn right over the flat runs and
-      # under the grid/motif/decor so authored landmarks stay on top.
-      if @display.fetch(:tile_faces, true)
-        face_rects(map, world).each do |rect|
-          next unless static_visible.call(rect)
-          x, y, w, h, rgb, a = rect
-          Gosu.draw_rect(x, y, w, h, color(rgb, a))
+      if @tileset
+        # PREMIUM v22: the dual-grid material layer replaces flat runs AND
+        # the FASE 3 faces (cliffs/rims/shadows/foam are baked per piece).
+        @tileset.draw(map, world.tile_registry, camera, drained: drained)
+      else
+        tile_runs.each do |run|
+          next unless static_visible.call(run)
+          x, y, w, h, ref = run
+          ref = :water_drained if ref == :water && drained
+          Gosu.draw_rect(x, y, w, h, color(map.palette[ref]))
+        end
+        # FASE 3: tile faces (wall cliffs, rims, floor shadows, water foam) —
+        # memoized pure geometry, culled. Drawn right over the flat runs and
+        # under the grid/motif/decor so authored landmarks stay on top.
+        if @display.fetch(:tile_faces, true)
+          face_rects(map, world).each do |rect|
+            next unless static_visible.call(rect)
+            x, y, w, h, rgb, a = rect
+            Gosu.draw_rect(x, y, w, h, color(rgb, a))
+          end
         end
       end
       # D7 (FASE 3): the tile grid is optional once tiles carry their own
