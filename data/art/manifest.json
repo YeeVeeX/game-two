@@ -14,7 +14,7 @@
   "kits": {
     "striker": {
       "atlas": "art/atlas/striker.png",
-      "cols": 18,
+      "cols": 22,
       "rows": 4,
       "anims": {
         "idle": {
@@ -22,7 +22,23 @@
             0,
             1,
             2,
-            3
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            18,
+            18,
+            19,
+            19
           ],
           "frames_per_step": 12
         },
@@ -69,13 +85,25 @@
             17
           ],
           "frames_per_step": 3
+        },
+        "special_windup": {
+          "frames": [
+            20
+          ],
+          "frames_per_step": 1
+        },
+        "special_active": {
+          "frames": [
+            21
+          ],
+          "frames_per_step": 1
         }
       },
-      "md5": "1c7d6d183dbd0a1bf00efaa7650a5631"
+      "md5": "de0c6e32d2a7f6c56d533653b0a9053e"
     },
     "blocker": {
       "atlas": "art/atlas/blocker.png",
-      "cols": 18,
+      "cols": 22,
       "rows": 4,
       "anims": {
         "idle": {
@@ -83,7 +111,23 @@
             0,
             1,
             2,
-            3
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            18,
+            18,
+            19,
+            19
           ],
           "frames_per_step": 12
         },
@@ -130,13 +174,25 @@
             17
           ],
           "frames_per_step": 3
+        },
+        "special_windup": {
+          "frames": [
+            20
+          ],
+          "frames_per_step": 1
+        },
+        "special_active": {
+          "frames": [
+            21
+          ],
+          "frames_per_step": 1
         }
       },
-      "md5": "37140b1f2abec6397f06810afa2e2f92"
+      "md5": "8bbd10bb3d576dfd08d6e0ab99ad5801"
     },
     "lobber": {
       "atlas": "art/atlas/lobber.png",
-      "cols": 18,
+      "cols": 22,
       "rows": 4,
       "anims": {
         "idle": {
@@ -144,7 +200,23 @@
             0,
             1,
             2,
-            3
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            18,
+            18,
+            19,
+            19
           ],
           "frames_per_step": 12
         },
@@ -191,13 +263,25 @@
             17
           ],
           "frames_per_step": 3
+        },
+        "special_windup": {
+          "frames": [
+            20
+          ],
+          "frames_per_step": 1
+        },
+        "special_active": {
+          "frames": [
+            21
+          ],
+          "frames_per_step": 1
         }
       },
-      "md5": "2234f17e41a016eeb4b276aa46b1308f"
+      "md5": "7f3a4d75facf33be92c1404d32e6a9a6"
     },
     "husk": {
       "atlas": "art/atlas/husk.png",
-      "cols": 18,
+      "cols": 22,
       "rows": 4,
       "anims": {
         "idle": {
@@ -205,7 +289,23 @@
             0,
             1,
             2,
-            3
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            18,
+            18,
+            19,
+            19
           ],
           "frames_per_step": 12
         },
@@ -252,13 +352,25 @@
             17
           ],
           "frames_per_step": 3
+        },
+        "special_windup": {
+          "frames": [
+            20
+          ],
+          "frames_per_step": 1
+        },
+        "special_active": {
+          "frames": [
+            21
+          ],
+          "frames_per_step": 1
         }
       },
-      "md5": "427d22c8a980f0d8c66a0e14c444ee55"
+      "md5": "1c9da272e70e1e9e27860adbd27f6a28"
     },
     "rusher": {
       "atlas": "art/atlas/rusher.png",
-      "cols": 18,
+      "cols": 22,
       "rows": 4,
       "anims": {
         "idle": {
@@ -266,7 +378,23 @@
             0,
             1,
             2,
-            3
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            18,
+            18,
+            19,
+            19
           ],
           "frames_per_step": 12
         },
@@ -313,13 +441,25 @@
             17
           ],
           "frames_per_step": 3
+        },
+        "special_windup": {
+          "frames": [
+            20
+          ],
+          "frames_per_step": 1
+        },
+        "special_active": {
+          "frames": [
+            21
+          ],
+          "frames_per_step": 1
         }
       },
-      "md5": "d0288df44510d8b5492bda5ffa0d3a87"
+      "md5": "9d4472faf661ef438131f30f421995d0"
     },
     "rusher_hater": {
       "atlas": "art/atlas/rusher_hater.png",
-      "cols": 18,
+      "cols": 22,
       "rows": 4,
       "anims": {
         "idle": {
@@ -327,7 +467,23 @@
             0,
             1,
             2,
-            3
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            18,
+            18,
+            19,
+            19
           ],
           "frames_per_step": 12
         },
@@ -374,13 +530,25 @@
             17
           ],
           "frames_per_step": 3
+        },
+        "special_windup": {
+          "frames": [
+            20
+          ],
+          "frames_per_step": 1
+        },
+        "special_active": {
+          "frames": [
+            21
+          ],
+          "frames_per_step": 1
         }
       },
-      "md5": "a99f2c6e089f91d057ca6e8b8124c2b8"
+      "md5": "45274cbbdc628433114a5e49af040058"
     },
     "challenger": {
       "atlas": "art/atlas/challenger.png",
-      "cols": 18,
+      "cols": 22,
       "rows": 4,
       "anims": {
         "idle": {
@@ -388,7 +556,23 @@
             0,
             1,
             2,
-            3
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            18,
+            18,
+            19,
+            19
           ],
           "frames_per_step": 12
         },
@@ -435,13 +619,25 @@
             17
           ],
           "frames_per_step": 3
+        },
+        "special_windup": {
+          "frames": [
+            20
+          ],
+          "frames_per_step": 1
+        },
+        "special_active": {
+          "frames": [
+            21
+          ],
+          "frames_per_step": 1
         }
       },
-      "md5": "4834e531982d73aab3721476051d96a6"
+      "md5": "d7dc1d0647584dfbb1d54a633a0c9242"
     },
     "warden": {
       "atlas": "art/atlas/warden.png",
-      "cols": 18,
+      "cols": 22,
       "rows": 4,
       "anims": {
         "idle": {
@@ -449,7 +645,23 @@
             0,
             1,
             2,
-            3
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            18,
+            18,
+            19,
+            19
           ],
           "frames_per_step": 12
         },
@@ -496,13 +708,25 @@
             17
           ],
           "frames_per_step": 3
+        },
+        "special_windup": {
+          "frames": [
+            20
+          ],
+          "frames_per_step": 1
+        },
+        "special_active": {
+          "frames": [
+            21
+          ],
+          "frames_per_step": 1
         }
       },
-      "md5": "70611d611561a3beb6c3380c2cefb8c4"
+      "md5": "b20a688fde506110eae002a144306013"
     },
     "stinger": {
       "atlas": "art/atlas/stinger.png",
-      "cols": 18,
+      "cols": 22,
       "rows": 4,
       "anims": {
         "idle": {
@@ -510,7 +734,23 @@
             0,
             1,
             2,
-            3
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            18,
+            18,
+            19,
+            19
           ],
           "frames_per_step": 12
         },
@@ -557,13 +797,25 @@
             17
           ],
           "frames_per_step": 3
+        },
+        "special_windup": {
+          "frames": [
+            20
+          ],
+          "frames_per_step": 1
+        },
+        "special_active": {
+          "frames": [
+            21
+          ],
+          "frames_per_step": 1
         }
       },
-      "md5": "3e2a15936a138594d4f4959e4f65857a"
+      "md5": "b5a0cfb4ed9820c5decf1a0d9f631c8c"
     },
     "lurker": {
       "atlas": "art/atlas/lurker.png",
-      "cols": 18,
+      "cols": 22,
       "rows": 4,
       "anims": {
         "idle": {
@@ -571,7 +823,23 @@
             0,
             1,
             2,
-            3
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            18,
+            18,
+            19,
+            19
           ],
           "frames_per_step": 12
         },
@@ -618,13 +886,25 @@
             17
           ],
           "frames_per_step": 3
+        },
+        "special_windup": {
+          "frames": [
+            20
+          ],
+          "frames_per_step": 1
+        },
+        "special_active": {
+          "frames": [
+            21
+          ],
+          "frames_per_step": 1
         }
       },
-      "md5": "e1e7173776bd6c04df009b4e5b9a9f4d"
+      "md5": "f073e47b83afb4d5ad8e239f82a54fb6"
     },
     "serpent_a": {
       "atlas": "art/atlas/serpent_a.png",
-      "cols": 18,
+      "cols": 22,
       "rows": 4,
       "anims": {
         "idle": {
@@ -632,7 +912,23 @@
             0,
             1,
             2,
-            3
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            18,
+            18,
+            19,
+            19
           ],
           "frames_per_step": 12
         },
@@ -679,13 +975,25 @@
             17
           ],
           "frames_per_step": 3
+        },
+        "special_windup": {
+          "frames": [
+            20
+          ],
+          "frames_per_step": 1
+        },
+        "special_active": {
+          "frames": [
+            21
+          ],
+          "frames_per_step": 1
         }
       },
-      "md5": "bc990e2049e3602101875fe30713fae7"
+      "md5": "c3e51158d798c51e0552fbfe7ef44774"
     },
     "serpent_b": {
       "atlas": "art/atlas/serpent_b.png",
-      "cols": 18,
+      "cols": 22,
       "rows": 4,
       "anims": {
         "idle": {
@@ -693,7 +1001,23 @@
             0,
             1,
             2,
-            3
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            18,
+            18,
+            19,
+            19
           ],
           "frames_per_step": 12
         },
@@ -740,13 +1064,25 @@
             17
           ],
           "frames_per_step": 3
+        },
+        "special_windup": {
+          "frames": [
+            20
+          ],
+          "frames_per_step": 1
+        },
+        "special_active": {
+          "frames": [
+            21
+          ],
+          "frames_per_step": 1
         }
       },
-      "md5": "921943d4c0eb7b6b4b2d87628ab7949d"
+      "md5": "e57ffabf640623ebd44c3caa1faddc1e"
     },
     "serpent_c": {
       "atlas": "art/atlas/serpent_c.png",
-      "cols": 18,
+      "cols": 22,
       "rows": 4,
       "anims": {
         "idle": {
@@ -754,7 +1090,23 @@
             0,
             1,
             2,
-            3
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            18,
+            18,
+            19,
+            19
           ],
           "frames_per_step": 12
         },
@@ -801,13 +1153,25 @@
             17
           ],
           "frames_per_step": 3
+        },
+        "special_windup": {
+          "frames": [
+            20
+          ],
+          "frames_per_step": 1
+        },
+        "special_active": {
+          "frames": [
+            21
+          ],
+          "frames_per_step": 1
         }
       },
-      "md5": "4f34a70880560990c1d1ebe44a5e28fb"
+      "md5": "ac5c81e5fe7d160e3c840ef422b189cb"
     },
     "serpent_boss": {
       "atlas": "art/atlas/serpent_boss.png",
-      "cols": 18,
+      "cols": 22,
       "rows": 4,
       "anims": {
         "idle": {
@@ -815,7 +1179,23 @@
             0,
             1,
             2,
-            3
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            18,
+            18,
+            19,
+            19
           ],
           "frames_per_step": 12
         },
@@ -862,13 +1242,25 @@
             17
           ],
           "frames_per_step": 3
+        },
+        "special_windup": {
+          "frames": [
+            20
+          ],
+          "frames_per_step": 1
+        },
+        "special_active": {
+          "frames": [
+            21
+          ],
+          "frames_per_step": 1
         }
       },
-      "md5": "ffb5c9deb4233d72e7ede07ecf4e4247"
+      "md5": "37f49749cc1ca00c67ec4e061dbbf43f"
     },
     "ember_a": {
       "atlas": "art/atlas/ember_a.png",
-      "cols": 18,
+      "cols": 22,
       "rows": 4,
       "anims": {
         "idle": {
@@ -876,7 +1268,23 @@
             0,
             1,
             2,
-            3
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            18,
+            18,
+            19,
+            19
           ],
           "frames_per_step": 12
         },
@@ -923,13 +1331,25 @@
             17
           ],
           "frames_per_step": 3
+        },
+        "special_windup": {
+          "frames": [
+            20
+          ],
+          "frames_per_step": 1
+        },
+        "special_active": {
+          "frames": [
+            21
+          ],
+          "frames_per_step": 1
         }
       },
-      "md5": "2b400d2e03f7cca5301214259a52f898"
+      "md5": "4d923c039bc979a8d9de135f97b564f8"
     },
     "ember_b": {
       "atlas": "art/atlas/ember_b.png",
-      "cols": 18,
+      "cols": 22,
       "rows": 4,
       "anims": {
         "idle": {
@@ -937,7 +1357,23 @@
             0,
             1,
             2,
-            3
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            18,
+            18,
+            19,
+            19
           ],
           "frames_per_step": 12
         },
@@ -984,13 +1420,25 @@
             17
           ],
           "frames_per_step": 3
+        },
+        "special_windup": {
+          "frames": [
+            20
+          ],
+          "frames_per_step": 1
+        },
+        "special_active": {
+          "frames": [
+            21
+          ],
+          "frames_per_step": 1
         }
       },
-      "md5": "9dc7700ec6086b281f2a3704c21f3e96"
+      "md5": "d443e2e2e83098c5c8c19fb3e593b6c8"
     },
     "ember_d": {
       "atlas": "art/atlas/ember_d.png",
-      "cols": 18,
+      "cols": 22,
       "rows": 4,
       "anims": {
         "idle": {
@@ -998,7 +1446,23 @@
             0,
             1,
             2,
-            3
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            18,
+            18,
+            19,
+            19
           ],
           "frames_per_step": 12
         },
@@ -1045,13 +1509,25 @@
             17
           ],
           "frames_per_step": 3
+        },
+        "special_windup": {
+          "frames": [
+            20
+          ],
+          "frames_per_step": 1
+        },
+        "special_active": {
+          "frames": [
+            21
+          ],
+          "frames_per_step": 1
         }
       },
-      "md5": "6fdcf6c74f313a1795f52869fbab047e"
+      "md5": "4b3e3ce684ec58285976f4b1e400e7b9"
     },
     "ember_boss": {
       "atlas": "art/atlas/ember_boss.png",
-      "cols": 18,
+      "cols": 22,
       "rows": 4,
       "anims": {
         "idle": {
@@ -1059,7 +1535,23 @@
             0,
             1,
             2,
-            3
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            18,
+            18,
+            19,
+            19
           ],
           "frames_per_step": 12
         },
@@ -1106,13 +1598,25 @@
             17
           ],
           "frames_per_step": 3
+        },
+        "special_windup": {
+          "frames": [
+            20
+          ],
+          "frames_per_step": 1
+        },
+        "special_active": {
+          "frames": [
+            21
+          ],
+          "frames_per_step": 1
         }
       },
-      "md5": "06a894554407e952250b51d42ebacf25"
+      "md5": "700aa56e0b2331902aae8ff7d1db355a"
     },
     "spore_a": {
       "atlas": "art/atlas/spore_a.png",
-      "cols": 18,
+      "cols": 22,
       "rows": 4,
       "anims": {
         "idle": {
@@ -1120,7 +1624,23 @@
             0,
             1,
             2,
-            3
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            18,
+            18,
+            19,
+            19
           ],
           "frames_per_step": 12
         },
@@ -1167,13 +1687,25 @@
             17
           ],
           "frames_per_step": 3
+        },
+        "special_windup": {
+          "frames": [
+            20
+          ],
+          "frames_per_step": 1
+        },
+        "special_active": {
+          "frames": [
+            21
+          ],
+          "frames_per_step": 1
         }
       },
-      "md5": "72f475885c2c1769ac3f6ab47fd8d272"
+      "md5": "e68f2473e9407b0bd8a3f05c1fd64206"
     },
     "spore_b": {
       "atlas": "art/atlas/spore_b.png",
-      "cols": 18,
+      "cols": 22,
       "rows": 4,
       "anims": {
         "idle": {
@@ -1181,7 +1713,23 @@
             0,
             1,
             2,
-            3
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            18,
+            18,
+            19,
+            19
           ],
           "frames_per_step": 12
         },
@@ -1228,9 +1776,21 @@
             17
           ],
           "frames_per_step": 3
+        },
+        "special_windup": {
+          "frames": [
+            20
+          ],
+          "frames_per_step": 1
+        },
+        "special_active": {
+          "frames": [
+            21
+          ],
+          "frames_per_step": 1
         }
       },
-      "md5": "bae20f5c76d3d4e2888ac407a869dad9"
+      "md5": "61188501693263202a793904ec019805"
     }
   }
 }

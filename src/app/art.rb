@@ -125,9 +125,12 @@ module App
         return :dead if c.dead?
         return :hurt if c.hurt?
         return :dodge if c.respond_to?(:iframes?) && c.iframes?
+        # pass 5b: a SPECIAL in flight wears its own silhouette (Atlas#frames
+        # falls back to idle for an atlas without the anim).
+        special = c.respond_to?(:current_action) && c.current_action == :special
         case c.attack_state
-        when :windup then :windup
-        when :active then :active
+        when :windup then special ? :special_windup : :windup
+        when :active then special ? :special_active : :active
         else c.moving? ? :walk : :idle
         end
       end

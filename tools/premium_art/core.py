@@ -14,12 +14,15 @@ BODY = 28
 FEET = AY + BODY - 1   # 41 = sole row
 CX = 16
 FACINGS = ["down", "up", "left", "right"]
-COLS = 18
+COLS = 22
 FRAMES = [("idle", 0), ("idle", 1), ("idle", 2), ("idle", 3),
           ("walk", 0), ("walk", 1), ("walk", 2), ("walk", 3), ("walk", 4), ("walk", 5),
           ("windup", 0), ("windup", 1), ("active", 0), ("active", 1),
-          ("hurt", 0), ("dead", 0), ("dodge", 0), ("dodge", 1)]
-ANIMS = {"idle": {"frames": [0, 1, 2, 3], "frames_per_step": 12},
+          ("hurt", 0), ("dead", 0), ("dodge", 0), ("dodge", 1),
+          ("glance", 0), ("glance", 1), ("special", 0), ("special", 1)]
+# idle = 20 steps x 12 frames = 240 frames (4 s): four breaths, then the
+# secondary idle (cols 18/19: look aside, fidget the weapon) for 0.8 s
+ANIMS = {"idle": {"frames": [0, 1, 2, 3] * 4 + [18, 18, 19, 19], "frames_per_step": 12},
          "walk": {"frames": [4, 5, 6, 7, 8, 9], "frames_per_step": 4},
          "windup": {"frames": [10, 11], "frames_per_step": 4},
          "active": {"frames": [12, 13], "frames_per_step": 2},
@@ -27,7 +30,11 @@ ANIMS = {"idle": {"frames": [0, 1, 2, 3], "frames_per_step": 12},
          "dead": {"frames": [15], "frames_per_step": 1},
          # pass 5: the DODGE (i-frames from a dodge/dash, not a hit): a tuck
          # that rolls toward the facing — 2 frames, 3 world frames each
-         "dodge": {"frames": [16, 17], "frames_per_step": 3}}
+         "dodge": {"frames": [16, 17], "frames_per_step": 3},
+         # pass 5b: the SPECIAL has its own silhouette (dash crouch+lunge,
+         # shield raised+ring slam, sling whirl+triple release)
+         "special_windup": {"frames": [20], "frames_per_step": 1},
+         "special_active": {"frames": [21], "frames_per_step": 1}}
 
 
 def ramp(rgb, dark_hue=-0.045, light_hue=0.03):

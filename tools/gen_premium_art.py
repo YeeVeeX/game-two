@@ -157,7 +157,7 @@ def sheets(atlases, scale=4):
               ["rusher", "rusher_hater", "warden", "stinger", "lurker"],
               ["serpent_a", "serpent_b", "serpent_c", "serpent_boss", "spore_a"],
               ["ember_a", "ember_b", "ember_d", "ember_boss", "spore_b"]]
-    cols = [0, 2, 4, 6, 8, 10, 11, 12, 13, 14, 15, 16, 17]   # idle0 idle2 walk0 walk2 walk4 windup0 windup1 active0 active1 hurt dead
+    cols = [0, 2, 4, 6, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]   # idle0 idle2 walk0 walk2 walk4 windup0 windup1 active0 active1 hurt dead
     for gi, group in enumerate(groups):
         w = len(cols) * FW * scale + 20
         h = len(group) * 2 * FH * scale + 20

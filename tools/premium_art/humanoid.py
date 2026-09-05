@@ -39,6 +39,18 @@ def pose(anim, i, T):
         p["swing"] = 0
         p["scarf"] = 2
         p["tuck"] = (1, 2)[i]
+    elif anim == "glance":
+        # secondary idle: head turns (eyes further), then the weapon hand fidgets
+        p["body_dy"] = 1
+        p["glance"] = 1
+        p["wstate"] = ("rest", "adjust")[i]
+        p["scarf"] = 1
+    elif anim == "special":
+        # the SPECIAL: deep crouch (anticipation) -> lunge with its own fx
+        p["body_dy"] = (2, -1)[i]
+        p["squash"] = (1, 0)[i]
+        p["wstate"] = ("sp_back", "sp_strike")[i]
+        p["scarf"] = 2
     p["head_cy"] = 16 + p["body_dy"] - tall + slouch
     p["torso_top"] = p["head_cy"] + 5 + p["squash"]
     p["torso_h"] = 9 - p["squash"] + tall - slouch
@@ -184,6 +196,12 @@ def head(cv, facing, P, T):
     cx = CX if facing != "right" else CX + 1
     if T.get("lean"):
         cx += {"down": 0, "up": 0, "right": 2}[facing]
+    g = P.get("glance", 0)
+    if g:
+        if facing == "down":
+            cx += g          # the head turns a px...
+        elif facing == "right":
+            cy -= g          # ...or nods
     r = 4.5
     skin = T.get("skin", "skin")
     cv.ellipse(cx, cy, r, r, skin, 2)
@@ -262,8 +280,8 @@ def head(cv, facing, P, T):
                 cv.box(cx - 3, cy - 1, 2, 2, eye_mat, eye_tone)
                 cv.box(cx + 2, cy - 1, 2, 2, eye_mat, eye_tone)
             else:
-                cv.put(cx - 2, cy, eye_mat, eye_tone)
-                cv.put(cx + 2, cy, eye_mat, eye_tone)
+                cv.put(cx - 2 + g, cy, eye_mat, eye_tone)   # ...and the eyes go further
+                cv.put(cx + 2 + g, cy, eye_mat, eye_tone)
         elif facing == "right":
             if P["blink"]:
                 cv.put(cx + 2, cy, skin if style != "skull" else "bone", 1)
@@ -475,11 +493,24 @@ def staff(cv, facing, P, T, st, before):
             cv.arc(CX + 4, top + 4, 8, -50, 60, "blueglow", 3)
 
 
+FDIR = {"down": (0, 1), "up": (0, -1), "right": (1, 0)}
+
+
 def weapon(cv, facing, P, T, before):
     w = T.get("weapon")
     st = P["wstate"]
     if P.get("tuck"):
         return  # the roll: no weapon out (arms in)
+    big = False
+    if st == "adjust":
+        # idle fidget: the weapon hand lifts 2px (rest pose, raised)
+        P = dict(P, torso_top=P["torso_top"] - 2)
+        st = "rest"
+    elif st == "sp_back":
+        st = "back2"
+    elif st == "sp_strike":
+        st = "strike"
+        big = True
     if w == "blade":
         if (facing == "up") == before:
             blade(cv, facing, P, T, st)
@@ -490,6 +521,33 @@ def weapon(cv, facing, P, T, before):
             sling(cv, facing, P, T, st)
     elif w == "staff":
         staff(cv, facing, P, T, st, before)
+    if big and not before:
+        special_fx(cv, facing, P, T)
+
+
+def special_fx(cv, facing, P, T):
+    """The special's own read: dash = speed lines behind + long streak ahead;
+    ring = a full streak ring around the body; volley = three stones fanning
+    out on streaks; chant = the blue throat ring."""
+    w = T.get("weapon")
+    top = P["torso_top"]
+    fx, fy = FDIR[facing]
+    if w == "blade":
+        for k in (-4, 0, 4):
+            cv.line(CX - fx * 9 + fy * k, top + 4 - fy * 9 + fx * k,
+                    CX - fx * 14 + fy * k, top + 4 - fy * 14 + fx * k, "streak", 2)
+        cv.line(CX + fx * 9, top + 3 + fy * 9, CX + fx * 15, top + 3 + fy * 15, "streak", 4)
+    elif w == "shield":
+        cv.ring(CX, top + 5, 13, 10, "streak", 3, inner=0.82)
+        cv.ring(CX, top + 5, 10, 7.5, "streak", 2, inner=0.78)
+    elif w == "sling":
+        for k in (-1, 0, 1):
+            ex = CX + fx * 11 + fy * k * 5
+            ey = top + 2 + fy * 11 + fx * k * 5
+            cv.line(CX + fx * 4, top + 2 + fy * 4, ex, ey, "streak", 3)
+            cv.ellipse(ex + fx, ey + fy, 1, 1, "stone", 3)
+    elif w == "staff":
+        cv.ring(CX, top + 1, 5, 4, "blueglow", 3, inner=0.5)
 
 
 # ---- dead -----------------------------------------------------------------

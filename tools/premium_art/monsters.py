@@ -21,6 +21,10 @@ def fdir(facing):
 def jelly(cv, facing, anim, i, T):
     if anim == "dodge":
         anim, i = "idle", (0, 2)[i]
+    if anim == "glance":
+        anim, i = "idle", (1, 3)[i]
+    if anim == "special":
+        anim, i = ("windup", 1) if i == 0 else ("active", 0)
     dart = T.get("dart", False)
     m = "body"
     fx, fy = fdir(facing)
@@ -30,9 +34,10 @@ def jelly(cv, facing, anim, i, T):
     tent_bend = 0
     glow = 2
     if anim == "idle":
-        rx += (0, 0.5, 1, 0.5)[i]
-        ry -= (0, 0.5, 0.5, 0)[i]
-        cy += (0, 0, -1, 0)[i]
+        # the bell BREATHES: inflates wide+low, then lifts narrow (pass 5b, stronger)
+        rx += (0, 1, 1.5, 1)[i]
+        ry -= (0, 0.5, 1, 0.5)[i]
+        cy += (0, -1, -1, 0)[i]
         tent_bend = (0, 1, 0, -1)[i]
     elif anim == "walk":
         lean = fx * (1, 2, 1, 0, 1, 2)[i]
@@ -127,6 +132,10 @@ def jelly(cv, facing, anim, i, T):
 def lurker(cv, facing, anim, i, T):
     if anim == "dodge":
         anim, i = "idle", (0, 2)[i]
+    if anim == "glance":
+        anim, i = "idle", (1, 3)[i]
+    if anim == "special":
+        anim, i = ("windup", 1) if i == 0 else ("active", 0)
     m = "body"
     fx, fy = fdir(facing)
     cx, cy = CX, FEET - 6
@@ -222,6 +231,10 @@ def serpent_geo(facing, phase, big=False):
 def serpent(cv, facing, anim, i, T):
     if anim == "dodge":
         anim, i = "idle", (0, 2)[i]
+    if anim == "glance":
+        anim, i = "idle", (1, 3)[i]
+    if anim == "special":
+        anim, i = ("windup", 1) if i == 0 else ("active", 0)
     kind = T.get("kind", "a")
     big = T.get("big", False)
     m = "body"
@@ -238,7 +251,7 @@ def serpent(cv, facing, anim, i, T):
         width -= 1
     if anim == "idle":
         phase = (0, 0.8, 1.6, 0.8)[i]
-        head_dy = (0, -1, -1, 0)[i]
+        head_dy = (0, -1, -2, -1)[i]   # the head rises and falls
         tongue = i in (1, 2)
         hood = 1 if kind != "a" else 2
     elif anim == "walk":
@@ -330,6 +343,10 @@ def serpent(cv, facing, anim, i, T):
 def ram(cv, facing, anim, i, T):
     if anim == "dodge":
         anim, i = "idle", (0, 2)[i]
+    if anim == "glance":
+        anim, i = "idle", (1, 3)[i]
+    if anim == "special":
+        anim, i = ("windup", 1) if i == 0 else ("active", 0)
     m = "body"
     fx, fy = fdir(facing)
     cx, cy = CX, FEET - 8
@@ -339,7 +356,7 @@ def ram(cv, facing, anim, i, T):
     legph = 0
     if anim == "idle":
         seam = (2, 3, 4, 3)[i]
-        cy += (0, 0, 1, 0)[i]
+        cy += (0, 1, 1, 0)[i]          # the flank heaves
     elif anim == "walk":
         legph = (0, 1, 2, 3, 2, 1)[i]
         cy += (0, -1, 0, 0, -1, 0)[i]
@@ -434,6 +451,10 @@ def ram(cv, facing, anim, i, T):
 def brazier(cv, facing, anim, i, T):
     if anim == "dodge":
         anim, i = "idle", (0, 2)[i]
+    if anim == "glance":
+        anim, i = "idle", (1, 3)[i]
+    if anim == "special":
+        anim, i = ("windup", 1) if i == 0 else ("active", 0)
     boss = T.get("big", False)
     m = "body"
     fx, fy = fdir(facing)
@@ -445,6 +466,8 @@ def brazier(cv, facing, anim, i, T):
     flare = 0
     if anim == "idle":
         coal = (2, 3, 4, 3)[i]
+        ry += (0, 0.5, 1, 0.5)[i]     # the pot swells with the coals
+        cy -= (0, 0, 1, 0)[i]
     elif anim == "walk":
         tilt = (0, 1, 0, -1, 0, 1)[i] * (fx if fx else 1)
         cy += (0, -1, 0, 0, -1, 0)[i]
@@ -506,6 +529,10 @@ def brazier(cv, facing, anim, i, T):
 def beacon(cv, facing, anim, i, T):
     if anim == "dodge":
         anim, i = "idle", (0, 2)[i]
+    if anim == "glance":
+        anim, i = "idle", (1, 3)[i]
+    if anim == "special":
+        anim, i = ("windup", 1) if i == 0 else ("active", 0)
     m = "body"
     fx, fy = fdir(facing)
     cx = CX
@@ -580,6 +607,10 @@ def beacon(cv, facing, anim, i, T):
 def mushroom(cv, facing, anim, i, T):
     if anim == "dodge":
         anim, i = "idle", (0, 2)[i]
+    if anim == "glance":
+        anim, i = "idle", (1, 3)[i]
+    if anim == "special":
+        anim, i = ("windup", 1) if i == 0 else ("active", 0)
     broad = T.get("broad", False)
     m = "cap"
     fx, fy = fdir(facing)
@@ -592,7 +623,8 @@ def mushroom(cv, facing, anim, i, T):
     puff = 0
     lean = 0
     if anim == "idle":
-        tilt = (0, 1, 0, -1)[i]
+        tilt = (0, 2, 0, -2)[i]        # the cap sways wider
+        cap_cy += (0, -1, 0, -1)[i]
     elif anim == "walk":
         tilt = (0, 1, 1, 0, -1, -1)[i]
         lean = fx * (0, 1, 1, 0, 0, 0)[i]
