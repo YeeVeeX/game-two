@@ -241,6 +241,41 @@ morreu no swap). Canary `ACTIVE` += `floor3_run` (musgo) + `brasa2_run`.
 `ZONES=ember_1,ember_2,ember_3` **PASS** (desyncs=0). `ZONES=low_quay,dungeon_1`
 PASS (6.1). Zero crash em 20k+15k+15k ticks de bot nas 8 zonas novas/trocadas.
 
+## A PAREDE INTEIRA (gate do merge) — 2026-09-05 03:58–06:55
+
+**Sweep FASE 1** (worktree, HEAD `5be2558`): 37 scripts. Manifests: 9 fails
+= **exatamente o census T7** (zero regressão). Vision first-pass: 9 fails.
+**Sweep 1+2+3+6** (worktree2, HEAD `31d4897`): 36 scripts (dungeon_fork
+aposentado). Manifests: os mesmos 9 + `dungeon_fork` (esperado). Vision
+first-pass: 6 fails — **conjunto DISJUNTO do sweep 1** (mesmos bytes nos
+scripts que não pisam zonas novas → o sweep 2 É o re-run do sweep 1:
+nenhum script falhou duas vezes). **Re-runs dos 6:** basement_pocket PASS
+· lobber_volley PASS · specials_chain PASS · loot_loop PASS (2ª) ·
+grass_fixture_walk PASS após corrigir a row `flora_variants_read` (pedia
+"grid lines visíveis" — o grid está OFF por design desde a FASE 3/D7) ·
+**vat_economy FAIL ×2 em `hud_level_strip_reads` + `lobber_reach_reads`**
+(HUD level strip + geometria do volley — superfícies que este ciclo NÃO
+tocou; script sem histórico de verdicts no log = row nova pra ele).
+**→ DÍVIDA NOMEADA**, não regressão: `vat_economy` entra na classe de
+re-author com `aoe_specials challenge_reads` (T7).
+
+**Sentinelas (zonas novas), estado final:** floor3_run PASS (após rows de
+boss re-redigidas: identificação por nameplate, nunca cor) · tower2 PASS
+· tower3 PASS (após o fix do frame hurt) · tower4 PASS · brasa1 PASS ·
+brasa2 PASS · brasa3 PASS (re-run; `pressure_ring_reads` = flip).
+**7/7 verdes.** Soaks: 3/3 PASS, desyncs=0.
+
+**Bugs reais pegos pela parede nesta madrugada (todos corrigidos):**
+frame `hurt` lavava pra branco (gerador) · tint de hurt humano fazia verde
+virar rosa (display) · 3 rows de boss sem lei de identificação · 2 rows
+pinadas na geometria da medusa em ZONE 5 (seguiram o swap → DUNGEON 1)
+· 1 row exigia grid lines (D7).
+
+**Taxa de flip observada:** ~20% first-pass em ambos os sweeps (vs ~8% no
+T7) — RECORDED como observação do ciclo: o crítico está recalibrando de
+quads pra sprites; protocolo = re-run, nunca relaxar. Candidato de
+follow-up: rows com "silhueta/sprite" no vocabulário.
+
 ## Fila da FASE 6
 
 6.2 sentinelas (tuner): musgo `floor3_run` + `tower2_run` · re-author `dungeon_fork` (selo aposentado) · 6.6
