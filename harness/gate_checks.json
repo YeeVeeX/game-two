@@ -11,11 +11,11 @@
     },
     {
       "id": "possessed_readable",
-      "check": "In frames with multiple pack creatures, exactly one reads as 'the one I control' (brighter + white outline). If no frame shows more than one pack creature, pass with why='not exercised by this script'."
+      "check": "In frames with multiple pack creatures, exactly one reads as 'the one I control': it stands on a soft warm-GOLD ground halo (an ellipse under its feet with a brighter rim) and a small gold chevron floats just above its head. No other body carries the halo or the chevron. If no frame shows more than one pack creature, pass with why='not exercised by this script'."
     },
     {
       "id": "possession_ring_moves",
-      "check": "Across the swap frames, the white possession ring appears on a DIFFERENT pack creature before vs after - possession visibly moved. If the reel never shows the ring on two different creatures (single-body scenes, off-camera swap targets), pass with why='not exercised by this script'."
+      "check": "Across the swap frames, the gold ground halo + chevron appear under/over a DIFFERENT pack creature before vs after - possession visibly moved. If the reel never shows the halo on two different creatures (single-body scenes, off-camera swap targets), pass with why='not exercised by this script'."
     },
     {
       "id": "facing_readable",
@@ -75,7 +75,7 @@
     },
     {
       "id": "mark_glyph_readable",
-      "check": "When a pack mark is present, one human has a clear reticle glyph that does not resemble the possession ring or attack tiles. If absent, pass with why='not exercised by this script'."
+      "check": "When a pack mark is present, one human has a clear reticle glyph that does not resemble the gold possession halo/chevron or attack tiles. If absent, pass with why='not exercised by this script'."
     },
     {
       "id": "special_pips_track",

@@ -173,6 +173,11 @@
  "writ_out_alpha": 140,
  "seized_weight_alpha": 110,
  "banner_queue_max": 2,
+ "possess_halo_rgb": [255, 214, 120],
+ "possess_halo_rx": 19,
+ "possess_halo_ry": 6,
+ "possess_halo_alpha": 92,
+ "possess_halo_rim_alpha": 230,
  "partner_ring_rgb": [
   80,
   200,

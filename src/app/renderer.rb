@@ -876,6 +876,40 @@ module App
       end
     end
 
+    def possess_rgb = @possess_rgb ||= @display.fetch(:possess_halo_rgb, [255, 214, 120])
+
+    # Ground halo: an ellipse of horizontal slices under the feet (outer
+    # soft ring + brighter inner rim), plus an optional chevron above the
+    # head that bobs 2px on a 40-frame cycle. Pure function of (x, y, frame).
+    def draw_possession_halo(x, y, frame, rgb, chevron: true)
+      cx = x + SIZE / 2.0
+      cy = y + SIZE + 1
+      rx, ry = @display.fetch(:possess_halo_rx, 19), @display.fetch(:possess_halo_ry, 6)
+      outer = Gosu::Color.new(@display.fetch(:possess_halo_alpha, 92), *rgb)
+      rim = Gosu::Color.new(@display.fetch(:possess_halo_rim_alpha, 230), *rgb)
+      (-ry..ry).each do |dy|
+        t = dy.to_f / (ry + 0.5)
+        hw = Math.sqrt([1.0 - t * t, 0.0].max) * rx
+        w = (hw * 2).round
+        next if w <= 0
+        Gosu.draw_rect((cx - hw).round, (cy + dy).round, w, 1, outer)
+        # rim = the two outermost pixels of every slice
+        Gosu.draw_rect((cx - hw).round, (cy + dy).round, 2, 1, rim)
+        Gosu.draw_rect((cx + hw).round - 2, (cy + dy).round, 2, 1, rim)
+      end
+      return unless chevron
+      bob = ((frame % 40) < 20 ? (frame % 40) : 40 - (frame % 40)) / 10  # 0..2
+      top = y - 7 - art_lift - bob
+      fill = Gosu::Color.new(255, *rgb)
+      edge = Gosu::Color.new(255, 40, 28, 12)
+      # downward chevron: 4 slices narrowing to the tip, 1px dark edge
+      [[10, 0], [8, 1], [6, 2], [4, 3], [2, 4]].each do |(w, k)|
+        Gosu.draw_rect((cx - w / 2.0).round - 1, top + k, w + 2, 1, edge)
+        Gosu.draw_rect((cx - w / 2.0).round, top + k, w, 1, fill)
+      end
+      Gosu.draw_rect((cx - 1).round, top + 5, 2, 1, edge)
+    end
+
     # Overhang of the art frame above the body box: anchor_y - the 2px the
     # placeholder grid used (so FASE 1 atlases lift 0). 0 without art.
     def art_lift
@@ -896,12 +930,24 @@ module App
       # keeps the SAME 3 visible pixels the gate learned on quads.
       rp = @art ? 4 : 3
       if c.equal?(world.possessed(@local_seat))
-        Gosu.draw_rect(x - rp, y - rp, SIZE + rp * 2, SIZE + rp * 2, POSSESSED_RING)
+        if @art
+          # PREMIUM v22: the possessed body stands on a warm GROUND HALO
+          # (soft gold ellipse under the feet) and wears a small chevron
+          # bobbing above the head — the ARPG "this one is you" grammar,
+          # replacing the white square. Tick-driven bob (world.frame).
+          draw_possession_halo(x, y, world.frame, possess_rgb)
+        else
+          Gosu.draw_rect(x - rp, y - rp, SIZE + rp * 2, SIZE + rp * 2, POSSESSED_RING)
+        end
       elsif c.faction == :pack && world.controlled?(c)
         # v17 decision 10: seat identity is RINGS ONLY — the partner's body
         # carries the second color (display.json), labels untouched.
         # Unreachable single-seat (the only controlled body IS possessed).
-        Gosu.draw_rect(x - rp, y - rp, SIZE + rp * 2, SIZE + rp * 2, partner_ring)
+        if @art
+          draw_possession_halo(x, y, world.frame, @display.fetch(:partner_ring_rgb, [80, 200, 220]), chevron: false)
+        else
+          Gosu.draw_rect(x - rp, y - rp, SIZE + rp * 2, SIZE + rp * 2, partner_ring)
+        end
       end
       # PREMIUM v22: head-room. Sprites taller than the body box carry their
       # head above y; every above-body overlay lifts by the art's overhang
