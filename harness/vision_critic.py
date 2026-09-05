@@ -12,23 +12,40 @@ Usage:
 Writes critique JSON + markdown to drafts/_vision-critique-<timestamp>.md.
 AWS: profile voice-dev, us-east-1, bedrock-runtime (us.-prefixed model ids
 are correct on this API — the bare-id rule is Mantle-transport-only).
+
+TRANSPORTS (W6 cross-machine law — each seat names its own):
+  default            Bedrock via boto3 (owner machine; CRITIC_AWS_PROFILE).
+  CRITIC_TRANSPORT=gateway
+                     Anthropic-messages over the program's private LiteLLM
+                     gateway (Junior's seat: no AWS, no boto3). Same prompts,
+                     same verdict law, same retry shape — only the wire
+                     changes. Env: CRITIC_GATEWAY_URL (default = the pi
+                     models.json gateway), CRITIC_GATEWAY_MODEL (default
+                     fable-5.1), CRITIC_GATEWAY_KEY (default = read from
+                     ~/.pi/agent/models.json; never printed, never in repo).
 """
 
 from __future__ import annotations
 
+import base64
 import json
 import os
 import re
 import sys
 import time
+import urllib.error
+import urllib.request
 from datetime import datetime
 from pathlib import Path
 
-import boto3
-from botocore.config import Config as BotoConfig
-from botocore.exceptions import ConnectionError as BotoConnectionError
-from botocore.exceptions import EventStreamError
-from botocore.exceptions import ReadTimeoutError
+TRANSPORT = os.environ.get("CRITIC_TRANSPORT", "bedrock")
+
+if TRANSPORT != "gateway":
+    import boto3
+    from botocore.config import Config as BotoConfig
+    from botocore.exceptions import ConnectionError as BotoConnectionError
+    from botocore.exceptions import EventStreamError
+    from botocore.exceptions import ReadTimeoutError
 
 # Windows may expose a legacy CP1252 console even though verdict/log data is
 # UTF-8. Model prose can contain arrows or other glyphs; printing must never
@@ -64,12 +81,102 @@ player would FEEL, not what is technically correct. Rank problems by how much
 they hurt the experience. Praise only what earns it."""
 
 
+# ---------------------------------------------------------------------------
+# Gateway transport (anthropic-messages over the private LiteLLM gateway)
+# ---------------------------------------------------------------------------
+GATEWAY_URL = os.environ.get("CRITIC_GATEWAY_URL", "http://junior-gw.tail09364a.ts.net")
+GATEWAY_MODEL = os.environ.get("CRITIC_GATEWAY_MODEL", "fable-5.1")
+
+
+def _load_gateway_key() -> str:
+    key = os.environ.get("CRITIC_GATEWAY_KEY")
+    if key:
+        return key
+    cfg = Path.home() / ".pi" / "agent" / "models.json"
+    try:
+        data = json.loads(cfg.read_text(encoding="utf-8-sig"))
+        for prov in data.get("providers", {}).values():
+            if prov.get("apiKey") and GATEWAY_URL.startswith(str(prov.get("baseUrl", "")).rstrip("/")):
+                raw = str(prov["apiKey"])
+                # pi's models.json law: "$NAME" / "${NAME}" = env interpolation
+                m = re.fullmatch(r"\$\{?([A-Za-z_][A-Za-z0-9_]*)\}?", raw)
+                if m:
+                    resolved = os.environ.get(m.group(1))
+                    if resolved:
+                        return resolved
+                    sys.exit(f"CRITIC_TRANSPORT=gateway: models.json points at ${m.group(1)} but it is not set in this shell")
+                return raw
+    except (OSError, ValueError):
+        pass
+    sys.exit("CRITIC_TRANSPORT=gateway: no key (set CRITIC_GATEWAY_KEY or keep the gateway provider in ~/.pi/agent/models.json)")
+
+
+def _to_anthropic_blocks(content_blocks: list[dict]) -> list[dict]:
+    out: list[dict] = []
+    for block in content_blocks:
+        if "text" in block:
+            out.append({"type": "text", "text": block["text"]})
+        elif "image" in block:
+            img = block["image"]
+            out.append({
+                "type": "image",
+                "source": {
+                    "type": "base64",
+                    "media_type": f"image/{img.get('format', 'png')}",
+                    "data": base64.b64encode(img["source"]["bytes"]).decode("ascii"),
+                },
+            })
+    return out
+
+
+class _GatewayClient:
+    def __init__(self) -> None:
+        self.url = GATEWAY_URL.rstrip("/") + "/v1/messages"
+        self.key = _load_gateway_key()
+        self.model = GATEWAY_MODEL
+
+    def converse(self, content_blocks: list[dict], max_tokens: int) -> str:
+        payload = json.dumps({
+            "model": self.model,
+            "max_tokens": max_tokens,
+            "system": PERSONA,
+            "messages": [{"role": "user", "content": _to_anthropic_blocks(content_blocks)}],
+        }).encode("utf-8")
+        for attempt in range(1, _ATTEMPTS + 1):
+            req = urllib.request.Request(self.url, data=payload, method="POST", headers={
+                "content-type": "application/json",
+                "x-api-key": self.key,
+                "authorization": f"Bearer {self.key}",
+                "anthropic-version": "2023-06-01",
+            })
+            try:
+                with urllib.request.urlopen(req, timeout=300) as resp:
+                    body = json.loads(resp.read().decode("utf-8"))
+                parts = [c.get("text", "") for c in body.get("content", []) if c.get("type") == "text"]
+                return "".join(parts).strip()
+            except urllib.error.HTTPError as exc:
+                # 429/5xx = transport-transient (same law as Bedrock throttles);
+                # other 4xx = a real request error, surface it immediately.
+                if exc.code not in (429, 500, 502, 503, 504) or attempt == _ATTEMPTS:
+                    detail = exc.read().decode("utf-8", "replace")[:300]
+                    raise RuntimeError(f"gateway HTTP {exc.code}: {detail}") from exc
+            except (urllib.error.URLError, TimeoutError, OSError):
+                if attempt == _ATTEMPTS:
+                    raise
+            time.sleep(30)
+        raise RuntimeError("unreachable")
+
+
 def _client():
+    if TRANSPORT == "gateway":
+        return _GatewayClient()
     session = boto3.Session(profile_name=PROFILE, region_name=REGION)
     return session.client("bedrock-runtime", config=BotoConfig(read_timeout=300))
 
 
 def converse(client, content_blocks: list[dict], max_tokens: int = 8000) -> str:
+    if isinstance(client, _GatewayClient):
+        return client.converse(content_blocks, max_tokens)
     kwargs = {
         "modelId": MODEL,
         "messages": [{"role": "user", "content": content_blocks}],
@@ -264,9 +371,10 @@ def main() -> None:
 
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     out = Path("drafts") / f"_vision-critique-{stamp}.md"
+    route = (f"{GATEWAY_MODEL} via gateway {GATEWAY_URL}" if TRANSPORT == "gateway"
+             else f"{MODEL} on bedrock-runtime ({PROFILE}/{REGION})")
     header = (
-        f"# Vision critique ({stamp})\n\nModel: {MODEL} on bedrock-runtime "
-        f"({PROFILE}/{REGION}). Persona: Tibia veteran + game-feel designer.\n"
+        f"# Vision critique ({stamp})\n\nModel: {route}. Persona: Tibia veteran + game-feel designer.\n"
         f"Sources: {key_dir}" + (f", {reel_dir}" if reel_dir else "") + "\n"
     )
     out.write_text(header + "\n" + "\n\n".join(out_parts), encoding="utf-8")
