@@ -42,8 +42,66 @@ em leque já desenham como projéteis (retângulos pálidos); a assinatura
 | Suite | **1374 runs, 39062 assertions, 0 failures** |
 | Zonas vivas | nenhuma referência a `serpent_a` em `data/zones/` → sim-identity intocada |
 
+## Ticket 4.2 — `petrify` (congelamento telegrafado) · portador: `serpent_b` (torre, tier 3)
+
+- **Sim = data-only**: `stagger_frames: 90` já flui por `apply_action_hit`;
+  o kit é um `arc3` melee com **windup 44** (dodgeável por design) e dano
+  baixo (10 < warden 22 — controle, não burst). `petrify: true` no attack
+  é a flag de leitura do renderer.
+- **Leitura visual própria (3ª família de telegraph):** o flare do windup
+  vira **cinza-pedra** (edge `[120,120,130]`, core `[215,215,225]`,
+  `display.json petrify_*_rgb`) — "isto vai te congelar", distinto do
+  vermelho/amarelo (ferir) e dos brackets laranja (volley).
+- `combat.json serpent_b`: hp 95 · step 16 · aggro 7 · exhaust 150 ·
+  respawn 2100 · kill_xp **85** (75 < 85 < 90). Arte: enrosco baixo +
+  capuz largo com olhos, cinza-pedra (a estátua).
+- **Teste `test/game/petrify_test.rb` (3):** forma do kit (windup ≥40,
+  stagger ≥60, dano < warden, L6) · **o acerto congela**: `staggered?` +
+  `stagger ≥ 90-6`, e um press de movimento NÃO move o corpo · o windup é
+  legível como petrify antes de aterrissar (`telegraphing?` +
+  `action_config[:petrify]`).
+
+## Ticket 4.3 — `blink` (teleporte curto pro flanco) · portador: `serpent_c` (torre, tier 4)
+
+- **`creature.rb`**: `blink!(tile, face_toward:)` (teleport + facing +
+  `@blink_cooldown` do kit + `@blink_flash` presentation), `blink_ready?`,
+  tick dos dois contadores. **`blink_cooldown` entra no digest** (verdade
+  de sim; classificado `session_only` no save — morre com a sessão, como
+  `seize_cooldown`); o flash NÃO (presentation).
+- **`controllers.rb#try_blink`** (chamado no topo de `engage`): kind com
+  `kit[:blink]`, off-cooldown, a ≥ `min_tiles` do alvo → teleporta pra um
+  tile livre/passável **atrás do alvo** (o lado oposto à aproximação),
+  candidatos em ordem fixa (atrás → flancos) = determinístico; encara o
+  alvo; emite **`:blinked`** (evento registrado em `World::EVENTS`).
+- **Leitura visual própria:** quadrado violeta vazado que FECHA sobre o
+  corpo nos `flash_frames` da chegada ("não estava aí um instante atrás";
+  `display.json blink_flash_rgb`).
+- `combat.json serpent_c`: hp 60 · step 10 (o mais rápido da família) ·
+  `front1` dmg 16 windup 14 · `blink {min_tiles 4, cooldown 240, flash 10}`
+  · kill_xp **88** (85 < 88 < 90). Arte: chicote fino + cauda bifurcada,
+  violeta profundo.
+- **Teste `test/game/blink_test.rb` (4):** forma (min ≥3, cd ≥120, L6) ·
+  **hunter longe pisca pra trás do alvo e o encara** (evento 1×, tile =
+  `body.x-1`, facing `[1,0]`, cooldown armado, flash armado) · sem blink
+  dentro de `min_tiles` nem em cooldown · **determinístico e digested**
+  (dois Worlds mesmo digest; `blink_cooldown` no snapshot).
+- Pins atualizados: `state_digest_test` (CREATURE_FIELDS) e
+  `save_state_test` (CLASSIFICATION) — o mecanismo que garante que
+  nenhum campo novo entra no digest sem decisão de persistência.
+
+**Família serpent completa (torre):** stinger (T1, projectile) → warden
+(T1-2, ring) → **serpent_a (T2, spread 75)** → **serpent_b (T3, petrify
+85)** → **serpent_c (T4, blink 88)**. Cada kind ≥ 1 primitiva diferente
+dos irmãos (requisito §4.5). Boss final (BOSS 2) = FASE 5.
+
+| Prova (4.1–4.3) | Resultado |
+|---|---|
+| Suite | **1381 runs, 39510 assertions, 0 failures** |
+| Zonas vivas | zero referências a serpent_* em `data/zones/` → sim-identity intocada |
+| world.rb | 1740/1800 (extração owed no próximo toque material) |
+
 ## Fila (ordem do plano FASE 0 §4)
 
-`petrify` → `blink` (torre) · `charge` → `aura` → `pool` → `beam`
+`charge` → `aura` → `pool` → `beam`
 (brasa) · `pull` → `summon` (basement) · `poison` (musgo) · D2 decide os
 da dungeon 5. Bloco `boss` = FASE 5.

@@ -33,7 +33,9 @@ module App
       stinger:      Gosu::Color.new(255, 150, 215, 230),
       # MUNDO VIVO FASE 4 serpent family (the tower): violet-grey — no other
       # body owns violet; the quad fallback keeps the same color truth.
-      serpent_a:    Gosu::Color.new(255, 170, 140, 210)
+      serpent_a:    Gosu::Color.new(255, 170, 140, 210),
+      serpent_b:    Gosu::Color.new(255, 200, 190, 175),
+      serpent_c:    Gosu::Color.new(255, 120, 90, 170)
     ).freeze
 
     POSSESSED_RING = Gosu::Color.new(255, 255, 255, 255)
@@ -882,8 +884,18 @@ module App
                                                 world.pressure_role(c) == :pressuring
       if c.faction == :human && c.telegraphing?
         swell = 8
-        Gosu.draw_rect(x - swell / 2, y - swell / 2, SIZE + swell, SIZE + swell, TELEGRAPH_EDGE)
-        Gosu.draw_rect(x - 2, y - 2, SIZE + 4, SIZE + 4, TELEGRAPH_CORE)
+        if c.action_config&.dig(:petrify)
+          # FASE 4.2 petrify: the windup telegraph goes STONE (grey edge,
+          # pale-grey core) — "this will freeze you", a third family beside
+          # the red/yellow hurt telegraph and the volley's orange brackets.
+          Gosu.draw_rect(x - swell / 2, y - swell / 2, SIZE + swell, SIZE + swell,
+                         Gosu::Color.new(255, *@display.fetch(:petrify_edge_rgb, [120, 120, 130])))
+          Gosu.draw_rect(x - 2, y - 2, SIZE + 4, SIZE + 4,
+                         Gosu::Color.new(250, *@display.fetch(:petrify_core_rgb, [215, 215, 225])))
+        else
+          Gosu.draw_rect(x - swell / 2, y - swell / 2, SIZE + swell, SIZE + swell, TELEGRAPH_EDGE)
+          Gosu.draw_rect(x - 2, y - 2, SIZE + 4, SIZE + 4, TELEGRAPH_CORE)
+        end
         # The body stays visible INSIDE the flare: two adjacent telegraphing
         # humans otherwise read as an ownerless ground-tile pattern,
         # indistinguishable from Volley target tiles (gate critique finding).
@@ -898,6 +910,21 @@ module App
       end
       draw_facing_notch(c, x, y) if @art_notch || @art.nil?
       draw_attack(c, world.map.tile_size) if c.faction == :pack
+      # FASE 4.3 blink arrival tell: a violet hollow square snapping shut on
+      # the body over the flash frames — "it was not there a moment ago".
+      draw_blink_flash(c, x, y) if c.respond_to?(:blink_flash?) && c.blink_flash?
+    end
+
+    def draw_blink_flash(c, x, y)
+      total = c.kit.dig(:blink, :flash_frames) || 8
+      k = total - c.instance_variable_get(:@blink_flash) # 0 → total
+      grow = 10 - (10 * k / [total, 1].max)
+      col = Gosu::Color.new(230, *@display.fetch(:blink_flash_rgb, [180, 120, 255]))
+      t = 2
+      Gosu.draw_rect(x - grow, y - grow, SIZE + grow * 2, t, col)
+      Gosu.draw_rect(x - grow, y + SIZE + grow - t, SIZE + grow * 2, t, col)
+      Gosu.draw_rect(x - grow, y - grow, t, SIZE + grow * 2, col)
+      Gosu.draw_rect(x + SIZE + grow - t, y - grow, t, SIZE + grow * 2, col)
     end
 
     # FASE 1 body: sprite (tinted for hurt/ally-dim/seized) or the legacy

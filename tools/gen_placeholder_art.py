@@ -49,6 +49,8 @@ KITS = {
     "stinger": (150, 215, 230),
     # FASE 4 serpent family (the tower): violet-grey scale — no other body owns violet
     "serpent_a": (170, 140, 210),
+    "serpent_b": (200, 190, 175),   # stone-grey: the petrifier reads as statue
+    "serpent_c": (120, 90, 170),    # deep violet: the blinker, darkest of the family
 }
 OUTLINE = (20, 14, 12)
 CORPSE_HUMAN, CORPSE_PACK = (175, 165, 145), (150, 80, 40)
@@ -158,6 +160,23 @@ def shape(kit, facing):
             acc = {(17, 3), (21, 2), (25, 3)}
         else:
             acc = {(26, 6), (27, 8), (26, 10)}
+    elif kit == "serpent_b":                   # squat coil + wide staring hood (the petrifier)
+        body = ellipse(14, 20, 11, 6) | ellipse(14, 10, 9, 7)
+        eyes = {(10, 9), (11, 9), (17, 9), (18, 9)}
+        if facing == "down":
+            acc = eyes | {(13, 15), (14, 15), (15, 15)}
+        elif facing == "up":
+            acc = {(10, 5), (11, 5), (17, 5), (18, 5)}
+        else:
+            acc = {(20, 8), (21, 8), (20, 11), (21, 11), (24, 9), (25, 9)}
+    elif kit == "serpent_c":                   # thin whip-coil + forked tail (the blinker)
+        body = line(4, 24, 10, 14, 2) | line(10, 14, 18, 20, 2) | line(18, 20, 24, 6, 2) | ellipse(23, 5, 3.5, 3)
+        if facing == "down":
+            acc = {(21, 9), (25, 9), (14, 26), (16, 26)}
+        elif facing == "up":
+            acc = {(21, 1), (25, 1), (2, 24), (3, 22)}
+        else:
+            acc = {(26, 4), (27, 6), (2, 25), (3, 27)}
     else:
         body, acc = rect(0, 0, 27, 27), set()
     acc = {p for p in acc if 0 <= p[0] < 28 and 0 <= p[1] < 28}

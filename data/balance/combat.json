@@ -323,6 +323,59 @@
    },
    "knockback_frames_per_tile": 5,
    "interrupt_on_hit": true
+  },
+  "serpent_b": {
+   "max_hp": 95,
+   "step_frames": 16,
+   "aggro_tiles": 7,
+   "respawn_frames": 2100,
+   "drop_table": [
+    2,
+    3,
+    3
+   ],
+   "attack": {
+    "damage": 10,
+    "windup_frames": 44,
+    "active_frames": 4,
+    "recovery_frames": 16,
+    "exhaust_frames": 150,
+    "arc": "arc3",
+    "stagger_frames": 90,
+    "petrify": true,
+    "knockback_tiles": 0,
+    "knockback_frames_per_tile": 5
+   },
+   "knockback_frames_per_tile": 5,
+   "interrupt_on_hit": true
+  },
+  "serpent_c": {
+   "max_hp": 60,
+   "step_frames": 10,
+   "aggro_tiles": 9,
+   "respawn_frames": 2100,
+   "drop_table": [
+    2,
+    3,
+    4
+   ],
+   "attack": {
+    "damage": 16,
+    "windup_frames": 14,
+    "active_frames": 3,
+    "recovery_frames": 10,
+    "exhaust_frames": 70,
+    "arc": "front1",
+    "knockback_tiles": 1,
+    "knockback_frames_per_tile": 5
+   },
+   "blink": {
+    "min_tiles": 4,
+    "cooldown_frames": 240,
+    "flash_frames": 10
+   },
+   "knockback_frames_per_tile": 5,
+   "interrupt_on_hit": true
   }
  },
  "feel": {

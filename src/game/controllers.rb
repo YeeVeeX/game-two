@@ -259,6 +259,7 @@ module Game
     end
 
     def engage(creature, target, view)
+      return if try_blink(creature, target, view)
       if in_attack_range?(creature, target, view)
         face_toward(creature, target)
         creature.start_attack
@@ -269,6 +270,29 @@ module Game
           chase_step(creature, target, view)
         end
       end
+    end
+
+    # FASE 4.3 blink: a kind with kit[:blink] that is farther than
+    # min_tiles from its target and off cooldown teleports to a free tile
+    # BEHIND the target (the far side, relative to its own approach), facing
+    # it. Candidate order is fixed (behind → behind-flanks) = deterministic.
+    # Emits :blinked so telemetry/manifests can count it.
+    def try_blink(creature, target, view)
+      cfg = creature.kit[:blink]
+      return false unless cfg && creature.blink_ready?
+      return false if chebyshev(creature.tile, target.tile) < cfg[:min_tiles]
+      ax = (target.tile[0] - creature.tile[0]).clamp(-1, 1)
+      ay = (target.tile[1] - creature.tile[1]).clamp(-1, 1)
+      blocked = view.blocked_for(creature)
+      candidates = [[ax, ay], [ax + ay, ay - ax], [ax - ay, ay + ax]].map { |(dx, dy)| [dx.clamp(-1, 1), dy.clamp(-1, 1)] }
+      candidates.each do |(dx, dy)|
+        to = [target.tile[0] + dx, target.tile[1] + dy]
+        next if to == creature.tile || blocked.include?(to) || !view.map.passable?(*to)
+        creature.blink!(to, face_toward: target.tile)
+        view.bus.emit(:blinked, attacker: creature, to:) if view.respond_to?(:bus)
+        return true
+      end
+      false
     end
 
     RANGED_ARCS = %w[projectile spread].freeze

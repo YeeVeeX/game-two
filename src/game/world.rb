@@ -36,7 +36,7 @@ module Game
       zone_entered possession_changed pack_wiped pack_respawned projectile_fired pack_mark_set
       drop_spawned drop_picked_up drop_decayed banked carried_lost taunted
       corpse_loaded corpse_looted fight_resolved
-      human_retargeted human_leashed human_respawned
+      human_retargeted human_leashed human_respawned blinked
       inscribed banked_spent tribute_paid body_regrown body_dissolved mark_consumed vessel_kept
       provision_bought provision_used provision_refused totem_pulse
       seal_breached home_rehomed respawn_telegraphed

@@ -700,7 +700,8 @@ class SaveStateTest < Minitest::Test
       "beachhead_waived" => :session_only,
       "pack_provoked" => :session_only, # C2: dies with the body/session, like the waiver
       "retarget_cause" => :session_only, "retarget_frames" => :session_only,
-      "home_x" => :session_only, "home_y" => :session_only
+      "home_x" => :session_only, "home_y" => :session_only,
+      "blink_cooldown" => :session_only # FASE 4.3: a beat clock, dies with the session like seize_cooldown
     },
     # Field records drop wholesale at the save boundary (decision 3c).
     "projectile" => :session_only_group, "impact" => :session_only_group,

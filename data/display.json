@@ -205,5 +205,8 @@
  "art_seized_tint_rgb": [120, 140, 230],
  "ambience": true,
  "tile_faces": true,
- "grid_lines": false
+ "grid_lines": false,
+ "petrify_edge_rgb": [120, 120, 130],
+ "petrify_core_rgb": [215, 215, 225],
+ "blink_flash_rgb": [180, 120, 255]
 }

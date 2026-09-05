@@ -56,6 +56,10 @@ module Game
       @seize_cooldown = 0
       @engaged_announced = false
       @tier_dmg_pct = 0
+      # MUNDO VIVO FASE 4.3 blink (serpent family): a short teleport to the
+      # target's flank. Inert for every kind without kit[:blink].
+      @blink_cooldown = 0
+      @blink_flash = 0
     end
 
     def tile = [@walker.tile_x, @walker.tile_y]
@@ -115,7 +119,8 @@ module Game
         ["leash_frames", @leash_frames], ["beachhead_waived", @beachhead_waived],
         ["pack_provoked", @pack_provoked],
         ["retarget_cause", @retarget_cue_cause], ["retarget_frames", @retarget_cue_frames],
-        ["home_x", @home_tile[0]], ["home_y", @home_tile[1]]
+        ["home_x", @home_tile[0]], ["home_y", @home_tile[1]],
+        ["blink_cooldown", @blink_cooldown]
       ]
     end
     def action_hit!(victim)
@@ -135,6 +140,8 @@ module Game
       @dodge_cooldown -= 1 if @dodge_cooldown.positive?
       @hurt_frames -= 1 if @hurt_frames.positive?
       @retarget_cue_frames -= 1 if @retarget_cue_frames&.positive?
+      @blink_cooldown -= 1 if @blink_cooldown.positive?
+      @blink_flash -= 1 if @blink_flash.positive?
       if @taunt_frames.positive?
         @taunt_frames -= 1
         clear_taunt! if @taunt_frames.zero? || @taunted_by&.dead?
@@ -252,6 +259,24 @@ module Game
 
     def stagger!(frames)
       @stagger = [@stagger, frames].max
+    end
+
+    # FASE 4.3 blink: instant relocation to `tile` (already validated by the
+    # caller as passable + unoccupied), facing the target, then a cooldown
+    # from kit[:blink][:cooldown_frames]. A presentation flash counter (never
+    # digested) lets the renderer draw the departure/arrival tell.
+    def blink_ready? = !@kit[:blink].nil? && @blink_cooldown.zero? && @attack_state == :idle && !staggered? && !dead?
+    def blink_flash? = @blink_flash.positive?
+    def blink_cooldown = @blink_cooldown
+
+    def blink!(tile, face_toward:)
+      @walker.teleport(tile[0], tile[1])
+      dx = (face_toward[0] - tile[0]).clamp(-1, 1)
+      dy = (face_toward[1] - tile[1]).clamp(-1, 1)
+      face([dx, dy]) unless dx.zero? && dy.zero?
+      @blink_cooldown = @kit[:blink][:cooldown_frames]
+      @blink_flash = @kit[:blink].fetch(:flash_frames, 8)
+      true
     end
 
     def tick_leash = @leash_frames += 1
