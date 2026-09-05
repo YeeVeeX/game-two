@@ -100,8 +100,46 @@ dos irmãos (requisito §4.5). Boss final (BOSS 2) = FASE 5.
 | Zonas vivas | zero referências a serpent_* em `data/zones/` → sim-identity intocada |
 | world.rb | 1740/1800 (extração owed no próximo toque material) |
 
+## Ticket 4.4 — `charge` + `beam` (as duas linhas da BRASA) · portadores: `ember_a` (T1), `ember_d` (T4)
+
+- **`charge` = um ATAQUE que é dash** (a gramática do special do striker,
+  lado hostil): `start_attack(blocked:)` planeja o dash no início (a
+  linha existe no windup → telegraph de chão), `activate_action` commita
+  + i-frames, `resolve_dash_action` (já genérico) fere todo hostil na
+  linha cruzada e empurra (`knockback_tiles 2`). `controllers.rb`: regra
+  de alcance própria — alinhado 8-way, dist ∈ [2, max_tiles], linha
+  livre; adjacente ou desalinhado = anda, nunca carrega.
+- **`beam` = linha reta até a primeira parede** (`action_tiles` novo
+  caso: `beam_length` tiles ao longo do facing, para em `#`), resolvida
+  como tile action comum (uma lei de combate; `hit_victims` = 1 acerto
+  por vítima). Windup **50** (a faixa de esquiva existe). Controller:
+  `RANGED_ARCS += beam` (recua se colado, como caster), alcance
+  alinhado ∈ [2, beam_length].
+- **Leituras visuais próprias (4ª família de telegraph = CHÃO):**
+  windup desenha a linha no piso — vermelho-escuro (charge) / brasa-
+  escura (beam); ativo = stroke laranja-fogo (charge) / feixe laranja
+  (beam), ambos distintos do branco-ciano do pack e do vermelho do
+  golpe comum. `display.json charge_*/beam_*_rgb`.
+- `combat.json`: `ember_a` hp 65 · dash 6 tiles @3f · dmg 18 · kb 2 ·
+  windup 30 · exhaust 120 · **kill_xp 45** (T1 da brasa) · `ember_d`
+  hp 110 · beam 8 · dmg 20 · windup 50 · active 6 · exhaust 180 ·
+  **kill_xp 110** (T4 < challenger 120). `grid_walker.rb`: `map` reader
+  (o beam lê passabilidade). Arte: touro-cunha com chifres (charger),
+  pilar alto com um olho ardente (caster) — vermelho-fogo, mais
+  escuro/vermelho que o laranja do pack.
+- **Teste `test/game/charge_beam_test.rb` (7):** forma/xp · **carga
+  alinhada a 4 tiles inicia, corre a linha, fere e empurra** (o corpo
+  muda de tile, o charger MOVEU) · adjacente/desalinhado nunca carrega ·
+  forma do beam · **tiles do beam correm o facing e param na parede** ·
+  **o beam fere UMA vez o corpo na linha** · charge+beam determinísticos
+  (dois Worlds, mesmo digest).
+
+**Estado da FASE 4 (4 tickets, 5 primitivas): `spread` `petrify` `blink`
+`charge` `beam`** — 2 famílias servidas: serpent (T1–T4 completa) e ember
+(T1 + T4; `aura` e `pool` = próximos, precisam de loop de tick próprio +
+estado novo no digest). Suite **1388 runs, 0 failures**. world.rb 1740/1800.
+
 ## Fila (ordem do plano FASE 0 §4)
 
-`charge` → `aura` → `pool` → `beam`
-(brasa) · `pull` → `summon` (basement) · `poison` (musgo) · D2 decide os
+`aura` → `pool` (brasa; tick loop + digest) · `pull` → `summon` (basement) · `poison` (musgo) · D2 decide os
 da dungeon 5. Bloco `boss` = FASE 5.

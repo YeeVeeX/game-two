@@ -376,6 +376,56 @@
    },
    "knockback_frames_per_tile": 5,
    "interrupt_on_hit": true
+  },
+  "ember_a": {
+   "max_hp": 65,
+   "step_frames": 12,
+   "aggro_tiles": 8,
+   "respawn_frames": 1800,
+   "drop_table": [
+    2,
+    2,
+    3
+   ],
+   "attack": {
+    "damage": 18,
+    "windup_frames": 30,
+    "active_frames": 1,
+    "recovery_frames": 18,
+    "exhaust_frames": 120,
+    "arc": "dash",
+    "charge": true,
+    "max_tiles": 6,
+    "frames_per_tile": 3,
+    "knockback_tiles": 2,
+    "knockback_frames_per_tile": 5
+   },
+   "knockback_frames_per_tile": 5,
+   "interrupt_on_hit": true
+  },
+  "ember_d": {
+   "max_hp": 110,
+   "step_frames": 18,
+   "aggro_tiles": 10,
+   "respawn_frames": 2400,
+   "drop_table": [
+    3,
+    3,
+    4
+   ],
+   "attack": {
+    "damage": 20,
+    "windup_frames": 50,
+    "active_frames": 6,
+    "recovery_frames": 24,
+    "exhaust_frames": 180,
+    "arc": "beam",
+    "beam_length": 8,
+    "knockback_tiles": 0,
+    "knockback_frames_per_tile": 5
+   },
+   "knockback_frames_per_tile": 5,
+   "interrupt_on_hit": true
   }
  },
  "feel": {

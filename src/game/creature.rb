@@ -160,10 +160,24 @@ module Game
 
     # Exhaust is the ONLY cadence gate (law 1): a swing may not begin until
     # the clock runs out. Creature-owned, swap-inert by construction (law 4).
-    def start_attack
+    def start_attack(blocked: [])
       return false if dead? || staggered? || @attack_state != :idle || !exhaust_ready?
-      @exhaust = @kit[:attack][:exhaust_frames]
-      begin_action(:attack)
+      cfg = @kit[:attack]
+      active_frames = nil
+      if cfg[:arc] == "dash"
+        # FASE 4.4 charge: an ATTACK that is a dash (the striker's special
+        # grammar, hostile side). Planned at start so the windup can draw
+        # the run line; commit + i-frames happen at activate_action.
+        @dash_plan = @walker.plan_dash(
+          @facing[0], @facing[1],
+          max_tiles: cfg[:max_tiles], frames_per_tile: cfg[:frames_per_tile],
+          blocked:, through: true
+        )
+        return false unless @dash_plan
+        active_frames = @dash_plan.duration
+      end
+      @exhaust = cfg[:exhaust_frames]
+      begin_action(:attack, active_frames:)
     end
 
     def start_special(blocked: [])
@@ -198,6 +212,16 @@ module Game
         [[tx + @facing[0], ty + @facing[1]]]
       when "projectile", "volley", "spread" # World owns the shot(s) / delayed target tiles
         []
+      when "beam" # FASE 4.4: a straight line along the facing, stops at the first wall
+        fx, fy = @facing
+        out = []
+        (1..cfg.fetch(:beam_length, 6)).each do |i|
+          x = tx + fx * i
+          y = ty + fy * i
+          break unless @walker.map.passable?(x, y)
+          out << [x, y]
+        end
+        out
       else # "arc3": front + flanks (diagonal facing -> cardinal components)
         fx, fy = @facing
         front = [tx + fx, ty + fy]

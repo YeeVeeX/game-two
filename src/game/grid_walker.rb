@@ -15,7 +15,7 @@ module Game
 
     # tween_left/tween_total (v17 digest lane): moving? gates step
     # acceptance, so tween state is sim-branching — the digest reads it.
-    attr_reader :tile_x, :tile_y, :px, :py, :tween_left, :tween_total
+    attr_reader :tile_x, :tile_y, :px, :py, :tween_left, :tween_total, :map
 
     def initialize(map:, tile_x:, tile_y:, size:)
       @map = map

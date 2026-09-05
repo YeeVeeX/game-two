@@ -51,6 +51,9 @@ KITS = {
     "serpent_a": (170, 140, 210),
     "serpent_b": (200, 190, 175),   # stone-grey: the petrifier reads as statue
     "serpent_c": (120, 90, 170),    # deep violet: the blinker, darkest of the family
+    # FASE 4 ember family (BRASA): hot red-orange, darker/redder than the pack ember
+    "ember_a": (210, 60, 30),
+    "ember_d": (240, 90, 20),
 }
 OUTLINE = (20, 14, 12)
 CORPSE_HUMAN, CORPSE_PACK = (175, 165, 145), (150, 80, 40)
@@ -177,6 +180,25 @@ def shape(kit, facing):
             acc = {(21, 1), (25, 1), (2, 24), (3, 22)}
         else:
             acc = {(26, 4), (27, 6), (2, 25), (3, 27)}
+    elif kit == "ember_a":                     # the charger: forward-leaning bull wedge + horns
+        if facing == "down":
+            body = {(x, 27 - y) for (x, y) in wedge(18, 14, 14, 26)} | rect(8, 2, 19, 13)
+            acc = {(7, 24), (8, 25), (20, 24), (19, 25)}
+        elif facing == "up":
+            body = wedge(18, 14, 14, 26) | rect(8, 14, 19, 25)
+            acc = {(7, 3), (8, 2), (20, 3), (19, 2)}
+        else:
+            body = {(y, x) for (x, y) in wedge(18, 14, 14, 26)} | rect(2, 8, 13, 19)
+            acc = {(24, 7), (25, 8), (24, 20), (25, 19)}
+    elif kit == "ember_d":                     # the beam caster: tall pillar + single burning eye
+        body = rect(10, 2, 17, 26) | rect(7, 22, 20, 26)
+        eye = {(13, 6), (14, 6), (13, 7), (14, 7)}
+        if facing == "down":
+            acc = eye | {(13, 27)}
+        elif facing == "up":
+            acc = {(13, 3), (14, 3), (13, 4), (14, 4)} | {(13, 0)}
+        else:
+            acc = {(16, 6), (17, 6), (16, 7), (17, 7)} | {(20, 6), (21, 6), (22, 6)}
     else:
         body, acc = rect(0, 0, 27, 27), set()
     acc = {p for p in acc if 0 <= p[0] < 28 and 0 <= p[1] < 28}

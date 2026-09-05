@@ -31,6 +31,10 @@ module App
       # body owns cyan; jellyfish family beside the warden's pink) - the
       # ranged watcher reads at a glance against the near-black abyss.
       stinger:      Gosu::Color.new(255, 150, 215, 230),
+      # MUNDO VIVO FASE 4 ember family (BRASA): hot red-orange bodies; the
+      # pack's ember ORANGE is lighter/yellower — critic-checked at gate.
+      ember_a:      Gosu::Color.new(255, 210, 60, 30),
+      ember_d:      Gosu::Color.new(255, 240, 90, 20),
       # MUNDO VIVO FASE 4 serpent family (the tower): violet-grey — no other
       # body owns violet; the quad fallback keeps the same color truth.
       serpent_a:    Gosu::Color.new(255, 170, 140, 210),
@@ -1045,9 +1049,31 @@ module App
     # hostile family (telegraph-edge red, never the pack's white-cyan) —
     # attribution, not warning: by the active window the hit is landing.
     def draw_enemy_strike(c, ts)
-      return unless c.faction == :human && c.attack_state == :active
+      return unless c.faction == :human
+      cfg = c.action_config
+      arc = cfg && cfg[:arc]
+      if c.attack_state == :windup && %w[dash beam].include?(arc)
+        # FASE 4.4 ground telegraph: the charge run / the beam line is
+        # drawn on the FLOOR during the windup (a fourth telegraph family:
+        # "this lane is about to be hit") — dark red for the charge, dark
+        # ember for the beam, both distinct from body flares and volley.
+        rgb = arc == "dash" ? @display.fetch(:charge_telegraph_rgb, [160, 40, 30]) : @display.fetch(:beam_telegraph_rgb, [200, 90, 30])
+        col = Gosu::Color.new(150, *rgb)
+        inset = arc == "dash" ? 10 : 12
+        c.action_tiles.each do |(tx, ty)|
+          Gosu.draw_rect(tx * ts + inset, ty * ts + inset, ts - inset * 2, ts - inset * 2, col)
+        end
+        return
+      end
+      return unless c.attack_state == :active
+      col, inset =
+        case arc
+        when "beam" then [Gosu::Color.new(235, *@display.fetch(:beam_stroke_rgb, [255, 170, 60])), 6]
+        when "dash" then [Gosu::Color.new(220, *@display.fetch(:charge_stroke_rgb, [255, 110, 60])), 8]
+        else [ENEMY_STRIKE, 4]
+        end
       c.action_tiles.each do |(tx, ty)|
-        Gosu.draw_rect(tx * ts + 4, ty * ts + 4, ts - 8, ts - 8, ENEMY_STRIKE)
+        Gosu.draw_rect(tx * ts + inset, ty * ts + inset, ts - inset * 2, ts - inset * 2, col)
       end
     end
 

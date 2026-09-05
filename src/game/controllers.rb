@@ -262,7 +262,7 @@ module Game
       return if try_blink(creature, target, view)
       if in_attack_range?(creature, target, view)
         face_toward(creature, target)
-        creature.start_attack
+        creature.start_attack(blocked: view.blocked_for(creature))
       elsif !creature.moving?
         if projectile?(creature) && chebyshev(creature.tile, target.tile) < 2
           retreat_step(creature, target, view) # husk-grade: open range, then fire (M2.1 fix 5)
@@ -295,7 +295,7 @@ module Game
       false
     end
 
-    RANGED_ARCS = %w[projectile spread].freeze
+    RANGED_ARCS = %w[projectile spread beam].freeze
     def projectile?(creature) = RANGED_ARCS.include?(creature.kit[:attack][:arc])
 
     # A projectile kit hugging its target is inert (needs dist >= 2). Step to
@@ -322,13 +322,20 @@ module Game
     def in_attack_range?(creature, target, view)
       atk = creature.kit[:attack]
       dist = chebyshev(creature.tile, target.tile)
-      return dist <= 1 unless RANGED_ARCS.include?(atk[:arc])
-
       dx = target.tile[0] - creature.tile[0]
       dy = target.tile[1] - creature.tile[1]
       aligned = dx.zero? || dy.zero? || dx.abs == dy.abs
-      aligned && dist <= atk[:range_tiles] && dist >= 2 &&
-        view.line_clear?(creature.tile, target.tile)
+      case atk[:arc]
+      when "dash"   # FASE 4.4 charge: aligned, 2..max_tiles, clear run
+        aligned && dist.between?(2, atk[:max_tiles]) && view.line_clear?(creature.tile, target.tile)
+      when "beam"   # FASE 4.4 beam: aligned, 2..beam_length, clear line
+        aligned && dist.between?(2, atk.fetch(:beam_length, 6)) && view.line_clear?(creature.tile, target.tile)
+      when "projectile", "spread"
+        aligned && dist <= atk[:range_tiles] && dist >= 2 &&
+          view.line_clear?(creature.tile, target.tile)
+      else
+        dist <= 1
+      end
     end
 
     def follow(creature, possessed, view)
