@@ -72,8 +72,9 @@ for row in "${AREAS[@]}"; do
   [ "$maxs" != "0" ] && trim=(-t "$maxs")
   ffmpeg -y -framerate "$FPS" -i "$seg/run/video/v_%06d.png" "${trim[@]}" \
     -c:v libx264 -pix_fmt yuv420p -crf 20 -loglevel error "$seg/clip.mp4" || exit 1
-  echo "file '$(pwd)/$seg/card.mp4'" >> "$LIST"
-  echo "file '$(pwd)/$seg/clip.mp4'" >> "$LIST"
+  # Windows ffmpeg cannot open POSIX /c/... paths in a concat list: emit C:/... (pwd -W).
+  echo "file '$(pwd -W)/$seg/card.mp4'" >> "$LIST"
+  echo "file '$(pwd -W)/$seg/clip.mp4'" >> "$LIST"
   echo "TOUR [$n] done: frames=$frames -> $(awk "BEGIN{printf \"%.1f\", $frames/$FPS}")s at 2.5x"
 done
 
