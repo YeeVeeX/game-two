@@ -3,6 +3,7 @@ require "app/art"
 require "app/controls_overlay"
 require "app/kill_pop"
 require "app/stamp"
+require "app/tile_art"
 require "app/tile_variants"
 require "app/writ"
 require "app/zone_identity"
@@ -338,12 +339,26 @@ module App
         ref = :water_drained if ref == :water && drained
         Gosu.draw_rect(x, y, w, h, color(map.palette[ref]))
       end
-      grid = color(map.palette[:grid])
-      Renderer.visible_grid_indices(map.cols, ts, camera.x, camera.view_w).each do |tx|
-        Gosu.draw_rect(tx * ts, 0, 1, map.pixel_height, grid)
+      # FASE 3: tile faces (wall cliffs, rims, floor shadows, water foam) —
+      # memoized pure geometry, culled. Drawn right over the flat runs and
+      # under the grid/motif/decor so authored landmarks stay on top.
+      if @display.fetch(:tile_faces, true)
+        face_rects(map, world).each do |rect|
+          next unless static_visible.call(rect)
+          x, y, w, h, rgb, a = rect
+          Gosu.draw_rect(x, y, w, h, color(rgb, a))
+        end
       end
-      Renderer.visible_grid_indices(map.rows, ts, camera.y, camera.view_h).each do |ty|
-        Gosu.draw_rect(0, ty * ts, map.pixel_width, 1, grid)
+      # D7 (FASE 3): the tile grid is optional once tiles carry their own
+      # edges — default OFF; display.json `grid_lines: true` restores it.
+      if @display.fetch(:grid_lines, false)
+        grid = color(map.palette[:grid])
+        Renderer.visible_grid_indices(map.cols, ts, camera.x, camera.view_w).each do |tx|
+          Gosu.draw_rect(tx * ts, 0, 1, map.pixel_height, grid)
+        end
+        Renderer.visible_grid_indices(map.rows, ts, camera.y, camera.view_h).each do |ty|
+          Gosu.draw_rect(0, ty * ts, map.pixel_width, 1, grid)
+        end
       end
       unless motif_runs.empty?
         mcol = color(map.palette[:motif_rgb])
@@ -504,6 +519,11 @@ module App
     def typed_rects(map, world)
       @typed_cache ||= {}
       @typed_cache[map] ||= App::TileVariants.rects(map, world.tile_registry)
+    end
+
+    def face_rects(map, world)
+      @face_cache ||= {}
+      @face_cache[map] ||= App::TileArt.rects(map, world.tile_registry)
     end
 
     # Drops read as PLACE (v11 rider): size is the primary depth channel —

@@ -19,13 +19,18 @@ class TileRegistryTest < Minitest::Test
   def test_live_registry_file_loads
     data = Core::DataStore.new("data")
     reg = Core::TileRegistry.new(data["tiles"])
-    assert_equal %w[dirt floor grass sand wall wall_inner water wood], reg.types.keys.sort
+    # MUNDO VIVO FASE 3: + six DECORATIVE floor types (m r b L p R) — SAFE
+    # class, passability floor, some carry an ambience preset.
+    assert_equal %w[bones dirt floor grass lava_deco moss puddle roots rubble sand wall wall_inner water wood],
+                 reg.types.keys.sort
     assert_equal "wall", reg.type_for_char("#")
     assert_equal "#", reg.char_for_int_grid(1)
     assert_equal ".", reg.char_for_int_grid(2)
     assert_equal({ "#" => "wall", "." => "floor", "," => "dirt",
                    "g" => "grass", "w" => "wood", "~" => "water",
-                   "%" => "wall_inner", "s" => "sand" }, reg.default_char_map)
+                   "%" => "wall_inner", "s" => "sand",
+                   "m" => "moss", "r" => "rubble", "b" => "bones",
+                   "L" => "lava_deco", "p" => "puddle", "R" => "roots" }, reg.default_char_map)
     assert_equal %w[grass_b grass_c], reg.type("grass")["variants"]
     assert_equal %w[dirt grass stone water wood], reg.types.values.map { |t| t["footstep"] }.uniq.sort
     # v20 T5 (L11): the second wall CLASS — same blocking, own render ref.

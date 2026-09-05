@@ -187,9 +187,9 @@ class ImportLdtkTest < Minitest::Test
   def test_refuses_unknown_int_grid_value_with_coordinates
     d = doc
     t = layer(d, "Terrain")
-    t["intGridCsv"][0] = 9 # 7 = wall_inner (v20 T5), 8 = sand (v20 T6b) — both deliberate mapped values now
+    t["intGridCsv"][0] = 99 # 7..14 are all deliberate mapped values now (T5 wall_inner, T6b sand, FASE 3 decoratives)
     msg = refusal(d)
-    assert_match(/IntGrid value 9 at \[0,0\]/, msg)
+    assert_match(/IntGrid value 99 at \[0,0\]/, msg)
     assert_match(/deliberate data\/tiles\.json addition/, msg)
   end
 

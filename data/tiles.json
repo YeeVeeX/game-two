@@ -27,7 +27,10 @@
       "render": "grass",
       "footstep": "grass",
       "passability": "floor",
-      "variants": ["grass_b", "grass_c"]
+      "variants": [
+        "grass_b",
+        "grass_c"
+      ]
     },
     "wood": {
       "char": "w",
@@ -56,6 +59,54 @@
       "char": "s",
       "int_grid": 8,
       "render": "sand",
+      "footstep": "dirt",
+      "passability": "floor"
+    },
+    "moss": {
+      "char": "m",
+      "int_grid": 9,
+      "render": "moss",
+      "footstep": "grass",
+      "passability": "floor",
+      "ambience": "moss_sway",
+      "ambience_density": 0.35
+    },
+    "rubble": {
+      "char": "r",
+      "int_grid": 10,
+      "render": "rubble",
+      "footstep": "stone",
+      "passability": "floor"
+    },
+    "bones": {
+      "char": "b",
+      "int_grid": 11,
+      "render": "bones",
+      "footstep": "stone",
+      "passability": "floor"
+    },
+    "lava_deco": {
+      "char": "L",
+      "int_grid": 12,
+      "render": "lava_deco",
+      "footstep": "stone",
+      "passability": "floor",
+      "ambience": "lava_glow",
+      "ambience_density": 0.5
+    },
+    "puddle": {
+      "char": "p",
+      "int_grid": 13,
+      "render": "puddle",
+      "footstep": "water",
+      "passability": "floor",
+      "ambience": "ripples",
+      "ambience_density": 0.8
+    },
+    "roots": {
+      "char": "R",
+      "int_grid": 14,
+      "render": "roots",
       "footstep": "dirt",
       "passability": "floor"
     }
