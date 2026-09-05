@@ -49,6 +49,14 @@ module App
           # nothing on screen said so). drink / roll come from the bus; the
           # special from the state poll in #update. Never for the possessed
           # (you know what you did) — ally acts only.
+          # pass 10: PICKUP burst — a gold sparkle ring + "+N" over the body
+          # that gleaned (the ledger panel tallies; this says WHERE, now).
+          world.bus.subscribe(:drop_picked_up) do |ev|
+            a = ev.payload[:actor]
+            next unless a
+            st[:bursts] << { x: a.x + 14, y: a.y + 8, at: world.frame, rgb: [255, 214, 120], pickup: true }
+            st[:nums] << { x: a.x + 14, y: a.y - 10, at: world.frame, text: "+#{ev.payload[:amount]}", kind: :gold, big: false }
+          end
           world.bus.subscribe(:provision_used) do |ev|
             a = ev.payload[:actor]
             next unless a && a.faction == :pack && !controlled?(world, a)
@@ -194,6 +202,7 @@ module App
       a = t < 0.66 ? 255 : (255 * (1.0 - (t - 0.66) / 0.34)).round.clamp(0, 255)
       col = case p[:kind]
             when :heal then Gosu::Color.new(a, 120, 235, 110)
+            when :gold then Gosu::Color.new(a, 255, 214, 120)
             when :taken then Gosu::Color.new(a, 240, 70, 60)
             else p[:big] ? Gosu::Color.new(a, 255, 225, 90) : Gosu::Color.new(a, 250, 245, 230)
             end
@@ -245,6 +254,18 @@ module App
     def draw_burst(p, age, z)
       t = age.fdiv(BURST_FRAMES)
       x, y = p[:x], p[:y]
+      if p[:pickup]
+        # gleam: 8 sparks rising and fading, no flash ring, no falling chips
+        a = (255 * (1.0 - t)).round
+        8.times do |k|
+          ang = k * Math::PI / 4 + 0.3
+          r = 4 + age * 0.9
+          sx = x + Math.cos(ang) * r
+          sy = y + Math.sin(ang) * r * 0.6 - age * 0.8
+          Gosu.draw_rect(sx, sy, 2, 2, Gosu::Color.new(a, 255, 240, 200), z)
+        end
+        return
+      end
       if age < 6
         a = (230 * (1.0 - age / 6.0)).round
         r = 6 + age * 4

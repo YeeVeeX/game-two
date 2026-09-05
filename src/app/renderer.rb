@@ -199,7 +199,7 @@ module App
       end
       end
       # pass 4: screen-space vignette + level flash, under the HUD
-      @light.draw_screen(world, cam.view_w, cam.view_h)
+      @light.draw_screen(world, cam.view_w, cam.view_h, possessed: world.possessed(@local_seat))
       draw_writ_veil(world)
       draw_hud(world)
       draw_boss_bar(world)

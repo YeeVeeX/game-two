@@ -104,9 +104,19 @@ module App
     end
 
     # ---- screen space: vignette + level flash --------------------------------------
-    def draw_screen(world, view_w, view_h)
+    def draw_screen(world, view_w, view_h, possessed: nil)
       return unless @enabled
       map = world.map
+      # pass 10: LOW HP — the frame bleeds. Below low_hp_pct of max, a red
+      # edge pulse (40-frame breath) grows as hp falls: the ARPG "you are
+      # dying" read, no numeral needed. Pure function of (hp, frame).
+      if possessed && !possessed.dead? && possessed.hp < possessed.max_hp * @display.fetch(:low_hp_pct, 0.3)
+        depth = 1.0 - possessed.hp.fdiv([possessed.max_hp * @display.fetch(:low_hp_pct, 0.3), 1].max)
+        ph = world.frame % 40
+        breath = ph < 20 ? ph / 20.0 : (40 - ph) / 20.0
+        a = (@display.fetch(:low_hp_alpha, 150) * (0.45 + 0.55 * depth) * (0.6 + 0.4 * breath)).round
+        draw_vignette(view_w, view_h, a, rgb: [170, 20, 24])
+      end
       safe = map.respond_to?(:safe?) ? map.safe? : false
       hub = map.respond_to?(:hub?) ? map.hub? : false
       a = (safe || hub) ? @display.fetch(:vignette_alpha_safe, 70) : @display.fetch(:vignette_alpha, 130)
@@ -121,11 +131,11 @@ module App
 
     # Four edge bands with per-vertex alpha (transparent inward, dark outward)
     # + darker corners: a soft frame, no texture needed.
-    def draw_vignette(w, h, a)
+    def draw_vignette(w, h, a, rgb: [8, 4, 6])
       bw = (w * 0.22).round
       bh = (h * 0.28).round
-      dark = Gosu::Color.new(a, 8, 4, 6)
-      clear = Gosu::Color.new(0, 8, 4, 6)
+      dark = Gosu::Color.new(a, *rgb)
+      clear = Gosu::Color.new(0, *rgb)
       z = 17
       Gosu.draw_quad(0, 0, dark, w, 0, dark, w, bh, clear, 0, bh, clear, z)            # top
       Gosu.draw_quad(0, h - bh, clear, w, h - bh, clear, w, h, dark, 0, h, dark, z)    # bottom
