@@ -1,8 +1,11 @@
 # v22 FOUNDATION — ONE BODY + THE PRICED DEATH (grill record, 2026-09-05, s131)
 
-STATUS: **RATIFIED-G (owner, hub chat s131) — council pass + spec + tickets
-owed in the NEXT session (Rule 6 fresh-eyes before any ticket is cut);
-RATIFIED-J async** (owner order 2026-08-22: development never gates on peer
+STATUS: **RATIFIED-G (owner, hub chat s131) — COUNCIL PASS DONE s132
+(§Council: 2 consults, 5 confirmed findings, amendments folded into the rows
+below as “[council s132]” notes; three sim-changing amendments await the
+owner's line in §RATIFICATION); spec + tickets cut s132
+(`docs/superpowers/specs/2026-09-05-v22-one-body-cycle.md`); RATIFIED-J
+async** (owner order 2026-08-22: development never gates on peer
 availability; Junior's asks in §RATIFICATION, mailed same session). On the
 council pass this doc is LAW for the cycle; `docs/CYCLE.md` carries the
 one-cycle STATE and points here. Pattern of record:
@@ -62,7 +65,10 @@ combines the best about Tibia and New World."
     still hold three if you pay), growth steepened via
     `tools/pacing_table.rb`, soaks + `rake perf` per zone, the TWENTIETH
     judges; the v20 "one gated piece" law is applied to the MODEL change as
-    the piece, with one verdict.
+    the piece, with one verdict. _[council s132]_ the `coop.json` seats=2
+    scalars (`human_hp_scale 1.25`, `respawn_delay_scale 3.0`) were tuned
+    for 2 humans + 1 follower vs 1 human + 2 followers; T2 re-derives (or
+    zeroes) the block as a named piece before the TWENTIETH.
 (b) **Save schema.** `FACT_KEYS` (`src/game/save_state.rb`, `SCHEMA = 2`,
     exact-match) gains per-character facts. Approach: schema 3, one hop,
     refusal NAMED, proven on COPIES of both chains (L9); `--fresh` backup
@@ -98,7 +104,10 @@ combines the best about Tibia and New World."
       next session):_ attribution BETWEEN two players in coop — rec =
       per-character progression inside the host save (Rule 1c) with
       party-shared kill XP (Tibia shared experience); the alternative (one
-      world level shared by both seats, today's model) contradicts L6.
+      world level shared by both seats, today's model) contradicts L6's
+      OWNERSHIP principle (one player's fine would reduce the other's
+      progress) — not L6's text, which carries no progression rule
+      _[council s132: both reviewers back per-character; owner line owed]_.
 - [x] **L4 — Forms: SWAP ANYTIME, THIRD FORM EARNED.** Tab becomes form swap
       (cooldown, data-driven, `data/balance/forms.json`); the third form
       unlocks by progression (H1 irreversible-investment feel without locking
@@ -109,9 +118,19 @@ combines the best about Tibia and New World."
       current progress becomes XP DEBT (kills pay debt first); banked coin
       untouched (the bank is the safe place); carried coin still rides the
       corpse (existing). Insured: debt × (1 − 8%·n). **Owner: "Approved."**
+      _[council s132, wording fix — the ORDER is law:]_ `fine = table(level)`;
+      `fine = fine × (100 − 8·n) / 100` (Integer) when n insurance stacks are
+      held; THEN `debt = max(0, fine − xp)`, `xp = max(0, xp − fine)`;
+      insurance never touches debt directly; level never decreases.
 - [x] **L6 — Coop death: INDIVIDUAL.** Your death sends you home
       (respawn timer + spectate = existing waiting-for-body path); the
       partner fights on. Shared wipe retired. **Owner: "Approved."**
+      _[council s132 — BLOCKER found, amendment A1 PENDING OWNER WORD:]_ the
+      World ticks ONE zone (`enter_zone`, `respawn_pack` move the whole
+      world), so "home" is literal only in SOLO (the `:nest_respawn` veil,
+      now priced). In COOP the dead seat spectates for `death.json`
+      `coop_respawn_frames`, then respawns at the current zone's arrival
+      tile (`arrival_tiles_for`), fine already paid; both dead = solo path.
 - [x] **L7 — Companions: OPTIONAL, PRICED, WEAKER, PvE-ONLY.** Hire a resting
       body at the vat per outing (coin sink); companions take an XP cut so a
       human partner is strictly better (economics, not prohibition — GW1's
@@ -122,6 +141,14 @@ combines the best about Tibia and New World."
       the companion brain — merged, not replaced. **Owner:
       "the hireling/companion mechanic is a nice idea just like Guild Wars 1
       ... worries me how would that be balanced in PVP" → PvE-only rule.**
+      _[council s132:]_ companions have NO progression of their own (they
+      are the same character's resting kits at the shared level); the XP
+      cut = the hiring character's kill income × `companions.json`
+      `xp_share_pct`. Amendment A3 (pending owner word): the
+      `threat.json` `ally.enabled` flip that gives companions this brain is
+      its OWN gated piece inside T2 under the canary law (`595b3ab`), never
+      an implicit side effect of the pivot; waiting seats never claim a
+      companion (A2, implementation law in T2).
 - [ ] **L8 — Insurance (numbers at T3).** Bought at the bank (third station
       verb, not a potion variant), N=3 stackable, 8% each additive, all
       consumed at death, price rides the level (k re-price table). Candidate
@@ -132,11 +159,15 @@ combines the best about Tibia and New World."
       migration:** Junior's SYSTEMS proposal also names schema 3 (bag /
       equipment facts) — the next session's spec designs both fact sets in
       the SAME hop; two consecutive bumps are refused by this row.
+      _[council s132:]_ schema 1 files REFUSE NAMED under schema 3 ("save
+      schema: 1 unsupported (expected 3)") — no live v1 chain exists (both
+      peers' saves are v2); `upgrade_v1` retires with its frozen key set.
 - [ ] **L10 — The TWENTIETH.** Delta = A+B+C+D. Pre-registered rows:
       `deaths`, `xp_lost`, `xp_debt_paid`, `insured_deaths`,
       `insurance_bought/consumed`, `form_swaps`, `companion_hires`,
       `time_to_continue`; free-verdict re-asks growth A/B + "did dying cost
-      something you felt". Declaration arms the freeze; ≤48 h window; bot
+      something you felt" _[council s132: + "did the companion earn its
+      price?" (A3)]_. Declaration arms the freeze; ≤48 h window; bot
       logs never fun evidence. Wording frozen at declaration, not before.
 - [ ] **L11 — Floors as visible truth (Q8b, lane F).** If the banner shows
       the floor ("ZONE 5 · -3") the 8 LEGACY rows in
@@ -199,7 +230,12 @@ combines the best about Tibia and New World."
       (`corpse_run`, `nest_advance`, `ledger_loop`, `mercy_floor`,
       `sustain_run`, `dash_strike_rip`). ONE full-wall re-pin at the end of
       lane A+B, a second at the end of the art lane; `rake pins` states the
-      pin state before each.
+      pin state before each. _[council s132, count corrected by grep:]_ 13
+      scripts press `swap` (`aoe_specials dash_strike_rip level_up_beat
+      lobber_reach lobber_volley loot_loop respawn_telegraph specials_chain
+      taunt_anchor threat_pull toll_pocket vat_economy world_loop`) + 5
+      wipe/corpse stagers = **18 re-authors**; all 42 scripts re-pin
+      (~3.5 h detached per sweep).
 
 ## Lanes + staging (serial, one gated increment per re-session)
 
@@ -241,13 +277,99 @@ peers' word. First SIM delta ships at A (the model itself).
   Option 1/2 tile fork. Mail staged this session.
 - Integration lands ONLY through this repo's gates (family block law).
 
-## Council pass (Rule 6) — OWED, next session Step 1
+## Council pass (Rule 6) — DONE 2026-09-05 s132 (Gabriel seat)
 
-- [ ] DeepSeek adversarial pass over this FULL file inlined (never a summary)
-- [ ] Kimi adversarial pass (same brief)
-- [ ] every REFUTED item re-verified against primaries before any edit;
-      amendments adopted/rejected with reasons, folded into the rows
-- Budget ≤ ~$2; the spec is cut only after this pass.
+- [x] DeepSeek V3.2 adversarial pass over this FULL file inlined + code facts
+      (`tmp/council_s132/brief.md` md5 `b16c7c528144d34c0188659483299e4f`,
+      39,533 bytes; in 11,445 / out 2,083 tokens, $0.004)
+- [x] Kimi K2.5, same brief (in 10,953 / out 3,591 tokens, $0.025)
+- [x] every REFUTED item re-verified against primaries (below). Total spend
+      $0.03 of the ≤ ~$2 budget. Raw JSON: `tmp/council_s132/out_{deepseek,kimi}.json`
+      (scratch; the verdict table here is the record).
+
+**Findings both reviewers CONFIRMED (dev claims C4–C7 in the brief):**
+
+1. **L6 has a hidden zone coupling — BLOCKER.** The World simulates ONE
+   current zone (`World#enter_zone`: "the whole pack teleports through
+   gates"; `respawn_pack`: `@zone_name = @home_zone` moves THE WORLD). "Your
+   death sends you home ... the partner fights on" cannot be literal in
+   coop. **Amendment A1 (sim-changing → owner word owed, see
+   §RATIFICATION):** SOLO death = the existing `:nest_respawn` veil → home,
+   now priced (today's wipe path). COOP death = the dead seat spectates for
+   a data-driven timer (`death.json` `coop_respawn_frames`), then its body
+   respawns at the CURRENT zone's arrival tile (`World#arrival_tiles_for` —
+   already exists per zone, no new structure; Kimi's "needs a new spawn
+   point" attack REFUTED on `@arrivals = Crossing.validated_arrivals`), fine
+   already paid at death; BOTH seats dead = the solo path. Kimi's
+   alternative (wait for the partner's next gate crossing, no timer) is
+   REJECTED: unbounded spectate is the recorded waiting-for-body feel risk
+   (`world.rb` "recorded half-B feel risk"); the timer bounds it.
+2. **`assign_waiting_seats` would auto-possess a hired companion** ("first
+   living uncontrolled body in ROSTER order") — a dead player would
+   "become" the hireling. **Amendment A2 (implementation law, into T2):**
+   the roster/party object distinguishes player characters from companions;
+   waiting seats never claim a companion; `Pack#wipe?` = every PLAYER body
+   dead (companions alone never hold the field).
+3. **L17 undercounts the wall.** 13 wall scripts press `swap` (Tab):
+   `aoe_specials dash_strike_rip level_up_beat lobber_reach lobber_volley
+   loot_loop respawn_telegraph specials_chain taunt_anchor threat_pull
+   toll_pocket vat_economy world_loop` — all 13 RE-AUTHOR (Tab's meaning
+   changes) plus the 5 wipe/corpse stagers named before (`corpse_run
+   nest_advance ledger_loop mercy_floor sustain_run`) = 18 re-authors; every
+   one of the 42 scripts RE-PINS (one body in the field diverges every
+   replay). ~5 min/script → ~3.5 h detached per full sweep, two sweeps in
+   the cycle. **Adopted into L17.**
+4. **Coop scalars need re-derivation** (`coop.json` seats=2:
+   `human_hp_scale 1.25`, `respawn_delay_scale 3.0` were tuned for 2 humans
+   + 1 follower vs 1 human + 2 followers; the field becomes 1–2 player
+   bodies + 0–2 companions). **Adopted into Rule 1(a):** T2 re-derives the
+   seats=2 block from the pacing table (or zeroes it) as a named piece; the
+   TWENTIETH judges.
+5. **Per-character records must enter the per-tick digest** (today
+   `digest_snapshot` carries one `level`/`xp` pair in `world_fields`).
+   **Adopted into T1:** `Character#digest_fields` (level, xp, xp_debt,
+   insurance, form, body) per seat, test-pinned in `state_digest_test`.
+
+**Disagreements reconciled against primaries:**
+
+- DeepSeek REFUTED C3 ("L5 says flat 10% of ΔE, not pure Progression
+  math") — misread: the 10% is a `death.json` TABLE input; `Progression#fine!`
+  applies it in Integer math. Claim stands; L5's wording gets the split
+  spelled out (below).
+- Kimi CONFIRMED the L5/L8 wording clash ("debt × (1 − 8%·n)" vs "reducer
+  of the fine"). **Adopted, non-sim (L5 wording):** insured fine =
+  `fine × (100 − 8·n) / 100` (Integer), THEN `debt = max(0, fine − xp)`,
+  `xp = max(0, xp − fine)`; insurance never touches debt directly.
+- Kimi UNCERTAIN on L3's "contradicts L6": fair — L6's text carries no
+  progression rule. **Clarified (L3):** a shared world level makes one
+  player's fine reduce the OTHER's progress — it contradicts L6's ownership
+  principle, not its text.
+- Both: **coop progression = per-character** inside the host save with
+  party-shared kill XP (recorded as the council's read for the owner;
+  §RATIFICATION). Kimi's coupling: do companions take XP? **Answer (L7
+  clarification):** companions have NO progression (they are the same
+  character's resting kits); the hiring character's kill income is
+  multiplied by `companions.json` `xp_share_pct`. Both: **schema 1 saves →
+  REFUSED NAMED** under schema 3 ("save schema: 1 unsupported (expected
+  3)"); no live v1 chain exists (both peers' saves are v2); chaining 1→2→3
+  would ship an untested path. **Adopted into L9/T1.**
+- Kimi's biggest unnamed risk: **the companion brain is a sim-changing
+  assumption dressed as reuse** — `595b3ab` ships OFF, was tuned for
+  3-body pack coordination, and no fun-verify row targets companion feel.
+  **Amendment A3 (adopted, gating):** the `threat.json` `ally.enabled` flip
+  is its OWN gated piece inside T2 under the canary law (owner ratification
+  + stream-diff audit + versioned canary rebank, as `595b3ab`'s message
+  says); L10 gains the free-verdict re-ask "did the companion earn its
+  price?". PvE-only stays structural (no PvP space exists until v24).
+- DeepSeek's difficulty MAJOR ("companions optional may not compensate") —
+  agreed as a RISK, not a defect: Rule 1(a) already routes it to the
+  TWENTIETH with soaks + `rake perf` as mechanical gates; item 4 above adds
+  the coop-scalar piece.
+
+**Owner-word owed before ratification (sim-changing):** A1 (coop respawn
+location) · the coop progression row (per-character, council-backed) · A3
+(companion-brain flip as a gated piece — a process amendment; owner word
+confirms). Recorded in §RATIFICATION as OPEN until his line lands.
 
 ## Budget/stop (Rule 7)
 
@@ -270,3 +392,12 @@ pivot replaced the grill's Q1–Q7 mid-session — Rule 5 re-plan).
   · the art-lane fork (Option 1 vs 2) · his floors (L11) · the arena in his
   city plan (L14) · AfterSave pre-flight (`where python`/`where ruby`) ·
   `.pyc` untracking notice (`735a37c`).
+- **OPEN — owner word owed (council pass s132, sim-changing):**
+  (1) **A1 coop respawn location** — solo: veil → home (priced); coop:
+  timer → the current zone's arrival tile; both dead → solo path.
+  (2) **Coop progression = per-character** inside the host save (seat 1 =
+  the save owner's character, seat 2 = the guest's) with party-shared kill
+  XP; a guest's character lives in the host's world file (v18 law stands).
+  (3) **A3 companion-brain flip** (`ally.enabled`) = its own gated piece in
+  T2 under the canary law. Each lands as one owner line here; none is
+  re-litigated after.
