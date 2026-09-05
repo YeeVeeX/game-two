@@ -187,7 +187,7 @@
     },
     {
       "id": "flora_variants_read",
-      "check": "When frames show the grass fixture zone (ZONE 6: a green tile field on the west side, a brown dirt path, a gray stone plaza, and a warm wood platform east), the grass field reads as AUTHORED variation - at least two visibly different green tones patchworked across the field's tiles (not one flat green fill, and not noise or corruption), and the four ground families (grass, dirt, stone, wood) read as four different materials at a glance. Grid lines stay visible over all of them. If no grass-fixture frame is present, pass with why='not exercised by this script'."
+      "check": "When frames show the grass fixture zone (ZONE 6: a green tile field on the west side, a brown dirt path, a gray stone plaza, and a warm wood platform east), the grass field reads as AUTHORED variation - at least two visibly different green tones patchworked across the field's tiles (not one flat green fill, and not noise or corruption), and the four ground families (grass, dirt, stone, wood) read as four different materials at a glance. Tile boundaries read through the materials themselves (edges, faces, foam) — the old grid lines are OFF by design (MUNDO VIVO FASE 3, D7), their absence is not a defect. If no grass-fixture frame is present, pass with why='not exercised by this script'."
     },
     {
       "id": "new_ground_reads",
