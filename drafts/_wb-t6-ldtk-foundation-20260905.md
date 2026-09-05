@@ -1,0 +1,105 @@
+# WB-T6 — LDtk foundation wave (S0 normalizer + AfterSave importer · S2 world-graph lint · scriptable S1 defs ergonomics)
+
+- Session: s130, Gabriel seat (fresh dev-of-record session), 2026-09-05. Start HEAD `ad9238f`.
+- Spark: `tmp/wb-t6/spark.md` (hub-authored; owner approval verbatim in its §0). Class JUDGED.
+- Ground truth cited, not re-derived: gamesmith `docs/ldtk-research-brief-2026-09-05.md` (git-blob md5 `be0289048b9a00b84265cdc2796d1285`), sections 0 / 2 / 3.1–3.3 / 3.7 (Builders row + Recommendation) / 3.8 / 4 / 6 / 7 read in full via the read tool; the 308-tip shelf (`2d35559a15f82f4216b724ef07ba6e78`) not opened.
+- Fences honored: no `data/zones/**`, no `src/**`, no importer-semantics change, no builder change, no LDtk upgrade (pin 1.5.3), no Rule 2 visual move. `authoring/pilot.ldtk` edited by SCRIPT + normalizer only (defs, never levels).
+
+## 0. Terms (defined once)
+
+- **Canonical bytes** = the builders' byte-format pin: `(json.dumps(doc, indent=2, ensure_ascii=False) + "\n").replace("\n", "\r\n").encode("utf-8")` (`tools/build_tower_floor.py:83-88` refuses anything else).
+- **Normalizer** = `tools/normalize_ldtk.py`: parse → re-dump as canonical bytes (values untouched by construction — it re-serializes, never edits).
+- **AfterSave command** = an LDtk `customCommands` entry with `"when": "AfterSave"`; LDtk v1.5.3 runs it after every Ctrl+S via `ChildProcess.spawn(name, args, {cwd: <project dir>})` (CommandRunner.hx:77-93 per the brief) — split on spaces, no shell, cwd = `authoring/`.
+- **Emission** = the zone JSON the importer writes (`tools/import_ldtk.rb`), never hand-edited (provenance pin `test/tools/pilot_authoring_test.rb`).
+- **Floor delta** = `floor(to) − floor(here)` for a transition, floors being zone metadata (`floor`, default 0).
+
+## 1. Rule 1 — risks and the chosen approach (written BEFORE building)
+
+1. **LDtk's own tidy may change semantics, not just bytes.** A GUI save (the HUMAN STEP) can rewrite defaults, reorder keys, or add fields (appBuildId churn is expected). Detector: D6 — emit all 13 zones before ANY pilot.ldtk change (`tmp/ldtk_out.before`) and after every change; `diff -r` must be empty; the provenance test is the arbiter. Anything the importer reads changing after the GUI save = STOP and ask.
+2. **Interpreter/PATH portability of the AfterSave command across two machines.** LDtk spawns without a shell, so the command's first token must be an executable name resolvable on the Windows PATH of the LDtk process (Explorer-launched → the USER/MACHINE PATH, not Git Bash's). On this machine `python` = `C:\Users\gabri\AppData\Local\Python\bin\python.exe` (3.14.2), `py` = the WindowsApps launcher. Choice: `python` (resolves here; the most plausible name on Junior's machine; `py` is Windows-only and a launcher, `python3` is the WindowsApps alias that may open the Store). The driver script itself prepends `C:\Ruby34-x64\bin` when it exists and otherwise relies on PATH, refusing NAMED when `ruby` cannot be found. JUNIOR.md records how he verifies (`where python` / `where ruby` in cmd).
+3. **Lint findings on the live graph are mostly INTENDED or LEGACY design, not defects.** The floor-delta law is NEW today; the legacy hand-authored edges (camp/nest/slow_door at default floor 0) and the T5 world join (zone_7 ↔ low_quay) predate it. Approach: REPORT MODE FIRST, classify every row with the record it rests on, allowlist known rows with a reason, and let the test block only NEW violations (and stale allowlist entries).
+4. (Found during orientation, changes the value claim, not the plan) `Game::Crossing.validated_arrivals` (`src/game/crossing.rb:24-43`) ALREADY enforces lint checks (1) `to` resolves and (2) `spawn` passable-in-target at every World boot (s31). The brief's gap statement ("neither the importer nor `check_passable!`") is literally true but the GAME does check it. The lint's contribution for (1)/(2) is authoring-time feedback (AfterSave, on `tmp/ldtk_out` + `data/zones`) before a boot; its NEW law is (3) floor delta; (4) reciprocity is informational.
+
+Approach: D1 → D3 → D4 → D5, one-concern commits, hooks run the suite, push after each landed concern. The AfterSave driver (D2) rides D1's commit family since it is the normalizer's consumer.
+
+## 2. Evidence (record-first: every box starts UNCHECKED; filled only from pasted output)
+
+### D6 baseline (before any pilot.ldtk change)
+- [x] `ruby tools/import_ldtk.rb authoring/pilot.ldtk --sidecars authoring --out tmp/ldtk_out.before` → rc=0, 13 files (`tmp/wb-t6/import_before.log`, 13 IMPORTED lines). `authoring/pilot.ldtk` md5 `88d52acc4da5572a1cbbf977ae2d2528` (worktree == `git show HEAD:` blob — the CRLF pin lives in the blob).
+
+### D1 — tools/normalize_ldtk.py
+- [x] `--check authoring/pilot.ldtk` → `canonical authoring/pilot.ldtk`, rc=0
+- [x] fixture (`test/fixtures/spike_district.ldtk`, LDtk-resaved tabs+LF) → `NOT CANONICAL …: tab-indented (LDtk's own writer style; the pin is 2-space + CRLF) -- run: …`, rc=1 (one line)
+- [x] normalize a COPY → `normalized`, md5 `69ccc83ac5354bfcdefa5ced2e7cac86`; second pass → `already canonical`, same md5 (idempotent); `--semantic-diff copy fixture` → `semantically equal`, rc=0; invalid input → `NORMALIZE REFUSED: …` rc=2
+- [x] `test/tools/normalize_ldtk_test.rb`: 5 runs / 31 assertions / 0 failures (real `py -3.12`/`python` process; interpreter probe picks the first `--version` that exits 0 — the WindowsApps `python3` Store stub cannot be picked); skip path proven loud with CANDIDATES stubbed to a bogus name: `SKIP NormalizeLdtkTest: no Python interpreter found (tried: …)` ×5 on stderr
+- [x] commit `b7c4d88` (hook suite 1425 runs / 0 failures), pushed
+
+### D2 — tools/ldtk_aftersave.py + pilot.ldtk registration
+- [x] driver run by hand via `cmd` from `authoring/` as cwd (`python ../tools/ldtk_aftersave.py ../authoring/pilot.ldtk`, the Windows PATH LDtk sees): `already canonical` · `import: exit 0` (13 IMPORTED) · `ok`, rc=0 (`tmp/wb-t6/aftersave_run1.log`; run2 after D3 adds `lint: exit 0`)
+- [x] refusal paths: jsonVersion 1.4.0 copy → `normalized` then `IMPORT REFUSED: jsonVersion "1.4.0" != pinned "1.5.3"…` → `FAILED: import -- the window stays open so you can read why`, rc=1; `{ nope` → `NORMALIZE REFUSED: Expecting property name…`, rc=1
+- [x] registration by script (`tmp/wb-t6/register_aftersave.py`, deleted at close): `customCommands` = `[{"command": "python ../tools/ldtk_aftersave.py ../authoring/pilot.ldtk", "when": "AfterSave"}]`, `backupOnSave` false→true, `backupLimit` 10, `backupRelPath` null→`"../tmp/ldtk-backups"`; `--check` canonical after; git diff = 8 insertions / 3 deletions, those keys only
+- [x] D6 diff after this pilot.ldtk edit → `diff -r tmp/ldtk_out.before tmp/ldtk_out` empty
+- [x] `test/tools/ldtk_aftersave_test.rb` (4 tests: registration pin · clean project → normalized + 13 emitted + exit 0 · importer refusal → exit 1 · unparseable → exit 1); with the normalizer file: 9 runs / 52 assertions / 0 failures
+- [x] commit `80ee6b0` (hook suite 1429 / 0), pushed
+
+### D3 — tools/lint_world_graph.rb + findings + allowlist + blocking test
+- [x] report-mode run over `data/zones` (`ruby tools/lint_world_graph.rb --report`, `tmp/wb-t6/lint_report1.md`): `20 zones, 38 transitions — 14 hard finding(s) (0 allowlisted), 3 info, 14 NEW`; all 14 hard rows are check (3) floor-delta; checks (1)/(2) = 0 rows (agrees with boot law `Crossing.validated_arrivals`); table in §3 below
+- [x] `authoring/world_graph_allowlist.json`: 14 rows, 6 `intended` + 8 `legacy`, each with reason + record; re-run → `14 allowlisted, 0 NEW, 0 stale`, rc=0; overlay run (`--zones data/zones --overlay tmp/ldtk_out`) identical
+- [x] `test/tools/world_graph_lint_test.rb`: 11 runs / 101 assertions / 0 failures — live world blocks NEW + stale; (1)/(2) agree with boot; every `TRANSITION_TYPES` member has a delta row; synthetic graph fires target/spawn(wall)/spawn(bounds)/floor/return(D4 note); per-type delta law ±; loader refusal named; overlay replaces; CLI exit 0 / 1 (NEW row named) / 2 (unloadable)
+- [x] commit `c35c44c` (hook suite 1440 / 0), pushed
+
+### D4 — scriptable defs ergonomics on pilot.ldtk
+- [x] one-off `tmp/wb-t6/defs_ergonomics.py` (deleted at close): `doc` on 5 entity defs + 15 field defs + 4 level fields; `regex` `/^[a-z][a-z0-9_]*$/g` on Transition.to / EnemySpawn.kind / Region.id; tags Station+Transition=`structure`, PackSpawn+EnemySpawn=`spawn`, Region=`region` (the Entities layer's pre-existing `excludedTags` `[triggerable, trigger]` do not collide); Entities `canSelectWhenInactive` true→false; Terrain `inactiveOpacity` 1→0.5; Station.opens `editorDisplayMode` NameAndValue→`PointStar` (same-zone target, the arrow is truthful; Transition.spawn stays NameAndValue — its cell lives in ANOTHER zone, an arrow would lie)
+- [x] `--check` → canonical; git diff 45 insertions / 35 deletions, only the keys above (`git diff | grep -v doc` read in full)
+- [x] D6: `ruby tools/import_ldtk.rb … --out tmp/ldtk_out.after` rc=0; `diff -r tmp/ldtk_out.before tmp/ldtk_out.after` EMPTY (13 zones); provenance test green inside the hook suite
+- [x] commit `0455266` (hook suite 1440 / 0), pushed
+
+### D5 — docs
+- [x] `docs/MAP_EDITING.md` §3 floors bullet → LINT LAW; §4 pin line gains installer md5 + decline-updates; new §4.1 normalizer law · §4.2 AfterSave loop + backups · §4.3 ergonomics (+ what is NOT in the wave) · §4.4 `autoLayerTiles: null` builder rule
+- [x] `docs/JUNIOR.md` pt-br section "Editar mapas no LDtk (WB-T6)": version pin + decline updates, the Ctrl+S loop, `where python` / `where ruby` checks, never text-edit, backups, hover docs
+- [ ] commit hash (after push):
+
+### HUMAN STEP (owner, GUI)
+- [ ] owner opened pilot.ldtk in LDtk 1.5.3, trusted the command, saw the AfterSave window print + self-close (or DONE-PENDING-GUI recorded)
+- [ ] post-GUI: `--check` exit 0 · semantic diff read (appBuildId churn only?) · D6 diff empty · suite green · commit hash:
+
+### Fresh-eyes review (Rule 6)
+- [ ] council verdict (model, tokens, cost, FINAL line) + reconciliation
+
+### Close
+- [ ] CHECKPOINT entry · CLAIMED → none · RECEIPT mailed to gamesmith · `git status` clean except tmp/
+
+## 3. Findings table (D3 report mode) — filled from the lint's own output
+
+Source: `ruby tools/lint_world_graph.rb --report` at `c35c44c` over `data/zones` (20 zones, 38 transitions). 14 hard rows, ALL check (3) floor-delta — checks (1) target and (2) arrival cell fired on zero rows, which agrees with the boot law (`Game::Crossing.validated_arrivals`, src/game/crossing.rb:24-43). 3 info rows (4) return: the district→district_two hole (one-way by D4) and the two harness fixtures' exits. Classification: **INTENDED** = a record shows the row is the design (no action); **LEGACY** = the row predates the floor-delta law and awaits a peers' decision (the v20 Lane F graph drawing — `drafts/_v20-foundation-20260828.md` L2); none is a plain DEFECT (no crash, no stuck player — (1)/(2) are clean). Fix paths for the LEGACY rows are all hand-authored zones (`camp`, `nest`, `slow_door` carry the default floor 0 while their neighbours got v20 floors): `floor` is zone metadata no sim/renderer reads today, so re-flooring is not player-visible, but re-TYPING a gate (stairs/hole) is a graph + Rule 2 move with canary exposure (`world_loop` traverses camp). Both peers see this table in the hub.
+
+Full reasons per row: `authoring/world_graph_allowlist.json` (this table truncates them).
+
+| # | sev | check | zone | at | -> to | finding | class | reason (allowlist) |
+|---|---|---|---|---|---|---|---|---|
+| 1 | hard | floor | basement_2 | [10, 1] | basement_2 | rope_spot: floor -1 -> -1 (delta +0, rope_spot expects +1) | INTENDED | intra-zone rope: the BASEMENT 2 vault loop (sealed door [6,3] -> [9,3], rope back [10,1] -> [5,3]) stays on one floor by construction; a rope insid... |
+| 2 | hard | floor | camp | [19, 5] | district_two | gate: floor 0 -> -2 (delta -2, plain gate expects +0) | LEGACY | HUB 1's east door predates the v20 descent: lane A/D gave ZONE 2 floor -1 and ZONE 3 floor -2 while camp stays 0; the recorded descent MOUTH is cam... |
+| 3 | hard | floor | district | [0, 13] | nest | gate: floor -1 -> 0 (delta +1, plain gate expects +0) | LEGACY | ZONE 1 (nest, hand-authored wilderness spawn ground) carries the default floor 0 while ZONE 2 was rethemed to floor -1 (lane A, T1); nest's floor w... |
+| 4 | info | return | district | [40, 0] | district_two | no district_two -> district transition exists (hole: one-way by law D4) | info | — |
+| 5 | hard | floor | district_two | [0, 22] | camp | gate: floor -2 -> 0 (delta +2, plain gate expects +0) | LEGACY | return half of HUB 1's east door (see camp [19,5]) — same Lane F decision |
+| 6 | hard | floor | district_two | [42, 13] | slow_door | gate: floor -2 -> 0 (delta +2, plain gate expects +0) | LEGACY | ZONE 4 (slow_door, the moss vault, hand-authored) sits BETWEEN floors -2 (ZONE 3) and -3 (ZONE 5) in the descent but carries the default floor 0. F... |
+| 7 | hard | floor | grass_fixture | [24, 2] | district | gate: floor 0 -> -1 (delta -1, plain gate expects +0) | INTENDED | harness fixture zone (inbound-inert law); its outbound gate exists so a wall script can exit, no floor semantics |
+| 8 | info | return | grass_fixture | [24, 2] | district | no district -> grass_fixture transition exists | info | — |
+| 9 | hard | floor | low_quay | [1, 18] | slow_door | gate: floor -3 -> 0 (delta +3, plain gate expects +0) | LEGACY | return half of ZONE 4 <-> ZONE 5 (see slow_door [7,1]) — same floor-metadata gap |
+| 10 | hard | floor | low_quay | [24, 34] | zone_7 | gate: floor -3 -> 0 (delta +3, plain gate expects +0) | INTENDED | return half of the T5 world join (see zone_7 [1,14]); requires_defeats: 1 outbound, plain edge gate by design |
+| 11 | hard | floor | nest | [29, 8] | district | gate: floor 0 -> -1 (delta -1, plain gate expects +0) | LEGACY | return half of ZONE 1 <-> ZONE 2 (see district [0,13]) — same floor-metadata gap |
+| 12 | hard | floor | slow_door | [7, 7] | district_two | gate: floor 0 -> -2 (delta -2, plain gate expects +0) | LEGACY | return half of ZONE 3 <-> ZONE 4 (see district_two [42,13]) — same floor-metadata gap |
+| 13 | hard | floor | slow_door | [7, 1] | low_quay | gate: floor 0 -> -3 (delta -3, plain gate expects +0) | LEGACY | ZONE 4 -> ZONE 5 (floor 0 -> -3 through a plain gate): same slow_door floor-metadata gap (see district_two [42,13]) |
+| 14 | hard | floor | wall_fixture | [24, 6] | district | gate: floor 0 -> -1 (delta -1, plain gate expects +0) | INTENDED | harness fixture zone (v20 T5 second wall class); its outbound gate exists so a wall script can exit, no floor semantics |
+| 15 | info | return | wall_fixture | [24, 6] | district | no district -> wall_fixture transition exists | info | — |
+| 16 | hard | floor | zone_7 | [1, 14] | low_quay | gate: floor 0 -> -3 (delta -3, plain gate expects +0) | INTENDED | the T5 world join (s68): ZONE 7 <-> ZONE 5 is a plain edge gate by design (requires_defeats outbound from ZONE 5, return free); low_quay's floor -3... |
+| 17 | hard | floor | zone_8 | [63, 19] | dungeon_1 | gate: floor 0 -> -1 (delta -1, plain gate expects +0) | INTENDED | s70 wire-in: the frontier rope way (dungeon_1 -> zone_8, rope_spot, requires_level 8) returns through a free v1 EDGE GATE by the recorded pattern —... |
+
+
+## 4. Review + reconciliation
+
+(pending)
+
+## 5. Open items / follow-ons
+
+(pending)

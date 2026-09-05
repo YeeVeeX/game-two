@@ -82,9 +82,16 @@ Verified shape (dungeon_1):
   requires-only targets refuse NAMED at zone load.
 - **Floors:** `floor` is signed Int zone metadata (default 0; down =
   negative by convention). `stairs_up` is live and shipped
-  (basement returns). Floor-delta consistency between linked zones is
-  UNENFORCED — authoring discipline until the grill says otherwise
-  (s96 evidence file).
+  (basement returns). **Floor-delta consistency between linked zones
+  is LINT LAW since WB-T6 (2026-09-05):** `tools/lint_world_graph.rb`
+  judges every transition — `stairs_down`/`hole` = −1, `stairs_up`/
+  `rope_spot` = +1, plain gate = 0 — plus target-exists, arrival-cell
+  passable in the TARGET zone, and (report-only) A→B has a B→A (holes
+  are one-way by D4). The 14 live rows that predate the law sit in
+  `authoring/world_graph_allowlist.json`, each classified INTENDED or
+  LEGACY with a reason; `test/tools/world_graph_lint_test.rb` blocks
+  any NEW row and any stale allowlist row (fix a row → remove it).
+  The LDtk AfterSave command runs the lint on every Ctrl+S (§4).
 - **INERT law:** an inbound transition may be deliberately inert
   (grass_fixture precedent) — record it when authored.
 - In coop, zone crossings require the living controlled bodies
@@ -110,9 +117,81 @@ ruby tools/import_ldtk.rb <project.ldtk> --sidecars <dir> --out <dir> \
 
 - Output **NEVER defaults into `data/zones`** — merging into the live
   world is a deliberate copy (D12 merge law).
-- LDtk version pin: jsonVersion 1.5.3, identifier style "Free".
+- LDtk version pin: jsonVersion 1.5.3, identifier style "Free"
+  (installer md5 `11f9057d5889c0e51eee2ed43e8096cf`,
+  `drafts/_ldtk-spike-findings-20260819.md`; DECLINE update prompts —
+  a re-pin is a deliberate ceremony, D1).
 - Practice drafts (e.g. `authoring/dungeon_2_draft.ldtk`) are INERT:
   the provenance test reads `authoring/pilot.ldtk` only.
+
+### 4.1 The normalizer law (WB-T6, 2026-09-05)
+
+The builders (`tools/build_*.py`) pin `pilot.ldtk` to ONE byte format —
+`json.dumps(indent=2, ensure_ascii=False)` + CRLF (`tools/
+build_tower_floor.py:83-88` refuses anything else) — and every LDtk
+GUI save rewrites the whole file in LDtk's own style (tabs + LF).
+**LDtk saves are re-canonicalised by `tools/normalize_ldtk.py`**; the
+AfterSave command does it for you; a non-canonical `pilot.ldtk` fails
+`--check` in the suite (`test/tools/normalize_ldtk_test.rb`).
+
+```
+python tools/normalize_ldtk.py --check authoring/pilot.ldtk      # exit 0 = canonical
+python tools/normalize_ldtk.py normalize authoring/pilot.ldtk    # rewrite in place
+python tools/normalize_ldtk.py --semantic-diff <a.ldtk> <b.ldtk> # parsed-equal? (paths otherwise)
+```
+
+Values are untouched by construction (parse → re-dump); the semantic
+diff is the arbiter when a GUI save is suspected of changing MEANING
+(`appBuildId` churn is expected and fine; anything the importer reads
+moving = stop and read). Never hand-edit `pilot.ldtk` in a text
+editor: script + normalizer, or the GUI + AfterSave.
+
+### 4.2 The AfterSave loop (Ctrl+S in LDtk runs the pipeline)
+
+`pilot.ldtk` carries `customCommands: [{"command": "python
+../tools/ldtk_aftersave.py ../authoring/pilot.ldtk", "when":
+"AfterSave"}]`. LDtk 1.5.3 spawns it with cwd = `authoring/`, split on
+spaces, **no shell** (so the first token must be an executable name on
+the Windows PATH of the LDtk process — `python`; a `.cmd` wrapper would
+not launch). LDtk asks ONCE to trust the project's commands — say yes.
+The driver: (1) normalizes the file, (2) runs the importer into
+`tmp/ldtk_out` (never `data/zones` — D12), (3) runs the world-graph lint
+over `data/zones` overlaid by that emission. The runner window closes
+by itself on success and STAYS OPEN with the output on any refusal —
+fix, Ctrl+S again. Ruby is found via `C:\Ruby34-x64\bin` first, then
+PATH; a missing `ruby` or `python` is a named refusal (JUNIOR.md has
+the per-machine checks). Manual equivalent from the repo root:
+`cd authoring && python ../tools/ldtk_aftersave.py ../authoring/pilot.ldtk`.
+
+**Backups:** `backupOnSave: true`, `backupLimit: 10`,
+`backupRelPath: "../tmp/ldtk-backups"` → LDtk keeps the last 10 saves
+under `tmp/ldtk-backups/` (gitignored — git is the real backup; never
+commit these). Restore only through LDtk's own UI.
+
+### 4.3 Editor ergonomics that the importer never reads (S1, WB-T6)
+
+Every entity, field and level field carries a `doc` (hover in LDtk);
+`Transition.to`, `EnemySpawn.kind`, `Region.id` carry the regex
+`^[a-z][a-z0-9_]*$` (in-editor; the importer's `ZONE_NAME_SHAPE`
+stays the law); entities are tagged `structure` / `spawn` / `region`;
+the Entities layer is not selectable while inactive (painting terrain
+cannot grab a spawn); Terrain fades to 0.5 when inactive; a seal's
+`opens` draws its arrow (`PointStar`). All defs-only: the 13 emitted
+zones stayed byte-identical (WB-T6 D6 proof). NOT in that wave, each
+its own spark: entity icons (needs a TilesetDef — GUI), enums/
+EntityRef (S3), tilesets + auto-layer rules (S4), `worldDepth`/layout
+(S5).
+
+### 4.4 Builder rule for future auto-layers (recorded now, binds S4)
+
+A builder-written level that carries auto-layer RULES must write
+`"autoLayerTiles": null` — LDtk re-bakes the rules on project open
+ONLY when that array is null; `[]` reads as "already baked" and the
+floor stays bare (LDtk v1.5.3 `LayerInstance.hx:409/935`,
+`Editor.hx:356`; brief §3.7/§6.19, gamesmith
+`docs/ldtk-research-brief-2026-09-05.md`). Today's builders write `[]`
+for rule-less layers — correct today, wrong the day a layer gets
+rules.
 
 ## 5. Delivery workflow (one direction → one shippable edit)
 

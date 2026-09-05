@@ -97,6 +97,40 @@ Se você usa um agente de código (pi, Claude, etc.) neste repo, o combinado é:
   Gabriel (ele orquestra tudo de um chat só); pede por um rascunho em
   `drafts/` que ele roteia.
 
+### Editar mapas no LDtk (WB-T6, 2026-09-05)
+
+O arquivo dos mapas é `authoring/pilot.ldtk` (13 zonas). Regras da casa:
+
+- **Versão do LDtk: 1.5.3, fixa.** Instalador com md5
+  `11f9057d5889c0e51eee2ed43e8096cf` (registro:
+  `drafts/_ldtk-spike-findings-20260819.md`). Se o programa oferecer
+  atualização, **recuse** — trocar de versão é uma decisão dos dois, não
+  um clique.
+- **Ctrl+S roda a pipeline sozinho.** O projeto tem um comando
+  "AfterSave": na primeira vez o LDtk pergunta se confia nos comandos do
+  projeto — diga sim. A cada salvar ele (1) arruma os bytes do arquivo
+  no formato que os scripts exigem, (2) roda o importador para
+  `tmp/ldtk_out` (nunca para `data/zones`) e (3) checa o grafo do mundo
+  (destino existe, ponto de chegada pisável, andar certo por tipo de
+  passagem). Deu certo = a janelinha fecha sozinha. Deu erro = ela fica
+  aberta com o motivo; corrija e salve de novo. Copiar para `data/zones`
+  continua sendo um passo consciente, com testes verdes.
+- **O que precisa na sua máquina:** `python` e `ruby` acessíveis pelo
+  PATH do Windows (o LDtk chama `python` direto, sem shell). Confira no
+  `cmd`: `where python` e `where ruby` — os dois têm que responder com um
+  caminho. Sem Python: instale o do python.org e marque "Add to PATH".
+  O Ruby do jogo (`C:\Ruby34-x64\bin`) o script já encontra sozinho
+  se estiver nessa pasta.
+- **Nunca edite o `pilot.ldtk` num editor de texto.** GUI + Ctrl+S, ou
+  script + `python tools/normalize_ldtk.py normalize authoring/pilot.ldtk`.
+  Antes de commitar: `python tools/normalize_ldtk.py --check
+  authoring/pilot.ldtk` tem que dizer `canonical` (a suite também checa).
+- **Backups automáticos** ficam em `tmp/ldtk-backups/` (10 últimos,
+  fora do git). Restaurar só pela própria tela do LDtk.
+- Passe o mouse nos campos das entidades: cada um tem uma dica do que
+  aceita (`to` = nome da zona, `price` = chave do balance, etc.).
+  Detalhes e leis: `docs/MAP_EDITING.md` §4.
+
 ### Assistir às partidas um do outro (replays determinísticos)
 
 O jogo é 100% determinístico: um script de replay reproduz uma partida
