@@ -172,3 +172,22 @@ Floor-in-banner deliberately NOT shipped until L11 (Junior's receipt 3) lands.
     an open-room grammar; BRASA's maze puts pressuring bodies in corridors; sim tuning
     = owner's call). Joins vat_economy / aoe_specials in the re-author class.
 
+## BUILD phase (branch `junior/premium-build`, 2026-09-06 01:00-01:50) - Junior: "nunca vamos encerrar ... validação começa quando chegarmos ao fim das atualizações"
+
+Mode change: build commits with the suite green; the critic wall runs ONCE at the end (below).
+Owner s133: S1-S3 YES ("as you both consider best"; S1 after T1 on main). Built on the branch:
+
+| ticket | commit | piece | tests |
+|---|---|---|---|
+| S1 | `be2bd31` | items catalog (16: 3 consumables, 4 weapons, 2 armor, 2 trinkets, 5 materials), strict loader, names x3 locales (functional, no fiction), 16 drawn 16x16 icons md5-pinned, App::ItemIcons; HUD flask = catalog icon | item_catalog_test (4) |
+| S2 | `e896ac4` `d96c114` `a97097d` | Game::Bag (20 slots, stacks by catalog, smart sort, order-free digest); Game::Loot mixed into World (:loot RNG stream, own salt - combat/respawn draw counts untouched, canaries byte-identical); drops.json (17 kits); item drops per zone (accumulate/decay/digested); interact picks the item after the coin (bag_full named); floor icons; pickup gleam + name callout; HUD BAG chip; BAG SCREEN (I/B, UI toggle, read-only: grid 5x4, detail column, provisions shown as the flask) | bag_test (6), digest/save CLASSIFICATION |
+| S3 | `5f44dc5` | status.json registry (poison/burn/stone/seized/chill; burn DOT numbers); Creature#ignite!/tick_burn/cure!/statuses; the aura IGNITES a burn; sustain off the bank uses a CURE from the bag first (antidote -> poison, ember_salve -> burn; item_used), flask fallback; burn tint + HUD icon + callout | status_test (4) |
+| polish | `3892c1f` | ram head/mane/ridge, lurker ridge/bulges/waterline, faces gain a mouth (open on windup) | art_registry md5 |
+
+Suite 1478/0 at every commit. world.rb 1798/1800 (Game::Loot extracted). The 3 canaries' OFF
+streams = ACTIVE bank throughout (tools/a3_stream_diff.rb). Not built (owner sequenced to
+v24 THE REWARD): S4 equipment/StatResolver, S5 attributes, S6 vendors/bank storage, S7 boss
+tables. Bag persistence = one line on T1's player record when it lands.
+
+## VALIDATION phase - wall #3 on the branch (worktree game-two-wall5 @ 3892c1f, 01:51 -> )
+
