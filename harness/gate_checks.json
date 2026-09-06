@@ -27,7 +27,7 @@
     },
     {
       "id": "telegraph_reads",
-      "check": "Human attack telegraph (red edge + yellow core swell) reads as incoming danger and is clearly distinct from the gold gate/transition tiles.. If no telegraph frame is present, pass with why='not exercised by this script'"
+      "check": "A hostile attack telegraph is ALWAYS a swell around a HOSTILE BODY: hot RED edge + YELLOW core, the body visible inside it - it reads as incoming danger and is clearly distinct from the gold way/transition tiles. A pale-yellow or gold SQUARE ON THE GROUND with no red edge and no hostile body inside it is NOT a telegraph (it is a way tile breathing, or a pack body's own flat pale reach tile) and must not be judged as one. If no frame shows a hostile body inside a red-edged swell, pass with why='not exercised by this script'"
     },
     {
       "id": "hurt_flash_not_white",

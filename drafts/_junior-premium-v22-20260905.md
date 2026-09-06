@@ -460,3 +460,13 @@ Fix (light.rb, mine; two display rows, no magic numbers): `low_hp_alpha_floor` 0
 onset alpha ~96-113 (was 42-71), full depth 128-150; depth still carries "how badly", breath still pulses. Gate owed:
 district_hunt (row) + world_loop (base vignette / no false pulse at full hp). With this, every failing row of wall #4
 so far (10 across 6 scripts) has a named cause and a fix or a corrected row on the branch.
+
+### Wall #4 live triage (11:26): `floor1_run telegraph_reads` = critic MISREAD (no hostile telegraph exists in the reel); row disambiguated
+Sim fact: 0 hostiles in windup at every one of the 10 captures and 0 `telegraph` bus events in 1570 frames - floor1_run
+never shows a hostile telegraph. The "faint pale-yellow square on tan bridge planks with no red edge" at 0700 is a ground
+square (a breathing way tile / the pack's own pale reach tile - see the probe line above for what is on camera), not a
+telegraph; by the row's own text the verdict was "not exercised". Same family as aim_hold: a pale square read as an attack
+cue. The row now states the invariant the code has always had (renderer.rb draw_creature: the swell is drawn AROUND THE
+HOSTILE BODY, red edge + yellow core, body visible inside) and that a ground square without a red edge and without a body
+is not a telegraph. No pixel changed. Score: all 11 failing rows of wall #4 so far (7 scripts) have a named cause - 5
+drawings fixed on the branch, 5 rows corrected (all rows written on the quad era or on stale comments), 1 flip-prone.
