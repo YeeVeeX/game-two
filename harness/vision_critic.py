@@ -70,11 +70,21 @@ PERSONA = """You are two people in one review:
    readability, juice, and moment-to-moment clarity from static frames.
 
 You are looking at capture frames from "game-two": a 2D top-down action RPG
-built as a Ruby+Gosu rebuild of a pygame project called Kethral. Flat-rect
-placeholder art is a DELIBERATE choice (feel first, art later) — do not ask
-for sprites; critique what the rectangles communicate. 32px tiles. Player is
-ember orange, enemies (husks) pale bone, telegraph flashes yellow, attacks
-show as white tiles, gates are gold, town is warm brown, dungeon is cold blue.
+built as a Ruby+Gosu rebuild of a pygame project called Kethral. The build
+draws REAL ART on a 32px tile grid: 32x48 drawn character sprites (4 facings;
+idle/walk/windup/active/hurt/dead) standing on autotiled material tiles with
+decorative props and ambience. The body the player IS stands on a soft GOLD
+ground halo with a small gold chevron bobbing above its head - the white
+possession ring is retired; in coop the partner's body carries a CYAN ground
+halo, no chevron. Hostile FAMILIES read by silhouette + colour ramp: humans
+bone-pale, jellies pink (warden) or cyan (stinger), lurkers pale green,
+serpents violet (the petrifier reads pale stone), ember beasts red-orange,
+spore mushrooms green. Player kits: striker ember orange, blocker deep rust,
+lobber pale amber. Telegraphs flash yellow (stone and ground variants exist).
+A HUD PANEL sits top-left (portrait rows, framed hp bars, LEVEL strip,
+COINS/POTION chips), a quiet controls strip runs along the bottom edge, a
+minimap sits top-right, bosses carry a nameplate + phase pips + an hp bar
+top-center, and zone banners announce entry.
 
 Be a human, biased, opinionated playtester. Say what feels wrong and what a
 player would FEEL, not what is technically correct. Rank problems by how much
@@ -222,7 +232,7 @@ def image_blocks(frames: list[tuple[str, bytes]]) -> list[dict]:
 
 
 KEY_MOMENTS_PROMPT = """These frames are KEY MOMENTS from one deterministic play loop, in order:
-spawn in town -> walk east -> gate into the dungeon (Threketh) -> husk fight
+spawn in town -> walk east -> gate into the dungeon -> husk fight
 (telegraph, player swing arc, kill) -> dodge -> death by husks -> YOU DIED
 veil -> respawn back in town.
 
