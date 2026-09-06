@@ -397,6 +397,28 @@ termina DONE com manifest vermelho (paga 17:25: `8e0c942` bancou um `manifest_rc
 empilhados (o `to_save` funde por id). O pior caso do fio é o de ids DISTINTOS: 16 ids = 462 B. Antes de bancar um número
 como evidência, pergunte "isto é o pior caso do que a lei protege?" e construa esse caso.
 
+
+## 🇧🇷 Camadas da tela (z) — lei paga 3× em 2026-09-06
+Gosu ordena por `z`, depois por ordem de chamada. A LUZ (vinheta base + pulso de vida baixa) desenha em **z 17**:
+**tudo que é UI de tela nasce em z ≥ 18** — um `draw_rect`/`draw_text` sem `z` fica em 0, **embaixo da luz**, e a
+parede reprova ("wash tints the HUD"). Pagaram isso hoje: a barra de controles (0→19), o banner de zona (10→18), o
+backing do chip SAFE (0→19), o véu de fim do netplay (0/10→22/23).
+
+| z | O quê | Arquivo |
+|---|---|---|
+| −1 | quadrado de aura (chão, embaixo dos corpos) | `signage.rb` |
+| 0 | mundo: tiles, corpos, telegraphs, drops; **véus de propósito** (wipe, stagger, hurt bars) | `renderer.rb` |
+| 6 / 8 | FX em espaço de mundo (callouts / números) | `fx.rb` |
+| 17 | **LUZ**: vinheta base, pulso vinho, level flash (18) | `light.rb` |
+| 18 | prompt de interação, setas de saída, banner de zona + stamps | `signage.rb`, `renderer.rb` |
+| 19–21 | HUD plate (19) + barras/pips (20–21), barra de controles (19), minimapa (19–21), chip SAFE (19/20), boss bar (20), edge pips (21) | `hud.rb`, `controls_overlay.rb`, `minimap.rb`, `renderer.rb` |
+| 22 / 23 | véu de fim do netplay + texto | `netplay_overlay.rb` |
+| 29–31 | ledger beat | `renderer.rb` |
+| 30 | tela da bolsa | `bag_screen.rb` |
+
+Regra prática: overlay de tela novo → `z` explícito ≥ 18; véu que deve ficar **embaixo** do HUD → z 0 **com comentário**
+dizendo que é de propósito. Se um gate disser "the HUD/strip reads tinted", procure um `draw_*` sem `z` antes de mexer em alpha.
+
 ---
 
 ## 🇬🇧 How to run the game (Windows)
