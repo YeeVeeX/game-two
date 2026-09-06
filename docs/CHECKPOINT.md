@@ -7,7 +7,7 @@ CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
 
-CLAIMED: T1 save schema 3 (per-player character records + `data/player.local.json` + HELLO `player_id` + 2→3 migration) — Gabriel seat, s136 (claimed 2026-09-06 04:50 CAST; the E1 sweep is still running in the main tree, so T1 is built on branch `t1-schema3` in a linked worktree and lands on main after the sweep's close commit).
+CLAIMED: T1 save schema 3 (per-player character records + `data/player.local.json` + HELLO `player_id` + 2→3 migration) — Gabriel seat, s136 (claimed 2026-09-06 04:50 CAST; built on branch `t1-schema3` in a linked worktree while the E1 sweep judged the main tree; the sweep is HARVESTED — landing now: FF, GL gates, close).
 
 PREVIOUS HEAD NOTE — **s135 closed: E1 HARNESS TRUTH landed (eleven commits `03e38b1`..`5bca200`) — the critic, the pin ledger and the gate rows are honest again, and the full 43-script re-pin sweep is RUNNING DETACHED for s136 to harvest.** Cycle state: `docs/CYCLE.md`. Law: `drafts/_v22-foundation-20260905.md`. Spec: `docs/superpowers/specs/2026-09-05-v22-one-body-cycle.md`. Records: `drafts/_v22-e1-record-20260906.md` + reviewer verbatim `drafts/_v22-e1-review-20260906.md`. Restore tags unchanged: `restore/pre-mundo-vivo-20260904` (`cf9a6a6`) · `restore/post-mundo-vivo-20260905`.
 

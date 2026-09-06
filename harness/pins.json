@@ -1,1 +1,370 @@
-[]
+[
+  {
+    "script": "aim_hold",
+    "tag": "v22-e1",
+    "commit": "332649b",
+    "date": "2026-09-06T08:28:40Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "aoe_specials",
+    "tag": "v22-e1",
+    "commit": "332649b",
+    "date": "2026-09-06T08:35:11Z",
+    "gate_rc": 1,
+    "manifest_rc": 0
+  },
+  {
+    "script": "basement_pocket",
+    "tag": "v22-e1",
+    "commit": "d377688",
+    "date": "2026-09-06T08:38:58Z",
+    "gate_rc": 0,
+    "manifest_rc": 1
+  },
+  {
+    "script": "boss1_writ",
+    "tag": "v22-e1",
+    "commit": "d377688",
+    "date": "2026-09-06T08:44:01Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "boss2_phases",
+    "tag": "v22-e1",
+    "commit": "105cdc4",
+    "date": "2026-09-06T08:48:46Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "boss4_phases",
+    "tag": "v22-e1",
+    "commit": "105cdc4",
+    "date": "2026-09-06T08:53:17Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "brasa1_run",
+    "tag": "v22-e1",
+    "commit": "093579c",
+    "date": "2026-09-06T08:59:14Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "brasa2_run",
+    "tag": "v22-e1",
+    "commit": "093579c",
+    "date": "2026-09-06T09:30:54Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "brasa3_run",
+    "tag": "v22-e1",
+    "commit": "093579c",
+    "date": "2026-09-06T09:40:48Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "corpse_run",
+    "tag": "v22-e1",
+    "commit": "c267113",
+    "date": "2026-09-06T10:48:26Z",
+    "gate_rc": 1,
+    "manifest_rc": 0
+  },
+  {
+    "script": "critic_reel",
+    "tag": "v22-e1",
+    "commit": "c267113",
+    "date": "2026-09-06T10:52:21Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "dash_strike_rip",
+    "tag": "v22-e1",
+    "commit": "c267113",
+    "date": "2026-09-06T10:56:29Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "district_hunt",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T11:39:00Z",
+    "gate_rc": 1,
+    "manifest_rc": 0
+  },
+  {
+    "script": "floor1_run",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T11:43:56Z",
+    "gate_rc": 1,
+    "manifest_rc": 0
+  },
+  {
+    "script": "floor2_run",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T11:49:34Z",
+    "gate_rc": 1,
+    "manifest_rc": 0
+  },
+  {
+    "script": "floor3_run",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T11:56:35Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "grass_fixture_walk",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T11:58:56Z",
+    "gate_rc": 1,
+    "manifest_rc": 0
+  },
+  {
+    "script": "ledger_loop",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T12:06:00Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "level_gate",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T12:09:08Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "level_up_beat",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T12:12:41Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "lobber_reach",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T12:18:31Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "lobber_volley",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T12:25:35Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "menu_tour",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T12:29:06Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "mercy_floor",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T12:31:44Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "moving_square",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T12:32:33Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "multi_floor_descent",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T12:37:30Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "respawn_telegraph",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T12:41:46Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "safe_boundary",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T12:44:32Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "specials_chain",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T12:48:12Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "sustain_run",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T13:07:53Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "taunt_anchor",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T16:23:03Z",
+    "gate_rc": 1,
+    "manifest_rc": 0
+  },
+  {
+    "script": "threat_pull",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T16:39:30Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "toll_pocket",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T16:44:10Z",
+    "gate_rc": 0,
+    "manifest_rc": 1
+  },
+  {
+    "script": "totem_pulse",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T16:49:33Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "tower2_run",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T16:54:48Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "tower3_run",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T16:59:37Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "tower4_run",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T17:19:21Z",
+    "gate_rc": 1,
+    "manifest_rc": 0
+  },
+  {
+    "script": "town_gates",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T17:23:12Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "vat_economy",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T17:28:43Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "wall_fixture_walk",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T17:31:04Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "world_loop",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T17:35:26Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "zone8_crossing",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T17:46:10Z",
+    "gate_rc": 1,
+    "manifest_rc": 0
+  },
+  {
+    "script": "zone_catchup",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T17:50:11Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "corpse_run",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T18:21:09Z",
+    "gate_rc": 1,
+    "manifest_rc": 0
+  },
+  {
+    "script": "district_hunt",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T18:48:38Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "taunt_anchor",
+    "tag": "v22-e1",
+    "commit": "a41ca0c",
+    "date": "2026-09-06T19:20:11Z",
+    "gate_rc": 1,
+    "manifest_rc": 0
+  }
+]

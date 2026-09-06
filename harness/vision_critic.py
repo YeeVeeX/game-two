@@ -373,9 +373,12 @@ def run_verdict(captures_dir: Path, checks_path: Path) -> int:
         # 16K: a 42-check verdict is ~6K of JSON alone, and the model can
         # spend the whole 8K default reasoning before its first text delta
         # (observed 2026-08-13: three empty-output INFRA errors in a row on
-        # a 20-frame verdict while smaller verdicts passed).
+        # a 20-frame verdict while smaller verdicts passed). CRITIC_MAX_TOKENS
+        # overrides: the 97-row checklist truncated three of v22-e1's longest
+        # reels mid-JSON at 16K (corpse_run, district_hunt, taunt_anchor —
+        # "Expecting ',' delimiter"), so their standalone re-runs ride 24K.
         text = converse(client, image_blocks(frames) + [{"text": prompt}],
-                        max_tokens=16_000)
+                        max_tokens=int(os.environ.get("CRITIC_MAX_TOKENS", "16000")))
         try:
             result = extract_json(text)
             # The model's output is trusted only if it covers the checklist
