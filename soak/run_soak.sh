@@ -23,9 +23,15 @@
 #                     chain_check asserts the START_ZONE line per seat
 #                     and combat outside hubs.
 #   SEED_SAVE=1       pre-seed the scratch save (soak/seed_save.rb:
-#                     home=nest banked=60 provisions=3) so sustain buys
-#                     execute for real; chain_check expects ep1 to LOAD
-#                     the seeded digest.
+#                     home=nest banked=60 provisions=3, keyed by ep1's
+#                     host bot) so sustain buys execute for real;
+#                     chain_check expects ep1 to LOAD the seeded digest.
+#   CHAIN LENGTH (v22 T1): every episode's two bots (bot-<seed>) add their
+#                     character records to the ONE scratch chain (~260 B
+#                     each); the host preflights the SESSION line against
+#                     persistence.json wire_budget_bytes (3072), so a chain
+#                     refuses NAMED ("save too large for the wire") around
+#                     N=5. Keep N <= 4 per run, or start a new run.
 #   SOAK_AUDIO=1      bots boot the audio bridge in noDevice mode (real
 #                     mixer graph, no hardware) — audio_bridge.rb reads
 #                     this env directly; watch AUDIO teardown lines.

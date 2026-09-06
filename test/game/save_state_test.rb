@@ -33,8 +33,8 @@ class SaveStateTest < Minitest::Test
 
   SS = Game::SaveState
 
-  def world(seed: 7, seats: 1, save: nil)
-    Game::World.new(DATA, seed:, seats:, save:)
+  def world(seed: 7, seats: 1, save: nil, players: nil)
+    Game::World.new(DATA, seed:, seats:, save:, players:)
   end
 
   def idle = @idle ||= Core::ScriptedInput.new(frames: {})
@@ -968,5 +968,86 @@ class SaveStateTest < Minitest::Test
     assert_includes swept, "character.bag"    # Junior's S2 hook, proven
     # sessions: no in-sim mutation path exists yet (the save coordinator
     # bumps it at write — increment 2); its round-trip is pinned above.
+  end
+
+  # --- 9. the T1 interim rule at the World level (council s133 Q5/Q6) ------
+  # T1 ships before T2b: one shared pack + one shared Progression. The HOST
+  # character IS that progression (live); a SEATED GUEST's level/xp MIRROR
+  # the host's (live reads and the clean-quit projection); its other keys
+  # freeze; UNSEATED records round-trip verbatim. Guests without a record
+  # are created at session start under the D-T1 seed rule.
+
+  GUEST = "9a1b2c3d-4e5f-4a6b-8c7d-0e1f2a3b4c5d".freeze
+  TWO = { 1 => HOST, 2 => GUEST }.freeze
+
+  def test_missing_guest_is_created_at_construction_and_mirrors_the_host
+    w = world(seats: 2, save: valid_facts, players: TWO)
+    assert_equal [HOST, GUEST].sort, w.party.ids, "the seated guest gets a record at session start"
+    guest = w.party.records.fetch(GUEST)
+    assert_equal [1, 0, "nest", "blocker"], [guest.level, guest.xp, guest.home_zone, guest.form],
+                 "no migration block: new_character.level, the initial hub, the fresh pack's kit"
+    w.progression.load_progress!(level: 4, xp: 9) # the shared pack grows
+    f = SS.facts(w)
+    assert_equal [4, 9], f["characters"][HOST].values_at("level", "xp")
+    assert_equal [4, 9], f["characters"][GUEST].values_at("level", "xp"), "the seated guest MIRRORS the party level"
+    assert_equal "blocker", f["characters"][GUEST]["form"], "the guest's other keys stay stored"
+    rows = w.digest_snapshot.to_h
+    assert_equal rows.fetch("character.#{HOST}").take(2), rows.fetch("character.#{GUEST}").take(2),
+                 "the digest rows agree with the projection (both seats compute the same)"
+    assert_equal [HOST, GUEST].sort.map { |id| "character.#{id}" },
+                 rows.keys.grep(/\Acharacter\./), "sorted player-id order"
+    assert_nil refusal(f)
+  end
+
+  def test_unseated_records_round_trip_verbatim_and_the_seated_guest_persists_the_mirror
+    f = valid_facts
+    f["characters"]["bot-4"] = host_record(level: 7, xp: 3, home: "camp", form: "lobber").merge("xp_debt" => 11)
+    f["characters"][GUEST] = host_record(level: 2, xp: 1, home: "zone_7", form: "striker")
+    w = world(seats: 2, save: deep_dup(f), players: TWO)
+    w.progression.load_progress!(level: 5, xp: 2)
+    out = SS.facts(w)
+    assert_equal f["characters"]["bot-4"], out["characters"]["bot-4"], "unseated: verbatim, level 7 untouched"
+    assert_equal [5, 2, "zone_7", "striker"],
+                 out["characters"][GUEST].values_at("level", "xp", "home_zone", "form"),
+                 "seated guest: level/xp mirror the host, home/form frozen"
+    again = world(seed: 99, seats: 2, save: deep_dup(out), players: TWO)
+    assert_equal bytes(out), world_bytes(again), "three records round-trip byte-exact"
+  end
+
+  def test_legacy_seed_is_claimed_once_by_the_first_newcomer_and_persisted
+    f = valid_facts.merge("migration" => deep_dup(MIGRATION)) # legacy_level 13, unclaimed
+    w = world(seats: 2, save: deep_dup(f), players: TWO)
+    guest = w.party.records.fetch(GUEST)
+    assert_equal 13, guest.level, "the first newcomer inherits the v2 world's level (D-T1)"
+    assert_equal MAXES[:striker] + (MAXES[:striker] * 12 * 6) / 100, guest.forms["striker"]["hp"],
+                 "forms at the character's own level (Progression#max_hp_at)"
+    out = SS.facts(w)
+    assert_equal GUEST, out["migration"]["legacy_seed_claimed_by"], "the claim persists as a per-player fact"
+    assert_equal [1, 0], out["characters"][GUEST].values_at("level", "xp"),
+                 "...but in T1's field the seated guest reads the party level (host: level 1) — the mirror"
+    third = world(seats: 2, save: deep_dup(out), players: { 1 => HOST, 2 => "bot-3" })
+    assert_equal 1, third.party.records.fetch("bot-3").level, "a later newcomer starts at new_character.level"
+    assert_equal GUEST, SS.facts(third)["migration"]["legacy_seed_claimed_by"], "a spent seed never re-claims"
+  end
+
+  def test_host_without_a_record_is_a_newcomer_too_identity_is_per_player_never_seat
+    # The owner's save opened on another machine: THAT machine's id has no
+    # record -> it is created (the seed rule applies to it like any player)
+    # and the original host's record stays in the file, unseated.
+    other = "0f7e2c1a-4b3d-4c2e-9a1b-1234567890ab"
+    f = valid_facts.merge("migration" => deep_dup(MIGRATION))
+    w = world(save: deep_dup(f), players: { 1 => other })
+    assert_equal 13, w.progression.level, "the newcomer host claimed the legacy seed"
+    out = SS.facts(w)
+    assert_equal [HOST, other].sort, out["characters"].keys
+    assert_equal f["characters"][HOST], out["characters"][HOST], "the absent player's record is untouched"
+    assert_equal other, out["migration"]["legacy_seed_claimed_by"]
+  end
+
+  def test_players_map_is_validated_at_construction
+    assert_raises(ArgumentError) { world(players: { 1 => "seat-1" }) }
+    assert_raises(ArgumentError) { world(seats: 2, players: { 1 => "bot-1", 2 => "bot-1" }) }
+    assert_raises(ArgumentError) { world(seats: 2, players: { 1 => "bot-1" }) }
+    assert_raises(ArgumentError) { world(players: { 2 => "bot-1" }) }
   end
 end

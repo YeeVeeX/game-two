@@ -487,17 +487,32 @@ class SessionTest < Minitest::Test
           .map { |s| [zone, s[:opens]] }
     end.sort
     refute_empty all_seals, "staging: the world lost its seals"
+    # v22 T1: the two peers' characters keyed by uuids (the longest id
+    # shape), every Integer at 32-bit max, the migration block present.
+    # Junior's containers stay EMPTY here on purpose: his S2 merge owns the
+    # bag's wire cost (named in the T1 record as the budget's next tenant).
+    ids = %w[0f7e2c1a-4b3d-4c2e-9a1b-1234567890ab 9a1b2c3d-4e5f-4a6b-8c7d-0e1f2a3b4c5d]
     worst = valid_facts.merge(
       "breached" => all_seals,
       "banked" => 2**31 - 1, "provisions" => 2**31 - 1,
-      "counters" => { "boss_1_defeats" => 2**31 - 1, "sessions" => 2**31 - 1 }
+      "counters" => { "boss_1_defeats" => 2**31 - 1, "sessions" => 2**31 - 1 },
+      "characters" => ids.to_h do |id|
+        [id, valid_facts["characters"]["bot-1"].merge(
+          "level" => 2**31 - 1, "xp" => 2**31 - 1, "xp_debt" => 2**31 - 1,
+          "insurance" => DATA["balance/death"][:insurance][:max_stacks],
+          "home_zone" => "zone_7", "form" => "blocker",
+          "forms" => %w[striker blocker lobber].to_h { |k| [k, { "hp" => 2**31 - 1, "inscribed" => true }] }
+        )]
+      end,
+      "migration" => { "from_schema" => 2, "legacy_level" => 2**31 - 1, "legacy_seed_claimed_by" => ids.last }
     )
+    assert_nil Game::SaveState.refusal_for(worst, data: DATA), "staging: the worst case must be a legal save"
     canonical = Game::SaveState.canonical_bytes(worst)
     assert_nil Net::Session.session_wire_refusal(
       save_canonical: canonical, save_digest: Digest::MD5.hexdigest(canonical),
       save_schema: Game::SaveState::SCHEMA, config: CFG,
       budget: DATA["persistence"][:wire_budget_bytes]
-    ), "the worst-case save must fit the wire budget (W4)"
+    ), "the worst-case two-character save must fit the wire budget (W4): #{canonical.bytesize} bytes"
   end
 
   def test_wire_preflight_passes_a_fresh_world
