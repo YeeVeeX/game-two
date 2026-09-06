@@ -596,3 +596,15 @@ census 42/42; 126 pins; 0 ruby; 1 worktree.
 ### 19:0x - netplay end veil + text to z 22/23 (fixes review §8b: the strip at z 19 surfaced over the end screen). Presentation only, my file, not wall-visible. GATE OWED: the netplay gate (harness/net) when the window frees. 1590 runs, 90392 assertions, 0 failures, 0 errors, 0 skips
 
 ### 19:1x - netplay gates after the overlay z fix (4053df4): netplay_session:rc0 netplay_desync:rc0 netplay_conn_lost:rc0  (per-script GATE lines in the wall log). The idle game window (0 events in 13 min) was closed to free the GL for these; relaunched afterwards for Junior.
+
+### Wall #5 live triage (20:04): `corpse_run low_hp_pulse_reads` = REAL legibility (not a flip, not an ally): the pulse IS drawn and reads as "dark", not "red"
+Hypothesis "free ally" REFUTED by the sim: at capture 3062 the POSSESSED is the lobber at 2/74 (striker + blocker dead),
+state=world, wiping=false, light on, depth 0.91 -> pulse alpha 143/150 with bands 0.12/0.16. Pixel of the wall's own capture
+(captures/pilot/cr3_r1_replay_gate_a/frame_3062.png vs frame_0330): edges (113,82,60) -> (53,24,26) - R ~2x G,B = the
+low_hp_rgb [120,16,48] signature; centre (47,34,29) -> (35,29,23) untouched; HUD plate untouched. So the wine bleed is present
+and correctly placed - but on the district's DARK floor ([38,30,20]) under the base vignette it reads as "darker edges", not
+"red edges" (the critic's "no red edge vignette"). district_hunt / sustain_run passed the same rule on lighter floors.
+Same failure class as the 7 wall-#4 drawings (tuned on one floor, unreadable on another). FIX CANDIDATE for the harvest
+(not applied mid-wall - it would change pixels under the running sweep): a 2 px BRIGHT saturated red RIM at the very edge
+(`low_hp_rim_rgb` ~[230,40,60], `low_hp_rim_px` 2, alpha riding the pulse) so "red" is unambiguous on any floor while the
+wine stays the bleed; then re-gate corpse_run + district_hunt + sustain_run (+ world_loop as no-pulse control).
