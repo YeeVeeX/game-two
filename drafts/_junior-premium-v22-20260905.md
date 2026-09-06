@@ -374,3 +374,17 @@ the body only (gate_checks.json, mine, no lane owns it); (2) at signage-lane int
 then) the pack spark goes back to bright - warm-white core [255,235,200] + amber arms [255,180,80] (distinct from the
 hostile star's near-white core, never pure white), then Rule 2 gates on basement_pocket (row 1) + boss1_writ (row 2).
 `boss2_phases possessed_readable` = 3rd wall fail, NEW - likely the possessed seized/dead in the boss beats; re-gate at close.
+
+### Wall #4 live triage (10:40): `boss2_phases possessed_readable` = two presentation truths, both mine (root causes found)
+Sim facts (headless): the possessed blocker is alive, never seized, at [28,13] with all three pack bodies alive in all 8
+captures -> the halo + chevron MUST be drawn. 4x crops of the wall's own captures 0094/0256/0282: (1) the gold ground
+ellipse IS drawn but barely reads on DUNGEON 4's LIGHT stone floor ([94,94,97]; the halo's soft fill alpha 92 + pale-gold
+rim were tuned on the pilot's dark floors, nest [28,24,22]) - the TOWER's inverted palette (E4) was never in the halo's
+design brief; (2) the gold chevron above the head sits INSIDE a pink diamond = a DROP GEM lying on the tile behind the
+possessed's head ([28,12]): two diamond-shaped markers on one spot, "pink gem above heads confuses the marker". Both are
+my surfaces (pass 3 halo/chevron, S2 drop gems). Fix (presentation-only, renderer.rb + display.json, both owned by lane
+signage until it folds -> at integration): dark CONTOUR outside the halo's gold rim (reads on dark AND light floors) and a
+dark 1px outline/backing on the chevron (a MARKER, not a gem); knobs `possess_halo_contour_rgb/alpha`,
+`possess_chevron_outline_rgb`. Gates after: boss2_phases (row) + world_loop (pilot dark floor, no regression). The row
+`possessed_readable` is right as written. Named: the TOWER floor may expose more dark-floor-tuned overlays (aura square,
+telegraph edges) - wall #4 is the census.
