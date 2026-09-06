@@ -201,3 +201,25 @@ status.json = sim numbers only, tints + bag layout in display.json, strict econo
 cure choice in canonical id order (pin-independent); (8) provisions = title chip, never a grid
 cell. The BLOCKER's merge condition (T1 first) = the owner's sequencing already in force.
 
+
+### Fresh-eyes reviews #2, #3, #4 (02:50-04:26) on the multi-agent FENCE
+- #2 `delegate` on 5595c11 (lanes design) -> `drafts/_review-lanes-freshEyes-20260906.md`: BLOCKED (7 fence holes:
+  self-modifiable brief, rename source unfenced, no branch/token check, BOARD handoff, fail-open CLI, test gaps,
+  ad-hoc YAML) + A4/A6 -> all answered in a13e5bf (brief + BOARD read from the trusted ref, both rename sides,
+  branch check, SIM TOKEN, rc 2 fail-closed, real YAML, receipts per lane).
+- #3 `delegate` on a13e5bf -> `drafts/_review-fence2-freshEyes-20260906.md`: WITH MINORS (policy? not canonical,
+  --files skipped the branch check, permissive schema, presentation fallbacks) -> answered in b40ab7f (lane_guard v3:
+  canonical paths + MALFORMED, policy by glob intersection, branch check in every mode, `SIM LANE:` machine row,
+  strict lists, strict display rows).
+- #4 `lane-reviewer` (custom agent, **fable-5.1-thinking**, Junior's model order 04:00) on b40ab7f ->
+  `drafts/_review-fence3-laneReviewer-20260906.md`: WITH MINORS, 20 adversarial probes all refused; 3 minors
+  (receipts dir ownable, SIM LANE regex crossed newlines, case-insensitive FS) + 2 notes -> answered in 3a0ef57.
+  Suite 1488 runs / 0 failures; canaries OFF = ACTIVE x3.
+
+### Wall #3 closed (04:28) + re-gate (04:29-05:02, main clone @ 3a0ef57) -> `drafts/_wall-premium-build-20260906.log`
+42 scripts: 5 vision fails, 9 manifest fails (= the T7 census, unchanged). Re-gate: basement_pocket, dash_strike_rip,
+ledger_loop, sustain_run PASS; brasa2_run exit_signage_reads PASS, pressure_ring_reads FAIL (named debt since wall #2).
+Classification: 2 real fixed (pack spark crimson + minimap per-map scale; exit arrows slide along the edge),
+2 flips, 1 row reworded to the owner's v16 design (`wipe_reads`: veil + recap, no headline - the row demanded
+"large text" the owner removed), 1 named debt. The branch is VALIDATED at 3a0ef57; landing waits on T1 (S1) and the
+TWENTIETH verdict (S2+S3) per the owner's sequencing.

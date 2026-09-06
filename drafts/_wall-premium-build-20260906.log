@@ -1,0 +1,127 @@
+# BUILD phase wall #3 - worktree game-two-wall5 @ 3892c1f (S1-S3 + sprite polish), 2026-09-06 01:51 - 04:28; re-gate 04:29-05:02 in the MAIN clone @ 3a0ef57 (a13e5bf wall fixes + b40ab7f/0ebd2c9/3a0ef57)
+# Sweep: 42 scripts, 5 vision fails, 9 manifest fails (all 9 = pre-existing T7 census: basement_pocket level_gate loot_loop nest_advance threat_pull toll_pocket vat_economy zone8_crossing zone_catchup).
+# Re-gate @ 3a0ef57: basement_pocket PASS (pack spark crimson + minimap per-map scale, a13e5bf) · dash_strike_rip PASS (flip) · ledger_loop PASS (kits_distinct flip + wipe_reads row -> v16 veil-only, 0ebd2c9) · sustain_run PASS (wipe_reads row) · brasa2_run: exit_signage_reads PASS (arrows slide along the edge, a13e5bf); pressure_ring_reads FAIL = NAMED DEBT since wall #2 (corridor grammar, owner numbers).
+# Classification: 2 real (basement_pocket rows, brasa2 arrows) fixed + gated; 2 flips (dash_strike_rip specials_distinct, ledger_loop kits_distinct); 1 row reworded to the owner's v16 design (wipe_reads, ledger_loop + sustain_run); 1 named debt (brasa2 pressure_ring_reads).
+
+## sweep
+=== WALL aim_hold 01:51:38 ===
+=== aim_hold gate_rc=0 manifest_rc=0 ===
+=== WALL aoe_specials 01:53:09 ===
+=== aoe_specials gate_rc=0 manifest_rc=0 ===
+=== WALL basement_pocket 01:55:58 ===
+  [FAIL] hurt_flash_not_white: Frame 0700 pack body hit effect reads as a pale peach-white cross, not crimson.
+  [FAIL] minimap_reads: Radar box shows only a tiny orange blob; five adjacent husks produce no discernible red dots.
+=== basement_pocket gate_rc=1 manifest_rc=1 ===
+=== WALL brasa1_run 01:57:57 ===
+=== brasa1_run gate_rc=0 manifest_rc=0 ===
+=== WALL brasa2_run 02:00:51 ===
+  [FAIL] exit_signage_reads: Gold way tile reads flat with no breathing glow and stray world anchored yellow triangles are not edge arrowheads.
+=== brasa2_run gate_rc=1 manifest_rc=0 ===
+=== WALL brasa3_run 02:11:11 ===
+=== brasa3_run gate_rc=0 manifest_rc=0 ===
+=== WALL corpse_run 02:14:20 ===
+=== corpse_run gate_rc=0 manifest_rc=0 ===
+=== WALL critic_reel 02:20:44 ===
+=== critic_reel gate_rc=0 manifest_rc=0 ===
+=== WALL dash_strike_rip 02:23:05 ===
+  [FAIL] specials_distinct: Frame 0428 special lands as a flat red 3x3 flood on the human, not a bright ring burst around the striker.
+=== dash_strike_rip gate_rc=1 manifest_rc=0 ===
+=== WALL district_hunt 02:25:45 ===
+=== district_hunt gate_rc=0 manifest_rc=0 ===
+=== WALL floor1_run 02:30:00 ===
+=== floor1_run gate_rc=0 manifest_rc=0 ===
+=== WALL floor2_run 02:32:59 ===
+=== floor2_run gate_rc=0 manifest_rc=0 ===
+=== WALL floor3_run 02:37:03 ===
+=== floor3_run gate_rc=0 manifest_rc=0 ===
+=== WALL grass_fixture_walk 02:43:09 ===
+=== grass_fixture_walk gate_rc=0 manifest_rc=0 ===
+=== WALL ledger_loop 02:44:55 ===
+  [FAIL] kits_distinct: Two visible pack bodies in nest frames are the same orange-haired sprite, reading as copies not kinds.
+  [FAIL] wipe_reads: Veil frame shows darkness and a tally only; no run-ending text tells the player the pack is gone.
+=== ledger_loop gate_rc=1 manifest_rc=0 ===
+=== WALL level_gate 02:50:22 ===
+=== level_gate gate_rc=0 manifest_rc=1 ===
+=== WALL level_up_beat 02:52:47 ===
+=== level_up_beat gate_rc=0 manifest_rc=0 ===
+=== WALL lobber_reach 02:55:05 ===
+=== lobber_reach gate_rc=0 manifest_rc=0 ===
+=== WALL lobber_volley 02:59:59 ===
+=== lobber_volley gate_rc=0 manifest_rc=0 ===
+=== WALL loot_loop 03:04:33 ===
+=== loot_loop gate_rc=0 manifest_rc=1 ===
+=== WALL menu_tour 03:07:48 ===
+=== menu_tour gate_rc=0 manifest_rc=0 ===
+=== WALL mercy_floor 03:09:59 ===
+=== mercy_floor gate_rc=0 manifest_rc=0 ===
+=== WALL moving_square 03:11:31 ===
+=== moving_square gate_rc=0 manifest_rc=0 ===
+=== WALL multi_floor_descent 03:12:17 ===
+=== multi_floor_descent gate_rc=0 manifest_rc=0 ===
+=== WALL nest_advance 03:16:26 ===
+=== nest_advance gate_rc=0 manifest_rc=1 ===
+=== WALL respawn_telegraph 03:21:18 ===
+=== respawn_telegraph gate_rc=0 manifest_rc=0 ===
+=== WALL safe_boundary 03:24:07 ===
+=== safe_boundary gate_rc=0 manifest_rc=0 ===
+=== WALL specials_chain 03:26:12 ===
+=== specials_chain gate_rc=0 manifest_rc=0 ===
+=== WALL sustain_run 03:29:03 ===
+  [FAIL] wipe_reads: The veiled all-dead frame shows only the tally, no large run-ending headline, barely distinct from the low-HP combat frame.
+=== sustain_run gate_rc=1 manifest_rc=0 ===
+=== WALL taunt_anchor 03:44:01 ===
+=== taunt_anchor gate_rc=0 manifest_rc=0 ===
+=== WALL threat_pull 03:47:08 ===
+=== threat_pull gate_rc=0 manifest_rc=1 ===
+=== WALL toll_pocket 03:52:38 ===
+=== toll_pocket gate_rc=0 manifest_rc=1 ===
+=== WALL totem_pulse 03:55:39 ===
+=== totem_pulse gate_rc=0 manifest_rc=0 ===
+=== WALL tower2_run 03:59:59 ===
+=== tower2_run gate_rc=0 manifest_rc=0 ===
+=== WALL tower3_run 04:03:07 ===
+=== tower3_run gate_rc=0 manifest_rc=0 ===
+=== WALL tower4_run 04:06:30 ===
+=== tower4_run gate_rc=0 manifest_rc=0 ===
+=== WALL town_gates 04:09:32 ===
+=== town_gates gate_rc=0 manifest_rc=0 ===
+=== WALL vat_economy 04:11:57 ===
+=== vat_economy gate_rc=0 manifest_rc=1 ===
+=== WALL wall_fixture_walk 04:17:19 ===
+=== wall_fixture_walk gate_rc=0 manifest_rc=0 ===
+=== WALL world_loop 04:18:48 ===
+=== world_loop gate_rc=0 manifest_rc=0 ===
+=== WALL zone8_crossing 04:21:33 ===
+=== zone8_crossing gate_rc=0 manifest_rc=1 ===
+=== WALL zone_catchup 04:25:35 ===
+=== zone_catchup gate_rc=0 manifest_rc=1 ===
+WALL SWEEP DONE 04:28:33 — 42 scripts, fails: basement_pocket brasa2_run dash_strike_rip ledger_loop level_gate loot_loop nest_advance sustain_run threat_pull toll_pocket vat_economy zone8_crossing zone_catchup
+WALL FAIL: basement_pocket brasa2_run dash_strike_rip ledger_loop level_gate loot_loop nest_advance sustain_run threat_pull toll_pocket vat_economy zone8_crossing zone_catchup
+
+## re-gate (main clone @ 3a0ef57)
+=== REGATE basement_pocket 04:29:24 ===
+GATE vision: PASS
+GATE determinism: 6 captures byte-identical across two runs
+GATE PASS
+=== basement_pocket gate_rc=0 04:31:23 ===
+=== REGATE brasa2_run 04:31:23 ===
+GATE vision: FAIL (see above; full verdict in drafts/_gate-verdicts.log)
+  [FAIL] pressure_ring_reads: Outlined hostiles sit at random distances, some behind walls; reads as scattered aggro tags, not encirclement.
+GATE determinism: 11 captures byte-identical across two runs
+=== brasa2_run gate_rc=1 04:41:37 ===
+=== REGATE dash_strike_rip 04:41:37 ===
+GATE vision: PASS
+GATE determinism: 8 captures byte-identical across two runs
+GATE PASS
+=== dash_strike_rip gate_rc=0 04:43:56 ===
+=== REGATE ledger_loop 04:43:56 ===
+GATE vision: PASS
+GATE determinism: 6 captures byte-identical across two runs
+GATE PASS
+=== ledger_loop gate_rc=0 04:49:02 ===
+=== REGATE sustain_run 04:49:02 ===
+GATE vision: PASS
+GATE determinism: 10 captures byte-identical across two runs
+GATE PASS
+=== sustain_run gate_rc=0 05:02:40 ===
+REGATE DONE 05:02:40
