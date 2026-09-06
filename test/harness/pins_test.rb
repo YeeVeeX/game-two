@@ -152,6 +152,55 @@ class PinsTest < Minitest::Test
     assert_includes wall, "unset CHECKS", "run_wall.sh must drop an exported CHECKS (T0 d5)"
   end
 
+  # E1c review B2 (s137): a pin's `commit` is the tree the gate JUDGED. Eight
+  # single re-gates ran gate-then-commit and pinned the PARENT of the edits they
+  # judged (toll_pocket "passed" at a commit whose toll_pocket.json fails its
+  # manifest). Now a pin recorded while any judged path (scripts, checklist,
+  # scope, src, data) carries uncommitted edits NAMES them, and the report shows
+  # DIRTY-JUDGED. Real temp git repo, no mocks.
+  def test_record_names_uncommitted_judged_paths_and_report_flags_them
+    Dir.mktmpdir do |dir|
+      repo = File.join(dir, "repo")
+      FileUtils.mkdir_p(File.join(repo, "harness", "scripts"))
+      File.write(File.join(repo, "harness", "scripts", "reel.json"), "{}\n")
+      File.write(File.join(repo, "harness", "gate_checks.json"), "{}\n")
+      File.write(File.join(repo, "README"), "unjudged\n")
+      g = lambda do |*args|
+        IO.popen(GIT_SCRUB, ["git", "-C", repo, *args], err: [:child, :out], &:read)
+      end
+      g.call("init", "-q")
+      g.call("-c", "user.name=t", "-c", "user.email=t@t", "add", ".")
+      g.call("-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "base")
+      path = File.join(dir, "pins.json")
+      run = lambda do |*args|
+        out = IO.popen(GIT_SCRUB, [RUBY, SCRIPT, *args], err: [:child, :out], chdir: repo, &:read)
+        [out, $?.exitstatus]
+      end
+
+      # clean tree (an unjudged file dirty is NOT a judged-path edit)
+      File.write(File.join(repo, "README"), "still unjudged\n")
+      out, rc = run.call("record", "--pins", path, "--script", "reel", "--tag", "t", "--gate-rc", "0", "--manifest-rc", "0",
+                         "--date", "2026-09-06T00:00:00Z")
+      assert_equal 0, rc, out
+      refute_includes out, "DIRTY-JUDGED"
+      refute JSON.parse(File.read(path)).last.key?("dirty"), "a clean judged tree records no dirty key"
+
+      # a judged script edited but uncommitted, plus an untracked new script
+      File.write(File.join(repo, "harness", "scripts", "reel.json"), "{\"captures\": [1]}\n")
+      File.write(File.join(repo, "harness", "scripts", "new_reel.json"), "{}\n")
+      out, rc = run.call("record", "--pins", path, "--script", "reel", "--tag", "t2", "--gate-rc", "0", "--manifest-rc", "0",
+                         "--date", "2026-09-06T00:00:01Z")
+      assert_equal 0, rc, out
+      assert_includes out, "DIRTY-JUDGED: harness/scripts/new_reel.json,harness/scripts/reel.json"
+      row = JSON.parse(File.read(path)).last
+      assert_equal %w[harness/scripts/new_reel.json harness/scripts/reel.json], row["dirty"]
+
+      out, rc = run.call("report", "--pins", path, "--scripts", File.join(repo, "harness", "scripts"))
+      assert_equal 0, rc, out
+      assert_match(/^PINNED\s+reel\s+.*DIRTY-JUDGED: harness\/scripts\/new_reel\.json,harness\/scripts\/reel\.json/, out)
+    end
+  end
+
   # --- E1 (T0 d4): pins + verdict log write to the MAIN clone's ledger from
   # any worktree. The 064bd80 sweep ran in worktree game-two-wall3 (pruned);
   # its pins and verdict JSON died with it while the tracked ledger stayed [].
