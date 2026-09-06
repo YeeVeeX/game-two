@@ -266,3 +266,9 @@ GATE BATCH build4toll DONE 17:24:46 (2 min)
 PIN recorded: toll_pocket tag=build4toll2 commit=8e0c942 gate_rc=0 manifest_rc=0
 === toll_pocket        gate_rc=0 manifest_rc=0 captures_vs_ref=- ===
 GATE BATCH build4toll2 DONE 17:32:10 (3 min)
+
+## floor3_run captures 1499 + 1599 (Gabriel's s135 debt; after his sweep closed) @ ebf4b00+ : gate_rc=0 manifest_rc=0
+=== REGATE floor3_run 18:04:12 ===
+PIN recorded: floor3_run tag=build4f3 commit=ebf4b00 gate_rc=0 manifest_rc=0
+=== floor3_run         gate_rc=0 manifest_rc=0 captures_vs_ref=- ===
+GATE BATCH build4f3 DONE 18:10:48 (6 min)

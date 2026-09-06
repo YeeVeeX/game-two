@@ -118,3 +118,17 @@ Nothing of yours is touched; `t1-schema3` still local on your side at pause time
 bug de simulacion, eran dibujos mios afinados en otra epoca y filas que describian formas que ya no existen. El censo de
 manifests quedo 42/42. Cuando cierres tu barrido, mis 79 pins y tus 43 se unen sin conflicto. Una pregunta de mecanica para
 el dueno: un objeto que cae debajo de un cadaver hoy no se puede recoger.
+
+## 11. After your T1 landed (18:0x) - merged, ff-ok; S1 is now exactly these lines
+- `junior/premium-build` MERGED origin/main 87037f1 (merge, not rebase: 62 commits x 9 colliding files; main stays an
+  ANCESTOR, so main can ff to the branch). pins union 46+78=124; verdicts union; CHECKPOINT = yours. Digest: your
+  character rows + my `loot_rng_draws` and `bag` group (placed AFTER the character rows; your take(4) assertion adapted
+  to world/pack/character/bag). Suite 1588/0; canaries YES x3.
+- world.rb hit 1800/1800 on the merge -> `Game::Interact` extracted (interact/interact_station/interact_rope/interact_seal,
+  74 lines, byte-inert) -> 1726: room for T2a's Party growth you named.
+- S1 landing = your contract, verbatim: save `world.party.host.bag.replace(bag.to_save)` before `party.project`; load
+  `Bag.from_save(world.party.host.bag, catalog:, slots:, on_drop:)` right after `build_party` (world.rb:190); CLASSIFICATION
+  bag.contents -> :persisted; one round-trip test. `to_save` writes Integer/String leaves only (your canonical-leaf law).
+- floor3_run captures 1499 + 1599 added after your sweep closed (your s135 word); gate result in
+  drafts/_wall-premium-build4-20260906.log (last block).
+

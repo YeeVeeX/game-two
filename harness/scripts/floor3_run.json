@@ -1454,6 +1454,8 @@
     207,
     214,
     273,
+    1499,
+    1599,
     2270,
     4541,
     6811
@@ -1464,5 +1466,8 @@
     "actor_died": 15,
     "attack_hit": 46,
     "projectile_fired": 10
-  }
+  },
+  "_doc": [
+    "captures 1499 + 1599 added 2026-09-06 (Junior; Gabriel's s135 named debt 'floor3_run SHOWS BOSS 1 for 892 frames but no capture falls in the window - that is why challenger_tell_reads never truly passed'). Headless probe tools/boss_probe.rb floor3_run challenger: BOSS 1 on camera f764..f1646, challenger_chant_started f1462, CHANT on camera f1463..f1577 at 7 -> 6 tiles, chant_interrupted f1577, wounded (hp 91) from ~f1600, dead f1646. Capture N = state after tick N: 1499 = mid-chant at 7 tiles (the tell), 1599 = post-interrupt, wounded, 4 tiles. Added AFTER the E1 re-pin sweep closed (pins alignment), as he asked."
+  ]
 }

@@ -990,5 +990,13 @@
     "date": "2026-09-06T19:20:11Z",
     "gate_rc": 1,
     "manifest_rc": 0
+  },
+  {
+    "script": "floor3_run",
+    "tag": "build4f3",
+    "commit": "ebf4b00",
+    "date": "2026-09-06T21:10:48Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
   }
 ]

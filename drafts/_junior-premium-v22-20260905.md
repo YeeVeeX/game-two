@@ -558,3 +558,7 @@ Measured: husk0 dies ON [2,6] (no knockback), its drop lands under its corpse, a
 removed, manifest re-cut to observed 2/1/1 (zone_entered / actor_died / drop_spawned). Gate: gate_rc=0 manifest_rc=0. JUNIOR.md bank law now
 requires gate_rc=0 AND manifest_rc=0 on the verdict line. NAMED for the owner/sim: a drop under a corpse is unreachable
 (pick up from an adjacent tile? scatter off the corpse?). Census: see the line below.
+
+### 18:1x — merge of T1 (1e3e38e, ff-ok) + Game::Interact extracted (ebf4b00, world.rb 1800 -> 1726) + floor3_run captures 1499/1599: gate_rc=0 manifest_rc=0
+Gabriel's s135 debt paid the way he asked (after his E1 sweep closed): captures 1499 (mid-CHANT, 7 tiles) and 1599
+(post-interrupt, wounded) added to floor3_run; gate under the bank law (verdict line read, not DONE): gate_rc=0 manifest_rc=0. BANCADO.
