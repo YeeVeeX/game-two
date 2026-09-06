@@ -132,18 +132,31 @@ module App
       end
     end
 
-    # Four edge bands with per-vertex alpha (transparent inward, dark outward)
-    # + darker corners: a soft frame, no texture needed.
+    # A FRAME with no overlap: top/bottom bands full-width, left/right bands
+    # only between them, and each corner as TWO triangles whose alpha follows
+    # the distance to the NEAREST edge (dark at the outer edge, clear at the
+    # inner corner) - so every shared edge matches its neighbour exactly.
+    # Overlapping full bands double the alpha at the corners and draw hard
+    # rectangular seams (brasa1 low-hp pulse, wall re-gate 2026-09-05).
     def draw_vignette(w, h, a, rgb: [8, 4, 6])
       bw = (w * 0.22).round
       bh = (h * 0.28).round
       dark = Gosu::Color.new(a, *rgb)
       clear = Gosu::Color.new(0, *rgb)
       z = 17
-      Gosu.draw_quad(0, 0, dark, w, 0, dark, w, bh, clear, 0, bh, clear, z)            # top
-      Gosu.draw_quad(0, h - bh, clear, w, h - bh, clear, w, h, dark, 0, h, dark, z)    # bottom
-      Gosu.draw_quad(0, 0, dark, bw, 0, clear, bw, h, clear, 0, h, dark, z)            # left
-      Gosu.draw_quad(w - bw, 0, clear, w, 0, dark, w, h, dark, w - bw, h, clear, z)    # right
+      Gosu.draw_quad(bw, 0, dark, w - bw, 0, dark, w - bw, bh, clear, bw, bh, clear, z)           # top
+      Gosu.draw_quad(bw, h - bh, clear, w - bw, h - bh, clear, w - bw, h, dark, bw, h, dark, z)   # bottom
+      Gosu.draw_quad(0, bh, dark, bw, bh, clear, bw, h - bh, clear, 0, h - bh, dark, z)           # left
+      Gosu.draw_quad(w - bw, bh, clear, w, bh, dark, w, h - bh, dark, w - bw, h - bh, clear, z)   # right
+      # corners: outer vertex dark, the two edge vertices dark, inner clear
+      Gosu.draw_triangle(0, 0, dark, bw, 0, dark, bw, bh, clear, z)                    # TL upper
+      Gosu.draw_triangle(0, 0, dark, 0, bh, dark, bw, bh, clear, z)                    # TL lower
+      Gosu.draw_triangle(w, 0, dark, w - bw, 0, dark, w - bw, bh, clear, z)            # TR upper
+      Gosu.draw_triangle(w, 0, dark, w, bh, dark, w - bw, bh, clear, z)                # TR lower
+      Gosu.draw_triangle(0, h, dark, bw, h, dark, bw, h - bh, clear, z)                # BL lower
+      Gosu.draw_triangle(0, h, dark, 0, h - bh, dark, bw, h - bh, clear, z)            # BL upper
+      Gosu.draw_triangle(w, h, dark, w - bw, h, dark, w - bw, h - bh, clear, z)        # BR lower
+      Gosu.draw_triangle(w, h, dark, w, h - bh, dark, w - bw, h - bh, clear, z)        # BR upper
     end
   end
 end

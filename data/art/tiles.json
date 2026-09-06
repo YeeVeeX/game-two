@@ -109,11 +109,11 @@
       "md5": "ceca8bcfe643091dbb39a436f482ffcf"
     },
     "wall_inner": {
-      "texture": "rock_wall",
+      "texture": "coral_wall",
       "priority": 40,
       "class": "wall",
-      "png": "art/tiles/rock_wall.png",
-      "md5": "738be785efb44503d7ae136ea025d395"
+      "png": "art/tiles/coral_wall.png",
+      "md5": "661bdf171665fc1f52f6be38a0c7a577"
     },
     "wall": {
       "texture": "rock_wall",

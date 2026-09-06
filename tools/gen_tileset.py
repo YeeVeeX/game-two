@@ -61,7 +61,7 @@ MATERIALS = {
     "rubble": ("rubble", 22, "ground"),
     "bones": ("bones", 24, "ground"),
     "roots": ("roots", 26, "ground"),
-    "wall_inner": ("rock", 40, "wall"),
+    "wall_inner": ("coral", 40, "wall"),   # the SECOND wall class reads as another MATERIAL (ZONE 3 coral / BRASA pumice)
     "wall": ("rock", 42, "wall"),
 }
 TEXTURES = sorted({v[0] for v in MATERIALS.values()})
@@ -134,6 +134,22 @@ def tex_rock(gx, gy, var):
     if d > 0.90:
         lum = 0.52
     lum += (vnoise(gx, gy, 21, 4) - 0.5) * 0.12
+    return lum
+
+
+def tex_coral(gx, gy, var):
+    # porous coral / pumice: worley bulbs with bright ridges and dark pores -
+    # a second wall MATERIAL beside the cell-shaded rock (floor2_channel_reads:
+    # two tints of one rock texture read as one rock)
+    d = worley(gx, gy, 5, pts=7)
+    lum = 0.74 + 0.30 * (1 - d) ** 1.5
+    if d > 0.88:
+        lum = 0.50
+    if h2(gx // 2, gy // 2, 25 + var) > 0.93:
+        lum = 0.42            # pores
+    if 0.30 < d < 0.36:
+        lum = min(1.0, lum + 0.14)   # ridge highlight ring
+    lum += (vnoise(gx, gy, 26, 4) - 0.5) * 0.08
     return lum
 
 
@@ -236,7 +252,7 @@ def tex_roots(gx, gy, var):
     return lum
 
 
-RAW_TEX = {"floor": tex_floor, "rock": tex_rock, "dirt": tex_dirt, "grass": tex_grass, "sand": tex_sand,
+RAW_TEX = {"floor": tex_floor, "rock": tex_rock, "coral": tex_coral, "dirt": tex_dirt, "grass": tex_grass, "sand": tex_sand,
        "water": tex_water, "moss": tex_moss, "wood": tex_wood, "rubble": tex_rubble, "bones": tex_bones,
        "lava": tex_lava, "roots": tex_roots}
 TARGET_MEAN = 0.92

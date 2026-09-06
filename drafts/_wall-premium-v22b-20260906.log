@@ -1,0 +1,113 @@
+# PREMIUM v22 wall #2 - worktree game-two-wall4 @ 5f5f992 (passes 1-11), 2026-09-05 21:33 - 06 00:04; re-gate 00:05-00:35 (same worktree)
+# Then in the main clone: floor2_run (coral texture), tower2_run, brasa1_run (vignette frame), zone_catchup PASS - tmp/wall/coral_*.log, vig_brasa1.log
+
+## sweep
+=== WALL aim_hold 21:33:21 ===
+=== aim_hold gate_rc=0 manifest_rc=0 ===
+=== WALL aoe_specials 21:35:00 ===
+=== aoe_specials gate_rc=0 manifest_rc=0 ===
+=== WALL basement_pocket 21:37:41 ===
+=== basement_pocket gate_rc=0 manifest_rc=1 ===
+=== WALL brasa1_run 21:39:19 ===
+=== brasa1_run gate_rc=0 manifest_rc=0 ===
+=== WALL brasa2_run 21:42:03 ===
+  [FAIL] pressure_ring_reads: Outlined bugs stand 6 to 9 tiles away behind walls at random spacing; reads as laggy aggro, not encirclement.
+=== brasa2_run gate_rc=1 manifest_rc=0 ===
+=== WALL brasa3_run 21:52:50 ===
+  [FAIL] brasa_reads_as_fire: Lava and ember bodies read hot, but aura squares are room-sized nested outlines with no readable bearer.
+=== brasa3_run gate_rc=1 manifest_rc=0 ===
+=== WALL corpse_run 21:55:47 ===
+=== corpse_run gate_rc=0 manifest_rc=0 ===
+=== WALL critic_reel 22:01:45 ===
+=== critic_reel gate_rc=0 manifest_rc=0 ===
+=== WALL dash_strike_rip 22:04:14 ===
+=== dash_strike_rip gate_rc=0 manifest_rc=0 ===
+=== WALL district_hunt 22:06:48 ===
+=== district_hunt gate_rc=0 manifest_rc=0 ===
+=== WALL floor1_run 22:10:56 ===
+=== floor1_run gate_rc=0 manifest_rc=0 ===
+=== WALL floor2_run 22:13:27 ===
+  [FAIL] floor2_channel_reads: Walls lining the channel in frame_2020 and frame_3249 read the same rust orange as inland rock, no distinct coral class.
+=== floor2_run gate_rc=1 manifest_rc=0 ===
+=== WALL floor3_run 22:17:34 ===
+=== floor3_run gate_rc=0 manifest_rc=0 ===
+=== WALL grass_fixture_walk 22:23:22 ===
+=== grass_fixture_walk gate_rc=0 manifest_rc=0 ===
+=== WALL ledger_loop 22:24:52 ===
+  [FAIL] wipe_reads: Frame 5043 shows a dark veil and empty bars but no large run-ending text, only the tally.
+=== ledger_loop gate_rc=1 manifest_rc=0 ===
+=== WALL level_gate 22:29:57 ===
+=== level_gate gate_rc=0 manifest_rc=1 ===
+=== WALL level_up_beat 22:32:03 ===
+=== level_up_beat gate_rc=0 manifest_rc=0 ===
+=== WALL lobber_reach 22:34:06 ===
+=== lobber_reach gate_rc=0 manifest_rc=0 ===
+=== WALL lobber_volley 22:38:23 ===
+=== lobber_volley gate_rc=0 manifest_rc=0 ===
+=== WALL loot_loop 22:43:25 ===
+=== loot_loop gate_rc=0 manifest_rc=1 ===
+=== WALL menu_tour 22:46:44 ===
+=== menu_tour gate_rc=0 manifest_rc=0 ===
+=== WALL mercy_floor 22:48:51 ===
+=== mercy_floor gate_rc=0 manifest_rc=0 ===
+=== WALL moving_square 22:50:22 ===
+=== moving_square gate_rc=0 manifest_rc=0 ===
+=== WALL multi_floor_descent 22:51:09 ===
+=== multi_floor_descent gate_rc=0 manifest_rc=0 ===
+=== WALL nest_advance 22:54:24 ===
+=== nest_advance gate_rc=0 manifest_rc=1 ===
+=== WALL respawn_telegraph 22:59:46 ===
+=== respawn_telegraph gate_rc=0 manifest_rc=0 ===
+=== WALL safe_boundary 23:02:22 ===
+=== safe_boundary gate_rc=0 manifest_rc=0 ===
+=== WALL specials_chain 23:04:30 ===
+=== specials_chain gate_rc=0 manifest_rc=0 ===
+=== WALL sustain_run 23:07:41 ===
+=== sustain_run gate_rc=0 manifest_rc=0 ===
+=== WALL taunt_anchor 23:21:53 ===
+  [FAIL] telegraph_reads: Small solid gold square beside the dead human reads like a gate tile, no red edge visible.
+=== taunt_anchor gate_rc=1 manifest_rc=0 ===
+=== WALL threat_pull 23:25:17 ===
+=== threat_pull gate_rc=0 manifest_rc=1 ===
+=== WALL toll_pocket 23:30:32 ===
+=== toll_pocket gate_rc=0 manifest_rc=1 ===
+=== WALL totem_pulse 23:32:56 ===
+=== totem_pulse gate_rc=0 manifest_rc=0 ===
+=== WALL tower2_run 23:37:18 ===
+=== tower2_run gate_rc=0 manifest_rc=0 ===
+=== WALL tower3_run 23:40:08 ===
+=== tower3_run gate_rc=0 manifest_rc=0 ===
+=== WALL tower4_run 23:43:29 ===
+=== tower4_run gate_rc=0 manifest_rc=0 ===
+=== WALL town_gates 23:46:22 ===
+=== town_gates gate_rc=0 manifest_rc=0 ===
+=== WALL vat_economy 23:49:07 ===
+=== vat_economy gate_rc=0 manifest_rc=1 ===
+=== WALL wall_fixture_walk 23:54:27 ===
+=== wall_fixture_walk gate_rc=0 manifest_rc=0 ===
+=== WALL world_loop 23:55:46 ===
+=== world_loop gate_rc=0 manifest_rc=0 ===
+=== WALL zone8_crossing 23:58:16 ===
+=== zone8_crossing gate_rc=0 manifest_rc=1 ===
+=== WALL zone_catchup 00:01:37 ===
+  [FAIL] no_render_garbage: Frame 1205 shows a ZONE 1 banner over the ZONE 2 map and minimap, a stale mismatched banner.
+=== zone_catchup gate_rc=1 manifest_rc=1 ===
+WALL SWEEP DONE 00:04:13 — 42 scripts, fails: basement_pocket brasa2_run brasa3_run floor2_run ledger_loop level_gate loot_loop nest_advance taunt_anchor threat_pull toll_pocket vat_economy zone8_crossing zone_catchup
+WALL FAIL: basement_pocket brasa2_run brasa3_run floor2_run ledger_loop level_gate loot_loop nest_advance taunt_anchor threat_pull toll_pocket vat_economy zone8_crossing zone_catchup
+
+## re-gate (6 vision fails)
+=== REGATE brasa2_run 00:05:00 ===
+  [FAIL] pressure_ring_reads: Outlined beetles idle 4 to 11 tiles away strung along corridors, reads as stalled aggro not encirclement.
+=== brasa2_run gate_rc=1 00:15:33 ===
+=== REGATE brasa3_run 00:15:33 ===
+=== brasa3_run gate_rc=0 00:18:58 ===
+=== REGATE floor2_run 00:18:58 ===
+  [FAIL] floor2_channel_reads: Channel margins show only one rust-orange rock family; no second distinct coral wall color reads anywhere.
+=== floor2_run gate_rc=1 00:23:30 ===
+=== REGATE ledger_loop 00:23:30 ===
+=== ledger_loop gate_rc=0 00:29:13 ===
+=== REGATE taunt_anchor 00:29:13 ===
+=== taunt_anchor gate_rc=0 00:32:08 ===
+=== REGATE zone_catchup 00:32:08 ===
+=== zone_catchup gate_rc=0 00:35:11 ===
+REGATE DONE 00:35:11

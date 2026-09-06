@@ -70,4 +70,21 @@ class BannerQueueTest < Minitest::Test
       refute_nil DISPLAY[k], "display.json declares #{k}"
     end
   end
+
+  # PREMIUM v22 (zone_catchup wall find): a zone banner names the ground
+  # under your feet - entering a zone preempts every earlier ZONE banner,
+  # active or queued; stamps keep their FIFO turn.
+  def test_zone_entry_preempts_stale_zone_banners_but_not_stamps
+    world.send(:enqueue_stamp, "stamp.s1", "s1")
+    world.send(:enqueue_banner, text_key: "zone.b.display_name", fallback: "B", color: :banner, frames: 150)
+    keys = world.instance_variable_get(:@banner_queue).map { |b| b[:text_key] }
+    refute_includes keys, "zone.nest.display_name", "the stale zone banner is gone"
+    assert_equal "stamp.s1", world.active_banner[:text_key], "the queued stamp takes its FIFO turn"
+    assert_includes keys, "zone.b.display_name", "the new zone waits behind the stamp"
+    world.send(:enqueue_banner, text_key: "zone.c.display_name", fallback: "C", color: :banner, frames: 150)
+    keys = world.instance_variable_get(:@banner_queue).map { |b| b[:text_key] }
+    assert_equal ["zone.c.display_name"], keys.grep(/^zone\./), "exactly one zone banner, the latest"
+    assert_includes keys, "stamp.s1"
+  end
+
 end

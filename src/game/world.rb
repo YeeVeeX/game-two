@@ -785,6 +785,12 @@ module Game
     # oldest QUEUED entry yields (display key banner_queue_max).
     def enqueue_banner(text_key:, fallback:, color:, frames:, suffix: nil)
       cap = @display.fetch(:banner_queue_max, 2)
+      # A ZONE banner names the ground under your feet: entering a zone
+      # PREEMPTS every earlier zone banner (active or queued) so the text
+      # never lags the map (zone_catchup wall find 2026-09-05: five crossings
+      # in 560 frames left "ZONE 1" over ZONE 2's map, the minimap denounced
+      # it). Stamps (court acts) keep the FIFO law - each plays out.
+      @banner_queue.reject! { |b| b[:color] == :banner } if color == :banner
       @banner_queue.delete_at(1) while @banner_queue.length - 1 >= cap
       @banner_queue << { text_key:, fallback:, color:, suffix:,
                          frames_left: frames, frames_total: frames }

@@ -147,3 +147,28 @@ dark-iron helm and iron crest. The low-hp pulse collided with the wipe veil's re
 (wipe_reads) -> WINE red, silent during nest_respawn. Both rows green after.
 Floor-in-banner deliberately NOT shipped until L11 (Junior's receipt 3) lands.
 
+## Wall #2 (42 scripts @ `5f5f992`, 21:33-00:04) - `drafts/_wall-premium-v22b-20260906.log`
+
+- **Manifests:** 9 fails = the T7 census exactly -> zero regression in the event streams.
+- **Vision first pass:** 6/42 (14%). Re-gate: brasa3_run, ledger_loop, taunt_anchor,
+  zone_catchup PASS = flips. Two REAL findings + one debt:
+  1. **floor2_run `floor2_channel_reads` x2** ("one rust rock family, no coral"): the
+     dual-grid tileset gave `wall_inner` the SAME texture as `wall` (two tints of one
+     rock) - the flat-rect era had two colors, the textured era needs two MATERIALS.
+     Fix: `wall_inner` -> its own `coral` texture (worley bulbs, pores, ridge ring;
+     reads coral in ZONE 3, pumice in BRASA, near-black rock in the tower).
+     Re-gated floor2_run + tower2_run + brasa1_run.
+  2. **brasa1_run `no_render_garbage`** (found while re-gating 1): hard rectangular
+     seams in the low-hp wine vignette - the vignette was 4 OVERLAPPING full bands,
+     alpha doubled at the corners (invisible at the dark alpha, loud in wine). Fix:
+     a non-overlapping FRAME (4 bands + 8 corner triangles, alpha by distance to the
+     nearest edge). Re-gated brasa1_run.
+  3. **zone_catchup `no_render_garbage`** first pass ("ZONE 1 banner over ZONE 2's map"):
+     passed on re-gate (the frame the critic picks varies), but the banner WAS stale -
+     the v15 FIFO let an old zone banner play out over a new zone (5 crossings in 560
+     frames); the minimap now contradicts it on screen. Fix: entering a zone PREEMPTS
+     earlier ZONE banners (stamps keep their FIFO turn); test added.
+  - **brasa2_run `pressure_ring_reads` x2 = named DEBT** (not a regression: the ring is
+    an open-room grammar; BRASA's maze puts pressuring bodies in corridors; sim tuning
+    = owner's call). Joins vat_economy / aoe_specials in the re-author class.
+
