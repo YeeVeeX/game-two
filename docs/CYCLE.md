@@ -53,8 +53,10 @@ tactical during the battle" (→ ticket TS).
 - **T9** TWENTIETH declaration (delta = A + B′ + C + TS + D).
 - **S1** (data-only) after T1 · **S2 + S3** after the TWENTIETH's verdict →
   TWENTY-FIRST (delta-triggered) closes v22.
-- **E/F/WB:** F1 floors (L11 CLOSED both peers) · F2 2× city + arena INERT
-  (owner "confirm" on D1/D8 still pending) · WB-T7 · L16 debts.
+- **E/F/WB:** **E0 DONE s134** (boss rotation snapshot; record
+  `drafts/_v22-e0-record-20260906.md`) · F1 floors (L11 CLOSED both peers) ·
+  F2 2× city + arena INERT (owner "confirm" on D1/D8 still pending) · WB-T7 ·
+  L16 debts · E1–E5 from T0 (E1 next: harness truth before T1's first gate).
 - **G — ART (REVAMP, parallel):** A0 WB-T7 · AB bible bridge (mail sent s133,
   spoke running) · **AS SCALE first** · A1 pipeline · AA authorship off the
   generator · A2 tile grammar · A3 uiux surfaces (spoke U RUNNING) · A4 re-pin
