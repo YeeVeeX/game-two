@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "script": "blink_arrival",
+    "tag": "build-junior",
+    "commit": "5a14a63",
+    "date": "2026-09-06T12:05:43Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  }
+]

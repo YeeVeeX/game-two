@@ -251,3 +251,17 @@ corrected in place; candidates (c)/(d) named for the owner. Landing on `main`: o
   now so the landing is mechanical: `Game::Bag#to_save` / `Game::Bag.from_save` (canonical, order-free, strict;
   2 tests) + `drafts/_s1s3-landing-plan-20260906.md` = the 3-line PATCH REQUEST for T1 + the per-player vs
   per-pack fact (host character's record carries the pack bag in v22; per-character split = v23 grill item).
+
+### Owner debt closed: "blink fires in NO reel" -> `harness/scripts/blink_arrival.json` (12:00-12:10)
+Why no reel had it: the two blink kits (`serpent_c`, `serpent_boss`) live in DUNGEON 3/4 and `tower3_run` spawns the
+pack at [27,44] while the serpents sit at y<=27 (aggro 9): in 1600 frames they never meet. Authoring: pack at Chebyshev
+10 from `serpent_c28` @[34,23] (not acquired), one `right` step at tick 30 -> distance 9 -> acquire + BLINK to the flank
+(headless probe `tools/blink_probe.rb`: f31 serpent [34,23] -> [24,23], flash 10..1 on f31..f40). Capture law learned
+(replay_runner saves capture N right AFTER tick N): the reel's adjacent pair is 0029 (serpent at range, no outline) /
+0030 (serpent 10 tiles displaced, violet outline widest); 0032/0035/0038 snapping shut; 0040 gone. Gate x2 (captures
+[0,24,30,31,...] then the corrected [0,24,29,30,32,35,38,40,70]): `blink_flash_reads` **PASS** both times ("Violet
+outline snaps shut on the arriving serpent across 0030 and 0032; no unmarked long jumps"), vision PASS, 9 captures
+byte-identical x2 each run; manifest floors zone_entered 1 / human_retargeted 4 / telegraph 2 / attack_hit 1 vs observed
+4/18/6/6. `blinked` stays OUT of the curated EventLog (canary md5 law) - the reel proves the blink by captures.
+Pin recorded (`harness/pins.rb record`, tag build-junior @ 5a14a63). Remaining owner debt from s135: the `floor3_run`
+BOSS 1 capture in 733-1646 - AFTER his E1 sweep closes (pins alignment).

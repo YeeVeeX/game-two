@@ -1,0 +1,56 @@
+{
+  "_doc": [
+    "blink_arrival (2026-09-06, Junior's seat; owner-named debt s135: 'blink fires in NO reel'). DUNGEON 3 fixture:",
+    "the pack is placed at Chebyshev 10 from serpent_c28 @[34,23] (aggro 9 = not yet acquired); one `right` step held",
+    "from tick 30 puts the possessed at distance 9 -> the serpent acquires and BLINKS to the possessed's flank",
+    "(kit blink: min_tiles 4, cooldown 240, flash 10). CAPTURE LAW (replay_runner): capture N is saved right AFTER tick N,",
+    "so capture 0029 = serpent still @[34,23] at distance 10, capture 0030 = serpent @[24,23] adjacent, violet outline at",
+    "its widest (flash 10), 0032/0035/0038 = outline snapping shut (flash 8/5/2), 0040 = outline gone (flash 0).",
+    "Headless probe (tmp/_blink_probe4.rb 23,23 right:30-44) in its own 1-based frame count: blink at f31, flash 10..1 on",
+    "f31..f40. `blinked` is a bus event outside the curated EventLog (canary law: that list is the md5 of the three banked",
+    "canaries - no change without the owner's rebank), so the manifest counts the logged beats the blink opens:",
+    "zone_entered, human_retargeted (acquire), telegraph, attack_hit (floors = half of one gate run's observed counts)."
+  ],
+  "scenario": "world",
+  "seed": 7,
+  "width": 960,
+  "height": 540,
+  "out_dir": "captures/blink_arrival",
+  "start": {
+    "zone": "dungeon_3",
+    "at": [
+      23,
+      23
+    ],
+    "progression": {
+      "level": 12,
+      "xp": 0
+    }
+  },
+  "hold": {
+    "right": [
+      [
+        30,
+        44
+      ]
+    ]
+  },
+  "captures": [
+    0,
+    24,
+    29,
+    30,
+    32,
+    35,
+    38,
+    40,
+    70
+  ],
+  "run_until": 90,
+  "manifest": {
+    "zone_entered": 1,
+    "human_retargeted": 4,
+    "telegraph": 2,
+    "attack_hit": 1
+  }
+}
