@@ -31,7 +31,7 @@ module App
                        sustain: "potion" }.freeze
 
     # Kit identity colors (Renderer::KIT_BODY family) + quiet text tones.
-    VESSEL_RGB = { striker: [235, 120, 40], blocker: [190, 80, 35],
+    VESSEL_RGB = { striker: [235, 120, 40], blocker: [158, 52, 30],
                    lobber: [225, 170, 90] }.freeze
     GLYPH_RGB = [225, 218, 205].freeze # bright bone — the keys pop
     BACKING_RGB = [10, 8, 12].freeze   # ledger-panel near-black family

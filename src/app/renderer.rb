@@ -23,7 +23,7 @@ module App
     HUMAN_BODY = Gosu::Color.new(255, 205, 198, 180) # pale bone
     KIT_BODY = Hash.new(HUMAN_BODY).merge(
       striker:      Gosu::Color.new(255, 235, 120, 40),
-      blocker:      Gosu::Color.new(255, 190, 80, 35),
+      blocker:      Gosu::Color.new(255, 158, 52, 30), # deep RUST (kits_distinct 2026-09-05: 190/80/35 read as a second orange)
       lobber:       Gosu::Color.new(255, 225, 170, 90),
       rusher_hater: HUMAN_BODY,
       # v20 T6b floor -2 fauna: each deep kind reads at a glance (L6).
@@ -212,6 +212,7 @@ module App
       @controls_overlay.draw(world)
       draw_edge_pips(world)
       draw_exit_arrows(world)
+      draw_interact_prompt(world)
       draw_banner(world) if world.banner?
       draw_breach_line(world)
       draw_wipe_overlay(world) if world.states.current == :nest_respawn
@@ -1666,6 +1667,43 @@ module App
         Gosu.draw_triangle(tipx, tipy, gold, bx + wx, by + wy, gold, bx - wx, by - wy, gold, z)
         shown += 1
       end
+    end
+
+    # PREMIUM v22 pass 11: the INTERACT PROMPT. When the possessed stands on
+    # or beside a station, a small bubble over its head shows the interact
+    # key glyph + the verb ("H INTERACT") — the ARPG "press X" affordance.
+    # Screen space (follows the body), above the vignette, under the HUD
+    # plate. Pure function of (possessed tile, map). display.json:
+    # interact_prompt on/off.
+    def draw_interact_prompt(world)
+      return unless @display.fetch(:interact_prompt, true)
+      me = world.possessed(@local_seat)
+      return unless me && !me.dead?
+      map = world.map
+      tx, ty = me.tile
+      near = [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1]].any? { |(dx, dy)| map.station_at(tx + dx, ty + dy) }
+      return unless near
+      cam = world.camera(@local_seat)
+      glyph = (@bindings&.glyphs(:interact)&.first) || "H"
+      label = tr("overlay.interact", "interact").upcase
+      f = hud_font
+      gw = f.text_width(glyph)
+      lw = f.text_width(label)
+      w = gw + lw + 22
+      h = 18
+      x = (me.x - cam.x + SIZE / 2.0 - w / 2.0).round
+      y = (me.y - cam.y - 30 - art_lift).round
+      z = 18
+      # bubble: dark plate, BONE hairline (UI, not the pack's orange nor the
+      # ways' gold - kits_distinct read the gold cap as a second orange body)
+      bone = Gosu::Color.new(255, 200, 190, 170)
+      Gosu.draw_rect(x - 1, y - 1, w + 2, h + 2, bone, z)
+      Gosu.draw_rect(x, y, w, h, Gosu::Color.new(235, 16, 12, 12), z)
+      Gosu.draw_rect(x + w / 2 - 2, y + h, 4, 2, bone, z)
+      # key cap: bone square with the glyph in dark
+      Gosu.draw_rect(x + 4, y + 3, gw + 6, h - 6, bone, z)
+      f.draw_text(glyph, x + 7, y + 2, z, 1, 1, Gosu::Color.new(255, 30, 20, 12))
+      f.draw_text(label, x + gw + 14, y + 2, z, 1, 1, BANNER)
     end
 
     def draw_edge_pips(world)

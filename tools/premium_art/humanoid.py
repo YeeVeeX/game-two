@@ -224,7 +224,10 @@ def head(cv, facing, P, T):
             cv.put(cx - 1, cy - 6, m, 3)
             cv.put(cx - 1, cy - 5, m, 3)
     elif style == "helmet":
-        m = "armor"
+        # iron helm (kits_distinct, 2026-09-05: at 32 px the HEAD is the read -
+        # two orange heads (Fio's hood, Aro's rust helm) read as one kind;
+        # the helm goes dark iron, the body keeps the rust plate = kit color)
+        m = T.get("helmet_mat", "armor")
         cv.ellipse(cx, cy - 0.5, r + 0.5, r, m, 2)
         if facing == "down":
             cv.box(cx - 3, cy - 1, 7, 2, "eye", 0)           # visor slit
@@ -233,8 +236,8 @@ def head(cv, facing, P, T):
         elif facing == "right":
             cv.box(cx + 1, cy - 1, 4, 2, "eye", 0)
             cv.box(cx + 1, cy + 2, 3, 2, skin, 2)
-        cv.line(cx, cy - 7, cx, cy - 5, "accent", 3)         # crest
-        cv.put(cx, cy - 8, "accent", 4)
+        cv.line(cx, cy - 7, cx, cy - 5, m, 3)                # crest: iron spike (a gold tuft read as orange HAIR)
+        cv.put(cx, cy - 8, m, 4)
     elif style == "hair":
         m = "hair"
         if facing == "down":
@@ -630,7 +633,7 @@ PACK_SKINS = {
                     sleeve="jacket_mat", scarf=True, scarf_mat="cloth", weapon="blade",
                     gloves=True),
     # Aro - the ring: broad, rust plate, helmet with crest, round shield
-    "blocker": dict(head="helmet", torso="armor", plate=True, sleeve="cloth", weapon="shield"),
+    "blocker": dict(head="helmet", helmet_mat="iron", torso="armor", plate=True, sleeve="cloth", weapon="shield"),
     # Pomo - the sling: small, amber wraps, dark hair, satchel, bare arms
     "lobber": dict(head="hair", torso="cloth", wraps=True, sleeve="skin", weapon="sling",
                    satchel=True),

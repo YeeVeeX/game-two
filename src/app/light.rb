@@ -110,12 +110,15 @@ module App
       # pass 10: LOW HP — the frame bleeds. Below low_hp_pct of max, a red
       # edge pulse (40-frame breath) grows as hp falls: the ARPG "you are
       # dying" read, no numeral needed. Pure function of (hp, frame).
-      if possessed && !possessed.dead? && possessed.hp < possessed.max_hp * @display.fetch(:low_hp_pct, 0.3)
+      # never during the wipe veil (nest_respawn): the veil owns "you fell";
+      # and in WINE red (dark, desaturated) so it never reads as that veil.
+      wiping = world.respond_to?(:states) && world.states.current == :nest_respawn
+      if !wiping && possessed && !possessed.dead? && possessed.hp < possessed.max_hp * @display.fetch(:low_hp_pct, 0.3)
         depth = 1.0 - possessed.hp.fdiv([possessed.max_hp * @display.fetch(:low_hp_pct, 0.3), 1].max)
         ph = world.frame % 40
         breath = ph < 20 ? ph / 20.0 : (40 - ph) / 20.0
         a = (@display.fetch(:low_hp_alpha, 150) * (0.45 + 0.55 * depth) * (0.6 + 0.4 * breath)).round
-        draw_vignette(view_w, view_h, a, rgb: [170, 20, 24])
+        draw_vignette(view_w, view_h, a, rgb: @display.fetch(:low_hp_rgb, [120, 16, 48]))
       end
       safe = map.respond_to?(:safe?) ? map.safe? : false
       hub = map.respond_to?(:hub?) ? map.hub? : false

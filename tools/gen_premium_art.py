@@ -48,7 +48,7 @@ KITS = {
                 {"cloth": ramp((235, 120, 40)), "jacket_mat": ramp((70, 52, 60)),
                  "cloth2": ramp((235, 120, 40)), "pants": ramp((58, 44, 52)), "hair": ramp((60, 40, 30))}),
     "blocker": ("humanoid", humanoid.PACK_SKINS["blocker"],
-                {"armor": ramp((190, 80, 35)), "cloth": ramp((120, 60, 40)), "accent": ramp((240, 200, 80)),
+                {"armor": ramp((158, 52, 30)), "iron": ramp((96, 98, 110), dark_hue=0.03), "cloth": ramp((120, 60, 40)), "accent": ramp((240, 200, 80)),
                  "pants": ramp((70, 50, 45)), "hair": ramp((60, 40, 30))}),
     "lobber": ("humanoid", humanoid.PACK_SKINS["lobber"],
                {"cloth": ramp((225, 170, 90)), "hair": ramp((72, 44, 30)), "pants": ramp((120, 90, 60))}),
