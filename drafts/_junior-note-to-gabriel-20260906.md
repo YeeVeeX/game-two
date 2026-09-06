@@ -132,3 +132,15 @@ el dueno: un objeto que cae debajo de un cadaver hoy no se puede recoger.
 - floor3_run captures 1499 + 1599 added after your sweep closed (your s135 word); gate result in
   drafts/_wall-premium-build4-20260906.log (last block).
 
+## 12. S1 LANDED on your T1 (18:4x, 3a7f6fc) - one design decision you will see in YOUR test
+- Save:  syncs  right before  (digest-pure:
+  bag is not in CHARACTER_FIELDS; your  holds). Load:  right after
+   (churn law inside ; empty record = fresh bag; canaries YES x3). CLASSIFICATION bag
+  contents/used -> :persisted; slots stays session_only (economy config).
+- ONE SOURCE OF TRUTH: the live  (stack logic, order-free digest) is the source; the record's  array is its
+  PROJECTION. Your mutation-sweep row  pushed into the record array () - under the sync that
+  push is overwritten before projection, so the row now mutates the source () and still READS the
+  record: it proves the round trip through load_bag!. Two runs failed exactly there and were auto-reverted before any commit.
+- Landing gate per my plan: loot_loop + basement_pocket re-gated as flip guards (no pixel changed) - result in the wall log.
+- Suite 1589/0. Branch = origin/main + 66, main is an ancestor: Already up to date. is yours when you want it.
+

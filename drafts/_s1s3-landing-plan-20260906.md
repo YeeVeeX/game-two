@@ -1,3 +1,5 @@
+> LANDED 2026-09-06 18:4x @ 3a7f6fc (S1 on T1): save = facts syncs host.bag <- bag.to_save; load = Loot#load_bag! after build_party; CLASSIFICATION contents/used :persisted; ONE source of truth = the live Game::Bag. Landing gate (loot_loop + basement_pocket): see drafts/_wall-premium-build4-20260906.log last block. S2+S3 wait for the TWENTIETH.
+
 # S1–S3 landing plan on T1 (schema 3) — ready-to-apply, 2026-09-06
 
 Owner sequencing (foundation §RATIFICATION s133, spec §"Merge point 1"): **S1 any time after T1**

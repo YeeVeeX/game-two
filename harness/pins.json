@@ -998,5 +998,13 @@
     "date": "2026-09-06T21:10:48Z",
     "gate_rc": 0,
     "manifest_rc": 0
+  },
+  {
+    "script": "basement_pocket",
+    "tag": "build4s1",
+    "commit": "3a7f6fc",
+    "date": "2026-09-06T21:31:21Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
   }
 ]

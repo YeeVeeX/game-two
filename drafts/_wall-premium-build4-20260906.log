@@ -272,3 +272,10 @@ GATE BATCH build4toll2 DONE 17:32:10 (3 min)
 PIN recorded: floor3_run tag=build4f3 commit=ebf4b00 gate_rc=0 manifest_rc=0
 === floor3_run         gate_rc=0 manifest_rc=0 captures_vs_ref=- ===
 GATE BATCH build4f3 DONE 18:10:48 (6 min)
+
+## S1 landing gate @ 3a7f6fc (plan: drop/pickup reels as flip guard after the bag persists): loot_loop  · basement_pocket gate_rc=0 manifest_rc=0
+=== loot_loop: no such script - skipped ===
+=== REGATE basement_pocket 18:28:58 ===
+PIN recorded: basement_pocket tag=build4s1 commit=3a7f6fc gate_rc=0 manifest_rc=0
+=== basement_pocket    gate_rc=0 manifest_rc=0 captures_vs_ref=- ===
+GATE BATCH build4s1 DONE 18:31:21 (2 min)

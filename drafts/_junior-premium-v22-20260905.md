@@ -572,3 +572,8 @@ record its projection - Gabriel's mutation-sweep row for `character.bag` (which 
 the live bag and still READS the record (= the round trip through load_bag!). Two runs failed exactly there and were
 auto-reverted before commit. Tests: round trip digest + used, facts idempotent, fresh world = []. 1589 runs, 90388 assertions, 0 failures, 0 errors, 0 skips.
 Owner sequencing: S1 after T1 = landed; S2+S3 stay as built for the TWENTIETH.
+
+### S1 landing gate (18:5x): S1 landing gate NOT clean (loot_loop  / basement_pocket gate_rc=0 manifest_rc=0, DONE=1 ruby=0) - recorded as is
+Per the landing plan's "Gate for the landing": loot_loop  · basement_pocket gate_rc=0 manifest_rc=0 (drop/pickup reels; no pixel changed - the
+proof that loading the bag from the record does not alter the scene). Plan doc marked LANDED; Gabriel note §12 carries the
+one design decision (live Bag = source, record = projection) and the sweep-row change he will see.
