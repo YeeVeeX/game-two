@@ -608,3 +608,5 @@ Same failure class as the 7 wall-#4 drawings (tuned on one floor, unreadable on 
 (not applied mid-wall - it would change pixels under the running sweep): a 2 px BRIGHT saturated red RIM at the very edge
 (`low_hp_rim_rgb` ~[230,40,60], `low_hp_rim_px` 2, alpha riding the pulse) so "red" is unambiguous on any floor while the
 wine stays the bleed; then re-gate corpse_run + district_hunt + sustain_run (+ world_loop as no-pulse control).
+
+### Wall #5 (20:10): district_hunt low_hp_pulse_reads = SAME cause as corpse_run (54/198 -> alpha ~98-116 of wine on the district dark floor reads dark, not red). Two reels, one defect -> the bright red 2px rim (low_hp_rim_*) is the harvest fix; re-gate corpse_run + district_hunt + sustain_run + world_loop (control).
