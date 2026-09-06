@@ -1184,8 +1184,9 @@ module App
       if c.faction == :human && (cue = c.retarget_cue)
         draw_outlined_quad(x + SIZE / 2 - 4, y - 10 - lift, 8, RETARGET_CUE.fetch(cue[:cause]))
       end
-      draw_pressure_outline(c, x, y, world) if c.faction == :human &&
-                                                world.pressure_role(c) == :pressuring
+      # Outline IFF pressuring AND on/near the ring with open sight to the
+      # local body (Signage.pressure_outline?, display pressure_outline_*).
+      draw_pressure_outline(c, x, y, world) if c.faction == :human && pressure_outline?(world, c)
       if c.faction == :human && c.telegraphing?
         swell = 8
         if c.action_config&.dig(:petrify)

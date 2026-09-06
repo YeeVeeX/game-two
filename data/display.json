@@ -12,6 +12,8 @@
  "ledger_block_y": 160,
  "ledger_wipe_y": 340,
  "pressure_outline_alpha": 140,
+ "pressure_outline_max_tiles": 3,
+ "pressure_outline_needs_line": true,
  "hurt_vignette_px": 8,
  "hurt_vignette_alpha": 110,
  "station_cue_frames": 30,
