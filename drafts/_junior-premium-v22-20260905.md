@@ -464,8 +464,9 @@ so far (10 across 6 scripts) has a named cause and a fix or a corrected row on t
 ### Wall #4 live triage (11:26): `floor1_run telegraph_reads` = critic MISREAD (no hostile telegraph exists in the reel); row disambiguated
 Sim fact: 0 hostiles in windup at every one of the 10 captures and 0 `telegraph` bus events in 1570 frames - floor1_run
 never shows a hostile telegraph. The "faint pale-yellow square on tan bridge planks with no red edge" at 0700 is a ground
-square (a breathing way tile / the pack's own pale reach tile - see the probe line above for what is on camera), not a
-telegraph; by the row's own text the verdict was "not exercised". Same family as aim_hold: a pale square read as an attack
+square that the headless probe could NOT pin to a way tile, a station or the pack's windup (none on camera; possessed idle) -
+the remaining candidates are a coin/gem drop or a light-valued ground glyph (mark / pip); either way it has no red edge and no
+hostile body inside it, so it is not a telegraph; by the row's own text the verdict was "not exercised". Same family as aim_hold: a pale square read as an attack
 cue. The row now states the invariant the code has always had (renderer.rb draw_creature: the swell is drawn AROUND THE
 HOSTILE BODY, red edge + yellow core, body visible inside) and that a ground square without a red edge and without a body
 is not a telegraph. No pixel changed. Score: all 11 failing rows of wall #4 so far (7 scripts) have a named cause - 5
