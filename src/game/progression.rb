@@ -41,6 +41,15 @@ module Game
               "Integer (got #{@kill_xp.inspect})"
       end
       @spell_growth = parse_spell_growth(config.fetch(:spell_growth))
+      # v22 T1: where a NEW character starts (schema-3 creation, --fresh);
+      # the legacy seed (Party, D-T1) overrides it once per migrated world.
+      fresh = config.fetch(:new_character)
+      @new_character_level = fresh.is_a?(Hash) ? fresh[:level] : nil
+      unless @new_character_level.is_a?(Integer) && @new_character_level.between?(1, @level_cap)
+        raise ArgumentError,
+              "progression new_character.level: must be an Integer in 1..#{@level_cap} " \
+              "(got #{@new_character_level.inspect})"
+      end
       @level = 1
       @xp = 0
       @kills_xp = 0
@@ -48,7 +57,7 @@ module Game
       @sessions = 0
     end
 
-    attr_reader :level_cap
+    attr_reader :level_cap, :new_character_level
 
     # P1: ΔE(L) = k·(L² − 3L + 4) — the XP cost of going from level L−1
     # to L (shelf-verified Tibia-family quadratic, k data-driven; the
@@ -59,7 +68,10 @@ module Game
 
     # P5: kit base -> level growth, Integer-only. Level 1 is identity.
     def damage_for(base) = base + (base * (@level - 1) * @dmg_growth_pct) / 100
-    def max_hp_for(base) = base + (base * (@level - 1) * @hp_growth_pct) / 100
+    def max_hp_for(base) = max_hp_at(@level, base)
+    # The same growth at an ARBITRARY level (v22 T1: a new character's forms
+    # are created at its own level, not the live pack's) — one formula.
+    def max_hp_at(level, base) = base + (base * (level - 1) * @hp_growth_pct) / 100
 
     # P10 reader: floor-match — the active array is the highest threshold
     # <= level; below the first threshold the kit BASE array returns by

@@ -11,12 +11,13 @@ class ProgressionTest < Minitest::Test
   DATA = Core::DataStore.new(File.expand_path("../../data", __dir__))
 
   def config(k: 50, level_cap: 4, dmg_growth_pct: 8, hp_growth_pct: 6,
-             kill_xp: { rusher: 25 }, spell_growth: {})
+             kill_xp: { rusher: 25 }, spell_growth: {}, new_character: { level: 1 })
     {
       curve: { k:, level_cap: },
       growth: { dmg_growth_pct:, hp_growth_pct: },
       kill_xp:,
-      spell_growth:
+      spell_growth:,
+      new_character:
     }
   end
 
@@ -160,6 +161,30 @@ class ProgressionTest < Minitest::Test
     p.load_progress!(level: 2, xp: 0)
     assert_equal 27, p.damage_for(25), "25 * 8% truncates to +2"
     assert_equal 34, p.max_hp_for(33), "33 * 6% truncates to +1"
+  end
+
+  # v22 T1: the same growth read at an arbitrary level (a new character's
+  # forms are created at ITS level) — one formula, max_hp_for delegates.
+  def test_max_hp_at_is_the_one_growth_formula
+    p = prog(hp_growth_pct: 6)
+    assert_equal p.max_hp_for(33), p.max_hp_at(1, 33)
+    assert_equal 34, p.max_hp_at(2, 33)
+    assert_equal 160 + (160 * 12 * 6) / 100, p.max_hp_at(13, 160)
+    p.load_progress!(level: 3, xp: 0)
+    assert_equal p.max_hp_at(3, 33), p.max_hp_for(33), "max_hp_for reads the live level through max_hp_at"
+  end
+
+  def test_new_character_level_is_data_driven_and_refuses_named
+    assert_equal 1, prog.new_character_level
+    assert_equal 3, prog(new_character: { level: 3 }).new_character_level
+    assert_equal 1, DATA["balance/progression"][:new_character][:level], "the shipped default"
+    [{}, { level: 0 }, { level: 5 }, { level: 1.0 }, nil, 2].each do |bad|
+      err = assert_raises(ArgumentError, "expected refusal for #{bad.inspect}") do
+        prog(level_cap: 4, new_character: bad)
+      end
+      assert_match(/new_character\.level/, err.message)
+    end
+    assert_raises(KeyError) { Game::Progression.new(config: config.tap { |c| c.delete(:new_character) }) }
   end
 
   # --- cap behavior + the projector-invariant law ---------------------------
