@@ -522,7 +522,9 @@ class SaveStateTest < Minitest::Test
       # Junior's S2 merge point: the bag persists by pushing into the host
       # record's own container — this leaf IS his one-line hook, proven.
       "character.bag" => {
-        mutate: ->(w) { w.party.host.bag << { "id" => "flask_sap", "qty" => 2 } },
+        # S1 landed: ONE source of truth - the live Game::Bag (stack logic); the
+        # record is its projection (facts syncs host.bag <- bag.to_save). Mutate the source.
+        mutate: ->(w) { w.bag.add!(:flask_sap, 2) },
         read: ->(w) { w.party.host.bag }
       }
     }
@@ -880,7 +882,7 @@ class SaveStateTest < Minitest::Test
     # serialized yet; earned loot dies with the session. Persistence = one line
     # on T1's schema-3 player record (owner: S1 lands after T1; S2+S3 after the
     # TWENTIETH). Classified HONESTLY as session_only until that line exists.
-    "bag" => { "slots" => :session_only, "used" => :session_only, "contents" => :session_only },
+    "bag" => { "slots" => :session_only, "used" => :persisted, "contents" => :persisted }, # S1 LANDED: contents/used ride the host character record; slots = economy config (churn law)
     # pack.N + human.zone.name share the creature schema. hp/kind persist
     # (members roster law); marked IS the persisted inscribed flag; alive
     # derives from hp > 0 (never stored — contradictions unrepresentable).

@@ -13,6 +13,15 @@ module Game
   module Loot
     LOOT_STREAM_SALT = 0x4c4f4f54
 
+    # S1/S2 landing: rebuild the live Bag from the host character's record
+    # (T1 `bag` key, canonical [{id, qty}]) - churn law inside from_save
+    # (unknown id / overflow -> dropped with a `save:` line). An empty record
+    # keeps the fresh bag (fresh worlds and the canaries are untouched).
+    def load_bag!(record)
+      return if record.nil? || record.empty?
+      @bag = Game::Bag.from_save(record, catalog: @catalog, slots: @economy.fetch(:bag_slots))
+    end
+
     def init_loot!(data, seed)
       @loot_rng = Core::CountingRng.new(Random.new(seed ^ LOOT_STREAM_SALT))
       @catalog = Game::ItemCatalog.load(data)

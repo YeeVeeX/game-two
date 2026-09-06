@@ -70,7 +70,11 @@ module Game
           "boss_1_defeats" => world.boss_1_defeats,
           "sessions" => world.sessions
         },
-        "characters" => world.party.project
+        # S1/S2 landing (T1 contract): the World holds the live Game::Bag (stack
+        # logic); the host character's record carries its CANONICAL form. Synced
+        # here, the one place the record is read for saving. Not in the digest
+        # (bag has its own group), so facts() stays digest-pure.
+        "characters" => (world.party.host.bag.replace(world.bag.to_save); world.party.project)
       }
       # The one-vessel floor is asserted HERE, on the save path only: the
       # digest reads the same projector every window and must never raise.

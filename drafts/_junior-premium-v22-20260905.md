@@ -562,3 +562,13 @@ requires gate_rc=0 AND manifest_rc=0 on the verdict line. NAMED for the owner/si
 ### 18:1x — merge of T1 (1e3e38e, ff-ok) + Game::Interact extracted (ebf4b00, world.rb 1800 -> 1726) + floor3_run captures 1499/1599: gate_rc=0 manifest_rc=0
 Gabriel's s135 debt paid the way he asked (after his E1 sweep closed): captures 1499 (mid-CHANT, 7 tiles) and 1599
 (post-interrupt, wounded) added to floor3_run; gate under the bank law (verdict line read, not DONE): gate_rc=0 manifest_rc=0. BANCADO.
+
+### S1 LANDED on T1 (18:4x) - the bag persists through the host character record
+Save: `SaveState.facts` syncs `world.party.host.bag.replace(world.bag.to_save)` before `party.project` (digest-pure: bag is
+not in CHARACTER_FIELDS; test_facts_is_pure holds). Load: `Loot#load_bag!(@party.host.bag)` right after `build_party` -
+`Bag.from_save` under the churn law; an empty record keeps the fresh bag (canaries YES x3). CLASSIFICATION bag.contents/used
+-> :persisted (slots = economy config). ONE source of truth decided: the live Game::Bag (stack logic) is the source, the
+record its projection - Gabriel's mutation-sweep row for `character.bag` (which pushed into the record array) now mutates
+the live bag and still READS the record (= the round trip through load_bag!). Two runs failed exactly there and were
+auto-reverted before commit. Tests: round trip digest + used, facts idempotent, fresh world = []. 1589 runs, 90388 assertions, 0 failures, 0 errors, 0 skips.
+Owner sequencing: S1 after T1 = landed; S2+S3 stay as built for the TWENTIETH.

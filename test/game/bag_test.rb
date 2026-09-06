@@ -163,6 +163,21 @@ class BagTest < Minitest::Test
     assert_equal [], Game::Bag.from_save([], catalog: CATALOG, slots: 2).to_save
   end
 
+  # S1 LANDED on T1 (2026-09-06): the bag rides the host character record.
+  def test_bag_survives_save_and_load_through_the_host_character_record
+    w = Game::World.new(DATA, seed: 3)
+    w.bag.add!(:flask_sap, 12)
+    w.bag.add!(:antidote, 2)
+    facts = Game::SaveState.facts(w)
+    assert_equal w.bag.to_save, facts["characters"].fetch(w.party.host_id).fetch("bag"),
+                 "the host record carries the bag's canonical form"
+    w2 = Game::World.new(DATA, seed: 99, save: facts)
+    assert_equal w.bag.digest_string, w2.bag.digest_string, "contents survive the round trip"
+    assert_equal w.bag.used, w2.bag.used, "layout is re-derived by add! in canonical order"
+    assert_equal facts, Game::SaveState.facts(w2), "facts of a loaded world are the same facts (idempotent)"
+    assert_equal [], Game::World.new(DATA, seed: 3).bag.to_save, "a fresh world starts with the empty record default"
+  end
+
   def test_loot_stream_is_its_own_counter
     w = Game::World.new(DATA, seed: 7)
     snap = w.digest_snapshot.to_h

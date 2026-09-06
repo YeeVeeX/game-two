@@ -190,6 +190,7 @@ module Game
       # EVERY path; then facts apply in the PINNED order (home -> growth ->
       # leveled max hp -> forms -> seats -> breaches; save: nil = fresh path).
       @party = SaveState.build_party(self, save, players: players || Party.default_players(@seats))
+      load_bag!(@party.host.bag) # S1/S2: the bag persists through the character record (T1)
       SaveState.apply!(self, save, economy: @economy) if save
       enter_zone(@home_zone, @zones.fetch(@home_zone).pack_spawn)
     end
