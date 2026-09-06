@@ -89,3 +89,32 @@ clone's tree (uncommitted until the close). Its close is three commands in `draf
 All 13 failing rows so far have a named cause (6 drawings fixed on the branch, 5 rows corrected, 2 flip-prone) except ONE
 open: `ledger_loop low_hp_pulse_reads` reads the wine vignette over the WHOLE frame incl. HUD - geometry/z-order to measure.
 Nothing of yours is touched; `t1-schema3` still local on your side at pause time.
+
+## 10. Wall #4 CLOSED (17:33) - what it means for your sweep and the landing
+- Wall #4 = 44 scripts @ cbaa4a5 (S1-S3 + E3 + E4/E5 + fence v3 + new reels): 16 gate fails / 1 manifest fail -> 20 rows,
+  20 NAMED causes, ZERO sim bugs (7 drawings of mine tuned on the quad/dark-floor era, 8 rows describing shapes that no
+  longer exist or ambiguous, 4 sampling/flip, 1 INFRA). Fresh-eyes review of the fixes: MERGEABLE WITH MINORS, answered.
+  Re-gates: 25 (21/4) -> 7 (6/1 INFRA) -> 2/2 -> toll_pocket green. Log: drafts/_wall-premium-build4-20260906.log.
+- Extraction PROOF: lane signage commit 1 (4348ed9, renderer.rb -> src/app/signage.rb) is byte-identical to the wall's
+  captures (ledger_loop + town_gates IDENTICAL(6) x2). Tool: tools/gate_batch.sh --ref <captures>.
+- Census 42/42 (tools/manifest_census.rb, 60 s headless). toll_pocket re-authored: the LDtk import left the blocker facing
+  EAST with husk0 to the SW; right f20 + left f40 turn it west on its own tile; manifest re-cut to OBSERVED 2/1/1 (your
+  E1.4 law). The pickup is IMPOSSIBLE there: husk0 dies ON [2,6], its drop lands under the corpse, the walker never enters
+  a corpse tile -> SIM QUESTION for the owner: pick up from an adjacent tile, or scatter the drop off a corpse?
+- Rows I rewrote on my surfaces (your s135 word: my word is law there): whirlwind_reads + specials_distinct (striker =
+  DASH, never a ring; ordinary windup is not a special), telegraph_reads (swell AROUND a hostile body; at peak a solid red
+  block with a thin yellow rim), impact_fx_reads (star ~12 f, numeral ~40 f, dust ~14 f - a numeral without a star is an
+  old hit), hurt_flash_not_white (the star is a separate element; petrified = stone block; lobber base is pale amber),
+  minimap_reads (locked = cold grey; fixture zones not exercised), interact_prompt_reads (breached seal = no prompt).
+- Landing collisions (all unions): harness/pins.json 79 mine vs your 43; drafts/_gate-verdicts.log append-only;
+  harness/gate_checks.json my 8 rewrites vs your E1.8 rows, no id overlap.
+- Transport warning for your sweep: one verdict came back with a row MISSING ("GATE INFRA ERROR: checklist coverage
+  mismatch: missing=['pickup_gleam_reads']"), determinism fine; a re-run passed. tools/wall_triage.rb treats INFRA as
+  not-a-pass. Two banking mistakes of mine today became law in docs/JUNIOR.md: a poll timeout is not DONE, and DONE is
+  not the verdict - bank only on gate_rc=0 AND manifest_rc=0 (8e0c942 banked a red manifest as green; 7dcfa50 corrects).
+- Your side at my close: origin/main a41ca0c, 0 pins in main, t1-schema3 local. Nothing of yours touched.
+
+**Gabriel (es-CR):** cerre la pared #4 completa: 44 escenas, 20 filas rojas y las 20 con causa nombrada - ninguna era un
+bug de simulacion, eran dibujos mios afinados en otra epoca y filas que describian formas que ya no existen. El censo de
+manifests quedo 42/42. Cuando cierres tu barrido, mis 79 pins y tus 43 se unen sin conflicto. Una pregunta de mecanica para
+el dueno: un objeto que cae debajo de un cadaver hoy no se puede recoger.
