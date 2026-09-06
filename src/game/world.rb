@@ -52,9 +52,9 @@ module Game
     HOME_ZONE = "nest".freeze # the INITIAL home only — @home_zone advances (v12)
 
     attr_reader :bus, :pack, :feel, :states, :frame, :zone_name, :rng, :respawn_rng,
-                :home_zone, :progression, :field_economy, :tile_registry
+                :home_zone, :progression, :field_economy, :tile_registry, :party
 
-    def initialize(data, seed: 0, seats: 1, save: nil)
+    def initialize(data, seed: 0, seats: 1, save: nil, players: nil)
       # v17 seat map (spec Sim spec): seat ids are PINNED [1..n]; every
       # per-seat loop iterates this order on both machines (seat-order
       # law, decision 2). Single-seat construction is byte-identical to
@@ -184,10 +184,10 @@ module Game
       # the same flush (the wipe-ordering pin, spec M6).
       @fight_ledger = FightLedger.new(@bus, world: self,
                                       config: data["balance/ledger"])
-      # v18 decision 4 + v19 P3: facts apply during construction in the
-      # PINNED order (home -> growth facts -> leveled max hp -> members ->
-      # seats -> breaches), then initial enter_zone lands the loaded spawn.
-      # save: nil (the wall, replay, pilot) takes the identical fresh path.
+      # v22 T1: the Party (player-keyed character records, L20-1/3) exists on
+      # EVERY path; then facts apply in the PINNED order (home -> growth ->
+      # leveled max hp -> forms -> seats -> breaches; save: nil = fresh path).
+      @party = SaveState.build_party(self, save, players: players || Party.default_players(@seats))
       SaveState.apply!(self, save, economy: @economy) if save
       enter_zone(@home_zone, @zones.fetch(@home_zone).pack_spawn)
     end
@@ -569,10 +569,12 @@ module Game
         ["rearm_needed", @seats.map { |s| "#{s}:#{@rearm_needed[s]}" }.join("|")],
         ["corpse_serial", @field.corpse_serial],
         ["rng_draws", @rng.draws], ["respawn_rng_draws", @respawn_rng.draws], ["loot_rng_draws", @loot_rng.draws],
-        ["boss_1_defeats", boss_1_defeats], ["sessions", sessions],
-        ["level", @progression.level], ["xp", @progression.xp]
+        ["boss_1_defeats", boss_1_defeats], ["sessions", sessions]
       ] + @feel.digest_fields
-      groups = [["world", world_fields], ["pack", @pack.digest_fields], ["bag", @bag.digest_fields]]
+      # v22 T1: level/xp ride the character rows (Party, sorted player-id order).
+      # S2: the bag rides as its own group AFTER the character rows (both seats
+      # agree on what you hold); its persistence is the host character's `bag` key.
+      groups = [["world", world_fields], ["pack", @pack.digest_fields]] + @party.digest_groups + [["bag", @bag.digest_fields]]
       @pack.members.each_with_index { |m, i| groups << ["pack.#{i}", m.digest_fields] }
       @humans.keys.sort.each do |zone|
         @humans[zone].each { |h| groups << ["human.#{zone}.#{h.name}", h.digest_fields] }

@@ -53,6 +53,12 @@ if (bot = opts&.dig(:bot))
                                  quit_tick: bot[:ticks] || App::Autopilot::DEFAULT_QUIT_TICK)
   puts autopilot.banner
 end
+# v22 T1 (L20-1): this machine's PLAYER identity keys its characters in
+# every save. Humans read (and on first boot write) data/player.local.json;
+# a bot seat derives bot-<seed> and never touches the file (replays and
+# soaks stay byte-identical). The id rides HELLO; no surface shows it.
+require "app/player_file"
+player_id = autopilot ? App::PlayerFile.bot_id(autopilot.seed) : App::PlayerFile.load.player_id
 # Quality-flywheel lane 1 (2026-08-19): start zone rides a bot or a scratch
 # save (Cli refused it bare). The line is soak-oracle surface: chain_check
 # asserts it per zoned episode on BOTH seats.
@@ -85,7 +91,7 @@ if opts.nil? || opts[:mode] == :solo
     bak = store.backup_fresh!
     puts "fresh start: existing save backed up to #{bak}" if bak
   end
-  result = store.load(data:)
+  result = store.load(data:, player_id:)
   result.notices.each { |n| warn n }
   save_facts = nil
   case result
@@ -102,7 +108,7 @@ if opts.nil? || opts[:mode] == :solo
   puts "TELEMETRY session seed=#{seed}"
   saver = App::SaveCoordinator.new(store:, owner: true)
   App::Window.new(seed:, save: save_facts, saver:, bot: autopilot, audio:,
-                  start_zone:).show
+                  start_zone:, players: { 1 => player_id }).show
   exit
 end
 
@@ -122,7 +128,7 @@ session, relaunch, saver =
       bak = store.backup_fresh!
       puts "fresh start: existing save backed up to #{bak}" if bak
     end
-    result = store.load(data:)
+    result = store.load(data:, player_id:)
     result.notices.each { |n| warn n }
     save_facts = nil
     save_canonical = nil
@@ -144,16 +150,22 @@ session, relaunch, saver =
       save_canonical:, save_digest:, save_schema:, config:,
       budget: data["persistence"][:wire_budget_bytes]
     ))
-      abort refusal # decision 6c: refuse NAMED before the socket opens
+      # decision 6c: refuse NAMED before the socket opens. v22 T1: the save
+      # grows one character record per player who ever joined (unseated
+      # records stay), so the text names the count and the hand recovery.
+      n = save_facts ? save_facts["characters"].length : 0
+      per = n.positive? ? Game::SaveState.canonical_bytes(save_facts["characters"]).bytesize / n : 0
+      abort "#{refusal}\n  save carries #{n} character record(s) of ~#{per} bytes each; every player who " \
+            "ever joined keeps one - remove unseated records by hand (a copy first) to host again"
     end
     puts "hosting on port #{opts[:port]} (Esc cancels)"
-    [Net::Session.host(port: opts[:port], config:, seed: App::Cli.new_seed,
+    [Net::Session.host(port: opts[:port], config:, seed: App::Cli.new_seed, player_id:,
                        save_facts:, save_canonical:, save_digest:, save_schema:),
      "bin/play --host #{opts[:port]}",
      App::SaveCoordinator.new(store:, owner: true)]
   when :join
     begin
-      s = Net::Session.join(host: opts[:host], port: opts[:port], config:,
+      s = Net::Session.join(host: opts[:host], port: opts[:port], config:, player_id:,
                             save_schema: Game::SaveState::SCHEMA,
                             save_validator: ->(f) { Game::SaveState.refusal_for(f, data:) })
     rescue SystemCallError => e

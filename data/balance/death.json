@@ -3,5 +3,6 @@
   "loot_settle_frames": 300,
   "wipe_grace_frames": 2700,
   "expiry_flash_frames": 45,
-  "settle_pip_alpha": 0.4
+  "settle_pip_alpha": 0.4,
+  "insurance": { "max_stacks": 3 }
 }

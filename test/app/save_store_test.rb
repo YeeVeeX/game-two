@@ -31,7 +31,33 @@ class SaveStoreTest < Minitest::Test
     end
   end
 
+  # Schema 3 (v22 T1): the host character keyed by the harness seat-1 id
+  # (HOST), so `Game::World.new(DATA, save:)` seats it.
+  HOST = "bot-1".freeze
+
   def facts(banked: 12, sessions: 5)
+    {
+      "banked" => banked, "provisions" => 1,
+      "breached" => [["district", [42, 13]]],
+      "counters" => { "boss_1_defeats" => 2, "sessions" => sessions },
+      "characters" => {
+        HOST => {
+          "level" => 1, "xp" => 0, "xp_debt" => 0, "insurance" => 0,
+          "home_zone" => "nest", "form" => "striker",
+          "forms" => {
+            "striker" => { "hp" => 80, "inscribed" => false },
+            "blocker" => { "hp" => 0, "inscribed" => true },
+            "lobber" => { "hp" => 33, "inscribed" => false }
+          },
+          "bag" => [], "equipment" => {}, "attributes" => {}, "bank_items" => []
+        }
+      }
+    }
+  end
+
+  # Schema 2 on disk, byte-exact: what every pre-v22 file carries (the
+  # owner's live save is one).
+  def v2_facts(banked: 12, sessions: 5)
     {
       "banked" => banked, "provisions" => 1, "home_zone" => "nest",
       "breached" => [["district", [42, 13]]],
@@ -45,19 +71,18 @@ class SaveStoreTest < Minitest::Test
     }
   end
 
-  # Schema 1 on disk, byte-exact: what every pre-v19 save file carries.
-  def v1_facts(banked: 12, sessions: 5)
-    f = facts(banked:, sessions:)
-    f.delete("progression")
-    f
-  end
-
-  def write_v1!(store, f = v1_facts)
+  def write_schema!(store, schema, f)
     FileUtils.mkdir_p(File.dirname(store.path))
-    payload = %({"schema":1,"saved_at_ms":1,"facts":#{SS.canonical_bytes(f)}})
+    payload = %({"schema":#{schema},"saved_at_ms":1,"facts":#{SS.canonical_bytes(f)}})
     File.write(store.path, payload, mode: "wb")
     payload
   end
+
+  def write_v2!(store, f = v2_facts) = write_schema!(store, 2, f)
+
+  # Every load in this file is the LOADING machine's: player_id keys the
+  # host character a schema-2 file migrates into.
+  def load(store) = store.load(data: DATA, player_id: HOST)
 
   def world = Game::World.new(DATA, seed: 5)
 
@@ -68,7 +93,7 @@ class SaveStoreTest < Minitest::Test
       f = facts
       digest = store.write(f, saved_at_ms: 777)
       assert_equal SS.digest(f), digest, "write must return the canonical facts digest"
-      loaded = store.load(data: DATA)
+      loaded = load(store)
       assert_instance_of App::SaveStore::Loaded, loaded
       assert_equal f, loaded.facts
       assert_equal digest, loaded.digest, "loaded digest recomputed from applied bytes"
@@ -95,7 +120,7 @@ class SaveStoreTest < Minitest::Test
     with_store do |store, _|
       store.write(facts(banked: 1), saved_at_ms: 1)
       d2 = store.write(facts(banked: 99), saved_at_ms: 2)
-      loaded = store.load(data: DATA)
+      loaded = load(store)
       assert_equal 99, loaded.facts["banked"]
       assert_equal d2, loaded.digest
       refute File.exist?("#{store.path}.tmp")
@@ -111,7 +136,7 @@ class SaveStoreTest < Minitest::Test
       sleep 0.05
       File.write("#{store.path}.tmp", "half-written garbag")
       FileUtils.touch("#{store.path}.tmp", mtime: File.mtime(store.path) + 60)
-      loaded = store.load(data: DATA)
+      loaded = load(store)
       assert_instance_of App::SaveStore::Loaded, loaded, "old save must survive the crash"
       assert_equal 7, loaded.facts["banked"]
       assert_equal d1, loaded.digest
@@ -140,11 +165,11 @@ class SaveStoreTest < Minitest::Test
       tmp = "#{store.path}.tmp"
       assert File.exist?(tmp), "progress must survive as the .tmp"
       assert_includes File.read(tmp, mode: "rb"), SS.canonical_bytes(facts(banked: 2))
-      loaded = store.load(data: DATA)
+      loaded = load(store)
       assert_equal 1, loaded.facts["banked"], "the old save stays intact (integrity law)"
       # Handle released: the same write now lands.
       store.write(facts(banked: 2), saved_at_ms: 3)
-      assert_equal 2, store.load(data: DATA).facts["banked"]
+      assert_equal 2, load(store).facts["banked"]
     end
   end
 
@@ -152,7 +177,7 @@ class SaveStoreTest < Minitest::Test
     with_store do |store, _|
       FileUtils.mkdir_p(File.dirname(store.path))
       File.write(store.path, "not json at all {{{")
-      r = store.load(data: DATA)
+      r = load(store)
       assert_instance_of App::SaveStore::Refused, r
       assert_match(/unreadable|unparseable/i, r.refusal)
       assert_includes r.refusal, store.path
@@ -160,7 +185,7 @@ class SaveStoreTest < Minitest::Test
       store.write(facts, saved_at_ms: 1)
       payload = File.read(store.path, mode: "rb")
       File.write(store.path, payload[0, payload.length / 2], mode: "wb")
-      r = store.load(data: DATA)
+      r = load(store)
       assert_instance_of App::SaveStore::Refused, r, "truncated file must refuse, never crash"
     end
   end
@@ -170,7 +195,7 @@ class SaveStoreTest < Minitest::Test
       store.write(facts, saved_at_ms: 1)
       bak = store.backup_fresh!
       File.write(store.path, "garbage", mode: "wb")
-      r = store.load(data: DATA)
+      r = load(store)
       assert_instance_of App::SaveStore::Refused, r
       assert_includes r.refusal, File.basename(bak),
                       "recovery hint must name the newest .bak"
@@ -188,7 +213,7 @@ class SaveStoreTest < Minitest::Test
       FileUtils.touch(newer, mtime: Time.at(2_000))
       File.write(store.path, "garbage", mode: "wb")
 
-      refused = store.load(data: DATA)
+      refused = load(store)
 
       assert_instance_of App::SaveStore::Refused, refused
       assert_includes refused.refusal, File.basename(newer)
@@ -198,93 +223,129 @@ class SaveStoreTest < Minitest::Test
 
   def test_schema_skew_refuses_named
     with_store do |store, _|
-      FileUtils.mkdir_p(File.dirname(store.path))
-      File.write(store.path, %({"schema":3,"saved_at_ms":1,"facts":#{SS.canonical_bytes(facts)}}))
-      r = store.load(data: DATA)
+      write_schema!(store, 4, facts)
+      r = load(store)
       assert_instance_of App::SaveStore::Refused, r
-      assert_match(/schema/, r.refusal)
+      assert_match(/save schema: 4 unsupported \(expected 3\)/, r.refusal)
+    end
+  end
+
+  # L9 (council s132): a schema-1 file is REFUSED, never upgraded — the
+  # pinned text names the fix (no live v1 chain exists).
+  def test_schema_1_file_refuses_named_with_the_pinned_text
+    with_store do |store, _|
+      v1 = v2_facts.tap { |f| f.delete("progression") }
+      payload = write_schema!(store, 1, v1)
+      r = load(store)
+      assert_instance_of App::SaveStore::Refused, r
+      assert_equal "save schema: 1 unsupported (expected 3)", r.refusal
+      assert_equal payload, File.read(store.path, mode: "rb"), "a refusal never touches the file"
+      assert_empty Dir["#{store.path}.bak-*"], "a refusal never backs up"
     end
   end
 
   def test_missing_file_is_fresh
     with_store do |store, _|
-      r = store.load(data: DATA)
+      r = load(store)
       assert_instance_of App::SaveStore::Fresh, r
       assert_empty r.notices
     end
   end
 
-  # --- schema-1 one-hop upgrade lane (P8: upgrade at load, backup at first
-  # write — COPY not rename, so a session that never saves leaves the v1
-  # file untouched and read-only consumers stay side-effect-free) ----------
+  # --- schema-2 one-hop migration lane (v22 T1, the P8 pattern: migrate
+  # at load, backup at first write — COPY not rename, so a session that
+  # never saves leaves the v2 file untouched and read-only consumers stay
+  # side-effect-free) ---------------------------------------------------------
 
-  def test_schema_1_file_loads_upgraded_with_a_named_notice
+  def test_schema_2_file_loads_migrated_with_a_named_notice
     with_store do |store, _|
-      payload = write_v1!(store)
-      loaded = store.load(data: DATA)
+      payload = write_v2!(store)
+      loaded = load(store)
       assert_instance_of App::SaveStore::Loaded, loaded
-      assert_equal({ "level" => 1, "xp" => 0 }, loaded.facts["progression"])
+      assert_equal %w[banked breached characters counters migration provisions], loaded.facts.keys.sort
+      host = loaded.facts["characters"].fetch(HOST)
+      assert_equal [1, 0, 0, 0, "nest", "striker"],
+                   host.values_at("level", "xp", "xp_debt", "insurance", "home_zone", "form")
       assert_equal 12, loaded.facts["banked"]
+      assert_equal({ "from_schema" => 2, "legacy_level" => 1, "legacy_seed_claimed_by" => false },
+                   loaded.facts["migration"])
       assert_equal SS.digest(loaded.facts), loaded.digest,
-                   "digest recomputed over the UPGRADED facts"
-      assert loaded.notices.any? { |n| n.include?("schema 1 upgraded") },
-             "the upgrade must be NAMED at load: #{loaded.notices}"
-      assert_empty Dir["#{store.path}.bak-schema1-*"],
+                   "digest recomputed over the MIGRATED facts"
+      assert loaded.notices.any? { |n| n.include?("schema 2 migrated to 3") && n.include?(HOST) },
+             "the migration must be NAMED at load, with the host id: #{loaded.notices}"
+      assert_empty Dir["#{store.path}.bak-schema2-*"],
                    "no backup at LOAD — the backup rides the first write"
       assert_equal payload, File.read(store.path, mode: "rb"),
-                   "load must leave the v1 file byte-identical on disk"
+                   "load must leave the v2 file byte-identical on disk"
     end
   end
 
-  def test_first_write_after_v1_load_backs_up_the_original_bytes_exactly_once
+  def test_first_write_after_v2_load_backs_up_the_original_bytes_exactly_once
     with_store do |store, _|
-      payload = write_v1!(store)
-      loaded = store.load(data: DATA)
+      payload = write_v2!(store)
+      loaded = load(store)
       capture_io { store.write(loaded.facts, saved_at_ms: 2) }
-      baks = Dir["#{store.path}.bak-schema1-*"]
+      baks = Dir["#{store.path}.bak-schema2-*"]
       assert_equal 1, baks.length, "backup file created exactly once"
       assert_equal Digest::MD5.hexdigest(payload),
                    Digest::MD5.hexdigest(File.read(baks[0], mode: "rb")),
-                   "the backup must hold the ORIGINAL v1 bytes (md5-equal)"
+                   "the backup must hold the ORIGINAL v2 bytes (md5-equal)"
       env = JSON.parse(File.read(store.path, mode: "rb"))
-      assert_equal SS::SCHEMA, env["schema"], "the live save is v2 after the write"
+      assert_equal SS::SCHEMA, env["schema"], "the live save is schema 3 after the write"
       capture_io { store.write(loaded.facts, saved_at_ms: 3) }
-      assert_equal baks, Dir["#{store.path}.bak-schema1-*"],
+      assert_equal baks, Dir["#{store.path}.bak-schema2-*"],
                    "a second write must not back up again"
-      reloaded = store.load(data: DATA)
-      assert_empty reloaded.notices, "the upgraded save reloads as plain v2"
+      reloaded = load(store)
+      assert_empty reloaded.notices, "the migrated save reloads as plain schema 3"
       assert_equal loaded.facts, reloaded.facts
     end
   end
 
-  def test_v2_reload_clears_pending_schema_1_backup
+  def test_v3_reload_clears_pending_schema_2_backup
     with_store do |store, _|
-      write_v1!(store)
-      store.load(data: DATA)
+      write_v2!(store)
+      load(store)
       App::SaveStore.new(path: store.path).write(facts, saved_at_ms: 2)
 
-      loaded = store.load(data: DATA)
+      loaded = load(store)
       capture_io { store.write(loaded.facts, saved_at_ms: 3) }
 
-      assert_empty Dir["#{store.path}.bak-schema1-*"],
-                   "only the current file's schema may trigger a schema-1 backup"
+      assert_empty Dir["#{store.path}.bak-schema2-*"],
+                   "only the current file's schema may trigger a schema-2 backup"
     end
   end
 
-  def test_v1_load_and_coordinator_quit_lands_v2_plus_backup
+  def test_v2_load_and_coordinator_quit_lands_schema_3_plus_backup
     with_store do |store, _|
-      write_v1!(store)
-      loaded = store.load(data: DATA)
+      write_v2!(store)
+      loaded = load(store)
       w = Game::World.new(DATA, seed: 5, save: loaded.facts)
       line = nil
       capture_io do
         line = App::SaveCoordinator.new(store:, owner: true).close(world: w, reason: :quit)
       end
-      assert_match(/\ATELEMETRY persist saved digest=\h{32} schema=2 /, line)
-      assert_equal 1, Dir["#{store.path}.bak-schema1-*"].length,
-                   "the owners' v1 bytes survive the first real quit-write"
-      assert_equal 6, store.load(data: DATA).facts["counters"]["sessions"],
-                   "sessions bumps through the upgrade lane like any save"
+      assert_match(/\ATELEMETRY persist saved digest=\h{32} schema=3 /, line)
+      assert_equal 1, Dir["#{store.path}.bak-schema2-*"].length,
+                   "the owners' v2 bytes survive the first real quit-write"
+      again = load(store)
+      assert_equal 6, again.facts["counters"]["sessions"],
+                   "sessions bumps through the migration lane like any save"
+      assert_equal loaded.facts["characters"].fetch(HOST).merge("form" => "striker"),
+                   again.facts["characters"].fetch(HOST), "the migrated host character persisted whole"
+      assert_equal loaded.facts["migration"], again.facts["migration"], "the block rides along, unclaimed"
+    end
+  end
+
+  # A second machine (a different player id) loading the SAME schema-2
+  # bytes migrates them into ITS host character — identity is per machine,
+  # and the seat never enters the record (L20-1).
+  def test_v2_migration_keys_the_host_by_the_loading_players_id
+    with_store do |store, _|
+      write_v2!(store)
+      other = "9a1b2c3d-4e5f-4a6b-8c7d-0e1f2a3b4c5d"
+      loaded = store.load(data: DATA, player_id: other)
+      assert_equal [other], loaded.facts["characters"].keys
+      refute_equal loaded.digest, load(store).digest, "a different host id is a different save"
     end
   end
 
@@ -296,12 +357,12 @@ class SaveStoreTest < Minitest::Test
       bak = store.backup_fresh!
       assert bak && File.exist?(bak), "backup must exist"
       refute File.exist?(store.path), "the save moved aside — next load is fresh"
-      assert_instance_of App::SaveStore::Fresh, store.load(data: DATA)
+      assert_instance_of App::SaveStore::Fresh, load(store)
       # Crash between backup and first write: the .bak alone still recovers.
       assert_includes File.read(bak, mode: "rb"), SS.canonical_bytes(facts(banked: 42))
       assert_nil store.backup_fresh!, "nothing left to back up"
       store.write(facts(banked: 0, sessions: 0), saved_at_ms: 2)
-      assert_equal 0, store.load(data: DATA).facts["banked"]
+      assert_equal 0, load(store).facts["banked"]
     end
   end
 
@@ -313,16 +374,16 @@ class SaveStoreTest < Minitest::Test
       w.pack.bank!(31)
       coord = App::SaveCoordinator.new(store:, owner: true)
       line = coord.close(world: w, reason: :quit)
-      assert_match(/\ATELEMETRY persist saved digest=\h{32} schema=2 /, line)
+      assert_match(/\ATELEMETRY persist saved digest=\h{32} schema=3 /, line)
       assert_includes line, "banked=31"
-      loaded = store.load(data: DATA)
+      loaded = load(store)
       assert_equal 31, loaded.facts["banked"]
       assert_equal w.sessions + 1, loaded.facts["counters"]["sessions"],
                    "sessions increments at each save-write"
       # The line's digest is the digest of the bytes on disk — not an echo.
       assert_includes line, "digest=#{loaded.digest}"
       assert_nil coord.close(world: w, reason: :quit), "repeated close writes once"
-      assert_equal loaded.digest, store.load(data: DATA).digest
+      assert_equal loaded.digest, load(store).digest
     end
   end
 
@@ -331,14 +392,14 @@ class SaveStoreTest < Minitest::Test
       with_store do |store, _|
         coord = App::SaveCoordinator.new(store:, owner: true)
         assert_nil coord.close(world:, reason:), "#{reason} must not save"
-        assert_instance_of App::SaveStore::Fresh, store.load(data: DATA),
+        assert_instance_of App::SaveStore::Fresh, load(store),
                            "#{reason} wrote a file — a diverged world poisoned the save"
       end
     end
     with_store do |store, _|
       coord = App::SaveCoordinator.new(store:, owner: false)
       assert_nil coord.close(world:, reason: :quit), "a non-owner seat must never write"
-      assert_instance_of App::SaveStore::Fresh, store.load(data: DATA)
+      assert_instance_of App::SaveStore::Fresh, load(store)
     end
   end
 
@@ -363,13 +424,13 @@ class SaveStoreTest < Minitest::Test
     f = facts
     d = SS.digest(f)
     saved = App::SaveStore.persist_line("saved", facts: f, digest: d)
-    assert_equal "TELEMETRY persist saved digest=#{d} schema=2 banked=12 " \
+    assert_equal "TELEMETRY persist saved digest=#{d} schema=3 banked=12 " \
                  "provisions=1 seals=1 marks=1 sessions=5", saved
     loaded = App::SaveStore.persist_line("loaded", facts: f, digest: d, source: "file")
-    assert_equal "TELEMETRY persist loaded digest=#{d} schema=2 banked=12 " \
+    assert_equal "TELEMETRY persist loaded digest=#{d} schema=3 banked=12 " \
                  "provisions=1 seals=1 marks=1 sessions=5 source=file", loaded
     fresh = App::SaveStore.persist_line("fresh", source: "fresh")
-    assert_equal "TELEMETRY persist fresh schema=2 source=fresh", fresh
+    assert_equal "TELEMETRY persist fresh schema=3 source=fresh", fresh
   end
 
   def test_loaded_line_digest_matches_what_a_world_actually_applies
@@ -378,7 +439,7 @@ class SaveStoreTest < Minitest::Test
       w.pack.bank!(9)
       w.restore_breach!("district", [42, 13])
       App::SaveCoordinator.new(store:, owner: true).close(world: w, reason: :quit)
-      loaded = store.load(data: DATA)
+      loaded = load(store)
       resumed = Game::World.new(DATA, seed: 123, save: loaded.facts)
       assert_equal loaded.digest, SS.digest(SS.facts(resumed)),
                    "the digest chain: loaded digest == digest of the resumed world's facts"

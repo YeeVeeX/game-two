@@ -19,7 +19,9 @@ module Core
     # surface forgot it. TWIN LAW: Net::Fingerprint::EXCLUDED must also
     # carry every machine-written file (a gitignored per-machine file in
     # the handshake hash = permanent coop refusal — s55 review finding).
-    MACHINE_WRITTEN = ["prefs.local"].freeze
+    # v22 T1: player.local is the second member — App::PlayerFile owns it
+    # (the machine's player id; lenient-NAMED reader, never a brick).
+    MACHINE_WRITTEN = ["prefs.local", "player.local"].freeze
 
     def initialize(root)
       @root = Pathname(root)

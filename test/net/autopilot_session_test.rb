@@ -26,9 +26,9 @@ class AutopilotSessionTest < Minitest::Test
   end
 
   def handshake_and_run
-    @h = Net::Session.host(bind: "127.0.0.1", port: 0, config: CFG,
+    @h = Net::Session.host(player_id: "bot-1", bind: "127.0.0.1", port: 0, config: CFG,
                            seed: 7, epoch: 3, hello: HELLO.dup)
-    @j = Net::Session.join(host: "127.0.0.1", port: @h.port, config: CFG, hello: HELLO.dup)
+    @j = Net::Session.join(player_id: "bot-2", host: "127.0.0.1", port: @h.port, config: CFG, hello: HELLO.dup)
     t = 0
     400.times do
       break if @h.params_known? && @j.params_known?

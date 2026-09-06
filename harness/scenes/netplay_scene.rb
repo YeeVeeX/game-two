@@ -61,7 +61,9 @@ module Harness
         @stride = @np.fetch(:handshake_stride, 1)
         @freeze = (@np.fetch(:freeze, [])).map { |(a, b)| (a..b) }
         @teleports = @np.fetch(:teleports, [])
-        @host = Net::Session.host(bind: "127.0.0.1", port: @np.fetch(:port),
+        # v22 T1: harness identities = the seat constants (Party.default_players),
+        # so both worlds seat bot-1 / bot-2 and the HELLO ids never collide.
+        @host = Net::Session.host(bind: "127.0.0.1", port: @np.fetch(:port), player_id: "bot-1",
                                   config: @cfg, seed:, epoch: @np.fetch(:epoch, 1))
         @seat2 = Core::ScriptedInput.new(frames: Harness.expand_script(@np.fetch(:seat2, {})))
         # E1.7 (T0 d1/b2): the FULL presentation stack through the one
@@ -134,20 +136,21 @@ module Harness
 
       def join_if_scheduled
         return unless @frame == @np.fetch(:join_at, -1)
-        @join = Net::Session.join(host: "127.0.0.1", port: @np.fetch(:port), config: @cfg)
+        @join = Net::Session.join(host: "127.0.0.1", port: @np.fetch(:port), config: @cfg,
+                                  player_id: "bot-2")
       end
 
       # The scene mirrors the window's attach law: build the two-seat World
       # from handshake params the moment they are known, per seat.
       def attach_worlds
         if @world.nil? && @host.params_known?
-          @world = Game::World.new(@data, seed: @host.params.seed, seats: 2)
+          @world = Game::World.new(@data, seed: @host.params.seed, seats: 2, players: @host.players)
           @telemetry = Game::Telemetry.new(@world.bus, world: @world)
           Harness::EventLog.attach(@world) { |line| puts line }
           @host.attach(@world)
         end
         return unless @join && @world_j.nil? && @join.params_known?
-        @world_j = Game::World.new(@data, seed: @join.params.seed, seats: 2)
+        @world_j = Game::World.new(@data, seed: @join.params.seed, seats: 2, players: @join.players)
         @join.attach(@world_j)
       end
 

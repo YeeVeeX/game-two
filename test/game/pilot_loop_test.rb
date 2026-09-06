@@ -1,4 +1,5 @@
 require_relative "../test_helper"
+require_relative "../support/schema3_facts"
 require "core/data_store"
 require "core/input"
 require "game/world"
@@ -13,15 +14,11 @@ class PilotLoopTest < Minitest::Test
   ECO = DATA["balance/economy"]
 
   def seeded_facts
-    members = DATA["balance/combat"][:pack][:members].map do |kit|
-      { "kit" => kit, "hp" => 1, "inscribed" => false }
-    end
     # level 6 clears the s68 town gates (basements 4/5, dungeon 6) —
     # this suite's subject is transition TYPING, not the level fact-gate
     # (level_gate_test/zone_tier_test own that law).
-    { "banked" => 60, "provisions" => 0, "home_zone" => "zone_7", "breached" => [],
-      "members" => members, "counters" => { "boss_1_defeats" => 1, "sessions" => 1 },
-      "progression" => { "level" => 6, "xp" => 0 } }
+    Schema3Facts.facts(DATA["balance/combat"][:pack][:members], banked: 60, defeats: 1,
+                       sessions: 1, home: "zone_7", level: 6, hp: 1)
   end
 
   def drive(w, n = 2)

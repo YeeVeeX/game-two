@@ -20,7 +20,10 @@ module Net
     # can never be equalized by "git pull", so including one manufactures a
     # permanent refusal with a lying hint (s55 review finding). The next
     # machine-written file must land HERE and in DataStore::MACHINE_WRITTEN.
-    EXCLUDED = ["data/bindings.local.json", "data/prefs.local.json"].freeze
+    # v22 T1: data/player.local.json (App::PlayerFile) — the ONE identity
+    # file; its id rides HELLO as its own field, never the tree hash.
+    EXCLUDED = ["data/bindings.local.json", "data/prefs.local.json",
+                "data/player.local.json"].freeze
 
     LABELS = {
       version: "protocol version",

@@ -18,7 +18,9 @@ module Net
     # Versions the canonical byte form; exchanged at the netplay handshake
     # (a mismatch there refuses the session before any tick runs).
     # 3: v19 J7-B — the world zone_left_at row (cold catch-up stamps).
-    DIGEST_VERSION = 3
+    # 4: v22 T1 — character.<player id> rows (sorted id order; level/xp
+    #    moved there from the world row).
+    DIGEST_VERSION = 4
 
     Window = Data.define(:tick, :md5, :snapshot, :lines)
 

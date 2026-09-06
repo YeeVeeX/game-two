@@ -192,7 +192,8 @@ class PackTest < Minitest::Test
       curve: { k: 10, level_cap: 5 },
       growth: { dmg_growth_pct: 0, hp_growth_pct: 10 },
       kill_xp: { rusher: 1 },
-      spell_growth: {}
+      spell_growth: {},
+      new_character: { level: 1 }
     })
     progression.load_progress!(level: 4, xp: 0)
 

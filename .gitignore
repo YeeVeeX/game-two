@@ -9,6 +9,9 @@ vendor/bundle/
 .playwright-mcp/
 data/bindings.local.json
 data/prefs.local.json
+# v22 T1: the machine-local player identity (App::PlayerFile; twin law —
+# also in DataStore::MACHINE_WRITTEN + Net::Fingerprint::EXCLUDED)
+data/player.local.json
 # v18 persistence: the machine-local, host-authoritative world save (F2 —
 # git-tracked saves rejected: conflicts, save-scumming, pull friction).
 saves/

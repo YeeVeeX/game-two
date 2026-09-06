@@ -50,12 +50,13 @@ class NetplayPersistenceTest < Minitest::Test
 
   # The joiner is wired exactly as main.rb wires it: schema + strict
   # decoder, NO store, NO coordinator — its save root must stay empty.
-  def session_pair(seed:, epoch:, save_facts: nil, save_canonical: nil, save_digest: nil)
+  def session_pair(seed:, epoch:, save_facts: nil, save_canonical: nil, save_digest: nil,
+                   join_id: "bot-2")
     schema = save_canonical ? Game::SaveState::SCHEMA : nil
-    h = Net::Session.host(bind: "127.0.0.1", port: 0, config: CFG, seed:, epoch:,
+    h = Net::Session.host(player_id: "bot-1", bind: "127.0.0.1", port: 0, config: CFG, seed:, epoch:,
                           hello: HELLO.dup, save_facts:, save_canonical:,
                           save_digest:, save_schema: schema)
-    j = Net::Session.join(host: "127.0.0.1", port: h.port, config: CFG,
+    j = Net::Session.join(player_id: join_id, host: "127.0.0.1", port: h.port, config: CFG,
                           hello: HELLO.dup, save_schema: Game::SaveState::SCHEMA,
                           save_validator: VALIDATOR)
     @sessions << h << j
@@ -71,8 +72,9 @@ class NetplayPersistenceTest < Minitest::Test
       t += 10
     end
     flunk "handshake never produced params" unless h.params_known? && j.params_known?
-    wh = Game::World.new(DATA, seed: h.params.seed, seats: 2, save: h.params.save)
-    wj = Game::World.new(DATA, seed: j.params.seed, seats: 2, save: j.params.save)
+    # v22 T1: both seats seat the HELLO-learned map (identical by construction).
+    wh = Game::World.new(DATA, seed: h.params.seed, seats: 2, save: h.params.save, players: h.players)
+    wj = Game::World.new(DATA, seed: j.params.seed, seats: 2, save: j.params.save, players: j.players)
     h.attach(wh)
     j.attach(wj)
     50.times do
@@ -161,7 +163,7 @@ class NetplayPersistenceTest < Minitest::Test
     assert File.exist?(File.join(@host_root, "world.json"))
 
     # --- session pair 2: resume from the file ---------------------------
-    result = @store.load(data: DATA)
+    result = @store.load(data: DATA, player_id: "bot-1") # the host seat's id (harness default)
     assert_instance_of App::SaveStore::Loaded, result
     assert_equal saved_digest, result.digest,
                  "host loaded digest == saved digest (the file half of the chain)"
@@ -216,6 +218,58 @@ class NetplayPersistenceTest < Minitest::Test
     assert_equal ["world.json"], Dir.children(@host_root).sort
   end
 
+  # --- v22 T1: guest records across the wire (council s133 Q5/Q6) --------------
+  # A guest with NO record in the host's save is created at session start
+  # on BOTH seats from HELLO's id + the transferred save: digests agree from
+  # tick 0 and through K ticks; at the host's clean quit the guest's record
+  # is written with level/xp MIRRORING the party level (the T1 interim rule)
+  # while the absent player's record rides along verbatim.
+  def test_new_guest_record_is_created_on_both_seats_mirrored_and_persisted
+    # pair 1: bot-1 hosts, bot-2 joins a fresh world -> both records saved
+    h1, j1 = session_pair(seed: 51, epoch: 5050)
+    wh1, _wj1, t = handshake_and_attach(h1, j1)
+    t = run_ticks(h1, j1, scripted(0), scripted(60), t, until_tick: 30)
+    quit_both(h1, j1, t, initiator: h1)
+    App::SaveCoordinator.new(store: @store, owner: true).close(world: wh1, reason: h1.reason)
+    first = @store.load(data: DATA, player_id: "bot-1")
+    assert_equal %w[bot-1 bot-2], first.facts["characters"].keys.sort
+    bot2_as_saved = first.facts["characters"]["bot-2"]
+
+    # pair 2: bot-3 joins the SAME save -> created on both seats, bot-2 unseated
+    canonical = Game::SaveState.canonical_bytes(first.facts)
+    h2, j2 = session_pair(seed: 52, epoch: 5252, save_facts: first.facts,
+                          save_canonical: canonical, save_digest: first.digest, join_id: "bot-3")
+    wh2, wj2, t2 = handshake_and_attach(h2, j2)
+    assert_equal({ 1 => "bot-1", 2 => "bot-3" }, h2.players)
+    assert_equal h2.players, j2.players
+    [wh2, wj2].each do |w|
+      assert_equal %w[bot-1 bot-2 bot-3], w.party.ids, "the newcomer exists on this seat"
+      assert_equal 1, w.party.records["bot-3"].level, "no migration block -> new_character.level"
+    end
+    assert_equal Net::StateDigest.canonical(wh2.digest_snapshot),
+                 Net::StateDigest.canonical(wj2.digest_snapshot),
+                 "both seats built the same Party from HELLO + the transferred save (tick 0)"
+    t2 = run_ticks(h2, j2, scripted(5), scripted(70), t2, until_tick: 30)
+    # The shared progression grows IDENTICALLY on both sims (staging law:
+    # equal ticks, same poke) — the seated guest must mirror it on both.
+    assert_equal h2.ticks, j2.ticks
+    [wh2, wj2].each { |w| w.progression.load_progress!(level: 3, xp: 4) }
+    t2 = run_ticks(h2, j2, scripted(5), scripted(70), t2, until_tick: 240)
+    assert_equal 0, h2.lockstep.desyncs, "guest records never desync the pair"
+    assert_equal h2.digest_log, j2.digest_log
+    quit_both(h2, j2, t2, initiator: j2)
+    App::SaveCoordinator.new(store: @store, owner: true).close(world: wh2, reason: h2.reason)
+
+    second = @store.load(data: DATA, player_id: "bot-1")
+    chars = second.facts["characters"]
+    assert_equal %w[bot-1 bot-2 bot-3], chars.keys.sort
+    assert_equal [3, 4], chars["bot-1"].values_at("level", "xp")
+    assert_equal [3, 4], chars["bot-3"].values_at("level", "xp"), "the seated guest persisted the MIRROR"
+    assert_equal bot2_as_saved, chars["bot-2"], "the absent player's record rides along verbatim"
+    assert_equal 2, second.facts["counters"]["sessions"]
+    assert_empty Dir.children(@join_root), "the joiner still never persists"
+  end
+
   # --- negative custody lanes ---------------------------------------------------
 
   def test_non_clean_endings_write_nothing_even_on_the_host
@@ -237,9 +291,9 @@ class NetplayPersistenceTest < Minitest::Test
   end
 
   def test_a_v1_peer_refuses_at_hello_naming_the_protocol_version
-    h = Net::Session.host(bind: "127.0.0.1", port: 0, config: CFG, seed: 44, epoch: 4040,
+    h = Net::Session.host(player_id: "bot-1", bind: "127.0.0.1", port: 0, config: CFG, seed: 44, epoch: 4040,
                           hello: HELLO.dup)
-    j = Net::Session.join(host: "127.0.0.1", port: h.port, config: CFG,
+    j = Net::Session.join(player_id: "bot-2", host: "127.0.0.1", port: h.port, config: CFG,
                           hello: HELLO.merge(version: 1),
                           save_schema: Game::SaveState::SCHEMA, save_validator: VALIDATOR)
     @sessions << h << j

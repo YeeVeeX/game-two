@@ -1,4 +1,5 @@
 require_relative "../test_helper"
+require_relative "../support/schema3_facts"
 require "core/data_store"
 require "core/input"
 require "game/world"
@@ -26,14 +27,9 @@ class OpenGateCompositionTest < Minitest::Test
   # Save-shaped facts modeled on the owners' live save (home=camp, full
   # roster, sessions carried) — the counters block is the fact under test.
   def owners_facts(defeats:)
-    members = DATA["balance/combat"][:pack][:members].map do |kit|
-      { "kit" => kit, "hp" => DATA["balance/combat"][:kits][kit.to_sym][:max_hp],
-        "inscribed" => false }
-    end
-    { "banked" => 7, "provisions" => 0, "home_zone" => "camp", "breached" => [],
-      "members" => members,
-      "counters" => { "boss_1_defeats" => defeats, "sessions" => 13 },
-      "progression" => { "level" => 1, "xp" => 0 } }
+    roster = DATA["balance/combat"][:pack][:members]
+    hp = roster.to_h { |kit| [kit.to_s, DATA["balance/combat"][:kits][kit.to_sym][:max_hp]] }
+    Schema3Facts.facts(roster, banked: 7, defeats:, sessions: 13, home: "camp", hp:)
   end
 
   def world(defeats:)

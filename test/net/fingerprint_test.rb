@@ -77,6 +77,20 @@ class FingerprintTest < Minitest::Test
     end
   end
 
+  def test_player_local_json_is_excluded
+    # v22 T1: the machine-written player identity (App::PlayerFile) rides
+    # HELLO as its own field; inside the tree hash every coop handshake
+    # would refuse forever (two machines never share an id by design).
+    Dir.mktmpdir do |root|
+      build_tree(root)
+      a = Net::Fingerprint.tree_md5(root)
+      File.write(File.join(root, "data/player.local.json"),
+                 '{"player_id":"0f7e2c1a-4b3d-4c2e-9a1b-1234567890ab","created_at_ms":1}')
+      assert_equal a, Net::Fingerprint.tree_md5(root),
+                   "the identity file must not poison the handshake"
+    end
+  end
+
   def test_line_ending_flavor_does_not_change_the_hash
     # Live trap (2026-08-16, first cross-machine join): an autocrlf=true
     # clone re-writes src/data with CRLF on checkout — byte drift, identical
@@ -110,6 +124,15 @@ class FingerprintTest < Minitest::Test
 
   def test_mismatch_is_nil_for_identical_seats
     assert_nil Net::Fingerprint.mismatch(HELLO, HELLO.dup)
+  end
+
+  def test_mismatch_ignores_identity_fields
+    # v22 T1: player_id rides HELLO beside the five build fields; identity
+    # is not a build fact (two machines ALWAYS differ there by design).
+    ours = HELLO.merge(player_id: "bot-1")
+    theirs = HELLO.merge(player_id: "0f7e2c1a-4b3d-4c2e-9a1b-1234567890ab")
+    assert_nil Net::Fingerprint.mismatch(ours, theirs)
+    assert_equal 5, Net::Fingerprint::LABELS.length
   end
 
   def test_mismatch_names_the_differing_field_and_hints_git_pull

@@ -1,4 +1,5 @@
 require_relative "../test_helper"
+require_relative "../support/schema3_facts"
 require "core/data_store"
 require "core/input"
 require "game/world"
@@ -174,13 +175,7 @@ class TypedTransitionsTest < Minitest::Test
   # --- the boss gate: a fact, not a price (spec §THE GATE) ---------------
 
   def boss_facts(defeats)
-    members = DATA["balance/combat"][:pack][:members].map do |kit|
-      { "kit" => kit, "hp" => 1, "inscribed" => false }
-    end
-    { "banked" => 0, "provisions" => 0, "home_zone" => "upper", "breached" => [],
-      "members" => members,
-      "counters" => { "boss_1_defeats" => defeats, "sessions" => 0 },
-      "progression" => { "level" => 1, "xp" => 0 } }
+    Schema3Facts.facts(DATA["balance/combat"][:pack][:members], defeats:, home: "upper", hp: 1)
   end
 
   def test_requires_defeats_blocks_while_the_counter_is_unmet

@@ -33,8 +33,8 @@ class SaveStateTest < Minitest::Test
 
   SS = Game::SaveState
 
-  def world(seed: 7, seats: 1, save: nil)
-    Game::World.new(DATA, seed:, seats:, save:)
+  def world(seed: 7, seats: 1, save: nil, players: nil)
+    Game::World.new(DATA, seed:, seats:, save:, players:)
   end
 
   def idle = @idle ||= Core::ScriptedInput.new(frames: {})
@@ -82,7 +82,37 @@ class SaveStateTest < Minitest::Test
     w
   end
 
+  # Schema 3 (v22 T1): the host character is keyed "bot-1" = the harness
+  # default seat-1 id (`world(save:)` seats it); HOST is that key.
+  HOST = "bot-1".freeze
+
+  def host_record(level: 1, xp: 0, home: "nest", form: "striker")
+    {
+      "level" => level, "xp" => xp, "xp_debt" => 0, "insurance" => 0,
+      "home_zone" => home, "form" => form,
+      "forms" => {
+        "striker" => { "hp" => 80, "inscribed" => false },
+        "blocker" => { "hp" => 0, "inscribed" => true },
+        "lobber" => { "hp" => 33, "inscribed" => false }
+      },
+      "bag" => [], "equipment" => {}, "attributes" => {}, "bank_items" => []
+    }
+  end
+
   def valid_facts
+    {
+      "banked" => 12, "provisions" => 1,
+      "breached" => [["district", [42, 13]]],
+      "counters" => { "boss_1_defeats" => 2, "sessions" => 5 },
+      "characters" => { HOST => host_record }
+    }
+  end
+
+  def host_of(facts) = facts["characters"][HOST]
+
+  # Schema 2's facts shape — what every pre-v22 file on disk carries (the
+  # owner's live save is one): shared progression + the members roster.
+  def v2_facts
     {
       "banked" => 12, "provisions" => 1, "home_zone" => "nest",
       "breached" => [["district", [42, 13]]],
@@ -96,14 +126,8 @@ class SaveStateTest < Minitest::Test
     }
   end
 
-  # Schema 1's facts shape — what every pre-v19 file on disk carries.
-  def v1_facts
-    f = valid_facts
-    f.delete("progression")
-    f
-  end
-
   def refusal(facts) = SS.refusal_for(facts, data: DATA)
+  def v2_refusal(facts) = SS.v2_refusal_for(facts, data: DATA)
 
   # --- 1. the pinned canonicalizer ---------------------------------------
 
@@ -146,12 +170,19 @@ class SaveStateTest < Minitest::Test
 
   def test_facts_shape_exact_keys_and_roster_order
     f = SS.facts(world)
-    assert_equal %w[banked breached counters home_zone members progression provisions], f.keys.sort
-    assert_equal %w[striker blocker lobber], f["members"].map { |m| m["kit"] }
+    assert_equal %w[banked breached characters counters provisions], f.keys.sort,
+                 "a fresh world carries no migration block"
+    assert_equal [HOST], f["characters"].keys, "the fresh host character, keyed by player id"
+    host = host_of(f)
+    assert_equal Game::Character::KEYS, host.keys.sort, "every record key is WRITTEN (optional ones at their defaults)"
+    assert_equal %w[blocker lobber striker], host["forms"].keys.sort, "forms keyed by the roster kits"
+    assert_equal %w[hp inscribed], host["forms"]["striker"].keys.sort
     assert_equal %w[boss_1_defeats sessions], f["counters"].keys.sort
-    assert_equal %w[level xp], f["progression"].keys.sort
-    assert_equal [1, 0], f["progression"].values_at("level", "xp"),
-                 "a fresh world starts at the level-1 identity"
+    assert_equal [1, 0, 0, 0, "nest", "blocker"],
+                 host.values_at("level", "xp", "xp_debt", "insurance", "home_zone", "form"),
+                 "a fresh character: new_character.level, the initial hub, the initial possessed kit"
+    assert_equal [[], {}, {}, []], host.values_at("bag", "equipment", "attributes", "bank_items"),
+                 "Junior's keys ride EMPTY until S2 fills them"
     assert_nil refusal(f)
   end
 
@@ -254,11 +285,22 @@ class SaveStateTest < Minitest::Test
       f = SS.facts(w)
       assert_equal before, snap(w), "veil-tick projector mutated the world (tick #{ticks})"
       assert_nil refusal(f), "veil-tick facts must be a legal save (tick #{ticks})"
-      by_kit = f["members"].to_h { |m| [m["kit"], m] }
+      by_kit = host_of(f)["forms"]
       assert_equal MAXES[:striker], by_kit["striker"]["hp"], "marked striker revives"
       assert_equal 0, by_kit["blocker"]["hp"]
       assert_equal 0, by_kit["lobber"]["hp"]
-      assert f["members"].none? { |m| m["inscribed"] }, "judgment consumes the mark"
+      assert by_kit.values.none? { |m| m["inscribed"] }, "judgment consumes the mark"
+      # Fresh-eyes s136 (BLOCK 2): seat 1 sits on the DEAD wipe vessel during
+      # the veil while the marked striker revives — `form` must name the body
+      # seat 1 will hold AFTER judgment (a living one), and the mid-veil save
+      # must round-trip like any other (facts(apply(facts)) == facts).
+      assert_equal "striker", host_of(f)["form"], "form follows the judgment, not the dead vessel (tick #{ticks})"
+      assert_equal "striker", w.digest_snapshot.to_h.fetch("character.#{HOST}").to_h.fetch("form"),
+                   "the digest row agrees (tick #{ticks})"
+      if (ticks % 40).zero?
+        assert_equal bytes(f), world_bytes(world(seed: 1, save: deep_dup(f))),
+                     "a quit INSIDE the veil must round-trip byte-exact (tick #{ticks})"
+      end
       ticks += 1
       w.tick(idle)
     end
@@ -271,6 +313,30 @@ class SaveStateTest < Minitest::Test
     refute member(w, :striker).marked?, "the live judgment burned the mark"
   end
 
+  # Coop: seat 1 WAITING (its body died, seat 2 holds the last living body)
+  # at a clean quit — the stored form names a dead kit, so `form` falls
+  # through to the first living kit in roster order; the save stays legal
+  # (the validator refuses a dead form) and round-trips.
+  def test_waiting_seat_one_projects_a_living_form_and_round_trips
+    w = world(seed: 5, seats: 2)
+    body1 = w.possessed(1)
+    body2 = w.possessed(2)
+    third = (w.pack.members - [body1, body2]).first
+    kill(third, by: body2)
+    drive(w, 2)
+    kill(body1, by: body2)
+    drive(w, 2)
+    assert_nil w.possessed(1), "staging: seat 1 waits (seat 2 holds the last body)"
+    assert_equal :world, w.states.current, "staging: no wipe — one body lives"
+    f = SS.facts(w)
+    assert_equal body2.kit_name.to_s, host_of(f)["form"], "form = the one living body, never the dead stored kit"
+    assert_nil refusal(f)
+    loaded = world(seed: 6, seats: 2, save: deep_dup(f))
+    assert_equal bytes(f), world_bytes(loaded), "the waiting-seat save round-trips byte-exact"
+    assert_equal body2.kit_name, loaded.possessed(1).kit_name, "seat 1 resumes the living form"
+    assert_nil loaded.possessed(2), "seat 2 waits (one body lives)"
+  end
+
   def test_projector_floor_keeps_the_wipe_vessel_when_nothing_is_marked
     w = world(seed: 9)
     w.pack.bank!(30)
@@ -278,7 +344,7 @@ class SaveStateTest < Minitest::Test
     # the seat pointer stays on the dead blocker — the wipe vessel.
     wipe!(w, order: %i[lobber striker blocker])
     f = SS.facts(w)
-    by_kit = f["members"].to_h { |m| [m["kit"], m] }
+    by_kit = host_of(f)["forms"]
     assert_equal MAXES[:blocker], by_kit["blocker"]["hp"],
                  "the one-vessel floor keeps the wipe vessel"
     assert_equal 0, by_kit["striker"]["hp"]
@@ -291,12 +357,13 @@ class SaveStateTest < Minitest::Test
 
   def third_member_facts
     f = valid_facts
-    f["home_zone"] = "camp"
-    f["members"] = [
-      { "kit" => "striker", "hp" => 0, "inscribed" => false },
-      { "kit" => "blocker", "hp" => 0, "inscribed" => false },
-      { "kit" => "lobber", "hp" => 22, "inscribed" => false }
-    ]
+    host_of(f)["home_zone"] = "camp"
+    host_of(f)["form"] = "lobber"
+    host_of(f)["forms"] = {
+      "striker" => { "hp" => 0, "inscribed" => false },
+      "blocker" => { "hp" => 0, "inscribed" => false },
+      "lobber" => { "hp" => 22, "inscribed" => false }
+    }
     f
   end
 
@@ -321,7 +388,7 @@ class SaveStateTest < Minitest::Test
 
   def test_apply_seats_2_with_two_living_bodies_both_seats_hold_flesh
     f = third_member_facts
-    f["members"][0]["hp"] = 15 # striker also lives
+    host_of(f)["forms"]["striker"]["hp"] = 15 # striker also lives
     w = world(seats: 2, save: f)
     held = [w.possessed(1), w.possessed(2)]
     refute held.any?(&:nil?), "two living bodies must seat both players"
@@ -350,11 +417,12 @@ class SaveStateTest < Minitest::Test
 
   def test_loaded_inscription_armors_the_next_wipe
     f = valid_facts
-    f["members"] = [
-      { "kit" => "striker", "hp" => 80, "inscribed" => false },
-      { "kit" => "blocker", "hp" => 120, "inscribed" => true },
-      { "kit" => "lobber", "hp" => 60, "inscribed" => false }
-    ]
+    host_of(f)["form"] = "blocker"
+    host_of(f)["forms"] = {
+      "striker" => { "hp" => 80, "inscribed" => false },
+      "blocker" => { "hp" => 120, "inscribed" => true },
+      "lobber" => { "hp" => 60, "inscribed" => false }
+    }
     w = world(save: f)
     assert member(w, :blocker).marked?, "inscription crosses the session boundary (F3)"
     wipe!(w, order: %i[lobber striker blocker])
@@ -367,8 +435,10 @@ class SaveStateTest < Minitest::Test
 
   def test_apply_clamps_hp_to_the_kits_current_max
     f = valid_facts
-    f["members"][0]["hp"] = 9999
-    w = world(save: f)
+    host_of(f)["forms"]["striker"]["hp"] = 9999
+    w = nil
+    _, err = capture_io { w = world(save: f) }
+    assert_match(/clamped striker hp 9999/, err)
     assert_equal MAXES[:striker], member(w, :striker).hp,
                  "hp clamps to the kit's CURRENT max (balance churn law)"
   end
@@ -432,6 +502,28 @@ class SaveStateTest < Minitest::Test
           drive(w, 1) # flush actor_died — the defeat stamp increments the counter
         },
         read: ->(w) { w.boss_1_defeats }
+      },
+      # v22 T1 character leaves. xp_debt/insurance have no sim writer yet
+      # (T4/T5 own them) — staged through the record's plain writers.
+      "character.xp_debt" => {
+        mutate: ->(w) { w.party.host.xp_debt = 5 },
+        read: ->(w) { w.party.host.xp_debt }
+      },
+      "character.insurance" => {
+        mutate: ->(w) { w.party.host.insurance = 2 },
+        read: ->(w) { w.party.host.insurance }
+      },
+      # form = the body seat 1 holds; the round-trip proves apply! RESUMES it
+      # (a persisted fact the load path ignored could never round-trip).
+      "character.form" => {
+        mutate: ->(w) { w.pack.swap_next! },
+        read: ->(w) { w.possessed(1).kit_name }
+      },
+      # Junior's S2 merge point: the bag persists by pushing into the host
+      # record's own container — this leaf IS his one-line hook, proven.
+      "character.bag" => {
+        mutate: ->(w) { w.party.host.bag << { "id" => "flask_sap", "qty" => 2 } },
+        read: ->(w) { w.party.host.bag }
       }
     }
   end
@@ -493,103 +585,207 @@ class SaveStateTest < Minitest::Test
   end
 
   def test_refusals_are_named_never_raised
+    with_host = ->(over) { valid_facts.tap { |f| host_of(f).merge!(over) } }
+    dead_forms = %w[striker blocker lobber].to_h { |k| [k, { "hp" => 0, "inscribed" => false }] }
     cases = {
       "not an object" => [[1, 2], /facts/],
-      "extra key" => [valid_facts.merge("carried" => 5), /keys/],
-      "missing key" => [valid_facts.tap { |f| f.delete("provisions") }, /keys/],
+      "extra key" => [valid_facts.merge("carried" => 5), /keys: unknown carried/],
+      "missing key" => [valid_facts.tap { |f| f.delete("provisions") }, /keys: missing provisions/],
+      "retired v2 key" => [valid_facts.merge("members" => []), /keys: unknown members/],
+      "retired v2 progression" => [valid_facts.merge("progression" => { "level" => 1, "xp" => 0 }), /keys: unknown progression/],
+      "retired v2 home_zone" => [valid_facts.merge("home_zone" => "nest"), /keys: unknown home_zone/],
       "symbol keys" => [valid_facts.transform_keys(&:to_sym), /keys/],
       "banked type" => [valid_facts.merge("banked" => "12"), /banked/],
       "banked range" => [valid_facts.merge("banked" => -1), /banked/],
       "provisions range" => [valid_facts.merge("provisions" => -2), /provisions/],
-      "home unknown" => [valid_facts.merge("home_zone" => "atlantis"), /home_zone/],
-      "home not hub" => [valid_facts.merge("home_zone" => "district"), /hub/],
-      "home type" => [valid_facts.merge("home_zone" => 3), /home_zone/],
       "breached not array" => [valid_facts.merge("breached" => "x"), /breached/],
       "breached zone" => [valid_facts.merge("breached" => [["atlantis", [1, 2]]]), /breached/],
       "breached not a seal" => [valid_facts.merge("breached" => [["district", [1, 2]]]), /seal/],
       "breached malformed" => [valid_facts.merge("breached" => [["district"]]), /breached/],
       "breached tile floats" => [valid_facts.merge("breached" => [["district", [42.0, 13]]]), /breached/],
       "breached duplicate" => [valid_facts.merge("breached" => [["district", [42, 13]], ["district", [42, 13]]]), /duplicate/],
-      "members not array" => [valid_facts.merge("members" => {}), /members/],
-      "members short" => [valid_facts.tap { |f| f["members"] = f["members"].take(2) }, /roster/],
-      "roster order" => [valid_facts.tap { |f| f["members"] = f["members"].reverse }, /roster/],
-      "duplicate kit" => [valid_facts.tap { |f| f["members"][1] = f["members"][0] }, /roster/],
-      "member keys" => [valid_facts.tap { |f| f["members"][0] = f["members"][0].merge("carried" => 1) }, /members\[0\]/],
-      "hp type" => [valid_facts.tap { |f| f["members"][0] = f["members"][0].merge("hp" => 3.5) }, /hp/],
-      "hp range" => [valid_facts.tap { |f| f["members"][0] = f["members"][0].merge("hp" => -5) }, /hp/],
-      "inscribed type" => [valid_facts.tap { |f| f["members"][0] = f["members"][0].merge("inscribed" => 1) }, /inscribed/],
-      "no living member" => [valid_facts.tap { |f| f["members"].each { |m| m["hp"] = 0 } }, /living/],
       "counters keys" => [valid_facts.merge("counters" => { "boss_1_defeats" => 1 }), /counters/],
       "counters type" => [valid_facts.merge("counters" => { "boss_1_defeats" => "x", "sessions" => 0 }), /counters/],
       "counters range" => [valid_facts.merge("counters" => { "boss_1_defeats" => -1, "sessions" => 0 }), /counters/],
-      "progression not object" => [valid_facts.merge("progression" => 5), /progression/],
-      "progression missing key" => [valid_facts.merge("progression" => { "level" => 1 }), /progression/],
-      "progression extra key" => [valid_facts.merge("progression" => { "level" => 1, "xp" => 0, "hp" => 9 }), /progression/],
-      "progression symbol keys" => [valid_facts.merge("progression" => { level: 1, xp: 0 }), /progression/],
-      "level zero" => [valid_facts.merge("progression" => { "level" => 0, "xp" => 0 }), /level/],
-      "level type" => [valid_facts.merge("progression" => { "level" => 1.0, "xp" => 0 }), /level/],
-      "xp negative" => [valid_facts.merge("progression" => { "level" => 1, "xp" => -1 }), /xp/],
-      "xp type" => [valid_facts.merge("progression" => { "level" => 1, "xp" => "0" }), /xp/]
+      # characters: the map + one representative per Character.refusal family
+      # (the exhaustive per-key table lives in character_test.rb)
+      "characters not object" => [valid_facts.merge("characters" => []), /characters: not an object/],
+      "characters empty" => [valid_facts.merge("characters" => {}), /characters: at least one character/],
+      "character key not an id" => [valid_facts.merge("characters" => { "seat-1" => host_record }), /key "seat-1" is not a player id/],
+      "character not object" => [valid_facts.merge("characters" => { HOST => 5 }), /characters\[bot-1\]: not an object/],
+      "character unknown key" => [with_host.call("carried" => 1), /characters\[bot-1\]: unknown key\(s\) carried/],
+      "character missing key" => [valid_facts.tap { |f| host_of(f).delete("form") }, /characters\[bot-1\]: missing key\(s\) form/],
+      "home unknown" => [with_host.call("home_zone" => "atlantis"), /characters\[bot-1\]\.home_zone: unknown zone/],
+      "home not hub" => [with_host.call("home_zone" => "district"), /characters\[bot-1\]\.home_zone: "district" is not a hub/],
+      "home type" => [with_host.call("home_zone" => 3), /characters\[bot-1\]\.home_zone: must be a String/],
+      "forms kit set" => [with_host.call("forms" => host_record["forms"].reject { |k, _| k == "lobber" }), /forms: kits must be exactly/],
+      "form hp type" => [with_host.call("forms" => host_record["forms"].merge("striker" => { "hp" => 3.5, "inscribed" => false })), /forms\.striker\.hp/],
+      "no living form" => [with_host.call("forms" => dead_forms), /no living form/],
+      "form not a kit" => [with_host.call("form" => "husk"), /characters\[bot-1\]\.form: "husk" is not a roster kit/],
+      "form names a dead body" => [with_host.call("form" => "blocker"), /characters\[bot-1\]\.form: "blocker" is dead in forms/],
+      "level zero" => [with_host.call("level" => 0), /characters\[bot-1\]\.level/],
+      "level type" => [with_host.call("level" => 1.0), /characters\[bot-1\]\.level/],
+      "xp negative" => [with_host.call("xp" => -1), /characters\[bot-1\]\.xp/],
+      "xp_debt negative" => [with_host.call("xp_debt" => -1), /characters\[bot-1\]\.xp_debt/],
+      "insurance over cap" => [with_host.call("insurance" => INSURANCE_CAP + 1), /characters\[bot-1\]\.insurance: must be an Integer in 0\.\.#{INSURANCE_CAP}/],
+      "bag float leaf" => [with_host.call("bag" => [{ "qty" => 1.5 }]), /characters\[bot-1\]\.bag\[0\]\.qty: non-canonical leaf Float/],
+      "second character bad" => [valid_facts.tap { |f| f["characters"]["bot-2"] = host_record.merge("xp" => -3) }, /characters\[bot-2\]\.xp/],
+      # the optional migration block
+      "migration not object" => [valid_facts.merge("migration" => 2), /migration: not an object/],
+      "migration keys" => [valid_facts.merge("migration" => { "from_schema" => 2 }), /migration: keys must be exactly/],
+      "migration from_schema" => [valid_facts.merge("migration" => MIGRATION.merge("from_schema" => 1)), /migration\.from_schema: must be 2/],
+      "migration legacy level" => [valid_facts.merge("migration" => MIGRATION.merge("legacy_level" => 0)), /migration\.legacy_level/],
+      "migration claimed_by shape" => [valid_facts.merge("migration" => MIGRATION.merge("legacy_seed_claimed_by" => 4)), /migration\.legacy_seed_claimed_by/]
     }
     cases.each do |label, (facts, pattern)|
       r = refusal(deep_dup(facts))
       refute_nil r, "#{label}: expected a named refusal"
-      assert_match pattern, r, "#{label}: refusal must name the violation"
+      assert_match pattern, r, "#{label}: refusal must name the violation and its path"
     end
+  end
+
+  INSURANCE_CAP = DATA["balance/death"][:insurance][:max_stacks]
+  MIGRATION = { "from_schema" => 2, "legacy_level" => 13, "legacy_seed_claimed_by" => false }.freeze
+
+  def test_optional_keys_absent_equal_their_defaults_and_a_migration_block_is_optional
+    f = valid_facts
+    %w[bag equipment attributes bank_items].each { |k| host_of(f).delete(k) }
+    assert_nil refusal(f), "absent optional keys = defaults (the optional-key law)"
+    w = world(save: deep_dup(f))
+    assert_equal [[], {}, {}, []], host_of(SS.facts(w)).values_at("bag", "equipment", "attributes", "bank_items"),
+                 "the projector WRITES every key"
+    assert_nil refusal(valid_facts.merge("migration" => MIGRATION))
+    assert_nil refusal(valid_facts.merge("migration" => MIGRATION.merge("legacy_seed_claimed_by" => "bot-2")))
+    w = world(save: valid_facts.merge("migration" => deep_dup(MIGRATION)))
+    assert_equal MIGRATION, SS.facts(w)["migration"], "the block round-trips verbatim while the seed is unclaimed"
   end
 
   def test_envelope_refusal_names_schema_skew_and_shape
     f = valid_facts
     assert_nil SS.envelope_refusal(SS.envelope(f, saved_at_ms: 5), data: DATA)
-    assert_match(/schema/, SS.envelope_refusal({ "schema" => 3, "saved_at_ms" => 5, "facts" => f }, data: DATA))
-    assert_match(/schema/, SS.envelope_refusal({ "schema" => "2", "saved_at_ms" => 5, "facts" => f }, data: DATA))
+    assert_match(/schema/, SS.envelope_refusal({ "schema" => 4, "saved_at_ms" => 5, "facts" => f }, data: DATA))
+    assert_match(/schema/, SS.envelope_refusal({ "schema" => "3", "saved_at_ms" => 5, "facts" => f }, data: DATA))
     assert_match(/schema/, SS.envelope_refusal({ "saved_at_ms" => 5, "facts" => f }, data: DATA))
     assert_match(/envelope/, SS.envelope_refusal([], data: DATA))
     assert_match(/saved_at_ms/, SS.envelope_refusal({ "schema" => SS::SCHEMA, "saved_at_ms" => 1.5, "facts" => f }, data: DATA))
     assert_match(/facts/, SS.envelope_refusal({ "schema" => SS::SCHEMA, "saved_at_ms" => 5, "facts" => [] }, data: DATA))
   end
 
-  # --- 7b. the v1 → v2 upgrade lane (P8, pure half — IO in save_store_test) --
-
-  def test_v1_facts_validate_under_the_frozen_v1_rules_only
-    assert_nil SS.v1_refusal_for(v1_facts, data: DATA)
-    assert_match(/keys/, refusal(v1_facts),
-                 "v1 facts must NOT pass the v2 decoder")
-    assert_match(/keys/, SS.v1_refusal_for(valid_facts, data: DATA),
-                 "v2 facts must NOT pass the frozen v1 decoder")
-    assert_match(/banked/, SS.v1_refusal_for(v1_facts.merge("banked" => -1), data: DATA),
-                 "the v1 lane stays STRICT — shared refusals still bite")
+  # L9 (council s132): schema 1 refuses NAMED under schema 3 — the exact
+  # text is the contract (no live v1 chain exists; the v1 lane is gone).
+  def test_schema_1_refuses_named_with_the_pinned_text
+    v1 = v2_facts.tap { |f| f.delete("progression") }
+    assert_equal "save schema: 1 unsupported (expected 3)",
+                 SS.envelope_refusal({ "schema" => 1, "saved_at_ms" => 5, "facts" => v1 }, data: DATA)
+    refute SS.respond_to?(:upgrade_v1), "the v1 upgrade lane is deleted"
+    refute SS.const_defined?(:V1_FACT_KEYS), "the frozen v1 key set is deleted with it"
   end
 
-  def test_envelope_refusal_routes_schema_1_to_the_v1_rules
-    assert_nil SS.envelope_refusal(
-      { "schema" => 1, "saved_at_ms" => 5, "facts" => v1_facts }, data: DATA
-    )
+  # --- 7b. the 2 -> 3 migration lane (L9, pure half — IO in save_store_test) --
+
+  def migrate(f = v2_facts, player_id: HOST) = SS.migrate_v2(f, player_id:, data: DATA)
+
+  def test_v2_facts_validate_under_the_frozen_v2_rules_only
+    assert_nil v2_refusal(v2_facts)
+    assert_match(/keys: missing characters; unknown home_zone,members,progression/, refusal(v2_facts),
+                 "v2 facts must NOT pass the schema-3 decoder")
+    assert_match(/keys/, v2_refusal(valid_facts), "v3 facts must NOT pass the frozen v2 decoder")
+    assert_match(/banked/, v2_refusal(v2_facts.merge("banked" => -1)),
+                 "the v2 lane stays STRICT — shared refusals still bite")
+    v2_cases = {
+      "members not array" => [v2_facts.merge("members" => {}), /members/],
+      "members short" => [v2_facts.tap { |f| f["members"] = f["members"].take(2) }, /roster/],
+      "roster order" => [v2_facts.tap { |f| f["members"] = f["members"].reverse }, /roster/],
+      "member keys" => [v2_facts.tap { |f| f["members"][0] = f["members"][0].merge("carried" => 1) }, /members\[0\]/],
+      "hp type" => [v2_facts.tap { |f| f["members"][0] = f["members"][0].merge("hp" => 3.5) }, /hp/],
+      "inscribed type" => [v2_facts.tap { |f| f["members"][0] = f["members"][0].merge("inscribed" => 1) }, /inscribed/],
+      "no living member" => [v2_facts.tap { |f| f["members"].each { |m| m["hp"] = 0 } }, /living/],
+      "home not hub" => [v2_facts.merge("home_zone" => "district"), /home_zone: "district" is not a hub/],
+      "progression missing key" => [v2_facts.merge("progression" => { "level" => 1 }), /progression/],
+      "level zero" => [v2_facts.merge("progression" => { "level" => 0, "xp" => 0 }), /level/],
+      "xp type" => [v2_facts.merge("progression" => { "level" => 1, "xp" => "0" }), /xp/]
+    }
+    v2_cases.each do |label, (facts, pattern)|
+      r = v2_refusal(deep_dup(facts))
+      refute_nil r, "#{label}: expected a named v2 refusal"
+      assert_match pattern, r, label
+    end
+  end
+
+  def test_envelope_refusal_routes_schema_2_to_the_frozen_v2_rules
+    assert_nil SS.envelope_refusal({ "schema" => 2, "saved_at_ms" => 5, "facts" => v2_facts }, data: DATA)
     assert_match(/keys/, SS.envelope_refusal(
-      { "schema" => 1, "saved_at_ms" => 5, "facts" => valid_facts }, data: DATA
-    ), "a schema-1 envelope carrying v2 facts must refuse")
+      { "schema" => 2, "saved_at_ms" => 5, "facts" => valid_facts }, data: DATA
+    ), "a schema-2 envelope carrying v3 facts must refuse")
   end
 
-  def test_upgrade_v1_injects_fresh_progression_and_is_pure
-    f = v1_facts
+  def test_migrate_v2_derives_the_host_character_and_is_pure
+    f = v2_facts
     before = deep_dup(f)
-    up = SS.upgrade_v1(f)
-    assert_equal({ "level" => 1, "xp" => 0 }, up["progression"])
-    assert_nil refusal(up), "an upgraded v1 tree must be a valid v2 save"
-    assert_equal before, f, "upgrade_v1 must not mutate its input"
+    m = migrate(f)
+    assert_equal before, f, "migrate_v2 must not mutate its input"
+    assert_equal %w[banked breached characters counters migration provisions], m.keys.sort
+    assert_equal [12, 1, [["district", [42, 13]]], { "boss_1_defeats" => 2, "sessions" => 5 }],
+                 m.values_at("banked", "provisions", "breached", "counters"), "shared facts carry over verbatim"
+    assert_equal [HOST], m["characters"].keys, "keyed by the LOADING machine's player id"
+    host = m["characters"][HOST]
+    assert_equal Game::Character::KEYS, host.keys.sort
+    assert_equal [1, 0, 0, 0, "nest"], host.values_at("level", "xp", "xp_debt", "insurance", "home_zone")
+    assert_equal({ "striker" => { "hp" => 80, "inscribed" => false },
+                   "blocker" => { "hp" => 0, "inscribed" => true },
+                   "lobber" => { "hp" => 33, "inscribed" => false } }, host["forms"])
+    assert_equal "striker", host["form"],
+                 "the initial possessed kit (blocker) is dead -> the first living member, as the v2 pointer law resumed"
+    assert_equal [[], {}, {}, []], host.values_at("bag", "equipment", "attributes", "bank_items")
+    assert_equal({ "from_schema" => 2, "legacy_level" => 1, "legacy_seed_claimed_by" => false }, m["migration"])
+    assert_nil refusal(m), "a migrated tree must be a valid schema-3 save"
+    assert_raises(ArgumentError) { migrate(v2_facts, player_id: "seat-1") }
   end
 
-  def test_v1_upgrade_round_trip_is_v2_byte_stable
-    up = SS.upgrade_v1(v1_facts)
-    loaded = world(save: deep_dup(up))
-    assert_equal bytes(up), world_bytes(loaded),
-                 "v1 → upgrade → apply → project must round-trip byte-exact as v2"
+  def test_migrate_v2_form_is_the_initial_possessed_kit_when_it_lives
+    f = v2_facts
+    f["members"][1]["hp"] = 50 # blocker (initial_possessed) lives
+    assert_equal "blocker", migrate(f)["characters"][HOST]["form"]
+  end
+
+  def test_migrated_v2_round_trip_is_schema_3_byte_stable
+    m = migrate(v2_facts)
+    loaded = world(save: deep_dup(m))
+    assert_equal bytes(m), world_bytes(loaded),
+                 "v2 -> migrate -> apply -> project must round-trip byte-exact as schema 3"
+    assert_equal 1, loaded.progression.level
+    assert_equal :striker, loaded.possessed(1).kit_name, "seat 1 resumes the migrated form"
+    assert member(loaded, :blocker).marked?, "the inscription crossed the hop"
+  end
+
+  # The owner's live chain, in shape: level 13 / xp 1740 / zone_7 home / 5
+  # seals / 6 defeats (saves/world.json on 2026-09-06 — values, not bytes;
+  # the byte proof runs on a COPY in the ticket record).
+  def test_migrate_v2_of_a_lived_in_chain_shape
+    f = v2_facts.merge(
+      "banked" => 208, "home_zone" => "zone_7",
+      "breached" => [["basement_2", [6, 3]], ["district", [42, 13]], ["district_two", [42, 13]], ["zone_7", [33, 14]]],
+      "counters" => { "boss_1_defeats" => 6, "sessions" => 19 },
+      "members" => [{ "kit" => "striker", "hp" => 137, "inscribed" => false },
+                    { "kit" => "blocker", "hp" => 275, "inscribed" => false },
+                    { "kit" => "lobber", "hp" => 103, "inscribed" => false }],
+      "progression" => { "level" => 13, "xp" => 1740 }
+    )
+    assert_nil v2_refusal(f)
+    m = migrate(f, player_id: HOST)
+    host = m["characters"][HOST]
+    assert_equal [13, 1740, "zone_7", "blocker"], host.values_at("level", "xp", "home_zone", "form")
+    assert_equal 13, m["migration"]["legacy_level"]
+    w = world(save: deep_dup(m))
+    assert_equal bytes(m), world_bytes(w), "the owner's chain shape round-trips byte-exact"
+    assert_equal [13, 1740, "zone_7", :blocker], [w.progression.level, w.progression.xp, w.home_zone, w.possessed(1).kit_name]
+    assert_equal 275, member(w, :blocker).hp, "hp lands at the leveled max, no clamp"
   end
 
   # --- 7c. progression apply: clamps warn + proceed (P3's churn law) -------
 
   def progression_facts(level:, xp:)
-    valid_facts.merge("progression" => { "level" => level, "xp" => xp })
+    valid_facts.tap { |f| host_of(f).merge!("level" => level, "xp" => xp) }
   end
 
   def test_progression_facts_round_trip_through_apply
@@ -603,9 +799,8 @@ class SaveStateTest < Minitest::Test
     f = progression_facts(level: 5, xp: 10)
     progression = Game::Progression.new(config: DATA["balance/progression"])
     progression.load_progress!(level: 5, xp: 10)
-    f["members"].each do |member_facts|
-      base = MAXES.fetch(member_facts["kit"].to_sym)
-      member_facts["hp"] = progression.max_hp_for(base)
+    host_of(f)["forms"].each do |kit, form|
+      form["hp"] = progression.max_hp_for(MAXES.fetch(kit.to_sym))
     end
     w = nil
 
@@ -621,7 +816,7 @@ class SaveStateTest < Minitest::Test
     progression = Game::Progression.new(config: DATA["balance/progression"])
     progression.load_progress!(level: 5, xp: 10)
     expected = progression.max_hp_for(MAXES[:striker])
-    f["members"][0]["hp"] = expected + 20
+    host_of(f)["forms"]["striker"]["hp"] = expected + 20
     w = nil
 
     _, err = capture_io { w = world(save: deep_dup(f)) }
@@ -666,8 +861,14 @@ class SaveStateTest < Minitest::Test
       "corpse_serial" => :session_only, "rng_draws" => :session_only,
       "respawn_rng_draws" => :session_only, "hitstop" => :session_only,
       "loot_rng_draws" => :session_only, # S2: the item-roll stream re-seeds per session like the others
-      "boss_1_defeats" => :persisted, "sessions" => :persisted,
-      "level" => :persisted, "xp" => :persisted
+      "boss_1_defeats" => :persisted, "sessions" => :persisted
+    },
+    # v22 T1: one group per character record (character.<player id>, sorted
+    # id order). level/xp moved here from the world group; forms ride the
+    # creature rows; Junior's keys are session-inert until S2 reads them.
+    "character" => {
+      "level" => :persisted, "xp" => :persisted, "xp_debt" => :persisted,
+      "insurance" => :persisted, "form" => :persisted, "home_zone" => :persisted
     },
     "pack" => {
       "banked" => :persisted, "provisions" => :persisted,
@@ -767,6 +968,7 @@ class SaveStateTest < Minitest::Test
   def classification_for(group)
     case group
     when "world", "pack", "bag" then CLASSIFICATION[group]
+    when /\Acharacter\./ then CLASSIFICATION["character"]
     when /\Apack\.\d+\z/, /\Ahuman\./ then CLASSIFICATION["creature"]
     when /\Aprojectile\./ then CLASSIFICATION["projectile"]
     when /\Aimpact\./ then CLASSIFICATION["impact"]
@@ -811,7 +1013,92 @@ class SaveStateTest < Minitest::Test
     assert_includes swept, "counters.boss_1_defeats"
     assert_includes swept, "progression.level"
     assert_includes swept, "progression.xp"
+    assert_includes swept, "character.xp_debt"
+    assert_includes swept, "character.insurance"
+    assert_includes swept, "character.form"
+    assert_includes swept, "character.bag"    # Junior's S2 hook, proven
     # sessions: no in-sim mutation path exists yet (the save coordinator
     # bumps it at write — increment 2); its round-trip is pinned above.
+  end
+
+  # --- 9. the T1 interim rule at the World level (council s133 Q5/Q6) ------
+  # T1 ships before T2b: one shared pack + one shared Progression. The HOST
+  # character IS that progression (live); a SEATED GUEST's level/xp MIRROR
+  # the host's (live reads and the clean-quit projection); its other keys
+  # freeze; UNSEATED records round-trip verbatim. Guests without a record
+  # are created at session start under the D-T1 seed rule.
+
+  GUEST = "9a1b2c3d-4e5f-4a6b-8c7d-0e1f2a3b4c5d".freeze
+  TWO = { 1 => HOST, 2 => GUEST }.freeze
+
+  def test_missing_guest_is_created_at_construction_and_mirrors_the_host
+    w = world(seats: 2, save: valid_facts, players: TWO)
+    assert_equal [HOST, GUEST].sort, w.party.ids, "the seated guest gets a record at session start"
+    guest = w.party.records.fetch(GUEST)
+    assert_equal [1, 0, "nest", "blocker"], [guest.level, guest.xp, guest.home_zone, guest.form],
+                 "no migration block: new_character.level, the initial hub, the fresh pack's kit"
+    w.progression.load_progress!(level: 4, xp: 9) # the shared pack grows
+    f = SS.facts(w)
+    assert_equal [4, 9], f["characters"][HOST].values_at("level", "xp")
+    assert_equal [4, 9], f["characters"][GUEST].values_at("level", "xp"), "the seated guest MIRRORS the party level"
+    assert_equal "blocker", f["characters"][GUEST]["form"], "the guest's other keys stay stored"
+    rows = w.digest_snapshot.to_h
+    assert_equal rows.fetch("character.#{HOST}").take(2), rows.fetch("character.#{GUEST}").take(2),
+                 "the digest rows agree with the projection (both seats compute the same)"
+    assert_equal [HOST, GUEST].sort.map { |id| "character.#{id}" },
+                 rows.keys.grep(/\Acharacter\./), "sorted player-id order"
+    assert_nil refusal(f)
+  end
+
+  def test_unseated_records_round_trip_verbatim_and_the_seated_guest_persists_the_mirror
+    f = valid_facts
+    f["characters"]["bot-4"] = host_record(level: 7, xp: 3, home: "camp", form: "lobber").merge("xp_debt" => 11)
+    f["characters"][GUEST] = host_record(level: 2, xp: 1, home: "zone_7", form: "striker")
+    w = world(seats: 2, save: deep_dup(f), players: TWO)
+    w.progression.load_progress!(level: 5, xp: 2)
+    out = SS.facts(w)
+    assert_equal f["characters"]["bot-4"], out["characters"]["bot-4"], "unseated: verbatim, level 7 untouched"
+    assert_equal [5, 2, "zone_7", "striker"],
+                 out["characters"][GUEST].values_at("level", "xp", "home_zone", "form"),
+                 "seated guest: level/xp mirror the host, home/form frozen"
+    again = world(seed: 99, seats: 2, save: deep_dup(out), players: TWO)
+    assert_equal bytes(out), world_bytes(again), "three records round-trip byte-exact"
+  end
+
+  def test_legacy_seed_is_claimed_once_by_the_first_newcomer_and_persisted
+    f = valid_facts.merge("migration" => deep_dup(MIGRATION)) # legacy_level 13, unclaimed
+    w = world(seats: 2, save: deep_dup(f), players: TWO)
+    guest = w.party.records.fetch(GUEST)
+    assert_equal 13, guest.level, "the first newcomer inherits the v2 world's level (D-T1)"
+    assert_equal MAXES[:striker] + (MAXES[:striker] * 12 * 6) / 100, guest.forms["striker"]["hp"],
+                 "forms at the character's own level (Progression#max_hp_at)"
+    out = SS.facts(w)
+    assert_equal GUEST, out["migration"]["legacy_seed_claimed_by"], "the claim persists as a per-player fact"
+    assert_equal [1, 0], out["characters"][GUEST].values_at("level", "xp"),
+                 "...but in T1's field the seated guest reads the party level (host: level 1) — the mirror"
+    third = world(seats: 2, save: deep_dup(out), players: { 1 => HOST, 2 => "bot-3" })
+    assert_equal 1, third.party.records.fetch("bot-3").level, "a later newcomer starts at new_character.level"
+    assert_equal GUEST, SS.facts(third)["migration"]["legacy_seed_claimed_by"], "a spent seed never re-claims"
+  end
+
+  def test_host_without_a_record_is_a_newcomer_too_identity_is_per_player_never_seat
+    # The owner's save opened on another machine: THAT machine's id has no
+    # record -> it is created (the seed rule applies to it like any player)
+    # and the original host's record stays in the file, unseated.
+    other = "0f7e2c1a-4b3d-4c2e-9a1b-1234567890ab"
+    f = valid_facts.merge("migration" => deep_dup(MIGRATION))
+    w = world(save: deep_dup(f), players: { 1 => other })
+    assert_equal 13, w.progression.level, "the newcomer host claimed the legacy seed"
+    out = SS.facts(w)
+    assert_equal [HOST, other].sort, out["characters"].keys
+    assert_equal f["characters"][HOST], out["characters"][HOST], "the absent player's record is untouched"
+    assert_equal other, out["migration"]["legacy_seed_claimed_by"]
+  end
+
+  def test_players_map_is_validated_at_construction
+    assert_raises(ArgumentError) { world(players: { 1 => "seat-1" }) }
+    assert_raises(ArgumentError) { world(seats: 2, players: { 1 => "bot-1", 2 => "bot-1" }) }
+    assert_raises(ArgumentError) { world(seats: 2, players: { 1 => "bot-1" }) }
+    assert_raises(ArgumentError) { world(players: { 2 => "bot-1" }) }
   end
 end

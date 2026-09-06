@@ -39,6 +39,11 @@ class PinsTest < Minitest::Test
     assert_includes wall, "harness/pins.rb record", "run_wall.sh must record a pin after every script"
     assert_includes wall, "--gate-rc \"$gate_rc\"", "the pin must carry the captured gate rc"
     assert_includes wall, "--manifest-rc \"$man_rc\"", "the pin must carry the captured manifest rc"
+    # Pin provenance law (s136): HEAD read ONCE at sweep start, passed to every
+    # record — a sweep pins the tree it judged, not the tree docs drifted to.
+    assert_includes wall, 'SWEEP_HEAD="$(git rev-parse --short=7 HEAD)"'
+    assert_includes wall, "--commit \"$SWEEP_HEAD\"", "every pin carries the sweep's ONE head"
+    assert_operator wall.index("SWEEP_HEAD="), :<, wall.index("for script in"), "read before the loop"
   end
 
   def test_report_on_an_empty_ledger_says_so_and_exits_zero

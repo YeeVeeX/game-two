@@ -30,9 +30,9 @@ class MenuNetTest < Minitest::Test
   end
 
   def run_session
-    @h = Net::Session.host(bind: "127.0.0.1", port: 0, config: CFG,
+    @h = Net::Session.host(player_id: "bot-1", bind: "127.0.0.1", port: 0, config: CFG,
                            seed: 7, epoch: 99, hello: HELLO.dup)
-    @j = Net::Session.join(host: "127.0.0.1", port: @h.port, config: CFG, hello: HELLO.dup)
+    @j = Net::Session.join(player_id: "bot-2", host: "127.0.0.1", port: @h.port, config: CFG, hello: HELLO.dup)
     t = 0
     200.times do
       break if @h.params_known? && @j.params_known?
@@ -55,7 +55,7 @@ class MenuNetTest < Minitest::Test
 
   def test_net_model_is_nil_outside_a_session
     assert_nil menu.net_model(nil, nil), "solo mode carries no panels"
-    h = Net::Session.host(bind: "127.0.0.1", port: 0, config: CFG,
+    h = Net::Session.host(player_id: "bot-1", bind: "127.0.0.1", port: 0, config: CFG,
                           seed: 7, epoch: 99, hello: HELLO.dup)
     @h = h
     h.update(0)
