@@ -479,3 +479,15 @@ geometry/z-order, not alpha (the row: edges only, never HUD plate / bottom strip
 band geometry + draw order before trusting `da473aa` (a higher floor could make a whole-frame wash worse), then gate
 ledger_loop + district_hunt + world_loop. Everything else pushed; pins/verdicts written by the running wall stay
 uncommitted on purpose until the close commit. Close = 3 steps in the pause note; `tmp/_gates_build4.sh` mirrored there.
+
+### Resume 11:50 — the OPEN cause closed: `ledger_loop low_hp_pulse_reads` was GEOMETRY + Z-ORDER (both mine)
+Measured: `Light#draw_vignette` uses FIXED bands of 22% (w) / 28% (h) per side with a gradient to clear - the frame
+screen_light_reads approves for the neutral base vignette (alpha 130), but the WINE PULSE reused the same geometry, so it
+tinted ~75% of the frame; with da473aa's higher alpha floor that is exactly the "red wash tints the whole frame" the critic
+read. Pixel (ledger_loop 4943 vs the reel's first frame): bottom controls strip (480,528) 69,48,40 -> 33,14,19 (darker
+AND redder) - the row says "never the bottom controls strip". Second cause: `ControlsOverlay` drew every rect/text at z 0
+while the light draws at z 17 (the HUD plate draws at z 19) -> the strip sat UNDER the vignette. Fix (presentation, mine):
+`draw_vignette(bw_pct:, bh_pct:)` - the base keeps 0.22/0.28, the pulse reads `low_hp_band_w_pct` 0.12 / `low_hp_band_h_pct`
+0.16 (display rows: an edge bleed, the middle and the HUD row untouched); ControlsOverlay backing + 6 texts at z 19 (above
+the light, level with the HUD plate). da473aa (alpha floors) stays - it fixed onset legibility; this fixes WHERE it bleeds.
+Gates owed: ledger_loop, district_hunt, world_loop (base vignette unchanged), town_gates (strip). Wall #4: 20/42 at resume.

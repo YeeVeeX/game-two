@@ -125,7 +125,8 @@ module App
         af = @display.fetch(:low_hp_alpha_floor)
         bf = @display.fetch(:low_hp_breath_floor)
         a = (@display.fetch(:low_hp_alpha) * (af + (1.0 - af) * depth) * (bf + (1.0 - bf) * breath)).round
-        draw_vignette(view_w, view_h, a, rgb: @display.fetch(:low_hp_rgb))
+        draw_vignette(view_w, view_h, a, rgb: @display.fetch(:low_hp_rgb),
+                      bw_pct: @display.fetch(:low_hp_band_w_pct), bh_pct: @display.fetch(:low_hp_band_h_pct))
       end
       safe = map.respond_to?(:safe?) ? map.safe? : false
       hub = map.respond_to?(:hub?) ? map.hub? : false
@@ -145,9 +146,13 @@ module App
     # inner corner) - so every shared edge matches its neighbour exactly.
     # Overlapping full bands double the alpha at the corners and draw hard
     # rectangular seams (brasa1 low-hp pulse, wall re-gate 2026-09-05).
-    def draw_vignette(w, h, a, rgb: [8, 4, 6])
-      bw = (w * 0.22).round
-      bh = (h * 0.28).round
+    # bw_pct/bh_pct = band width/height as a fraction of the view (the base
+    # vignette keeps 0.22/0.28 = the frame screen_light_reads approves; the
+    # low-hp PULSE passes narrower bands - wall #4 ledger_loop: at 22/28 the wine
+    # pulse read as a wash over the whole frame, HUD and bottom strip included).
+    def draw_vignette(w, h, a, rgb: [8, 4, 6], bw_pct: 0.22, bh_pct: 0.28)
+      bw = (w * bw_pct).round
+      bh = (h * bh_pct).round
       dark = Gosu::Color.new(a, *rgb)
       clear = Gosu::Color.new(0, *rgb)
       z = 17

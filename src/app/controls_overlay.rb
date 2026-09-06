@@ -10,6 +10,8 @@ module App
   # replays render it bit-equal. #draw is the only Gosu-touching method;
   # content resolution and pulse alpha are pure (tested headlessly).
   class ControlsOverlay
+    # z 19 = the HUD plate's z: the strip sits ABOVE the light (vignette z 17). Wall #4:
+    # drawn at z 0 it sat under the low-hp pulse and read wine-tinted (row: never the bottom strip).
     # Strip order for the six teachable actions (movement stays off the
     # strip — v14 parked decision). Glyphs come from the injected
     # Core::BindingMap (v15: the promised reverse-lookup now that
@@ -101,36 +103,36 @@ module App
       h = strip_height
       y = world.camera(@local_seat).view_h - h
       a = strip_alpha_now(world)
-      Gosu.draw_rect(0, y, world.camera(@local_seat).view_w, h, Gosu::Color.new(a, *BACKING_RGB))
+      Gosu.draw_rect(0, y, world.camera(@local_seat).view_w, h, Gosu::Color.new(a, *BACKING_RGB), 19)
       line = vessel_line(world)
       kit = world.possessed(@local_seat).kit_name
       ty = y + y_pad
       x = x_start
       text_a = [a + 60, 255].min # text reads a notch above its backing
       vessel_col = Gosu::Color.new(text_a, *VESSEL_RGB.fetch(kit, GLYPH_RGB))
-      font.draw_text(line[:vessel], x, ty, 0, 1, 1, vessel_col)
+      font.draw_text(line[:vessel], x, ty, 19, 1, 1, vessel_col)
       x += font.text_width(line[:vessel]) + section_gap
       glyph_col = Gosu::Color.new(text_a, *GLYPH_RGB)
       label_col = Gosu::Color.new([text_a - 40, 60].max, *label_rgb)
       line[:pairs].each do |pair|
         primary, *rest = pair[:glyphs]
-        font.draw_text(primary, x, ty, 0, 1, 1, glyph_col)
+        font.draw_text(primary, x, ty, 19, 1, 1, glyph_col)
         x += font.text_width(primary)
         # Secondary glyphs at label tone — visible but quieter (the
         # twelfth's ask: show BOTH options without shouting).
         rest.each do |g|
-          font.draw_text("/#{g}", x, ty, 0, 1, 1, label_col)
+          font.draw_text("/#{g}", x, ty, 19, 1, 1, label_col)
           x += font.text_width("/#{g}")
         end
         x += glyph_gap
-        font.draw_text(pair[:label], x, ty, 0, 1, 1, label_col)
+        font.draw_text(pair[:label], x, ty, 19, 1, 1, label_col)
         x += font.text_width(pair[:label]) + section_gap
       end
       # The potions counter sits at the strip's right edge, same quiet
       # band — always on (v20 T3 escalation; POTION 0 teaches the stock).
       counter = provisions_line(world)
       cx = world.camera(@local_seat).view_w - x_start - font.text_width(counter)
-      font.draw_text(counter, cx, ty, 0, 1, 1, glyph_col)
+      font.draw_text(counter, cx, ty, 19, 1, 1, glyph_col)
     end
 
     private

@@ -283,6 +283,8 @@
  "low_hp_rgb": [120, 16, 48],
  "low_hp_alpha_floor": 0.75,
  "low_hp_breath_floor": 0.85,
+ "low_hp_band_w_pct": 0.12,
+ "low_hp_band_h_pct": 0.16,
  "vignette_alpha": 130,
  "vignette_alpha_safe": 70,
  "minimap": true,
