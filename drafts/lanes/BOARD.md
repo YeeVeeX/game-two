@@ -44,6 +44,11 @@ RECEIPT: validator 3892c1f DONE wall #3 42/42 + re-gate @ 3a0ef57: 4/5 PASS, bra
 (nenhum)
 
 ## Dividas nomeadas (dobradas dos receipts)
+- STATUS 2026-09-06 18:5x (fim da sessao): renderer.rb 2124 -> 1979 (Signage extraido; cap 2000 em line_caps_test) FECHADA ·
+  world.rb 1800 -> 1727 (Game::Interact extraido) FECHADA · brasa2 pressure_ring_reads PASS (regra do anel) FECHADA ·
+  toll_pocket re-autorado (censo 42/42) FECHADA · banner/stamp z 18 FECHADA · S1 pousado (bag no record do T1) FECHADA.
+  ABERTAS: ally_brain.rb (espera A3), drop-sob-corpo (pergunta de sim, dono), zone8 linhas finas (nao reproduziu no HEAD;
+  observar na parede #5), netplay (halo do parceiro + overlay acima do veu de fim; so com 2 seats). Raias abertas: nenhuma.
 - a3-stalemate: `controllers.rb` 628 (> ~620) -> extrair o bloco do cerebro aliado (`ally_config`..`advance_step`) para
   `src/game/ally_brain.rb` (mixin byte-inerte) quando A3 pousar. Candidatos (c)/(d) do stalemate = tickets do dono
   (audit §4 corrigido). Footgun de dados: `ranged_hold_tiles` >= 4 com `stalemate_advance_tiles` >= hold-1 faz ping-pong (3/1 e seguro).
