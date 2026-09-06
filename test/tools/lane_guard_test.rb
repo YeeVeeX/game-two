@@ -25,8 +25,11 @@ class LaneGuardTest < Minitest::Test
     body
   MD
 
+  # SHARED = never a lane's by default. `data/display.json` left this list on 2026-09-06
+  # (E3: a PRESENTATION lane legitimately owns the display knobs; sim/protocol/digest
+  # files stay). The overlap test below still forbids two lanes on one path.
   SHARED = %w[src/game/world.rb src/game/creature.rb src/net/protocol.rb src/game/save_state.rb
-              data/display.json data/strings/en.json data/bindings.json data/balance/economy.json
+              data/strings/en.json data/bindings.json data/balance/economy.json
               harness/gate_checks.json test/net/state_digest_test.rb test/game/save_state_test.rb
               data/art/manifest.json data/art/atlas/striker.png drafts/lanes/BOARD.md
               drafts/lanes/README.md drafts/lanes/s5-attributes.md].freeze
