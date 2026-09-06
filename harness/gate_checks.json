@@ -343,7 +343,7 @@
     },
     {
       "id": "minimap_reads",
-      "check": "A small framed RADAR box sits top-right in every frame with the HUD: the zone's layout in miniature (walls in the zone's wall color, floor darker, water blue), gold dots for open ways/stations, a magenta dot for stations, small RED dots for hostiles, kit-colored dots for pack bodies and one GOLD dot with a dark ring for the possessed — the pattern plausibly matches what is on camera (a hostile beside you on camera = a red dot beside the gold dot). It never covers the zone banner (top-center) nor the HUD plate (top-left). If no HUD frame is present, pass with why='not exercised by this script'."
+      "check": "A small framed RADAR box sits top-right in every frame with the HUD: the zone's layout in miniature (walls in the zone's wall color, floor darker, water blue), OPEN ways as GOLD dots and LOCKED ways (level, seal or boss fact not yet met) as COLD GREY dots - gold means walkable, the same law as the floor signage, so a way that is a dark slab on camera is a grey dot on the radar and a glowing way is a gold dot; a magenta dot for stations, small RED dots for hostiles, kit-colored dots for pack bodies and one GOLD dot with a dark ring for the possessed — the pattern plausibly matches what is on camera (a hostile beside you on camera = a red dot beside the gold dot). It never covers the zone banner (top-center) nor the HUD plate (top-left). If no HUD frame is present, pass with why='not exercised by this script'."
     },
     {
       "id": "impact_fx_reads",
@@ -367,7 +367,7 @@
     },
     {
       "id": "interact_prompt_reads",
-      "check": "Where the possessed stands at a STATION (the magenta-toned interactable places: bank, altar, vat, seal) a small dark PROMPT bubble sits just above its head carrying the interact key glyph and its verb (for example 'H INTERACT'), legible against whatever lies behind it and not colliding with that body's own numerals, halo chevron or a nameplate. It is reference UI: quieter than the HUD bars, and it is gone once the body leaves the station. If no frame shows the possessed at a station, pass with why='not exercised by this script'."
+      "check": "Where the possessed stands at a STATION (the magenta-toned interactable places: bank, altar, vat, seal) a small dark PROMPT bubble sits just above its head carrying the interact key glyph and its verb (for example 'H INTERACT'), and ON a rope spot (the climb-back way); a body merely BESIDE a station, or on a totem, shows NO prompt. The bubble is legible against whatever lies behind it and not colliding with that body's own numerals, halo chevron or a nameplate. It is reference UI: quieter than the HUD bars, and it is gone once the body leaves the station. If no frame shows the possessed at a station, pass with why='not exercised by this script'."
     },
     {
       "id": "petrify_telegraph_reads",

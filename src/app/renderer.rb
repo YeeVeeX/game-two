@@ -1577,7 +1577,7 @@ module App
           Gosu.draw_rect(cx + reach - thick, cy - reach, thick, reach * 2, col)
         end
         if (t = h.chant_target) && !t.dead?
-          # T3 regression fix (s46, varekka gate catch): the tell rides at
+          # T3 regression fix (s46, BOSS 1 / challenger gate catch): the tell rides at
           # z 15 — above every z-0 HUD rect (level strip, hp bars), below
           # HUD numerals (z 20). A safety cue ("he is calling THAT body")
           # must never be buried by chrome; frames without a pinned vessel

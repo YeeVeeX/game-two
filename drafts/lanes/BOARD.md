@@ -11,7 +11,14 @@ cerca LE (machine row). So a raia nomeada em SIM LANE pode tocar `src/game/**`.
 Raias escrevem SEUS receipts em `drafts/lanes/receipts/<lane>.md`; o integrador dobra aqui.
 
 ## Receipts (dobrados pelo integrador)
-RECEIPT: e3-presentation - OPEN lane-worker (fable) + scout + reviewer; ticket E3 (spec §5; T0 b3/b4/b5/F-A3-1); brief drafts/lanes/e3-presentation.md; worktree ../game-two-lane-e3; apresentacao pura, sem SIM LANE
+RECEIPT: e3-presentation f880c7c READY (branch lane/e3-presentation, rebased + ff into junior/premium-build) ticket E3 4/4:
+  b5 38 knobs escritos + 176 defaults removidos + teste de existencia · F-A3-1 safe_chip_y 138 · b3 prompt sse World#interact age
+  na propria tile (rope_spot prompta; ao lado/totem nao) · b4 minimapa: aberta = ouro, trancada = cinza, MESMO predicado
+  Renderer.way_locked? da sinalizacao. Integrador validou no worktree: cerca --base 13a223c rc 0 (16 paths = owns), suite
+  1519/0, canarios OFF = ACTIVE x3, sem relogio/rand. PATCH REQUESTS aplicados pelo integrador: d12 minimap_reads (ouro =
+  aberta, cinza = trancada) + clausula interact_prompt_reads. Time: lane-worker (fable) + scout + reviewer (fable: 1 P1 real
+  - ControlsOverlay recebia display nil num Renderer.new nu - corrigido f880c7c com teste). Rule 2: gates com janela +
+  parede #4 pelo integrador. renderer.rb 2099 -> 2124 (+25, extracao b3) = divida nomeada (sem cap formal).
 RECEIPT: a3-stalemate 97ce289 READY (branch lane/a3-stalemate @ ca4beb3, pushed) ranged-hold stalemate rule, brain-ON only, data
   `ally.stalemate_frames`=180 / `stalemate_advance_tiles`=1 (PROPOSTAS pro dono), 9 testes sinteticos; integrador validou no
   worktree: cerca --base 8034192 rc 0 (4 paths, so owns), suite 1510/0, canarios OFF = ACTIVE x3, ON md5 = audit §3 (regra nunca
