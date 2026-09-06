@@ -344,6 +344,46 @@
     {
       "id": "minimap_reads",
       "check": "A small framed RADAR box sits top-right in every frame with the HUD: the zone's layout in miniature (walls in the zone's wall color, floor darker, water blue), gold dots for open ways/stations, a magenta dot for stations, small RED dots for hostiles, kit-colored dots for pack bodies and one GOLD dot with a dark ring for the possessed — the pattern plausibly matches what is on camera (a hostile beside you on camera = a red dot beside the gold dot). It never covers the zone banner (top-center) nor the HUD plate (top-left). If no HUD frame is present, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "impact_fx_reads",
+      "check": "Hits and deaths leave IMPACT on the ground: an attack that LANDS shows a small bright 4-point star with a few flying chips at the struck tile, and a body that DIES sprays a larger burst of shards outward from its own tile; bodies that walk leave small dim dust puffs BEHIND them (opposite the facing) that fade within a few frames. These live only a handful of frames, so judge them on frames sampled at a hit or death beat - a frame showing a struck or dying body with no spark or burst anywhere fails. If no hit, death or walking body is on camera, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "damage_numbers_read",
+      "check": "Damage SPEAKS in numerals: when a body loses or gains hp on camera a small number rises above it and fades, damage on a pack body, damage on a hostile and a heal/pickup gain are tinted apart from each other, and a big hit (about a quarter of max hp or more) draws a LARGER numeral. Separately a WOUNDED non-boss hostile wears a tiny bar over its head (red-to-amber fill on a dark backing with a bright top hairline) while a full-hp hostile wears NO bar - the bar itself reads as 'this one is hurt'. Numerals are brief: judge them on frames sampled at a hit beat. If no damage event and no wounded hostile is on camera, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "screen_light_reads",
+      "check": "Light dresses the frame without hiding it: fire sources (torches, braziers, lava) carry soft warm glow pools that fall off with distance, and a subtle dark VIGNETTE frames the screen edges as one continuous border - never a hard seam, never a doubled band where two edges meet. A kill may take one brief bright PUNCH and a level-up a brief warm FLASH, each a single short beat and never a persistent wash. Through all of it the play space stays readable: floor, bodies, drops and telegraphs stay legible under the glow and inside the vignette. If no fire source and no vignette-bearing frame is present, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "pickup_gleam_reads",
+      "check": "A drop waiting on the ground GLEAMS: a few small bright sparks rise from it and fade (no flash ring and no falling chips - those belong to a hit spark), so an unclaimed pickup reads as 'come get this' and not as scenery. When it is collected a gold plus-N numeral rises from the collecting body. The gleam is deliberately quiet: judge it on frames where a drop sits on open ground. If no drop is on camera, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "low_hp_pulse_reads",
+      "check": "While the possessed body is badly hurt (below roughly a third of the max hp shown on its framed HUD bar) a dark RED vignette breathes at the screen edges: it deepens as hp falls and pulses slowly, and it never covers the HUD plate, the bottom controls strip or the middle of the play space. It must stay tellable apart from the wipe veil (a full-screen dark veil carrying text). If no frame shows the possessed below about a third of max hp, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "interact_prompt_reads",
+      "check": "Where the possessed stands at a STATION (the magenta-toned interactable places: bank, altar, vat, seal) a small dark PROMPT bubble sits just above its head carrying the interact key glyph and its verb (for example 'H INTERACT'), legible against whatever lies behind it and not colliding with that body's own numerals, halo chevron or a nameplate. It is reference UI: quieter than the HUD bars, and it is gone once the body leaves the station. If no frame shows the possessed at a station, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "petrify_telegraph_reads",
+      "check": "A PETRIFYING windup is telegraphed in STONE, not in blood: the winding-up hostile is framed by a grey-edged, pale-grey-cored swell, clearly apart from the ordinary attack telegraph (hot RED edge around a YELLOW core) and from a volley's orange brackets - 'this one will freeze you' reads before the blow lands. Where a frame carries both families at once they must stay tellable apart. If no petrify windup is on camera, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "aura_ring_reads",
+      "check": "A hostile that burns the ground around itself WEARS its reach: a thin hollow ember-orange square is drawn at the aura's radius centred on the bearer, breathing in brightness on a steady cycle - it never travels outward like a shockwave and never fills in. The ground inside that square must read as dangerous. If no aura-bearing hostile is on camera, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "blink_flash_reads",
+      "check": "When a hostile BLINKS (a short teleport instead of a walk) the ARRIVAL is marked: a brief bright flash grows at the destination tile over a handful of frames, so the body reads as having jumped rather than slid. A hostile that changes position between two frames with no flash anywhere fails. If no blink occurs in this reel, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "ally_callout_reads",
+      "check": "When a FREE ally (a pack body you are NOT possessing - no gold halo, no chevron) acts on its own by drinking, dodge-rolling or starting a special, a short label bubble pops beside it naming the act AND that ally's own HUD row briefly pulses, so panel and world agree on who acted. Bubbles are brief: judge them on frames sampled at an ally act. If no free ally acts in this reel, pass with why='not exercised by this script'."
     }
   ]
 }
