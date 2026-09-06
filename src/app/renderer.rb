@@ -1364,10 +1364,14 @@ module App
 
     def draw_attack(c, ts)
       return unless %i[windup active].include?(c.attack_state)
-      # Bright lunge family for the dash arc AND the striker's ring burst
-      # (v13, review-confirmed): without it the whirlwind renders in the
-      # blocker's SPECIAL colors on the same 8-tile pattern and two specials
-      # read as one (check 14, three-specials-three-visuals).
+      # Bright lunge family for the dash arc. HISTORY, not the present: in v13
+      # the striker's special was a ring burst ("whirlwind") and this branch
+      # kept it out of the blocker's ring colours (check 14, three specials /
+      # three visuals). Today the striker's special IS the dash (combat.json
+      # arc "dash", max_tiles 3): a telegraph LINE ahead, then displacement -
+      # never a ring. The `kit_name == :striker` clause stays as a guard for a
+      # kit retune; gate rows whirlwind_reads / specials_distinct describe the
+      # dash (wall #4, 2026-09-06: two rows written on this stale comment).
       if c.current_action == :special &&
          (c.action_config[:arc] == "dash" || c.kit_name == :striker)
         col = c.attack_state == :windup ? LUNGE_WINDUP : LUNGE_ACTIVE

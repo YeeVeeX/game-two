@@ -67,7 +67,7 @@
     },
     {
       "id": "specials_distinct",
-      "check": "When special frames are present, Blocker reads as a heavy ring shock, Lobber as delayed targeted tiles, and Striker as a bright ring burst (brighter/whiter family than the Blocker's warm ring). The three effects must not look like one reused attack effect. If this replay has no special frames, pass with why='not exercised by this script'."
+      "check": "When special frames are present, Blocker reads as a heavy ring shock, Lobber as delayed targeted tiles, and Striker as a linear DASH (a pale telegraph line of up to three tiles ahead of it, then its body displaced to the end of the line - a LINE, never a ring). The three effects must not look like one reused attack effect. If this replay has no special frames, pass with why='not exercised by this script'."
     },
     {
       "id": "volley_telegraph_distinct",
@@ -195,7 +195,7 @@
     },
     {
       "id": "whirlwind_reads",
-      "check": "When a striker special-active frame is present, the burst reads as ONE area hit: bright ring tiles around the striker with at least one adjacent victim reacting in the same frame (hurt flash or displaced outward) OR an adjacent victim visibly deleted by the burst across the reel (alive in a pre-burst frame, corpse/absent in the burst frames - a one-shot kill is the burst landing). If no striker special is exercised in this script, pass with why='not exercised by this script'."
+      "check": "The striker's special is a linear DASH, not a whirlwind (the row id is legacy; kit: arc dash, max_tiles 3, windup 6, active 1). When striker special frames are present: in the WINDUP frame a pale telegraph line of up to three tiles runs from the striker in its facing direction (shorter where a wall or a body stops it - a short line is correct); in the ACTIVE/RECOVERY frames the striker's body has MOVED to the far end of that line, and any body that stood on the line reacts in the same frame (hurt flash, numeral) OR is visibly gone across the reel (alive before, corpse/absent after = the dash landed). The read is LINE + DISPLACEMENT; never expect a ring around the striker. If no striker special is exercised in this script, pass with why='not exercised by this script'."
     },
     {
       "id": "challenge_reads",

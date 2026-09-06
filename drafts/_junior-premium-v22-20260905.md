@@ -426,3 +426,15 @@ Re-cut (presentation only, geometry untouched, every number a display row; `draw
 by distance to the possessed (`Signage.aura_alpha_pct`: 1.0 to 5 tiles, linear to 0.5 at 12+; the squares that bite next
 read first, the far ones stay visible). Pure falloff pinned in signage_test. Rule 2 gates owed: brasa3_run (row) +
 brasa1_run/brasa2_run/aoe_specials (aura reels) - in the post-wall window, same batch as halo/spark/ring.
+
+### Wall #4 live triage (11:12): `dash_strike_rip whirlwind_reads` + `specials_distinct` = ROWS describing a ring the kit does not have
+Sim fact: the striker's special is a linear DASH (`combat.json` arc "dash", max_tiles 3, windup 6, active 1): at capture
+0396 (windup) a pale telegraph LINE runs ahead; at 0402 (active) the body has moved [6,68] -> [9,68]; `attack_hit` x2 at
+f398 = the dash landed on two bodies. The critic saw exactly that ("two pale tiles to one side only, no ring") and failed
+the rows because BOTH asked for a RING: Gabriel's new `whirlwind_reads` ("bright ring tiles around the striker") and my
+wall-#3 `specials_distinct` ("Striker as a bright ring burst"). Source of the misread found: a v13 comment in
+`renderer.rb` draw_attack ("the striker's ring burst ... the whirlwind renders...") - the special was a ring in v13 and is a
+dash now; the comment was never updated and two rows were written on it. Fixed (my surface, my word): both rows describe
+LINE + DISPLACEMENT (short line where a wall/body stops it is correct; never expect a ring; row id `whirlwind_reads` kept as
+legacy, explained in the text); the renderer comment now says which era is which. No pixel changed; re-gate dash_strike_rip
+in the post-wall window (its third row, impact_fx_reads, = the bright-spark fix already on the branch).
