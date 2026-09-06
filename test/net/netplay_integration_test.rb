@@ -18,9 +18,9 @@ class NetplayIntegrationTest < Minitest::Test
             digest_version: 1 }.freeze
 
   def sessions(epoch:, seed: 7)
-    @h = Net::Session.host(bind: "127.0.0.1", port: 0, config: CFG,
+    @h = Net::Session.host(player_id: "bot-1", bind: "127.0.0.1", port: 0, config: CFG,
                            seed:, epoch:, hello: HELLO.dup)
-    @j = Net::Session.join(host: "127.0.0.1", port: @h.port, config: CFG, hello: HELLO.dup)
+    @j = Net::Session.join(player_id: "bot-2", host: "127.0.0.1", port: @h.port, config: CFG, hello: HELLO.dup)
     [@h, @j]
   end
 

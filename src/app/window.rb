@@ -140,7 +140,7 @@ module App
         # Params — the host's validated tree IS the joiner's parsed wire
         # bytes (digest law), so the two sims start identical.
         @world = Game::World.new(@data, seed: @session.params.seed, seats: 2,
-                                 save: @session.params.save)
+                                 save: @session.params.save, players: @session.players)
         @telemetry = Game::Telemetry.new(@world.bus, world: @world)
         # T3: the bridge polls the LOCAL seat's possessed body (footstep
         # materials — each seat hears its own steps; pure sink, sim blind).

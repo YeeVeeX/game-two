@@ -12,18 +12,22 @@ class ProtocolTest < Minitest::Test
 
   # --- codec ---------------------------------------------------------------
 
-  def test_protocol_version_is_three
+  def test_protocol_version_is_four
     # v18 decision 8 pinned ONE bump for that cycle (v2, 11-bit mask).
     # v3 (2026-08-20, post-v18-close owner order): 12-bit mask — :aim
-    # appends at bit 11. Append-only law holds; the handshake refuses
-    # mixed builds by version field, NAMED.
-    assert_equal 3, Net::Protocol::VERSION
+    # appends at bit 11. v4 (v22 T1): HELLO gains the REQUIRED player_id
+    # field. Append-only law holds; the handshake refuses mixed builds by
+    # version field, NAMED.
+    assert_equal 4, Net::Protocol::VERSION
+    assert_equal %i[version ruby platform fingerprint digest_version player_id],
+                 Net::Protocol::MESSAGES[:hello], "HELLO = five build fields + identity"
   end
 
   def test_every_message_type_round_trips
     examples = {
       hello: { version: 2, ruby: "3.4.10", platform: "x64-mingw-ucrt",
-               fingerprint: "abc123", digest_version: 1 },
+               fingerprint: "abc123", digest_version: 1,
+               player_id: "0f7e2c1a-4b3d-4c2e-9a1b-1234567890ab" },
       probe: { n: 3 }, probe_ack: { n: 3 },
       session: { session_id: "s-42", seed: 42, d: 8, digest_every: 60,
                  save_schema: 1, save_digest: "a" * 32,

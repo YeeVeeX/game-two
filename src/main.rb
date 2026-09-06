@@ -153,13 +153,13 @@ session, relaunch, saver =
       abort refusal # decision 6c: refuse NAMED before the socket opens
     end
     puts "hosting on port #{opts[:port]} (Esc cancels)"
-    [Net::Session.host(port: opts[:port], config:, seed: App::Cli.new_seed,
+    [Net::Session.host(port: opts[:port], config:, seed: App::Cli.new_seed, player_id:,
                        save_facts:, save_canonical:, save_digest:, save_schema:),
      "bin/play --host #{opts[:port]}",
      App::SaveCoordinator.new(store:, owner: true)]
   when :join
     begin
-      s = Net::Session.join(host: opts[:host], port: opts[:port], config:,
+      s = Net::Session.join(host: opts[:host], port: opts[:port], config:, player_id:,
                             save_schema: Game::SaveState::SCHEMA,
                             save_validator: ->(f) { Game::SaveState.refusal_for(f, data:) })
     rescue SystemCallError => e

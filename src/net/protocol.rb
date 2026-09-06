@@ -17,7 +17,10 @@ module Net
     class Fault < StandardError; end
     class Oversize < Fault; end
 
-    VERSION = 3
+    # v4 (v22 T1): HELLO gains `player_id` — a REQUIRED field, so a v3 seat
+    # meeting a v4 seat refuses NAMED on the version field (the v3 seat
+    # reads our HELLO fine and names "protocol version: ours 3 / theirs 4").
+    VERSION = 4
 
     # Bit i of an input mask = ACTIONS[i] held. PINNED — changing this
     # order is a protocol version bump, never a silent edit. v2 (v18
@@ -38,8 +41,11 @@ module Net
     # or null for a fresh world; the joiner digests the RECEIVED string
     # before parsing). BYE may carry an optional `detail` (the named
     # refusal text — both seats print the SAME refusal, decision 6b).
+    # v4 (v22 T1): HELLO carries `player_id` beside the five build fields
+    # (Fingerprint.mismatch still judges the five only; an equal id on both
+    # seats is its own NAMED refusal in Session).
     MESSAGES = {
-      hello: %i[version ruby platform fingerprint digest_version],
+      hello: %i[version ruby platform fingerprint digest_version player_id],
       probe: %i[n],
       probe_ack: %i[n],
       session: %i[session_id seed d digest_every save_schema save_digest save],

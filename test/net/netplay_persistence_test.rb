@@ -52,10 +52,10 @@ class NetplayPersistenceTest < Minitest::Test
   # decoder, NO store, NO coordinator — its save root must stay empty.
   def session_pair(seed:, epoch:, save_facts: nil, save_canonical: nil, save_digest: nil)
     schema = save_canonical ? Game::SaveState::SCHEMA : nil
-    h = Net::Session.host(bind: "127.0.0.1", port: 0, config: CFG, seed:, epoch:,
+    h = Net::Session.host(player_id: "bot-1", bind: "127.0.0.1", port: 0, config: CFG, seed:, epoch:,
                           hello: HELLO.dup, save_facts:, save_canonical:,
                           save_digest:, save_schema: schema)
-    j = Net::Session.join(host: "127.0.0.1", port: h.port, config: CFG,
+    j = Net::Session.join(player_id: "bot-2", host: "127.0.0.1", port: h.port, config: CFG,
                           hello: HELLO.dup, save_schema: Game::SaveState::SCHEMA,
                           save_validator: VALIDATOR)
     @sessions << h << j
@@ -237,9 +237,9 @@ class NetplayPersistenceTest < Minitest::Test
   end
 
   def test_a_v1_peer_refuses_at_hello_naming_the_protocol_version
-    h = Net::Session.host(bind: "127.0.0.1", port: 0, config: CFG, seed: 44, epoch: 4040,
+    h = Net::Session.host(player_id: "bot-1", bind: "127.0.0.1", port: 0, config: CFG, seed: 44, epoch: 4040,
                           hello: HELLO.dup)
-    j = Net::Session.join(host: "127.0.0.1", port: h.port, config: CFG,
+    j = Net::Session.join(player_id: "bot-2", host: "127.0.0.1", port: h.port, config: CFG,
                           hello: HELLO.merge(version: 1),
                           save_schema: Game::SaveState::SCHEMA, save_validator: VALIDATOR)
     @sessions << h << j

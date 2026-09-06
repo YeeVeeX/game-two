@@ -17,9 +17,9 @@ class NetplayOverlayTest < Minitest::Test
   def overlay = @overlay ||= App::NetplayOverlay.new(display: DATA["display"])
 
   def sessions
-    @h = Net::Session.host(bind: "127.0.0.1", port: 0, config: CFG,
+    @h = Net::Session.host(player_id: "bot-1", bind: "127.0.0.1", port: 0, config: CFG,
                            seed: 7, epoch: 99, hello: HELLO.dup)
-    @j = Net::Session.join(host: "127.0.0.1", port: @h.port, config: CFG, hello: HELLO.dup)
+    @j = Net::Session.join(player_id: "bot-2", host: "127.0.0.1", port: @h.port, config: CFG, hello: HELLO.dup)
     [@h, @j]
   end
 
@@ -56,7 +56,7 @@ class NetplayOverlayTest < Minitest::Test
   def idle = @idle ||= Core::ScriptedInput.new(frames: {})
 
   def test_hosting_alone_is_the_hosting_screen_with_the_port
-    h = Net::Session.host(bind: "127.0.0.1", port: 0, config: CFG,
+    h = Net::Session.host(player_id: "bot-1", bind: "127.0.0.1", port: 0, config: CFG,
                           seed: 7, epoch: 99, hello: HELLO.dup)
     @h = h
     h.update(0)

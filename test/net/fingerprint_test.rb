@@ -126,6 +126,15 @@ class FingerprintTest < Minitest::Test
     assert_nil Net::Fingerprint.mismatch(HELLO, HELLO.dup)
   end
 
+  def test_mismatch_ignores_identity_fields
+    # v22 T1: player_id rides HELLO beside the five build fields; identity
+    # is not a build fact (two machines ALWAYS differ there by design).
+    ours = HELLO.merge(player_id: "bot-1")
+    theirs = HELLO.merge(player_id: "0f7e2c1a-4b3d-4c2e-9a1b-1234567890ab")
+    assert_nil Net::Fingerprint.mismatch(ours, theirs)
+    assert_equal 5, Net::Fingerprint::LABELS.length
+  end
+
   def test_mismatch_names_the_differing_field_and_hints_git_pull
     theirs = HELLO.merge(fingerprint: "b" * 32)
     msg = Net::Fingerprint.mismatch(HELLO, theirs)

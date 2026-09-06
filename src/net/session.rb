@@ -42,7 +42,7 @@ module Net
     # BYE reasons that are REFUSALS (need a human; exit 1 — the coop
     # launchers never rehost on these): the refusing seat's named text
     # rides the optional `detail` field.
-    REFUSAL_REASONS = %w[fingerprint save_schema save_digest save_invalid].freeze
+    REFUSAL_REASONS = %w[fingerprint player_id save_schema save_digest save_invalid].freeze
     ALLOWED = {
       listen: [],
       hello: %i[hello bye],
@@ -57,18 +57,24 @@ module Net
                          :save_schema, :save_digest, :save)
 
     attr_reader :seat, :phase, :reason, :params, :refusal, :fault_message,
-                :artifact_path, :digest_log, :lockstep, :link_slow
+                :artifact_path, :digest_log, :lockstep, :link_slow, :player_id
 
-    def self.host(port:, config:, seed:, bind: "0.0.0.0", epoch: Time.now.to_i, hello: nil,
-                  save_facts: nil, save_canonical: nil, save_digest: nil, save_schema: nil)
-      new(role: :host, config:, hello:,
+    # v22 T1 (L20-1): `player_id` is REQUIRED on both factories — the
+    # machine's identity (App::PlayerFile uuid, or bot-<seed>) rides HELLO
+    # as its own field and keys this seat's character in the host save. No
+    # default on purpose: a forgotten id would silently seat a stranger.
+    def self.host(port:, config:, seed:, player_id:, bind: "0.0.0.0", epoch: Time.now.to_i,
+                  hello: nil, save_facts: nil, save_canonical: nil, save_digest: nil,
+                  save_schema: nil)
+      new(role: :host, config:, hello:, player_id:,
           save_facts:, save_canonical:, save_digest:, save_schema:) do |s|
         s.listen(bind, port, seed:, epoch:)
       end
     end
 
-    def self.join(host:, port:, config:, hello: nil, save_schema: nil, save_validator: nil)
-      new(role: :join, config:, hello:, save_schema:, save_validator:) do |s|
+    def self.join(host:, port:, config:, player_id:, hello: nil, save_schema: nil,
+                  save_validator: nil)
+      new(role: :join, config:, hello:, player_id:, save_schema:, save_validator:) do |s|
         s.connect(host, port)
       end
     end
@@ -94,12 +100,19 @@ module Net
         "MAX_LINE_BYTES (#{Protocol::MAX_LINE_BYTES}) — the save cannot transfer to a joiner"
     end
 
-    def initialize(role:, config:, hello: nil, save_facts: nil, save_canonical: nil,
+    def initialize(role:, config:, player_id:, hello: nil, save_facts: nil, save_canonical: nil,
                    save_digest: nil, save_schema: nil, save_validator: nil)
       @role = role
       @seat = role == :host ? 1 : 2
       @config = config
+      # The five BUILD fields (Fingerprint.mismatch judges exactly these);
+      # identity travels beside them, never inside them.
       @hello = hello || Fingerprint.hello(root: ROOT)
+      unless player_id.is_a?(String) && !player_id.empty?
+        raise ArgumentError, "Net::Session needs a player_id (App::PlayerFile / bot-<seed>), got #{player_id.inspect}"
+      end
+      @player_id = player_id
+      @peer_player_id = nil
       # Host side: the VALIDATED tree it will apply (never re-parsed from
       # its own wire string) + the canonical bytes it transmits. Joiner
       # side: schema + strict-decoder lambda; its tree arrives on the wire.
@@ -154,6 +167,15 @@ module Net
     def running? = @phase == :run
     def draining? = !@drain.nil?
     def params_known? = !@params.nil?
+
+    # v22 T1 (L20-1): seat -> player id for BOTH seats, known once the HELLO
+    # exchange completes (before SESSION, so it is ready when the caller
+    # constructs the World); nil until then. Identical on both seats by
+    # construction (each seat sent its own id and read the other's).
+    def players
+      return nil unless @peer_player_id
+      host? ? { 1 => @player_id, 2 => @peer_player_id } : { 1 => @peer_player_id, 2 => @player_id }
+    end
 
     # Current-stall overlay feed (presentation spec 3): ms of continuous
     # stall once past stall_warn_ms, else nil.
@@ -284,7 +306,7 @@ module Net
 
     def open_wire(socket)
       @wire = Wire.new(socket)
-      send_msg(:hello, **@hello)
+      send_msg(:hello, **@hello, player_id: @player_id)
       set_phase(:hello)
     end
 
@@ -345,6 +367,19 @@ module Net
         finish!
         return
       end
+      # v22 T1: identity is not a build fact (the five above), but two
+      # seats with ONE id would write one character from two bodies —
+      # refused NAMED on both seats, symmetric like the fingerprint.
+      if msg[:player_id] == @player_id
+        @refusal = "REFUSED — player id collision: both seats share one player file\n" \
+                   "  hint: each machine keeps its own data/player.local.json (never copy it " \
+                   "between machines); delete the copy on ONE seat and relaunch"
+        conclude(:protocol)
+        send_msg(:bye, reason: "player_id")
+        finish!
+        return
+      end
+      @peer_player_id = msg[:player_id]
       set_phase(:probe)
       send_probe if host?
     end
@@ -577,6 +612,7 @@ module Net
         session_id: @params.session_id, seat: @seat, tick: v.tick,
         own_md5: v.local_md5, peer_md5: v.peer_md5,
         manifest: @hello,
+        players: players,
         snapshot: v.record&.snapshot, lines: v.record&.lines
       ))
     end

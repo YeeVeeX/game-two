@@ -42,13 +42,13 @@ class SessionTest < Minitest::Test
     }
   end
 
-  def host_session(seed: 7, hello: HELLO, epoch: 4242, **save_kw)
-    @host = Net::Session.host(bind: "127.0.0.1", port: 0, config: CFG,
+  def host_session(seed: 7, hello: HELLO, epoch: 4242, player_id: "bot-1", **save_kw)
+    @host = Net::Session.host(player_id:, bind: "127.0.0.1", port: 0, config: CFG,
                               seed:, epoch:, hello: hello.dup, **save_kw)
   end
 
-  def join_session(port, hello: HELLO)
-    @join = Net::Session.join(host: "127.0.0.1", port:, config: CFG,
+  def join_session(port, hello: HELLO, player_id: "bot-2")
+    @join = Net::Session.join(player_id:, host: "127.0.0.1", port:, config: CFG,
                               hello: hello.dup,
                               save_schema: Game::SaveState::SCHEMA,
                               save_validator: VALIDATOR)
@@ -142,6 +142,64 @@ class SessionTest < Minitest::Test
     h = host_session
     err = assert_raises(RuntimeError) { h.attach(Game::World.new(DATA, seed: 1, seats: 2)) }
     assert_match(/params/, err.message)
+  end
+
+  # --- v22 T1: identity rides HELLO (L20-1) ------------------------------------------
+
+  def test_hello_carries_player_id_and_both_seats_learn_the_seat_map
+    uuid = "0f7e2c1a-4b3d-4c2e-9a1b-1234567890ab"
+    h = host_session(player_id: uuid)
+    j = join_session(h.port, player_id: "bot-9")
+    assert_nil h.players, "unknown before the HELLO exchange"
+    handshake(h, j)
+    assert_equal({ 1 => uuid, 2 => "bot-9" }, h.players)
+    assert_equal h.players, j.players, "identical seat -> id map on both seats"
+    assert_equal uuid, h.player_id
+    assert_equal "bot-9", j.player_id
+    assert_equal HELLO.keys.sort, Net::Fingerprint::LABELS.keys.sort,
+                 "the fingerprint judges the five build fields only"
+  end
+
+  def test_player_id_collision_refuses_named_on_both_seats
+    h = host_session(player_id: "bot-7")
+    j = join_session(h.port, player_id: "bot-7")
+    pump_until(h, j, what: "both ended") { h.ended? && j.ended? }
+    [h, j].each do |s|
+      assert_equal :protocol, s.reason
+      assert_match(/player id collision: both seats share one player file/, s.refusal)
+      assert_match(/player\.local\.json/, s.refusal, "the hint names the file to fix")
+      assert_equal 1, App::Cli.exit_status(reason: s.reason, refusal: s.refusal),
+                   "a refusal needs a human (exit 1); the launchers never rehost on it"
+      assert_nil s.players
+    end
+  end
+
+  def test_session_requires_a_player_id
+    err = assert_raises(ArgumentError) do
+      Net::Session.host(player_id: nil, bind: "127.0.0.1", port: 0, config: CFG, seed: 1, epoch: 1)
+    end
+    assert_match(/player_id/, err.message)
+    assert_raises(ArgumentError) do
+      Net::Session.join(player_id: "", host: "127.0.0.1", port: 1, config: CFG)
+    end
+  end
+
+  # A v3 build meeting v4: OUR seat faults on the missing HELLO field (the
+  # codec speaks first), the v3 seat names the version skew itself — both
+  # end; neither opens a world.
+  def test_a_hello_without_player_id_is_a_protocol_fault_here
+    h = host_session
+    raw = TCPSocket.new("127.0.0.1", h.port)
+    raw.write(JSON.generate(HELLO.merge(m: "hello", version: 3)) + "\n")
+    raw.flush
+    30.times do |i|
+      h.update(i * 10)
+      break if h.ended?
+    end
+    assert h.ended?
+    assert_equal :protocol, h.reason
+    assert_match(/hello missing \[:player_id\]/, h.fault_message)
+    raw.close
   end
 
   # --- refusal (W6: stale-line joins) -------------------------------------------
@@ -265,7 +323,7 @@ class SessionTest < Minitest::Test
   def test_out_of_phase_message_is_a_protocol_fault
     h = host_session
     raw = raw_peer(h)
-    raw.write(Net::Protocol.encode(:hello, **HELLO))
+    raw.write(Net::Protocol.encode(:hello, **HELLO, player_id: "bot-2"))
     pump_host_until(h, what: "probe phase") { h.phase == :probe }
     raw.write(Net::Protocol.encode(:input, t: 0, bits: 0))
     pump_host_until(h, what: "fault end") { h.ended? }
@@ -287,7 +345,7 @@ class SessionTest < Minitest::Test
   def test_silent_connected_peer_times_out_as_conn_lost
     h = host_session
     raw = raw_peer(h)
-    raw.write(Net::Protocol.encode(:hello, **HELLO))
+    raw.write(Net::Protocol.encode(:hello, **HELLO, player_id: "bot-2"))
     pump_host_until(h, what: "probe phase") { h.phase == :probe }
     h.update(100)
     h.update(200 + CFG[:abort_stall_ms])
