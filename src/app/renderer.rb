@@ -12,6 +12,9 @@ require "app/minimap"
 require "app/tile_variants"
 require "app/writ"
 require "app/zone_identity"
+require "app/key_table"
+require "core/strings"
+require "core/binding_map"
 
 module App
   # Draws the world sim with Gosu primitives. Flat-rect minimalism: kit
@@ -114,6 +117,24 @@ module App
     # precedent) — the fetch defaults only keep a bare Renderer.new drawable.
     # strings: Core::Strings resolver (v13 i18n) — RENDER-time only; the
     # harness constructs it pinned to "en" (replay comparability law).
+    #
+    # One construction seam for the FULL presentation stack (T0 d1/b2: the
+    # netplay gate scene built a Renderer without art/ambience/tileset, so
+    # the three net gates judged the quad fallback and the partner halo was
+    # never captured; the three-loader wiring was copy-pasted 4x). Defaults
+    # are the CANONICAL capture shape: locale "en" + local: false bindings
+    # (check-comparability law, harness/scenes/world_scene.rb header).
+    # window.rb passes its LIVE strings/bindings/seat instead.
+    def self.build(data, display: data["display"], strings: nil, bindings: nil, local_seat: 1)
+      new(display: display,
+          strings: strings || Core::Strings.new(data, locale: "en"),
+          bindings: bindings || Core::BindingMap.load(data, key_table: App::KEY_TABLE, local: false),
+          local_seat: local_seat,
+          art: App::Art::Registry.load(data),
+          ambience: App::Ambience.load(data, display: display),
+          tileset: App::Tileset.load(data, display: display))
+    end
+
     def initialize(display: {}, strings: nil, bindings: nil, local_seat: 1, art: nil, ambience: nil,
                    tileset: nil)
       @display = display

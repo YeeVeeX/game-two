@@ -1,5 +1,5 @@
 {
-  "scope": "All checks below judge NETPLAY-scenario captures: a two-player lockstep session rendered from seat 1's view. Frames are either (a) full-screen session states (near-black screen with large centered text), (b) live world frames with netplay overlay text, or (c) live world frames under the semi-transparent MENU panel (J6-C: side panels LINK and SESSION flank the menu). The local player's body carries the familiar WHITE ring; the PARTNER's body carries a CYAN/teal ring and is otherwise dimmed like an ally. The three netplay scripts stage mutually exclusive endings (desync, connection lost, partner-left-after-quit), so any check whose beat is absent from this reel passes with why='not exercised by this script'. no_render_garbage always applies in full.",
+  "scope": "All checks below judge NETPLAY-scenario captures: a two-player lockstep session rendered from seat 1's view. Frames are either (a) full-screen session states (near-black screen with large centered text), (b) live world frames with netplay overlay text, or (c) live world frames under the semi-transparent MENU panel (J6-C: side panels LINK and SESSION flank the menu). The local player's body stands on the warm GOLD ground halo with a small gold chevron above its head; the PARTNER's body stands on a CYAN ground halo with no chevron and is otherwise dimmed like an ally. The three netplay scripts stage mutually exclusive endings (desync, connection lost, partner-left-after-quit), so any check whose beat is absent from this reel passes with why='not exercised by this script'. no_render_garbage always applies in full.",
   "checks": [
     {
       "id": "hosting_state_reads",
@@ -11,11 +11,11 @@
     },
     {
       "id": "partner_ring_distinct",
-      "check": "In frames showing two living ringed pack bodies, exactly one carries the white ring and exactly one carries a clearly different cyan/teal ring - two pilots read at a glance, never two white rings. If no frame shows both ringed bodies alive, pass with why='not exercised by this script'."
+      "check": "In frames showing two living possession-dressed pack bodies, exactly one stands on the warm GOLD ground halo with a small gold chevron bobbing above its head (seat 1 - you) and exactly one stands on a clearly different CYAN ground halo with NO chevron (the partner) - two pilots read at a glance, never two of the same dressing. If no frame shows both haloed bodies alive, pass with why='not exercised by this script'."
     },
     {
       "id": "partner_ring_moves",
-      "check": "Across the mid-run frames the white-ringed body and the cyan-ringed body occupy visibly different positions over time - both pilots are moving independently, not statues. If fewer than two frames show both rings, pass with why='not exercised by this script'."
+      "check": "Across the mid-run frames the gold-haloed body and the cyan-haloed body occupy visibly different positions over time - both pilots are moving independently, not statues. If fewer than two frames show both halos, pass with why='not exercised by this script'."
     },
     {
       "id": "link_slow_reads",
@@ -27,11 +27,11 @@
     },
     {
       "id": "gate_wait_reads",
-      "check": "When WAITING AT GATE is shown, a ringed body is standing on or beside the gold gate tile at the map edge and the cue text is legible. If absent, pass with why='not exercised by this script'."
+      "check": "When WAITING AT GATE is shown, a haloed body is standing on or beside the gold gate tile at the map edge and the cue text is legible. If absent, pass with why='not exercised by this script'."
     },
     {
       "id": "no_body_reads",
-      "check": "When NO BODY - WAITING is shown, no white-ringed body is alive in the frame (the cyan-ringed partner may live on) and the bottom controls strip is absent. If absent, pass with why='not exercised by this script'."
+      "check": "When NO BODY - WAITING is shown, no gold-haloed body is alive in the frame (the cyan-haloed partner may live on) and the bottom controls strip is absent. If absent, pass with why='not exercised by this script'."
     },
     {
       "id": "desync_screen_reads",
@@ -55,7 +55,7 @@
     },
     {
       "id": "hud_strip_intact",
-      "check": "In mid-run world frames where a white-ringed body is alive, the three HP bars (top-left) and the bottom controls strip render normally - the netplay overlays add text but never break or displace the base UI. (While NO BODY - WAITING shows, the strip is absent BY DESIGN - do not judge those frames here.) If the reel has no qualifying frames, pass with why='not exercised by this script'."
+      "check": "In mid-run world frames where a gold-haloed body is alive, the HUD panel (top-left dark plate: portrait rows, framed hp bars, LEVEL strip, chips) and the bottom controls strip render normally - the netplay overlays add text but never break or displace the base UI. (While NO BODY - WAITING shows, the strip is absent BY DESIGN - do not judge those frames here.) If the reel has no qualifying frames, pass with why='not exercised by this script'."
     },
     {
       "id": "no_render_garbage",

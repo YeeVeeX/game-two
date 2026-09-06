@@ -26,14 +26,8 @@ module Harness
         # Same law, bindings (v15): captures render the CANONICAL binding
         # map only — a machine-local bindings.local.json must never change
         # a capture (cross-machine gate comparability; local: false).
-        @renderer = App::Renderer.new(display: data["display"],
-                                      strings: Core::Strings.new(data, locale: "en"),
-                                      bindings: Core::BindingMap.load(
-                                        data, key_table: App::KEY_TABLE, local: false
-                                      ),
-                                      art: App::Art::Registry.load(data),
-                                      ambience: App::Ambience.load(data, display: data["display"]),
-                                      tileset: App::Tileset.load(data, display: data["display"]))
+        # E1.7: Renderer.build's DEFAULTS are exactly this canonical shape.
+        @renderer = App::Renderer.build(data)
         # v17: the curated list + serialization live in Harness::EventLog /
         # Net::EventSerial (shared with the headless canaries and the
         # netplay digest) — these lines are the banked etapa-0 instrument

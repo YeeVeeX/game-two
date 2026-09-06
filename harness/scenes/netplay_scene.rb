@@ -64,11 +64,11 @@ module Harness
         @host = Net::Session.host(bind: "127.0.0.1", port: @np.fetch(:port),
                                   config: @cfg, seed:, epoch: @np.fetch(:epoch, 1))
         @seat2 = Core::ScriptedInput.new(frames: Harness.expand_script(@np.fetch(:seat2, {})))
-        @renderer = App::Renderer.new(display: @data["display"],
-                                      strings: Core::Strings.new(@data, locale: "en"),
-                                      bindings: Core::BindingMap.load(
-                                        @data, key_table: App::KEY_TABLE, local: false
-                                      ))
+        # E1.7 (T0 d1/b2): the FULL presentation stack through the one
+        # factory — before this the scene built a bare Renderer and the
+        # three net gates judged the quad fallback (the partner-seat cyan
+        # halo had never been captured anywhere).
+        @renderer = App::Renderer.build(@data)
         @overlay = App::NetplayOverlay.new(display: @data["display"],
                                            strings: Core::Strings.new(@data, locale: "en"),
                                            view_w: width, view_h: height)
