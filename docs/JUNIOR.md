@@ -316,6 +316,77 @@ poções e o contador de sessões sobrevivem entre sessões.
 - Nunca é de graça e não regenera: é valor do banco virando fôlego de
   caçada — gaste com intenção.
 
+
+## 🇧🇷 O time multi-agente do seat (2026-09-06) — como abrir uma raia sem perguntar
+
+Um dev (o integrador = a sessão do pi) + **raias** (agentes filhos com worktree e
+branch próprios) que constroem em paralelo sem colidir. Provado hoje em 3 raias
+(`a3-stalemate`, `e3-presentation`, `signage`) + 3 revisores a frio.
+
+**Agentes** (em `~/.pi/agent/agents/`, modelo `gateway-llm/fable-5.1-thinking`):
+- `lane-worker` — constrói UM brief; tem o tool `subagent` → lança seus próprios
+  ajudantes (`scout` pra mapear, `reviewer` pra revisar o diff antes do receipt).
+- `lane-reviewer` — só lê; veredito `MERGEABLE | WITH MINORS | BLOCKED` com tabela.
+- Os prontos (`worker`/`reviewer`/`delegate`/`oracle`) também estão em fable via
+  `settings.json → subagents.agentOverrides`; `scout`/`researcher` ficam no default.
+- Se um filho voltar `failed: model_verification_failed` com o trabalho feito, é o
+  alias do gateway (`claude-fable-5-1`): a cura está em
+  `~/.pi/agent/extensions/subagent/config.json → modelResponseAliases`; esse arquivo
+  só é lido na carga da extensão → `/reload` depois de editar.
+
+**A cerca** (`tools/lane_guard.rb`, v3; testes em `test/tools/lane_guard_test.rb`):
+- Lê o brief `drafts/lanes/<raia>.md` e o `drafts/lanes/BOARD.md` de um **ref
+  confiável** (`--trust <ref>`; enquanto os briefs não estão em `main`, use
+  `--trust junior/premium-build`) — a raia não consegue alargar o próprio `owns`.
+- `owns` = o que a raia pode commitar; `never` = o que ela nem toca; tudo em
+  `drafts/lanes/` (menos `receipts/`) é POLICY = só do integrador; renames fecham
+  pelos dois lados; branch tem de ser `lane/<raia>`; `src/game/**` exige a linha
+  `SIM LANE: <raia>` no BOARD (o `SIM TOKEN:` humano é só atribuição).
+- Roda em modo staged antes de CADA commit da raia: `ruby tools/lane_guard.rb <raia>
+  --trust <ref>` → rc 0 pode; rc 1 recusa (lista o motivo); rc 2 = falha fechada.
+- O integrador valida depois com `--base <sha-de-partida>` no worktree da raia.
+
+**Abrir uma raia (integrador):**
+1. Escrever `drafts/lanes/<raia>.md` (front matter `lane/branch/owns/never` + objetivo
+   + Definition of Done + a lei da raia — copie de um brief em `done/`). Arquivos de
+   duas raias abertas NUNCA se cruzam (o teste de sobreposição recusa).
+2. Se toca `src/game/**`: `SIM LANE: <raia>` no BOARD (uma linha só; volta a `NONE`
+   quando ela entrega). Registrar `RECEIPT: <raia> - OPEN ...` no BOARD.
+3. Commit + push do brief/BOARD (a cerca lê do ref, não da árvore).
+4. `git worktree add -b lane/<raia> ../game-two-lane-<x> HEAD` e sondar a cerca de lá
+   (um path de `owns` → rc 0; um de `never` → rc 1).
+5. Lançar `lane-worker` (async, cwd = o worktree, prazo 45–60 min) com o brief como
+   spec e só logística na mensagem: nunca abrir janela (a máquina tem UMA janela GL —
+   se uma parede está rodando, é dela), headless só (`bundle exec rake`, teste isolado,
+   `tools/a3_stream_diff.rb`), cerca antes de cada commit, push, receipt.
+6. Se a raia chamar (`contact_supervisor`), responder pelo `steer` do run — não pausar.
+
+**Integrar (na ordem, ANTES de ler o relatório dela):** cerca `--base` no worktree →
+`bundle exec rake` → `ruby tools/a3_stream_diff.rb world_loop brasa2_run floor3_run`
+(= `ACTIVE bank? YES` ×3, senão vazou pro sim) → grep de relógio/rand no diff → ler
+receipt (PATCH REQUESTS são do integrador aplicar) → rebase da raia sobre o branch +
+ff → gates com janela dos scripts que ela listou (Rule 2) → dobrar o receipt no BOARD →
+**mover o brief para `drafts/lanes/done/`** (senão os `owns` dele bloqueiam a próxima
+raia nos mesmos arquivos — a cerca recusou `signage` por isso, e estava certa) →
+remover o worktree (o branch fica em origin como registro).
+
+**Ferramentas headless que nasceram disso** (nenhuma abre janela):
+- `ruby tools/manifest_census.rb [scripts]` — a metade *manifest* da parede em ~60 s
+  (42 scripts): rode ANTES de gastar 3,5 h de janela.
+- `ruby tools/boss_probe.rb <script> <kit>` — onde um boss está por frame, em câmera
+  ou não, CHANT/SEIZE, e as janelas onde uma captura o mostraria.
+- `ruby tools/blink_probe.rb X,Y "right:30-44" N` — achar o frame exato de um blink
+  pra autorar um reel. Lei das capturas: o runner grava a captura N **logo depois do
+  tick N** (`frame_000N`, 0-based); os probes contam 1-based → "f31" = captura 0030.
+- `ruby tools/a3_stream_diff.rb <canários>` — a prova de que o sim não mudou.
+
+**Lições caras (já pagas):** heredoc com `\n`/`\\` em patch Python quebra o escape —
+grave o `.py` com o tool `write` e rode `python tmp/_patch_x.py`; o watchdog do pi
+alerta "bash aberto 240 s" em toda raia que roda `rake` (3–4 min) — é falso positivo
+(`control.needsAttentionAfterMs: 600000` no lançamento); `--files` na cerca não expande
+glob — o Git Bash expande antes.
+
+
 ---
 
 ## 🇬🇧 How to run the game (Windows)
