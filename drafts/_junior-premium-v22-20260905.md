@@ -361,3 +361,16 @@ noise signature across scripts. Validated on wall #3 as "current" with #1/#2 as 
 `wipe_reads` come out as history-bearing, the basement rows as NEW - matching what I classified by hand that night.
 Live on wall #4 (4/42): `aim_hold specials_distinct` = NEW, row flipped 1x in history -> re-gate first. Noise signature so
 far: `kits_distinct` (3 flips), `wipe_reads` (3), then singletons. Never runs a replay; prints the `tmp/_regate.sh` line.
+
+### Wall #4 live triage (10:34): `boss1_writ impact_fx_reads` = two rows pulling one pixel apart (root cause found)
+Hypothesis "captures miss the hit" REFUTED by the headless probe: captures 0210/0211 sit 2-3 frames after `spore_b17 ->
+blocker` (spark life ~14 frames, peak until age 4). The 4x crop of the wall's own captures shows the star IS drawn - as a
+CRIMSON cross on a crimson-tinted (hurt) body beside red telegraph tiles: red on red, present in the buffer, unreadable.
+Cause = my wall #3 fix `fx_spark_pack_rgb` -> crimson, made so `hurt_flash_not_white` (judges the BODY tint) would stop
+reading the pale spark as a "white flash": I fixed the symptom on the wrong pixel. Gabriel's E1.8 row `impact_fx_reads`
+("small BRIGHT 4-point star") was written on the pre-crimson fx.rb and lands in the same rebase -> the two rows collide.
+Fix in two parts: (1) NOW `hurt_flash_not_white` says the impact star is a SEPARATE element that may be bright/pale, judge
+the body only (gate_checks.json, mine, no lane owns it); (2) at signage-lane integration (display.json is its `owns` until
+then) the pack spark goes back to bright - warm-white core [255,235,200] + amber arms [255,180,80] (distinct from the
+hostile star's near-white core, never pure white), then Rule 2 gates on basement_pocket (row 1) + boss1_writ (row 2).
+`boss2_phases possessed_readable` = 3rd wall fail, NEW - likely the possessed seized/dead in the boss beats; re-gate at close.

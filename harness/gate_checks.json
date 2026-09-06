@@ -31,7 +31,7 @@
     },
     {
       "id": "hurt_flash_not_white",
-      "check": "No pack creature's damage flash reads as WHITE (white reads as a spawn/holy effect); pack hurt-flash must read crimson/red. Judge only frames where a pack creature is mid-flash; if none, mark pass=true with why='not exercised'."
+      "check": "No pack creature's damage flash reads as WHITE (white reads as a spawn/holy effect); pack hurt-flash must read crimson/red. The IMPACT STAR (a small 4-point spark with a few flying chips at the struck tile, the impact_fx_reads element) is a SEPARATE element and may be bright or pale - judge the BODY's tint only, never the spark. Judge only frames where a pack creature is mid-flash; if none, mark pass=true with why='not exercised'."
     },
     {
       "id": "corpses_persist",
