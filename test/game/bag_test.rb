@@ -185,14 +185,17 @@ class BagTest < Minitest::Test
   def test_a_full_bag_costs_under_700_bytes_on_the_wire_and_the_save_fits_the_budget
     empty = Game::World.new(DATA, seed: 5)
     full = Game::World.new(DATA, seed: 5)
+    # WORST case for the wire = the most DISTINCT ids (to_save merges stacks per id):
+    # one of every catalog item first (16 entries), then top the slots up.
+    CATALOG.ids.each { |id| full.bag.add!(id, 1) }
     CATALOG.ids.cycle.first(400).each { |id| full.bag.add!(id, 99) }
     assert_equal full.bag.slots, full.bag.used, "the bag is full (#{full.bag.used}/#{full.bag.slots})"
     e = Game::SaveState.canonical_bytes(Game::SaveState.facts(empty)).bytesize
     f = Game::SaveState.canonical_bytes(Game::SaveState.facts(full)).bytesize
     budget = DATA["persistence"][:wire_budget_bytes]
-    assert_operator f - e, :<=, 700, "a full bag adds #{f - e} B to the canonical save (Gabriel's estimate ~600 B)"
+    assert_operator f - e, :<=, 700, "a full bag of #{full.bag.to_save.length} distinct ids adds #{f - e} B to the canonical save (Gabriel's estimate ~600 B)"
     assert_operator f, :<, budget, "a save with a full bag (#{f} B) must fit wire_budget_bytes #{budget} with room for the SESSION line"
-    puts "  [wire] empty save #{e} B · full-bag save #{f} B · bag cost #{f - e} B · budget #{budget} B"
+    puts "  [wire] empty save #{e} B · full-bag save #{f} B (#{full.bag.to_save.length} distinct ids) · bag cost #{f - e} B · budget #{budget} B"
   end
 
   def test_loot_stream_is_its_own_counter
