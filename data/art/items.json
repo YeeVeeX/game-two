@@ -1,0 +1,24 @@
+{
+  "png": "art/items.png",
+  "size": 16,
+  "count": 16,
+  "icons": {
+    "flask_sap": 0,
+    "antidote": 1,
+    "ember_salve": 2,
+    "blade_iron": 3,
+    "blade_shard": 4,
+    "shield_ring": 5,
+    "sling_sinew": 6,
+    "jerkin_root": 7,
+    "plate_basalt": 8,
+    "charm_moss": 9,
+    "charm_tide": 10,
+    "shard_amethyst": 11,
+    "scale_marble": 12,
+    "coal_living": 13,
+    "cap_spore": 14,
+    "bell_pink": 15
+  },
+  "md5": "a4f45a0ed464038e320235c304ba18fa"
+}

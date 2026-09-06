@@ -9,6 +9,7 @@ require "app/hud"
 require "app/fx"
 require "app/light"
 require "app/minimap"
+require "app/item_icons"
 require "app/tile_variants"
 require "app/writ"
 require "app/zone_identity"
@@ -132,17 +133,20 @@ module App
           local_seat: local_seat,
           art: App::Art::Registry.load(data),
           ambience: App::Ambience.load(data, display: display),
-          tileset: App::Tileset.load(data, display: display))
+          tileset: App::Tileset.load(data, display: display),
+          item_icons: App::ItemIcons.load(data)) # S1: catalog icons (HUD flask, drops, bag)
     end
 
     def initialize(display: {}, strings: nil, bindings: nil, local_seat: 1, art: nil, ambience: nil,
-                   tileset: nil)
+                   tileset: nil, item_icons: nil)
       @display = display
       @strings = strings
       # PREMIUM v22: dual-grid material tiles (App::Tileset). nil -> the
       # flat-run + FASE 3 face path below (fallback law, byte-identical to
       # v21). display.json `tileset: false` forces the fallback.
       @tileset = tileset
+      # S1: item icon sheet (App::ItemIcons) - HUD flask chip now, bag/drops next
+      @item_icons = item_icons
       # MUNDO VIVO FASE 2: animated ambient layers (App::Ambience::Scene);
       # nil = none. display.json `ambience: false` is honored inside it.
       @ambience = ambience
@@ -1604,7 +1608,7 @@ module App
     # the same panel with kit-colored portrait squares.
     def draw_hud(world)
       @hud ||= App::Hud.new(display: @display, strings: @strings, art: @art, kit_body: KIT_BODY,
-                            hp_back: HP_BACK, hp_dead: HP_DEAD, drop_core: DROP_CORE)
+                            hp_back: HP_BACK, hp_dead: HP_DEAD, drop_core: DROP_CORE, item_icons: @item_icons)
       @hud.acts = @fx.acts(world)
       @hud.draw(world, @local_seat)
     end

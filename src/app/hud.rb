@@ -24,8 +24,9 @@ module App
     # kit_name -> world frame of the ally's last announced act (from App::Fx)
     attr_accessor :acts
 
-    def initialize(display:, strings:, art:, kit_body:, hp_back:, hp_dead:, drop_core:)
+    def initialize(display:, strings:, art:, kit_body:, hp_back:, hp_dead:, drop_core:, item_icons: nil)
       @display = display
+      @item_icons = item_icons
       @strings = strings
       @art = art
       @kit_body = kit_body
@@ -196,7 +197,14 @@ module App
       font.draw_text(tr("hud.coins", "COINS"), x + 16 + font.text_width(world.pack.banked.to_s) + 6, y - 2, 20, 1, 1, dim)
       # potion flask
       px = 180
-      draw_flask(px, y)
+      # S1: the flask chip IS the catalog's flask_sap icon when the sheet is
+      # present (one drawing for the HUD, the bag and the floor); else the
+      # hand-drawn glyph (fallback law).
+      if (ico = @item_icons&.icon("flask_sap"))
+        ico.draw(px - 2, y - 2, 20)
+      else
+        draw_flask(px, y)
+      end
       haloed(font, world.pack.provisions.to_s, px + 14, y - 2, 21, Gosu::Color::WHITE)
       font.draw_text(tr("hud.provisions", "POTION"), px + 14 + font.text_width(world.pack.provisions.to_s) + 6, y - 2, 20, 1, 1, dim)
     end
