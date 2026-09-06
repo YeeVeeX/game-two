@@ -269,6 +269,8 @@
     700,
     990,
     1170,
+    1253,
+    1287,
     1350,
     1460,
     1569
@@ -277,5 +279,8 @@
   "manifest": {
     "fight_resolved": 2,
     "actor_died": 4
-  }
+  },
+  "_doc": [
+    "E1c piece 4 (2026-09-06, Gabriel seat; impact_fx_reads + damage_numbers_read red at the v22-e1 sweep): headless fx-window probe (tmp/e1c/fx_windows.py) - NO capture of this reel fell inside a spark window (Fx::SPARK_FRAMES 12): frame 0700's three numerals were 25 frames old and all on PACK bodies (the only human on camera, rusher12, stood at 50/50 - no wounded bar owed). Captures 1253 + 1287 added for the affirmative read: the striker lands on rusher15 at f1249 (25 dmg of 50 -> big gold numeral, wounded bar, star at age 4 = its widest arms), rusher15 dies at f1284 (death burst at age 3), both directly above the possessed on dark floor."
+  ]
 }

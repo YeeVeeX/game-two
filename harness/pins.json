@@ -382,5 +382,37 @@
     "date": "2026-09-06T21:41:26Z",
     "gate_rc": 1,
     "manifest_rc": 0
+  },
+  {
+    "script": "aoe_specials",
+    "tag": "v22-e1c-b",
+    "commit": "1aee2bc",
+    "date": "2026-09-06T21:48:37Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "taunt_anchor",
+    "tag": "v22-e1c-b",
+    "commit": "1aee2bc",
+    "date": "2026-09-06T21:53:16Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "aoe_specials",
+    "tag": "v22-e1c-c",
+    "commit": "1aee2bc",
+    "date": "2026-09-06T22:04:12Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "floor1_run",
+    "tag": "v22-e1c-c",
+    "commit": "1aee2bc",
+    "date": "2026-09-06T22:08:20Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
   }
 ]
