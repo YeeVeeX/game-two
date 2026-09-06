@@ -346,6 +346,32 @@ module App
       "#{glyph} #{noun} -#{world.provision_cost}"
     end
 
+    # E3 b3 (T0 finding b3): the prompt's truth = `World#interact` on the
+    # possessed's OWN tile — a station type `interact_station` dispatches (a
+    # totem is its deliberate no-op) or a `rope_spot` way (`interact_rope`).
+    # Beside a station H does nothing: no prompt. Mirrored from the MAP (the
+    # sim is never touched); pure, so test/app/interact_prompt_test.rb proves it.
+    INTERACT_STATIONS = %w[bank altar vat seal].freeze
+
+    def self.interact_verb(map, tile)
+      tx, ty = tile
+      station = map.station_at(tx, ty)
+      return station[:type] if station && INTERACT_STATIONS.include?(station[:type])
+      return nil if station # a station H ignores (totem) never shows a prompt
+      t = map.transition_at(tx, ty)
+      t && t[:type] == "rope_spot" ? "rope_spot" : nil
+    end
+
+    # Pure decision for the prompt: nil | { verb:, key: } for the local seat's
+    # possessed body this tick (nil when off, no body, dead, or no verb).
+    def interact_prompt_for(world, me = world.possessed(@local_seat))
+      return nil unless @display.fetch(:interact_prompt)
+      return nil unless me && !me.dead?
+      verb = Renderer.interact_verb(world.map, me.tile)
+      return nil unless verb
+      { verb: verb, key: (@bindings&.glyphs(:interact)&.first) || "H" }
+    end
+
     # Flywheel fix (2026-08-19, verified vs clip low_quay_run 104223
     # frames v_000729/2492/3836): a kills-only window resolves with zero
     # loot movement and rendered a solo "+0" for 150 frames — a reward
@@ -1760,22 +1786,16 @@ module App
       end
     end
 
-    # PREMIUM v22 pass 11: the INTERACT PROMPT. When the possessed stands on
-    # or beside a station, a small bubble over its head shows the interact
-    # key glyph + the verb ("H INTERACT") — the ARPG "press X" affordance.
-    # Screen space (follows the body), above the vignette, under the HUD
-    # plate. Pure function of (possessed tile, map). display.json:
-    # interact_prompt on/off.
+    # PREMIUM v22 pass 11 / E3 b3: the INTERACT PROMPT — a small bubble over
+    # the possessed's head with the interact key glyph + the verb ("H
+    # INTERACT"), shown IFF `World#interact` would act on THIS tile (decision:
+    # interact_prompt_for). Screen space, above the vignette, under the HUD.
     def draw_interact_prompt(world)
-      return unless @display.fetch(:interact_prompt)
       me = world.possessed(@local_seat)
-      return unless me && !me.dead?
-      map = world.map
-      tx, ty = me.tile
-      near = [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1]].any? { |(dx, dy)| map.station_at(tx + dx, ty + dy) }
-      return unless near
+      prompt = interact_prompt_for(world, me)
+      return unless prompt
       cam = world.camera(@local_seat)
-      glyph = (@bindings&.glyphs(:interact)&.first) || "H"
+      glyph = prompt[:key]
       label = tr("overlay.interact", "interact").upcase
       f = hud_font
       gw = f.text_width(glyph)
