@@ -46,8 +46,6 @@
   ],
   "run_until": 1245,
   "manifest": {
-    "zone_entered": 5,
-    "human_retargeted": 1,
-    "human_leashed": 2
+    "zone_entered": 6
   }
 }

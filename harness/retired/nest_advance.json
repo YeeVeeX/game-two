@@ -1,4 +1,5 @@
 {
+  "_retired": "E1 RETIREMENT (s135, T0 d6): all six advance beats observe 0 (banked, corpse_loaded, corpse_looted, pack_wiped, vessel_kept; drop_picked_up 1 of 8) - the level-5 advance choreography rotted across map/balance ranges. Corpse/wipe/bank beats stay staged by corpse_run / ledger_loop / sustain_run. Owed re-author: the nest advance story (wipe -> corpse load -> keep vessel -> bank) on today's geometry.",
   "scenario": "world",
   "seed": 7,
   "width": 960,

@@ -43,6 +43,6 @@
   },
   "unread_start_zones": {
     "basement_1": "BASEMENT 1 is staged by basement_pocket.json but no gate row reads its surface by name (only zone-generic rows judge it). Candidate gate row for the v22 art lane (A4); recorded 2026-09-05.",
-    "gate_fixture": "TEST 1 is a fixture zone: level_gate.json and menu_tour.json start here to stage SURFACES (level_gate_reads, menu_* rows), none of which names the zone - by design, the surfaces belong to every zone with a requires_level way."
+    "gate_fixture": "TEST 1 is a fixture zone: menu_tour.json starts here to stage menu_* surface rows, none of which names the zone - by design, the surfaces belong to every zone with a requires_level way. level_gate.json retired s135 (E1, T0 d6); level_gate_reads is a debt row until its re-author."
   }
 }

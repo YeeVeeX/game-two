@@ -1,4 +1,5 @@
 {
+  "_retired": "E1 RETIREMENT (s135, T0 d6): both purpose beats observe 0 (drop_picked_up, banked) - drops spawn (3) but the pickup walk misses them and the bank interact never fires. Pickup + bank stay staged by world_loop / corpse_run / sustain_run / ledger_loop. Owed re-author: a loot-focused reel on today's drop/bank choreography (piece-8 pickup gleam row wants one).",
   "scenario": "world",
   "seed": 20260811,
   "width": 960,

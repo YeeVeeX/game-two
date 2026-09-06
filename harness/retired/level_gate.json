@@ -1,0 +1,194 @@
+{
+  "_retired": "E1 RETIREMENT (s135, T0 d6): the level-up beat is dead as choreographed - observed attack_hit=0 actor_died=0 (declared >=5/>=1), so the refused-then-pass door story cannot happen. Owed re-author: a gate_fixture script that stages requires_level refusal -> fight to level -> pass, re-arming level_gate_reads (debt row, exercised by no live script until then).",
+  "scenario": "world",
+  "seed": 42,
+  "width": 960,
+  "height": 540,
+  "out_dir": "captures/level_gate",
+  "hold": {
+    "left": [
+      [
+        384,
+        403
+      ],
+      [
+        727,
+        727
+      ],
+      [
+        755,
+        755
+      ],
+      [
+        775,
+        775
+      ],
+      [
+        795,
+        795
+      ],
+      [
+        823,
+        823
+      ],
+      [
+        851,
+        851
+      ],
+      [
+        883,
+        944
+      ]
+    ],
+    "right": [
+      [
+        170,
+        170
+      ],
+      [
+        190,
+        190
+      ],
+      [
+        210,
+        210
+      ],
+      [
+        230,
+        230
+      ],
+      [
+        250,
+        250
+      ],
+      [
+        270,
+        270
+      ],
+      [
+        290,
+        290
+      ],
+      [
+        310,
+        310
+      ],
+      [
+        330,
+        330
+      ],
+      [
+        423,
+        423
+      ],
+      [
+        443,
+        443
+      ],
+      [
+        463,
+        463
+      ],
+      [
+        483,
+        483
+      ],
+      [
+        503,
+        503
+      ],
+      [
+        523,
+        523
+      ],
+      [
+        543,
+        543
+      ],
+      [
+        563,
+        563
+      ],
+      [
+        591,
+        591
+      ],
+      [
+        619,
+        619
+      ],
+      [
+        671,
+        671
+      ],
+      [
+        699,
+        699
+      ],
+      [
+        955,
+        974
+      ]
+    ],
+    "up": [
+      [
+        563,
+        563
+      ],
+      [
+        591,
+        591
+      ],
+      [
+        619,
+        619
+      ],
+      [
+        671,
+        671
+      ],
+      [
+        699,
+        699
+      ]
+    ],
+    "down": [
+      [
+        727,
+        727
+      ],
+      [
+        795,
+        795
+      ],
+      [
+        823,
+        823
+      ],
+      [
+        851,
+        851
+      ]
+    ]
+  },
+  "captures": [
+    330,
+    383,
+    409,
+    882,
+    984
+  ],
+  "run_until": 985,
+  "start": {
+    "zone": "gate_fixture",
+    "progression": {
+      "level": 1,
+      "xp": 72
+    }
+  },
+  "manifest": {
+    "actor_died": 1,
+    "attack_hit": 5,
+    "zone_entered": 3
+  }
+}

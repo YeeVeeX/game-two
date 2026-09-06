@@ -962,8 +962,6 @@
   ],
   "run_until": 5109,
   "manifest": {
-    "human_retargeted": 20,
-    "human_leashed": 20,
-    "corpse_loaded": 1
+    "human_retargeted": 16
   }
 }

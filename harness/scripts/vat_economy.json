@@ -487,10 +487,8 @@
     }
   },
   "manifest": {
-    "tribute_paid": 2,
-    "body_regrown": 2,
-    "banked": 2,
-    "inscribed": 2,
-    "drop_picked_up": 6
+    "attack_hit": 27,
+    "actor_died": 5,
+    "zone_entered": 2
   }
 }
