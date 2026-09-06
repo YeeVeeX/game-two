@@ -269,6 +269,8 @@
  "vignette_alpha": 130,
  "vignette_alpha_safe": 70,
  "minimap": true,
+ "minimap_way_open_rgb": [235, 190, 90],
+ "minimap_way_locked_rgb": [120, 130, 150],
  "tileset": true,
  "tileset_gain": 1.18
 }

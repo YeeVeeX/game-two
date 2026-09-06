@@ -3,16 +3,22 @@ require "gosu"
 module App
   # PREMIUM v22 pass 9 — MINIMAP (the ARPG radar). A 128x80 box top-right,
   # 2 px per tile, centered on the possessed body: walls in the zone's wall
-  # color, floor darker, water blue, open ways gold, stations magenta; live
-  # dots for hostiles (red), pack bodies (kit color) and YOU (gold with a
-  # dark ring). Shows ~4x the camera's area, so the next door is on the
-  # radar long before it is on camera.
+  # color, floor darker, water blue, OPEN ways gold, LOCKED ways cold grey,
+  # stations magenta; live dots for hostiles (red), pack bodies (kit color)
+  # and YOU (gold with a dark ring). Shows ~4x the camera's area, so the
+  # next door is on the radar long before it is on camera.
   #
-  # The zone image is built ONCE per map from immutable zone config (a raw
-  # RGBA blob -> Gosu::Image, retro) and drawn as a cached subimage window
-  # keyed by the possessed tile; dots are live draws. Presentation only,
-  # tick-free (reads positions, never the clock), nothing in the digest.
-  # display.json: minimap (on/off), minimap_rect, minimap_scale.
+  # The zone image is built ONCE per (map, lock state) from zone config + the
+  # way locks (a raw RGBA blob -> Gosu::Image, retro) and drawn as a cached
+  # subimage window keyed by the possessed tile; dots are live draws. E3 b4
+  # (T0 finding b4/d12): gold means WALKABLE (exit_signage law) - a way's
+  # color comes from the SAME predicate the floor signage and the exit
+  # arrows read (Renderer.way_locked?), never from a list of its own; a
+  # breach / level-up / boss defeat repaints the image once. Presentation
+  # only, tick-free (reads positions + lock facts, never the clock), nothing
+  # in the digest. display.json: minimap (on/off), minimap_size,
+  # minimap_scale(_max), minimap_dot_extra, minimap_way_open_rgb,
+  # minimap_way_locked_rgb.
   class Minimap
     RawBlob = Struct.new(:columns, :rows, :to_blob)
 
@@ -43,19 +49,39 @@ module App
       fit.clamp(base, @display.fetch(:minimap_scale_max))
     end
 
-    # --- zone image -------------------------------------------------------------
-    def zone_image(map, registry)
-      @images[map] ||= build_zone_image(map, registry)
+    # Pure (E3 b4): the way tile's radar color - nil when (tx, ty) is not a
+    # way; OPEN = the zone's transition gold (minimap_way_open_rgb when the
+    # palette names none), LOCKED = minimap_way_locked_rgb. ONE predicate
+    # with the floor signage + exit arrows: Renderer.way_locked?.
+    def way_color(map, world, tx, ty)
+      t = map.transition_at(tx, ty)
+      return nil unless t
+      if App::Renderer.way_locked?(world, world.zone_name, t)
+        @display.fetch(:minimap_way_locked_rgb)
+      else
+        map.palette[:transition] || @display.fetch(:minimap_way_open_rgb)
+      end
     end
 
-    def build_zone_image(map, registry)
+    # The lock facts the image bakes: the sorted tiles of every locked way
+    # (the cache key beside the map - a fact change repaints once).
+    def locked_ways(map, world)
+      map.transitions.select { |t| App::Renderer.way_locked?(world, world.zone_name, t) }.map { |t| t[:at] }.sort
+    end
+
+    # --- zone image -------------------------------------------------------------
+    def zone_image(map, world, registry)
+      @images.clear if @images.length > 64
+      @images[[map, locked_ways(map, world)]] ||= build_zone_image(map, world, registry)
+    end
+
+    def build_zone_image(map, world, registry)
       s = scale_for(map)
       specs = App::TileVariants.specs(map, registry)
       pal = map.palette
       floor = lift(pal[:floor] || [40, 36, 32], 28)
       wall = pal[:wall] || [120, 120, 120]
       water = lift(pal[:water] || [30, 60, 90], 28)
-      gold = pal[:transition] || [235, 190, 90]
       station = [200, 90, 220]
       w = map.cols * s
       h = map.rows * s
@@ -64,7 +90,7 @@ module App
         Array.new(map.cols) do |tx|
           spec = specs[map.char_at(tx, ty)]
           rgb =
-            if map.transition_at(tx, ty) then gold
+            if (way = way_color(map, world, tx, ty)) then way
             elsif map.station_at(tx, ty) then station
             elsif spec.nil? || spec["passability"] == "wall" then wall
             elsif spec["render"] == "water" then water
@@ -91,7 +117,7 @@ module App
     def draw(world, local_seat)
       return unless @enabled
       map = world.map
-      img = zone_image(map, world.tile_registry)
+      img = zone_image(map, world, world.tile_registry)
       return unless img
       cam = world.camera(local_seat)
       bx, by, bw, bh = rect(cam.view_w)
