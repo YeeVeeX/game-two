@@ -54,9 +54,18 @@ tactical during the battle" (→ ticket TS).
 - **S1** (data-only) after T1 · **S2 + S3** after the TWENTIETH's verdict →
   TWENTY-FIRST (delta-triggered) closes v22.
 - **E/F/WB:** **E0 DONE s134** (boss rotation snapshot; record
-  `drafts/_v22-e0-record-20260906.md`) · F1 floors (L11 CLOSED both peers) ·
-  F2 2× city + arena INERT (owner "confirm" on D1/D8 still pending) · WB-T7 ·
-  L16 debts · E1–E5 from T0 (E1 next: harness truth before T1's first gate).
+  `drafts/_v22-e0-record-20260906.md`) · **E1 DONE s135** (harness truth, nine
+  pieces `03e38b1`..`d637dc6`; record `drafts/_v22-e1-record-20260906.md`:
+  critic persona re-framed on the v22 presentation, pins + verdict log resolve
+  to the MAIN clone from any worktree, SKIP_CRITIC/CHECKS refuse to pin, the
+  red census manifests re-cut or retired, zone8_crossing re-authored on the
+  seal-less DUNGEON 1, four ring rows → halo, `Renderer.build` gives the net
+  gates art (partner halo's first capture), 11 new rows incl. the boss bar,
+  three boss sentinels; wall 42 → 39 → **42**, rows 86 → **97**; the full
+  re-pin sweep is HANDED to the next session) · F1 floors (L11 CLOSED both
+  peers) · F2 2× city + arena INERT (owner "confirm" on D1/D8 still pending) ·
+  WB-T7 · L16 debts · **E2 next** (sim correctness), then E3–E5 — T1 (schema
+  3) is now unblocked: E1's job was to frame every gate it will run.
 - **G — ART (REVAMP, parallel):** A0 WB-T7 · AB bible bridge (mail sent s133,
   spoke running) · **AS SCALE first** · A1 pipeline · AA authorship off the
   generator · A2 tile grammar · A3 uiux surfaces (spoke U RUNNING) · A4 re-pin

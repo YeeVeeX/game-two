@@ -30,22 +30,31 @@ if tasklist //FI "IMAGENAME eq ruby.exe" 2>/dev/null | grep -q ruby.exe; then
 fi
 
 # script | title | subtitle | max seconds of clip (0 = whole)
+# Card claims are PROBE-CHECKED (s135, T0 d18): a subtitle may only promise
+# what its reel actually puts on camera. Verified with tmp probes over each
+# reel's own frames - tower4_run and brasa3_run never showed their promised
+# boss (0 frames), tower3_run never blinks and tower2_run never petrifies.
+# The three boss reels below are the ones that DO show a boss (on camera for
+# most of the reel, and at 7-8 of their captured frames).
 AREAS=(
   "world_loop|ZONE 1 - HOME + HUB 1|the everyday loop: bank, potions, first fights|0"
   "town_gates|ZONE 7 - town hub|torches (living ambience) - holes down to the tower and the fire dungeon|0"
   "floor1_run|ZONE 2 - descent floor -1|two spaces + 4 bridges - sprite pack, tile relief|0"
   "floor2_run|ZONE 3 - descent floor -2|submerged pilot: underwater ambience|0"
-  "floor3_run|ZONE 5 - descent floor -3|moss: poison spores (green DOT) - BOSS 1 in the vault|0"
+  "floor3_run|ZONE 5 - descent floor -3|moss: poison spores (green DOT) - BOSS 1 walks out of the vault|0"
   "basement_pocket|BASEMENT 1|the shallow pocket under ZONE 7|0"
   "toll_pocket|BASEMENT 2|the toll seal|0"
   "multi_floor_descent|DUNGEON 1 - tower top|serpent floor (your old ZONE 5 map) - stairs down at level 8|0"
-  "tower2_run|DUNGEON 2 - tower floor 2|forced loop 2.2x - spread + petrify|0"
-  "tower3_run|DUNGEON 3 - tower floor 3|spiral loop 2.8x - blink|0"
-  "tower4_run|DUNGEON 4 - the bottom|BOSS 2 (phased) at the far end of the loop|0"
+  "tower2_run|DUNGEON 2 - tower floor 2|forced loop 2.2x - spread volleys|0"
+  "tower3_run|DUNGEON 3 - tower floor 3|spiral loop 2.8x - petrify (stone telegraph)|0"
+  "tower4_run|DUNGEON 4 - the bottom|the toll gate at the far end of the forced loop|0"
   "brasa1_run|DUNGEON 5 - fire dungeon, veins|lava + rubble - charge (ground telegraph)|0"
   "brasa2_run|DUNGEON 6 - fire dungeon, maze|guardian with the beam - stairs at level 17|30"
-  "brasa3_run|DUNGEON 7 - fire dungeon, hall|BOSS 4 (phased) on the dais|0"
-  "zone8_crossing|ZONE 8 - the frontier|rope from DUNGEON 1 at level 8|0"
+  "brasa3_run|DUNGEON 7 - fire dungeon, hall|aura rings and fire glow on the way to the dais|0"
+  "zone8_crossing|ZONE 8 - the frontier|rope down from DUNGEON 1 (the way needs level 8)|0"
+  "boss1_writ|BOSS 1 - the writ|his chant, the writ frame, and the seizure landing on you|0"
+  "boss2_phases|BOSS 2 - phases|driven past 60% and 30%: the bar drains, the pips move|0"
+  "boss4_phases|BOSS 4 - phases|the fire boss past 50%: dash and beam in rotation|0"
 )
 
 LIST="$WORK/concat.txt"
