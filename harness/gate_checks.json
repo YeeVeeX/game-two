@@ -63,7 +63,7 @@
     },
     {
       "id": "wipe_reads",
-      "check": "If a wipe frame is present, it reads as a run-ending event (dark veil + large text), distinct from ordinary combat frames. If the script never wipes, mark pass=true with why='not exercised'."
+      "check": "If a wipe frame is present, it reads as a run-ending PAUSE distinct from ordinary combat frames: a heavy dark veil dims the WHOLE view (world and HUD sit behind it) and the recap tally (lost/gained ledger) sits in the clear band. No headline text is required or expected (the wipe TEXT was removed by owner order v16; the veil + recap ARE the delivery). Fail only if the veil is missing, faint, or partial, or the tally is absent/unreadable. If the script never wipes, mark pass=true with why='not exercised'."
     },
     {
       "id": "specials_distinct",
