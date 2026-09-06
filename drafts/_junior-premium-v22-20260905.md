@@ -305,3 +305,17 @@ add **1499** (mid-chant, 7 tiles; capture N = state after tick N) and optionally
 4 tiles). NOT applied: Gabriel's E1 re-pin sweep is running on `main` @ 5bca200 over floor3_run; changing its captures
 now would misalign the pin he is about to record (his own instruction). Apply + re-gate + re-pin right after he closes
 the sweep (one commit, one gate). `tools/boss_probe.rb <script> <kit>` is general (any boss kit, any script).
+
+### Wall #4 prep: headless MANIFEST CENSUS of the branch head (13:00) - `tools/manifest_census.rb`
+The manifest half of a wall verdict is pure sim: replay each world script headless (same seed / apply_start /
+expand_script / EventLog list), count `EVENT` lines x2 (the gate's double replay), judge the script's floors. 42 world
+scripts in **62 s**, byte-equal to the gate log where I have a reference (`blink_arrival` 4/18/6/6). Result on
+`junior/premium-build` @ 83a306a (= main E1.4 + S1-S3 + E3-in-flight excluded): **40/42 PASS**. The T7 census of nine
+reds (basement_pocket level_gate loot_loop nest_advance threat_pull toll_pocket vat_economy zone8_crossing zone_catchup)
+is now TWO after Gabriel's E1.4 re-cut - neither a regression of mine (E1.4 did not touch them; both red at 3892c1f):
+- `toll_pocket` FAIL: `seal_breached=0(<1) actor_died=0(<8) drop_spawned=0(<6) drop_picked_up=0(<1)`. Probe: pack
+  (level 5, banked 60) sits at [3,5]..[4,6] in basement_2 for 1400 frames, hp 198 -> 99, 7 hostiles alive start to end,
+  20 `attack` holds land on nothing. The script no longer stages the fight it promises -> RE-AUTHOR (E-ticket list).
+- `basement_pocket` FAIL: `drop_picked_up=0(<1)` (4 deaths, 6 drops spawn, the pack never steps on one) -> one
+  `hold` toward a drop tile, or the floor re-cut to observed. Same list.
+Use before every wall: `ruby tools/manifest_census.rb` (report, exit 0; vision rows are the wall's).
