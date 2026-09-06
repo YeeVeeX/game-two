@@ -150,8 +150,9 @@ class SessionTest < Minitest::Test
     uuid = "0f7e2c1a-4b3d-4c2e-9a1b-1234567890ab"
     h = host_session(player_id: uuid)
     j = join_session(h.port, player_id: "bot-9")
-    assert_nil h.players, "unknown before the HELLO exchange"
+    refute h.players_known?, "unknown before the HELLO exchange"
     handshake(h, j)
+    assert h.players_known?
     assert_equal({ 1 => uuid, 2 => "bot-9" }, h.players)
     assert_equal h.players, j.players, "identical seat -> id map on both seats"
     assert_equal uuid, h.player_id
@@ -170,7 +171,7 @@ class SessionTest < Minitest::Test
       assert_match(/player\.local\.json/, s.refusal, "the hint names the file to fix")
       assert_equal 1, App::Cli.exit_status(reason: s.reason, refusal: s.refusal),
                    "a refusal needs a human (exit 1); the launchers never rehost on it"
-      assert_nil s.players
+      refute s.players_known?
     end
   end
 
@@ -184,10 +185,11 @@ class SessionTest < Minitest::Test
     end
   end
 
-  # A v3 build meeting v4: OUR seat faults on the missing HELLO field (the
-  # codec speaks first), the v3 seat names the version skew itself — both
-  # end; neither opens a world.
-  def test_a_hello_without_player_id_is_a_protocol_fault_here
+  # A v3 build meeting v4: its HELLO has no player_id. The codec still decodes
+  # it (the five build fields are the only required ones) so OUR seat names
+  # the version skew — the same NAMED line the v3 seat prints (fresh-eyes s136:
+  # a codec fault here surfaced as CONNECTION LOST, a false cause).
+  def test_a_v3_hello_is_named_by_its_version_here_not_by_a_codec_fault
     h = host_session
     raw = TCPSocket.new("127.0.0.1", h.port)
     raw.write(JSON.generate(HELLO.merge(m: "hello", version: 3)) + "\n")
@@ -198,8 +200,38 @@ class SessionTest < Minitest::Test
     end
     assert h.ended?
     assert_equal :protocol, h.reason
-    assert_match(/hello missing \[:player_id\]/, h.fault_message)
+    assert_match(/protocol version: ours #{HELLO[:version]} \/ theirs 3/, h.refusal)
+    assert_match(/git pull/, h.refusal)
+    assert_nil h.fault_message, "a named refusal, not a codec fault"
+    assert_equal 1, App::Cli.exit_status(reason: h.reason, refusal: h.refusal)
     raw.close
+  end
+
+  # Same version, no usable id (a modified build): refused NAMED, never a
+  # silent fall-through to the harness ids.
+  def test_a_same_version_hello_without_a_player_id_refuses_named
+    ["", nil, 7].each do |bad|
+      h = host_session
+      raw = TCPSocket.new("127.0.0.1", h.port)
+      raw.write(JSON.generate(HELLO.merge(m: "hello", player_id: bad).compact) + "\n")
+      raw.flush
+      30.times do |i|
+        h.update(i * 10)
+        break if h.ended?
+      end
+      assert h.ended?, "#{bad.inspect}: ended"
+      assert_match(/peer HELLO carries no player id/, h.refusal, bad.inspect)
+      assert_raises(RuntimeError) { h.players }
+      raw.close
+      h.quit!(10**9)
+    end
+  end
+
+  def test_players_raises_before_the_hello_exchange
+    h = host_session
+    refute h.players_known?
+    err = assert_raises(RuntimeError) { h.players }
+    assert_match(/players before the HELLO exchange/, err.message)
   end
 
   # --- refusal (W6: stale-line joins) -------------------------------------------

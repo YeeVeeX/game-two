@@ -143,6 +143,7 @@ class CharacterTest < Minitest::Test
       "form inscribed type" => [UUID_A, record("forms" => record["forms"].merge("striker" => { "hp" => 1, "inscribed" => 1 })), /\.forms\.striker\.inscribed/],
       "no living form" => [UUID_A, record("forms" => dead_forms), /\.forms: no living form/],
       "form not a kit" => [UUID_A, record(form: "husk"), /\.form: "husk" is not a roster kit/],
+      "form names a dead body" => [UUID_A, record("forms" => record["forms"].merge("blocker" => { "hp" => 0, "inscribed" => false })), /\.form: "blocker" is dead in forms \(hp 0\)/],
       "form type" => [UUID_A, record(form: 2), /\.form: 2 is not a roster kit/],
       "bag not array" => [UUID_A, record("bag" => {}), /\.bag: must be an array/],
       "bank_items not array" => [UUID_A, record("bank_items" => "x"), /\.bank_items: must be an array/],

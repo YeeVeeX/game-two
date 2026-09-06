@@ -72,6 +72,13 @@ module Game
         },
         "characters" => world.party.project
       }
+      # The one-vessel floor is asserted HERE, on the save path only: the
+      # digest reads the same projector every window and must never raise.
+      host_forms = f["characters"].fetch(world.party.host_id).fetch("forms")
+      unless host_forms.values.any? { |form| form["hp"].positive? }
+        raise ProjectionBug, "projector: no living form after judgment " \
+                             "(one-vessel floor violated — this is a bug, not a save)"
+      end
       (mig = world.party.project_migration) and f["migration"] = mig
       f
     end
@@ -83,27 +90,21 @@ module Game
     # nothing keeps the wipe vessel (seat-1 pointer — on a full wipe
     # forced_swap! leaves it on the dead body by design). PURE: membership
     # is computed, never mutated; nothing here draws RNG (positions are not
-    # facts). Raises ProjectionBug when no form would live (one-vessel
-    # floor violated — a bug, not a save).
+    # facts); never raises — the digest calls it every window, and the
+    # one-vessel floor is asserted by `facts` (the save path).
     def project_forms(world)
-      forms =
-        if world.states.current == :nest_respawn
-          vessel = world.controlled_bodies.first
-          floor = world.pack.members.none?(&:marked?)
-          world.pack.members.to_h do |m|
-            lives = m.marked? || (floor && m.equal?(vessel))
-            [m.kit_name.to_s, { "hp" => lives ? m.max_hp : 0, "inscribed" => false }]
-          end
-        else
-          world.pack.members.to_h do |m|
-            [m.kit_name.to_s, { "hp" => m.hp, "inscribed" => m.marked? }]
-          end
+      if world.states.current == :nest_respawn
+        vessel = world.controlled_bodies.first
+        floor = world.pack.members.none?(&:marked?)
+        world.pack.members.to_h do |m|
+          lives = m.marked? || (floor && m.equal?(vessel))
+          [m.kit_name.to_s, { "hp" => lives ? m.max_hp : 0, "inscribed" => false }]
         end
-      unless forms.values.any? { |f| f["hp"].positive? }
-        raise ProjectionBug, "projector: no living form after judgment " \
-                             "(one-vessel floor violated — this is a bug, not a save)"
+      else
+        world.pack.members.to_h do |m|
+          [m.kit_name.to_s, { "hp" => m.hp, "inscribed" => m.marked? }]
+        end
       end
-      forms
     end
 
     # --- pinned canonicalizer (decisions 1/5) ---------------------------

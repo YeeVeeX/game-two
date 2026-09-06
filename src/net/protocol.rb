@@ -41,11 +41,15 @@ module Net
     # or null for a fresh world; the joiner digests the RECEIVED string
     # before parsing). BYE may carry an optional `detail` (the named
     # refusal text — both seats print the SAME refusal, decision 6b).
-    # v4 (v22 T1): HELLO carries `player_id` beside the five build fields
-    # (Fingerprint.mismatch still judges the five only; an equal id on both
-    # seats is its own NAMED refusal in Session).
+    # v4 (v22 T1): HELLO carries `player_id` beside the five build fields.
+    # The codec requires the FIVE only, on purpose: a v3 seat's HELLO must
+    # still DECODE here so Fingerprint.mismatch can name "protocol version"
+    # on BOTH seats (fresh-eyes review s136) — Session then refuses NAMED a
+    # v4 HELLO that arrives without the id (HELLO_IDENTITY), and an equal id
+    # on both seats is its own NAMED refusal there too.
+    HELLO_IDENTITY = :player_id
     MESSAGES = {
-      hello: %i[version ruby platform fingerprint digest_version player_id],
+      hello: %i[version ruby platform fingerprint digest_version],
       probe: %i[n],
       probe_ack: %i[n],
       session: %i[session_id seed d digest_every save_schema save_digest save],

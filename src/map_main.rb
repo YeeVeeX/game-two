@@ -83,8 +83,12 @@ module App
       # The offline map reads through the same loader the game boots with:
       # a schema-2 file migrates in memory keyed by THIS machine's player
       # id (read-only here — the backup + v3 write only happen in a session).
+      # Read-only surface: it never CREATES the identity file (fresh-eyes
+      # s136) — the machine's id when one exists, else a harness id (the id
+      # only keys a schema-2 migration in memory; nothing here renders it).
       require "app/player_file"
-      result = App::SaveStore.new(path: path).load(data: data, player_id: App::PlayerFile.load.player_id)
+      player_id = File.exist?(App::PlayerFile::DEFAULT_PATH) ? App::PlayerFile.load.player_id : "bot-map"
+      result = App::SaveStore.new(path: path).load(data: data, player_id: player_id)
       case result
       when App::SaveStore::Loaded
         puts "MAP loaded save digest=#{result.digest} source=#{path}"

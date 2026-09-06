@@ -139,6 +139,9 @@ module Game
       unless form.is_a?(String) && roster.include?(form)
         return "#{where}.form: #{form.inspect} is not a roster kit (#{roster.join(',')})"
       end
+      unless rec["forms"].fetch(form).fetch("hp").positive?
+        return "#{where}.form: #{form.inspect} is dead in forms (hp 0) — a form must name a living body"
+      end
       %w[bag bank_items].each do |k|
         next unless rec.key?(k)
         return "#{where}.#{k}: must be an array" unless rec[k].is_a?(Array)
@@ -273,14 +276,22 @@ module Game
     end
 
     # Live overrides per record (the T1 interim rule): host = every live
-    # key; seated guest = level/xp mirror; unseated = none.
+    # key; seated guest = level/xp mirror; unseated = none. The host's
+    # `form` is the kit seat 1 will hold AFTER judgment: its held body when
+    # that body lives in the projected forms, else the stored form if it
+    # lives, else the first living kit in roster order — the same rule
+    # apply! resumes with, so facts(apply(facts)) == facts holds even for a
+    # quit inside the wipe veil (fresh-eyes review s136: seat 1 sits on the
+    # DEAD vessel there while a marked ally revives).
     def live_for(id)
       return {} unless seated?(id)
       mirror = { "level" => @live.fetch(:level).call, "xp" => @live.fetch(:xp).call }
       return mirror unless id == host_id
+      forms = @live.fetch(:forms).call
+      held = @live.fetch(:form).call
+      form = [held, host.form, *forms.keys].compact.find { |k| forms.dig(k, "hp").to_i.positive? }
       mirror.merge("home_zone" => @live.fetch(:home_zone).call,
-                   "form" => @live.fetch(:form).call || host.form,
-                   "forms" => @live.fetch(:forms).call)
+                   "form" => form || host.form, "forms" => forms)
     end
 
     # The `characters` fact (sorted ids — the canonicalizer sorts anyway;

@@ -170,12 +170,16 @@ module Net
 
     # v22 T1 (L20-1): seat -> player id for BOTH seats, known once the HELLO
     # exchange completes (before SESSION, so it is ready when the caller
-    # constructs the World); nil until then. Identical on both seats by
-    # construction (each seat sent its own id and read the other's).
+    # constructs the World). Identical on both seats by construction (each
+    # seat sent its own id and read the other's). Raises before HELLO like
+    # attach/handshake_line do — a nil map must never reach World.new (it
+    # would silently fall back to the harness ids).
     def players
-      return nil unless @peer_player_id
+      raise "players before the HELLO exchange" unless @peer_player_id
       host? ? { 1 => @player_id, 2 => @peer_player_id } : { 1 => @peer_player_id, 2 => @player_id }
     end
+
+    def players_known? = !@peer_player_id.nil?
 
     # Current-stall overlay feed (presentation spec 3): ms of continuous
     # stall once past stall_warn_ms, else nil.
@@ -306,7 +310,7 @@ module Net
 
     def open_wire(socket)
       @wire = Wire.new(socket)
-      send_msg(:hello, **@hello, player_id: @player_id)
+      send_msg(:hello, **@hello, Protocol::HELLO_IDENTITY => @player_id)
       set_phase(:hello)
     end
 
@@ -367,21 +371,32 @@ module Net
         finish!
         return
       end
-      # v22 T1: identity is not a build fact (the five above), but two
-      # seats with ONE id would write one character from two bodies —
-      # refused NAMED on both seats, symmetric like the fingerprint.
-      if msg[:player_id] == @player_id
-        @refusal = "REFUSED — player id collision: both seats share one player file\n" \
-                   "  hint: each machine keeps its own data/player.local.json (never copy it " \
-                   "between machines); delete the copy on ONE seat and relaunch"
-        conclude(:protocol)
-        send_msg(:bye, reason: "player_id")
-        finish!
-        return
+      # v22 T1: identity is not a build fact (the five above) — it rides
+      # beside them and is judged here, AFTER the build fields, so a stale
+      # seat is always named by its version first. A same-version HELLO
+      # without a usable id, or two seats with ONE id (one character written
+      # from two bodies), refuse NAMED on both seats like the fingerprint.
+      theirs_id = msg[Protocol::HELLO_IDENTITY]
+      unless theirs_id.is_a?(String) && !theirs_id.empty?
+        return refuse_identity!("REFUSED — peer HELLO carries no player id (got #{theirs_id.inspect})\n" \
+                                "  hint: git pull on BOTH seats (same commit), then relaunch")
       end
-      @peer_player_id = msg[:player_id]
+      if theirs_id == @player_id
+        return refuse_identity!("REFUSED — player id collision: both seats share one player file\n" \
+                                "  hint: each machine keeps its own data/player.local.json (never copy it " \
+                                "between machines); delete the copy on ONE seat and relaunch")
+      end
+      @peer_player_id = theirs_id
       set_phase(:probe)
       send_probe if host?
+    end
+
+    def refuse_identity!(text)
+      @refusal = text
+      conclude(:protocol)
+      send_msg(:bye, reason: "player_id")
+      finish!
+      nil
     end
 
     def send_probe

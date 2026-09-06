@@ -290,6 +290,17 @@ class SaveStateTest < Minitest::Test
       assert_equal 0, by_kit["blocker"]["hp"]
       assert_equal 0, by_kit["lobber"]["hp"]
       assert by_kit.values.none? { |m| m["inscribed"] }, "judgment consumes the mark"
+      # Fresh-eyes s136 (BLOCK 2): seat 1 sits on the DEAD wipe vessel during
+      # the veil while the marked striker revives — `form` must name the body
+      # seat 1 will hold AFTER judgment (a living one), and the mid-veil save
+      # must round-trip like any other (facts(apply(facts)) == facts).
+      assert_equal "striker", host_of(f)["form"], "form follows the judgment, not the dead vessel (tick #{ticks})"
+      assert_equal "striker", w.digest_snapshot.to_h.fetch("character.#{HOST}").to_h.fetch("form"),
+                   "the digest row agrees (tick #{ticks})"
+      if (ticks % 40).zero?
+        assert_equal bytes(f), world_bytes(world(seed: 1, save: deep_dup(f))),
+                     "a quit INSIDE the veil must round-trip byte-exact (tick #{ticks})"
+      end
       ticks += 1
       w.tick(idle)
     end
@@ -300,6 +311,30 @@ class SaveStateTest < Minitest::Test
                  "post-judgment facts must still round-trip"
     refute member(w, :striker).dead?, "the marked striker revived through the live rules"
     refute member(w, :striker).marked?, "the live judgment burned the mark"
+  end
+
+  # Coop: seat 1 WAITING (its body died, seat 2 holds the last living body)
+  # at a clean quit — the stored form names a dead kit, so `form` falls
+  # through to the first living kit in roster order; the save stays legal
+  # (the validator refuses a dead form) and round-trips.
+  def test_waiting_seat_one_projects_a_living_form_and_round_trips
+    w = world(seed: 5, seats: 2)
+    body1 = w.possessed(1)
+    body2 = w.possessed(2)
+    third = (w.pack.members - [body1, body2]).first
+    kill(third, by: body2)
+    drive(w, 2)
+    kill(body1, by: body2)
+    drive(w, 2)
+    assert_nil w.possessed(1), "staging: seat 1 waits (seat 2 holds the last body)"
+    assert_equal :world, w.states.current, "staging: no wipe — one body lives"
+    f = SS.facts(w)
+    assert_equal body2.kit_name.to_s, host_of(f)["form"], "form = the one living body, never the dead stored kit"
+    assert_nil refusal(f)
+    loaded = world(seed: 6, seats: 2, save: deep_dup(f))
+    assert_equal bytes(f), world_bytes(loaded), "the waiting-seat save round-trips byte-exact"
+    assert_equal body2.kit_name, loaded.possessed(1).kit_name, "seat 1 resumes the living form"
+    assert_nil loaded.possessed(2), "seat 2 waits (one body lives)"
   end
 
   def test_projector_floor_keeps_the_wipe_vessel_when_nothing_is_marked
@@ -587,6 +622,7 @@ class SaveStateTest < Minitest::Test
       "form hp type" => [with_host.call("forms" => host_record["forms"].merge("striker" => { "hp" => 3.5, "inscribed" => false })), /forms\.striker\.hp/],
       "no living form" => [with_host.call("forms" => dead_forms), /no living form/],
       "form not a kit" => [with_host.call("form" => "husk"), /characters\[bot-1\]\.form: "husk" is not a roster kit/],
+      "form names a dead body" => [with_host.call("form" => "blocker"), /characters\[bot-1\]\.form: "blocker" is dead in forms/],
       "level zero" => [with_host.call("level" => 0), /characters\[bot-1\]\.level/],
       "level type" => [with_host.call("level" => 1.0), /characters\[bot-1\]\.level/],
       "xp negative" => [with_host.call("xp" => -1), /characters\[bot-1\]\.xp/],

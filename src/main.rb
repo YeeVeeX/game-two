@@ -150,7 +150,12 @@ session, relaunch, saver =
       save_canonical:, save_digest:, save_schema:, config:,
       budget: data["persistence"][:wire_budget_bytes]
     ))
-      abort refusal # decision 6c: refuse NAMED before the socket opens
+      # decision 6c: refuse NAMED before the socket opens. v22 T1: the save
+      # grows one character record per player who ever joined (unseated
+      # records stay), so the text names the count and the hand recovery.
+      n = save_facts ? save_facts["characters"].length : 0
+      abort "#{refusal}\n  save carries #{n} character record(s); every player who ever joined keeps " \
+            "one (~350 bytes each) - remove unseated records by hand (a copy first) to host again"
     end
     puts "hosting on port #{opts[:port]} (Esc cancels)"
     [Net::Session.host(port: opts[:port], config:, seed: App::Cli.new_seed, player_id:,

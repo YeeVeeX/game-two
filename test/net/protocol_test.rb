@@ -19,8 +19,18 @@ class ProtocolTest < Minitest::Test
     # field. Append-only law holds; the handshake refuses mixed builds by
     # version field, NAMED.
     assert_equal 4, Net::Protocol::VERSION
-    assert_equal %i[version ruby platform fingerprint digest_version player_id],
-                 Net::Protocol::MESSAGES[:hello], "HELLO = five build fields + identity"
+    # The codec REQUIRES the five build fields only: a v3 HELLO must still
+    # decode so the version skew is NAMED on both seats; the identity field
+    # is required by Session (fresh-eyes s136), not by the codec.
+    assert_equal %i[version ruby platform fingerprint digest_version],
+                 Net::Protocol::MESSAGES[:hello], "HELLO's codec-required shape = the five build fields"
+    assert_equal :player_id, Net::Protocol::HELLO_IDENTITY
+    line = Net::Protocol.encode(:hello, version: 4, ruby: "3.4.10", platform: "x", fingerprint: "f" * 32,
+                                digest_version: 4, player_id: "bot-7")
+    assert_equal "bot-7", Net::Protocol.decode(line.chomp)[:player_id], "the identity rides the line verbatim"
+    v3 = Net::Protocol.encode(:hello, version: 3, ruby: "3.4.10", platform: "x", fingerprint: "f" * 32,
+                              digest_version: 3)
+    assert_nil Net::Protocol.decode(v3.chomp)[:player_id], "a v3 HELLO decodes (no id) — Session names it"
   end
 
   def test_every_message_type_round_trips
