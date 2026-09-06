@@ -292,6 +292,13 @@ def head(cv, facing, P, T):
                 cv.box(cx + 2, cy - 1, 2, 2, eye_mat, eye_tone)
             else:
                 cv.put(cx + 2, cy, eye_mat, eye_tone)
+    # polish: the MOUTH (down facing only) - a 1px line; open on windup/active
+    if facing == "down" and style not in ("helmet", "mask"):
+        m_mat = skin if style != "skull" else "bone"
+        if P["wstate"] in ("back", "back2", "strike", "sp_back", "sp_strike"):
+            cv.box(cx - 1, cy + 2, 2, 1, "eye", 0)      # open: a shout
+        else:
+            cv.put(cx, cy + 2, m_mat, 0)                # closed: a shadow line
     # neck
     cv.box(CX - 1, cy + 4, 2, 1, skin, 1)
 

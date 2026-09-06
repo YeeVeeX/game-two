@@ -99,7 +99,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "de0c6e32d2a7f6c56d533653b0a9053e"
+      "md5": "5f45ef79f80fcadaa32675398ad93c12"
     },
     "blocker": {
       "atlas": "art/atlas/blocker.png",
@@ -277,7 +277,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "7f3a4d75facf33be92c1404d32e6a9a6"
+      "md5": "b7b0269d2e153f379b747cd9714637ca"
     },
     "husk": {
       "atlas": "art/atlas/husk.png",
@@ -366,7 +366,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "1c9da272e70e1e9e27860adbd27f6a28"
+      "md5": "2bbd14f82fb523498e96901589910ef6"
     },
     "rusher": {
       "atlas": "art/atlas/rusher.png",
@@ -455,7 +455,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "9d4472faf661ef438131f30f421995d0"
+      "md5": "f4069efacd9f728a1866539ffff3c067"
     },
     "rusher_hater": {
       "atlas": "art/atlas/rusher_hater.png",
@@ -544,7 +544,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "45274cbbdc628433114a5e49af040058"
+      "md5": "c459959f25dba538273a67635aee9bb5"
     },
     "challenger": {
       "atlas": "art/atlas/challenger.png",
@@ -900,7 +900,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "f073e47b83afb4d5ad8e239f82a54fb6"
+      "md5": "c04d968e01967cc894c97a63138cc706"
     },
     "serpent_a": {
       "atlas": "art/atlas/serpent_a.png",
@@ -1345,7 +1345,7 @@
           "frames_per_step": 1
         }
       },
-      "md5": "4d923c039bc979a8d9de135f97b564f8"
+      "md5": "cbbab78dd2067f975bf39fba0f6d5a93"
     },
     "ember_b": {
       "atlas": "art/atlas/ember_b.png",

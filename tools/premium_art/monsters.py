@@ -175,6 +175,13 @@ def lurker(cv, facing, anim, i, T):
         return
     cv.ellipse(cx, cy, rx, ry, m, 2)
     cv.ellipse(cx - 2, cy - 1, rx * 0.5, ry * 0.45, m, 3, shade=False)
+    # polish: a raised dorsal RIDGE (3 humps) + eye bulges + a dark waterline
+    for k in (-4, 0, 4):
+        cv.ellipse(cx + k, cy - ry + 0.5, 1.6, 1.4, m, 3)
+    cv.line(cx - rx + 1, cy + ry - 1, cx + rx - 1, cy + ry - 1, "water", 0)
+    if facing == "down":
+        cv.ellipse(cx - 3, cy + 1, 1.5, 1.2, m, 1)
+        cv.ellipse(cx + 3, cy + 1, 1.5, 1.2, m, 1)
     # slick back line
     cv.line(cx - rx + 2, cy, cx + rx - 2, cy, m, 1)
     if facing == "down":
@@ -388,6 +395,10 @@ def ram(cv, facing, anim, i, T):
         cv.ellipse(cx, cy, 5.5, bh / 2, m, 2)
         sh_y = cy + bh // 2 - 3 if facing == "down" else top + 3
         cv.ellipse(cx, sh_y, 6.5, 3.5, m, 2)
+        # polish: a dark MANE collar at the shoulder + a raised spine ridge (tone 3)
+        cv.ellipse(cx, sh_y, 6.5, 1.5, m, 0, shade=False)
+        cv.line(cx - 1, top + 1, cx - 1, cy + bh // 2 - 1, m, 3)
+        cv.line(cx + 1, top + 1, cx + 1, cy + bh // 2 - 1, m, 1)
         cv.line(cx, top + 1, cx, cy + bh // 2 - 1, "seam", seam)
         cv.line(cx - 3, cy - 1, cx + 3, cy - 1, "seam", seam - 1)
         cv.line(cx - 4, cy + 2, cx + 4, cy + 2, "seam", seam - 1)
@@ -399,9 +410,11 @@ def ram(cv, facing, anim, i, T):
         if facing == "down":
             hy = cy + bh // 2 + 1 + stretch
             cv.ellipse(cx, hy + 1, 3.5, 2.5, m, 2)
+            cv.box(cx - 3, hy - 1, 7, 1, m, 0)          # brow shadow: the head reads as a HEAD
             cv.box(cx - 1, hy + 3, 3, 2, m, 1)
             cv.put(cx - 2, hy, "glow", 4)
             cv.put(cx + 2, hy, "glow", 4)
+            cv.put(cx, hy + 4, "eye", 0)                # nostril line
             cv.line(cx - 4, hy - 1, cx - 6, hy - 4, "horn", 3)
             cv.line(cx + 4, hy - 1, cx + 6, hy - 4, "horn", 3)
             cv.put(cx - 6, hy - 5, "horn", 4)
