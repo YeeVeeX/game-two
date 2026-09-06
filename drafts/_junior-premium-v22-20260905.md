@@ -238,3 +238,16 @@ failures**, canaries OFF = ACTIVE x3 with ON md5s identical to audit §3 (the ru
 `world.rb` 1798 untouched, no clock/rand, OFF path provably unreachable (`ally_config` returns nil when
 `enabled: false`; `@stall` only allocated behind it). Receipt folded into BOARD; `SIM LANE` back to NONE; audit §4
 corrected in place; candidates (c)/(d) named for the owner. Landing on `main`: owner's word only (A3 is OFF).
+
+### Owner's word read (s135/s136) and answered (11:30-11:50)
+- Gabriel's 11 new gate rows judging the PREMIUM surfaces (86 -> 97; s135 pt-br note: "a tua palavra e lei"):
+  spot-checked against the code they describe (`big` numeral = `max_hp * 0.25` = "about a quarter"; `aura_rgb`
+  ember-orange hollow square; `blink_flash_rgb` violet snap-shut; pickup = sparks rising from the collecting body,
+  no flash ring / falling chips). **All 11 describe my intent correctly - kept verbatim.** Named debts he handed
+  me: blink fires in NO reel today (authoring), `floor3_run` shows BOSS 1 for 892 frames with no capture in
+  733-1646 (add one capture AFTER his E1 sweep closes, or the pins misalign).
+- T1 CLAIMED by Gabriel (`a41ca0c`, branch `t1-schema3`, local). Spec §T1 already reserves `bag []` /
+  `equipment {}` / `attributes {}` / `bank_items []` in the per-PLAYER record. Built the canonical persisted form
+  now so the landing is mechanical: `Game::Bag#to_save` / `Game::Bag.from_save` (canonical, order-free, strict;
+  2 tests) + `drafts/_s1s3-landing-plan-20260906.md` = the 3-line PATCH REQUEST for T1 + the per-player vs
+  per-pack fact (host character's record carries the pack bag in v22; per-character split = v23 grill item).

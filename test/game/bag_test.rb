@@ -2,6 +2,7 @@ require_relative "../test_helper"
 require "core/data_store"
 require "core/input"
 require "game/world"
+require "json"
 
 # S2 — the bag (pure structure) + the loot wiring (drop tables, :loot stream,
 # pickup through interact, digest). Data with teeth: every drop-table kit is
@@ -115,6 +116,42 @@ class BagTest < Minitest::Test
     assert_equal 1, w2.corpse_loads.length, "staging: the load is in the field"
     refute w2.interact(me2), "refused pickup: press consumed, nothing else fires"
     assert_equal 1, w2.corpse_loads.length, "the corpse load was NOT looted by a refused pickup"
+  end
+
+  # S1 landing (T1 schema 3, key `bag`, default `[]`): canonical, order-free, strict.
+  def test_to_save_is_canonical_and_the_empty_bag_is_the_t1_default
+    assert_equal [], bag.to_save, "spec §T1: `bag []` is the record default"
+    a = bag(slots: 4)
+    a.add!(:flask_sap, 12)      # two stacks (10 + 2)
+    a.add!(:antidote, 1)
+    b = bag(slots: 4)
+    b.add!(:antidote, 1)
+    b.add!(:flask_sap, 2)
+    b.add!(:flask_sap, 10)      # same contents, other pickup order, other stack split
+    expected = [{ "id" => "antidote", "qty" => 1 }, { "id" => "flask_sap", "qty" => 12 }]
+    assert_equal expected, a.to_save
+    assert_equal a.to_save, b.to_save, "layout is derived, never saved: same contents = same bytes"
+    assert_equal JSON.generate(a.to_save), JSON.generate(JSON.parse(JSON.generate(a.to_save))), "JSON round-trip stable"
+  end
+
+  def test_from_save_round_trips_the_digest_and_refuses_lies
+    a = bag(slots: 4)
+    a.add!(:flask_sap, 12)
+    a.add!(:antidote, 1)
+    back = Game::Bag.from_save(JSON.parse(JSON.generate(a.to_save)), catalog: CATALOG, slots: 4)
+    assert_equal a.digest_string, back.digest_string, "digest survives save/load"
+    assert_equal 12, back.count(:flask_sap)
+    assert_equal 3, back.used, "12 flasks (stack 10) + 1 antidote = 3 stacks, laid out again by add!"
+    assert_equal a.to_save, back.to_save
+    loader = ->(list) { Game::Bag.from_save(list, catalog: CATALOG, slots: 2) }
+    assert_raises(ArgumentError) { loader.call("nope") }
+    assert_raises(ArgumentError) { loader.call([{ "id" => "flask_sap" }]) }
+    assert_raises(ArgumentError) { loader.call([{ "id" => "flask_sap", "qty" => 0 }]) }
+    assert_raises(ArgumentError) { loader.call([{ "id" => "flask_sap", "qty" => 1.5 }]) }
+    assert_raises(ArgumentError) { loader.call([{ "id" => "sword_of_lore", "qty" => 1 }]) }
+    assert_raises(ArgumentError) { loader.call([{ "id" => "flask_sap", "qty" => 1 }, { "id" => "flask_sap", "qty" => 1 }]) }
+    assert_raises(ArgumentError) { loader.call([{ "id" => "flask_sap", "qty" => 21 }]) } # 2 slots x 10 = 20: 21 does not fit
+    assert_equal [], Game::Bag.from_save([], catalog: CATALOG, slots: 2).to_save
   end
 
   def test_loot_stream_is_its_own_counter

@@ -7,8 +7,8 @@ module Game
   # tier then id — with the player's pinned ids floating to the top.
   #
   # SIM state: the contents are digested (both seats must agree on what you
-  # hold), never persisted here — persistence rides the schema-3 player
-  # record (T1) as one line. Zero constants: `slots` comes from economy.json
+  # hold). Persistence rides the schema-3 player record (T1) as one key,
+  # `bag`, in the CANONICAL form `to_save` / `from_save` below. Zero constants: `slots` comes from economy.json
   # `bag_slots`; stack sizes from the catalog.
   class Bag
     KIND_ORDER = %i[consumable weapon armor trinket material].freeze
@@ -93,5 +93,36 @@ module Game
     end
 
     def digest_fields = [["slots", @slots], ["used", used], ["contents", digest_string]]
+
+    # --- persistence (T1 schema-3 player record, key `bag`; spec §T1: default `[]`) ---
+    # CANONICAL form, same law as the digest: one entry per item id, quantities
+    # merged, sorted by id, string keys (JSON). Slot layout is NOT saved - the
+    # display order is `sorted` (derived), so two saves of the same contents are
+    # byte-identical whatever order the stacks were picked up in.
+    def to_save
+      @stacks.group_by { |s| s[:id] }.map { |id, ss| { "id" => id.to_s, "qty" => ss.sum { |s| s[:qty] } } }
+             .sort_by { |h| h["id"] }
+    end
+
+    # STRICT loader (character-validator law, spec §T1): a list that is not an
+    # Array of {"id" => String, "qty" => positive Integer} with catalog ids, or that
+    # does not FIT the bag, raises ArgumentError - never a phantom or truncated stack.
+    # The validator owns the failure mode (refuse the record); this only tells the truth.
+    def self.from_save(list, catalog:, slots:)
+      raise ArgumentError, "bag: expected an Array, got #{list.class}" unless list.is_a?(Array)
+      b = new(catalog:, slots:)
+      seen = []
+      list.each do |h|
+        ok = h.is_a?(Hash) && h["id"].is_a?(String) && h["qty"].is_a?(Integer) && h["qty"].positive?
+        raise ArgumentError, "bag: bad entry #{h.inspect}" unless ok
+        id = h["id"].to_sym
+        raise ArgumentError, "bag: unknown item #{h['id'].inspect}" unless catalog.include?(id)
+        raise ArgumentError, "bag: duplicate id #{h['id'].inspect} (canonical form merges)" if seen.include?(id)
+        seen << id
+        raise ArgumentError, "bag: #{h['qty']} x #{h['id']} does not fit #{slots} slots" unless b.room_for?(id, h["qty"])
+        b.add!(id, h["qty"])
+      end
+      b
+    end
   end
 end
