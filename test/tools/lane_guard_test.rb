@@ -55,6 +55,16 @@ class LaneGuardTest < Minitest::Test
     %w[drafts/lanes/receipts/x.md drafts/lanes/receipts/ drafts/_review-*.md tmp/review_*.md src/game/x.rb].each do |ok|
       refute LaneGuard.policy?(ok), "#{ok.inspect} is not policy"
     end
+    # case-insensitive FS: uppercase spellings are policy too, at parse and at check
+    assert LaneGuard.policy?("Drafts/Lanes/x.md")
+    assert LaneGuard.policy?("Drafts/**")
+    assert_raises(LaneGuard::BadBrief) { LaneGuard.parse_brief("---\nlane: x\nbranch: lane/x\nowns: [\"Drafts/**\"]\n---\n") }
+    assert_equal ["Drafts/Lanes/BOARD.md"], LaneGuard.check(cfg, ["Drafts/Lanes/BOARD.md"])[:policy]
+    # a lane owns ONLY its own receipt
+    %w[drafts/lanes/receipts/ drafts/lanes/receipts/other.md drafts/lanes/receipts/*.md].each do |bad|
+      assert_raises(LaneGuard::BadBrief, bad) { LaneGuard.parse_brief("---\nlane: x\nbranch: lane/x\nowns: [#{bad.inspect}]\n---\n") }
+    end
+    assert_raises(LaneGuard::BadBrief) { LaneGuard.parse_brief("---\nlane: x\nbranch: lane/x\nowns: [a.rb, a.rb]\n---\n") }
   end
 
   def test_canonical_paths_and_malformed_segments
@@ -86,6 +96,10 @@ class LaneGuardTest < Minitest::Test
     assert_nil LaneGuard.sim_lane(board), "a human name is attribution, never a lane grant"
     assert_equal "s4-equipment", LaneGuard.sim_lane("SIM TOKEN: Junior\nSIM LANE: s4-equipment\n")
     assert_nil LaneGuard.sim_lane("no rows")
+    assert_raises(LaneGuard::BadBrief, "an empty row never grants the next bare token") { LaneGuard.sim_lane("SIM LANE:\n\nreview\n") }
+    assert_raises(LaneGuard::BadBrief, "two rows = ambiguous = refuse") { LaneGuard.sim_lane("SIM LANE: s4-equipment\nSIM LANE: NONE\n") }
+    assert_raises(LaneGuard::BadBrief) { LaneGuard.sim_lane("SIM LANE: Gabriel Owner\n") }
+    assert_equal "review", LaneGuard.sim_lane("SIM LANE: review\r\n")
   end
 
   def test_renames_copies_types_and_spaces_fence_both_sides
@@ -97,6 +111,19 @@ class LaneGuardTest < Minitest::Test
     r = LaneGuard.check(cfg, paths, sim_lane: "s4-equipment")
     assert_equal %w[src/game/world.rb data/display.json], r[:forbidden], "rename/copy SOURCES are fenced"
     assert_equal ["data/strings/en.json", "src/app/equip y.rb"], r[:outside], "equip_*.rb has a literal underscore"
+  end
+
+  def test_cli_refuses_the_wrong_branch_and_bad_operands_fail_closed
+    rc = nil
+    out, err = capture_io { rc = LaneGuard.main(%w[review --trust HEAD --files tmp/probe.md]) }
+    assert_equal 1, rc, out + err
+    assert_match(/REFUSED - on branch/, err)
+    _out, err = capture_io { rc = LaneGuard.main(%w[review --trust HEAD --no-branch-check --files]) }
+    assert_equal 2, rc, err
+    _out, err = capture_io { rc = LaneGuard.main(%w[review --trust DOES_NOT_EXIST --files tmp/probe.md]) }
+    assert_equal 2, rc, err
+    _out, err = capture_io { rc = LaneGuard.main(%w[review --bogus]) }
+    assert_equal 2, rc, err
   end
 
   def test_globs_segment_star_and_subtree
@@ -125,6 +152,7 @@ class LaneGuardTest < Minitest::Test
     # pairwise: one concrete probe per pattern + every tracked file must have <= 1 owner
     probes = cfgs.flat_map { |c| c["owns"].map { |o| o.sub("**", "x/y").sub("*", "probe").sub(%r{/\z}, "/probe") } }
     tracked = `git -C #{File.expand_path("../..", __dir__).inspect} ls-files`.split("\n")
+    refute_empty tracked, "git ls-files must list the repo; an empty list would degrade this test to probes only"
     (probes + tracked).uniq.each do |path|
       owners = cfgs.select { |c| c["owns"].any? { |o| LaneGuard.match?(o, path) } }.map { |c| c["lane"] }
       assert_operator owners.length, :<=, 1, "#{path} is owned by #{owners.inspect} - two lanes on one path"

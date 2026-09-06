@@ -17,6 +17,9 @@
 #     to name this lane (the human `SIM TOKEN:` line is attribution only);
 #   * strict schema: `lane` [a-z0-9._-], `branch` == "lane/<lane>", `owns`/`never`
 #     = LISTS of non-empty strings (a scalar is an error, never coerced);
+#   * a lane may own ONLY its own receipt drafts/lanes/receipts/<lane>.md;
+#   * policy decisions are case-insensitive (core.ignorecase filesystems);
+#   * BOARD `SIM LANE:` must be exactly one same-line row (two or empty => refuse);
 #   * fail-CLOSED: unknown option, empty operands, git errors => exit 2.
 #
 #   ruby tools/lane_guard.rb <lane>                       # staged files (pre-commit)
@@ -56,19 +59,26 @@ module LaneGuard
     never = cfg.key?("never") ? list!(cfg["never"], "never", lane) : []
     raise BadBrief, "brief `#{lane}` owns nothing" if owns.empty?
     owns.each do |o|
-      raise BadBrief, "brief `#{lane}` owns a POLICY pattern #{o.inspect} (only #{RECEIPTS_DIR}/ is a lane's)" if policy?(o)
+      raise BadBrief, "brief `#{lane}` owns a POLICY pattern #{o.inspect} (only #{RECEIPTS_DIR}/<lane>.md is a lane's)" if policy?(o)
+      under_receipts = o.downcase.tr("\\", "/").squeeze("/").sub(%r{\A\./}, "").start_with?(RECEIPTS_DIR)
+      if under_receipts && o != "#{RECEIPTS_DIR}/#{lane}.md"
+        raise BadBrief, "brief `#{lane}` may own ONLY its receipt #{RECEIPTS_DIR}/#{lane}.md, not #{o.inspect}"
+      end
     end
     { "lane" => lane, "branch" => cfg["branch"], "owns" => owns, "never" => never }
   end
 
   def self.list!(v, key, lane)
     ok = v.is_a?(Array) && !v.empty? && v.all? { |x| x.is_a?(String) && !x.strip.empty? }
-    raise BadBrief, "brief `#{lane}`: `#{key}:` must be a LIST of non-empty strings (got #{v.inspect})" unless ok && v.length == v.length
-    v.map(&:strip)
+    raise BadBrief, "brief `#{lane}`: `#{key}:` must be a LIST of non-empty strings (got #{v.inspect})" unless ok
+    v = v.map(&:strip)
+    raise BadBrief, "brief `#{lane}`: `#{key}:` repeats an entry" unless v.uniq.length == v.length
+    v
   end
 
   # One glob segment vs one literal segment ("*" within a segment; "**" = anything).
   def self.seg_match?(seg, name)
+    seg = seg.downcase # policy decisions are case-insensitive (core.ignorecase filesystems)
     return true if seg == name || seg == "**"
     return false unless seg.include?("*")
     Regexp.new("\\A" + Regexp.escape(seg).gsub("\\*", "[^/]*") + "\\z").match?(name)
@@ -105,6 +115,7 @@ module LaneGuard
   end
 
   def self.policy_path?(f)
+    f = f.downcase # case-insensitive FS: Drafts/Lanes/BOARD.md IS drafts/lanes/BOARD.md
     f == POLICY_DIR || (f.start_with?("#{POLICY_DIR}/") && !f.start_with?("#{RECEIPTS_DIR}/"))
   end
 
@@ -147,11 +158,17 @@ module LaneGuard
     out.compact.uniq
   end
 
-  # BOARD machine row `SIM LANE: <lane>` -> lane; `NONE` or absent -> nil.
+  # BOARD machine row `SIM LANE: <lane|NONE>` (same line, exactly ONE row).
+  # Absent -> nil (no grant). Two rows, or an empty row, -> BadBrief (refuse).
   def self.sim_lane(board_text)
-    m = board_text.to_s.match(/^SIM LANE:\s*(\S+)\s*$/m)
-    return nil unless m
-    m[1] == "NONE" ? nil : m[1]
+    text = board_text.to_s.gsub("\r\n", "\n")
+    rows = text.scan(/^SIM LANE:[ \t]*([^\n]*)$/).flatten.map(&:strip)
+    return nil if rows.empty?
+    raise BadBrief, "BOARD has #{rows.length} `SIM LANE:` rows; exactly one is allowed" if rows.length > 1
+    v = rows.first
+    raise BadBrief, "BOARD `SIM LANE:` row is empty; write NONE or a lane name" if v.empty?
+    raise BadBrief, "BOARD `SIM LANE:` value #{v.inspect} is not a lane name" unless v == "NONE" || v.match?(LANE_NAME)
+    v == "NONE" ? nil : v
   end
 
   def self.git(root, *args)
