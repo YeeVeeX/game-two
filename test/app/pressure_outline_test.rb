@@ -118,6 +118,7 @@ class PressureOutlineTest < Minitest::Test
     w = Game::World.new(DATA, seed: 7)
     step = DATA["balance/combat"][:kits][:striker][:step_frames]
     drive(w, step * 30, input: scripted((0..step * 30 - 1).to_h { |f| [f.to_s, ["right"]] }))
+    assert_equal "district", w.zone_name
     m = w.map
     dirs = [[1, 0], [0, 1], [1, 1], [1, -1], [-1, 0], [0, -1], [-1, 1], [-1, -1]]
     pairs = 0
@@ -147,12 +148,15 @@ class PressureOutlineTest < Minitest::Test
     w = Game::World.new(DATA, seed: 7)
     m = w.map # nest: open floor around the spawn
     me = w.possessed.tile
+    checked = 0
     [[2, 1], [1, 2], [-2, 1], [-1, -2]].each do |dx, dy|
       t = [me[0] + dx, me[1] + dy]
       next unless m.passable?(*t)
+      checked += 1
       assert App::Signage.sight_open?(m, t, me), "open floor #{t} -> #{me} must be open sight"
       refute w.line_clear?(t, me), "(documenting why sight_open? exists: the sim ray is 8-way)"
     end
+    assert_operator checked, :>, 0, "the nest spawn must have at least one passable knight offset (else vacuous)"
   end
 
   def test_pure_guards
