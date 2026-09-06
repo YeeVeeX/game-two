@@ -1,4 +1,5 @@
 require_relative "../test_helper"
+require_relative "../support/schema3_facts"
 require "core/data_store"
 require "core/input"
 require "game/world"
@@ -17,12 +18,8 @@ class InteriorDoorTest < Minitest::Test
   ECO = DATA["balance/economy"]
 
   def seeded_facts
-    members = DATA["balance/combat"][:pack][:members].map do |kit|
-      { "kit" => kit, "hp" => 40, "inscribed" => false }
-    end
-    { "banked" => 60, "provisions" => 0, "home_zone" => "zone_7", "breached" => [],
-      "members" => members, "counters" => { "boss_1_defeats" => 1, "sessions" => 1 },
-      "progression" => { "level" => 5, "xp" => 0 } }
+    Schema3Facts.facts(DATA["balance/combat"][:pack][:members], banked: 60, defeats: 1,
+                       sessions: 1, home: "zone_7", level: 5, hp: 40)
   end
 
   def drive(w, n = 2)

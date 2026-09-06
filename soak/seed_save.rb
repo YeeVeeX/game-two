@@ -17,7 +17,7 @@
 # combat-ready. NEVER point this at saves/world.json — soak scratch
 # saves only (the run_soak quarantine still verifies the real save).
 #
-# Usage: ruby -Isrc soak/seed_save.rb <out.json> [hub] [banked] [provisions]
+# Usage: ruby -Isrc soak/seed_save.rb <out.json> [hub] [banked] [provisions] [host player id]
 
 require "core/data_store"
 require "game/world"
@@ -33,9 +33,15 @@ if File.expand_path(out) == File.expand_path("saves/world.json")
 end
 
 data = Core::DataStore.new(File.expand_path("../data", __dir__))
-world = Game::World.new(data, seed: 0, seats: 2)
+# v22 T1: the seeded record is keyed by the FIRST episode's host bot
+# (run_soak.sh passes bot-<host seed>; default = the harness seat-1 id) so
+# that bot is SEATED in it (hub home, full hp at level 1). Later episodes'
+# bots create their own records on the same chain (new_character.level,
+# home = the world's initial hub) — the chain check judges digests, not ids.
+player_id = ARGV[4] || Game::Party.default_players([1]).fetch(1)
+world = Game::World.new(data, seed: 0, players: { 1 => player_id })
 facts = world.save_facts
-facts["home_zone"] = hub
+facts["characters"].each_value { |c| c["home_zone"] = hub }
 facts["banked"] = banked
 facts["provisions"] = provisions
 
@@ -43,11 +49,11 @@ store = App::SaveStore.new(path: out)
 digest = store.write(facts)
 
 # Verify through the strict decoder — the same gate the game boots with.
-loaded = store.load(data:)
+loaded = store.load(data:, player_id:)
 unless loaded.is_a?(App::SaveStore::Loaded) && loaded.digest == digest
   detail = loaded.respond_to?(:refusal) ? loaded.refusal : "digest mismatch"
   abort "seed_save: strict decode REFUSED the seeded save — #{detail}"
 end
 
-puts "SEEDED #{out} digest=#{digest} home=#{hub} banked=#{banked} " \
-     "provisions=#{provisions} (strict decode verified)"
+puts "SEEDED #{out} digest=#{digest} schema=#{Game::SaveState::SCHEMA} player=#{player_id} " \
+     "home=#{hub} banked=#{banked} provisions=#{provisions} (strict decode verified)"

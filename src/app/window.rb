@@ -40,7 +40,7 @@ module App
     attr_reader :scale, :view_width, :view_height
 
     def initialize(session: nil, relaunch: nil, seed: 0, save: nil, saver: nil, bot: nil,
-                   audio: nil, start_zone: nil)
+                   audio: nil, start_zone: nil, players: nil)
       data = Core::DataStore.new(File.expand_path("../../data", __dir__))
       display = data["display"]
       # J6-B: machine-local client prefs (presentation only — never the
@@ -83,7 +83,7 @@ module App
         @netplay = NetplayOverlay.new(display:, strings:,
                                       view_w: @view_width, view_h: @view_height)
       else
-        @world = Game::World.new(data, seed:, save:)
+        @world = Game::World.new(data, seed:, save:, players:) # v22 T1: {1 => this machine's id}
         @telemetry = Game::Telemetry.new(@world.bus, world: @world)
         @audio&.attach(bus: @world.bus, world: @world)
         @world.start_in(@start_zone) if @start_zone

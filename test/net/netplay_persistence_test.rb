@@ -161,7 +161,7 @@ class NetplayPersistenceTest < Minitest::Test
     assert File.exist?(File.join(@host_root, "world.json"))
 
     # --- session pair 2: resume from the file ---------------------------
-    result = @store.load(data: DATA)
+    result = @store.load(data: DATA, player_id: "bot-1") # the host seat's id (harness default)
     assert_instance_of App::SaveStore::Loaded, result
     assert_equal saved_digest, result.digest,
                  "host loaded digest == saved digest (the file half of the chain)"

@@ -24,15 +24,21 @@ class SessionTest < Minitest::Test
   # roster names from data/).
   def valid_facts
     {
-      "banked" => 12, "provisions" => 1, "home_zone" => "nest",
+      "banked" => 12, "provisions" => 1,
       "breached" => [["district", [42, 13]]],
-      "members" => [
-        { "kit" => "striker", "hp" => 80, "inscribed" => false },
-        { "kit" => "blocker", "hp" => 0, "inscribed" => true },
-        { "kit" => "lobber", "hp" => 33, "inscribed" => false }
-      ],
       "counters" => { "boss_1_defeats" => 2, "sessions" => 5 },
-      "progression" => { "level" => 1, "xp" => 0 }
+      "characters" => {
+        "bot-1" => {
+          "level" => 1, "xp" => 0, "xp_debt" => 0, "insurance" => 0,
+          "home_zone" => "nest", "form" => "striker",
+          "forms" => {
+            "striker" => { "hp" => 80, "inscribed" => false },
+            "blocker" => { "hp" => 0, "inscribed" => true },
+            "lobber" => { "hp" => 33, "inscribed" => false }
+          },
+          "bag" => [], "equipment" => {}, "attributes" => {}, "bank_items" => []
+        }
+      }
     }
   end
 

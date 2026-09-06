@@ -1,4 +1,5 @@
 require_relative "../test_helper"
+require_relative "../support/schema3_facts"
 require "core/data_store"
 require "core/strings"
 require "game/world"
@@ -15,17 +16,11 @@ require "app/map_artifact"
 class MapArtifactTest < Minitest::Test
   DATA = Core::DataStore.new(File.expand_path("../../data", __dir__))
 
-  FACTS = {
-    "banked" => 42, "provisions" => 2, "home_zone" => "camp",
-    "breached" => [["district", [42, 13]]],
-    "members" => [
-      { "kit" => "striker", "hp" => 80, "inscribed" => true },
-      { "kit" => "blocker", "hp" => 160, "inscribed" => false },
-      { "kit" => "lobber", "hp" => 60, "inscribed" => false }
-    ],
-    "counters" => { "boss_1_defeats" => 3, "sessions" => 5 },
-    "progression" => { "level" => 1, "xp" => 0 }
-  }.freeze
+  FACTS = Schema3Facts.facts(
+    DATA["balance/combat"][:pack][:members], banked: 42, provisions: 2, defeats: 3, sessions: 5,
+    breached: [["district", [42, 13]]], home: "camp",
+    hp: { "striker" => 80, "blocker" => 160, "lobber" => 60 }, inscribed: ["striker"]
+  ).freeze
 
   def artifact
     App::MapArtifact.new(DATA, strings: Core::Strings.new(DATA, locale: "en"))
@@ -166,12 +161,7 @@ class MapArtifactTest < Minitest::Test
   end
 
   def test_boss_gate_cell_opens_on_the_persisted_fact
-    members = DATA["balance/combat"][:pack][:members].map do |kit|
-      { "kit" => kit, "hp" => 1, "inscribed" => false }
-    end
-    facts = { "banked" => 0, "provisions" => 0, "home_zone" => "nest", "breached" => [],
-              "members" => members, "counters" => { "boss_1_defeats" => 4, "sessions" => 1 },
-              "progression" => { "level" => 1, "xp" => 0 } }
+    facts = Schema3Facts.facts(DATA["balance/combat"][:pack][:members], defeats: 4, sessions: 1, hp: 1)
     w = well_world(save: facts)
     map = w.zone_maps.fetch("upper")
     assert_equal WELL_ZONE[:palette][:transition], artifact.cell_rgb(w, "upper", map, 5, 5)

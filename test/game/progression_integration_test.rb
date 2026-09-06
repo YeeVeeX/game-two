@@ -44,9 +44,12 @@ class ProgressionIntegrationTest < Minitest::Test
       assert_equal old_hp + expected_max - old_max, member.hp,
                    "#{member.kit_name} must gain only the max-hp delta"
     end
-    world_fields = w.digest_snapshot.to_h.fetch("world").to_h
-    assert_equal 2, world_fields.fetch("level")
-    assert_equal 0, world_fields.fetch("xp")
+    # v22 T1: level/xp are digest truth on the HOST character's row (the
+    # shared progression until T2b), no longer on the world row.
+    host_fields = w.digest_snapshot.to_h.fetch("character.bot-1").to_h
+    assert_equal 2, host_fields.fetch("level")
+    assert_equal 0, host_fields.fetch("xp")
+    refute w.digest_snapshot.to_h.fetch("world").to_h.key?("level"), "no duplicate level row on the world"
     refute_equal before_digest, Net::StateDigest.canonical(w.digest_snapshot)
   end
 

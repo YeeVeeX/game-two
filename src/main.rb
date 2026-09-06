@@ -53,6 +53,12 @@ if (bot = opts&.dig(:bot))
                                  quit_tick: bot[:ticks] || App::Autopilot::DEFAULT_QUIT_TICK)
   puts autopilot.banner
 end
+# v22 T1 (L20-1): this machine's PLAYER identity keys its characters in
+# every save. Humans read (and on first boot write) data/player.local.json;
+# a bot seat derives bot-<seed> and never touches the file (replays and
+# soaks stay byte-identical). The id rides HELLO; no surface shows it.
+require "app/player_file"
+player_id = autopilot ? App::PlayerFile.bot_id(autopilot.seed) : App::PlayerFile.load.player_id
 # Quality-flywheel lane 1 (2026-08-19): start zone rides a bot or a scratch
 # save (Cli refused it bare). The line is soak-oracle surface: chain_check
 # asserts it per zoned episode on BOTH seats.
@@ -85,7 +91,7 @@ if opts.nil? || opts[:mode] == :solo
     bak = store.backup_fresh!
     puts "fresh start: existing save backed up to #{bak}" if bak
   end
-  result = store.load(data:)
+  result = store.load(data:, player_id:)
   result.notices.each { |n| warn n }
   save_facts = nil
   case result
@@ -102,7 +108,7 @@ if opts.nil? || opts[:mode] == :solo
   puts "TELEMETRY session seed=#{seed}"
   saver = App::SaveCoordinator.new(store:, owner: true)
   App::Window.new(seed:, save: save_facts, saver:, bot: autopilot, audio:,
-                  start_zone:).show
+                  start_zone:, players: { 1 => player_id }).show
   exit
 end
 
@@ -122,7 +128,7 @@ session, relaunch, saver =
       bak = store.backup_fresh!
       puts "fresh start: existing save backed up to #{bak}" if bak
     end
-    result = store.load(data:)
+    result = store.load(data:, player_id:)
     result.notices.each { |n| warn n }
     save_facts = nil
     save_canonical = nil

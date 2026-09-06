@@ -54,7 +54,7 @@ class CharacterTest < Minitest::Test
       assert C.player_id?(file.player_id)
     end
     assert C.player_id?(App::PlayerFile.bot_id(12_345))
-    assert C.player_id?(P.default_players([1, 2], seed: 9)[2])
+    assert C.player_id?(P.default_players([1, 2])[2])
   end
 
   # --- creation + loading -----------------------------------------------------
@@ -178,11 +178,13 @@ class CharacterTest < Minitest::Test
     P.new(players:, records:, migration:, live: live(**live_kw))
   end
 
-  def test_default_players_derive_from_the_seed_and_the_seat
-    assert_equal({ 1 => "bot-7" }, P.default_players([1], seed: 7))
-    assert_equal({ 1 => "bot-7", 2 => "bot-7-2" }, P.default_players([1, 2], seed: 7))
-    assert_equal P.default_players([1, 2], seed: 7), P.default_players([1, 2], seed: 7)
-    refute_equal P.default_players([1], seed: 7), P.default_players([1], seed: 8)
+  def test_default_players_are_seat_constants_never_seed_derived
+    # Facts are seed-independent by law (v18 decision 16); a seed-keyed
+    # host id would make a save projected at one seed unloadable at another.
+    assert_equal({ 1 => "bot-1" }, P.default_players([1]))
+    assert_equal({ 1 => "bot-1", 2 => "bot-2" }, P.default_players([1, 2]))
+    assert_equal P.default_players([1, 2]), P.default_players([1, 2])
+    assert P.default_players([1, 2]).values.all? { |id| C.player_id?(id) }
   end
 
   def create_missing(pt, new_level: 1)
@@ -193,7 +195,7 @@ class CharacterTest < Minitest::Test
 
   def test_missing_seated_player_claims_the_legacy_seed_once_keyed_by_id
     host = C.from_h(UUID_A, record(level: 13))
-    mig = { "from_schema" => 2, "legacy_level" => 13, "legacy_seed_claimed_by" => nil }
+    mig = { "from_schema" => 2, "legacy_level" => 13, "legacy_seed_claimed_by" => false }
     pt = party(players: { 1 => UUID_A, 2 => UUID_B }, records: { UUID_A => host }, migration: mig)
     create_missing(pt)
     guest = pt.records.fetch(UUID_B)
@@ -217,7 +219,7 @@ class CharacterTest < Minitest::Test
   end
 
   def test_seat_order_decides_the_claim_when_both_seats_are_new_and_the_clamp_binds
-    mig = { "from_schema" => 2, "legacy_level" => 99, "legacy_seed_claimed_by" => nil }
+    mig = { "from_schema" => 2, "legacy_level" => 99, "legacy_seed_claimed_by" => false }
     pt = party(players: { 2 => "bot-2", 1 => "bot-1" }, records: {}, migration: mig)
     create_missing(pt)
     assert_equal "bot-1", mig["legacy_seed_claimed_by"], "seat 1 claims first (seat-order law)"
@@ -254,7 +256,7 @@ class CharacterTest < Minitest::Test
   end
 
   def test_migration_block_projection_and_refusals
-    mig = { "from_schema" => 2, "legacy_level" => 13, "legacy_seed_claimed_by" => nil }
+    mig = { "from_schema" => 2, "legacy_level" => 13, "legacy_seed_claimed_by" => false }
     pt = party(players: { 1 => "bot-1" }, records: { "bot-1" => C.from_h("bot-1", record) }, migration: mig)
     assert_equal mig, pt.project_migration
     assert_nil P.migration_refusal(mig)
@@ -265,7 +267,9 @@ class CharacterTest < Minitest::Test
       "missing" => [mig.reject { |k, _| k == "legacy_level" }, /migration: keys must be exactly/],
       "from_schema" => [mig.merge("from_schema" => 1), /from_schema: must be 2/],
       "legacy level" => [mig.merge("legacy_level" => 0), /legacy_level: must be an Integer >= 1/],
-      "claimed by shape" => [mig.merge("legacy_seed_claimed_by" => "seat-2"), /legacy_seed_claimed_by: must be null or a player id/]
+      "claimed by shape" => [mig.merge("legacy_seed_claimed_by" => "seat-2"), /legacy_seed_claimed_by: must be false \(unclaimed\) or a player id/],
+      "claimed by null" => [mig.merge("legacy_seed_claimed_by" => nil), /legacy_seed_claimed_by: must be false \(unclaimed\)/],
+      "claimed by true" => [mig.merge("legacy_seed_claimed_by" => true), /legacy_seed_claimed_by: must be false \(unclaimed\)/]
     }.each do |label, (block, pattern)|
       r = P.migration_refusal(block)
       refute_nil r, "#{label}: expected a refusal"

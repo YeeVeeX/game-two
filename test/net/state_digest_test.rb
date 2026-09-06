@@ -20,8 +20,11 @@ class StateDigestTest < Minitest::Test
                     zone_left_at
                     last_damaged swap_was_down rearm_needed corpse_serial
                     rng_draws respawn_rng_draws boss_1_defeats sessions
-                    level xp hitstop].freeze
+                    hitstop].freeze
   PACK_FIELDS = %w[banked provisions mark possessed.1].freeze
+  # v22 T1: one group per character record, "character.<player id>", in
+  # sorted player-id order; level/xp moved here from the world group.
+  CHARACTER_FIELDS = %w[level xp xp_debt insurance form home_zone].freeze
   CREATURE_FIELDS = %w[kind tile_x tile_y px py tween_left tween_total
                        reserved_x reserved_y facing_x facing_y hp alive
                        stagger exhaust special_exhaust iframes
@@ -121,6 +124,9 @@ class StateDigestTest < Minitest::Test
     groups = snap.to_h
     assert_equal WORLD_FIELDS, groups.fetch("world").map(&:first)
     assert_equal PACK_FIELDS, groups.fetch("pack").map(&:first)
+    assert_equal CHARACTER_FIELDS, groups.fetch("character.bot-1").map(&:first)
+    assert_equal ["world", "pack", "character.bot-1", "pack.0"], snap.map(&:first).take(4),
+                 "character rows follow the pack row, before the creature rows"
     assert_equal CREATURE_FIELDS, groups.fetch("pack.0").map(&:first)
     human_key = snap.map(&:first).find { |g| g.start_with?("human.") }
     assert_equal CREATURE_FIELDS, groups.fetch(human_key).map(&:first)
@@ -158,8 +164,8 @@ class StateDigestTest < Minitest::Test
       kind = seg.length == 1 ? seg[0] : "#{seg[0]}.N"
       reps[kind] ||= gi
     end
-    assert_equal %w[world pack pack.N human.N projectile.N impact.N drop.N load.N respawn.N
-                    totem.N].sort,
+    assert_equal %w[world pack character.N pack.N human.N projectile.N impact.N drop.N load.N
+                    respawn.N totem.N].sort,
                  reps.keys.sort, "staging no longer covers every group kind"
     count = 0
     reps.each_value do |gi|

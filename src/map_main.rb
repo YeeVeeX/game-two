@@ -24,20 +24,29 @@ module App
   # non-default home (camp), one breached way beside sealed ones, nonzero
   # counters, and (T4) the pilot well DRAINED so the water swap and the
   # opened hole both render. Passes the strict decoder (World applies it
-  # like any save; zone_7's seal makes the tuple legal — D11).
+  # like any save; zone_7's seal makes the tuple legal — D11). Schema 3
+  # (v22 T1): the staged character is keyed "bot-1" = the harness default
+  # host id, so the World seats it (a foreign id would seat a NEW level-1
+  # character and the deep gates would draw sealed).
   PROBE_FACTS = {
-    "banked" => 42, "provisions" => 2, "home_zone" => "camp",
+    "banked" => 42, "provisions" => 2,
     "breached" => [["district", [42, 13]], ["zone_7", [33, 14]]],
-    "members" => [
-      { "kit" => "striker", "hp" => 80, "inscribed" => true },
-      { "kit" => "blocker", "hp" => 160, "inscribed" => false },
-      { "kit" => "lobber", "hp" => 60, "inscribed" => false }
-    ],
     "counters" => { "boss_1_defeats" => 3, "sessions" => 5 },
-    # Level 6 clears the s68 deep gates: the staged-open hole [33,14]
-    # composes sealed+requires_level as independent AND legs, so the
-    # breach alone no longer draws it gold (way_locked? reads BOTH).
-    "progression" => { "level" => 6, "xp" => 0 }
+    "characters" => {
+      "bot-1" => {
+        # Level 6 clears the s68 deep gates: the staged-open hole [33,14]
+        # composes sealed+requires_level as independent AND legs, so the
+        # breach alone no longer draws it gold (way_locked? reads BOTH).
+        "level" => 6, "xp" => 0, "xp_debt" => 0, "insurance" => 0,
+        "home_zone" => "camp", "form" => "blocker",
+        "forms" => {
+          "striker" => { "hp" => 80, "inscribed" => true },
+          "blocker" => { "hp" => 160, "inscribed" => false },
+          "lobber" => { "hp" => 60, "inscribed" => false }
+        },
+        "bag" => [], "equipment" => {}, "attributes" => {}, "bank_items" => []
+      }
+    }
   }.freeze
 
   class MapWindow < Gosu::Window
@@ -71,7 +80,11 @@ module App
       return Marshal.load(Marshal.dump(PROBE_FACTS)) if ENV["PROBES"] == "1"
       path = ENV.fetch("SAVE") { data["persistence"][:save_path] }
       return nil unless File.exist?(path)
-      result = App::SaveStore.new(path: path).load(data: data)
+      # The offline map reads through the same loader the game boots with:
+      # a schema-2 file migrates in memory keyed by THIS machine's player
+      # id (read-only here — the backup + v3 write only happen in a session).
+      require "app/player_file"
+      result = App::SaveStore.new(path: path).load(data: data, player_id: App::PlayerFile.load.player_id)
       case result
       when App::SaveStore::Loaded
         puts "MAP loaded save digest=#{result.digest} source=#{path}"

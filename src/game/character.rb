@@ -219,10 +219,13 @@ module Game
 
     attr_reader :players, :records, :migration
 
-    # Harness/bot default: seat 1 = "bot-<seed>", seat s = "bot-<seed>-<s>"
-    # — deterministic from the seed, so replays stay byte-identical.
-    def self.default_players(seats, seed:)
-      seats.to_h { |s| [s, s == 1 ? "bot-#{seed}" : "bot-#{seed}-#{s}"] }
+    # Harness/bot default: seat s = "bot-<s>" — a CONSTANT per seat, never
+    # seed-derived, because facts are seed-independent by law (v18 decision
+    # 16: "field re-seeds, facts persist") and a seed-keyed host id would
+    # make a save projected at seed 11 unloadable at seed 999. A real
+    # `--bot <seed>` process names itself bot-<seed> (App::PlayerFile).
+    def self.default_players(seats)
+      seats.to_h { |s| [s, "bot-#{s}"] }
     end
 
     # `live`: key -> callable for the HOST's live facts (level xp form
@@ -244,17 +247,21 @@ module Game
 
     # D-T1 (dev-of-record rec, recorded s136): a seated player with NO
     # record is created here. While `migration.legacy_seed_claimed_by` is
-    # null the newcomer inherits `legacy_level` (the v2 world level was
-    # earned by BOTH seats — NINETEENTH evidence) and the block records
-    # THAT player's id; every later newcomer starts at `new_level`
-    # (progression.json new_character.level). Seat order decides who
-    # claims when two newcomers arrive together (seat-order law).
+    # UNCLAIMED (false — the spec wrote null, but null is outside the pinned
+    # canonical vocabulary, save_state_test §1) the newcomer inherits
+    # `legacy_level` (the v2 world level was earned by BOTH seats —
+    # NINETEENTH evidence) and the block records THAT player's id; every
+    # later newcomer starts at `new_level` (progression.json
+    # new_character.level). Seat order decides who claims when two
+    # newcomers arrive together (seat-order law).
+    UNCLAIMED = false
+
     def create_missing!(new_level:, home_zone:, form:, roster:, max_hp:, clamp:)
       @players.keys.sort.each do |seat|
         id = @players.fetch(seat)
         next if @records.key?(id)
         level = new_level
-        if @migration && @migration["legacy_seed_claimed_by"].nil?
+        if @migration && @migration["legacy_seed_claimed_by"] == UNCLAIMED
           level = @migration["legacy_level"]
           @migration["legacy_seed_claimed_by"] = id
         end
@@ -300,8 +307,8 @@ module Game
       lvl = block["legacy_level"]
       return "save migration.legacy_level: must be an Integer >= 1" unless lvl.is_a?(Integer) && lvl >= 1
       by = block["legacy_seed_claimed_by"]
-      unless by.nil? || Character.player_id?(by)
-        return "save migration.legacy_seed_claimed_by: must be null or a player id, got #{by.inspect}"
+      unless by == UNCLAIMED || Character.player_id?(by)
+        return "save migration.legacy_seed_claimed_by: must be false (unclaimed) or a player id, got #{by.inspect}"
       end
       nil
     end

@@ -20,12 +20,13 @@ module App
   # (decision 5): the digest a persist line prints is md5 over exactly
   # those bytes, recomputed at print time — never an echo.
   #
-  # v19 T1 (spec P8): a schema-1 file takes the ONE-HOP UPGRADE at load
-  # (strict v1 validation, then progression {level 1, xp 0} injected);
-  # the ORIGINAL v1 bytes back up to .bak-schema1-<ts> at the FIRST v2
-  # write — not at load, so read-only consumers (rake map) stay free of
-  # side effects, and a session that never saves leaves the v1 file
-  # untouched on disk.
+  # v22 T1 (spec T1, L9 — the v19 P8 pattern, one schema later): a
+  # schema-2 file takes the ONE-HOP MIGRATION at load (strict FROZEN v2
+  # validation, then Game::SaveState.migrate_v2 keyed by THIS machine's
+  # player id); the ORIGINAL v2 bytes back up to .bak-schema2-<ts> at the
+  # FIRST v3 write — not at load, so read-only consumers (rake map) stay
+  # free of side effects, and a session that never saves leaves the v2 file
+  # untouched on disk. Schema 1 refuses NAMED (no live v1 chain exists).
   class SaveStore
     Loaded = Data.define(:facts, :digest, :notices)
     Refused = Data.define(:refusal, :notices)
@@ -45,9 +46,12 @@ module App
     # -> Loaded | Refused | Fresh. Both load paths run the strict decoder
     # BEFORE any window opens (decision 6a); an unparseable or truncated
     # file is itself a NAMED refusal with recovery hints (.bak if present,
-    # orphan .tmp named), never a raw JSON crash.
-    def load(data:)
-      @v1_raw = nil
+    # orphan .tmp named), never a raw JSON crash. `player_id` keys the host
+    # character a schema-2 file migrates into (App::PlayerFile's id, or the
+    # bot id) — unused by a schema-3 file, required so no caller can forget
+    # the migration lane.
+    def load(data:, player_id:)
+      @v2_raw = nil
       notices = orphan_notices
       return Fresh.new(notices:) unless File.exist?(@path)
       raw = File.read(@path, mode: "rb")
@@ -66,11 +70,11 @@ module App
       refusal = Game::SaveState.envelope_refusal(env, data:)
       return Refused.new(refusal: "#{refusal}#{bak_hint}", notices:) if refusal
       facts = env["facts"]
-      if env["schema"] == 1
-        @v1_raw = raw # original bytes, owed a backup before the first v2 write
-        facts = Game::SaveState.upgrade_v1(facts)
-        notices << "save schema 1 upgraded to #{Game::SaveState::SCHEMA} " \
-                   "(original backs up beside the save at first write)"
+      if env["schema"] == 2
+        @v2_raw = raw # original bytes, owed a backup before the first v3 write
+        facts = Game::SaveState.migrate_v2(facts, player_id:, data:)
+        notices << "save schema 2 migrated to #{Game::SaveState::SCHEMA} (host character " \
+                   "#{player_id}; original backs up beside the save at first write)"
       end
       Loaded.new(facts:, digest: Game::SaveState.digest(facts), notices:)
     end
@@ -79,7 +83,7 @@ module App
     # are now on disk. Raises WriteError (named, .tmp intact) when the
     # replace is refused past the bounded retry.
     def write(facts, saved_at_ms: (Time.now.to_f * 1000).to_i)
-      backup_schema1!
+      backup_schema2!
       canonical = Game::SaveState.canonical_bytes(facts)
       digest = Digest::MD5.hexdigest(canonical)
       payload = %({"schema":#{Game::SaveState::SCHEMA},"saved_at_ms":#{Integer(saved_at_ms)},"facts":#{canonical}})
@@ -115,7 +119,7 @@ module App
         parts << "banked=#{facts['banked']}"
         parts << "provisions=#{facts['provisions']}"
         parts << "seals=#{facts['breached'].length}"
-        parts << "marks=#{facts['members'].count { |m| m['inscribed'] }}"
+        parts << "marks=#{facts['characters'].values.sum { |c| c['forms'].values.count { |f| f['inscribed'] } }}"
         parts << "sessions=#{facts['counters']['sessions']}"
       end
       parts << "source=#{source}" if source
@@ -125,14 +129,14 @@ module App
     private
 
     # P8's backup law (the --fresh pattern, COPY not rename — the live
-    # file must stay loadable until the v2 write replaces it): fires at
-    # most once per loaded v1 file, right before the first write.
-    def backup_schema1!
-      return unless @v1_raw
-      bak = "#{@path}.bak-schema1-#{Time.now.strftime('%Y%m%d%H%M%S')}"
-      File.open(bak, "wb") { |f| f.write(@v1_raw) }
-      @v1_raw = nil
-      warn "save: schema-1 original backed up to #{bak}"
+    # file must stay loadable until the v3 write replaces it): fires at
+    # most once per loaded v2 file, right before the first write.
+    def backup_schema2!
+      return unless @v2_raw
+      bak = "#{@path}.bak-schema2-#{Time.now.strftime('%Y%m%d%H%M%S')}"
+      File.open(bak, "wb") { |f| f.write(@v2_raw) }
+      @v2_raw = nil
+      warn "save: schema-2 original backed up to #{bak}"
     end
 
     def replace!(tmp)

@@ -60,7 +60,8 @@ SAVE="$RUN/world.json"
 
 SEED_DIGEST=""
 if [ -n "$SEED_SAVE" ] && [ "$MODE" != "join_only" ]; then
-  SEED_LINE=$(ruby -Isrc soak/seed_save.rb "$SAVE" nest 60 3) || {
+  # v22 T1: the seeded character is keyed by episode 1's host bot (bot-<HSEED>).
+  SEED_LINE=$(ruby -Isrc soak/seed_save.rb "$SAVE" nest 60 3 "bot-$((SEED + 2))") || {
     echo "SOAK ABORT: seed_save failed"; echo "$SEED_LINE"; exit 1; }
   echo "$SEED_LINE"
   SEED_DIGEST=$(printf '%s' "$SEED_LINE" | sed -n 's/.*digest=\([0-9a-f]\{32\}\).*/\1/p')

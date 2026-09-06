@@ -31,7 +31,13 @@ if File.expand_path(out) == live
   abort "dev_save: refusing to touch the LIVE save #{live} (scratch saves only)"
 end
 
-world = Game::World.new(data, seed: 0)
+# v22 T1: the warp save's character is keyed by THIS machine's player id
+# (data/player.local.json, created on first use like any boot) so the human
+# seat bin/warp launches is SEATED at the cap — a foreign id would seat a
+# new level-1 character and every gate would stay shut.
+require "app/player_file"
+player_id = App::PlayerFile.load.player_id
+world = Game::World.new(data, seed: 0, players: { 1 => player_id })
 cap = world.progression.level_cap
 level = ARGV[1] ? Integer(ARGV[1]) : cap
 abort "dev_save: level #{level} outside 1..#{cap}" unless level.between?(1, cap)
@@ -58,11 +64,11 @@ store = App::SaveStore.new(path: out)
 digest = store.write(world.save_facts)
 
 # Verify through the strict decoder — the same gate the game boots with.
-loaded = store.load(data:)
+loaded = store.load(data:, player_id:)
 unless loaded.is_a?(App::SaveStore::Loaded) && loaded.digest == digest
   detail = loaded.respond_to?(:refusal) ? loaded.refusal : "digest mismatch"
   abort "dev_save: strict decode REFUSED the seeded save — #{detail}"
 end
 
-puts "DEV_SAVE #{out} digest=#{digest} level=#{level}/#{cap} home=#{hub} " \
-     "seals_open=#{seals.length} (strict decode verified)"
+puts "DEV_SAVE #{out} digest=#{digest} schema=#{Game::SaveState::SCHEMA} player=#{player_id} " \
+     "level=#{level}/#{cap} home=#{hub} seals_open=#{seals.length} (strict decode verified)"
