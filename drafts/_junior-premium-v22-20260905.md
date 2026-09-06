@@ -449,3 +449,14 @@ pale-gold active family + the HUD special pip spending) and that an ordinary win
 no ring, no pip) must not be judged as one. No pixel changed. Observation, not a failure: the pack's ordinary windup is a
 flat slab; an outlined reach marker could read better - a later presentation pass, not this wall. With this, all 9
 failing rows of wall #4 so far have a named cause: 4 drawings fixed on the branch, 4 rows corrected, 1 flip-prone.
+
+### Wall #4 live triage (11:22): `district_hunt low_hp_pulse_reads` = the pulse is DRAWN and does not READ (formula floor)
+Sim fact: 54/198 = 0.27 < low_hp_pct 0.30 in captures 2400 and 3219 - the condition holds, the vignette IS drawn.
+Formula: depth = 1 - hp/(max*pct) = 0.09 just under the threshold; alpha = 150 x (0.45 + 0.55*0.09) x (0.6..1.0) =
+42..71 - a wine tint that thin sits UNDER the base vignette (130) on the district's warm floor. Pixel: edge/corner
+samples 1900 (no pulse) vs 2400 (pulse) differ by dR 0..11 = scene noise. Gabriel's row ("a dark RED vignette breathes
+... deepens as hp falls") and pass 10's intent ("the frame bleeds") both want the pulse LEGIBLE at onset, then deeper.
+Fix (light.rb, mine; two display rows, no magic numbers): `low_hp_alpha_floor` 0.75 and `low_hp_breath_floor` 0.85 ->
+onset alpha ~96-113 (was 42-71), full depth 128-150; depth still carries "how badly", breath still pulses. Gate owed:
+district_hunt (row) + world_loop (base vignette / no false pulse at full hp). With this, every failing row of wall #4
+so far (10 across 6 scripts) has a named cause and a fix or a corrected row on the branch.

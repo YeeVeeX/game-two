@@ -117,7 +117,14 @@ module App
         depth = 1.0 - possessed.hp.fdiv([possessed.max_hp * @display.fetch(:low_hp_pct), 1].max)
         ph = world.frame % 40
         breath = ph < 20 ? ph / 20.0 : (40 - ph) / 20.0
-        a = (@display.fetch(:low_hp_alpha) * (0.45 + 0.55 * depth) * (0.6 + 0.4 * breath)).round
+        # Wall #4 (district_hunt low_hp_pulse_reads, 2026-09-06): the old floor
+        # 0.45 x 0.6 = 27% of low_hp_alpha (~41) at onset sat UNDER the base
+        # vignette (130) on a warm floor - measured dR 0..11, scene noise. The
+        # pulse must READ the moment hp crosses low_hp_pct, then deepen; the
+        # floors are display rows. Depth still carries "how badly", breath the pulse.
+        af = @display.fetch(:low_hp_alpha_floor)
+        bf = @display.fetch(:low_hp_breath_floor)
+        a = (@display.fetch(:low_hp_alpha) * (af + (1.0 - af) * depth) * (bf + (1.0 - bf) * breath)).round
         draw_vignette(view_w, view_h, a, rgb: @display.fetch(:low_hp_rgb))
       end
       safe = map.respond_to?(:safe?) ? map.safe? : false

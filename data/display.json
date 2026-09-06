@@ -281,6 +281,8 @@
  "low_hp_pct": 0.3,
  "low_hp_alpha": 150,
  "low_hp_rgb": [120, 16, 48],
+ "low_hp_alpha_floor": 0.75,
+ "low_hp_breath_floor": 0.85,
  "vignette_alpha": 130,
  "vignette_alpha_safe": 70,
  "minimap": true,
