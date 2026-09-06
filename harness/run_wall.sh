@@ -16,6 +16,12 @@ export PATH="/c/Ruby34-x64/bin:$PATH"
 cd "$(dirname "$0")/.." || exit 1
 
 TAG="${1:-$(date +%Y%m%d_%H%M%S)}"
+# The wall judges the DEFAULT checklist only. An exported CHECKS (e.g. a
+# netplay gate's harness/net/gate_checks.json left in the shell) would leak
+# into every `rake gate` below and poison the pin ledger (T0 d5) — drop it.
+# SKIP_CRITIC=1 stays a legal iteration mode: gates run determinism-only and
+# pins.rb REFUSES each pin (named in the teed log) — the ledger stays honest.
+unset CHECKS
 mkdir -p tmp/wall
 fails=""
 count=0

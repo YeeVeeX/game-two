@@ -14,8 +14,8 @@ class PinsTest < Minitest::Test
   LEDGER = File.join(ROOT, "harness", "pins.json")
   RUBY = RbConfig.ruby
 
-  def run_pins(*args)
-    out = IO.popen([RUBY, SCRIPT, *args], err: [:child, :out], chdir: ROOT, &:read)
+  def run_pins(*args, env: {})
+    out = IO.popen(env, [RUBY, SCRIPT, *args], err: [:child, :out], chdir: ROOT, &:read)
     [out, $?.exitstatus]
   end
 
@@ -105,6 +105,46 @@ class PinsTest < Minitest::Test
       assert_equal 2, rc
       assert_includes out, "usage:"
     end
+  end
+
+  # --- E1 (T0 d5): a pin claims a critic judged the frames against the WALL
+  # checklist — SKIP_CRITIC=1 (determinism-only) and CHECKS overrides (the
+  # netplay checklist) must refuse to record. Netplay gates never record pins
+  # (outside harness/scripts/), so gating itself stays unaffected.
+
+  def test_record_refuses_under_skip_critic
+    Dir.mktmpdir do |dir|
+      path = File.join(dir, "pins.json")
+      out, rc = run_pins("record", "--pins", path, "--script", "x", "--tag", "t",
+                         "--gate-rc", "0", "--manifest-rc", "0", env: { "SKIP_CRITIC" => "1" })
+      assert_equal 2, rc, out
+      assert_includes out, "SKIP_CRITIC=1"
+      refute File.exist?(path), "a SKIP_CRITIC run must not create or append the ledger"
+    end
+  end
+
+  def test_record_refuses_under_a_checks_override_but_allows_the_default
+    Dir.mktmpdir do |dir|
+      path = File.join(dir, "pins.json")
+      out, rc = run_pins("record", "--pins", path, "--script", "x", "--tag", "t",
+                         "--gate-rc", "0", "--manifest-rc", "0",
+                         env: { "CHECKS" => "harness/net/gate_checks.json" })
+      assert_equal 2, rc, out
+      assert_includes out, "CHECKS override"
+      refute File.exist?(path)
+
+      # CHECKS explicitly set to the default is not an override.
+      out, rc = run_pins("record", "--pins", path, "--script", "x", "--tag", "t",
+                         "--gate-rc", "0", "--manifest-rc", "0",
+                         env: { "CHECKS" => "harness/gate_checks.json" })
+      assert_equal 0, rc, out
+      assert_includes out, "PIN recorded: x"
+    end
+  end
+
+  def test_run_wall_drops_an_exported_checks_override
+    wall = File.read(File.join(ROOT, "harness", "run_wall.sh"))
+    assert_includes wall, "unset CHECKS", "run_wall.sh must drop an exported CHECKS (T0 d5)"
   end
 
   # --- E1 (T0 d4): pins + verdict log write to the MAIN clone's ledger from

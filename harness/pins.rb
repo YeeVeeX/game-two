@@ -11,6 +11,11 @@
 #       appends {script, tag, commit, date, gate_rc, manifest_rc}. Called by
 #       harness/run_wall.sh after EVERY script (so a sweep killed midway still
 #       leaves the pins it earned). commit = HEAD of the tree the sweep ran in.
+#       REFUSES under SKIP_CRITIC=1 or a non-default CHECKS override (T0 d5:
+#       a pin says a critic judged the frames against the WALL checklist —
+#       a determinism-only or netplay-checklist run must never read as
+#       PINNED). Netplay gates live outside harness/scripts/ and never
+#       record pins, so the refusal keys on pin RECORDING, not on gating.
 #
 #   ruby harness/pins.rb report [--pins <path>] [--scripts <dir>]
 #       one line per wall script: PINNED (verdict current), STALE (render/sim
@@ -52,6 +57,7 @@ module Harness
 
     DEFAULT_PATH = File.join(main_repo_root, "harness", "pins.json")
     DEFAULT_SCRIPTS = File.expand_path("scripts", __dir__)
+    DEFAULT_CHECKS = "harness/gate_checks.json"
     RENDER_PATHS = %w[src/app src/game data].freeze
     REQUIRED = %w[script tag commit date gate_rc manifest_rc].freeze
 
@@ -70,9 +76,16 @@ module Harness
       raise Refusal, "pins: #{path} is not valid JSON (#{e.message[0, 80]})"
     end
 
-    def self.record(path:, script:, tag:, gate_rc:, manifest_rc:, commit: nil, date: nil)
+    def self.record(path:, script:, tag:, gate_rc:, manifest_rc:, commit: nil, date: nil, env: ENV)
       raise Refusal, "pins record: --script is required" if script.nil? || script.empty?
       raise Refusal, "pins record: --tag is required" if tag.nil? || tag.empty?
+      if env["SKIP_CRITIC"] == "1"
+        raise Refusal, "pins record: SKIP_CRITIC=1 run is determinism-only (no critic judged the frames) — pin not recorded"
+      end
+      checks = env["CHECKS"]
+      if checks && checks != DEFAULT_CHECKS
+        raise Refusal, "pins record: CHECKS override (#{checks}) — a wall pin means the DEFAULT checklist judged the frames; pin not recorded"
+      end
       [["gate-rc", gate_rc], ["manifest-rc", manifest_rc]].each do |name, v|
         raise Refusal, "pins record: --#{name} must be an integer (got #{v.inspect})" unless v.to_s.match?(/\A\d+\z/)
       end
