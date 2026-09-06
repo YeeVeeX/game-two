@@ -387,6 +387,10 @@ alerta "bash aberto 240 s" em toda raia que roda `rake` (3–4 min) — é falso
 glob — o Git Bash expande antes.
 
 
+**Lei do banco (paga em 2026-09-06 16:31):** um poll que sai por TIMEOUT não é um DONE. Antes de bancar
+uma leva de gates ou uma parede: `grep -c 'DONE' <log>` = 1 **e** `tasklist //FI "IMAGENAME eq ruby.exe"` = 0,
+no MESMO teste — senão o log banca N/M como M/M e o worktree de referência some antes do último `--ref`.
+
 ---
 
 ## 🇬🇧 How to run the game (Windows)

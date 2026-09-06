@@ -973,7 +973,7 @@ module App
       Gosu.draw_rect(x - pad, y - pad, w + 2 * pad, hud_font.height + 2 * pad,
                      color(@display.fetch(:cue_backing_rgb),
                            @display.fetch(:cue_backing_alpha)), 9)
-      hud_font.draw_text(text, x, y, 10, 1, 1,
+      hud_font.draw_text(text, x, y, 18, 1, 1,
                          color(@display.fetch(:cue_text_rgb)))
     end
 
@@ -1708,7 +1708,7 @@ module App
                                             frames_total: entry[:frames_total], top: 48)
       end
       x = (view_width(world) - font.text_width(text)) / 2
-      font.draw_text(text, x, 48, 10, 1, 1, BANNER)
+      font.draw_text(text, x, 48, 18, 1, 1, BANNER)
     end
 
     # Shared court-stamp delivery: the banner-slot stamps AND the breach
