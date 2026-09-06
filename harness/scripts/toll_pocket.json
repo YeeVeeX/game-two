@@ -7,29 +7,175 @@
   "start": {
     "zone": "basement_2",
     "banked": 60,
-    "progression": { "level": 5, "xp": 0 }
+    "progression": {
+      "level": 5,
+      "xp": 0
+    }
   },
   "hold": {
     "attack": [
-      [60, 60], [100, 100], [140, 140], [180, 180],
-      [220, 220], [260, 260], [300, 300], [340, 340],
-      [700, 700], [740, 740], [780, 780], [820, 820],
-      [860, 860], [900, 900], [940, 940], [980, 980],
-      [1020, 1020], [1060, 1060], [1100, 1100], [1140, 1140]
+      [
+        60,
+        60
+      ],
+      [
+        100,
+        100
+      ],
+      [
+        140,
+        140
+      ],
+      [
+        180,
+        180
+      ],
+      [
+        220,
+        220
+      ],
+      [
+        260,
+        260
+      ],
+      [
+        300,
+        300
+      ],
+      [
+        340,
+        340
+      ],
+      [
+        700,
+        700
+      ],
+      [
+        740,
+        740
+      ],
+      [
+        780,
+        780
+      ],
+      [
+        820,
+        820
+      ],
+      [
+        860,
+        860
+      ],
+      [
+        900,
+        900
+      ],
+      [
+        940,
+        940
+      ],
+      [
+        980,
+        980
+      ],
+      [
+        1020,
+        1020
+      ],
+      [
+        1060,
+        1060
+      ],
+      [
+        1100,
+        1100
+      ],
+      [
+        1140,
+        1140
+      ]
     ],
-    "down": [[960, 988], [1200, 1204]],
-    "swap": [[480, 480], [580, 580]],
+    "down": [
+      [
+        200,
+        200
+      ],
+      [
+        960,
+        988
+      ],
+      [
+        1200,
+        1204
+      ]
+    ],
+    "swap": [
+      [
+        480,
+        480
+      ],
+      [
+        580,
+        580
+      ]
+    ],
     "interact": [
-      [545, 545], [1250, 1250], [1290, 1290], [1330, 1330]
+      [
+        220,
+        220
+      ],
+      [
+        545,
+        545
+      ],
+      [
+        1250,
+        1250
+      ],
+      [
+        1290,
+        1290
+      ],
+      [
+        1330,
+        1330
+      ]
+    ],
+    "right": [
+      [
+        20,
+        20
+      ]
+    ],
+    "left": [
+      [
+        40,
+        40
+      ],
+      [
+        205,
+        205
+      ]
     ]
   },
-  "captures": [180, 530, 560, 620, 740, 960, 1130, 1290],
+  "captures": [
+    180,
+    530,
+    560,
+    620,
+    740,
+    960,
+    1130,
+    1290
+  ],
   "run_until": 1400,
   "manifest": {
-    "zone_entered": 3,
-    "seal_breached": 1,
-    "actor_died": 8,
-    "drop_spawned": 6,
+    "zone_entered": 2,
+    "actor_died": 1,
+    "drop_spawned": 1,
     "drop_picked_up": 1
-  }
+  },
+  "_doc": [
+    "re-author 2026-09-06 (Junior; census red since wall #2: 0 deaths / 0 breach in 1400 f): the LDtk import moved basement_2 - the possessed blocker spawns at [3,5] FACING EAST while husk0 sits at [2,6] (SW), so all 20 `attack` presses hit empty tiles and the husks (coward: true) never engage unless provoked. Fix: `right` f20 + `left` f40 = back on [3,5] FACING WEST (arc [2,4..6] holds husk0; a 1-frame tap always steps one tile, so orientation comes from a step that ENDS on the start tile), husk0 dies ~f148 (5 hits), then `down` f200 + `left` f205 step onto the drop at [2,6], `interact` f220 picks it up. Manifest RE-CUT TO OBSERVED per run (E1.4 law): zone_entered 2, actor_died 1, drop_spawned 1, drop_picked_up 1; seal_breached dropped - the pack never reaches the seal at [6,2] in this geometry (the old 8 deaths / 6 drops / 1 breach described a basement_2 that no longer exists). The old swap/down/interact holds after f480 stay (harmless)."
+  ]
 }

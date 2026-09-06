@@ -255,3 +255,8 @@ PIN recorded: world_loop tag=build4re2 commit=43b6e0e gate_rc=0 manifest_rc=0
 === world_loop         gate_rc=0 manifest_rc=0 captures_vs_ref=- ===
 GATE BATCH build4re2 DONE 17:16:21 (31 min)
 # re-gate 2 total: 2 PASS / 2
+
+## toll_pocket re-authored @ e0cfbb5+ (the census' last red): gate_rc=0 manifest_rc=1
+=== REGATE toll_pocket 17:22:20 ===
+=== toll_pocket        gate_rc=0 manifest_rc=1 captures_vs_ref=- ===
+GATE BATCH build4toll DONE 17:24:46 (2 min)

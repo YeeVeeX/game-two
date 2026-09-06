@@ -541,3 +541,13 @@ and the haloed text at :976 z 10 -> 18 (above the vignette, below the HUD) - the
 JUNIOR.md carries the bank law (a poll timeout is not DONE) - and it fired for real at 17:11 (DONE=0, ruby=2 -> not banked).
 Wall #4 fully closed: every one of the 20 failing rows has a named cause and a green re-gate or a corrected row;
 toll_pocket (E-ticket) is the one red left in the census.
+
+### E-ticket: `toll_pocket` RE-AUTHORED (17:2x) - census 41/42 -> 42/42; gate gate_rc=0 manifest_rc=1
+Root cause (measured): the LDtk import moved basement_2 - the possessed blocker spawns at [3,5] FACING EAST, husk0 sits at
+[2,6] (SW): all 20 attacks hit empty tiles; husks are `coward: true` and never engage unless provoked -> 0 deaths in 1400 f.
+A 1-frame tap always STEPS one tile (measured: left -> [2,5]), so orientation comes from a step that ends on the start tile:
+`right` f20 + `left` f40 = [3,5] facing west, arc holds husk0; husk0 dies f148 (5 hits, 1 drop); `down`/`left` f200/205 step
+onto the drop, `interact` f220 picks it up. Manifest re-cut to OBSERVED per run (E1.4 law): zone_entered 2 / actor_died 1 /
+drop_spawned 1 / drop_picked_up 1; seal_breached dropped (the pack never reaches [6,2] here; the old 8/6/1 described a
+basement_2 that no longer exists - named for the owner if the toll beat matters). Second census re-author of the session
+(basement_pocket was the first) on Junior's "continua" - a peer's sequencing call, recorded.
