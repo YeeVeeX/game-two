@@ -55,6 +55,7 @@ previous.each do |p|
   sweep = bl.select { |b| b[:mode] == "WALL" }
   sweep.each { |b| b[:rows].each_key { |row| h = hist[[b[:script], row]]; h[:sweep] += 1; h[:where] << tag } }
   bl.select { |b| b[:mode] == "REGATE" }.each do |b|
+    next if b[:gate_rc].nil? || b[:rows].key?("INFRA") # unfinished / infra-only re-gate proves nothing
     failed_rows = sweep.select { |s| s[:script] == b[:script] }.flat_map { |s| s[:rows].keys }.uniq
     failed_rows.each do |row|
       if b[:rows].key?(row)

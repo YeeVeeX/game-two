@@ -499,3 +499,23 @@ still up and the star is gone; the critic inferred "a hit beat" from the numeral
 means the hit is older than the star's life, not a missing star; judge within a dozen frames of a hit. No pixel changed.
 Wall #4 score at 22/42: 14 rows / 9 scripts, all with a named cause (7 drawings fixed on the branch, 6 rows corrected,
 2 flip-prone). Close procedure unchanged (pause note); wall ETA ~13:40.
+
+### 13:45 — wall #4 CLOSED (44 scripts, 16 gate fails, 1 manifest fail = toll_pocket); 25-gate close batch RUNNING; fixes review in
+Sweep verdicts: `tmp/wall/sweep_build4_filtered.log` (banked at the close). Last four scripts classified: `tower3_run
+hurt_flash_not_white` = the possessed is a PETRIFIED stone block (white square, TOWER serpents petrify) taking 12 - a named
+state tint, not a hurt flash -> row clause at close; `zone8_crossing impact_fx` = bright spark + numeral-outlives-star (on
+branch); `zone8_crossing no_render_garbage` = REAL: thin grey-blue lines across walkable ground at two y's + one vertical
+(the reel is Gabriel's E1.5 re-author on DUNGEON 1 = the first time that zone's render is judged with the dual-grid tileset)
+-> measure at high zoom after the gates (tile seam vs palette `grid`); `tower2_run lobber_reach_reads` (volley 2 tiles, not
+4 at LEVEL 10) -> measure after the gates. Final sweep score: 20 rows / 16 scripts - 18 named (7 drawings fixed, 7 rows
+corrected/to correct, 4 sampling/flip-prone), 2 to measure (zone8 seam, tower2 volley).
+Fresh-eyes review of the 12 fix commits (`drafts/_review-wall4-fixes-freshEyes-20260906.md`): MERGEABLE WITH MINORS; sim/
+digest/net untouched (diff empty), suite 1538/0, canaries YES x3. Queue for the CLOSE commit (nothing touched while the
+gates read these files): MAJOR gate_batch --ref: read out_dir from the script JSON, tot=0 -> NO-CAPTURES (never
+IDENTICAL(0)), count ref-only files; gate_batch prints `=== REGATE` so wall_triage sees batch re-gates; arg-parse guards;
+wall_triage skips REGATE blocks with nil gate_rc / INFRA-only; halo contour as the SAME ellipse at rx+1/ry+1 (closed
+outline, not a per-row staircase); zone banner z 10 -> 18 and safe-chip backing z 0 -> 19 (same class as the overlay fix);
+fx.rb stale "CRIMSON" comment + chip rgb 235,60,60 -> display row; impact_fx_reads "~14" -> "~12" (Fx::SPARK_FRAMES);
+signage_test range asserts (low_hp_band_* < 0.22/0.28, floors <= 1); petrify clause on hurt_flash_not_white. Then re-gate
+boss2_phases + world_loop + town_gates for the halo/banner/chip pixel changes (3 gates). Named for the netplay side (not
+wall-visible): partner halo contour + aura falloff keyed on @local_seat, ControlsOverlay now above the netplay end veil.

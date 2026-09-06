@@ -26,7 +26,7 @@ export PATH="/c/Ruby34-x64/bin:$PATH" CRITIC_TRANSPORT="${CRITIC_TRANSPORT:-gate
 tag="${1:-}"; shift || true
 ref=""
 if [ "${1:-}" = "--ref" ]; then ref="${2:-}"; shift 2; fi
-if [ -z "$tag" ] || [ $# -eq 0 ]; then
+if [ -z "$tag" ] || [[ "$tag" == --* ]] || [ $# -eq 0 ] || [[ "${1:-}" == --* ]]; then
   echo "usage: tools/gate_batch.sh <tag> [--ref <captures_root>] <scripts...>"; exit 2
 fi
 if [ "$(tasklist //FI "IMAGENAME eq ruby.exe" 2>/dev/null | grep -c ruby.exe)" -ne 0 ]; then
@@ -38,20 +38,28 @@ t0=$(date +%s)
 for s in "$@"; do
   [ -f "harness/scripts/$s.json" ] || { echo "=== $s: no such script - skipped ==="; summary+=("$(printf '%-18s SKIPPED (no script)' "$s")"); continue; }
   log="tmp/wall/gate_${tag}_${s}.log"
-  echo "=== GATE $s $(date +%H:%M:%S) ==="
+  echo "=== REGATE $s $(date +%H:%M:%S) ==="
   bundle exec rake gate SCRIPT="harness/scripts/$s.json" > "$log" 2>&1
   rc=$?
   grep -E "^GATE (vision|determinism)|\[FAIL\]|INFRA" "$log" | cut -c1-200
   ruby harness/manifest_check.rb "harness/scripts/$s.json" "$log" > /dev/null 2>&1; mrc=$?
   cmpres="-"
-  if [ -n "$ref" ] && [ -d "$ref/${s}_gate_a" ]; then
-    diff_n=0; tot=0
-    for f in captures/${s}_gate_a/*.png; do
+  if [ -n "$ref" ]; then
+    # out_dir from the script JSON (5 wall scripts use captures/pilot/<x>_replay, not captures/<s>) -
+    # the Rakefile derives <out_dir>_gate_a; the reference lives under <ref>/<basename of out_dir>_gate_a
+    od="$(python -c "import json,sys;print(json.load(open(sys.argv[1],encoding='utf-8')).get('out_dir','captures/$s'))" "harness/scripts/$s.json" 2>/dev/null || echo "captures/$s")"
+    mine="${od}_gate_a"; theirs="$ref/$(basename "$od")_gate_a"
+    diff_n=0; tot=0; ref_only=0
+    for f in "$mine"/*.png; do
       [ -f "$f" ] || continue
       b="$(basename "$f")"; tot=$((tot+1))
-      if [ ! -f "$ref/${s}_gate_a/$b" ] || ! cmp -s "$f" "$ref/${s}_gate_a/$b"; then diff_n=$((diff_n+1)); fi
+      if [ ! -f "$theirs/$b" ] || ! cmp -s "$f" "$theirs/$b"; then diff_n=$((diff_n+1)); fi
     done
-    if [ "$diff_n" -eq 0 ]; then cmpres="IDENTICAL($tot)"; else cmpres="DIFFERS($diff_n/$tot)"; fi
+    for f in "$theirs"/*.png; do [ -f "$f" ] && [ ! -f "$mine/$(basename "$f")" ] && ref_only=$((ref_only+1)); done
+    if [ "$tot" -eq 0 ]; then cmpres="NO-CAPTURES"            # never IDENTICAL(0): a proof needs frames
+    elif [ ! -d "$theirs" ]; then cmpres="NO-REF($tot)"
+    elif [ "$diff_n" -eq 0 ] && [ "$ref_only" -eq 0 ]; then cmpres="IDENTICAL($tot)"
+    else cmpres="DIFFERS($diff_n/$tot${ref_only:+,ref_only=$ref_only})"; fi
   fi
   if [ "$rc" -eq 0 ] && [ "$mrc" -eq 0 ]; then
     ruby harness/pins.rb record --script "$s" --tag "$tag" --gate-rc 0 --manifest-rc 0 2>&1 | cut -c1-110

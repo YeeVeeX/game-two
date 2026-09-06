@@ -1105,13 +1105,15 @@ module App
       # dark AND light floors. Drawn first, one pixel wider than every slice plus
       # one row above and below the ellipse.
       contour = Gosu::Color.new(@display.fetch(:possess_halo_contour_alpha), *@display.fetch(:possess_halo_contour_rgb))
-      (-ry..ry).each do |dy|
-        t = dy.to_f / (ry + 0.5)
-        hw = Math.sqrt([1.0 - t * t, 0.0].max) * rx
+      # closed outline = the SAME ellipse one pixel larger (rx+1, ry+1), drawn
+      # first; the gold slices land inside it. (Landing review: a per-row w+2
+      # contour was a staircase with bare gold at every step.)
+      (-(ry + 1)..(ry + 1)).each do |dy|
+        t = dy.to_f / (ry + 1.5)
+        hw = Math.sqrt([1.0 - t * t, 0.0].max) * (rx + 1)
         w = (hw * 2).round
         next if w <= 0
-        Gosu.draw_rect((cx - hw).round - 1, (cy + dy).round, w + 2, 1, contour)
-        Gosu.draw_rect((cx - hw).round + 1, (cy + dy).round + (dy.negative? ? -1 : 1), [w - 2, 1].max, 1, contour) if dy.abs == ry
+        Gosu.draw_rect((cx - hw).round, (cy + dy).round, w, 1, contour)
       end
       (-ry..ry).each do |dy|
         t = dy.to_f / (ry + 0.5)
@@ -1664,7 +1666,7 @@ module App
       y = @display.fetch(:safe_chip_y)
       pad = 6
       Gosu.draw_rect(x, y, hud_font.text_width(text) + pad * 2, 18,
-                     Gosu::Color.new(@display.fetch(:safe_chip_backing_alpha), *BEAT_PANEL))
+                     Gosu::Color.new(@display.fetch(:safe_chip_backing_alpha), *BEAT_PANEL), 19)
       hud_font.draw_text(text, x + pad, y + 2, 20, 1, 1,
                          color(@display.fetch(:safe_chip_rgb),
                                @display.fetch(:safe_chip_alpha)))

@@ -190,21 +190,26 @@ module App
       cx = c.tile[0] * ts + ts / 2
       cy = c.tile[1] * ts + ts / 2
       rgb = @display.fetch(:aura_rgb)
+      z = -1 # GROUND layer: under every body (wall #4 re-gate: fills at z 0 tinted bodies drawn earlier in the sorted pass)
       fill_a = (@display.fetch(:aura_fill_alpha_max) * (1.0 - phase * 0.5) * pct).round
-      Gosu.draw_rect(cx - reach, cy - reach, reach * 2, reach * 2, Gosu::Color.new(fill_a, *rgb)) if fill_a.positive?
+      # scorched dark red, not the outline's orange: "lit" is light, "scorched" is danger
+      Gosu.draw_rect(cx - reach, cy - reach, reach * 2, reach * 2, Gosu::Color.new(fill_a, *@display.fetch(:aura_fill_rgb)), z) if fill_a.positive?
       t = @display.fetch(:aura_line_px)
       ca = (@display.fetch(:aura_contour_alpha) * pct).round
       contour = Gosu::Color.new(ca, *@display.fetch(:aura_contour_rgb))
-      Gosu.draw_rect(cx - reach - 1, cy - reach - 1, reach * 2 + 2, 1, contour)
-      Gosu.draw_rect(cx - reach - 1, cy + reach, reach * 2 + 2, 1, contour)
-      Gosu.draw_rect(cx - reach - 1, cy - reach - 1, 1, reach * 2 + 2, contour)
-      Gosu.draw_rect(cx + reach, cy - reach - 1, 1, reach * 2 + 2, contour)
+      Gosu.draw_rect(cx - reach - 1, cy - reach - 1, reach * 2 + 2, 1, contour, z)
+      Gosu.draw_rect(cx - reach - 1, cy + reach, reach * 2 + 2, 1, contour, z)
+      Gosu.draw_rect(cx - reach - 1, cy - reach - 1, 1, reach * 2 + 2, contour, z)
+      Gosu.draw_rect(cx + reach, cy - reach - 1, 1, reach * 2 + 2, contour, z)
       alpha = (@display.fetch(:aura_alpha_max) * (1.0 - phase * 0.7) * pct).round
       col = Gosu::Color.new(alpha, *rgb)
-      Gosu.draw_rect(cx - reach, cy - reach, reach * 2, t, col)
-      Gosu.draw_rect(cx - reach, cy + reach - t, reach * 2, t, col)
-      Gosu.draw_rect(cx - reach, cy - reach, t, reach * 2, col)
-      Gosu.draw_rect(cx + reach - t, cy - reach, t, reach * 2, col)
+      Gosu.draw_rect(cx - reach, cy - reach, reach * 2, t, col, z)
+      Gosu.draw_rect(cx - reach, cy + reach - t, reach * 2, t, col, z)
+      Gosu.draw_rect(cx - reach, cy - reach, t, reach * 2, col, z)
+      Gosu.draw_rect(cx + reach - t, cy - reach, t, reach * 2, col, z)
+      # the BEARER: a hot dot under its feet (the square's source; "no bearer at center" was the critic's read)
+      d = @display.fetch(:aura_bearer_dot_px)
+      Gosu.draw_rect(cx - d / 2, cy - d / 2, d, d, Gosu::Color.new((230 * pct).round, *@display.fetch(:aura_bearer_dot_rgb)), z)
     end
 
     def draw_pressure_outline(c, x, y, world)

@@ -71,6 +71,10 @@ class SignageTest < Minitest::Test
     %i[aura_rgb aura_alpha_max aura_fill_alpha_max aura_line_px aura_contour_rgb aura_contour_alpha
        aura_near_tiles aura_far_tiles aura_far_alpha_pct].each { |k| assert display.key?(k), "display.json lacks #{k}" }
     assert_operator display[:aura_fill_alpha_max], :<, 64, "the fill stays translucent: the square never 'fills in' (gate row)"
+    assert_operator display[:low_hp_band_w_pct], :<, 0.22, "the low-hp pulse is an EDGE bleed: narrower than the base vignette"
+    assert_operator display[:low_hp_band_h_pct], :<, 0.28, "the low-hp pulse is an EDGE bleed: narrower than the base vignette"
+    assert display[:low_hp_alpha_floor].between?(0, 1) && display[:low_hp_breath_floor].between?(0, 1), "floors are fractions"
+    assert_operator display[:aura_bearer_dot_px], :<=, 8, "the bearer dot is a hint under the body, not a marker over it"
     assert_includes App::Renderer.private_instance_methods, :draw_aura, "draw_aura lives in Signage, private on the Renderer"
   end
 

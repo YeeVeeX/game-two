@@ -256,7 +256,7 @@ module App
       len = age < 4 ? 4 + age * 3 : (16 - (age - 4) * 1.6).round
       thick = age < 4 ? 3 : (age < 8 ? 2 : 1)
       a = (255 * (1.0 - t)).round
-      # a PACK victim's spark is CRIMSON (the hurt-flash law: never white on
+      # a PACK victim's spark is BRIGHT (warm-white core, amber arms - display rows fx_spark_pack_*) (the hurt-flash law: never white on
       # your bodies - basement_pocket wall #3 read the pale star as a white
       # flash); a hostile's spark stays warm white (the "hit landed" read)
       # strict rows (display.json declares them; a missing row is a boot error)
@@ -280,7 +280,7 @@ module App
       CHIP_DIRS.first(3).each_with_index do |(dx, dy), k|
         cx = x + dx * (age * 2.2 + k)
         cy = y + dy * (age * 1.6) + (age * age) / 9.0
-        Gosu.draw_rect(cx, cy, 2, 2, p[:pack] ? Gosu::Color.new(a, 235, 60, 60) : warm, z)
+        Gosu.draw_rect(cx, cy, 2, 2, p[:pack] ? Gosu::Color.new(a, *@display.fetch(:fx_spark_chip_rgb)) : warm, z)
       end
     end
 
