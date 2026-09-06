@@ -98,4 +98,84 @@ class BossPhasesTest < Minitest::Test
     assert_equal a, Net::StateDigest.canonical(w2.digest_snapshot)
     assert world.digest_snapshot.to_s.include?("boss_skill_index")
   end
+
+  # --- E0 (T0 BLOCKER a1): the begun skill is the resolved skill ---------
+  #
+  # begin_action advances the rotation at start; before E0 action_config
+  # re-read the MERGED kit, so a cast that began as skill N reported and
+  # resolved as skill N+1 (and ember_boss phase 2 [dash, beam] crashed on a
+  # nil @dash_plan when the advanced index pointed at the dash). The begun
+  # skill is observed INDEPENDENTLY of action_config — the windup length
+  # actually counted (set from the begun cfg at begin_action) and the dash
+  # plan's presence (reserved_tile) — because before the fix EVERY
+  # action_config read (handler, windup poll, active poll) agreed on the
+  # same wrong skill; only the physics of the cast told the truth.
+
+  def drive_casts(kind, hp_pct:, ticks:, dist:)
+    stage!(kind, dist:)
+    boss = world.humans.find { |h| h.kit_name == kind }
+    boss.load_hp!((boss.max_hp * hp_pct) / 100)
+    input = scripted({})
+    casts = []
+    prev = :idle
+    ticks.times do
+      frozen = world.feel.hitstop?
+      input.update(world.frame)
+      world.tick(input)
+      state = boss.attack_state
+      if state == :windup && prev != :windup && boss.current_action == :attack
+        casts << { reported_arc: boss.action_config[:arc],
+                   reported_windup: boss.action_config[:windup_frames],
+                   dash_planned: !boss.reserved_tile.nil?,
+                   observed_windup: 1 }
+      elsif state == :windup && prev == :windup && casts.any? && !frozen
+        casts.last[:observed_windup] += 1
+      elsif state == :active && prev == :windup && casts.any?
+        casts.last[:resolved_arc] = boss.action_config[:arc]
+        # Physical signal (reviewer MINOR 1): a spread launches boss-owned
+        # projectiles at active entry; melee arcs must not — keeps the test
+        # convicting even if a retune ever equalizes the phase's windups.
+        casts.last[:projectile] = world.projectiles.any? { |p| p.owner.equal?(boss) }
+      elsif state == :idle && casts.any?
+        # Reviewer MINOR 2: the snapshot must DIE with the cast — idle
+        # between casts means @action_cfg was cleared, not just masked.
+        assert_nil boss.instance_variable_get(:@action_cfg),
+                   "@action_cfg leaked past the cast that set it"
+      end
+      prev = state
+    end
+    [boss, casts]
+  end
+
+  def test_started_skill_equals_reported_and_resolved_skill_across_a_multi_skill_phase
+    _boss, casts = drive_casts(:serpent_boss, hp_pct: 50, ticks: 400, dist: 3) # phase 2: [spread 30f, arc3 40f]
+    resolved = casts.select { |c| c[:resolved_arc] }
+    assert_operator resolved.length, :>=, 2, "staging: fewer than two casts reached active: #{casts}"
+    resolved.each do |c|
+      assert_equal c[:reported_windup], c[:observed_windup],
+                   "the windup that RAN is not the reported skill's windup — " \
+                   "the cast began as one skill and reports another: #{casts}"
+      assert_equal c[:reported_arc], c[:resolved_arc],
+                   "a cast changed skill between start and resolution: #{casts}"
+      assert_equal c[:reported_arc] == "spread", c[:projectile],
+                   "a spread must launch boss projectiles at active entry; a melee arc must not: #{casts}"
+    end
+    assert_operator resolved.map { |c| c[:reported_arc] }.uniq.length, :>=, 2,
+                    "staging: the phase never rotated through a second skill: #{casts}"
+  end
+
+  def test_ember_boss_multi_skill_phase_survives_and_dashes_carry_a_plan
+    # ember_boss phase 2 (hp <= 50) = [dash 26f, beam 44f]: with the
+    # off-by-one the cast after a beam start read the dash cfg and
+    # activate_action crashed the session on @dash_plan.duration (nil).
+    boss, casts = drive_casts(:ember_boss, hp_pct: 45, ticks: 300, dist: 5)
+    assert_operator casts.length, :>=, 2, "staging: the boss cast fewer than twice in 300 ticks: #{casts}"
+    casts.each do |c|
+      assert_equal c[:reported_windup], c[:observed_windup], "begun != reported: #{casts}" if c[:resolved_arc]
+      assert_equal c[:reported_arc] == "dash", c[:dash_planned],
+                   "a dash cast must plan its run at start; a non-dash cast must not: #{casts}"
+    end
+    assert casts.map { |c| c[:reported_arc] }.include?("beam"), "phase 2 must reach its beam: #{casts}"
+    assert boss # the drive completing IS the crash-regression assert
+  end
 end

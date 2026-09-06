@@ -28,6 +28,7 @@ module Game
       @attack_state = :idle
       @state_frames = 0
       @current_action = nil
+      @action_cfg = nil # E0: the begun skill's cfg, live windup -> recovery
       @action_frames = {}
       @hit_victims = []
       @action_triggered = false
@@ -119,7 +120,15 @@ module Game
     def staggered? = @stagger.positive?
     def action_active? = @attack_state == :active && !@current_action.nil?
     def telegraphing? = @attack_state == :windup
-    def action_config = @current_action && kit[@current_action]
+    # E0 (T0 BLOCKER a1): the cfg of the action IN FLIGHT, snapshotted at
+    # begin_action. A phased boss advances its rotation the moment a cast
+    # begins, so re-reading the merged `kit` here would resolve skill N+1
+    # for a cast that telegraphed skill N (ember_boss [dash, beam]: a beam
+    # start followed by a dash read crashed on a nil @dash_plan). nil when
+    # idle. Not digested: it is a pure function of leaves digested at the
+    # begin tick (kind, hp -> phase, boss_skill_index) — two seats can only
+    # disagree here if they already disagree there.
+    def action_config = @current_action && @action_cfg
     def special_committed? = @current_action == :special && %i[windup active].include?(@attack_state)
 
     def reserved_tile
@@ -595,6 +604,7 @@ module Game
       @attack_state = :idle
       @state_frames = 0
       @current_action = nil
+      @action_cfg = nil
       @action_frames = {}
       @hit_victims = []
       @action_triggered = false
@@ -649,6 +659,7 @@ module Game
     def begin_action(kind, active_frames: nil)
       cfg = kit.fetch(kind)
       @current_action = kind
+      @action_cfg = cfg # E0: every later reader (World resolve, renderer, activate) sees THIS skill
       @action_frames = {
         windup: cfg[:windup_frames],
         active: active_frames || cfg[:active_frames],
@@ -660,8 +671,13 @@ module Game
       @attack_state = :windup
       @state_frames = @action_frames[:windup]
       event = kind == :attack ? :attack_started : :special_started
+      # Payload shape stays {attacker:} on purpose: EventSerial.describe
+      # serializes EVERY key, special_started is a wall EVENT line (the
+      # sim-identity banks) and every registered event feeds the netplay
+      # digest. Handlers run at the frame's bus flush (after the advance
+      # below) and read the begun skill through attacker.action_config.
       @bus.emit(event, attacker: self)
-      advance_boss_skill! if kind == :attack   # FASE 5: next skill in the phase's rotation
+      advance_boss_skill! if kind == :attack   # FASE 5: next skill in the phase's rotation (the snapshot above keeps THIS cast on skill N)
       true
     end
 
