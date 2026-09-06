@@ -8,7 +8,7 @@ module App
   # value with a gold disc, POTION = provisions with a flask). Every value
   # already exists in the sim; nothing here reads the clock or lands in the
   # digest. Layout is FIXED (quiet-HUD law: numbers appear/disappear, the
-  # frame never shifts). Colors ride display.json with defaults.
+  # frame never shifts). Colors ride display.json (strict rows, E3 b5).
   #
   # The gate rows that judge this (hud_three_bars, carried_count_reads,
   # hud_level_strip_reads) keep their truths: three stacked kit-colored
@@ -49,10 +49,10 @@ module App
 
     # --- plate ---------------------------------------------------------------
     def draw_plate
-      x, y, w, h = @display.fetch(:hud_plate_rect, [20, 8, 352, 108])
-      a = @display.fetch(:hud_plate_alpha, 150)
-      Gosu.draw_rect(x, y, w, h, Gosu::Color.new(a, *@display.fetch(:hud_plate_rgb, [14, 10, 10])), 19)
-      edge = Gosu::Color.new(a + 40, *@display.fetch(:hud_plate_edge_rgb, [70, 56, 44]))
+      x, y, w, h = @display.fetch(:hud_plate_rect)
+      a = @display.fetch(:hud_plate_alpha)
+      Gosu.draw_rect(x, y, w, h, Gosu::Color.new(a, *@display.fetch(:hud_plate_rgb)), 19)
+      edge = Gosu::Color.new(a + 40, *@display.fetch(:hud_plate_edge_rgb))
       Gosu.draw_rect(x, y, w, 1, edge, 19)
       Gosu.draw_rect(x, y + h - 1, w, 1, edge, 19)
       Gosu.draw_rect(x, y, 1, h, edge, 19)
@@ -73,9 +73,9 @@ module App
       if mine
         Gosu.draw_rect(bx - 2, y - 2, bw + 4, BAR_H + 4, gold, 20)
         Gosu.draw_rect(bx - 1, y - 1, bw + 2, BAR_H + 2, dark, 20)
-      elsif m.dead? && (opx = @display.fetch(:hud_bar_down_outline_px, 1)).positive?
+      elsif m.dead? && (opx = @display.fetch(:hud_bar_down_outline_px)).positive?
         Gosu.draw_rect(bx - opx, y - opx, bw + 2 * opx, BAR_H + 2 * opx,
-                       rgb(@display.fetch(:hud_bar_down_outline_rgb, [140, 120, 110])), 20)
+                       rgb(@display.fetch(:hud_bar_down_outline_rgb)), 20)
       else
         Gosu.draw_rect(bx - 1, y - 1, bw + 2, BAR_H + 2, dark, 20)
       end
@@ -129,7 +129,7 @@ module App
       end
       if m.respond_to?(:seized_by) && m.seized_by
         Gosu.draw_rect(sx, y + 2, 10, 10, dark, 20)
-        Gosu.draw_rect(sx + 1, y + 3, 8, 8, rgb(@display.fetch(:seized_underline_rgb, [60, 100, 220])), 20)
+        Gosu.draw_rect(sx + 1, y + 3, 8, 8, rgb(@display.fetch(:seized_underline_rgb)), 20)
       end
     end
 
@@ -166,21 +166,21 @@ module App
       full = atlas.tile(@art.facing_row("down"), col)
       @portraits[key] =
         if full
-          ox = @display.fetch(:hud_portrait_ox, 5)
-          oy = @display.fetch(:hud_portrait_oy, 8)
+          ox = @display.fetch(:hud_portrait_ox)
+          oy = @display.fetch(:hud_portrait_oy)
           full.subimage(ox, oy, PORTRAIT, PORTRAIT)
         end
     end
 
     # --- level strip -------------------------------------------------------------
     def draw_level(prog)
-      sy = @display.fetch(:hud_level_y, 78)
+      sy = @display.fetch(:hud_level_y)
       font.draw_text("#{tr('hud.level', 'LEVEL')} #{prog.level}", 32, sy, 20, 1, 1, gold)
-      bx = @display.fetch(:hud_level_bar_x, 140)
-      bw = @display.fetch(:hud_level_bar_w, 200)
-      bh = @display.fetch(:hud_level_bar_h, 6)
+      bx = @display.fetch(:hud_level_bar_x)
+      bw = @display.fetch(:hud_level_bar_w)
+      bh = @display.fetch(:hud_level_bar_h)
       Gosu.draw_rect(bx - 1, sy + 3, bw + 2, bh + 2, dark, 20)
-      Gosu.draw_rect(bx, sy + 4, bw, bh, rgb(@display.fetch(:hud_level_back_rgb, [45, 32, 22])), 20)
+      Gosu.draw_rect(bx, sy + 4, bw, bh, rgb(@display.fetch(:hud_level_back_rgb)), 20)
       fill = prog.level >= prog.level_cap ? bw : (bw * prog.xp) / prog.delta_e(prog.level + 1)
       if fill.positive?
         Gosu.draw_rect(bx, sy + 4, fill, bh, gold, 20)
@@ -193,7 +193,7 @@ module App
 
     # --- chips: COINS (banked) · POTION (provisions) --------------------------------
     def draw_chips(world)
-      y = @display.fetch(:hud_chips_y, 94)
+      y = @display.fetch(:hud_chips_y)
       x = 32
       # coin disc
       draw_coin(x, y + 1)
@@ -242,7 +242,7 @@ module App
     end
 
     def draw_burn_icon(x, y)
-      o = rgb(@display.fetch(:art_burn_tint_rgb, [255, 140, 40]))
+      o = rgb(@display.fetch(:art_burn_tint_rgb))
       Gosu.draw_rect(x - 1, y, 12, 12, dark, 20)
       Gosu.draw_rect(x + 4, y + 1, 2, 2, o, 20)
       Gosu.draw_rect(x + 3, y + 3, 4, 2, o, 20)
@@ -252,7 +252,7 @@ module App
     end
 
     def draw_poison_icon(x, y)
-      g = rgb(@display.fetch(:art_poison_tint_rgb, [120, 235, 90]))
+      g = rgb(@display.fetch(:art_poison_tint_rgb))
       Gosu.draw_rect(x - 1, y, 12, 12, dark, 20)
       Gosu.draw_rect(x + 4, y + 1, 2, 2, g, 20)
       Gosu.draw_rect(x + 3, y + 3, 4, 2, g, 20)
@@ -263,13 +263,13 @@ module App
 
     # --- helpers -------------------------------------------------------------------
     def haloed(f, text, x, y, z, col)
-      hc = rgb(@display.fetch(:price_text_halo_rgb, [20, 14, 12]))
+      hc = rgb(@display.fetch(:price_text_halo_rgb))
       [[1, 0], [-1, 0], [0, 1], [0, -1]].each { |(dx, dy)| f.draw_text(text, x + dx, y + dy, z, 1, 1, hc) }
       f.draw_text(text, x, y, z, 1, 1, col)
     end
 
     def rgb(c, a = 255) = Gosu::Color.new(a, c[0], c[1], c[2])
-    def gold = @gold ||= rgb(@display.fetch(:hud_level_rgb, [200, 160, 80]))
+    def gold = @gold ||= rgb(@display.fetch(:hud_level_rgb))
     def dark = @dark ||= Gosu::Color.new(255, 16, 12, 12)
     def dim = @dim ||= Gosu::Color.new(255, 150, 138, 120)
     def font = @font ||= Gosu::Font.new(14)

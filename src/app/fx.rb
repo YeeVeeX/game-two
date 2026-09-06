@@ -26,7 +26,7 @@ module App
       @kit_body = kit_body
       @labels = labels
       @worlds = {}   # world -> { sparks:, bursts:, dust:, last_tile: {creature => tile} }
-      @enabled = display.fetch(:fx_enabled, true)
+      @enabled = display.fetch(:fx_enabled)
     end
 
     def state_for(world)
@@ -109,7 +109,7 @@ module App
         # melee, shots, poison/aura ticks and heals alike — no payload change)
         hp0 = st[:last_hp][c]
         st[:last_hp][c] = c.hp
-        if hp0 && hp0 != c.hp && @display.fetch(:fx_damage_numbers, true)
+        if hp0 && hp0 != c.hp && @display.fetch(:fx_damage_numbers)
           d = c.hp - hp0
           st[:nums] << { x: c.x + 14, y: c.y - 6, at: world.frame, text: (d.positive? ? "+#{d}" : (-d).to_s),
                          kind: d.positive? ? :heal : (c.faction == :pack ? :taken : :dealt),
@@ -169,7 +169,7 @@ module App
     end
 
     def callout!(st, world, c, kind)
-      return unless @display.fetch(:fx_ally_callouts, true)
+      return unless @display.fetch(:fx_ally_callouts)
       st[:callouts] << { c: c, kind: kind, at: world.frame, rgb: rgb_of(c) }
       st[:acts][c.kit_name] = world.frame
     end
@@ -240,8 +240,8 @@ module App
       f.draw_text(p[:text], x, y, z, 1, 1, col)
     end
 
-    def num_font = @num_font ||= Gosu::Font.new(@display.fetch(:fx_number_font_px, 13))
-    def big_font = @big_font ||= Gosu::Font.new(@display.fetch(:fx_number_big_px, 17))
+    def num_font = @num_font ||= Gosu::Font.new(@display.fetch(:fx_number_font_px))
+    def big_font = @big_font ||= Gosu::Font.new(@display.fetch(:fx_number_big_px))
 
     private
 

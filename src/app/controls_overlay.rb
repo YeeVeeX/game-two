@@ -139,20 +139,20 @@ module App
 
     def font = @font ||= Gosu::Font.new(font_size)
 
-    def strip_height = @display.fetch(:overlay_strip_height, 28)
-    def strip_alpha = @display.fetch(:overlay_strip_alpha, 140)
-    def font_size = @display.fetch(:overlay_font_size, 12)
+    def strip_height = @display.fetch(:overlay_strip_height)
+    def strip_alpha = @display.fetch(:overlay_strip_alpha)
+    def font_size = @display.fetch(:overlay_font_size)
     # C2 (uiux M5 adoption, s77 — drafts/_m5m6-adoption-20260825.md): label
     # source tone lifted from the old [160,152,140] constant — 12px verbs
     # measured ~3.4:1 rendered against the band, under the small-text 4.5
     # floor. Keyed, alpha arithmetic untouched: the −40 offset still keeps
     # verbs a step under the key glyphs (hierarchy carrier).
-    def label_rgb = @display.fetch(:overlay_label_rgb, [220, 210, 192])
-    def y_pad = @display.fetch(:overlay_y_pad, 6)
-    def x_start = @display.fetch(:overlay_x_start, 32)
-    def glyph_gap = @display.fetch(:overlay_glyph_gap, 8)
-    def section_gap = @display.fetch(:overlay_section_gap, 20)
-    def pulse_frames = @display.fetch(:overlay_pulse_frames, 45)
-    def pulse_alpha = @display.fetch(:overlay_pulse_alpha, 230)
+    def label_rgb = @display.fetch(:overlay_label_rgb)
+    def y_pad = @display.fetch(:overlay_y_pad)
+    def x_start = @display.fetch(:overlay_x_start)
+    def glyph_gap = @display.fetch(:overlay_glyph_gap)
+    def section_gap = @display.fetch(:overlay_section_gap)
+    def pulse_frames = @display.fetch(:overlay_pulse_frames)
+    def pulse_alpha = @display.fetch(:overlay_pulse_alpha)
   end
 end

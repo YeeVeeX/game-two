@@ -119,14 +119,14 @@ module App
 
     def tr(key, fallback) = @strings ? @strings.t(key, fallback) : fallback
 
-    def panel_w = @display.fetch(:menu_sheet_w, 560)
-    def panel_alpha = @display.fetch(:menu_panel_alpha, 220)
-    def row_h = @display.fetch(:menu_sheet_row_h, 24)
-    def title_h = @display.fetch(:menu_title_h, 44)
-    def hint_h = @display.fetch(:menu_hint_h, 24)
-    def pad = @display.fetch(:menu_pad, 20)
-    def title_font = @title_font ||= Gosu::Font.new(@display.fetch(:menu_title_font_size, 28), bold: true)
-    def row_font = @row_font ||= Gosu::Font.new(@display.fetch(:menu_row_font_size, 18))
-    def hint_font = @hint_font ||= Gosu::Font.new(@display.fetch(:menu_hint_font_size, 12))
+    def panel_w = @display.fetch(:menu_sheet_w)
+    def panel_alpha = @display.fetch(:menu_panel_alpha)
+    def row_h = @display.fetch(:menu_sheet_row_h)
+    def title_h = @display.fetch(:menu_title_h)
+    def hint_h = @display.fetch(:menu_hint_h)
+    def pad = @display.fetch(:menu_pad)
+    def title_font = @title_font ||= Gosu::Font.new(@display.fetch(:menu_title_font_size), bold: true)
+    def row_font = @row_font ||= Gosu::Font.new(@display.fetch(:menu_row_font_size))
+    def hint_font = @hint_font ||= Gosu::Font.new(@display.fetch(:menu_hint_font_size))
   end
 end

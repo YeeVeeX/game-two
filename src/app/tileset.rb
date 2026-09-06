@@ -26,7 +26,7 @@ module App
       rescue Core::DataStore::MissingKey
         nil
       end
-      return nil unless manifest && display.fetch(:tileset, true)
+      return nil unless manifest && display.fetch(:tileset)
       new(manifest, data.root, display)
     end
 
@@ -36,7 +36,7 @@ module App
       @root = root
       @tile = manifest.fetch(:tile, 32)
       @variants = manifest.fetch(:variants, 4)
-      @gain = display.fetch(:tileset_gain, 1.18).to_f
+      @gain = display.fetch(:tileset_gain).to_f
       @mats = {}
       manifest.fetch(:materials).each do |ref, spec|
         @mats[ref.to_sym] = { png: File.join(root.to_s, spec.fetch(:png)), priority: spec.fetch(:priority),

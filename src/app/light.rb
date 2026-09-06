@@ -21,7 +21,7 @@ module App
 
     def initialize(display:)
       @display = display
-      @enabled = display.fetch(:light_enabled, true)
+      @enabled = display.fetch(:light_enabled)
       @glow_img = nil
       @worlds = {}
     end
@@ -44,7 +44,7 @@ module App
     # 1.0 otherwise (display.json kill_punch = 0 disables).
     def punch(world)
       return 1.0 unless @enabled
-      k = @display.fetch(:kill_punch, 0.03).to_f
+      k = @display.fetch(:kill_punch).to_f
       return 1.0 if k <= 0
       age = world.frame - state_for(world)[:kill_at]
       age.between?(0, 1) ? 1.0 + k : 1.0
@@ -71,10 +71,10 @@ module App
     RawBlob = Struct.new(:columns, :rows, :to_blob)
 
     def draw_glows(world, camera, sources, ts)
-      return unless @enabled && @display.fetch(:light_glows, true)
+      return unless @enabled && @display.fetch(:light_glows)
       img = glow_image
-      rgb = @display.fetch(:light_fire_rgb, [255, 150, 60])
-      base_a = @display.fetch(:light_fire_alpha, 120)
+      rgb = @display.fetch(:light_fire_rgb)
+      base_a = @display.fetch(:light_fire_alpha)
       sources.each do |(preset, tx, ty, seed)|
         next unless FIRE_PRESETS.include?(preset.to_s)
         cx = tx * ts + ts / 2
@@ -99,7 +99,7 @@ module App
     # One additive glow at a world point (exit pulses, later: pickups). scale
     # 1.0 = 96px diameter blob; alpha 0..255. No-op when glows are off.
     def glow_at(cx, cy, scale, alpha, rgb, z: 0)
-      return unless @enabled && @display.fetch(:light_glows, true)
+      return unless @enabled && @display.fetch(:light_glows)
       glow_image.draw_rot(cx, cy, z, 0, 0.5, 0.5, scale, scale, Gosu::Color.new(alpha.clamp(0, 255), *rgb), :additive)
     end
 
@@ -113,18 +113,18 @@ module App
       # never during the wipe veil (nest_respawn): the veil owns "you fell";
       # and in WINE red (dark, desaturated) so it never reads as that veil.
       wiping = world.respond_to?(:states) && world.states.current == :nest_respawn
-      if !wiping && possessed && !possessed.dead? && possessed.hp < possessed.max_hp * @display.fetch(:low_hp_pct, 0.3)
-        depth = 1.0 - possessed.hp.fdiv([possessed.max_hp * @display.fetch(:low_hp_pct, 0.3), 1].max)
+      if !wiping && possessed && !possessed.dead? && possessed.hp < possessed.max_hp * @display.fetch(:low_hp_pct)
+        depth = 1.0 - possessed.hp.fdiv([possessed.max_hp * @display.fetch(:low_hp_pct), 1].max)
         ph = world.frame % 40
         breath = ph < 20 ? ph / 20.0 : (40 - ph) / 20.0
-        a = (@display.fetch(:low_hp_alpha, 150) * (0.45 + 0.55 * depth) * (0.6 + 0.4 * breath)).round
-        draw_vignette(view_w, view_h, a, rgb: @display.fetch(:low_hp_rgb, [120, 16, 48]))
+        a = (@display.fetch(:low_hp_alpha) * (0.45 + 0.55 * depth) * (0.6 + 0.4 * breath)).round
+        draw_vignette(view_w, view_h, a, rgb: @display.fetch(:low_hp_rgb))
       end
       safe = map.respond_to?(:safe?) ? map.safe? : false
       hub = map.respond_to?(:hub?) ? map.hub? : false
-      a = (safe || hub) ? @display.fetch(:vignette_alpha_safe, 70) : @display.fetch(:vignette_alpha, 130)
+      a = (safe || hub) ? @display.fetch(:vignette_alpha_safe) : @display.fetch(:vignette_alpha)
       draw_vignette(view_w, view_h, a) if a.positive?
-      fl = @display.fetch(:level_flash, 14)
+      fl = @display.fetch(:level_flash)
       age = world.frame - state_for(world)[:level_at]
       if fl.positive? && age.between?(0, fl - 1)
         k = 1.0 - age.fdiv(fl)
