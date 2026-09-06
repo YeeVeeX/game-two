@@ -5,7 +5,8 @@ module App
   # ways' breathing glow, the off-camera gold exit arrows, and the pressuring
   # hostile's hollow outline. Extracted byte-inert from renderer.rb (lane
   # `signage`, commit 1) so the renderer stays under its growth ceiling
-  # (test/app/line_caps_test.rb). Every draw here is Gosu-only; every
+  # (<= 2000 lines; the cap lands in test/app/line_caps_test.rb at
+  # integration). Every draw here is Gosu-only; every
   # DECISION is a pure method testable headlessly (test/app/signage_test.rb,
   # test/app/interact_prompt_test.rb, test/app/pressure_outline_test.rb).
   #
