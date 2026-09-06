@@ -17,8 +17,8 @@ class StatusTest < Minitest::Test
     st = DATA["balance/status"]
     %i[poison burn stone seized chill].each do |k|
       assert st[k], "status.json: #{k} missing"
-      assert_equal 3, st[k][:tint].length, "#{k}: tint rgb"
-      assert st[k][:icon].is_a?(String)
+      assert [true, false].include?(st[k][:dot]), "#{k}: dot flag"
+      refute st[k].key?(:tint), "#{k}: presentation (tint) lives in display.json, not in the sim registry"
     end
     b = st[:burn]
     assert b[:dot] && b[:ticks].positive? && b[:dmg_per].positive? && b[:interval_frames].positive?
@@ -79,7 +79,13 @@ class StatusTest < Minitest::Test
     bearer = w.humans.find { |h| h.kit[:aura] } or skip "no aura bearer in ember_1"
     body = w.possessed(1)
     body.walker.teleport(bearer.tile[0] + 1, bearer.tile[1])
+    hp0 = body.hp
     (bearer.kit[:aura][:period_frames] + 1).times { w.tick(idle) }
     assert body.burning?, "standing in the fire ignites the burn DOT"
+    # the shipped contract (review 2026-09-06 MAJOR 3): the field tick lands
+    # NOW (instant) AND the DOT is armed with status.json's ticks - both, named
+    b = DATA["balance/status"][:burn]
+    assert_equal b[:ticks], body.burn_ticks, "DOT armed from status.json"
+    assert_operator body.hp, :<, hp0, "the instant field tick landed"
   end
 end

@@ -184,7 +184,8 @@ module Game
         ["poison_ticks", @poison_ticks], ["poison_dmg", @poison_dmg],
         ["poison_countdown", @poison_countdown], ["poison_by", @poison_by&.name],
         ["burn_ticks", @burn_ticks], ["burn_dmg", @burn_dmg],
-        ["burn_countdown", @burn_countdown], ["burn_by", @burn_by&.name]
+        ["burn_countdown", @burn_countdown], ["burn_by", @burn_by&.name],
+        ["poison_interval", @poison_interval], ["burn_interval", @burn_interval]
       ]
     end
     def action_hit!(victim)

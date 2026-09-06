@@ -486,8 +486,9 @@ module Game
         @bus.emit(:drop_picked_up, actor: source, amount: drop[:amount], carried: source.carried)
         return true
       end
-      picked = pick_up_item(source) # S2 (Game::Loot): coin first, then the item
-      return picked unless picked.nil?
+      # S2 (Game::Loot): coin, then the item; a FULL bag (false) falls through to
+      # the station under it (review 2026-09-06: never soft-lock a bank/altar)
+      return true if pick_up_item(source)
       # D1 recovery: settle-gated, full transfer, creation order on stacked
       # tiles (a settling container falls through — deterministic skip). A
       # drop on the tile won the press above: the D0 two-press rule extended.

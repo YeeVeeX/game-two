@@ -1,52 +1,22 @@
 {
-  "_doc": "S3 status registry. tint = body pulse rgb, icon = HUD glyph key; burn's DOT numbers live here (ticks x dmg_per every interval_frames) - the aura IGNITES a burn instead of dealing instant field damage.",
+  "_doc": "S3 status registry - SIM numbers only (presentation tints/icons live in display.json). burn = a DOT (ticks x dmg_per every interval_frames) that the aura IGNITES in ADDITION to its instant field tick (standing in the fire hurts now AND later - a balance choice named for the owner at the numbers tickets).",
   "poison": {
-    "dot": true,
-    "icon": "drop_green",
-    "tint": [
-      120,
-      235,
-      90
-    ]
+    "dot": true
   },
   "burn": {
     "dot": true,
-    "icon": "flame",
-    "tint": [
-      255,
-      140,
-      40
-    ],
     "ticks": 6,
     "dmg_per": 3,
     "interval_frames": 30
   },
   "stone": {
-    "dot": false,
-    "icon": "stone",
-    "tint": [
-      200,
-      200,
-      210
-    ]
+    "dot": false
   },
   "seized": {
-    "dot": false,
-    "icon": "chain",
-    "tint": [
-      60,
-      100,
-      220
-    ]
+    "dot": false
   },
   "chill": {
     "dot": false,
-    "icon": "snow",
-    "tint": [
-      140,
-      200,
-      255
-    ],
     "step_frames_pct": 0.3
   }
 }

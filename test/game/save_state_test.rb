@@ -675,7 +675,11 @@ class SaveStateTest < Minitest::Test
     },
     # S2: the bag PERSISTS - through the schema-3 player record (T1); until
     # that lands it is rebuilt empty each session (named, not silent).
-    "bag" => { "slots" => :session_only, "used" => :persisted, "contents" => :persisted },
+    # S2 - NAMED DEBT (fresh-eyes review 2026-09-06, BLOCKER): the bag is NOT
+    # serialized yet; earned loot dies with the session. Persistence = one line
+    # on T1's schema-3 player record (owner: S1 lands after T1; S2+S3 after the
+    # TWENTIETH). Classified HONESTLY as session_only until that line exists.
+    "bag" => { "slots" => :session_only, "used" => :session_only, "contents" => :session_only },
     # pack.N + human.zone.name share the creature schema. hp/kind persist
     # (members roster law); marked IS the persisted inscribed flag; alive
     # derives from hp > 0 (never stored — contradictions unrepresentable).
@@ -712,7 +716,9 @@ class SaveStateTest < Minitest::Test
       "poison_countdown" => :session_only, "poison_by" => :session_only,
       # S3 burn: the same DOT law
       "burn_ticks" => :session_only, "burn_dmg" => :session_only,
-      "burn_countdown" => :session_only, "burn_by" => :session_only
+      "burn_countdown" => :session_only, "burn_by" => :session_only,
+      # review 2026-09-06 (MAJOR 2): the tick INTERVAL steers future DOT frames
+      "poison_interval" => :session_only, "burn_interval" => :session_only
     },
     # Field records drop wholesale at the save boundary (decision 3c).
     "projectile" => :session_only_group, "impact" => :session_only_group,

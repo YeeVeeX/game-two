@@ -24,9 +24,14 @@ module App
     def draw(world, view_w, view_h)
       bag = world.bag
       catalog = world.catalog
-      gw = COLS * (CELL + GAP) - GAP
+      lay = @display.fetch(:bag_screen, {})
+      cols = lay.fetch(:cols, COLS)
+      rows = lay.fetch(:rows, ROWS)
+      cell = lay.fetch(:cell, CELL)
+      gap = lay.fetch(:gap, GAP)
+      gw = cols * (cell + gap) - gap
       pw = gw + 24 + 220
-      ph = ROWS * (CELL + GAP) - GAP + 78
+      ph = rows * (cell + gap) - gap + 78
       x0 = (view_w - pw) / 2
       y0 = (view_h - ph) / 2
       z = 30
@@ -41,37 +46,40 @@ module App
       # grid
       gx = x0 + 12
       gy = y0 + 34
-      # the pack's flasks (provisions) SHOW as the catalog flask - one truth on
-      # screen; the counter itself stays where the save keeps it until T1
       stacks = bag.sorted
-      if world.respond_to?(:pack) && world.pack.provisions.positive? && catalog.include?(:flask_sap)
-        stacks = [{ id: :flask_sap, qty: world.pack.provisions, virtual: true }] + stacks
+      # the pack's flasks (provisions) show as a CHIP on the title row - never a
+      # grid cell (a full bag + flasks overflowed the grid; review MINOR 8)
+      if world.respond_to?(:pack) && world.pack.provisions.positive?
+        chip = "x#{world.pack.provisions} #{tr('hud.provisions', 'POTION')}"
+        cx0 = x0 + pw - 12 - font.text_width(chip) - 20
+        (fi = @icons&.icon("flask_sap")) && fi.draw(cx0, y0 + 6, z, 1, 1)
+        font.draw_text(chip, cx0 + 20, y0 + 8, z, 1, 1, Gosu::Color.new(255, 245, 240, 225))
       end
-      (ROWS * COLS).times do |i|
-        cx = gx + (i % COLS) * (CELL + GAP)
-        cy = gy + (i / COLS) * (CELL + GAP)
+      (rows * cols).times do |i|
+        cx = gx + (i % cols) * (cell + gap)
+        cy = gy + (i / cols) * (cell + gap)
         filled = i < stacks.length
-        Gosu.draw_rect(cx, cy, CELL, CELL, Gosu::Color.new(255, 30, 24, 26), z)
-        Gosu.draw_rect(cx, cy, CELL, 1, Gosu::Color.new(255, 52, 44, 44), z)
+        Gosu.draw_rect(cx, cy, cell, cell, Gosu::Color.new(255, 30, 24, 26), z)
+        Gosu.draw_rect(cx, cy, cell, 1, Gosu::Color.new(255, 52, 44, 44), z)
         next unless filled
         st = stacks[i]
         item = catalog.fetch(st[:id])
         ico = item && @icons&.icon(item)
         if ico
-          ico.draw(cx + (CELL - 32) / 2, cy + (CELL - 32) / 2, z + 1, 2, 2)
+          ico.draw(cx + (cell - 32) / 2, cy + (cell - 32) / 2, z + 1, 2, 2)
         else
-          Gosu.draw_rect(cx + 10, cy + 10, CELL - 20, CELL - 20, Gosu::Color.new(255, 205, 198, 180), z + 1)
+          Gosu.draw_rect(cx + 10, cy + 10, cell - 20, cell - 20, Gosu::Color.new(255, 205, 198, 180), z + 1)
         end
         if st[:qty] > 1
           q = st[:qty].to_s
-          haloed(font, q, cx + CELL - font.text_width(q) - 3, cy + CELL - 15, z + 2, Gosu::Color::WHITE)
+          haloed(font, q, cx + cell - font.text_width(q) - 3, cy + cell - 15, z + 2, Gosu::Color::WHITE)
         end
-        Gosu.draw_rect(cx, cy + CELL - 2, CELL, 2, tier_color(item&.tier || 0), z + 1) if item
+        Gosu.draw_rect(cx, cy + cell - 2, cell, 2, tier_color(item&.tier || 0), z + 1) if item
       end
       # detail column: the first stack of each kind, in bag order
       dx = gx + gw + 24
       dy = gy
-      Gosu.draw_rect(dx - 8, gy, 1, ROWS * (CELL + GAP) - GAP, Gosu::Color.new(255, 52, 44, 44), z)
+      Gosu.draw_rect(dx - 8, gy, 1, rows * (cell + gap) - gap, Gosu::Color.new(255, 52, 44, 44), z)
       shown = 0
       stacks.map { |s| catalog.fetch(s[:id]) }.compact.uniq(&:kind).each do |item|
         break if shown >= 6

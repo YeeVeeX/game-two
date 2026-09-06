@@ -242,7 +242,7 @@ module App
     end
 
     def draw_burn_icon(x, y)
-      o = Gosu::Color.new(255, 255, 140, 40)
+      o = rgb(@display.fetch(:art_burn_tint_rgb, [255, 140, 40]))
       Gosu.draw_rect(x - 1, y, 12, 12, dark, 20)
       Gosu.draw_rect(x + 4, y + 1, 2, 2, o, 20)
       Gosu.draw_rect(x + 3, y + 3, 4, 2, o, 20)
@@ -252,7 +252,7 @@ module App
     end
 
     def draw_poison_icon(x, y)
-      g = Gosu::Color.new(255, 110, 220, 90)
+      g = rgb(@display.fetch(:art_poison_tint_rgb, [120, 235, 90]))
       Gosu.draw_rect(x - 1, y, 12, 12, dark, 20)
       Gosu.draw_rect(x + 4, y + 1, 2, 2, g, 20)
       Gosu.draw_rect(x + 3, y + 3, 4, 2, g, 20)

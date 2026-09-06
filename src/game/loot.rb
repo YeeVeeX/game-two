@@ -16,7 +16,7 @@ module Game
     def init_loot!(data, seed)
       @loot_rng = Core::CountingRng.new(Random.new(seed ^ LOOT_STREAM_SALT))
       @catalog = Game::ItemCatalog.load(data)
-      @bag = Game::Bag.new(catalog: @catalog, slots: @economy.fetch(:bag_slots, 20))
+      @bag = Game::Bag.new(catalog: @catalog, slots: @economy.fetch(:bag_slots))
       @drop_tables = (data["balance/drops"][:tables] || {}).transform_keys(&:to_sym)
     end
 
@@ -24,7 +24,7 @@ module Game
     def roll_item_drops(actor)
       return unless actor.faction == :human
       @field.spawn_item_drops(actor, zone: @zone_name, table: @drop_tables[actor.kit_name],
-                              rng: @loot_rng, decay: @economy.fetch(:item_drop_frames, 1800))
+                              rng: @loot_rng, decay: @economy.fetch(:item_drop_frames))
     end
 
     # Interact on a tile with an item: to the bag. A full bag refuses (named
@@ -47,7 +47,8 @@ module Game
     # carries - removes one, cures, emits item_used. false when none applies.
     def use_cure_item(source)
       source.statuses.each do |st|
-        item = @bag.sorted.map { |k| @catalog.fetch(k[:id]) }.compact.find do |i|
+        # canonical id order: a UI pin must never steer the sim (review MINOR 7)
+        item = @bag.stacks.map { |k| k[:id] }.uniq.sort.map { |id| @catalog.fetch(id) }.compact.find do |i|
           i.consumable? && Array(i.use&.dig(:cure)).map(&:to_sym).include?(st)
         end
         next unless item

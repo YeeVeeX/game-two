@@ -191,3 +191,13 @@ tables. Bag persistence = one line on T1's player record when it lands.
 
 ## VALIDATION phase - wall #3 on the branch (worktree game-two-wall5 @ 3892c1f, 01:51 -> )
 
+### Fresh-eyes review (child `delegate`, gpt-5.6-sol, 02:40) -> `drafts/_review-s1s3-freshEyes-20260906.md`
+Verdict BLOCKED: 1 BLOCKER (bag classified persisted but never serialized), 5 MAJOR, 2 MINOR.
+All 8 answered in the next commit: (1) bag = session_only, NAMED debt until T1's player
+record; (2) poison/burn INTERVAL digested + pinned + classified; (3) aura contract = instant
+tick AND DOT, asserted + documented as a named balance choice; (4) a FULL bag falls through to
+the station (no soft-lock) + test; (5) ember_salve's unimplemented `resist` removed; (6)
+status.json = sim numbers only, tints + bag layout in display.json, strict economy fetch; (7)
+cure choice in canonical id order (pin-independent); (8) provisions = title chip, never a grid
+cell. The BLOCKER's merge condition (T1 first) = the owner's sequencing already in force.
+

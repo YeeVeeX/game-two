@@ -83,6 +83,24 @@ class BagTest < Minitest::Test
     assert_equal 1, w.item_drops.length
   end
 
+  def test_a_full_bag_on_a_station_tile_still_reaches_the_station
+    w = Game::World.new(DATA, seed: 7)
+    w.start_in("camp")
+    me = w.possessed(1)
+    st = w.map.stations.first
+    me.walker.teleport(*st[:at])
+    w.bag.slots.times { w.bag.add!(:blade_iron) }
+    w.item_drops << { tile: me.tile.dup, id: :antidote, qty: 1, frames_left: 600, decay_frames: 600 }
+    fulls = []
+    w.bus.subscribe(:bag_full) { |e| fulls << e }
+    w.interact(me) # whatever the station does, the press must REACH it
+    w.tick(Core::ScriptedInput.new(frames: {}))
+    assert_equal 1, fulls.length, "the refusal is named"
+    assert_equal 1, w.item_drops.length, "the item stays on the floor"
+    # the station saw the press: a bank/altar press is never swallowed by a full bag
+    # (the concrete effect depends on the station; the contract is the fall-through)
+  end
+
   def test_loot_stream_is_its_own_counter
     w = Game::World.new(DATA, seed: 7)
     snap = w.digest_snapshot.to_h

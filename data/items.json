@@ -9,7 +9,7 @@
     "antidote":       { "kind": "consumable", "stack": 5,  "price": 8,   "sell": 3,  "tier": 0, "icon": "antidote",
                         "use": { "cure": ["poison"] } },
     "ember_salve":    { "kind": "consumable", "stack": 5,  "price": 12,  "sell": 4,  "tier": 1, "icon": "ember_salve",
-                        "use": { "cure": ["burn"], "resist": { "burn": 600 } }, "family": "ember" },
+                        "use": { "cure": ["burn"] }, "family": "ember" },
     "blade_iron":     { "kind": "weapon", "slot": "hand", "fits": ["striker"], "price": 60,  "sell": 20, "tier": 1, "icon": "blade_iron",
                         "mods": { "damage": 4 } },
     "blade_shard":    { "kind": "weapon", "slot": "hand", "fits": ["striker"], "price": 180, "sell": 60, "tier": 2, "icon": "blade_shard",
