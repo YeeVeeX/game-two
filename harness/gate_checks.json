@@ -347,7 +347,7 @@
     },
     {
       "id": "impact_fx_reads",
-      "check": "Hits and deaths leave IMPACT on the ground: an attack that LANDS shows a small bright 4-point star with a few flying chips at the struck tile, and a body that DIES sprays a larger burst of shards outward from its own tile; bodies that walk leave small dim dust puffs BEHIND them (opposite the facing) that fade within a few frames. These live only a handful of frames, so judge them on frames sampled at a hit or death beat - a frame showing a struck or dying body with no spark or burst anywhere fails. If no hit, death or walking body is on camera, pass with why='not exercised by this script'."
+      "check": "Hits and deaths leave IMPACT on the ground: an attack that LANDS shows a small bright 4-point star with a few flying chips at the struck tile, and a body that DIES sprays a larger burst of shards outward from its own tile; bodies that walk leave small dim dust puffs BEHIND them (opposite the facing) that fade within a few frames. These live only a handful of frames, so judge them on frames sampled at a hit or death beat - a frame showing a struck or dying body with no spark or burst anywhere fails. If no hit, death or walking body is on camera, pass with why='not exercised by this script'. A damage NUMERAL outlives the star (numeral ~40 frames, star ~14): a frame that shows a numeral but no star means the hit is OLDER than the star's life - it is not evidence of a missing star; judge the star only on frames within a dozen frames of a hit (chips still flying, hurt flash still on the body). If no such frame exists, pass with why='not exercised by this script'."
     },
     {
       "id": "damage_numbers_read",

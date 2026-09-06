@@ -491,3 +491,11 @@ while the light draws at z 17 (the HUD plate draws at z 19) -> the strip sat UND
 0.16 (display rows: an edge bleed, the middle and the HUD row untouched); ControlsOverlay backing + 6 texts at z 19 (above
 the light, level with the HUD plate). da473aa (alpha floors) stays - it fixed onset legibility; this fixes WHERE it bleeds.
 Gates owed: ledger_loop, district_hunt, world_loop (base vignette unchanged), town_gates (strip). Wall #4: 20/42 at resume.
+
+### Resume 11:55 — `lobber_reach impact_fx_reads` = SAMPLING (numeral outlives the star); row disambiguated
+Sim fact: the two hits nearest capture 0900 are f873 (28 frames before) and f920 (19 after); the lobber's projectile hit
+emits `attack_hit landed=true` (kind ""), so it DOES spark. Star life ~14 frames, numeral ~40 -> at 0900 the numeral is
+still up and the star is gone; the critic inferred "a hit beat" from the numeral. Row now says a numeral without a star
+means the hit is older than the star's life, not a missing star; judge within a dozen frames of a hit. No pixel changed.
+Wall #4 score at 22/42: 14 rows / 9 scripts, all with a named cause (7 drawings fixed on the branch, 6 rows corrected,
+2 flip-prone). Close procedure unchanged (pause note); wall ETA ~13:40.
