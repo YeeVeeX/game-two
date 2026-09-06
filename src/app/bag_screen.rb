@@ -41,7 +41,12 @@ module App
       # grid
       gx = x0 + 12
       gy = y0 + 34
+      # the pack's flasks (provisions) SHOW as the catalog flask - one truth on
+      # screen; the counter itself stays where the save keeps it until T1
       stacks = bag.sorted
+      if world.respond_to?(:pack) && world.pack.provisions.positive? && catalog.include?(:flask_sap)
+        stacks = [{ id: :flask_sap, qty: world.pack.provisions, virtual: true }] + stacks
+      end
       (ROWS * COLS).times do |i|
         cx = gx + (i % COLS) * (CELL + GAP)
         cy = gy + (i / COLS) * (CELL + GAP)
