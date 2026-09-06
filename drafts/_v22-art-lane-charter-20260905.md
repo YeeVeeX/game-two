@@ -195,17 +195,24 @@ the lane. Done = the spec's WB-T7 ticket closed. UNCHECKED.
   (assets tileset + game-two landing). UNCHECKED.
 
 ### A3 — The uiux A3 surfaces (HUD row + party rows, death card, insurance pip + bank rows, vat hire, form swap, floor banner, goals board)
-- **Input:** spoke U `s132-uiux-a3` (RUNNING at s133; 8 fixtures × 3 locales rendered in
-  its tree: `ob_hud_party`, `ob_death_card`, `ob_bank_insurance`, `ob_bank_refused`,
-  `ob_vat_hire`, `ob_form_swap`, `ob_floor_banner`, `ob_goals_board`; its UI-GATE critic
-  was running at 13:38). Receipt lands in `~/.pi/agent/mail/game-two/inbox/
-  from-uiux-a3-one-body-spec.md`; harvest law = triage doc §2.
+- **Input:** spoke U `s132-uiux-a3` — DONE (exited ~14:16; 8 fixtures × 3 locales:
+  `ob_hud_party`, `ob_death_card`, `ob_bank_insurance`, `ob_bank_refused`,
+  `ob_vat_hire`, `ob_form_swap`, `ob_floor_banner`, `ob_goals_board`). Receipt harvested
+  from `~/.pi/agent/mail/game-two/inbox/from-uiux-a3-one-body-spec.md` (now in `done/`);
+  harvest record = triage doc §2.
 - **Effect when harvested:** its spec + rubric become the grammar for T2c (HUD), T5
   (pip), T6 (card), T7 (form glyph), F1 (floor banner); its rubric rows enter
   `gate_checks.json` by name as each ticket lands. Redrawn in the AS scale + AB palette
   (the mocks were rendered at S0 — a re-render at the chosen scale is owed by mail).
-- [ ] UNCHECKED — receipt not harvested at charter time (RUNNING). _(fill: receipt line,
-  md5, spot-check vs the mail's DoD: spec + rubric + 7 mocks)_
+- [x] **HARVESTED s133** — `RECEIPT: uiux A3-one-body docs/specs/one-body-a3.md
+  503d010d52ba1265b219ec0d3ebc4b4e 33` (game-two-uiux `18e6c7c`, pushed; spec blob md5
+  verified = RECEIPT; data delta `data/ui/ob_one_body.json` blob `c064c872…`, 54 keys / 31
+  new; 14 `a3_*` gate rows in `handoff/a3-one-body-20260905/a3_gate_rows.json` mapping the
+  7 L17 pack rows they replace; 33 frames + 24 sheets, 8 screens × 3 locales, UI-GATE
+  PASS ×3 36/36 axes separate). Grammar summary + findings (F-A3-1 SAFE chip overdraw
+  CONFIRMED; es/pt SEGURO collision → PÓLIZA / APÓLICE as the peers' choice) banked in
+  the triage doc §2 and `drafts/_t0-review-20260905.md`. Owed back after AS: a re-render
+  of the 8 mocks at the chosen scale (mail).
 
 ### A4 — Full-wall re-pin per landed atlas/scale batch
 - One sweep per batch (`harness/run_wall.sh v22-art-<batch>`, 42 scripts × ~5 min ≈ 3.5 h,

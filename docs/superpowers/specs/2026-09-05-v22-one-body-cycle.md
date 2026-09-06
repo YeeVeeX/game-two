@@ -604,6 +604,53 @@ named follow-up in the same commit message — never half-done on `main`.
   test-pinned. Files: `tools/*.py` normalizer/importer · `pilot.ldtk` via the
   normalizer · MAP_EDITING §4.5. Gates: suite (fixpoint) · `rake gate` on one script
   per touched zone. Cost ½–1 session. Reviewer: headless.
+- **E-tickets from T0 (s133; `drafts/_t0-review-20260905.md` §6 is the source; 64
+  findings, 1 BLOCKER / 22 MAJOR):**
+  - **E0 — boss rotation snapshot fix (BLOCKER a1):** `Creature#begin_action` snapshots
+    the begun skill (`@action_cfg = kit.fetch(kind)`) and `action_config` returns it, so
+    the started arc == the resolved arc across a multi-skill phase (today: off by one;
+    ember_boss phase 1 `[dash, beam]` can crash on `@dash_plan.duration` nil). Tests: started
+    == resolved per cast; ember_boss driven to phase 2 in `grass_fixture`. Canary: a fix
+    that moves streams → INTENDED versioned rebank. Junior authored the boss block (told
+    in the pt-br line; either seat executes). Cost ½ session; headless reviewer.
+  - **E1 — harness truth (BEFORE T1's first gate; it frames every later gate):** rewrite
+    the critic PERSONA (`harness/vision_critic.py:72-77` still describes flat-rect art) ·
+    pins + verdict log written to the MAIN clone's ledger from any worktree (`run_wall.sh
+    --pins`, `pins.json` is `[]` today because the 064bd80 sweep ran in a pruned worktree)
+    · `SKIP_CRITIC=1` / exported `CHECKS` refuse to record a pin · the 7 census manifests
+    (`level_gate loot_loop nest_advance threat_pull vat_economy zone8_crossing
+    zone_catchup`) re-cut to observed counts or retired so the runner's rc means
+    something again (Rule 6) · `zone8_crossing` re-authored on the seal-less DUNGEON 1 +
+    `gate_scope.json` fixed · four rows off the retired white ring → halo grammar ·
+    `netplay_scene.rb` wires art/ambience/tileset via ONE `Renderer.build` factory (the
+    partner halo gets its first capture) · gate rows for PREMIUM passes 3–11 + petrify /
+    blink / aura · one boss sentinel per boss (BOSS 1 chant/seizure/writ, BOSS 2 / BOSS 4
+    phases) + a boss-bar row. Cost 1–2 sessions (+ one detached sweep to re-pin);
+    headless reviewer + a vision context on the new rows.
+  - **E2 — sim correctness:** `revive!` clears poison (a2) · strict `fetch` for balance
+    keys, KeyError names kit/key (a4) · `--start-zone` host-authoritative in `Params` or
+    refused on a human `--join` (b6: today a desync, not a refusal) · ally-brain focus-fire
+    dead branch + coward / dodge / ring / dash tests (a3/a6) — **precondition of T2d**.
+    Cost 1 session; headless reviewer.
+  - **E3 — presentation truth:** interact prompt only where a verb exists on the tile
+    (b3) · minimap ways drawn live and coloured by `way_locked?` (b4/d12) · every
+    `@display.fetch(:k` key written into `display.json` + an existence test (b5) · SAFE
+    chip `safe_chip_y` 98 → 138 (uiux F-A3-1, hub-confirmed on the tour frame). Junior's
+    surfaces → his line first, either seat executes. Rule 2 gates on the touched scripts.
+    Cost 1 session; headless + vision reviewer.
+  - **E4 — zone identity for the six new zones** (`dungeon_2/3/4`, `ember_1/2/3` fail the
+    identity contract when added to `zone_identity_data_test`): sidecar palettes
+    re-authored through the importer, or a RECORDED law amendment for the buried-rock
+    value structure. Junior's maps → his call. Cost ½–1 session.
+  - **E5 — no-lore renames (docs-only):** `gen_premium_art.py:46`, `premium_art/humanoid.py`
+    comments (Junior's files — asked, never rewritten by the other seat), `face_varekka!`
+    in two tests, `renderer.rb:1479` comment, `vision_critic.py:225` "Threketh", rows
+    "MEDUSA TOWER / BRASA / MUSGO", script names `brasa*_run` / `tower*_run` (rename =
+    one commit; pins/scope follow). Owner line owed on `TELEMETRY varekka` (frozen oracle
+    wording) and on MEDUSA/MUSGO/BRASA as theme words vs fiction.
+  - **Inputs, not tickets:** a11 extraction seams → T2a · c3 (36 duplicate LDtk iids) +
+    c6 (the five OOB spawns named) → WB-T7 · b16 (kit colours in three places →
+    `data/art/kits.json`) → art lane AB/AA · d14/d15/d16 → E1 follow-ups.
 - **E-tickets (foundation L16, after T0):** `vat_economy` 2 rows + `aoe_specials
   challenge_reads` re-author · `basement_1` zone-specific gate row · `varekka_duel` /
   `burn_duel` re-author (from `harness/retired/`) · `basement_3` · `pool` · audio
