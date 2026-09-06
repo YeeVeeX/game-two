@@ -45,7 +45,7 @@ class ZoneTierTest < Minitest::Test
       assert_equal 0, h.tier_dmg_pct
     end
     boss = humans_in(w, "low_quay").find { |h| h.kit_name == :challenger }
-    assert_equal 140, boss.max_hp, "varekka difficulty is the re-cut's business"
+    assert_equal 140, boss.max_hp, "BOSS 1 (challenger) difficulty is the re-cut's business"
     assert_equal 0, boss.tier_dmg_pct
   end
 

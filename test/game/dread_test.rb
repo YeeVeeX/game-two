@@ -55,7 +55,7 @@ class DreadTest < Minitest::Test
     assert_equal "low_quay", world.zone_name
   end
 
-  def varekka = world.humans.find { |h| h.kit_name == :challenger }
+  def challenger = world.humans.find { |h| h.kit_name == :challenger }
 
   def clear_crew!
     world.humans.reject { |h| h.kit_name == :challenger }.each do |h|
@@ -97,7 +97,7 @@ class DreadTest < Minitest::Test
     body.inscribe_mark!
     burned = collect(:inscription_burned)
     tile = body.tile
-    body.take_hit(damage: 9_999, attacker: varekka)
+    body.take_hit(damage: 9_999, attacker: challenger)
     drive(world, scripted({}), HITSTOP_SLACK)
     assert_equal 1, burned.length, "the burn fires exactly once"
     assert_equal tile, burned.first[:at]
@@ -111,7 +111,7 @@ class DreadTest < Minitest::Test
     refute body.marked?
     burned = collect(:inscription_burned)
     marks_before = world.seal_marks.length
-    body.take_hit(damage: 9_999, attacker: varekka)
+    body.take_hit(damage: 9_999, attacker: challenger)
     drive(world, scripted({}), HITSTOP_SLACK)
     assert_empty burned, "no inscription, no burn"
     assert_equal marks_before, world.seal_marks.length
@@ -123,7 +123,7 @@ class DreadTest < Minitest::Test
     ally = (world.pack.living - [world.possessed]).first
     ally.inscribe_mark!
     burned = collect(:inscription_burned)
-    ally.take_hit(damage: 9_999, attacker: varekka)
+    ally.take_hit(damage: 9_999, attacker: challenger)
     drive(world, scripted({}), HITSTOP_SLACK)
     assert_empty burned, "an unseized death is the vat's business, not the court's"
     assert ally.dead?
@@ -137,7 +137,7 @@ class DreadTest < Minitest::Test
     kept = collect(:vessel_kept)
     # Kill the WHOLE pack: the seized possessed dies while seized (burn)
     # and the wipe judgment follows. The burned mark must not revive it.
-    world.pack.members.each { |m| m.take_hit(damage: 9_999, attacker: varekka) }
+    world.pack.members.each { |m| m.take_hit(damage: 9_999, attacker: challenger) }
     600.times do
       break if world.states.current == :world && world.pack.living.any?
       input = scripted({})

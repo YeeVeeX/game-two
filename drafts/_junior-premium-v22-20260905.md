@@ -286,3 +286,12 @@ in place after the edit leaves `data/art/` UNTOUCHED (`git status --short data/a
 collision/ownership: `renderer.rb:1479` comment (lane E3 owns renderer.rb right now); `face_varekka!` test helper
 (test/game/challenger_test.rb + dread_test.rb: test-only names, either seat, one commit); rows "MEDUSA TOWER / BRASA /
 MUSGO" + script names `brasa*_run` / `tower*_run` = the OWNER's line (theme words vs fiction) - not touched.
+
+### E5, second slice - test helpers (12:50)
+`face_varekka!` -> `face_challenger!`, helper `varekka` -> `challenger` in `test/game/challenger_test.rb` +
+`dread_test.rb`; message in `zone_tier_test.rb` -> "BOSS 1 (challenger)". Test-only names. Deliberately NOT touched
+(spec §5: owner line owed on the frozen oracle wording): the `TELEMETRY varekka` line and everything that reads it
+(`telemetry.rb`, `telemetry_test.rb`, `v15_telemetry_test.rb`, `dread_test.rb` test name, `manifest_check_test.rb`);
+the retired `varekka_duel` canary bank + history (`sim_identity_canary_test.rb`); "Kethral" = the predecessor
+PROJECT's name (history, not fiction). 33 runs green in the three files. E5 remaining after this: `renderer.rb:1549`
+comment (lane E3 owns the file) + the owner's line on `varekka` / MEDUSA-BRASA-MUSGO / script names.
