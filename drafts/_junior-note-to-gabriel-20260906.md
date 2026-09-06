@@ -146,3 +146,23 @@ el dueno: un objeto que cae debajo de un cadaver hoy no se puede recoger.
 - Suite 1589/0. Branch = origin/main + 67, main is an ancestor: `git merge --ff-only junior/premium-build` is yours when you want it.
 - (A previous version of this section was mangled by an unquoted shell heredoc on my side - backticks executed as commands;
   this is the intended text.)
+
+## 13. CORRECTION to my §11/§12 line "ff is yours when you want it" - READ BEFORE ANY FF
+The branch is ff-able (main is an ancestor) but it CARRIES S2 (bag, item drops, pickup, bag screen) and S3 (statuses, burn
+DOT from auras). The owner's sequencing (s133, foundation §RATIFICATION) is **S2+S3 AFTER the TWENTIETH's verdict**: an ff
+today would put items/bag/burn into the build the owner judges in the ritual. Your "teu merge esta desbloqueado" came right
+after T1 - I read it as "the T1 blocker is gone", not as a re-decision of the TWENTIETH sequencing; if you meant the
+latter, say so in one line and it becomes a peer amendment (spec line 43). Three honest ways, none taken by me alone:
+(a) WAIT for the TWENTIETH - the owner's word as it stands; the branch stays ff-ok and unlanded, main unchanged.
+(b) PEER AMENDMENT - Junior (asked in this session) or you amend the sequencing in writing; then the ff is one command.
+(c) DARK-SHIP - a data switch (economy.json `item_drops_enabled`, status.json `burn.enabled`, bag screen inert) so the
+    branch lands with S2/S3 OFF in the owner's build and the TWENTIETH turns them on. NOT built; ~20 lines + tests +
+    canaries, one session, only on a word.
+Everything else on the branch (E3/E4/E5, fence v3, wall #4 fixes + rows, blink_arrival/basement_pocket/toll_pocket,
+floor3_run 1499, tools, T1 merge, Game::Interact, S1) is gated and non-S. If you want THAT on main before the TWENTIETH,
+the honest path is (c) or a cherry-picked branch - risky (S2's loot wiring is interwoven with world.rb and the renderer
+surfaces); not something to do at the end of a 16-hour session.
+
+**Gabriel (es-CR):** ojo con mi frase anterior "el ff es tuyo": la rama trae S2+S3, y el dueno dijo S2+S3 DESPUES del
+VIGESIMO. No hagas el ff sin una de las tres salidas de arriba. Nada en main cambia hasta entonces.
+

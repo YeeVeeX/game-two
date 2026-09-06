@@ -581,3 +581,10 @@ one design decision (live Bag = source, record = projection) and the sweep-row c
 ### S1 landing gate, second half (18:5x): loot_loop NOT clean (no verdict) - recorded as is, not claimed
 
 ### Correction (18:5x): `loot_loop` was RETIRED by Gabriel's E1.4 (census re-cut) - the landing plan (written before the merge) named a retired script. The S1 landing gate is `basement_pocket` (drop + pickup reel): gate_rc=0 manifest_rc=0, 8 captures byte-identical x2 @ 3a7f6fc. "loot_loop NOT clean" above = no such script, not a failure.
+
+### 18:5x - SEQUENCING CATCH (mine to flag): the branch is ff-ok but carries S2+S3 -> owner's word = after the TWENTIETH
+My §11/§12 "ff is yours" could have caused a sequencing violation by the hub. §13 corrects it: (a) wait for the TWENTIETH,
+(b) peer amendment in writing (Junior asked; spec line 43), (c) dark-ship switch (not built). ff-ok != land-now.
+Session close state: junior/premium-build = origin/main + 70, ff-ok, unlanded on purpose; suite 1589/0; canaries YES x3;
+census 42/42; 126 pins; 0 ruby; 1 worktree.
+
