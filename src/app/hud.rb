@@ -123,6 +123,10 @@ module App
         draw_poison_icon(sx, y + 2)
         sx += 12
       end
+      if m.respond_to?(:burning?) && m.burning?
+        draw_burn_icon(sx, y + 2)
+        sx += 12
+      end
       if m.respond_to?(:seized_by) && m.seized_by
         Gosu.draw_rect(sx, y + 2, 10, 10, dark, 20)
         Gosu.draw_rect(sx + 1, y + 3, 8, 8, rgb(@display.fetch(:seized_underline_rgb, [60, 100, 220])), 20)
@@ -235,6 +239,16 @@ module App
       Gosu.draw_rect(x + 5, y, 2, 3, Gosu::Color.new(255, 220, 220, 230), 20)
       Gosu.draw_rect(x + 1, y + 5, 10, 7, Gosu::Color.new(255, 230, 90, 140), 20)
       Gosu.draw_rect(x + 2, y + 6, 2, 3, Gosu::Color.new(255, 255, 180, 210), 20)
+    end
+
+    def draw_burn_icon(x, y)
+      o = Gosu::Color.new(255, 255, 140, 40)
+      Gosu.draw_rect(x - 1, y, 12, 12, dark, 20)
+      Gosu.draw_rect(x + 4, y + 1, 2, 2, o, 20)
+      Gosu.draw_rect(x + 3, y + 3, 4, 2, o, 20)
+      Gosu.draw_rect(x + 2, y + 5, 6, 4, o, 20)
+      Gosu.draw_rect(x + 3, y + 9, 4, 1, o, 20)
+      Gosu.draw_rect(x + 4, y + 6, 2, 3, Gosu::Color.new(255, 255, 230, 150), 20)
     end
 
     def draw_poison_icon(x, y)

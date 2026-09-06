@@ -67,6 +67,13 @@ module App
                                text: qty > 1 ? "#{name} x#{qty}" : name }
             st[:acts][a.kit_name] = world.frame
           end
+          world.bus.subscribe(:item_used) do |ev|
+            a = ev.payload[:actor]
+            next unless a
+            name = @labels[:item]&.call(ev.payload[:item]) || ev.payload[:item].to_s.upcase
+            st[:callouts] << { c: a, kind: :item, at: world.frame, rgb: [120, 235, 110], text: name }
+            st[:acts][a.kit_name] = world.frame
+          end
           world.bus.subscribe(:bag_full) do |ev|
             a = ev.payload[:actor]
             next unless a

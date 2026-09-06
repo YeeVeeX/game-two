@@ -709,7 +709,10 @@ class SaveStateTest < Minitest::Test
       "boss_skill_index" => :session_only, # FASE 5: rotation pointer; a boss re-enters at skill 0 (phase = f(hp) anyway)
       # FASE 4.5 poison: a DOT in flight dies with the session (like iframes/hurt_frames)
       "poison_ticks" => :session_only, "poison_dmg" => :session_only,
-      "poison_countdown" => :session_only, "poison_by" => :session_only
+      "poison_countdown" => :session_only, "poison_by" => :session_only,
+      # S3 burn: the same DOT law
+      "burn_ticks" => :session_only, "burn_dmg" => :session_only,
+      "burn_countdown" => :session_only, "burn_by" => :session_only
     },
     # Field records drop wholesale at the save boundary (decision 3c).
     "projectile" => :session_only_group, "impact" => :session_only_group,

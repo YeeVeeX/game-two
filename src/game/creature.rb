@@ -69,6 +69,11 @@ module Game
       # MUNDO VIVO FASE 4.5 poison (spore family): a DOT — ticks_left ticks
       # of dmg_per every interval frames. Inert for every kind never poisoned.
       @poison_ticks = 0
+      @burn_ticks = 0
+      @burn_dmg = 0
+      @burn_interval = 1
+      @burn_countdown = 0
+      @burn_by = nil
       @poison_dmg = 0
       @poison_interval = 0
       @poison_countdown = 0
@@ -177,7 +182,9 @@ module Game
         ["blink_cooldown", @blink_cooldown],
         ["boss_skill_index", @boss_skill_index],
         ["poison_ticks", @poison_ticks], ["poison_dmg", @poison_dmg],
-        ["poison_countdown", @poison_countdown], ["poison_by", @poison_by&.name]
+        ["poison_countdown", @poison_countdown], ["poison_by", @poison_by&.name],
+        ["burn_ticks", @burn_ticks], ["burn_dmg", @burn_dmg],
+        ["burn_countdown", @burn_countdown], ["burn_by", @burn_by&.name]
       ]
     end
     def action_hit!(victim)
@@ -200,6 +207,7 @@ module Game
       @blink_cooldown -= 1 if @blink_cooldown.positive?
       @blink_flash -= 1 if @blink_flash.positive?
       tick_poison
+      tick_burn
       if @taunt_frames.positive?
         @taunt_frames -= 1
         clear_taunt! if @taunt_frames.zero? || @taunted_by&.dead?
@@ -363,6 +371,7 @@ module Game
     # FASE 4.6 aura: non-hit damage from a field (bypasses i-frames and
     # knockback like poison; death walks the actor_died door with the
     # field's owner as killer). Shared by every future field effect.
+    # Field damage (aura tick, lava) - instant, bypasses i-frames like poison.
     def burn!(amount, by:)
       return false if dead? || amount <= 0
       @hp = [@hp - amount, 0].max
@@ -373,6 +382,63 @@ module Game
         @bus.emit(:damage_dealt, target: self, hp: @hp, attacker: by)
       end
       true
+    end
+
+    # S3: BURN as a status - a DOT that keeps ticking after you leave the
+    # fire (mirrors poison!: refresh extends, never stacks damage). Numbers
+    # come from balance/status.json burn. Cured by an item with use.cure
+    # ["burn"] (ember_salve) - see cure!.
+    def ignite!(ticks:, dmg_per:, interval_frames:, by:)
+      @burn_ticks = [@burn_ticks, ticks].max
+      @burn_dmg = dmg_per
+      @burn_interval = interval_frames
+      @burn_countdown = interval_frames if @burn_countdown.zero?
+      @burn_by = by
+    end
+
+    def burning? = @burn_ticks.positive?
+    def burn_ticks = @burn_ticks
+
+    def tick_burn
+      return unless burning? && !dead?
+      @burn_countdown -= 1
+      return if @burn_countdown.positive?
+      @burn_countdown = @burn_interval
+      @burn_ticks -= 1
+      @hp = [@hp - @burn_dmg, 0].max
+      if dead?
+        @burn_ticks = 0
+        interrupt_action!
+        @bus.emit(:actor_died, actor: self, killer: @burn_by, faction: @faction)
+      else
+        @bus.emit(:damage_dealt, target: self, hp: @hp, attacker: @burn_by)
+      end
+    end
+
+    # S3: clear a named status (antidote -> poison, ember_salve -> burn).
+    # Returns true when something was cured.
+    def cure!(status)
+      case status.to_sym
+      when :poison
+        return false unless poisoned?
+        @poison_ticks = 0
+        @poison_countdown = 0
+      when :burn
+        return false unless burning?
+        @burn_ticks = 0
+        @burn_countdown = 0
+      else
+        return false
+      end
+      true
+    end
+
+    # Statuses this body carries right now (for the HUD / cure lookup).
+    def statuses
+      out = []
+      out << :poison if poisoned?
+      out << :burn if burning?
+      out
     end
 
     def poisoned? = @poison_ticks.positive?

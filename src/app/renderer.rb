@@ -1307,6 +1307,12 @@ module App
         pr, pg, pb = @display.fetch(:art_poison_tint_rgb, [120, 235, 90])
         r, g, b = r * pr / 255, g * pg / 255, b * pb / 255
       end
+      # S3: burn pulse (orange) on the OTHER 6-frame window, so a body that is
+      # both poisoned and burning alternates green/orange.
+      if c.respond_to?(:burning?) && c.burning? && ((world.frame / 6) % 2) == 1
+        br, bg, bb = @display.fetch(:art_burn_tint_rgb, [255, 140, 40])
+        r, g, b = r * br / 255, g * bg / 255, b * bb / 255
+      end
       return nil if [r, g, b] == [255, 255, 255]
       Gosu::Color.new(255, r, g, b)
     end

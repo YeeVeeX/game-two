@@ -37,7 +37,7 @@ module Game
       attack_started special_started attack_hit damage_dealt actor_died dodged telegraph
       zone_entered possession_changed pack_wiped pack_respawned projectile_fired pack_mark_set
       drop_spawned drop_picked_up drop_decayed banked carried_lost taunted
-      item_dropped item_picked_up bag_full
+      item_dropped item_picked_up bag_full item_used
       corpse_loaded corpse_looted fight_resolved
       human_retargeted human_leashed human_respawned blinked poisoned aura_burn
       inscribed banked_spent tribute_paid body_regrown body_dissolved mark_consumed vessel_kept
@@ -82,6 +82,7 @@ module Game
       # value-transparent by construction).
       @respawn_rng = Core::CountingRng.new(Random.new(seed ^ RESPAWN_STREAM_SALT))
       init_loot!(data, seed) # S2 (Game::Loot): catalog, bag, drop tables, :loot stream
+      @status_cfg = data["balance/status"].reject { |k, _| k == :_doc } # S3: status registry
       @bus = Core::EventBus.new.register(*EVENTS)
       @states = Core::StateStack.new(initial: :world, transitions: TRANSITIONS)
       @feel = Feel.new(@balance[:feel])
@@ -530,7 +531,10 @@ module Game
     def sustain(source)
       return false unless controlled?(source)
       return false if source.dead? || source.staggered? || source.attack_state != :idle
-      @stations.sustain(source, station: map.station_at(*source.tile))
+      station = map.station_at(*source.tile)
+      # S3: off the bank, a CURE from the bag for a status you carry comes first
+      return true if (station.nil? || station[:type] != "bank") && use_cure_item(source)
+      @stations.sustain(source, station:)
     end
 
     # PREMIUM v22 ally brain: a FREE ally drinks (never buys — buying is a
@@ -1041,7 +1045,9 @@ module Game
           next if foe.dead?
           fx, fy = foe.tile
           next if [(fx - bx).abs, (fy - by).abs].max > aura[:radius_tiles]
-          next unless foe.burn!(leveled_damage(bearer, aura), by: bearer)
+          next unless foe.burn!(leveled_damage(bearer, aura), by: bearer) # S3: + ignites the burn DOT
+          b = @status_cfg[:burn]
+          foe.ignite!(ticks: b[:ticks], dmg_per: b[:dmg_per], interval_frames: b[:interval_frames], by: bearer) if b
           @bus.emit(:aura_burn, attacker: bearer, victim: foe)
         end
       end

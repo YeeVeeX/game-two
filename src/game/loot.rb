@@ -42,5 +42,21 @@ module Game
       @bus.emit(:item_picked_up, actor: source, item: idrop[:id], qty: idrop[:qty])
       true
     end
+
+    # S3: the first bag consumable whose use.cure names a status this body
+    # carries - removes one, cures, emits item_used. false when none applies.
+    def use_cure_item(source)
+      source.statuses.each do |st|
+        item = @bag.sorted.map { |k| @catalog.fetch(k[:id]) }.compact.find do |i|
+          i.consumable? && Array(i.use&.dig(:cure)).map(&:to_sym).include?(st)
+        end
+        next unless item
+        @bag.remove!(item.id, 1)
+        source.cure!(st)
+        @bus.emit(:item_used, actor: source, item: item.id, status: st)
+        return true
+      end
+      false
+    end
   end
 end
