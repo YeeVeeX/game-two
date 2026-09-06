@@ -1,5 +1,5 @@
 {
-  "_retired": "E1 RETIREMENT (s135, T0 d6): the level-up beat is dead as choreographed - observed attack_hit=0 actor_died=0 (declared >=5/>=1), so the refused-then-pass door story cannot happen. Owed re-author: a gate_fixture script that stages requires_level refusal -> fight to level -> pass, re-arming level_gate_reads (debt row, exercised by no live script until then).",
+  "_doc": "E1 (s135): kept in the wall for the LEVEL N REQUIRED refusal cue (station_cue :level_required live 94 frames, band 350-492, with captures 383 and 409 inside - the only affirmative stager of level_gate_reads) and for human_leashed, which no other live script emits. Manifest re-cut to OBSERVED counts; the level-up half (actor_died/attack_hit) rotted and is the named debt - a re-author owes the refused-then-fight-then-pass story.",
   "scenario": "world",
   "seed": 42,
   "width": 960,
@@ -187,8 +187,8 @@
     }
   },
   "manifest": {
-    "actor_died": 1,
-    "attack_hit": 5,
-    "zone_entered": 3
+    "zone_entered": 2,
+    "human_retargeted": 3,
+    "human_leashed": 1
   }
 }

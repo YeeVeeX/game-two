@@ -84,3 +84,34 @@ class RendererSilentBeatTest < Minitest::Test
     refute App::Renderer.silent_beat?(beat(dark: 3))
   end
 end
+
+# E1.7 (s135, T0 d1/b2): ONE construction seam for the presentation stack.
+# The netplay gate scene had built a bare Renderer for months — the three net
+# gates judged the quad fallback and the partner halo was never captured —
+# and the vision gate could not catch it (the rows self-gate on absence).
+# Fresh-eyes review asked for the mechanical guard: assert the factory loads
+# the stack and that every capture scene goes through it.
+class RendererBuildFactoryTest < Minitest::Test
+  def test_build_loads_art_ambience_and_tileset_with_capture_defaults
+    r = App::Renderer.build(RENDERER_DATA)
+    %i[@art @ambience @tileset].each do |ivar|
+      refute_nil r.instance_variable_get(ivar), "Renderer.build must load #{ivar}"
+    end
+    assert_equal 1, r.instance_variable_get(:@local_seat), "default seat is 1"
+    strings = r.instance_variable_get(:@strings)
+    assert_equal "en", strings.locale.to_s,
+                 "capture default is locale en (check-comparability law)"
+  end
+
+  def test_every_harness_scene_builds_its_renderer_through_the_factory
+    root = File.expand_path("../..", __dir__)
+    Dir[File.join(root, "harness/scenes/*.rb")].each do |path|
+      src = File.read(path)
+      next unless src.include?("App::Renderer")
+      assert_includes src, "App::Renderer.build", "#{File.basename(path)} must use the factory"
+      refute_match(/App::Renderer\.new/, src,
+                   "#{File.basename(path)} constructs a Renderer directly - the netplay-scene " \
+                   "regression (art-less gate reels) is exactly this shape")
+    end
+  end
+end

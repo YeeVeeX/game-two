@@ -26,17 +26,16 @@
   "captures": [
     13,
     14,
-    226,
+    184,
     600,
     671,
-    863,
-    896
+    727
   ],
-  "run_until": 897,
+  "run_until": 728,
   "manifest": {
     "zone_entered": 2,
     "actor_died": 11,
-    "attack_hit": 47,
-    "telegraph": 35
+    "attack_hit": 44,
+    "telegraph": 32
   }
 }

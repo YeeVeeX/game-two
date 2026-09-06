@@ -47,6 +47,14 @@ if TRANSPORT != "gateway":
     from botocore.exceptions import ConnectionError as BotoConnectionError
     from botocore.exceptions import EventStreamError
     from botocore.exceptions import ReadTimeoutError
+    # A stall INSIDE the event stream surfaces as urllib3's ReadTimeoutError,
+    # not botocore's (traceback observed live s135: urllib3/response.py
+    # _error_catcher), so it escaped the retry law below and killed the gate
+    # on the first stall instead of retrying it.
+    try:
+        from urllib3.exceptions import ReadTimeoutError as Urllib3ReadTimeout
+    except ImportError:  # pragma: no cover - urllib3 ships with botocore
+        Urllib3ReadTimeout = ReadTimeoutError
 
 # Windows may expose a legacy CP1252 console even though verdict/log data is
 # UTF-8. Model prose can contain arrows or other glyphs; printing must never
@@ -84,8 +92,9 @@ spore mushrooms green. Player kits: striker ember orange, blocker deep rust,
 lobber pale amber. Telegraphs flash yellow (stone and ground variants exist).
 A HUD PANEL sits top-left (portrait rows, framed hp bars, LEVEL strip,
 COINS/POTION chips), a quiet controls strip runs along the bottom edge, a
-minimap sits top-right, bosses carry a nameplate + phase pips + an hp bar
-top-center, and zone banners announce entry.
+minimap sits top-right, bosses carry a nameplate + an hp bar top-center
+(PHASED bosses add phase pips; a single-phase boss has none), and zone banners
+announce entry.
 
 Be a human, biased, opinionated playtester. Say what feels wrong and what a
 player would FEEL, not what is technically correct. Rank problems by how much
@@ -182,7 +191,15 @@ def _client():
     if TRANSPORT == "gateway":
         return _GatewayClient()
     session = boto3.Session(profile_name=PROFILE, region_name=REGION)
-    return session.client("bedrock-runtime", config=BotoConfig(read_timeout=300))
+    # read_timeout is the INTER-CHUNK gap on converse_stream, not the whole
+    # generation: chunks arrive continuously while the model writes, so a long
+    # gap means the stream is STALLED, not that the verdict is slow. Measured
+    # live (s135): three streams sat 7-24 min with ~1 s of CPU while a direct
+    # probe answered in 3.2 s, turning 5-minute gates into 20-minute gates
+    # inside the old 300 s window. 90 s fails a stalled stream fast so the
+    # retry (3 attempts, 30 s apart) can actually recover it.
+    timeout = int(os.environ.get("CRITIC_READ_TIMEOUT", "90"))
+    return session.client("bedrock-runtime", config=BotoConfig(read_timeout=timeout))
 
 
 def converse(client, content_blocks: list[dict], max_tokens: int = 8000) -> str:
@@ -204,12 +221,17 @@ def converse(client, content_blocks: list[dict], max_tokens: int = 8000) -> str:
                     parts.append(delta["text"])
             return "".join(parts).strip()
         except (client.exceptions.ThrottlingException, BotoConnectionError,
-                ReadTimeoutError, EventStreamError):
+                ReadTimeoutError, Urllib3ReadTimeout, EventStreamError) as exc:
             # EventStreamError: Bedrock can 500 MID-stream (internalServerException
             # inside the event stream, observed 2026-08-12 killing a wall gate) —
             # transport-transient, retried exactly like a throttle.
+            # Urllib3ReadTimeout: the stream went quiet past read_timeout — three
+            # such stalls turned 5-minute gates into 20-minute gates on s135, and
+            # this clause is what makes the retry actually fire.
             if attempt == _ATTEMPTS:
                 raise
+            print(f"critic transport retry {attempt}/{_ATTEMPTS} after "
+                  f"{type(exc).__name__}", file=sys.stderr, flush=True)
             time.sleep(30)
     raise RuntimeError("unreachable")
 

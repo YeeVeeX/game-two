@@ -89,6 +89,20 @@ class SceneStartTest < Minitest::Test
     end
   end
 
+  # Fresh-eyes review (s135): teleport bypasses body blocking, a transition
+  # tile auto-crosses on tick 1 and a station tile arms a verb - a reel placed
+  # on any of those would LIE about where it is, so they are refused too.
+  def test_apply_start_with_at_never_places_a_body_on_a_hostile_or_a_way
+    w = world
+    Harness.apply_start(w, { zone: "low_quay", at: [36, 18] })
+    occupied = w.humans.reject(&:dead?).map(&:tile)
+    w.pack.members.map(&:tile).each do |tile|
+      refute_includes occupied, tile, "a pack body was placed on a live hostile's tile"
+      refute w.map.transition_at(*tile), "a pack body was placed on a transition tile"
+      refute w.map.station_at(*tile), "a pack body was placed on a station tile"
+    end
+  end
+
   def test_apply_start_with_at_refuses_named_when_the_tile_has_no_room
     w = world
     err = assert_raises(ArgumentError) { Harness.apply_start(w, { zone: "ember_3", at: [0, 0] }) }

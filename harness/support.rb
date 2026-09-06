@@ -60,18 +60,29 @@ module Harness
     # ember_3 collapses at [20,16] on the way to the [49,15] dais, at the
     # level cap), so the boss's own beats — nameplate, phase pips, boss bar,
     # the phase-2 rotation E0 fixed — could never be captured. Same walker
-    # teleport the netplay scene pokes with, applied before the first tick;
-    # a tile without room for the pack refuses NAMED. Harness plumbing only
-    # — no game code reads this.
+    # teleport the netplay scene pokes with, applied before the first tick.
+    #
+    # A spot must be passable AND free AND inert (fresh-eyes review, s135):
+    # `teleport` bypasses the per-frame body blocking, so an occupied tile
+    # would stack two bodies; a transition tile auto-crosses on tick 1 and a
+    # station tile arms a verb — either makes the reel LIE about where it is.
+    # Corpses staged by `dead:` ride along deliberately (a boss reel wants the
+    # allies out of the fight, not left across the zone). Refuses NAMED.
+    # Harness plumbing only — no game code reads this.
     if (at = start[:at])
+      map = world.map
+      taken = (world.pack.members + world.humans).reject(&:dead?).map(&:tile)
       spots = ([[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, -1], [1, -1], [-1, 1]]
                  .map { |(dx, dy)| [at[0] + dx, at[1] + dy] })
-               .select { |(tx, ty)| world.map.passable?(tx, ty) }
+               .select { |(tx, ty)| map.passable?(tx, ty) }
+               .reject { |(tx, ty)| map.transition_at(tx, ty) || map.station_at(tx, ty) }
+               .reject { |tile| taken.include?(tile) }
       needed = world.pack.members.length
       if spots.length < needed
         raise ArgumentError,
-              "start.at #{at.inspect} in #{world.zone_name}: only #{spots.length} passable " \
-              "tiles around it, pack needs #{needed}"
+              "start.at #{at.inspect} in #{world.zone_name}: only #{spots.length} free inert " \
+              "passable tiles around it (occupied, station and transition tiles are refused), " \
+              "pack needs #{needed}"
       end
       world.pack.members.each_with_index { |m, i| m.walker.teleport(*spots[i]) }
     end

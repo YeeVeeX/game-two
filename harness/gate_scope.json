@@ -39,7 +39,7 @@
     "tower_floor_reads": ["dungeon_2", "dungeon_3", "dungeon_4"],
     "brasa_reads_as_fire": ["ember_1", "ember_2", "ember_3"],
     "ground_telegraphs_read": ["ember_1", "ember_2", "ember_3", "dungeon_4"],
-    "boss_phase_pips_read": ["dungeon_4", "ember_3", "low_quay"]
+    "boss_phase_pips_read": ["dungeon_4", "ember_3"]
   },
   "unread_start_zones": {
     "basement_1": "BASEMENT 1 is staged by basement_pocket.json but no gate row reads its surface by name (only zone-generic rows judge it). Candidate gate row for the v22 art lane (A4); recorded 2026-09-05.",

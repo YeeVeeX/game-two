@@ -45,6 +45,12 @@ for script in harness/scripts/*.json; do
 done
 
 echo "WALL SWEEP DONE $(date +%H:%M:%S) — $count scripts, fails:${fails:- none}"
+if [ "${SKIP_CRITIC:-}" = "1" ]; then
+  # Fresh-eyes review (s135): a determinism-only sweep used to end with the
+  # same green summary as a judged one while EVERY pin refused. Say it loudly.
+  echo "WALL DETERMINISM-ONLY: SKIP_CRITIC=1 — no critic judged these frames and" \
+       "NO pins were recorded (see the PINS REFUSED lines above). NOT a shippable pass."
+fi
 if [ -n "$fails" ]; then
   echo "WALL FAIL:$fails"
   exit 1

@@ -155,7 +155,7 @@
     },
     {
       "id": "god_mark_reads",
-      "check": "When a pack body carries the god-mark (a small hollow pale-gold square floating just above the body), it reads at a glance as a persistent blessing on THAT body — clearly distinct from the gold possession halo (a ground ellipse under the feet with a solid gold chevron bobbing above the head — the mark is a hollow SQUARE glyph, not a chevron), the teal mark reticle (on humans), and magenta drop/pip glyphs. A thin near-black outline frames the mark's quad, separating it from whatever ground it floats over — a pale mark melting edge-less into a light wall fails. If no marked body appears in this replay, pass with why='not exercised by this script'."
+      "check": "When a pack body carries the god-mark (a small hollow pale-gold square floating just above the body), it reads at a glance as a persistent blessing on THAT body — clearly distinct from the gold possession halo (a ground ellipse under the feet with a solid gold chevron bobbing above the head — the mark is a small FILLED pale-gold square with a thin dark outline that sits ABOVE the body, never a chevron and never on the ground), the teal mark reticle (on humans), and magenta drop/pip glyphs. A thin near-black outline frames the mark's quad, separating it from whatever ground it floats over — a pale mark melting edge-less into a light wall fails. If no marked body appears in this replay, pass with why='not exercised by this script'."
     },
     {
       "id": "fixtures_distinct_read",
@@ -335,7 +335,7 @@
     },
     {
       "id": "boss_phase_pips_read",
-      "check": "Where a boss NAMEPLATE (cream BOSS N text with a dark halo, above a body) is on camera: small rust squares sit under the name, one per phase, exactly one filled — the fight arc reads at body scale. A body without a nameplate is not a boss (pink/red-flashing hostiles are hurt bodies). If no nameplated boss is present, pass with why='not exercised by this script'."
+      "check": "Where a PHASED boss's NAMEPLATE (cream BOSS N text with a dark halo, above a body) is on camera: small rust squares sit under the name, one per phase, exactly one filled - the fight arc reads at body scale. A single-phase boss (BOSS 1) draws no pips at all by design, so judge only a nameplated boss that HAS phases. A body without a nameplate is not a boss (pink/red-flashing hostiles are hurt bodies). If no nameplated PHASED boss is present, pass with why='not exercised by this script'."
     },
     {
       "id": "exit_signage_reads",
@@ -359,7 +359,7 @@
     },
     {
       "id": "pickup_gleam_reads",
-      "check": "A drop waiting on the ground GLEAMS: a few small bright sparks rise from it and fade (no flash ring and no falling chips - those belong to a hit spark), so an unclaimed pickup reads as 'come get this' and not as scenery. When it is collected a gold plus-N numeral rises from the collecting body. The gleam is deliberately quiet: judge it on frames where a drop sits on open ground. If no drop is on camera, pass with why='not exercised by this script'."
+      "check": "A drop waiting on the ground reads as a PICKUP rather than scenery: a small diamond GEM that bobs, carrying a bright thin facet highlight and an INTERMITTENT corner twinkle (it flashes for only a few frames out of every two dozen, so a frame showing the gem without a twinkle is normal and passes). When a drop is COLLECTED, a ring of small sparks rises from the collecting BODY - no flash ring and no falling chips, those belong to a hit spark - together with a gold plus-N numeral floating up from it. Judge the gem on frames where a drop sits on open ground, and the collection burst only on a pickup beat. If no drop and no pickup is on camera, pass with why='not exercised by this script'."
     },
     {
       "id": "low_hp_pulse_reads",
@@ -379,7 +379,7 @@
     },
     {
       "id": "blink_flash_reads",
-      "check": "When a hostile BLINKS (a short teleport instead of a walk) the ARRIVAL is marked: a brief bright flash grows at the destination tile over a handful of frames, so the body reads as having jumped rather than slid. A hostile that changes position between two frames with no flash anywhere fails. If no blink occurs in this reel, pass with why='not exercised by this script'."
+      "check": "When a hostile BLINKS (a short teleport instead of a walk) the ARRIVAL is marked: a violet hollow square outline SNAPS SHUT onto the arriving body - starting wide and closing inward over roughly ten frames - so the body reads as having jumped rather than slid. A hostile displaced five or more tiles between two ADJACENT-frame captures with no violet outline anywhere fails. If no blink occurs in this reel, pass with why='not exercised by this script'."
     },
     {
       "id": "ally_callout_reads",
@@ -387,7 +387,7 @@
     },
     {
       "id": "boss_bar_reads",
-      "check": "When a BOSS is on camera, a wide BOSS BAR is drawn top-center under the banner slot: its name above it in banner-cream with a dark halo, a dark-framed socket whose hot red-orange fill (with a bright top lip) shrinks as the boss loses hp, pale 1px NOTCHES marking the phase thresholds along the socket, and the phase PIPS in a row beneath it (one per phase, the current one filled solid, the rest hollow). The fill must agree with the fight - a boss at about half health reads about half full - and the bar must not collide with the zone banner above it, the HUD plate (top-left) or the minimap (top-right). If no boss is on camera, pass with why='not exercised by this script'."
+      "check": "When a BOSS is on camera, a wide BOSS BAR is drawn top-center under the banner slot: its name above it in banner-cream with a dark halo, and a dark-framed socket whose hot red-orange fill (with a bright top lip) shrinks as the boss loses hp. A PHASED boss also carries pale 1px NOTCHES marking its phase thresholds along the socket and a row of phase PIPS beneath it (one per phase, the current one filled solid, the rest hollow); a SINGLE-phase boss (BOSS 1 carries no phase list) correctly shows NEITHER notches NOR pips, and that is a pass. The fill must agree with the fight - a boss at about half health reads about half full - and the bar must not collide with the zone banner above it, the HUD plate (top-left) or the minimap (top-right). If no boss is on camera, pass with why='not exercised by this script'."
     }
   ]
 }

@@ -115,6 +115,15 @@ task :gate do
   # world-conditioned checks would misfire on netplay frames (the
   # moving_square lesson). Default untouched: the wall stays the wall.
   checks = ENV.fetch("CHECKS", "harness/gate_checks.json")
+  # Fresh-eyes review (s135): a stray exported CHECKS used to redirect the
+  # checklist silently. Name the checklist in every gate's own output, and
+  # refuse the netplay checklist for a WALL script outright (that pairing
+  # judges world frames against netplay-only rows and can only mislead).
+  puts "GATE checks: #{checks}"
+  if checks.include?("harness/net/") && script.include?("harness/scripts/")
+    abort "GATE REFUSED: #{script} is a wall script but CHECKS=#{checks} is the netplay " \
+          "checklist (unset CHECKS, or gate a harness/net/ script)"
+  end
   base = JSON.parse(File.read(script)).fetch("out_dir")
   a_dir = "#{base}_gate_a"
   b_dir = "#{base}_gate_b"

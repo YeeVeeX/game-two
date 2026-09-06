@@ -25,19 +25,19 @@
   },
   "captures": [
     13,
-    112,
+    94,
     256,
     267,
     268,
     282,
-    383,
-    407
+    299,
+    338
   ],
-  "run_until": 408,
+  "run_until": 339,
   "manifest": {
     "zone_entered": 2,
-    "actor_died": 4,
-    "attack_hit": 23,
-    "telegraph": 8
+    "actor_died": 3,
+    "attack_hit": 18,
+    "telegraph": 7
   }
 }

@@ -181,13 +181,29 @@ class PinsTest < Minitest::Test
              chdir: dir, err: File::NULL, &:read).strip.tr("\\", "/")
   end
 
+  # The MAIN clone's root, computed the way the resolvers compute it. ROOT is
+  # the tree this test file lives in, which is NOT the main clone when the
+  # suite runs inside a linked worktree (the pre-commit hook in a worktree, a
+  # sweep tree) — asserting against ROOT would turn these tests red in exactly
+  # the d4 scenario they exist to protect, which invites --no-verify.
+  def self.main_root
+    @main_root ||= begin
+      out = IO.popen(GIT_SCRUB,
+                     %w[git rev-parse --path-format=absolute --git-common-dir],
+                     chdir: ROOT, err: File::NULL, &:read).to_s.strip
+      out.empty? ? ROOT : File.dirname(out).tr("\\", "/")
+    end
+  end
+
   def test_ledger_paths_resolve_to_the_main_clone_in_the_plain_clone
-    assert_equal File.join(ROOT, "harness", "pins.json"), probe_default_path(ROOT)
+    main = self.class.main_root
+    assert_equal File.join(main, "harness", "pins.json"), probe_default_path(ROOT)
     skip "no Python interpreter" unless self.class.python
-    assert_equal ROOT, probe_critic_root(ROOT), "vision_critic._main_repo_root must be the repo root"
+    assert_equal main, probe_critic_root(ROOT), "vision_critic._main_repo_root must be the MAIN clone"
   end
 
   def test_ledger_paths_resolve_to_the_main_clone_from_a_worktree
+    main = self.class.main_root
     Dir.mktmpdir do |dir|
       wt = File.join(dir, "wt")
       out = IO.popen(GIT_SCRUB, %W[git worktree add --detach #{wt}], chdir: ROOT, err: [:child, :out], &:read)
@@ -197,10 +213,10 @@ class PinsTest < Minitest::Test
         # WORKING-TREE source — copy it in so uncommitted fixes are judged.
         FileUtils.cp(File.join(ROOT, "harness", "pins.rb"), File.join(wt, "harness", "pins.rb"))
         FileUtils.cp(File.join(ROOT, "harness", "vision_critic.py"), File.join(wt, "harness", "vision_critic.py"))
-        assert_equal File.join(ROOT, "harness", "pins.json"), probe_default_path(wt),
+        assert_equal File.join(main, "harness", "pins.json"), probe_default_path(wt),
                      "a worktree pin must land in the main clone's ledger"
         if self.class.python
-          assert_equal ROOT, probe_critic_root(wt),
+          assert_equal main, probe_critic_root(wt),
                        "a worktree gate's verdict log must land in the main clone's drafts/"
         end
       ensure
