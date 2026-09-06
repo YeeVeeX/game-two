@@ -366,5 +366,21 @@
     "date": "2026-09-06T19:20:11Z",
     "gate_rc": 1,
     "manifest_rc": 0
+  },
+  {
+    "script": "toll_pocket",
+    "tag": "v22-e1c-a",
+    "commit": "f609c31",
+    "date": "2026-09-06T21:40:43Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "basement_pocket",
+    "tag": "v22-e1c-a",
+    "commit": "f609c31",
+    "date": "2026-09-06T21:41:26Z",
+    "gate_rc": 1,
+    "manifest_rc": 0
   }
 ]

@@ -6,29 +6,107 @@
   "out_dir": "captures/basement_pocket",
   "start": {
     "zone": "basement_1",
-    "progression": { "level": 4, "xp": 0 }
+    "progression": {
+      "level": 4,
+      "xp": 0
+    }
   },
   "hold": {
     "right": [
-      [0, 6],
-      [560, 580],
-      [660, 680]
+      [
+        0,
+        6
+      ],
+      [
+        560,
+        580
+      ],
+      [
+        660,
+        680
+      ]
     ],
     "attack": [
-      [60, 60], [100, 100], [140, 140], [180, 180],
-      [220, 220], [260, 260], [300, 300], [340, 340],
-      [380, 380], [420, 420], [460, 460], [500, 500]
+      [
+        60,
+        60
+      ],
+      [
+        100,
+        100
+      ],
+      [
+        140,
+        140
+      ],
+      [
+        180,
+        180
+      ],
+      [
+        220,
+        220
+      ],
+      [
+        260,
+        260
+      ],
+      [
+        300,
+        300
+      ],
+      [
+        340,
+        340
+      ],
+      [
+        380,
+        380
+      ],
+      [
+        420,
+        420
+      ],
+      [
+        460,
+        460
+      ],
+      [
+        500,
+        500
+      ]
     ],
     "interact": [
-      [620, 620], [720, 720], [760, 760]
+      [
+        922,
+        922
+      ]
+    ],
+    "up": [
+      [
+        900,
+        918
+      ]
     ]
   },
-  "captures": [160, 200, 218, 420, 700, 850],
-  "run_until": 900,
+  "captures": [
+    160,
+    200,
+    218,
+    420,
+    700,
+    850,
+    923,
+    945
+  ],
+  "run_until": 960,
   "manifest": {
     "zone_entered": 2,
     "actor_died": 4,
     "drop_spawned": 4,
     "drop_picked_up": 1
-  }
+  },
+  "_doc": [
+    "re-author 2026-09-06 (Junior, manifest census red drop_picked_up=0): the fight ends late (husks die f767/f872/f888, drops at [9,4]/[10,5]/[9,5]) with the possessed blocker at [10,6]; the old interact presses (620/720/760) fired before any drop existed. Now: `up` 900-918 steps onto [10,5], `interact` 922 picks the drop up (World#interact on the drop's own tile), run_until 960, captures 923/945 show the pickup sparks rising from the body (pickup_gleam_reads)."
+  ]
 }
