@@ -184,6 +184,7 @@ module Game
           engage(creature, target, view)
         end
       elsif free_ally
+        @stall&.delete(creature.name) if ally_cfg # disengaged: the stall count dies with the fight
         anchor = follow_anchor(creature, view)
         follow(creature, anchor, view) if anchor
       end
@@ -269,9 +270,11 @@ module Game
         elsif !creature.moving?
           if dist > hold + 1
             chase_step(creature, target, view)
-          elsif stalled
-            advance_step(creature, target, view, floor: [hold - cfg.fetch(:stalemate_advance_tiles, 1), 2].max)
-          else
+          elsif stalled && advance_step(creature, target, view, floor: [hold - cfg.fetch(:stalemate_advance_tiles, 1), 2].max)
+            nil # closed one tile
+          elsif !stalled || !aligned?(creature, target)
+            # stalled at the floor: line the shot up if off-axis, else HOLD
+            # (align_step alone would step back out and wiggle forever).
             align_step(creature, target, view)
           end
         end
@@ -338,7 +341,7 @@ module Game
         next if d >= dist || d < floor
         ddx = target.tile[0] - to[0]
         ddy = target.tile[1] - to[1]
-        lined = ddx.zero? || ddy.zero? || ddx.abs == ddy.abs ? 0 : 1
+        lined = (ddx.zero? || ddy.zero? || ddx.abs == ddy.abs) ? 0 : 1
         key = [d, lined]
         best = [key, dx, dy] if best.nil? || (key <=> best[0]).negative?
       end

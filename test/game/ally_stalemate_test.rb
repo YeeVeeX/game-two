@@ -157,6 +157,31 @@ class AllyStalemateTest < Minitest::Test
     assert_equal 1, stall(ai)["lobber"][:frames], "count restarts on the tick the target moved"
   end
 
+  # Review finding 1: stalled AT the floor but off the shot line -> the ally
+  # still lines the shot up (align_step) instead of freezing; once aligned at
+  # the floor it HOLDS (no wiggle back out).
+  def test_stalled_at_the_floor_still_lines_the_shot_up
+    ai, lob, ember, view = scenario(ON)
+    lob.walker.teleport(3, 4) # dist 2 = floor, dx 2 / dy 1 = not aligned
+    ai.instance_variable_set(:@stall, { "lobber" => { target: ember, tile: ember.tile, frames: N } })
+    trail = Array.new(60) { engage_tick(ai, lob, ember, view) }
+    refute_equal [[3, 4]], trail.uniq, "a stalled off-axis ally at the floor does not freeze"
+    assert_equal [[2, 3], [3, 3]], trail.uniq, "align_step lines it up ([2,3]), the stall then closes to the floor ([3,3])"
+    assert ai.send(:aligned?, lob, ember), "it ends on the shot line"
+    assert trail.last(20).all? { |t| t == [3, 3] }, "and holds there"
+  end
+
+  # Review finding 2: disengaging (target out of aggro range -> follow branch)
+  # drops the stall memory; a later re-acquire starts the count from scratch.
+  def test_disengaging_clears_the_stall_count
+    ai, lob, ember, view = scenario(ON)
+    (N - 1).times { engage_tick(ai, lob, ember, view) }
+    assert_equal N - 1, stall(ai)["lobber"][:frames]
+    ember.clear_provocation! # C2: an unprovoked human is no target -> the free ally follows
+    ai.tick(lob, view)
+    assert_nil stall(ai)["lobber"], "no fight this tick -> no stall memory for this ally"
+  end
+
   # Determinism: two controllers, same ticks -> same tiles and same memory.
   def test_same_ticks_same_stream
     x = scenario(ON)
