@@ -38,6 +38,9 @@ never:
   - docs/
   - AGENTS.md
 ---
+> DONE 2026-09-06 - delivered @ f880c7c (folded d557f67). Kept as record; a delivered brief leaves drafts/lanes/ so its `owns` stop
+> fencing the next lane (the overlap test reads only the top level; done/ stays POLICY for every lane).
+
 # Raia `e3-presentation` — ticket E3 do v22 ("presentation truth")
 
 Spec: `docs/superpowers/specs/2026-09-05-v22-one-body-cycle.md` §5 linha **E3** ("Junior's surfaces → his line

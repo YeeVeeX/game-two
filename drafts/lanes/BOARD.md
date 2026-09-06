@@ -11,6 +11,7 @@ cerca LE (machine row). So a raia nomeada em SIM LANE pode tocar `src/game/**`.
 Raias escrevem SEUS receipts em `drafts/lanes/receipts/<lane>.md`; o integrador dobra aqui.
 
 ## Receipts (dobrados pelo integrador)
+RECEIPT: signage - OPEN lane-worker (fable) + scout + reviewer; dividas: renderer.rb 2124 -> extracao src/app/signage.rb (commit 1, byte-inerte) + regra do contorno de pressao (commit 2: so quando o corpo ESTA no anel: dist <= raio+1 e line_clear?) = brasa2 pressure_ring_reads (vermelha nas paredes #2/#3/#4); brief drafts/lanes/signage.md; worktree ../game-two-lane-sig; apresentacao pura
 RECEIPT: e3-presentation f880c7c READY (branch lane/e3-presentation, rebased + ff into junior/premium-build) ticket E3 4/4:
   b5 38 knobs escritos + 176 defaults removidos + teste de existencia · F-A3-1 safe_chip_y 138 · b3 prompt sse World#interact age
   na propria tile (rope_spot prompta; ao lado/totem nao) · b4 minimapa: aberta = ouro, trancada = cinza, MESMO predicado

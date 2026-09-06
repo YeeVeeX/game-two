@@ -29,3 +29,8 @@ drafts/lanes/<nome>.md nessa ordem e cumpra o brief."*
 ## Raias prontas
 `s4-equipment` - `s5-attributes` - `s6-vendor-bank` - `s7-boss-tables` (v24 THE REWARD - abrem
 quando o dono abrir o ciclo) - `review` - `validator` (podem rodar a qualquer momento).
+
+## Ciclo de vida de um brief
+ABERTO = `drafts/lanes/<raia>.md` (a cerca le daqui; `owns` valem). ENTREGUE = o integrador move para
+`drafts/lanes/done/` (registro; os `owns` deixam de cercar a proxima raia - o teste de sobreposicao le so o nivel de cima).
+Um brief entregue que ficar no nivel de cima BLOQUEIA qualquer raia nova nos mesmos arquivos (visto 2026-09-06: E3 x signage).

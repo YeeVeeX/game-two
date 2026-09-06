@@ -27,6 +27,9 @@ never:
   - docs/
   - AGENTS.md
 ---
+> DONE 2026-09-06 - delivered @ 97ce289 (branch lane/a3-stalemate @ ca4beb3, waits for the owner's word). Kept as record; a delivered brief leaves drafts/lanes/ so its `owns` stop
+> fencing the next lane (the overlap test reads only the top level; done/ stays POLICY for every lane).
+
 # Raia `a3-stalemate` (raia de PROVA do time multi-agente; trabalho util)
 
 ## Objetivo
