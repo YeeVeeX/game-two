@@ -23,6 +23,13 @@ TRANSPORTS (W6 cross-machine law — each seat names its own):
                      models.json gateway), CRITIC_GATEWAY_MODEL (default
                      fable-5.1), CRITIC_GATEWAY_KEY (default = read from
                      ~/.pi/agent/models.json; never printed, never in repo).
+
+WIRE MODE on the Bedrock transport (s135): non-streaming `converse` by
+default; `CRITIC_STREAM=1` restores `converse_stream`. Streaming stalled
+repeatedly on 2026-09-06 (three gates and two sweep scripts burned 7-24 min
+each at ~1 s CPU) while non-streaming answered a complete 97-row verdict in
+206 s. `CRITIC_READ_TIMEOUT` overrides the wire's timeout (default 300 s
+whole-response non-streaming, 90 s inter-chunk streaming).
 """
 
 from __future__ import annotations
@@ -40,6 +47,14 @@ from datetime import datetime
 from pathlib import Path
 
 TRANSPORT = os.environ.get("CRITIC_TRANSPORT", "bedrock")
+# WIRE MODE (s135): Bedrock's converse_stream stalled mid-stream repeatedly
+# tonight - three gates and two sweep scripts died with ~1 s of CPU burned over
+# 7-24 minutes, while a NON-streaming converse answered a full 97-row verdict
+# in 206 s on the same model, images and checklist. The critic never needed
+# incremental text (it concatenates and parses one JSON object at the end), so
+# non-streaming is the default and streaming stays available for comparison.
+# Same model, same prompts, same verdict law - only the wire changes.
+STREAM = os.environ.get("CRITIC_STREAM", "0") == "1"
 
 if TRANSPORT != "gateway":
     import boto3
@@ -191,14 +206,13 @@ def _client():
     if TRANSPORT == "gateway":
         return _GatewayClient()
     session = boto3.Session(profile_name=PROFILE, region_name=REGION)
-    # read_timeout is the INTER-CHUNK gap on converse_stream, not the whole
-    # generation: chunks arrive continuously while the model writes, so a long
-    # gap means the stream is STALLED, not that the verdict is slow. Measured
-    # live (s135): three streams sat 7-24 min with ~1 s of CPU while a direct
-    # probe answered in 3.2 s, turning 5-minute gates into 20-minute gates
-    # inside the old 300 s window. 90 s fails a stalled stream fast so the
-    # retry (3 attempts, 30 s apart) can actually recover it.
-    timeout = int(os.environ.get("CRITIC_READ_TIMEOUT", "90"))
+    # Two different meanings, so two different defaults: streaming's
+    # read_timeout is the INTER-CHUNK gap (chunks arrive continuously while the
+    # model writes, so a long gap means a STALLED stream, measured live s135),
+    # while non-streaming's is the whole-response window (a 97-row verdict took
+    # 206 s, so it must be generous or every verdict looks like a failure).
+    default = "90" if STREAM else "300"
+    timeout = int(os.environ.get("CRITIC_READ_TIMEOUT", default))
     return session.client("bedrock-runtime", config=BotoConfig(read_timeout=timeout))
 
 
@@ -213,13 +227,17 @@ def converse(client, content_blocks: list[dict], max_tokens: int = 8000) -> str:
     }
     for attempt in range(1, _ATTEMPTS + 1):
         try:
-            resp = client.converse_stream(**kwargs)
-            parts: list[str] = []
-            for event in resp["stream"]:
-                delta = event.get("contentBlockDelta", {}).get("delta", {})
-                if "text" in delta:
-                    parts.append(delta["text"])
-            return "".join(parts).strip()
+            if STREAM:
+                resp = client.converse_stream(**kwargs)
+                parts: list[str] = []
+                for event in resp["stream"]:
+                    delta = event.get("contentBlockDelta", {}).get("delta", {})
+                    if "text" in delta:
+                        parts.append(delta["text"])
+                return "".join(parts).strip()
+            resp = client.converse(**kwargs)
+            return "".join(b.get("text", "")
+                           for b in resp["output"]["message"]["content"]).strip()
         except (client.exceptions.ThrottlingException, BotoConnectionError,
                 ReadTimeoutError, Urllib3ReadTimeout, EventStreamError) as exc:
             # EventStreamError: Bedrock can 500 MID-stream (internalServerException
