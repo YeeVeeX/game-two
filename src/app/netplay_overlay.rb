@@ -8,6 +8,9 @@ module App
   # Pure state resolution lives in #flags (headless-tested against REAL
   # sessions); #draw is the only Gosu-touching method.
   class NetplayOverlay
+    # z 22/23 (2026-09-06): the END veil + its text sit ABOVE the HUD (19-21) and the
+    # controls strip (z 19 since 65f52e5). Before, the strip (z 0) sat under the veil by
+    # call order; at z 19 it surfaced over the end screen (fixes review §8b).
     BONE = [225, 215, 190].freeze          # Renderer::BANNER family
     DIM  = [160, 152, 140].freeze          # ControlsOverlay label tone
     BG   = [12, 10, 14].freeze             # ledger-panel near-black family
@@ -87,19 +90,19 @@ module App
     # the freeze IS the message, the line explains it).
     def screen_state(line, sub: nil, opaque: false)
       Gosu.draw_rect(0, 0, @view_w, @view_h,
-                     Gosu::Color.new(opaque ? 255 : VEIL_ALPHA, *BG))
+                     Gosu::Color.new(opaque ? 255 : VEIL_ALPHA, *BG), 22)
       f = state_font
       y = @view_h / 2 - 40
-      f.draw_text(line, (@view_w - f.text_width(line)) / 2, y, 10, 1, 1,
+      f.draw_text(line, (@view_w - f.text_width(line)) / 2, y, 23, 1, 1,
                   Gosu::Color.new(255, *BONE))
       return unless sub
       i = info_font
-      i.draw_text(sub, (@view_w - i.text_width(sub)) / 2, y + 44, 10, 1, 1,
+      i.draw_text(sub, (@view_w - i.text_width(sub)) / 2, y + 44, 23, 1, 1,
                   Gosu::Color.new(255, *DIM))
     end
 
     def draw_cue(text, font, y)
-      font.draw_text(text, (@view_w - font.text_width(text)) / 2, y, 10, 1, 1,
+      font.draw_text(text, (@view_w - font.text_width(text)) / 2, y, 23, 1, 1,
                      Gosu::Color.new(255, *BONE))
     end
 
