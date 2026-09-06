@@ -19,17 +19,38 @@
 #       entry). Exit 0 always — this is a ledger, not a gate; `rake gate`
 #       stays the ship-gate.
 #
-# Laws: the ledger never runs a replay; it reads pins.json + git. A pin
-# recorded from a worktree (Junior's ../game-two-wall pattern) is committed
-# with that worktree's wall record — the ledger reports whatever is on disk.
-# Unknown paths / malformed JSON refuse NAMED (no silent []).
+# Laws: the ledger never runs a replay; it reads pins.json + git. The ledger
+# lives in the MAIN clone even when a sweep runs in a worktree (T0 d4: the
+# 064bd80 sweep ran in worktree game-two-wall3, since pruned — its pins died
+# with it): DEFAULT_PATH resolves through `git rev-parse --git-common-dir`,
+# a no-op in the main clone. Unknown paths / malformed JSON refuse NAMED
+# (no silent []).
 
 require "json"
 require "time"
 
 module Harness
   module Pins
-    DEFAULT_PATH = File.expand_path("pins.json", __dir__)
+    # The main clone's root from ANY worktree (git-common-dir points home);
+    # no git on PATH / not a repo → fall back to this file's own repo.
+    # GIT_* scrubbed: under a git hook (rebase exec, pre-commit) inherited
+    # GIT_DIR/GIT_INDEX_FILE would override the -C discovery (hit live s135).
+    GIT_ENV_SCRUB = { "GIT_DIR" => nil, "GIT_INDEX_FILE" => nil,
+                      "GIT_WORK_TREE" => nil, "GIT_PREFIX" => nil }.freeze
+
+    def self.main_repo_root
+      out = IO.popen(
+        GIT_ENV_SCRUB,
+        ["git", "-C", __dir__, "rev-parse", "--path-format=absolute", "--git-common-dir"],
+        err: File::NULL, &:read
+      ).to_s.strip
+      return File.expand_path("..", __dir__) if out.empty?
+      File.expand_path("..", out)
+    rescue SystemCallError
+      File.expand_path("..", __dir__)
+    end
+
+    DEFAULT_PATH = File.join(main_repo_root, "harness", "pins.json")
     DEFAULT_SCRIPTS = File.expand_path("scripts", __dir__)
     RENDER_PATHS = %w[src/app src/game data].freeze
     REQUIRED = %w[script tag commit date gate_rc manifest_rc].freeze

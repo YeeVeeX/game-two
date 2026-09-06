@@ -2,6 +2,7 @@ require_relative "../test_helper"
 require "json"
 require "tmpdir"
 require "rbconfig"
+require "fileutils"
 
 # Wall pin ledger (v22 prep, s131): harness/pins.rb + harness/pins.json +
 # `rake pins`. Same class as manifest_check / run_wall tests: harness
@@ -103,6 +104,68 @@ class PinsTest < Minitest::Test
       out, rc = run_pins("frobnicate")
       assert_equal 2, rc
       assert_includes out, "usage:"
+    end
+  end
+
+  # --- E1 (T0 d4): pins + verdict log write to the MAIN clone's ledger from
+  # any worktree. The 064bd80 sweep ran in worktree game-two-wall3 (pruned);
+  # its pins and verdict JSON died with it while the tracked ledger stayed [].
+  # Both resolvers key on `git rev-parse --git-common-dir` — a no-op in the
+  # main clone, the main clone's .git from any linked worktree.
+
+  # Under the pre-commit hook git exports GIT_DIR/GIT_INDEX_FILE; a child
+  # `git worktree add` inheriting them dies on the parent's index path.
+  GIT_SCRUB = { "GIT_DIR" => nil, "GIT_INDEX_FILE" => nil,
+                "GIT_WORK_TREE" => nil, "GIT_PREFIX" => nil }.freeze
+
+  # First interpreter whose --version exits 0 (normalize_ldtk_test pattern).
+  def self.python
+    return @python if defined?(@python)
+    @python = [%w[python], %w[py -3.12], %w[python3]].find do |cmd|
+      IO.popen([*cmd, "--version"], err: File::NULL, &:read)
+      $?.success?
+    rescue Errno::ENOENT
+      false
+    end
+  end
+
+  def probe_default_path(dir)
+    IO.popen([RUBY, "-e", 'require File.expand_path("harness/pins.rb"); puts Harness::Pins::DEFAULT_PATH'],
+             chdir: dir, &:read).strip.tr("\\", "/")
+  end
+
+  def probe_critic_root(dir)
+    code = "import sys; sys.path.insert(0, 'harness'); " \
+           "import vision_critic as vc; print(vc._main_repo_root())"
+    IO.popen({ "CRITIC_TRANSPORT" => "gateway" }, [*self.class.python, "-c", code],
+             chdir: dir, err: File::NULL, &:read).strip.tr("\\", "/")
+  end
+
+  def test_ledger_paths_resolve_to_the_main_clone_in_the_plain_clone
+    assert_equal File.join(ROOT, "harness", "pins.json"), probe_default_path(ROOT)
+    skip "no Python interpreter" unless self.class.python
+    assert_equal ROOT, probe_critic_root(ROOT), "vision_critic._main_repo_root must be the repo root"
+  end
+
+  def test_ledger_paths_resolve_to_the_main_clone_from_a_worktree
+    Dir.mktmpdir do |dir|
+      wt = File.join(dir, "wt")
+      out = IO.popen(GIT_SCRUB, %W[git worktree add --detach #{wt}], chdir: ROOT, err: [:child, :out], &:read)
+      assert $?.success?, "git worktree add failed: #{out}"
+      begin
+        # The worktree checks out HEAD; the resolver under test is the
+        # WORKING-TREE source — copy it in so uncommitted fixes are judged.
+        FileUtils.cp(File.join(ROOT, "harness", "pins.rb"), File.join(wt, "harness", "pins.rb"))
+        FileUtils.cp(File.join(ROOT, "harness", "vision_critic.py"), File.join(wt, "harness", "vision_critic.py"))
+        assert_equal File.join(ROOT, "harness", "pins.json"), probe_default_path(wt),
+                     "a worktree pin must land in the main clone's ledger"
+        if self.class.python
+          assert_equal ROOT, probe_critic_root(wt),
+                       "a worktree gate's verdict log must land in the main clone's drafts/"
+        end
+      ensure
+        IO.popen(GIT_SCRUB, %W[git worktree remove --force #{wt}], chdir: ROOT, err: [:child, :out], &:read)
+      end
     end
   end
 end

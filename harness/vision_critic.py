@@ -31,6 +31,7 @@ import base64
 import json
 import os
 import re
+import subprocess
 import sys
 import time
 import urllib.error
@@ -284,6 +285,27 @@ def extract_json(text: str) -> dict:
     return json.loads(m.group(0))
 
 
+def _main_repo_root() -> Path:
+    """The verdict ledger + critique drafts live in the MAIN clone even when a
+    gate runs in a worktree (T0 d4: the 064bd80 sweep's verdict JSON died with
+    pruned worktree game-two-wall3). git-common-dir points home from any
+    worktree; in the main clone the resolution is a no-op. No git: fall back
+    to this file's own repo."""
+    here = Path(__file__).resolve().parent
+    env = {k: v for k, v in os.environ.items()
+           if k not in ("GIT_DIR", "GIT_INDEX_FILE", "GIT_WORK_TREE", "GIT_PREFIX")}
+    try:
+        out = subprocess.run(
+            ["git", "-C", str(here), "rev-parse", "--path-format=absolute", "--git-common-dir"],
+            capture_output=True, text=True, timeout=15, check=False, env=env,
+        ).stdout.strip()
+        if out:
+            return Path(out).parent
+    except OSError:
+        pass
+    return here.parent
+
+
 def run_verdict(captures_dir: Path, checks_path: Path) -> int:
     checks_doc = json.loads(checks_path.read_text(encoding="utf-8"))
     checks = checks_doc["checks"]
@@ -340,7 +362,7 @@ def run_verdict(captures_dir: Path, checks_path: Path) -> int:
                 print(f"GATE INFRA ERROR: unusable verdict: {exc}", file=sys.stderr)
                 return 2
             time.sleep(20)
-    log = Path("drafts") / "_gate-verdicts.log"
+    log = _main_repo_root() / "drafts" / "_gate-verdicts.log"
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     with log.open("a", encoding="utf-8") as fh:
         fh.write(f"\n=== {stamp} {captures_dir} ===\n{json.dumps(result, indent=2)}\n")
@@ -380,7 +402,7 @@ def main() -> None:
         out_parts.append("## Motion reel critique\n\n```json\n" + text + "\n```")
 
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-    out = Path("drafts") / f"_vision-critique-{stamp}.md"
+    out = _main_repo_root() / "drafts" / f"_vision-critique-{stamp}.md"
     route = (f"{GATEWAY_MODEL} via gateway {GATEWAY_URL}" if TRANSPORT == "gateway"
              else f"{MODEL} on bedrock-runtime ({PROFILE}/{REGION})")
     header = (
