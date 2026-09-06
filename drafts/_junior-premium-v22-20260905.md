@@ -265,3 +265,13 @@ byte-identical x2 each run; manifest floors zone_entered 1 / human_retargeted 4 
 4/18/6/6. `blinked` stays OUT of the curated EventLog (canary md5 law) - the reel proves the blink by captures.
 Pin recorded (`harness/pins.rb record`, tag build-junior @ 5a14a63). Remaining owner debt from s135: the `floor3_run`
 BOSS 1 capture in 733-1646 - AFTER his E1 sweep closes (pins alignment).
+
+### v22 ticket E4 DONE (12:15-12:35) - `drafts/_v22-e4-record-20260906.md`
+The six MUNDO VIVO zones enter the identity contract (they were ABSENT: no test read them). Decision = the spec's
+second path, a RECORDED LAW AMENDMENT: the v20 "wall LIGHTER than floor, luma spread >= 40" was a value-only,
+one-orientation encoding of the real goal (legibility in the flat fallback). Amended: legible by VALUE (|spread| >= 40,
+orientation-free) OR by CHROMA (RGB distance >= 40 AND |spread| >= 20); orientation NAMED per zone and asserted by sign
+(TOWER = light floor / dark red wall, inverted on purpose; pilot + BRASA = dark floor); motif law orientation-free.
+No pixel changed (art = law; every tower/brasa pin stays valid). Honesty row: BRASA passes the chroma channel by
+1.4-12 (lava + fire glows carry it in play); the lever, if the owner wants a stronger fallback, is the sidecar +
+importer, then re-gate brasa1..3. 8 identity rows x 17 zones = 374 assertions green.

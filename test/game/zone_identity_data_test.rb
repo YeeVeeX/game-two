@@ -4,7 +4,8 @@ require "core/tile_map"
 
 # v16 (b): every REACHABLE real zone carries an identity block, and every
 # block honors the legibility contracts the spec pins: value structure
-# constant (wall reads LIGHTER than floor, wide spread), motif subtle
+# legible (v20: wall LIGHTER than floor, wide spread; E4 2026-09-06: by value
+# OR by chroma, orientation named per zone - see the amendment note below), motif subtle
 # (between floor and wall, closer to floor), ambient faint, no gold hues
 # off the transition channel (gold = walkable, reserved — W5).
 # T5 (2026-08-21): the four pilot zones joined the live graph through the
@@ -19,9 +20,34 @@ class ZoneIdentityDataTest < Minitest::Test
   DATA = Core::DataStore.new(File.expand_path("../../data", __dir__))
   AMBIENCE_PRESETS = DATA["ambience"][:presets].keys.map(&:to_s).freeze
   ZONES = %w[nest district district_two camp slow_door low_quay
-             zone_7 basement_1 basement_2 dungeon_1 zone_8].freeze
+             zone_7 basement_1 basement_2 dungeon_1 zone_8
+             dungeon_2 dungeon_3 dungeon_4 ember_1 ember_2 ember_3].freeze
 
   def luma((r, g, b)) = 0.299 * r + 0.587 * g + 0.114 * b
+  # Chroma channel of the legibility contract (E4 amendment, 2026-09-06): plain
+  # RGB distance - the same space the tileset textures are tinted in.
+  def rgb_dist(a, b) = Math.sqrt(a.zip(b).sum { |x, y| (x - y)**2 })
+
+  # E4 LAW AMENDMENT (v22 ticket E4, drafts/_v22-e4-record-20260906.md). The v20
+  # contract said "wall LIGHTER than floor, luma spread >= 40" - true for the
+  # pilot's dark-floor zones and for the ratified low_quay<->zone_7 edge, but a
+  # VALUE-ONLY, ONE-ORIENTATION law. The MUNDO VIVO package (played and ratified,
+  # sealed visual bible = law) added two families it cannot describe:
+  #   TOWER (dungeon_2/3/4): LIGHT stone floor, DARK buried-rock red wall -
+  #     the value structure is INVERTED on purpose (spread -25..-31) and the
+  #     read is carried by HUE (grey vs red, RGB distance 92..115).
+  #   BRASA (ember_1/2/3): a low-key fire-lit cave, both surfaces dark
+  #     (spread +23..+29 the right way round, RGB distance 41..52); in play the
+  #     lava tiles + fire glows carry it, the flat palette is the FALLBACK read.
+  # What the contract protects is LEGIBILITY of wall vs floor in the flat
+  # (no-texture) fallback. Amended law: two surfaces are legible when EITHER
+  #   (value)  |luma spread| >= 40                                  - the v20 law, orientation-free
+  #   (chroma) RGB distance >= 40 AND |luma spread| >= 20            - hue carries it, value still helps
+  # and the motif reads as FLOOR TEXTURE when its luma sits between floor and
+  # wall, nearer the floor - in either orientation.
+  VALUE_SPREAD_MIN = 40
+  CHROMA_DIST_MIN = 40
+  CHROMA_VALUE_MIN = 20
 
   def each_zone
     ZONES.each { |z| yield z, DATA["zones/#{z}"] }
@@ -36,12 +62,37 @@ class ZoneIdentityDataTest < Minitest::Test
     end
   end
 
-  def test_value_structure_holds_wall_light_floor_dark_wide_spread
+  def test_value_structure_wall_and_floor_are_legible_by_value_or_by_chroma
+    each_zone do |name, cfg|
+      pal = cfg[:palette]
+      spread = (luma(pal[:wall]) - luma(pal[:floor])).abs
+      dist = rgb_dist(pal[:wall], pal[:floor])
+      by_value = spread >= VALUE_SPREAD_MIN
+      by_chroma = dist >= CHROMA_DIST_MIN && spread >= CHROMA_VALUE_MIN
+      assert by_value || by_chroma,
+             "#{name}: wall/floor not legible in the flat fallback - |luma spread| #{spread.round(1)} " \
+             "(need >= #{VALUE_SPREAD_MIN}) and RGB distance #{dist.round(1)} (need >= #{CHROMA_DIST_MIN} " \
+             "with |spread| >= #{CHROMA_VALUE_MIN})"
+    end
+  end
+
+  # The v20 pilot zones and the ratified edge keep the ORIGINAL orientation:
+  # amending the law for the tower must not silently let a dark-floor zone
+  # flip. Pinned by name so a re-author of one of these is a decision, not a drift.
+  DARK_FLOOR_ZONES = %w[nest district district_two camp slow_door low_quay
+                        zone_7 basement_1 basement_2 dungeon_1 zone_8 ember_1 ember_2 ember_3].freeze
+  LIGHT_FLOOR_ZONES = %w[dungeon_2 dungeon_3 dungeon_4].freeze
+
+  def test_value_orientation_is_a_named_choice_per_zone
+    assert_equal ZONES.sort, (DARK_FLOOR_ZONES + LIGHT_FLOOR_ZONES).sort, "every zone names its orientation"
     each_zone do |name, cfg|
       pal = cfg[:palette]
       spread = luma(pal[:wall]) - luma(pal[:floor])
-      assert_operator spread, :>=, 40,
-                      "#{name}: wall/floor luma spread #{spread.round(1)} too narrow"
+      if LIGHT_FLOOR_ZONES.include?(name)
+        assert_operator spread, :<, 0, "#{name}: TOWER law - light stone floor, dark buried-rock wall"
+      else
+        assert_operator spread, :>, 0, "#{name}: pilot law - dark floor, lighter wall"
+      end
     end
   end
 
@@ -51,9 +102,13 @@ class ZoneIdentityDataTest < Minitest::Test
       m = luma(pal[:motif_rgb])
       f = luma(pal[:floor])
       w = luma(pal[:wall])
-      assert_operator m, :>, f, "#{name}: motif darker than floor (invisible)"
-      assert_operator m, :<, (f + w) / 2.0,
-                      "#{name}: motif louder than texture — it must read as floor, not items"
+      lo, hi = [f, w].minmax
+      # orientation-free (E4): on a dark floor the motif is a lighter speckle,
+      # on the tower's light stone it is a darker one - both read as texture.
+      assert_operator m, :>, lo, "#{name}: motif outside the floor..wall band (below)"
+      assert_operator m, :<, hi, "#{name}: motif outside the floor..wall band (above)"
+      assert_operator (m - f).abs, :<, (w - m).abs,
+                      "#{name}: motif louder than texture — nearer the wall than the floor; it must read as floor, not items"
     end
   end
 
