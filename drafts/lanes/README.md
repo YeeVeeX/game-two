@@ -12,8 +12,11 @@ Desenho completo: `drafts/_multiagent-lanes-design-20260906.md`. Resumo operacio
 - Ninguem alem do **validador**/**integrador** abre janela Gosu.
 - Handoff = `RECEIPT:` no receipt DA RAIA (`drafts/lanes/receipts/<lane>.md`); o integrador dobra no
   BOARD, mergeia em ordem, regenera arte, roda a parede 1x por janela de integracao, empurra `main`.
-- A cerca le brief + BOARD do ref `main` (trusted) e fecha renames pelos dois lados, exige o branch
-  da raia e o SIM TOKEN para `src/game/**`; falha FECHADA em erro/opcao desconhecida (rc 2).
+- A cerca (v3) le brief + BOARD do ref `main` (trusted); canonicaliza caminhos (`./`, `//`, `\\`; `..` =
+  MALFORMED); POLICY = tudo em drafts/lanes/ menos receipts/, por INTERSECAO de glob (um owns que
+  possa cobrir policy e recusado no parse); renames/copies fecham pelos dois lados; branch da raia em
+  TODO modo (`--no-branch-check` so para sondas); `src/game/**` exige `SIM LANE: <lane>` no BOARD;
+  schema estrito (listas, `branch: lane/<lane>`); falha FECHADA (rc 2).
 
 ## Lancar uma raia (Junior)
 ```

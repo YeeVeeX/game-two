@@ -2,28 +2,27 @@
 # Lane guard — the FENCE that makes multi-agent lanes collide-free by
 # construction (drafts/_multiagent-lanes-design-20260906.md §2.2).
 #
-# Hardened after the fresh-eyes review of 2026-09-06 (drafts/_review-lanes-...):
-#   * the brief is read from a TRUSTED REF (default `main`, `--trust <ref>`),
+# v3 (after two fresh-eyes reviews, 2026-09-06):
+#   * brief + BOARD are read from a TRUSTED REF (default `main`, `--trust <ref>`),
 #     never from the working tree — a lane cannot widen its own `owns`;
-#   * a lane never owns policy (any drafts/lanes/*.md brief or BOARD.md);
+#   * POLICY = everything under drafts/lanes/ except drafts/lanes/receipts/
+#     (briefs, README, BOARD are integrator-only); an owns pattern that could
+#     COVER a policy path (glob intersection, segment-wise) is refused at parse;
+#   * paths are CANONICALIZED (\ -> /, // -> /, leading ./ dropped) and any
+#     "." / ".." segment is refused as MALFORMED;
 #   * renames/copies fence BOTH sides (`git diff --name-status -z -M -C`);
-#   * the current branch must equal the brief's `branch:` (staged/--base modes);
-#   * `src/game/**` additionally requires the SIM TOKEN line in BOARD.md (at
-#     the trusted ref) to name this lane;
-#   * fail-CLOSED: unknown options, empty operands, git errors => exit 2.
-#
-# Front matter (real YAML, parsed with the stdlib):
-#   ---
-#   lane: s4-equipment
-#   branch: lane/s4-equipment
-#   owns: [src/game/equipment.rb, test/game/equipment_test.rb]
-#   never: [src/game/world.rb]
-#   ---
+#   * the current branch must equal the brief's `branch:` in EVERY mode
+#     (`--no-branch-check` exists for probes/tests only and says so);
+#   * `src/game/**` additionally requires BOARD's machine row `SIM LANE: <lane>`
+#     to name this lane (the human `SIM TOKEN:` line is attribution only);
+#   * strict schema: `lane` [a-z0-9._-], `branch` == "lane/<lane>", `owns`/`never`
+#     = LISTS of non-empty strings (a scalar is an error, never coerced);
+#   * fail-CLOSED: unknown option, empty operands, git errors => exit 2.
 #
 #   ruby tools/lane_guard.rb <lane>                       # staged files (pre-commit)
 #   ruby tools/lane_guard.rb <lane> --base <ref>          # everything changed since <ref>
-#   ruby tools/lane_guard.rb <lane> --files <paths...>    # explicit list (tests/probes; no branch check)
-#   ... [--trust <ref>]  brief + BOARD read from <ref> (default main)
+#   ruby tools/lane_guard.rb <lane> --files <paths...>    # explicit list
+#   ... [--trust <ref>] [--no-branch-check]
 require "yaml"
 require "open3"
 
@@ -31,8 +30,18 @@ module LaneGuard
   class BadBrief < StandardError; end
   class GitError < StandardError; end
 
-  POLICY_PATHS = ["drafts/lanes/*.md"].freeze          # briefs, README, BOARD: integrator-only
+  POLICY_DIR = "drafts/lanes".freeze
+  RECEIPTS_DIR = "drafts/lanes/receipts".freeze
   SIM_PATHS = ["src/game/**"].freeze
+  LANE_NAME = /\A[a-z0-9][a-z0-9._-]*\z/
+
+  # Canonical repo-relative path; nil when any segment is "", "." or "..".
+  def self.canon(path)
+    p = path.to_s.strip.tr("\\", "/").squeeze("/").sub(%r{\A\./}, "")
+    segs = p.split("/")
+    return nil if p.empty? || segs.empty? || segs.any? { |s| s.empty? || s == "." || s == ".." }
+    segs.join("/")
+  end
 
   def self.parse_brief(text)
     t = text.sub(/\A\xEF\xBB\xBF/, "").gsub("\r\n", "\n")
@@ -40,23 +49,46 @@ module LaneGuard
     raise BadBrief, "brief has no front matter (--- ... ---)" unless m
     cfg = YAML.safe_load(m[1], permitted_classes: [], aliases: false) || {}
     raise BadBrief, "front matter is not a mapping" unless cfg.is_a?(Hash)
-    raise BadBrief, "brief has no `lane:`" unless cfg["lane"].is_a?(String)
-    owns = Array(cfg["owns"]).map(&:to_s).map(&:strip).reject(&:empty?)
-    never = Array(cfg["never"]).map(&:to_s).map(&:strip).reject(&:empty?)
-    raise BadBrief, "brief `#{cfg['lane']}` owns nothing" if owns.empty?
+    lane = cfg["lane"]
+    raise BadBrief, "brief has no valid `lane:` (#{LANE_NAME.inspect})" unless lane.is_a?(String) && lane.match?(LANE_NAME)
+    raise BadBrief, "brief `#{lane}`: `branch:` must be exactly \"lane/#{lane}\"" unless cfg["branch"] == "lane/#{lane}"
+    owns = list!(cfg["owns"], "owns", lane)
+    never = cfg.key?("never") ? list!(cfg["never"], "never", lane) : []
+    raise BadBrief, "brief `#{lane}` owns nothing" if owns.empty?
     owns.each do |o|
-      raise BadBrief, "brief `#{cfg['lane']}` owns POLICY path #{o.inspect} (integrator-only)" if policy?(o)
+      raise BadBrief, "brief `#{lane}` owns a POLICY pattern #{o.inspect} (only #{RECEIPTS_DIR}/ is a lane's)" if policy?(o)
     end
-    { "lane" => cfg["lane"], "branch" => cfg["branch"].to_s, "owns" => owns, "never" => never }
+    { "lane" => lane, "branch" => cfg["branch"], "owns" => owns, "never" => never }
   end
 
-  # A pattern that could cover a policy file (literal or glob).
+  def self.list!(v, key, lane)
+    ok = v.is_a?(Array) && !v.empty? && v.all? { |x| x.is_a?(String) && !x.strip.empty? }
+    raise BadBrief, "brief `#{lane}`: `#{key}:` must be a LIST of non-empty strings (got #{v.inspect})" unless ok && v.length == v.length
+    v.map(&:strip)
+  end
+
+  # One glob segment vs one literal segment ("*" within a segment; "**" = anything).
+  def self.seg_match?(seg, name)
+    return true if seg == name || seg == "**"
+    return false unless seg.include?("*")
+    Regexp.new("\\A" + Regexp.escape(seg).gsub("\\*", "[^/]*") + "\\z").match?(name)
+  end
+
+  # Could this OWNS pattern cover anything under drafts/lanes/ other than
+  # receipts/? Decided segment-wise on the pattern (glob intersection), so
+  # `drafts/l*/x.md`, `./drafts/lanes/x.md`, `drafts//lanes/`, `drafts/`, `**`
+  # are all policy; `drafts/lanes/receipts/...` and `drafts/_review-*.md` are not.
   def self.policy?(pattern)
-    p = pattern.tr("\\", "/")
-    return true if POLICY_PATHS.any? { |pp| match?(pp, p) }
-    return true if p == "drafts/lanes/" || p == "drafts/lanes/**" || p.start_with?("drafts/") && (p.end_with?("/") || p.end_with?("/**")) && "drafts/lanes/x.md".start_with?(p.sub(/\*\*\z/, ""))
-    return true if p == "drafts/" || p == "drafts/**" || p == "./" || p == "**"
-    false
+    c = pattern.to_s.strip.tr("\\", "/").squeeze("/").sub(%r{\A\./}, "")
+    return true if c.empty?
+    segs = c.sub(%r{/\*\*\z}, "").sub(%r{/\z}, "").split("/").reject(&:empty?)
+    return true if segs.empty? || segs == ["**"] || segs == ["*"]
+    return true if segs.any? { |x| x == "." || x == ".." } # a dotted pattern can escape anywhere: refuse
+    return false unless seg_match?(segs[0], "drafts")
+    return true if segs.length == 1
+    return false unless seg_match?(segs[1], "lanes")
+    return true if segs.length == 2
+    segs[2] != "receipts"
   end
 
   # Path pattern -> true/false. "dir/" and "dir/**" own the subtree; "*" one segment.
@@ -72,21 +104,29 @@ module LaneGuard
     p == pat
   end
 
-  # -> { ok:, outside: [...], forbidden: [...], policy: [...], sim: [...] }
-  def self.check(cfg, files, token_holder: nil)
-    outside, forbidden, policy, sim = [], [], [], []
-    files.each do |f|
-      if POLICY_PATHS.any? { |pp| match?(pp, f) }
-        policy << f
+  def self.policy_path?(f)
+    f == POLICY_DIR || (f.start_with?("#{POLICY_DIR}/") && !f.start_with?("#{RECEIPTS_DIR}/"))
+  end
+
+  # -> { ok:, malformed:, policy:, forbidden:, outside:, sim: }
+  def self.check(cfg, files, sim_lane: nil)
+    r = { malformed: [], policy: [], forbidden: [], outside: [], sim: [] }
+    files.each do |raw|
+      f = canon(raw)
+      if f.nil?
+        r[:malformed] << raw
+      elsif policy_path?(f)
+        r[:policy] << f
       elsif cfg["never"].any? { |n| match?(n, f) }
-        forbidden << f
+        r[:forbidden] << f
       elsif cfg["owns"].none? { |o| match?(o, f) }
-        outside << f
-      elsif SIM_PATHS.any? { |sp| match?(sp, f) } && token_holder != cfg["lane"]
-        sim << f
+        r[:outside] << f
+      elsif SIM_PATHS.any? { |sp| match?(sp, f) } && sim_lane != cfg["lane"]
+        r[:sim] << f
       end
     end
-    { ok: [outside, forbidden, policy, sim].all?(&:empty?), outside:, forbidden:, policy:, sim: }
+    r[:ok] = r.values.all?(&:empty?)
+    r
   end
 
   # `git diff --name-status -z -M -C` -> every path on BOTH sides of a change.
@@ -107,10 +147,11 @@ module LaneGuard
     out.compact.uniq
   end
 
-  # BOARD line `SIM TOKEN: <holder> ...` -> holder (first token), nil if absent.
-  def self.token_holder(board_text)
-    m = board_text.to_s.match(/^SIM TOKEN:\s*([^\s(]+)/m)
-    m && m[1]
+  # BOARD machine row `SIM LANE: <lane>` -> lane; `NONE` or absent -> nil.
+  def self.sim_lane(board_text)
+    m = board_text.to_s.match(/^SIM LANE:\s*(\S+)\s*$/m)
+    return nil unless m
+    m[1] == "NONE" ? nil : m[1]
   end
 
   def self.git(root, *args)
@@ -122,34 +163,37 @@ module LaneGuard
   def self.main(argv)
     argv = argv.dup
     lane = argv.shift
-    usage = "usage: ruby tools/lane_guard.rb <lane> [--base <ref> | --files <paths...>] [--trust <ref>]"
-    return (warn usage) || 2 if lane.nil? || lane.start_with?("--")
+    usage = "usage: ruby tools/lane_guard.rb <lane> [--base <ref> | --files <paths...>] [--trust <ref>] [--no-branch-check]"
+    return (warn usage) || 2 if lane.nil? || lane.start_with?("--") || !lane.match?(LANE_NAME)
     root = File.expand_path("..", __dir__)
     trust = "main"
     mode = :staged
     base = nil
     files = nil
+    branch_check = true
     until argv.empty?
       case (opt = argv.shift)
       when "--trust" then trust = argv.shift or return (warn "--trust needs a ref") || 2
       when "--base"  then mode = :base; base = argv.shift or return (warn "--base needs a ref") || 2
       when "--files" then mode = :files; files = argv.dup; argv.clear
+      when "--no-branch-check" then branch_check = false
       else return (warn "unknown option #{opt.inspect}\n#{usage}") || 2
       end
     end
-    begin
-      brief = git(root, "show", "#{trust}:drafts/lanes/#{lane}.md")
-    rescue GitError => e
-      warn "lane_guard: cannot read the brief at trusted ref #{trust}: #{e.message}"
-      return 2
-    end
-    cfg = parse_brief(brief)
+    cfg = parse_brief(git(root, "show", "#{trust}:#{POLICY_DIR}/#{lane}.md"))
     board = begin
-      git(root, "show", "#{trust}:drafts/lanes/BOARD.md")
+      git(root, "show", "#{trust}:#{POLICY_DIR}/BOARD.md")
     rescue GitError
       ""
     end
-    holder = token_holder(board)
+    holder = sim_lane(board)
+    if branch_check
+      cur = git(root, "rev-parse", "--abbrev-ref", "HEAD").strip
+      if cur != cfg["branch"]
+        warn "lane_guard #{cfg['lane']}: REFUSED - on branch #{cur.inspect}, the lane's branch is #{cfg['branch'].inspect} (probes: --no-branch-check)"
+        return 1
+      end
+    end
     case mode
     when :files
       return (warn "--files needs at least one path") || 2 if files.nil? || files.empty?
@@ -158,24 +202,18 @@ module LaneGuard
     else
       files = changed_paths(git(root, "diff", "--cached", "--name-status", "-z", "-M", "-C"))
     end
-    if mode != :files && !cfg["branch"].empty?
-      cur = git(root, "rev-parse", "--abbrev-ref", "HEAD").strip
-      if cur != cfg["branch"]
-        warn "lane_guard #{cfg['lane']}: REFUSED - on branch #{cur.inspect}, the lane's branch is #{cfg['branch'].inspect}"
-        return 1
-      end
-    end
     files = files.map(&:strip).reject(&:empty?)
-    r = check(cfg, files, token_holder: holder)
+    r = check(cfg, files, sim_lane: holder)
     if r[:ok]
-      puts "lane_guard #{cfg['lane']}: OK (#{files.length} path(s) inside the fence; brief @ #{trust})"
+      puts "lane_guard #{cfg['lane']}: OK (#{files.length} path(s) inside the fence; brief @ #{trust}#{branch_check ? '' : '; branch check OFF'})"
       0
     else
       puts "lane_guard #{cfg['lane']}: REFUSED"
+      r[:malformed].each { |f| puts "  MALFORMED (./.. segment): #{f}" }
       r[:policy].each { |f| puts "  POLICY (integrator-only): #{f}" }
       r[:forbidden].each { |f| puts "  FORBIDDEN (never): #{f}" }
       r[:outside].each { |f| puts "  OUTSIDE (not in owns): #{f}  -> PATCH REQUEST in your receipt" }
-      r[:sim].each { |f| puts "  SIM TOKEN required (holder: #{holder.inspect}): #{f}" }
+      r[:sim].each { |f| puts "  SIM LANE required (holder: #{holder.inspect}): #{f}" }
       1
     end
   rescue BadBrief, GitError => e

@@ -259,12 +259,13 @@ module App
       # a PACK victim's spark is CRIMSON (the hurt-flash law: never white on
       # your bodies - basement_pocket wall #3 read the pale star as a white
       # flash); a hostile's spark stays warm white (the "hit landed" read)
+      # strict rows (display.json declares them; a missing row is a boot error)
       if p[:pack]
-        core = Gosu::Color.new(a, *@display.fetch(:fx_spark_pack_core_rgb, [255, 120, 110]))
-        warm = Gosu::Color.new(a, *@display.fetch(:fx_spark_pack_rgb, [225, 45, 45]))
+        core = Gosu::Color.new(a, *@display.fetch(:fx_spark_pack_core_rgb))
+        warm = Gosu::Color.new(a, *@display.fetch(:fx_spark_pack_rgb))
       else
-        core = Gosu::Color.new(a, *@display.fetch(:fx_spark_core_rgb, [255, 255, 240]))
-        warm = Gosu::Color.new(a, *@display.fetch(:fx_spark_rgb, [255, 200, 90]))
+        core = Gosu::Color.new(a, *@display.fetch(:fx_spark_core_rgb))
+        warm = Gosu::Color.new(a, *@display.fetch(:fx_spark_rgb))
       end
       x, y = p[:x], p[:y]
       Gosu.draw_rect(x - len, y - thick / 2, len * 2, thick, warm, z)

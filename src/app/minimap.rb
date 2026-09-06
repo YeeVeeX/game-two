@@ -37,10 +37,10 @@ module App
     # adjacent husks + the pack read as one orange blob - basement wall #3).
     # Capped by minimap_scale_max; per map, so the cached image matches.
     def scale_for(map)
-      w, h = @display.fetch(:minimap_size, [128, 80])
-      base = @display.fetch(:minimap_scale, 2)
+      w, h = @display.fetch(:minimap_size)
+      base = @display.fetch(:minimap_scale)
       fit = [w / map.cols, h / map.rows].min
-      fit.clamp(base, @display.fetch(:minimap_scale_max, 4))
+      fit.clamp(base, @display.fetch(:minimap_scale_max))
     end
 
     # --- zone image -------------------------------------------------------------
@@ -122,14 +122,15 @@ module App
       end
       world.humans.each do |h|
         next if h.dead?
-        dot.call(h, (h.kit[:boss] || h.kit[:seize]) ? [255, 60, 60] : [225, 70, 50], (h.kit[:boss] ? s + 2 : s + 1), h.kit[:boss])
+        ex = @display.fetch(:minimap_dot_extra) # {hostile:, boss:, pack:, you:} px over the scale
+        dot.call(h, (h.kit[:boss] || h.kit[:seize]) ? [255, 60, 60] : [225, 70, 50], s + (h.kit[:boss] ? ex[:boss] : ex[:hostile]), h.kit[:boss])
       end
       world.pack.living.each do |m|
         next if m.equal?(me)
         col = @kit_body[m.kit_name]
-        dot.call(m, [col.red, col.green, col.blue], s + 1, true)
+        dot.call(m, [col.red, col.green, col.blue], s + @display.fetch(:minimap_dot_extra)[:pack], true)
       end
-      dot.call(me, [255, 220, 120], s + 2, true) if me
+      dot.call(me, [255, 220, 120], s + @display.fetch(:minimap_dot_extra)[:you], true) if me
     end
 
     # Subimage of the zone image for the window; small zones (image smaller

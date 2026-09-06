@@ -1733,7 +1733,7 @@ module App
           mx, my, mw, mh = @minimap.rect(vw)
           if ax > mx - m && ay < my + mh + m
             if ay <= m + 1
-              ax = mx - m - 8      # top band: left of the box, still on the top edge
+              ax = mx - m - @display.fetch(:exit_arrow_gap) # top band: left of the box, still on the top edge
             else
               ay = my + mh + m     # right band: below the box, still on the right edge
             end
