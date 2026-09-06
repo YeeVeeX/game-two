@@ -526,7 +526,7 @@ extraction proved BYTE-INERT (ledger_loop + town_gates IDENTICAL(6) x2 at 4348ed
 @ 223c5c8, 25 gates: 21 PASS / 4 FAIL (brasa3 aura "lit, no bearer"; respawn_telegraph telegraph_reads at peak swell;
 sustain_run pale-lobber tint + dust sampling; wall_fixture_walk fixture minimap) -> answered in 38948f8 with the fixes
 review (aura at z -1 + scorched fill + bearer dot; halo contour closed ellipse; safe-chip backing z 19; fx chip rgb row;
-gate_batch NO-CAPTURES + REGATE grammar; wall_triage guards; 5 row clauses) -> re-gate 7: 5 PASS.
+gate_batch NO-CAPTURES + REGATE grammar; wall_triage guards; 5 row clauses) -> re-gate 7: 6 PASS / 7 (FAIL: sustain_run ).
 Every --ref cell in batch B is DIFFERS(n/n) = the fixes touched every frame of every reel (halo contour on the possessed
 is in every frame) - expected, and the reason the extraction proof had to run at 4348ed9. Named debts left: zone banner
 + stamp lines at z 10 (inside the vignette band; every zone_banner row passed at HEAD; patch regex missed - next pass),

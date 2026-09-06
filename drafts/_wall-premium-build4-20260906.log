@@ -1,6 +1,6 @@
 # BUILD phase wall #4 - worktree game-two-wall6 @ cbaa4a5 (S1-S3 + E3 + E4/E5 + blink_arrival/basement_pocket + fence v3), 2026-09-06 10:10 - 13:28 (44 scripts)
 # Close batch A (extraction proof, worktree game-two-sig1 @ 4348ed9 = lane signage commit 1 vs wall captures): ledger_loop + town_gates IDENTICAL(6) x2 = byte-inert.
-# Close batch B @ 223c5c8 (25 gates incl. every failed script + the fix reels, --ref = frames each fix touched): 21 PASS / 4 FAIL -> fixes 38948f8 -> re-gate 7: 5 PASS.
+# Close batch B @ 223c5c8 (25 gates incl. every failed script + the fix reels, --ref = frames each fix touched): 21 PASS / 4 FAIL -> fixes 38948f8 -> re-gate 7: 6 PASS / 7 (FAIL: sustain_run ).
 # Sweep: 16 gate fails / 1 manifest fail (toll_pocket, pre-existing). 20 rows / 16 scripts: 7 drawings fixed on the branch, 7 rows corrected, 4 sampling/flip, 2 measured after (zone8 lines = not reproduced at HEAD; tower2 volley = PASS at HEAD). No sim change; canaries YES x3 at every commit.
 
 ## sweep (filtered)
@@ -220,3 +220,28 @@ PIN recorded: town_gates tag=build4re commit=38948f8 gate_rc=0 manifest_rc=0
 PIN recorded: respawn_telegraph tag=build4re commit=38948f8 gate_rc=0 manifest_rc=0
 === respawn_telegraph  gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(9/9,ref_only=0) ===
 === REGATE sustain_run 16:06:48 ===
+
+## re-gate @ 38948f8 - FINAL (the block above was banked at 5/7 by a poll timeout; wall6 captures were removed before the last two gates, hence NO-REF)
+=== REGATE brasa3_run 15:45:43 ===
+PIN recorded: brasa3_run tag=build4re commit=38948f8 gate_rc=0 manifest_rc=0
+=== brasa3_run         gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(11/11,ref_only=0) ===
+=== REGATE boss2_phases 15:49:00 ===
+PIN recorded: boss2_phases tag=build4re commit=38948f8 gate_rc=0 manifest_rc=0
+=== boss2_phases       gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(8/8,ref_only=0) ===
+=== REGATE world_loop 15:51:29 ===
+PIN recorded: world_loop tag=build4re commit=38948f8 gate_rc=0 manifest_rc=0
+=== world_loop         gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(10/10,ref_only=0) ===
+=== REGATE town_gates 16:01:36 ===
+PIN recorded: town_gates tag=build4re commit=38948f8 gate_rc=0 manifest_rc=0
+=== town_gates         gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(6/6,ref_only=0) ===
+=== REGATE respawn_telegraph 16:03:54 ===
+PIN recorded: respawn_telegraph tag=build4re commit=38948f8 gate_rc=0 manifest_rc=0
+=== respawn_telegraph  gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(9/9,ref_only=0) ===
+=== REGATE sustain_run 16:06:48 ===
+GATE INFRA ERROR: unusable verdict: checklist coverage mismatch: missing=['pickup_gleam_reads'] unknown=[]
+=== sustain_run        gate_rc=1 manifest_rc=0 captures_vs_ref=NO-REF(10) ===
+=== REGATE wall_fixture_walk 16:38:20 ===
+PIN recorded: wall_fixture_walk tag=build4re commit=8fbfa95 gate_rc=0 manifest_rc=0
+=== wall_fixture_walk  gate_rc=0 manifest_rc=0 captures_vs_ref=NO-REF(5) ===
+GATE BATCH build4re DONE 16:39:53 (54 min)
+# re-gate total: 6 PASS / 7 · FAIL: sustain_run 
