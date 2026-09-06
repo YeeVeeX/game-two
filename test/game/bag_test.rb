@@ -134,7 +134,7 @@ class BagTest < Minitest::Test
     assert_equal JSON.generate(a.to_save), JSON.generate(JSON.parse(JSON.generate(a.to_save))), "JSON round-trip stable"
   end
 
-  def test_from_save_round_trips_the_digest_and_refuses_lies
+  def test_from_save_round_trips_the_digest_raises_on_corruption_and_clamps_churn
     a = bag(slots: 4)
     a.add!(:flask_sap, 12)
     a.add!(:antidote, 1)
@@ -143,14 +143,23 @@ class BagTest < Minitest::Test
     assert_equal 12, back.count(:flask_sap)
     assert_equal 3, back.used, "12 flasks (stack 10) + 1 antidote = 3 stacks, laid out again by add!"
     assert_equal a.to_save, back.to_save
-    loader = ->(list) { Game::Bag.from_save(list, catalog: CATALOG, slots: 2) }
-    assert_raises(ArgumentError) { loader.call("nope") }
-    assert_raises(ArgumentError) { loader.call([{ "id" => "flask_sap" }]) }
-    assert_raises(ArgumentError) { loader.call([{ "id" => "flask_sap", "qty" => 0 }]) }
-    assert_raises(ArgumentError) { loader.call([{ "id" => "flask_sap", "qty" => 1.5 }]) }
-    assert_raises(ArgumentError) { loader.call([{ "id" => "sword_of_lore", "qty" => 1 }]) }
-    assert_raises(ArgumentError) { loader.call([{ "id" => "flask_sap", "qty" => 1 }, { "id" => "flask_sap", "qty" => 1 }]) }
-    assert_raises(ArgumentError) { loader.call([{ "id" => "flask_sap", "qty" => 21 }]) } # 2 slots x 10 = 20: 21 does not fit
+    # SHAPE = corruption -> ArgumentError -> the character validator refuses the record
+    corrupt = ->(list) { Game::Bag.from_save(list, catalog: CATALOG, slots: 2) }
+    assert_raises(ArgumentError) { corrupt.call("nope") }
+    assert_raises(ArgumentError) { corrupt.call([{ "id" => "flask_sap" }]) }
+    assert_raises(ArgumentError) { corrupt.call([{ "id" => "flask_sap", "qty" => 1.5 }]) }
+    assert_raises(ArgumentError) { corrupt.call([{ "id" => :flask_sap, "qty" => 1 }]) }
+    # VALUE drift = churn -> clamp with a printed line (P3 law: a retune never bricks a save)
+    lines = []
+    churn = ->(list, slots) { Game::Bag.from_save(list, catalog: CATALOG, slots:, on_drop: ->(m) { lines << m }) }
+    b = churn.call([{ "id" => "sword_of_lore", "qty" => 1 }, { "id" => "flask_sap", "qty" => 3 }], 2)
+    assert_equal [{ "id" => "flask_sap", "qty" => 3 }], b.to_save, "a retired item is dropped, the rest loads"
+    b = churn.call([{ "id" => "flask_sap", "qty" => 21 }], 2)
+    assert_equal 20, b.count(:flask_sap), "bag_slots lowered to 2 (x10): what fits stays, the rest is dropped"
+    b = churn.call([{ "id" => "flask_sap", "qty" => 0 }, { "id" => "antidote", "qty" => 1 }, { "id" => "antidote", "qty" => 2 }], 4)
+    assert_equal [{ "id" => "antidote", "qty" => 3 }], b.to_save, "qty 0 dropped; duplicates merged"
+    assert_equal 4, lines.length, lines.inspect
+    assert lines.all? { |l| l.start_with?("save: ") }, "every clamp prints a save: line, like level/xp/hp"
     assert_equal [], Game::Bag.from_save([], catalog: CATALOG, slots: 2).to_save
   end
 

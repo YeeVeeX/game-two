@@ -104,23 +104,37 @@ module Game
              .sort_by { |h| h["id"] }
     end
 
-    # STRICT loader (character-validator law, spec §T1): a list that is not an
-    # Array of {"id" => String, "qty" => positive Integer} with catalog ids, or that
-    # does not FIT the bag, raises ArgumentError - never a phantom or truncated stack.
-    # The validator owns the failure mode (refuse the record); this only tells the truth.
-    def self.from_save(list, catalog:, slots:)
+    # Loader under the P3 CHURN LAW (save_state.rb: "a curve/cap retune must never
+    # brick a save"; landing review 2026-09-06 MAJOR 2). SHAPE errors are corruption
+    # and raise ArgumentError (the character validator refuses the record). VALUE
+    # drift is churn and CLAMPS with a printed line, like level / xp / hp / provisions:
+    #   unknown id    (item retired from the catalog)   -> dropped, line
+    #   overflow      (economy.json bag_slots lowered)  -> what fits stays, rest dropped, line
+    #   qty <= 0                                         -> dropped, line
+    #   duplicate id  (canonical form has one per id)   -> merged, line
+    # `on_drop` receives each line (default: warn); tests pass a collector.
+    def self.from_save(list, catalog:, slots:, on_drop: ->(msg) { warn msg })
       raise ArgumentError, "bag: expected an Array, got #{list.class}" unless list.is_a?(Array)
-      b = new(catalog:, slots:)
-      seen = []
+      merged = {}
       list.each do |h|
-        ok = h.is_a?(Hash) && h["id"].is_a?(String) && h["qty"].is_a?(Integer) && h["qty"].positive?
+        ok = h.is_a?(Hash) && h["id"].is_a?(String) && h["qty"].is_a?(Integer)
         raise ArgumentError, "bag: bad entry #{h.inspect}" unless ok
         id = h["id"].to_sym
-        raise ArgumentError, "bag: unknown item #{h['id'].inspect}" unless catalog.include?(id)
-        raise ArgumentError, "bag: duplicate id #{h['id'].inspect} (canonical form merges)" if seen.include?(id)
-        seen << id
-        raise ArgumentError, "bag: #{h['qty']} x #{h['id']} does not fit #{slots} slots" unless b.room_for?(id, h["qty"])
-        b.add!(id, h["qty"])
+        if h["qty"] <= 0
+          on_drop.call("save: dropped bag entry #{h['id']} x #{h['qty']} (non-positive qty)")
+          next
+        end
+        unless catalog.include?(id)
+          on_drop.call("save: dropped #{h['qty']} x #{h['id']} (not in the item catalog)")
+          next
+        end
+        on_drop.call("save: merged duplicate bag entry #{h['id']} (canonical form has one per id)") if merged.key?(id)
+        merged[id] = merged.fetch(id, 0) + h["qty"]
+      end
+      b = new(catalog:, slots:)
+      merged.each do |id, qty|
+        left = b.add!(id, qty)
+        on_drop.call("save: dropped #{left} x #{id} (bag_slots #{slots} cannot hold them)") if left.positive?
       end
       b
     end

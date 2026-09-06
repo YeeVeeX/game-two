@@ -15,10 +15,10 @@ the seat when T1 merges (Gabriel's `t1-schema3`, CLAIMED s136 `a41ca0c`).
 - S3 statuses (`status.json`, burn DOT, cure) — no persistence need (statuses are session state).
 - **NEW (this commit): `Game::Bag#to_save` / `Game::Bag.from_save`** — the canonical persisted
   form + strict loader, tested (`test/game/bag_test.rb` ×2): empty bag ⇒ `[]` (= the T1 default);
-  same contents in any pickup order / stack split ⇒ byte-identical bytes; loader refuses non-Array,
-  bad entry shape, `qty` ≤ 0 / non-Integer, unknown catalog id, duplicate id, contents that do not
-  fit `slots`. The character validator owns the failure mode (refuse the record); the loader only
-  tells the truth.
+  same contents in any pickup order / stack split ⇒ byte-identical bytes; loader raises `ArgumentError` on SHAPE only
+  (not an Array, bad entry types) and CLAMPS value drift with a printed `save: ...` line - unknown
+  catalog id, overflow after a `bag_slots` retune, `qty` ≤ 0, duplicate ids - the P3 churn law of
+  `save_state.rb` ("a retune must never brick a save"; landing review 2026-09-06 MAJOR 2).
 
 ## PATCH REQUEST → T1 (Gabriel), 3 lines, apply when the record exists
 1. **Serialize** (wherever the host character record is written, per player id):
@@ -26,8 +26,10 @@ the seat when T1 merges (Gabriel's `t1-schema3`, CLAIMED s136 `a41ca0c`).
    sorted by id, one entry per id. Default when no world/bag: `[]` (already the spec default).
 2. **Load** (character validator / world boot from a record):
    `Game::Bag.from_save(record.fetch("bag", []), catalog: catalog, slots: economy.fetch(:bag_slots))`
-   — inside the validator's rescue: `ArgumentError` ⇒ the record is refused with its message
-   (same lane as `home_refusal`), never silently truncated.
+   — CHURN LAW (P3, `save_state.rb` "a retune must never brick a save"): unknown ids / overflow /
+   `qty` ≤ 0 / duplicates are CLAMPED with a printed `save: ...` line (exactly like level/xp/hp/provisions);
+   only a SHAPE error raises `ArgumentError` ⇒ the validator refuses the record (same lane as
+   `home_refusal`). `@pinned` (bag-screen pin order) is display state and is not saved.
 3. **Wire** (`Game::Loot#init_loot!` today does `@bag = Game::Bag.new(...)`): accept an optional
    loaded bag — `@bag = loaded_bag || Game::Bag.new(catalog: @catalog, slots: @economy.fetch(:bag_slots))`.
    One keyword on `init_loot!(data, seed, bag: nil)`; `World` passes the record's bag when it has one.

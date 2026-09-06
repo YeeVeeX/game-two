@@ -21,11 +21,18 @@ require_relative "../test/support/headless_script"
 ROOT = File.expand_path("..", __dir__)
 names = ARGV.empty? ? Dir[File.join(ROOT, "harness/scripts/*.json")].map { |f| File.basename(f, ".json") }.sort : ARGV
 fails = []
+not_judged = []
 t0 = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 names.each do |name|
   raw = JSON.parse(File.read(File.join(ROOT, "harness/scripts/#{name}.json")), symbolize_names: true)
   unless raw[:scenario].to_s == "world"
-    puts "#{name.ljust(22)} SKIP   scenario=#{raw[:scenario]}"
+    if raw[:manifest] && !raw[:manifest].empty?
+      not_judged << name
+      puts "#{name.ljust(22)} SKIP   scenario=#{raw[:scenario]} - HAS A MANIFEST #{raw[:manifest].inspect}: NOT judged here " \
+           "(that scene builds its own World; the wall's manifest_check is its only judge)"
+    else
+      puts "#{name.ljust(22)} SKIP   scenario=#{raw[:scenario]} (no manifest)"
+    end
     next
   end
   manifest = raw.fetch(:manifest, {})
@@ -54,4 +61,5 @@ names.each do |name|
   end
 end
 dt = (Process.clock_gettime(Process::CLOCK_MONOTONIC) - t0).round
-puts "CENSUS #{names.length} scripts in #{dt}s - #{fails.empty? ? 'ALL PASS' : "#{fails.length} FAIL: #{fails.join(' ')}"}"
+puts "CENSUS #{names.length} scripts in #{dt}s - #{fails.empty? ? 'ALL PASS' : "#{fails.length} FAIL: #{fails.join(' ')}"}" \
+     "#{not_judged.empty? ? '' : " · NOT JUDGED (manifest outside the world scenario): #{not_judged.join(' ')}"}"

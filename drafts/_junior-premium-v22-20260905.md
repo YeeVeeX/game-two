@@ -388,3 +388,29 @@ dark 1px outline/backing on the chevron (a MARKER, not a gem); knobs `possess_ha
 `possess_chevron_outline_rgb`. Gates after: boss2_phases (row) + world_loop (pilot dark floor, no regression). The row
 `possessed_readable` is right as written. Named: the TOWER floor may expose more dark-floor-tuned overlays (aura square,
 telegraph edges) - wall #4 is the census.
+
+### Landing review (lane-reviewer, fable, 10:21-10:38) -> `drafts/_review-landing-freshEyes-20260906.md`: WITH MINORS, 2 MAJORs, answered (10:45)
+Both MAJORs were mine and both were RIGHT:
+- **MAJOR 1 - the E4 "chroma" clause measured the wrong thing.** Euclidean RGB distance carries the grey axis: the
+  reviewer's counterexample wall [124,124,124] / floor [100,100,100] (spread 24, ZERO hue) passed as "legible by
+  chroma", and BRASA's 41-52 was value relabelled - its ORTHOGONAL chroma is 15-18 (TOWER: 83-100, genuinely hue-carried).
+  Fixed: `chroma_dist` = component of wall-floor perpendicular to grey; the law now has THREE NAMED clauses - value
+  |spread| >= 40 · chroma >= 40 with |spread| >= 20 · **low-key** (20 <= |spread| < 40 AND floor luma <= 30 AND a carrier
+  key `lava_deco`) - BRASA passes by the low-key clause with its carrier named in code; the same palette WITHOUT
+  `lava_deco` is refused (tested); the counterexample is a unit test; a new `data/zones/*.json` must be in ZONES or in
+  UNCONTRACTED_ZONES (today: gate_fixture, grass_fixture, wall_fixture) or the suite fails. Record got a CORRECTION
+  section with the honest table. Lesson: "40/40/20 = the v20 budget reused" was units-blind - luma vs RGB distance.
+- **MAJOR 2 - `Bag.from_save` refused the record on value drift**, against the P3 churn law in save_state.rb ("a retune
+  must never brick a save": level/xp/hp/provisions CLAMP with a warn). Lowering `bag_slots` or retiring an item would
+  have bricked every save with a full bag. Fixed: SHAPE errors (not an Array, bad entry types) raise -> the validator
+  refuses; VALUE drift (unknown id, overflow, qty <= 0, duplicate id) CLAMPS with a printed `save: ...` line via an
+  `on_drop` callback (default warn; tests collect). Plan updated (§NEW + PATCH REQUEST 2), `@pinned` = display state, not saved.
+MINORs answered now (mine, no lane owns the files): blink_arrival floors = ONE run's observed counts 2/9/3/3 (the checker
+reads the double log, so 2x) + `_doc` cites `tools/blink_probe.rb`; `manifest_census` prints NOT JUDGED loudly for a
+manifest outside the world scenario (menu_tour) instead of a silent SKIP; README/BOARD carry an EN header (machine rows,
+paths and the executable law are English; prose pt-br for the running seat). Deferred to the signage-lane integration
+(its files): `interact_verb` nil for an already-breached seal + "iff a DISPATCH exists" comment; minimap literal
+fallbacks -> `minimap_*_rgb` knobs. basement_pocket floors (4/4/4/1 vs single-run 3/3/3/1) are Gabriel's E1.4 numbers
+- not mine to move. Answer 8 (T1 collision forecast) banked for the landing: world.rb attr block + interact hunks,
+save_state_test CLASSIFICATION rows, state_digest_test FACT_KEYS; world.rb 1798/1800 -> if T1's apply! bridge needs
+lines, I extract `interact*` to `src/game/interact.rb` (byte-inert, canaries prove) on his word.

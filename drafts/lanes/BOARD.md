@@ -1,4 +1,5 @@
 # BOARD - estado vivo das raias (INTEGRADOR-ONLY; a cerca recusa raias aqui)
+> EN: machine rows `SIM LANE:` / `RECEIPT:` and every path are English; prose is pt-br for the running seat.
 
 SIM TOKEN: Gabriel (T1 schema 3 / player record) - next: s4-equipment (v24)
 SIM LANE: NONE

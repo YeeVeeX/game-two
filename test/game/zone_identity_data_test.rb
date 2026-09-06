@@ -24,30 +24,44 @@ class ZoneIdentityDataTest < Minitest::Test
              dungeon_2 dungeon_3 dungeon_4 ember_1 ember_2 ember_3].freeze
 
   def luma((r, g, b)) = 0.299 * r + 0.587 * g + 0.114 * b
-  # Chroma channel of the legibility contract (E4 amendment, 2026-09-06): plain
-  # RGB distance - the same space the tileset textures are tinted in.
-  def rgb_dist(a, b) = Math.sqrt(a.zip(b).sum { |x, y| (x - y)**2 })
+  # Chroma channel of the legibility contract (E4 amendment, 2026-09-06; the landing
+  # review's MAJOR 1 corrected the MEASURE): the component of (wall - floor)
+  # ORTHOGONAL to the grey axis. Plain RGB distance was wrong here - it carries the
+  # grey (value) axis too, so an achromatic pair with |spread| 24 read as "legible
+  # by chroma" (reviewer's counterexample [124,124,124] / [100,100,100], tested below).
+  def chroma_dist(a, b)
+    d = a.zip(b).map { |x, y| x - y }
+    Math.sqrt([d.sum { |v| v * v } - (d.sum**2) / 3.0, 0.0].max)
+  end
 
-  # E4 LAW AMENDMENT (v22 ticket E4, drafts/_v22-e4-record-20260906.md). The v20
-  # contract said "wall LIGHTER than floor, luma spread >= 40" - true for the
-  # pilot's dark-floor zones and for the ratified low_quay<->zone_7 edge, but a
-  # VALUE-ONLY, ONE-ORIENTATION law. The MUNDO VIVO package (played and ratified,
-  # sealed visual bible = law) added two families it cannot describe:
-  #   TOWER (dungeon_2/3/4): LIGHT stone floor, DARK buried-rock red wall -
-  #     the value structure is INVERTED on purpose (spread -25..-31) and the
-  #     read is carried by HUE (grey vs red, RGB distance 92..115).
-  #   BRASA (ember_1/2/3): a low-key fire-lit cave, both surfaces dark
-  #     (spread +23..+29 the right way round, RGB distance 41..52); in play the
-  #     lava tiles + fire glows carry it, the flat palette is the FALLBACK read.
+  # E4 LAW AMENDMENT (v22 ticket E4, drafts/_v22-e4-record-20260906.md + its
+  # CORRECTION section). The v20 contract said "wall LIGHTER than floor, luma
+  # spread >= 40" - true for the pilot's dark-floor zones and for the ratified
+  # low_quay<->zone_7 edge, but a VALUE-ONLY, ONE-ORIENTATION law. The MUNDO VIVO
+  # package (played and ratified, sealed visual bible = law) added two families:
+  #   TOWER (dungeon_2/3/4): LIGHT stone floor, DARK buried-rock red wall - the
+  #     value structure is INVERTED on purpose (spread -25..-31) and the read is
+  #     carried by HUE (grey vs red: orthogonal chroma 83..100).
+  #   BRASA (ember_1/2/3): a LOW-KEY fire-lit cave, both surfaces dark (spread
+  #     +23..+29 the right way round, orthogonal chroma only 15..18): the flat
+  #     palette alone is a WEAK read; in play the lava tiles (`lava_deco`) and
+  #     the fire glow pools (src/app/light.rb) carry it. Named, not hidden.
   # What the contract protects is LEGIBILITY of wall vs floor in the flat
-  # (no-texture) fallback. Amended law: two surfaces are legible when EITHER
-  #   (value)  |luma spread| >= 40                                  - the v20 law, orientation-free
-  #   (chroma) RGB distance >= 40 AND |luma spread| >= 20            - hue carries it, value still helps
+  # (no-texture) fallback. A zone passes by ONE of three NAMED clauses (each
+  # prints its numbers on failure):
+  #   (value)   |luma spread| >= 40                              - the v20 law, orientation-free
+  #   (chroma)  orthogonal chroma >= 40 AND |luma spread| >= 20  - hue carries it (TOWER)
+  #   (low-key) 20 <= |luma spread| < 40 AND floor luma <= 30 AND the palette
+  #             carries a light source (`lava_deco`)             - BRASA: a recorded
+  #             exception with its CARRIER named; the owner's numbers may retune it
   # and the motif reads as FLOOR TEXTURE when its luma sits between floor and
   # wall, nearer the floor - in either orientation.
   VALUE_SPREAD_MIN = 40
   CHROMA_DIST_MIN = 40
   CHROMA_VALUE_MIN = 20
+  LOW_KEY_SPREAD_MIN = 20
+  LOW_KEY_FLOOR_LUMA_MAX = 30
+  LOW_KEY_CARRIERS = %i[lava_deco].freeze
 
   def each_zone
     ZONES.each { |z| yield z, DATA["zones/#{z}"] }
@@ -62,18 +76,51 @@ class ZoneIdentityDataTest < Minitest::Test
     end
   end
 
-  def test_value_structure_wall_and_floor_are_legible_by_value_or_by_chroma
+  # -> [legible?, why]. Pure; the counterexample test below feeds it hand pairs.
+  def legible?(pal)
+    spread = (luma(pal[:wall]) - luma(pal[:floor])).abs
+    chroma = chroma_dist(pal[:wall], pal[:floor])
+    by_value = spread >= VALUE_SPREAD_MIN
+    by_chroma = chroma >= CHROMA_DIST_MIN && spread >= CHROMA_VALUE_MIN
+    low_key = spread >= LOW_KEY_SPREAD_MIN && spread < VALUE_SPREAD_MIN &&
+              luma(pal[:floor]) <= LOW_KEY_FLOOR_LUMA_MAX && LOW_KEY_CARRIERS.any? { |k| pal.key?(k) }
+    why = "|luma spread| #{spread.round(1)} (value needs >= #{VALUE_SPREAD_MIN}); orthogonal chroma " \
+          "#{chroma.round(1)} (chroma needs >= #{CHROMA_DIST_MIN} with |spread| >= #{CHROMA_VALUE_MIN}); " \
+          "low-key needs #{LOW_KEY_SPREAD_MIN} <= |spread| < #{VALUE_SPREAD_MIN}, floor luma <= " \
+          "#{LOW_KEY_FLOOR_LUMA_MAX} (is #{luma(pal[:floor]).round(1)}) and a carrier key #{LOW_KEY_CARRIERS.inspect}"
+    [by_value || by_chroma || low_key, why]
+  end
+
+  def test_value_structure_wall_and_floor_are_legible_by_value_chroma_or_named_low_key
     each_zone do |name, cfg|
-      pal = cfg[:palette]
-      spread = (luma(pal[:wall]) - luma(pal[:floor])).abs
-      dist = rgb_dist(pal[:wall], pal[:floor])
-      by_value = spread >= VALUE_SPREAD_MIN
-      by_chroma = dist >= CHROMA_DIST_MIN && spread >= CHROMA_VALUE_MIN
-      assert by_value || by_chroma,
-             "#{name}: wall/floor not legible in the flat fallback - |luma spread| #{spread.round(1)} " \
-             "(need >= #{VALUE_SPREAD_MIN}) and RGB distance #{dist.round(1)} (need >= #{CHROMA_DIST_MIN} " \
-             "with |spread| >= #{CHROMA_VALUE_MIN})"
+      ok, why = legible?(cfg[:palette])
+      assert ok, "#{name}: wall/floor not legible in the flat fallback - #{why}"
     end
+  end
+
+  def test_the_landing_reviews_achromatic_counterexample_is_refused
+    # 2026-09-06 landing review MAJOR 1: this pair passed the OLD "chroma" clause
+    # (RGB distance 41.6) with ZERO hue. Spread 24, floor luma 100, no carrier.
+    ok, why = legible?({ wall: [124, 124, 124], floor: [100, 100, 100] })
+    refute ok, "an achromatic near-grey pair must never read as legible: #{why}"
+    ok, = legible?({ wall: [124, 124, 124], floor: [100, 100, 100], lava_deco: [255, 90, 20] })
+    refute ok, "a carrier does not rescue a LIGHT floor - low-key is a dark-cave clause"
+    assert legible?({ wall: [148, 49, 30], floor: [104, 104, 108] })[0], "TOWER passes by chroma (dungeon_3 numbers)"
+    assert legible?({ wall: [70, 46, 40], floor: [28, 22, 22], lava_deco: [255, 90, 20] })[0],
+           "BRASA passes by the NAMED low-key clause (ember_1 numbers)"
+    refute legible?({ wall: [70, 46, 40], floor: [28, 22, 22] })[0],
+           "without its carrier BRASA's flat palette is refused - the exception is named, not silent"
+  end
+
+  # The identity rows read a HAND list (ZONES): a new data/zones/*.json would be
+  # judged by nobody (landing review, answer 1). Every zone file is either under
+  # the contract or NAMED here as not-yet-contracted; moving one across is a decision.
+  UNCONTRACTED_ZONES = %w[gate_fixture grass_fixture wall_fixture].freeze
+
+  def test_every_zone_file_is_under_contract_or_named_uncontracted
+    files = Dir[File.expand_path("../../data/zones/*.json", __dir__)].map { |f| File.basename(f, ".json") }.sort
+    assert_equal files, (ZONES + UNCONTRACTED_ZONES).sort,
+                 "unlisted: #{(files - ZONES - UNCONTRACTED_ZONES).inspect} / listed but missing: #{(ZONES + UNCONTRACTED_ZONES - files).inspect}"
   end
 
   # The v20 pilot zones and the ratified edge keep the ORIGINAL orientation:

@@ -1,3 +1,6 @@
+> EN: machine rows (`SIM LANE:`, `RECEIPT:`), file paths and the executable law (`tools/lane_guard.rb`) are English;
+> this prose is pt-br for the seat that runs it (docs/JUNIOR.md carries the same law). AGENTS.md is the source of truth.
+
 # Lanes - como as raias trabalham em paralelo sem se pisar
 
 Desenho completo: `drafts/_multiagent-lanes-design-20260906.md`. Resumo operacional:
