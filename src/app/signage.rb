@@ -22,6 +22,69 @@ module App
     # sim is never touched); pure, so test/app/interact_prompt_test.rb proves it.
     INTERACT_STATIONS = %w[bank altar vat seal].freeze
 
+    # --- pressure outline rule (lane `signage` commit 2) ------------------
+    # Presentation GEOMETRY: which tiles a straight segment from `from` to `to`
+    # crosses, walls only (`map.passable?`), never bodies (the ring reads
+    # through bodies). NOT the sim's ranged shot ray (`World#line_clear?`,
+    # world.rb — an 8-WAY ray that is false for every pair off a row/column/
+    # diagonal; the pressure ring is the full Chebyshev square, 16 tiles at
+    # r=2, of which only 8 are 8-way aligned). Plain integer Bresenham with a
+    # FIXED tie-break (error term, x-step first): on the 8 aligned offsets it
+    # visits EXACTLY the tiles the sim ray visits (a supercover diagonal would
+    # also touch the two orthogonal neighbours and get pinched where the sim
+    # is not) — test/app/pressure_outline_test.rb (vi) asserts the agreement.
+    # Endpoint semantics mirror the sim ray: intermediate tiles are checked,
+    # `from` and `to` themselves are not; from == to is open.
+    def self.sight_open?(map, from, to)
+      x0, y0 = from
+      x1, y1 = to
+      dx = (x1 - x0).abs
+      dy = -(y1 - y0).abs
+      sx = x0 < x1 ? 1 : -1
+      sy = y0 < y1 ? 1 : -1
+      err = dx + dy
+      x = x0
+      y = y0
+      loop do
+        return true if x == x1 && y == y1
+        e2 = 2 * err
+        if e2 >= dy
+          break if x == x1
+          err += dy
+          x += sx
+        end
+        if e2 <= dx
+          break if y == y1
+          err += dx
+          y += sy
+        end
+        return true if x == x1 && y == y1
+        return false unless map.passable?(x, y)
+      end
+      true
+    end
+
+    def self.chebyshev((ax, ay), (bx, by)) = [(bx - ax).abs, (by - ay).abs].max
+
+    # The one decision for the hostile's hollow outline (pure, headless):
+    # outline IFF the sim says the body is `:pressuring` (claimed a ring slot;
+    # `World#pressure_role`, untouched) AND it is close enough to BE on the
+    # ring — Chebyshev(c, possessed) <= `pressure_outline_max_tiles` (= the
+    # sim's `pressure_ring_tiles` + 1, data/balance/threat.json) — AND (unless
+    # `pressure_outline_needs_line` is false) no wall cuts the sight between
+    # them. A pressuring body stuck 6-9 tiles away behind rock (brasa2
+    # `pressure_ring_reads`, a3-stalemate §FINDING) now reads as what it is —
+    # a hostile walking — not "I am encircling you". The pocket itself is
+    # the sim's (owner candidate (c)); this rule never touches it.
+    def self.pressure_outline?(world, c, possessed, max_tiles:, needs_line:)
+      return false unless c.faction == :human
+      return false unless world.pressure_role(c) == :pressuring
+      return false unless possessed && !possessed.dead?
+      return false if chebyshev(c.tile, possessed.tile) > max_tiles
+      return true unless needs_line
+      sight_open?(world.map, c.tile, possessed.tile)
+    end
+
     module ClassMethods
       def interact_verb(map, tile)
         tx, ty = tile
@@ -54,6 +117,14 @@ module App
       verb = Renderer.interact_verb(world.map, me.tile)
       return nil unless verb
       { verb: verb, key: (@bindings&.glyphs(:interact)&.first) || "H" }
+    end
+
+    # Instance shim for the draw site: the local seat's possessed body + the
+    # two display knobs feed the pure decision above.
+    def pressure_outline?(world, c)
+      Signage.pressure_outline?(world, c, world.possessed(@local_seat),
+                                max_tiles: @display.fetch(:pressure_outline_max_tiles),
+                                needs_line: @display.fetch(:pressure_outline_needs_line))
     end
 
     private
