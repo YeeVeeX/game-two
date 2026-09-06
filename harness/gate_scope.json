@@ -25,7 +25,7 @@
     "safe_boundary_reads": ["camp", "zone_7"],
     "flora_variants_read": ["grass_fixture"],
     "wall_class_reads": ["wall_fixture"],
-    "seal_breach_reads": ["basement_2", "dungeon_1"],
+    "seal_breach_reads": ["basement_2"],
     "dungeon_1_abyss_reads": ["dungeon_1"],
     "floor2_channel_reads": ["district_two"],
     "floor2_fauna_reads": ["district_two"],
