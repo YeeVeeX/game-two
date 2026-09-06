@@ -279,3 +279,8 @@ GATE BATCH build4f3 DONE 18:10:48 (6 min)
 PIN recorded: basement_pocket tag=build4s1 commit=3a7f6fc gate_rc=0 manifest_rc=0
 === basement_pocket    gate_rc=0 manifest_rc=0 captures_vs_ref=- ===
 GATE BATCH build4s1 DONE 18:31:21 (2 min)
+
+## S1 landing gate, loot_loop re-run @ 3a7f6fc (the first batch produced no verdict line for it): NO VERDICT
+=== loot_loop: no such script - skipped ===
+GATE BATCH build4s1b DONE 18:32:56 (0 min)
+  loot_loop          SKIPPED (no script)

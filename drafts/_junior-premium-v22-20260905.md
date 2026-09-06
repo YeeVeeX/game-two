@@ -577,3 +577,5 @@ Owner sequencing: S1 after T1 = landed; S2+S3 stay as built for the TWENTIETH.
 Per the landing plan's "Gate for the landing": loot_loop  · basement_pocket gate_rc=0 manifest_rc=0 (drop/pickup reels; no pixel changed - the
 proof that loading the bag from the record does not alter the scene). Plan doc marked LANDED; Gabriel note §12 carries the
 one design decision (live Bag = source, record = projection) and the sweep-row change he will see.
+
+### S1 landing gate, second half (18:5x): loot_loop NOT clean (no verdict) - recorded as is, not claimed
