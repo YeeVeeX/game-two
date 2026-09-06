@@ -532,3 +532,12 @@ is in every frame) - expected, and the reason the extraction proof had to run at
 + stamp lines at z 10 (inside the vignette band; every zone_banner row passed at HEAD; patch regex missed - next pass),
 toll_pocket re-author (E-ticket), brasa2 pressure_ring_reads now PASS. Worktrees wall6 + sig1 removed; pins + verdicts
 committed with this close.
+
+### Close, last stitch (16:45-17:xx): sustain_run was INFRA, banner z fixed -> re-gate 2 @ 43b6e0e = 2 PASS / 2
+The 7th re-gate fail (`sustain_run`) had NO [FAIL] row: `GATE INFRA ERROR: unusable verdict: checklist coverage mismatch:
+missing=['pickup_gleam_reads']` = the vision model dropped a row from its verdict (the s135 "stalled stream" family);
+determinism PASSED (10 captures byte-identical). Re-gated: PASS. The last z-order debt closed: zone banner (renderer.rb:1711)
+and the haloed text at :976 z 10 -> 18 (above the vignette, below the HUD) - the fixes-review regex had missed them.
+JUNIOR.md carries the bank law (a poll timeout is not DONE) - and it fired for real at 17:11 (DONE=0, ruby=2 -> not banked).
+Wall #4 fully closed: every one of the 20 failing rows has a named cause and a green re-gate or a corrected row;
+toll_pocket (E-ticket) is the one red left in the census.

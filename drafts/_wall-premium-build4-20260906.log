@@ -245,3 +245,13 @@ PIN recorded: wall_fixture_walk tag=build4re commit=8fbfa95 gate_rc=0 manifest_r
 === wall_fixture_walk  gate_rc=0 manifest_rc=0 captures_vs_ref=NO-REF(5) ===
 GATE BATCH build4re DONE 16:39:53 (54 min)
 # re-gate total: 6 PASS / 7 · FAIL: sustain_run 
+
+## re-gate 2 @ 43b6e0e (sustain_run: the 7th re-gate fail was GATE INFRA - the critic's verdict omitted pickup_gleam_reads, determinism PASSED 10/10; world_loop: zone banner + stamp text z 10 -> 18)
+=== REGATE sustain_run 16:45:13 ===
+PIN recorded: sustain_run tag=build4re2 commit=43b6e0e gate_rc=0 manifest_rc=0
+=== sustain_run        gate_rc=0 manifest_rc=0 captures_vs_ref=- ===
+=== REGATE world_loop 17:10:08 ===
+PIN recorded: world_loop tag=build4re2 commit=43b6e0e gate_rc=0 manifest_rc=0
+=== world_loop         gate_rc=0 manifest_rc=0 captures_vs_ref=- ===
+GATE BATCH build4re2 DONE 17:16:21 (31 min)
+# re-gate 2 total: 2 PASS / 2

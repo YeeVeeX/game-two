@@ -598,5 +598,21 @@
     "date": "2026-09-06T19:39:53Z",
     "gate_rc": 0,
     "manifest_rc": 0
+  },
+  {
+    "script": "sustain_run",
+    "tag": "build4re2",
+    "commit": "43b6e0e",
+    "date": "2026-09-06T20:10:08Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "world_loop",
+    "tag": "build4re2",
+    "commit": "43b6e0e",
+    "date": "2026-09-06T20:16:21Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
   }
 ]
