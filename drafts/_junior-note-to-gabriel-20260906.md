@@ -166,3 +166,55 @@ surfaces); not something to do at the end of a 16-hour session.
 **Gabriel (es-CR):** ojo con mi frase anterior "el ff es tuyo": la rama trae S2+S3, y el dueno dijo S2+S3 DESPUES del
 VIGESIMO. No hagas el ff sin una de las tres salidas de arriba. Nada en main cambia hasta entonces.
 
+## 14. For your E1c cherry-pick (I read s137 f609c31 at 18:38 - you decided the clean way before reading my §13)
+Every commit on `junior/premium-build` (over origin/main 87037f1) that touches harness/scripts, harness/gate_checks.json or
+tools/, oldest first - pick what E1c needs, in this order, so the row rewrites land before the reels that depend on them:
+
+```
+eab486e wall: floor3_run captures 1499 + 1599 (Gabriel's s135 debt: BOSS 1 on camera f764..1646, CHANT f1463..
+1e3e38e Merge origin/main (T1 schema 3 + E1 sweep harvest, 12 commits) into junior/premium-build
+7dcfa50 wall: toll_pocket corrected - pickup impossible (drop under husk0's corpse; walker never enters a corp
+8e0c942 wall: toll_pocket re-authored (census 41/42 -> 42/42): the LDtk import left the blocker facing EAST wi
+223c5c8 gate: impact_fx_reads - a damage numeral (~40 f) outlives the impact star (~14 f): a frame with a nume
+4bffc89 tools: gate_batch.sh - gate a list of wall scripts in the current worktree (Rule 2 x2 + critic), judge
+3041aa1 gate: telegraph_reads pins the invariant - a hostile telegraph is a red-edge/yellow-core swell AROUND 
+9d7522f gate: specials_distinct names how a special is recognised (amber/pale-gold family + HUD pip spend) and
+f6f51a9 gate: whirlwind_reads + specials_distinct describe the striker's special as it IS - a linear DASH (tel
+e4a584a landing review (fresh eyes, WITH MINORS -> answered): E4 chroma clause now measures ORTHOGONAL chroma 
+94f7d4e gate: hurt_flash_not_white judges the BODY tint only - the impact star (impact_fx_reads element) is na
+d022680 tools: wall_triage.rb - classify every failing wall row against the banked wall history (NEW / FLIP-PR
+d557f67 E3 (v22) integrated: lane e3-presentation folded (6 commits ff) + integrator patches - d12 minimap_rea
+9981ddb wall: basement_pocket re-authored (E-ticket; census red drop_picked_up=0): the 3 interact presses fire
+282041c tools: manifest_census.rb - headless manifest half of the wall (42 world scripts in 62 s; byte-equal t
+83a306a tools: boss_probe.rb (headless: boss tile/distance/on-camera/state per frame + boss events + capture w
+c6bd07d E5 (v22, partial - Junior's files): no-lore renames in gen_premium_art.py + premium_art/humanoid.py co
+809af9a wall: blink_arrival reel (DUNGEON 3 fixture, serpent_c28 blinks onto the pack's flank at capture 0030;
+a4dd0e2 review4 (lane-reviewer/fable on b40ab7f, WITH MINORS -> answered): lane_guard - a lane may own ONLY dr
+60e2817 gate: wipe_reads describes the v16 veil-only wipe (owner order removed the wipe TEXT; veil + recap ARE
+e9cf242 review3 (fence v2 fresh-eyes WITH MINORS -> answered): lane_guard v3 - canonical paths (./, //, backsl
+a4cfe38 review2 (lanes fresh-eyes BLOCKED -> answered) + wall #3 real fixes: FENCE hardened - brief + BOARD re
+91be6c6 multiagent(lanes): few parallel lanes with disjoint files + one integrator - design (drafts/_multiagen
+71360a8 art(polish): ram facing down/up gains a dark mane collar, raised spine ridge, brow shadow + nostril (a
+```
+
+- The four you named: toll_pocket = the two "wall: toll_pocket" commits (re-author + correction; the second recuts the
+  manifest to 2/1/1 and names the drop-under-corpse sim question); basement_pocket = "wall: basement_pocket re-authored";
+  impact_fx_reads = the "gate: impact_fx_reads ..." commit (+ the earlier "gate: hurt_flash_not_white ..." that names the star
+  a separate element - they belong together); floor3 captures = "wall: floor3_run captures 1499 + 1599".
+- Row rewrites you will want under any wall on main (they describe the code as it IS): whirlwind_reads + specials_distinct
+  (striker = DASH), telegraph_reads (swell around a body, peak = solid red), minimap_reads (locked = grey; fixture zones),
+  interact_prompt_reads (breached seal), wipe_reads (v16 veil-only). All in harness/gate_checks.json.
+- Tools worth taking even before the branch lands: tools/manifest_census.rb (the manifest half of a wall in 60 s),
+  tools/wall_triage.rb (flip/real/debt by history), tools/gate_batch.sh (batch gates + --ref byte-compare), tools/boss_probe.rb,
+  tools/blink_probe.rb. The `blink_arrival` reel needs nothing from S2/S3.
+- Expected conflicts, all UNIONS: harness/pins.json (my pins are recorded at build4* tags), drafts/_gate-verdicts.log
+  (append-only), harness/gate_checks.json (my rows vs your E1.8 rows, no id overlap). Nothing in these commits touches
+  src/game/** or the digest; the presentation FIXES the wall found (spark, halo, aura, pulse, z-order) live in src/app/** commits
+  NOT listed here - they are why several of those reels pass on my branch and may still be red on main after the pick. If a
+  picked reel stays red on main for a presentation cause, that is the S-free part of the branch waiting for the landing, not a
+  harness bug.
+- When you are done, tell me the main sha: I re-merge main into the branch (unions again) so the eventual ff stays clean.
+
+**Gabriel (es-CR):** arriba estan los shas exactos para tu E1c, en orden. Conflictos esperados = solo uniones (pins, verdicts,
+gate_checks). Cuando termines, dame el sha de main y yo vuelvo a fusionar main en mi rama para que el ff siga limpio.
+
