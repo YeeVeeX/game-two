@@ -129,3 +129,21 @@ A3 audit closed on the Junior side: `drafts/_a3-ally-brain-audit-20260905.md` (p
 evidence + canary stream diff + one named finding: the ranged-hold stalemate in
 brasa2_run, 2 fix candidates). Owner's line owed.
 
+## Build continues (20:25-21:31, Junior: "segue com a construção, já testei e está bom")
+
+| pass | commit | piece | gate |
+|---|---|---|---|
+| 8 | `10f7dda` | EXIT SIGNAGE: open ways breathe (additive gold glow + core, phase per tile); off-camera open ways = gold arrowhead on the viewport edge (<=4, slides under HUD plate / minimap); gate row exit_signage_reads | world_loop |
+| 9 | `d2f242a` | MINIMAP top-right (128x80, 2 px/tile, ~4x camera; zone image once per map; hostiles red, pack kit dots, YOU gold ringed; pips z21 above it); gate row minimap_reads | world_loop |
+| 10 | `f70ff2d` | PICKUP gleam + "+N" gold number; LOW-HP edge pulse (<30%, breath, deeper as hp falls) | loot_loop, mercy_floor |
+| 11 | `a18b40b` | INTERACT PROMPT (bone bubble: key cap + verb, on/beside a station) + COLOR TRUTH fix (below) | ledger_loop, world_loop |
+
+**Color truth fix (from the gate, not from taste):** `kits_distinct` failed 4x on
+ledger_loop with one complaint: "two orange-haired sprites; HUD fills share one
+orange". Aro's KIT_BODY 190/80/35 was a second orange beside Fio's 235/120/40,
+and his gold crest read as orange hair. Aro is now deep RUST 158/52/30 (renderer
+KIT_BODY + controls overlay + atlas armor ramp - one truth, three places) with a
+dark-iron helm and iron crest. The low-hp pulse collided with the wipe veil's red
+(wipe_reads) -> WINE red, silent during nest_respawn. Both rows green after.
+Floor-in-banner deliberately NOT shipped until L11 (Junior's receipt 3) lands.
+
