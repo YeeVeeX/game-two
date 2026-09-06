@@ -551,3 +551,10 @@ onto the drop, `interact` f220 picks it up. Manifest re-cut to OBSERVED per run 
 drop_spawned 1 / drop_picked_up 1; seal_breached dropped (the pack never reaches [6,2] here; the old 8/6/1 described a
 basement_2 that no longer exists - named for the owner if the toll beat matters). Second census re-author of the session
 (basement_pocket was the first) on Junior's "continua" - a peer's sequencing call, recorded.
+
+### CORRECTION (17:3x): `8e0c942` banked toll_pocket with manifest_rc=1 (drop_picked_up=0) - the bank law read DONE, not the verdict
+Measured: husk0 dies ON [2,6] (no knockback), its drop lands under its corpse, and the walker never enters a corpse tile
+(down f200 -> [3,6]; left never moves at 5 f or 30 f spacing) -> the pickup is impossible in this geometry. Pickup taps
+removed, manifest re-cut to observed 2/1/1 (zone_entered / actor_died / drop_spawned). Gate: gate_rc=0 manifest_rc=0. JUNIOR.md bank law now
+requires gate_rc=0 AND manifest_rc=0 on the verdict line. NAMED for the owner/sim: a drop under a corpse is unreachable
+(pick up from an adjacent tile? scatter off the corpse?). Census: see the line below.

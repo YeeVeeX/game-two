@@ -260,3 +260,9 @@ GATE BATCH build4re2 DONE 17:16:21 (31 min)
 === REGATE toll_pocket 17:22:20 ===
 === toll_pocket        gate_rc=0 manifest_rc=1 captures_vs_ref=- ===
 GATE BATCH build4toll DONE 17:24:46 (2 min)
+
+## toll_pocket, corrected (the 8e0c942 block above banked manifest_rc=1 by mistake): pickup impossible (drop under husk0's corpse), manifest re-cut to observed 2/1/1 -> gate_rc=0 manifest_rc=0
+=== REGATE toll_pocket 17:29:09 ===
+PIN recorded: toll_pocket tag=build4toll2 commit=8e0c942 gate_rc=0 manifest_rc=0
+=== toll_pocket        gate_rc=0 manifest_rc=0 captures_vs_ref=- ===
+GATE BATCH build4toll2 DONE 17:32:10 (3 min)

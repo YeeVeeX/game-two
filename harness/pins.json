@@ -614,5 +614,13 @@
     "date": "2026-09-06T20:16:21Z",
     "gate_rc": 0,
     "manifest_rc": 0
+  },
+  {
+    "script": "toll_pocket",
+    "tag": "build4toll2",
+    "commit": "8e0c942",
+    "date": "2026-09-06T20:32:10Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
   }
 ]

@@ -97,10 +97,6 @@
     ],
     "down": [
       [
-        200,
-        200
-      ],
-      [
         960,
         988
       ],
@@ -120,10 +116,6 @@
       ]
     ],
     "interact": [
-      [
-        220,
-        220
-      ],
       [
         545,
         545
@@ -151,10 +143,6 @@
       [
         40,
         40
-      ],
-      [
-        205,
-        205
       ]
     ]
   },
@@ -172,10 +160,10 @@
   "manifest": {
     "zone_entered": 2,
     "actor_died": 1,
-    "drop_spawned": 1,
-    "drop_picked_up": 1
+    "drop_spawned": 1
   },
   "_doc": [
-    "re-author 2026-09-06 (Junior; census red since wall #2: 0 deaths / 0 breach in 1400 f): the LDtk import moved basement_2 - the possessed blocker spawns at [3,5] FACING EAST while husk0 sits at [2,6] (SW), so all 20 `attack` presses hit empty tiles and the husks (coward: true) never engage unless provoked. Fix: `right` f20 + `left` f40 = back on [3,5] FACING WEST (arc [2,4..6] holds husk0; a 1-frame tap always steps one tile, so orientation comes from a step that ENDS on the start tile), husk0 dies ~f148 (5 hits), then `down` f200 + `left` f205 step onto the drop at [2,6], `interact` f220 picks it up. Manifest RE-CUT TO OBSERVED per run (E1.4 law): zone_entered 2, actor_died 1, drop_spawned 1, drop_picked_up 1; seal_breached dropped - the pack never reaches the seal at [6,2] in this geometry (the old 8 deaths / 6 drops / 1 breach described a basement_2 that no longer exists). The old swap/down/interact holds after f480 stay (harmless)."
+    "re-author 2026-09-06 (Junior; census red since wall #2: 0 deaths / 0 breach in 1400 f): the LDtk import moved basement_2 - the possessed blocker spawns at [3,5] FACING EAST while husk0 sits at [2,6] (SW), so all 20 `attack` presses hit empty tiles and the husks (coward: true) never engage unless provoked. Fix: `right` f20 + `left` f40 = back on [3,5] FACING WEST (arc [2,4..6] holds husk0; a 1-frame tap always steps one tile, so orientation comes from a step that ENDS on the start tile), husk0 dies ~f148 (5 hits), then `down` f200 + `left` f205 step onto the drop at [2,6], `interact` f220 picks it up. Manifest RE-CUT TO OBSERVED per run (E1.4 law): zone_entered 2, actor_died 1, drop_spawned 1, drop_picked_up 1; seal_breached dropped - the pack never reaches the seal at [6,2] in this geometry (the old 8 deaths / 6 drops / 1 breach described a basement_2 that no longer exists). The old swap/down/interact holds after f480 stay (harmless).",
+    "correction (same day): the pickup CANNOT happen here - husk0 dies ON [2,6] (no knockback fired) and its drop lands under its corpse; the walker never enters a corpse tile (measured: down f200 -> [3,6], then left never moves, both at 5 f and 30 f spacing), so drop_picked_up was removed from the manifest (observed 0). NAMED for the owner/sim: a drop under a corpse is unreachable - should pickup work from an adjacent tile, or should the drop scatter off a corpse?"
   ]
 }

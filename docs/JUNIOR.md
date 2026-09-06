@@ -390,6 +390,8 @@ glob — o Git Bash expande antes.
 **Lei do banco (paga em 2026-09-06 16:31):** um poll que sai por TIMEOUT não é um DONE. Antes de bancar
 uma leva de gates ou uma parede: `grep -c 'DONE' <log>` = 1 **e** `tasklist //FI "IMAGENAME eq ruby.exe"` = 0,
 no MESMO teste — senão o log banca N/M como M/M e o worktree de referência some antes do último `--ref`.
+**E ler o VEREDITO, não só o fim:** bancar só com `gate_rc=0 manifest_rc=0` na linha `=== <script> ... ===` — um batch
+termina DONE com manifest vermelho (paga 17:25: `8e0c942` bancou um `manifest_rc=1` como "42/42").
 
 ---
 
