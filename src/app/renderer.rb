@@ -1,3 +1,4 @@
+require "json"
 require "app/ambience"
 require "app/art"
 require "app/controls_overlay"
@@ -116,7 +117,9 @@ module App
     SIZE = Game::Creature::SIZE
 
     # Presentation timing/placement rides data/display.json (zone_banner_frames
-    # precedent) — the fetch defaults only keep a bare Renderer.new drawable.
+    # precedent). E3 b5: every knob is a WRITTEN row read by a STRICT fetch (no
+    # code default; test/app/display_knobs_test.rb) — a bare Renderer.new reads
+    # the repo's own display.json so it stays drawable (DISPLAY_PATH).
     # strings: Core::Strings resolver (v13 i18n) — RENDER-time only; the
     # harness constructs it pinned to "en" (replay comparability law).
     #
@@ -138,9 +141,11 @@ module App
           item_icons: App::ItemIcons.load(data)) # S1: catalog icons (HUD flask, drops, bag)
     end
 
-    def initialize(display: {}, strings: nil, bindings: nil, local_seat: 1, art: nil, ambience: nil,
+    DISPLAY_PATH = File.expand_path("../../data/display.json", __dir__)
+
+    def initialize(display: nil, strings: nil, bindings: nil, local_seat: 1, art: nil, ambience: nil,
                    tileset: nil, item_icons: nil)
-      @display = display
+      @display = display || JSON.parse(File.read(DISPLAY_PATH), symbolize_names: true)
       @strings = strings
       # PREMIUM v22: dual-grid material tiles (App::Tileset). nil -> the
       # flat-run + FASE 3 face path below (fallback law, byte-identical to
@@ -155,12 +160,12 @@ module App
       # MUNDO VIVO FASE 1: sprite registry (App::Art). nil or a kit without
       # an atlas → the legacy quad (fallback law). display.json
       # `art_enabled: false` forces quads everywhere (debug/perf switch).
-      @art = @display.fetch(:art_enabled, true) ? art : nil
-      @art_notch = @display.fetch(:art_facing_notch, true)
+      @art = @display.fetch(:art_enabled) ? art : nil
+      @art_notch = @display.fetch(:art_facing_notch)
       # R-A2: the bank BUY hint speaks the sustain key's own glyph — ONE
       # source (Core::BindingMap) feeds input, strip, and hint alike.
       @bindings = bindings
-      @pressure_alpha = @display.fetch(:pressure_outline_alpha, 140)
+      @pressure_alpha = @display.fetch(:pressure_outline_alpha)
       # v17 renderer seam (Codex fold #7): every possessed/camera read goes
       # through the LOCAL seat — default 1, so single-player output is
       # byte-identical by default.
@@ -442,7 +447,7 @@ module App
         # FASE 3: tile faces (wall cliffs, rims, floor shadows, water foam) —
         # memoized pure geometry, culled. Drawn right over the flat runs and
         # under the grid/motif/decor so authored landmarks stay on top.
-        if @display.fetch(:tile_faces, true)
+        if @display.fetch(:tile_faces)
           face_rects(map, world).each do |rect|
             next unless static_visible.call(rect)
             x, y, w, h, rgb, a = rect
@@ -452,7 +457,7 @@ module App
       end
       # D7 (FASE 3): the tile grid is optional once tiles carry their own
       # edges — default OFF; display.json `grid_lines: true` restores it.
-      if @display.fetch(:grid_lines, false)
+      if @display.fetch(:grid_lines)
         grid = color(map.palette[:grid])
         Renderer.visible_grid_indices(map.cols, ts, camera.x, camera.view_w).each do |tx|
           Gosu.draw_rect(tx * ts, 0, 1, map.pixel_height, grid)
@@ -501,11 +506,11 @@ module App
         # gold glow pulsing on a 90-frame cycle, phase per tile so a hub's
         # exits do not blink in lockstep. Shut ways stay dark (the slab +
         # seam already say "door, locked"). Tick-driven: world.frame only.
-        if @display.fetch(:exit_pulse, true) && !Renderer.way_locked?(world, world.zone_name, t)
+        if @display.fetch(:exit_pulse) && !Renderer.way_locked?(world, world.zone_name, t)
           ph = (world.frame + tx * 11 + ty * 7) % 90
           k = ph < 45 ? ph / 45.0 : (90 - ph) / 45.0
           gold_rgb = map.palette[:transition] || [235, 190, 90]
-          a = (@display.fetch(:exit_pulse_alpha, 120) * (0.55 + 0.45 * k)).round
+          a = (@display.fetch(:exit_pulse_alpha) * (0.55 + 0.45 * k)).round
           @light.glow_at(tx * ts + ts / 2, ty * ts + ts / 2, 0.6 + 0.3 * k, a, gold_rgb)
           @light.glow_at(tx * ts + ts / 2, ty * ts + ts / 2, 0.28 + 0.1 * k, (a * 0.9).round, [255, 240, 200])
         end
@@ -548,11 +553,11 @@ module App
     def draw_threshold_frame(tx, ty, ts, kind)
       rgb, alpha =
         if kind == :into_safety
-          [@display.fetch(:safe_threshold_rgb, [120, 230, 170]),
-           @display.fetch(:safe_threshold_alpha, 210)]
+          [@display.fetch(:safe_threshold_rgb),
+           @display.fetch(:safe_threshold_alpha)]
         else
-          [@display.fetch(:danger_threshold_rgb, [170, 55, 40]),
-           @display.fetch(:danger_threshold_alpha, 200)]
+          [@display.fetch(:danger_threshold_rgb),
+           @display.fetch(:danger_threshold_alpha)]
         end
       col = color(rgb, alpha)
       x = tx * ts
@@ -796,10 +801,10 @@ module App
       end
     end
 
-    def tell_edge_rgb = @display.fetch(:respawn_tell_edge_rgb, [180, 220, 200])
-    def tell_core_rgb = @display.fetch(:respawn_tell_core_rgb, [220, 240, 230])
-    def tell_max_alpha = @display.fetch(:respawn_tell_max_alpha, 180)
-    def tell_pulse_speed = @display.fetch(:respawn_tell_pulse_speed, 3)
+    def tell_edge_rgb = @display.fetch(:respawn_tell_edge_rgb)
+    def tell_core_rgb = @display.fetch(:respawn_tell_core_rgb)
+    def tell_max_alpha = @display.fetch(:respawn_tell_max_alpha)
+    def tell_pulse_speed = @display.fetch(:respawn_tell_pulse_speed)
 
     # Station fixture: palette-driven block with a hollow center — reads as
     # a PLACE, not a wall (walls are solid) and not a gate (gates are gold).
@@ -874,9 +879,9 @@ module App
     end
 
     def draw_haloed_text(text, x, y, z)
-      px = @display.fetch(:price_text_halo_px, 1)
+      px = @display.fetch(:price_text_halo_px)
       if px.positive?
-        hc = color(@display.fetch(:price_text_halo_rgb, [20, 14, 12]))
+        hc = color(@display.fetch(:price_text_halo_rgb))
         Renderer.halo_offsets(px).each do |(dx, dy)|
           hud_font.draw_text(text, x + dx, y + dy, z, 1, 1, hc)
         end
@@ -897,10 +902,10 @@ module App
     # The chant-blue tell stays OUT (own surface, same dark-value logic);
     # drops keep size-as-depth custody.
     def draw_outlined_quad(x, y, size, col, z = 0)
-      opx = @display.fetch(:glyph_outline_px, 1)
+      opx = @display.fetch(:glyph_outline_px)
       if opx.positive?
         Gosu.draw_rect(x - opx, y - opx, size + 2 * opx, size + 2 * opx,
-                       color(@display.fetch(:glyph_outline_rgb, [20, 14, 12])), z)
+                       color(@display.fetch(:glyph_outline_rgb)), z)
       end
       Gosu.draw_rect(x, y, size, size, col, z)
     end
@@ -973,12 +978,12 @@ module App
     # panel style family), z 9 under the z-10 text, above bodies.
     def draw_refusal_text(text, x, y)
       w = hud_font.text_width(text)
-      pad = @display.fetch(:cue_backing_pad, 4)
+      pad = @display.fetch(:cue_backing_pad)
       Gosu.draw_rect(x - pad, y - pad, w + 2 * pad, hud_font.height + 2 * pad,
-                     color(@display.fetch(:cue_backing_rgb, [12, 10, 14]),
-                           @display.fetch(:cue_backing_alpha, 160)), 9)
+                     color(@display.fetch(:cue_backing_rgb),
+                           @display.fetch(:cue_backing_alpha)), 9)
       hud_font.draw_text(text, x, y, 10, 1, 1,
-                         color(@display.fetch(:cue_text_rgb, [225, 215, 190])))
+                         color(@display.fetch(:cue_text_rgb)))
     end
 
     # Bodies stay where they fell and fade out (critique: vanishing kills
@@ -1007,18 +1012,18 @@ module App
           next
         end
         base = c[:faction] == :human ? human_corpse_rgb : [150, 80, 40]
-        opx = @display.fetch(:corpse_outline_px, 1)
+        opx = @display.fetch(:corpse_outline_px)
         if opx.positive?
           Gosu.draw_rect(c[:x] + 4 - opx, c[:y] + 10 - opx,
                          SIZE - 8 + 2 * opx, SIZE - 14 + 2 * opx,
-                         Gosu::Color.new(alpha, *@display.fetch(:corpse_outline_rgb, [20, 14, 12])))
+                         Gosu::Color.new(alpha, *@display.fetch(:corpse_outline_rgb)))
         end
         Gosu.draw_rect(c[:x] + 4, c[:y] + 10, SIZE - 8, SIZE - 14,
                        Gosu::Color.new(alpha, *base))
       end
     end
 
-    def possess_rgb = @possess_rgb ||= @display.fetch(:possess_halo_rgb, [255, 214, 120])
+    def possess_rgb = @possess_rgb ||= @display.fetch(:possess_halo_rgb)
 
     # 24x3 bar 2px above the head-room: dark socket, red->orange fill by hp
     # fraction, 1px lighter lip. Pure function of (hp, max_hp).
@@ -1041,17 +1046,17 @@ module App
     # the banner slot (top-center), its name above, phase pips below. Reads
     # the same truths as the nameplate/pips (hp, max_hp, boss_phase).
     def draw_boss_bar(world)
-      return unless @display.fetch(:boss_bar, true)
+      return unless @display.fetch(:boss_bar)
       cam = world.camera(@local_seat)
       boss = world.humans.find do |h|
         !h.dead? && (h.kit[:boss] || h.kit[:seize]) &&
           h.x + SIZE >= cam.x && h.x <= cam.x + cam.view_w && h.y + SIZE >= cam.y && h.y <= cam.y + cam.view_h
       end
       return unless boss
-      w = @display.fetch(:boss_bar_w, 260)
-      h = @display.fetch(:boss_bar_h, 10)
+      w = @display.fetch(:boss_bar_w)
+      h = @display.fetch(:boss_bar_h)
       bx = (cam.view_w - w) / 2
-      by = @display.fetch(:boss_bar_y, 112)
+      by = @display.fetch(:boss_bar_y)
       name = boss.kit_name == :challenger ? tr("challenger.name", "BOSS 1") : BOSS_NAMES.fetch(boss.kit_name, "BOSS")
       f = hud_font
       tx = cam.view_w / 2 - f.text_width(name) / 2
@@ -1099,9 +1104,9 @@ module App
     def draw_possession_halo(x, y, frame, rgb, chevron: true)
       cx = x + SIZE / 2.0
       cy = y + SIZE + 1
-      rx, ry = @display.fetch(:possess_halo_rx, 19), @display.fetch(:possess_halo_ry, 6)
-      outer = Gosu::Color.new(@display.fetch(:possess_halo_alpha, 92), *rgb)
-      rim = Gosu::Color.new(@display.fetch(:possess_halo_rim_alpha, 230), *rgb)
+      rx, ry = @display.fetch(:possess_halo_rx), @display.fetch(:possess_halo_ry)
+      outer = Gosu::Color.new(@display.fetch(:possess_halo_alpha), *rgb)
+      rim = Gosu::Color.new(@display.fetch(:possess_halo_rim_alpha), *rgb)
       (-ry..ry).each do |dy|
         t = dy.to_f / (ry + 0.5)
         hw = Math.sqrt([1.0 - t * t, 0.0].max) * rx
@@ -1133,7 +1138,7 @@ module App
     end
 
     def human_corpse_rgb
-      @display.fetch(:corpse_human_rgb, [175, 165, 145])
+      @display.fetch(:corpse_human_rgb)
     end
 
     def draw_creature(c, world)
@@ -1159,7 +1164,7 @@ module App
         # carries the second color (display.json), labels untouched.
         # Unreachable single-seat (the only controlled body IS possessed).
         if @art
-          draw_possession_halo(x, y, world.frame, @display.fetch(:partner_ring_rgb, [80, 200, 220]), chevron: false)
+          draw_possession_halo(x, y, world.frame, @display.fetch(:partner_ring_rgb), chevron: false)
         else
           Gosu.draw_rect(x - rp, y - rp, SIZE + rp * 2, SIZE + rp * 2, partner_ring)
         end
@@ -1182,7 +1187,7 @@ module App
       # bar is on screen) wears a tiny hp bar over its head; full hp = no bar
       # (the ARPG grammar: the bar IS the wound).
       if c.faction == :human && !c.kit[:boss] && !c.kit[:seize] && c.hp < c.max_hp &&
-         @display.fetch(:enemy_hp_bars, true)
+         @display.fetch(:enemy_hp_bars)
         draw_enemy_hp_bar(c, x, y)
       end
       if c.faction == :human && (cue = c.retarget_cue)
@@ -1197,9 +1202,9 @@ module App
           # pale-grey core) — "this will freeze you", a third family beside
           # the red/yellow hurt telegraph and the volley's orange brackets.
           Gosu.draw_rect(x - swell / 2, y - swell / 2, SIZE + swell, SIZE + swell,
-                         Gosu::Color.new(255, *@display.fetch(:petrify_edge_rgb, [120, 120, 130])))
+                         Gosu::Color.new(255, *@display.fetch(:petrify_edge_rgb)))
           Gosu.draw_rect(x - 2, y - 2, SIZE + 4, SIZE + 4,
-                         Gosu::Color.new(250, *@display.fetch(:petrify_core_rgb, [215, 215, 225])))
+                         Gosu::Color.new(250, *@display.fetch(:petrify_core_rgb)))
         else
           Gosu.draw_rect(x - swell / 2, y - swell / 2, SIZE + swell, SIZE + swell, TELEGRAPH_EDGE)
           Gosu.draw_rect(x - 2, y - 2, SIZE + 4, SIZE + 4, TELEGRAPH_CORE)
@@ -1234,11 +1239,11 @@ module App
       ts = world.map.tile_size
       period = [aura[:period_frames], 1].max
       phase = (world.frame % period).fdiv(period)
-      alpha = (@display.fetch(:aura_alpha_max, 150) * (1.0 - phase * 0.7)).round
+      alpha = (@display.fetch(:aura_alpha_max) * (1.0 - phase * 0.7)).round
       reach = aura[:radius_tiles] * ts + ts / 2
       cx = c.tile[0] * ts + ts / 2
       cy = c.tile[1] * ts + ts / 2
-      col = Gosu::Color.new(alpha, *@display.fetch(:aura_rgb, [255, 120, 40]))
+      col = Gosu::Color.new(alpha, *@display.fetch(:aura_rgb))
       t = 2
       Gosu.draw_rect(cx - reach, cy - reach, reach * 2, t, col)
       Gosu.draw_rect(cx - reach, cy + reach - t, reach * 2, t, col)
@@ -1250,7 +1255,7 @@ module App
       total = c.kit.dig(:blink, :flash_frames) || 8
       k = total - c.instance_variable_get(:@blink_flash) # 0 → total
       grow = 10 - (10 * k / [total, 1].max)
-      col = Gosu::Color.new(230, *@display.fetch(:blink_flash_rgb, [180, 120, 255]))
+      col = Gosu::Color.new(230, *@display.fetch(:blink_flash_rgb))
       t = 2
       Gosu.draw_rect(x - grow, y - grow, SIZE + grow * 2, t, col)
       Gosu.draw_rect(x - grow, y + SIZE + grow - t, SIZE + grow * 2, t, col)
@@ -1272,7 +1277,7 @@ module App
       # clock; this makes the state read at body scale).
       if c.faction == :pack && c.seized_by
         Gosu.draw_rect(x, y, SIZE, SIZE,
-                       Gosu::Color.new(@display.fetch(:seized_weight_alpha, 110), *seized_rgb))
+                       Gosu::Color.new(@display.fetch(:seized_weight_alpha), *seized_rgb))
       end
     end
 
@@ -1287,30 +1292,30 @@ module App
       # tower2_run re-gate 2026-09-05; "never white" is the law, blinking is not)
       flash = c.faction == :pack && c.hurt?
       if flash
-        r, g, b = @display.fetch(:art_hurt_tint_rgb, [235, 40, 40])
+        r, g, b = @display.fetch(:art_hurt_tint_rgb)
       elsif c.faction == :pack && c.iframes? && !c.hurt?
-        r, g, b = @display.fetch(:art_dodge_tint_rgb, [190, 215, 255])
+        r, g, b = @display.fetch(:art_dodge_tint_rgb)
       elsif c.faction == :human && c.hurt?
-        r, g, b = @display.fetch(:art_human_hurt_tint_rgb, [255, 120, 120])
+        r, g, b = @display.fetch(:art_human_hurt_tint_rgb)
       end
       if ally?(c, world)
-        dr, dg, db = @display.fetch(:art_ally_dim_rgb, [140, 132, 138])
+        dr, dg, db = @display.fetch(:art_ally_dim_rgb)
         r, g, b = r * dr / 255, g * dg / 255, b * db / 255
       end
       if c.faction == :pack && c.seized_by
-        sr, sg, sb = @display.fetch(:art_seized_tint_rgb, [120, 140, 230])
+        sr, sg, sb = @display.fetch(:art_seized_tint_rgb)
         r, g, b = r * sr / 255, g * sg / 255, b * sb / 255
       end
       # FASE 4.5 poison: sick-green pulse (every other 6-frame window) —
       # no other body state owns green; the DOT reads without a number.
       if c.respond_to?(:poisoned?) && c.poisoned? && ((world.frame / 6) % 2).zero?
-        pr, pg, pb = @display.fetch(:art_poison_tint_rgb, [120, 235, 90])
+        pr, pg, pb = @display.fetch(:art_poison_tint_rgb)
         r, g, b = r * pr / 255, g * pg / 255, b * pb / 255
       end
       # S3: burn pulse (orange) on the OTHER 6-frame window, so a body that is
       # both poisoned and burning alternates green/orange.
       if c.respond_to?(:burning?) && c.burning? && ((world.frame / 6) % 2) == 1
-        br, bg, bb = @display.fetch(:art_burn_tint_rgb, [255, 140, 40])
+        br, bg, bb = @display.fetch(:art_burn_tint_rgb)
         r, g, b = r * br / 255, g * bg / 255, b * bb / 255
       end
       return nil if [r, g, b] == [255, 255, 255]
@@ -1321,7 +1326,7 @@ module App
 
     def body_color(c, world)
       if c.respond_to?(:poisoned?) && c.poisoned? && ((world.frame / 6) % 2).zero?
-        Gosu::Color.new(255, *@display.fetch(:art_poison_tint_rgb, [120, 235, 90]))
+        Gosu::Color.new(255, *@display.fetch(:art_poison_tint_rgb))
       elsif c.faction == :pack && c.iframes? && (world.frame / 3).even?
         PACK_HURT
       elsif c.faction == :human && c.hurt?
@@ -1406,7 +1411,7 @@ module App
         # drawn on the FLOOR during the windup (a fourth telegraph family:
         # "this lane is about to be hit") — dark red for the charge, dark
         # ember for the beam, both distinct from body flares and volley.
-        rgb = arc == "dash" ? @display.fetch(:charge_telegraph_rgb, [160, 40, 30]) : @display.fetch(:beam_telegraph_rgb, [200, 90, 30])
+        rgb = arc == "dash" ? @display.fetch(:charge_telegraph_rgb) : @display.fetch(:beam_telegraph_rgb)
         col = Gosu::Color.new(150, *rgb)
         inset = arc == "dash" ? 10 : 12
         c.action_tiles.each do |(tx, ty)|
@@ -1417,8 +1422,8 @@ module App
       return unless c.attack_state == :active
       col, inset =
         case arc
-        when "beam" then [Gosu::Color.new(235, *@display.fetch(:beam_stroke_rgb, [255, 170, 60])), 6]
-        when "dash" then [Gosu::Color.new(220, *@display.fetch(:charge_stroke_rgb, [255, 110, 60])), 8]
+        when "beam" then [Gosu::Color.new(235, *@display.fetch(:beam_stroke_rgb)), 6]
+        when "dash" then [Gosu::Color.new(220, *@display.fetch(:charge_stroke_rgb)), 8]
         else [ENEMY_STRIKE, 4]
         end
       c.action_tiles.each do |(tx, ty)|
@@ -1450,7 +1455,7 @@ module App
     def draw_boss_phase_pips(c, x, y)
       n = c.boss_phase_count
       cur = c.boss_phase
-      col = Gosu::Color.new(255, *@display.fetch(:boss_pip_rgb, [230, 120, 60]))
+      col = Gosu::Color.new(255, *@display.fetch(:boss_pip_rgb))
       w = 6
       gap = 3
       x0 = x + SIZE / 2 - (n * w + (n - 1) * gap) / 2
@@ -1481,9 +1486,9 @@ module App
       cam = world.camera(@local_seat)
       cx = (chanter.x + SIZE / 2 + world.feel.shake_x - cam.x).round
       cy = (chanter.y + SIZE / 2 + world.feel.shake_y - cam.y).round
-      radius = @display.fetch(:writ_radius_tiles, 4) * world.map.tile_size
+      radius = @display.fetch(:writ_radius_tiles) * world.map.tile_size
       r = App::Writ.rects(cx:, cy:, radius:, view_w: cam.view_w, view_h: cam.view_h)
-      out = Gosu::Color.new(@display.fetch(:writ_out_alpha, 140), 0, 0, 0)
+      out = Gosu::Color.new(@display.fetch(:writ_out_alpha), 0, 0, 0)
       r[:out].each { |(x, y, w, h)| Gosu.draw_rect(x, y, w, h, out) }
       border = Gosu::Color.new(230, *chant_rgb)
       r[:border].each { |(x, y, w, h)| Gosu.draw_rect(x, y, w, h, border) }
@@ -1511,9 +1516,9 @@ module App
       f = nameplate_font
       tx = x + SIZE / 2 - f.text_width(name) / 2
       ty = y - 24 - art_lift
-      hpx = @display.fetch(:nameplate_halo_px, 1)
+      hpx = @display.fetch(:nameplate_halo_px)
       if hpx.positive?
-        hc = color(@display.fetch(:nameplate_halo_rgb, [20, 14, 12]))
+        hc = color(@display.fetch(:nameplate_halo_rgb))
         Renderer.halo_offsets(hpx).each do |(dx, dy)|
           f.draw_text(name, tx + dx, ty + dy, 5, 1, 1, hc)
         end
@@ -1531,7 +1536,7 @@ module App
         next unless h.chanting?
         cfg = h.kit[:seize]
         elapsed = cfg[:chant_frames] - h.chant_left
-        cycle = @display.fetch(:chant_ring_cycle_frames, 40)
+        cycle = @display.fetch(:chant_ring_cycle_frames)
         progress = (elapsed % cycle).fdiv(cycle)
         reach = (cfg[:range_tiles] * ts * progress).round
         cx = h.tile[0] * ts + ts / 2
@@ -1560,10 +1565,10 @@ module App
       end
     end
 
-    def chant_rgb = @chant_rgb ||= @display.fetch(:chant_ring_rgb, [60, 100, 220])
-    def seized_rgb = @seized_rgb ||= @display.fetch(:seized_underline_rgb, [60, 100, 220])
-    def partner_ring = @partner_ring ||= Gosu::Color.new(255, *@display.fetch(:partner_ring_rgb, [80, 200, 220]))
-    def nameplate_font = @nameplate_font ||= Gosu::Font.new(@display.fetch(:nameplate_font_size, 10))
+    def chant_rgb = @chant_rgb ||= @display.fetch(:chant_ring_rgb)
+    def seized_rgb = @seized_rgb ||= @display.fetch(:seized_underline_rgb)
+    def partner_ring = @partner_ring ||= Gosu::Color.new(255, *@display.fetch(:partner_ring_rgb))
+    def nameplate_font = @nameplate_font ||= Gosu::Font.new(@display.fetch(:nameplate_font_size))
 
     # Pressuring stance (A2): a thin hollow outline — present, encircling,
     # not swinging. Distinct from the telegraph's FILLED swell and the taunt
@@ -1585,9 +1590,9 @@ module App
     # pure integer math in App::KillPop (deterministic by construction).
     def draw_kill_pops(world)
       ts = world.map.tile_size
-      flash_frames = @display.fetch(:kill_pop_flash_frames, 5)
-      flash = color(@display.fetch(:kill_pop_flash_rgb, [255, 250, 230]))
-      shard = color(@display.fetch(:kill_pop_shard_rgb, [255, 150, 90]))
+      flash_frames = @display.fetch(:kill_pop_flash_frames)
+      flash = color(@display.fetch(:kill_pop_flash_rgb))
+      shard = color(@display.fetch(:kill_pop_shard_rgb))
       world.kill_pops.each do |p|
         age = p[:pop_frames] - p[:frames_left]
         if age < flash_frames
@@ -1607,7 +1612,7 @@ module App
     # the two pop families on the boundary kill.
     def draw_level_pops(world)
       ts = world.map.tile_size
-      shard = color(@display.fetch(:level_pop_shard_rgb, [235, 190, 90]))
+      shard = color(@display.fetch(:level_pop_shard_rgb))
       world.level_up_pops.each do |p|
         App::KillPop.shards(tile: p[:tile], phase: p[:phase], frames_left: p[:frames_left],
                             pop_frames: p[:pop_frames], ts: ts).each do |x, y, size|
@@ -1668,14 +1673,14 @@ module App
     def draw_safe_chip(world)
       return unless world.map.safe
       text = tr("safe.chip", "SAFE")
-      x = @display.fetch(:safe_chip_x, 32)
-      y = @display.fetch(:safe_chip_y, 98)
+      x = @display.fetch(:safe_chip_x)
+      y = @display.fetch(:safe_chip_y)
       pad = 6
       Gosu.draw_rect(x, y, hud_font.text_width(text) + pad * 2, 18,
-                     Gosu::Color.new(@display.fetch(:safe_chip_backing_alpha, 150), *BEAT_PANEL))
+                     Gosu::Color.new(@display.fetch(:safe_chip_backing_alpha), *BEAT_PANEL))
       hud_font.draw_text(text, x + pad, y + 2, 20, 1, 1,
-                         color(@display.fetch(:safe_chip_rgb, [120, 230, 170]),
-                               @display.fetch(:safe_chip_alpha, 230)))
+                         color(@display.fetch(:safe_chip_rgb),
+                               @display.fetch(:safe_chip_alpha)))
     end
 
     # Living off-screen kin show as kit-colored pips clamped to the viewport
@@ -1688,14 +1693,14 @@ module App
     # points DOWN over a body; this is a gold arrowhead on the edge pointing
     # OUT - three shapes, three meanings. Pure function of (camera, map).
     def draw_exit_arrows(world)
-      return unless @display.fetch(:exit_arrows, true)
+      return unless @display.fetch(:exit_arrows)
       cam = world.camera(@local_seat)
       map = world.map
       ts = map.tile_size
       vw = cam.view_w
       vh = cam.view_h
-      m = @display.fetch(:exit_arrow_margin, 12)
-      bottom = vh - @display.fetch(:overlay_strip_height, 28) - m
+      m = @display.fetch(:exit_arrow_margin)
+      bottom = vh - @display.fetch(:overlay_strip_height) - m
       cxs = vw / 2.0
       cys = vh / 2.0
       gold = color(map.palette[:transition] || [235, 190, 90])
@@ -1703,7 +1708,7 @@ module App
       z = 18
       shown = 0
       map.transitions.each do |t|
-        break if shown >= @display.fetch(:exit_arrow_max, 4)
+        break if shown >= @display.fetch(:exit_arrow_max)
         next if Renderer.way_locked?(world, world.zone_name, t)
         tx, ty = t[:at]
         sx = tx * ts + ts / 2.0 - cam.x
@@ -1721,7 +1726,7 @@ module App
         # never under the HUD plate (top-left) or the minimap (top-right) - and
         # never INTO the world: slide ALONG the edge (a mid-screen gold triangle
         # read as a stray world marker - brasa2 wall #3)
-        px, py, pw, ph = @display.fetch(:hud_plate_rect, [20, 8, 352, 108])
+        px, py, pw, ph = @display.fetch(:hud_plate_rect)
         if ax < px + pw + m && ay < py + ph + m
           if ay <= m + 1
             ax = px + pw + m       # top band: right of the plate, still on the top edge
@@ -1762,7 +1767,7 @@ module App
     # plate. Pure function of (possessed tile, map). display.json:
     # interact_prompt on/off.
     def draw_interact_prompt(world)
-      return unless @display.fetch(:interact_prompt, true)
+      return unless @display.fetch(:interact_prompt)
       me = world.possessed(@local_seat)
       return unless me && !me.dead?
       map = world.map
@@ -1834,8 +1839,8 @@ module App
     def draw_stamp_line(world, text, frames_left:, frames_total:, top:)
       font = banner_font
       age = frames_total - frames_left
-      s = App::Stamp.scale(age:, in_frames: @display.fetch(:stamp_in_frames, 12),
-                           in_scale: @display.fetch(:stamp_in_scale, 1.6))
+      s = App::Stamp.scale(age:, in_frames: @display.fetch(:stamp_in_frames),
+                           in_scale: @display.fetch(:stamp_in_scale))
       a = App::Stamp.alpha(frames_left:, frames_total:)
       col = Gosu::Color.new(a, BREACH_GOLD.red, BREACH_GOLD.green, BREACH_GOLD.blue)
       w = font.text_width(text) * s
@@ -1843,9 +1848,9 @@ module App
       cx = view_width(world) / 2.0
       cy = top + font.height / 2.0
       font.draw_text(text, cx - w / 2, cy - h / 2, 10, s, s, col)
-      pad = @display.fetch(:stamp_rule_pad, 8) * s
-      rule_h = @display.fetch(:stamp_rule_h, 2) * s
-      rule_col = color(@display.fetch(:stamp_rule_rgb, [200, 160, 80]), a)
+      pad = @display.fetch(:stamp_rule_pad) * s
+      rule_h = @display.fetch(:stamp_rule_h) * s
+      rule_col = color(@display.fetch(:stamp_rule_rgb), a)
       rule_w = w + pad * 2
       Gosu.draw_rect(cx - rule_w / 2, cy - h / 2 - pad - rule_h, rule_w, rule_h, rule_col, 10)
       Gosu.draw_rect(cx - rule_w / 2, cy + h / 2 + pad, rule_w, rule_h, rule_col, 10)
@@ -1857,7 +1862,7 @@ module App
     # world.seal_marks (replay determinism holds).
     def draw_seal_marks(world)
       ts = world.map.tile_size
-      rgb = @display.fetch(:seal_mark_rgb, [235, 190, 90])
+      rgb = @display.fetch(:seal_mark_rgb)
       world.seal_marks.each do |m|
         a = App::Stamp.alpha(frames_left: m[:frames_left], frames_total: m[:frames_total])
         col = color(rgb, a)
@@ -1881,8 +1886,8 @@ module App
       return unless line
       draw_stamp_line(world, tr("breach.line", line[:text]),
                       frames_left: line[:frames_left],
-                      frames_total: line.fetch(:frames_total, @display.fetch(:breach_banner_frames, 150)),
-                      top: @display.fetch(:breach_line_top, 88))
+                      frames_total: line.fetch(:frames_total, @display.fetch(:breach_banner_frames)),
+                      top: @display.fetch(:breach_line_top))
     end
 
     def draw_wipe_overlay(world)
@@ -1908,8 +1913,8 @@ module App
     def draw_hurt_vignette(world)
       w = view_width(world)
       h = view_height(world)
-      t = @display.fetch(:hurt_vignette_px, 8)
-      col = Gosu::Color.new(@display.fetch(:hurt_vignette_alpha, 110), 220, 45, 35)
+      t = @display.fetch(:hurt_vignette_px)
+      col = Gosu::Color.new(@display.fetch(:hurt_vignette_alpha), 220, 45, 35)
       Gosu.draw_rect(0, 0, w, t, col)
       Gosu.draw_rect(0, h - t, w, t, col)
       Gosu.draw_rect(0, t, t, h - t * 2, col)
@@ -2087,11 +2092,11 @@ module App
     def ledger_line_font = @ledger_line_font ||= Gosu::Font.new(26, bold: true)
     def ledger_net_font = @ledger_net_font ||= Gosu::Font.new(42, bold: true)
 
-    def ledger_pop_frames = @display.fetch(:ledger_pop_frames, 10)
-    def ledger_flash_frames = @display.fetch(:ledger_flash_frames, 6)
-    def ledger_flash_alpha = @display.fetch(:ledger_flash_alpha, 120)
-    def ledger_panel_alpha = @display.fetch(:ledger_panel_alpha, 160)
-    def ledger_block_y = @display.fetch(:ledger_block_y, 160)
-    def ledger_wipe_y = @display.fetch(:ledger_wipe_y, 340)
+    def ledger_pop_frames = @display.fetch(:ledger_pop_frames)
+    def ledger_flash_frames = @display.fetch(:ledger_flash_frames)
+    def ledger_flash_alpha = @display.fetch(:ledger_flash_alpha)
+    def ledger_panel_alpha = @display.fetch(:ledger_panel_alpha)
+    def ledger_block_y = @display.fetch(:ledger_block_y)
+    def ledger_wipe_y = @display.fetch(:ledger_wipe_y)
   end
 end

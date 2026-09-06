@@ -104,7 +104,7 @@ module App
     end
 
     def tr(key, fallback) = @strings ? @strings.t(key, fallback) : fallback
-    def net_banner_frames = @display.fetch(:net_banner_frames, 180)
+    def net_banner_frames = @display.fetch(:net_banner_frames)
     def state_font = @state_font ||= Gosu::Font.new(28, bold: true)
     def info_font = @info_font ||= Gosu::Font.new(14)
   end

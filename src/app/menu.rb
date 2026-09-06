@@ -19,8 +19,8 @@ module App
   #
   # #draw is the only Gosu-touching method (NetplayOverlay pattern); state
   # resolution + #draw_model are pure and headless-tested. Geometry/tone
-  # knobs live in data/display.json as menu_* keys (Rule 3), fetch-fallback
-  # per the ControlsOverlay precedent. Identity colors are code constants
+  # knobs live in data/display.json as menu_* keys (Rule 3), strict fetch
+  # (E3 b5: every knob is a WRITTEN row, no code default). Identity colors are code constants
   # (Renderer::BANNER family precedent).
   class Menu
     BONE = [225, 215, 190].freeze          # NetplayOverlay text family
@@ -257,7 +257,7 @@ module App
         @prefs.locale = value if @prefs
         @on_locale&.call(value)
       when 1
-        presets = @display.fetch(:menu_scale_presets, ["auto", 1, 2, 3])
+        presets = @display.fetch(:menu_scale_presets)
         current = @prefs&.window_scale || @display[:window_scale] || "auto"
         value = cycle(presets, current, step)
         @prefs.window_scale = value if @prefs
@@ -405,22 +405,22 @@ module App
 
     def tr(key, fallback) = @strings ? @strings.t(key, fallback) : fallback
 
-    def veil_alpha = @display.fetch(:menu_veil_alpha, 150)
-    def panel_alpha = @display.fetch(:menu_panel_alpha, 220)
-    def panel_w = @display.fetch(:menu_panel_w, 320)
-    def sheet_w = @display.fetch(:menu_sheet_w, 560)
-    def row_h = @display.fetch(:menu_row_h, 34)
-    def sheet_row_h = @display.fetch(:menu_sheet_row_h, 24)
-    def title_h = @display.fetch(:menu_title_h, 44)
-    def hint_h = @display.fetch(:menu_hint_h, 24)
-    def pad = @display.fetch(:menu_pad, 20)
-    def glyph_gap = @display.fetch(:menu_glyph_gap, 14)
-    def net_panel_w = @display.fetch(:menu_net_panel_w, 230)
-    def net_panel_gap = @display.fetch(:menu_net_panel_gap, 14)
-    def net_row_h = @display.fetch(:menu_net_row_h, 20)
-    def net_font = @net_font ||= Gosu::Font.new(@display.fetch(:menu_net_font_size, 13))
-    def title_font = @title_font ||= Gosu::Font.new(@display.fetch(:menu_title_font_size, 28), bold: true)
-    def row_font = @row_font ||= Gosu::Font.new(@display.fetch(:menu_row_font_size, 18))
-    def hint_font = @hint_font ||= Gosu::Font.new(@display.fetch(:menu_hint_font_size, 12))
+    def veil_alpha = @display.fetch(:menu_veil_alpha)
+    def panel_alpha = @display.fetch(:menu_panel_alpha)
+    def panel_w = @display.fetch(:menu_panel_w)
+    def sheet_w = @display.fetch(:menu_sheet_w)
+    def row_h = @display.fetch(:menu_row_h)
+    def sheet_row_h = @display.fetch(:menu_sheet_row_h)
+    def title_h = @display.fetch(:menu_title_h)
+    def hint_h = @display.fetch(:menu_hint_h)
+    def pad = @display.fetch(:menu_pad)
+    def glyph_gap = @display.fetch(:menu_glyph_gap)
+    def net_panel_w = @display.fetch(:menu_net_panel_w)
+    def net_panel_gap = @display.fetch(:menu_net_panel_gap)
+    def net_row_h = @display.fetch(:menu_net_row_h)
+    def net_font = @net_font ||= Gosu::Font.new(@display.fetch(:menu_net_font_size))
+    def title_font = @title_font ||= Gosu::Font.new(@display.fetch(:menu_title_font_size), bold: true)
+    def row_font = @row_font ||= Gosu::Font.new(@display.fetch(:menu_row_font_size))
+    def hint_font = @hint_font ||= Gosu::Font.new(@display.fetch(:menu_hint_font_size))
   end
 end

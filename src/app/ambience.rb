@@ -76,7 +76,7 @@ module App
     class Scene
       def initialize(presets, display: {})
         @presets = presets
-        @enabled = display.fetch(:ambience, true)
+        @enabled = display.fetch(:ambience)
         @cache = {}
       end
 

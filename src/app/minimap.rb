@@ -19,7 +19,7 @@ module App
     def initialize(display:, kit_body:)
       @display = display
       @kit_body = kit_body
-      @enabled = display.fetch(:minimap, true)
+      @enabled = display.fetch(:minimap)
       @images = {}
       @windows = {}
     end
@@ -28,7 +28,7 @@ module App
 
     # The box in screen space (x, y, w, h) — exit arrows and pips avoid it.
     def rect(view_w)
-      w, h = @display.fetch(:minimap_size, [128, 80])
+      w, h = @display.fetch(:minimap_size)
       [view_w - w - 12, 12, w, h]
     end
 
