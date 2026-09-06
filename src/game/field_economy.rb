@@ -22,6 +22,7 @@ module Game
       @bus = bus
       @rng = rng
       @drops_cfg = drops_cfg
+      @item_drops = Hash.new { |h, k| h[k] = [] }
       @death = death_cfg
       @corpses = Hash.new { |h, k| h[k] = [] }
       @drops = Hash.new { |h, k| h[k] = [] }
@@ -33,6 +34,7 @@ module Game
     # Live per-zone lists — station verbs mutate them in place (pickup /
     # loot delete records), exactly as they did on World's ivars.
     def drops(zone) = @drops[zone]
+    def item_drops(zone) = @item_drops[zone]
     def corpses(zone) = @corpses[zone]
 
     # Non-autovivifying: the renderer reads these every draw and a
@@ -123,6 +125,31 @@ module Game
       @bus.emit(:drop_spawned, tile: victim.tile, amount:)
     end
 
+    # S2: ITEM drops. Independent rolls on the :loot stream (a NEW stream -
+    # coin drops keep their draw counts byte-for-byte). One record per
+    # (tile, item): qty accumulates. Decay = economy item_drop_frames.
+    def spawn_item_drops(victim, zone:, table:, rng:, decay:)
+      return unless table
+      list = @item_drops[zone]
+      table[:rolls].times do
+        table[:entries].each do |(id, p)|
+          next unless rng.rand < p
+          rec = list.find { |d| d[:tile] == victim.tile && d[:id] == id.to_sym }
+          if rec
+            rec[:qty] += 1
+          else
+            list << { tile: victim.tile, id: id.to_sym, qty: 1, frames_left: decay, decay_frames: decay }
+          end
+          @bus.emit(:item_dropped, tile: victim.tile, item: id.to_sym)
+        end
+      end
+    end
+
+    def tick_item_drops!(zone)
+      @item_drops[zone].each { |d| d[:frames_left] -= 1 }
+      @item_drops[zone].reject! { |d| d[:frames_left] <= 0 }
+    end
+
     # Returns the record it appended, or nil when that record was itself the
     # cap-eviction victim (every other record linked) — the caller must stamp
     # THIS identity, never corpses.last, or a foreign container's link gets
@@ -185,6 +212,14 @@ module Game
     # and respawns (the pinned group order).
     def digest_groups
       groups = []
+      @item_drops.keys.sort.each do |zone|
+        @item_drops[zone].each_with_index do |d, i|
+          groups << ["item_drop.#{zone}.#{i}", [
+            ["tile_x", d[:tile][0]], ["tile_y", d[:tile][1]], ["item", d[:id].to_s], ["qty", d[:qty]],
+            ["frames_left", d[:frames_left]]
+          ]]
+        end
+      end
       @drops.keys.sort.each do |zone|
         @drops[zone].each_with_index do |d, i|
           groups << ["drop.#{zone}.#{i}", [

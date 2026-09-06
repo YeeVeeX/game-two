@@ -6,6 +6,7 @@ require "core/counting_rng"
 require "core/input"
 require "game/creature"
 require "game/pack"
+require "game/loot"
 require "game/projectile"
 require "game/controllers"
 require "game/aggro"
@@ -31,10 +32,12 @@ module Game
   # deterministic; never touches Gosu. Seed plumbs the sim PRNG (unused by
   # M1 logic; the plumbing is determinism law 3).
   class World
+    include Game::Loot # S2: items on the floor, the bag, the :loot stream
     EVENTS = %i[
       attack_started special_started attack_hit damage_dealt actor_died dodged telegraph
       zone_entered possession_changed pack_wiped pack_respawned projectile_fired pack_mark_set
       drop_spawned drop_picked_up drop_decayed banked carried_lost taunted
+      item_dropped item_picked_up bag_full
       corpse_loaded corpse_looted fight_resolved
       human_retargeted human_leashed human_respawned blinked poisoned aura_burn
       inscribed banked_spent tribute_paid body_regrown body_dissolved mark_consumed vessel_kept
@@ -78,6 +81,7 @@ module Game
       # Both streams count their draws (v17 digest lane, CountingRng —
       # value-transparent by construction).
       @respawn_rng = Core::CountingRng.new(Random.new(seed ^ RESPAWN_STREAM_SALT))
+      init_loot!(data, seed) # S2 (Game::Loot): catalog, bag, drop tables, :loot stream
       @bus = Core::EventBus.new.register(*EVENTS)
       @states = Core::StateStack.new(initial: :world, transitions: TRANSITIONS)
       @feel = Feel.new(@balance[:feel])
@@ -222,6 +226,8 @@ module Game
     def impacts = @volleys.records
     def corpses = @field.corpses(@zone_name)
     def drops = @field.drops(@zone_name)
+    def item_drops = @field.item_drops(@zone_name)
+    attr_reader :bag, :catalog
     # Non-autovivifying (FieldEconomy law): the renderer reads these every
     # draw and a default-proc index would insert keys into sim state from
     # the draw path (pure-reader law).
@@ -479,6 +485,8 @@ module Game
         @bus.emit(:drop_picked_up, actor: source, amount: drop[:amount], carried: source.carried)
         return true
       end
+      picked = pick_up_item(source) # S2 (Game::Loot): coin first, then the item
+      return picked unless picked.nil?
       # D1 recovery: settle-gated, full transfer, creation order on stacked
       # tiles (a settling container falls through — deterministic skip). A
       # drop on the tile won the press above: the D0 two-press rule extended.
@@ -556,11 +564,11 @@ module Game
         ["swap_was_down", @seats.map { |s| "#{s}:#{@swap_was_down[s]}" }.join("|")],
         ["rearm_needed", @seats.map { |s| "#{s}:#{@rearm_needed[s]}" }.join("|")],
         ["corpse_serial", @field.corpse_serial],
-        ["rng_draws", @rng.draws], ["respawn_rng_draws", @respawn_rng.draws],
+        ["rng_draws", @rng.draws], ["respawn_rng_draws", @respawn_rng.draws], ["loot_rng_draws", @loot_rng.draws],
         ["boss_1_defeats", boss_1_defeats], ["sessions", sessions],
         ["level", @progression.level], ["xp", @progression.xp]
       ] + @feel.digest_fields
-      groups = [["world", world_fields], ["pack", @pack.digest_fields]]
+      groups = [["world", world_fields], ["pack", @pack.digest_fields], ["bag", @bag.digest_fields]]
       @pack.members.each_with_index { |m, i| groups << ["pack.#{i}", m.digest_fields] }
       @humans.keys.sort.each do |zone|
         @humans[zone].each { |h| groups << ["human.#{zone}.#{h.name}", h.digest_fields] }
@@ -1492,6 +1500,7 @@ module Game
       @flow_cache&.select! { |anchor, _| !anchor.dead? }
       @telegraphing&.select! { |actor, _| !actor.dead? }
       @field.prune_corpses!(@zone_name, @frame)
+      @field.tick_item_drops!(@zone_name)
     end
 
     def emit_attack_hit(attacker, victim, landed)
@@ -1581,6 +1590,7 @@ module Game
         @field.spawn_drop(e[:actor], zone: @zone_name,
                           multiplier: gradient_multiplier(e[:actor].tile),
                           band: gradient_band(e[:actor].tile))
+        roll_item_drops(e[:actor]) # S2 (Game::Loot)
         # D1: a dying pack body's carried value transfers to a container on
         # its corpse. Term expiry is the permanent-loss tier now.
         if e[:actor].faction == :pack && e[:actor].carried.positive?

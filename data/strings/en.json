@@ -57,6 +57,8 @@
   "item.kind.armor": "ARMOR",
   "item.kind.trinket": "TRINKET",
   "item.kind.material": "MATERIAL",
+  "hud.bag": "BAG",
+  "bag.full": "BAG FULL",
   "hud.provisions": "POTION",
   "hud.coins": "COINS",
   "hud.level": "LEVEL",

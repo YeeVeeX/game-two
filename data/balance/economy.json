@@ -3,6 +3,8 @@
   "regrow_cost": 12,
   "heal_cost_per_body": 2,
   "retarget_cue_frames": 75,
+  "bag_slots": 20,
+  "item_drop_frames": 1800,
   "breach_cost": 40,
   "breach_cost_2": 150,
   "provision_cost": 5,

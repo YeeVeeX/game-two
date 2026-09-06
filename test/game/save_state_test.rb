@@ -665,6 +665,7 @@ class SaveStateTest < Minitest::Test
       "swap_was_down" => :session_only, "rearm_needed" => :session_only,
       "corpse_serial" => :session_only, "rng_draws" => :session_only,
       "respawn_rng_draws" => :session_only, "hitstop" => :session_only,
+      "loot_rng_draws" => :session_only, # S2: the item-roll stream re-seeds per session like the others
       "boss_1_defeats" => :persisted, "sessions" => :persisted,
       "level" => :persisted, "xp" => :persisted
     },
@@ -672,6 +673,9 @@ class SaveStateTest < Minitest::Test
       "banked" => :persisted, "provisions" => :persisted,
       "mark" => :session_only, "possessed.N" => :session_only
     },
+    # S2: the bag PERSISTS - through the schema-3 player record (T1); until
+    # that lands it is rebuilt empty each session (named, not silent).
+    "bag" => { "slots" => :session_only, "used" => :persisted, "contents" => :persisted },
     # pack.N + human.zone.name share the creature schema. hp/kind persist
     # (members roster law); marked IS the persisted inscribed flag; alive
     # derives from hp > 0 (never stored — contradictions unrepresentable).
@@ -710,6 +714,7 @@ class SaveStateTest < Minitest::Test
     # Field records drop wholesale at the save boundary (decision 3c).
     "projectile" => :session_only_group, "impact" => :session_only_group,
     "drop" => :session_only_group, "load" => :session_only_group,
+    "item_drop" => :session_only_group, # S2: an item on the floor dies with the zone visit
     "respawn" => :session_only_group,
     # v20 T4: totem cadence timers re-arm each session by design (L9 —
     # the totem is zone data; its countdown is never a save fact).
@@ -752,10 +757,11 @@ class SaveStateTest < Minitest::Test
 
   def classification_for(group)
     case group
-    when "world", "pack" then CLASSIFICATION[group]
+    when "world", "pack", "bag" then CLASSIFICATION[group]
     when /\Apack\.\d+\z/, /\Ahuman\./ then CLASSIFICATION["creature"]
     when /\Aprojectile\./ then CLASSIFICATION["projectile"]
     when /\Aimpact\./ then CLASSIFICATION["impact"]
+    when /\Aitem_drop\./ then CLASSIFICATION["item_drop"]
     when /\Adrop\./ then CLASSIFICATION["drop"]
     when /\Aload\./ then CLASSIFICATION["load"]
     when /\Arespawn\./ then CLASSIFICATION["respawn"]

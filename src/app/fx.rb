@@ -57,6 +57,21 @@ module App
             st[:bursts] << { x: a.x + 14, y: a.y + 8, at: world.frame, rgb: [255, 214, 120], pickup: true }
             st[:nums] << { x: a.x + 14, y: a.y - 10, at: world.frame, text: "+#{ev.payload[:amount]}", kind: :gold, big: false }
           end
+          world.bus.subscribe(:item_picked_up) do |ev|
+            a = ev.payload[:actor]
+            next unless a
+            st[:bursts] << { x: a.x + 14, y: a.y + 8, at: world.frame, rgb: [235, 225, 200], pickup: true }
+            name = @labels[:item]&.call(ev.payload[:item]) || ev.payload[:item].to_s.upcase
+            qty = ev.payload[:qty].to_i
+            st[:callouts] << { c: a, kind: :item, at: world.frame, rgb: [235, 225, 200],
+                               text: qty > 1 ? "#{name} x#{qty}" : name }
+            st[:acts][a.kit_name] = world.frame
+          end
+          world.bus.subscribe(:bag_full) do |ev|
+            a = ev.payload[:actor]
+            next unless a
+            st[:callouts] << { c: a, kind: :full, at: world.frame, rgb: [240, 90, 80], text: @labels[:bag_full].to_s }
+          end
           world.bus.subscribe(:provision_used) do |ev|
             a = ev.payload[:actor]
             next unless a && a.faction == :pack && !controlled?(world, a)
@@ -161,7 +176,7 @@ module App
       a = t < 0.7 ? 255 : (255 * (1.0 - (t - 0.7) / 0.3)).round.clamp(0, 255)
       cx = c.x + 14
       y = c.y - 22 - rise
-      label = @labels[p[:kind]].to_s
+      label = p[:text] || @labels[p[:kind]].to_s
       f = num_font
       tw = f.text_width(label)
       w = tw + 18
@@ -179,6 +194,9 @@ module App
         [[7, 0], [5, 1], [3, 2], [1, 3]].each do |(ww, k)|
           Gosu.draw_rect(ix + 4 - ww / 2.0, y + 2 + k * 2, ww, 2, Gosu::Color.new(a, 190, 215, 255), z)
         end
+      when :item, :full
+        Gosu.draw_rect(ix + 1, y + 1, 8, 8, Gosu::Color.new(a, rr, gg, bb), z)
+        Gosu.draw_rect(ix + 3, y + 4, 4, 3, Gosu::Color.new(a, 20, 14, 12), z)
       else
         Gosu.draw_rect(ix + 1, y + 1, 8, 8, Gosu::Color.new(a, rr, gg, bb), z)
         Gosu.draw_rect(ix + 3, y + 3, 4, 4, Gosu::Color.new(a, 255, 255, 240), z)

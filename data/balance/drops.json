@@ -1,0 +1,222 @@
+{
+  "_doc": "S2 item drop tables by kit. rolls = independent draws on the :loot RNG stream; each entry [item_id, probability]. Coin drops (kit drop_table) are unchanged.",
+  "tables": {
+    "husk": {
+      "rolls": 1,
+      "entries": [
+        [
+          "flask_sap",
+          0.06
+        ],
+        [
+          "jerkin_root",
+          0.01
+        ]
+      ]
+    },
+    "rusher": {
+      "rolls": 1,
+      "entries": [
+        [
+          "flask_sap",
+          0.05
+        ]
+      ]
+    },
+    "rusher_hater": {
+      "rolls": 1,
+      "entries": [
+        [
+          "flask_sap",
+          0.05
+        ],
+        [
+          "antidote",
+          0.03
+        ]
+      ]
+    },
+    "lurker": {
+      "rolls": 1,
+      "entries": [
+        [
+          "bell_pink",
+          0.25
+        ]
+      ]
+    },
+    "stinger": {
+      "rolls": 1,
+      "entries": [
+        [
+          "bell_pink",
+          0.35
+        ]
+      ]
+    },
+    "warden": {
+      "rolls": 2,
+      "entries": [
+        [
+          "bell_pink",
+          0.8
+        ],
+        [
+          "charm_tide",
+          0.05
+        ]
+      ]
+    },
+    "serpent_a": {
+      "rolls": 1,
+      "entries": [
+        [
+          "shard_amethyst",
+          0.4
+        ],
+        [
+          "antidote",
+          0.05
+        ]
+      ]
+    },
+    "serpent_b": {
+      "rolls": 1,
+      "entries": [
+        [
+          "scale_marble",
+          0.4
+        ]
+      ]
+    },
+    "serpent_c": {
+      "rolls": 1,
+      "entries": [
+        [
+          "shard_amethyst",
+          0.3
+        ],
+        [
+          "blade_iron",
+          0.02
+        ]
+      ]
+    },
+    "serpent_boss": {
+      "rolls": 3,
+      "entries": [
+        [
+          "blade_shard",
+          0.5
+        ],
+        [
+          "scale_marble",
+          1.0
+        ],
+        [
+          "charm_tide",
+          0.25
+        ]
+      ]
+    },
+    "ember_a": {
+      "rolls": 1,
+      "entries": [
+        [
+          "coal_living",
+          0.4
+        ],
+        [
+          "ember_salve",
+          0.06
+        ]
+      ]
+    },
+    "ember_b": {
+      "rolls": 1,
+      "entries": [
+        [
+          "coal_living",
+          0.35
+        ],
+        [
+          "ember_salve",
+          0.08
+        ]
+      ]
+    },
+    "ember_d": {
+      "rolls": 1,
+      "entries": [
+        [
+          "coal_living",
+          0.45
+        ],
+        [
+          "sling_sinew",
+          0.02
+        ]
+      ]
+    },
+    "ember_boss": {
+      "rolls": 3,
+      "entries": [
+        [
+          "plate_basalt",
+          0.5
+        ],
+        [
+          "coal_living",
+          1.0
+        ],
+        [
+          "ember_salve",
+          0.6
+        ]
+      ]
+    },
+    "spore_a": {
+      "rolls": 1,
+      "entries": [
+        [
+          "cap_spore",
+          0.45
+        ],
+        [
+          "antidote",
+          0.08
+        ]
+      ]
+    },
+    "spore_b": {
+      "rolls": 1,
+      "entries": [
+        [
+          "cap_spore",
+          0.55
+        ],
+        [
+          "charm_moss",
+          0.02
+        ]
+      ]
+    },
+    "challenger": {
+      "rolls": 2,
+      "entries": [
+        [
+          "charm_moss",
+          0.6
+        ],
+        [
+          "jerkin_root",
+          0.4
+        ],
+        [
+          "shield_ring",
+          0.25
+        ]
+      ]
+    }
+  }
+}

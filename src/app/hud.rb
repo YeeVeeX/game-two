@@ -207,6 +207,16 @@ module App
       end
       haloed(font, world.pack.provisions.to_s, px + 14, y - 2, 21, Gosu::Color::WHITE)
       font.draw_text(tr("hud.provisions", "POTION"), px + 14 + font.text_width(world.pack.provisions.to_s) + 6, y - 2, 20, 1, 1, dim)
+      # S2: the BAG chip - used/slots (a small satchel glyph)
+      if world.respond_to?(:bag)
+        bx2 = 262
+        Gosu.draw_rect(bx2 + 1, y, 10, 3, dark, 20)
+        Gosu.draw_rect(bx2, y + 3, 12, 9, Gosu::Color.new(255, 110, 72, 50), 20)
+        Gosu.draw_rect(bx2 + 4, y + 5, 4, 2, gold, 20)
+        txt = "#{world.bag.used}/#{world.bag.slots}"
+        haloed(font, txt, bx2 + 16, y - 2, 21, world.bag.free_slots.zero? ? Gosu::Color.new(255, 240, 90, 80) : Gosu::Color::WHITE)
+        font.draw_text(tr("hud.bag", "BAG"), bx2 + 16 + font.text_width(txt) + 6, y - 2, 20, 1, 1, dim)
+      end
     end
 
     def draw_coin(x, y)

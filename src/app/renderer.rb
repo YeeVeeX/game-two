@@ -168,7 +168,9 @@ module App
       # footstep dust) — bus-fed, frame-keyed, presentation-only.
       @fx = App::Fx.new(display: @display, kit_body: KIT_BODY,
                         labels: { drink: tr("hud.provisions", "POTION"), roll: tr("overlay.dodge", "dodge").upcase,
-                                  special: tr("menu.label.special", "SPECIAL") })
+                                  special: tr("menu.label.special", "SPECIAL"),
+                                  bag_full: tr("bag.full", "BAG FULL"),
+                                  item: ->(id) { tr("item.#{id}.name", id.to_s.upcase) } })
       # PREMIUM v22 pass 4: fire glows, vignette, kill punch, level flash.
       @light = App::Light.new(display: @display)
       # PREMIUM v22 pass 9: the radar (App::Minimap), top-right.
@@ -187,6 +189,7 @@ module App
         draw_corpses(world)
         draw_stations(world)
         draw_drops(world)
+        draw_item_drops(world)
         draw_corpse_loads(world)
         draw_expiry_flashes(world)
         draw_seal_marks(world)
@@ -682,6 +685,33 @@ module App
           sp = Gosu::Color.new(alpha, 255, 255, 255)
           Gosu.draw_rect(cx + half - 1, cy - half - 1, 1, 5, sp)
           Gosu.draw_rect(cx + half - 3, cy - half + 1, 5, 1, sp)
+        end
+      end
+    end
+
+    # S2: ITEM drops - the catalog icon on a small dark plate, bobbing like the
+    # gems (phase per tile), fading over the last third of its decay. Quads
+    # path / missing icon: a bone square.
+    def draw_item_drops(world)
+      ts = world.map.tile_size
+      world.item_drops.each do |d|
+        frac = d[:frames_left].fdiv(d[:decay_frames])
+        alpha = frac < (1 / 3.0) ? (255 * frac * 3).clamp(60, 255).round : 255
+        tx, ty = d[:tile]
+        phase = (world.frame + tx * 5 + ty * 9) % 48
+        bob = phase < 24 ? phase / 12 : (48 - phase) / 12
+        x = tx * ts + ts / 2 - 9
+        y = ty * ts + ts / 2 - 9 - bob
+        Gosu.draw_rect(x - 2, ty * ts + ts / 2 + 8, 22, 2, Gosu::Color.new((alpha * 0.45).round, 0, 0, 0))
+        Gosu.draw_rect(x - 1, y - 1, 20, 20, Gosu::Color.new((alpha * 0.85).round, 16, 12, 12))
+        if (ico = @item_icons&.icon(world.catalog.fetch(d[:id])&.icon))
+          ico.draw(x + 1, y + 1, 0, 1, 1, Gosu::Color.new(alpha, 255, 255, 255))
+        else
+          Gosu.draw_rect(x + 3, y + 3, 12, 12, Gosu::Color.new(alpha, 205, 198, 180))
+        end
+        if d[:qty] > 1
+          f = hud_font
+          f.draw_text(d[:qty].to_s, x + 20 - f.text_width(d[:qty].to_s), y + 8, 1, 1, 1, Gosu::Color.new(alpha, 245, 240, 225))
         end
       end
     end

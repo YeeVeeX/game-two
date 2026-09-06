@@ -57,6 +57,8 @@
   "item.kind.armor": "ARMADURA",
   "item.kind.trinket": "AMULETO",
   "item.kind.material": "MATERIAL",
+  "hud.bag": "BOLSA",
+  "bag.full": "BOLSA CHEIA",
   "hud.provisions": "POÇÃO",
   "hud.coins": "MOEDAS",
   "hud.level": "NÍVEL",

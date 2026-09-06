@@ -19,8 +19,11 @@ class StateDigestTest < Minitest::Test
   WORLD_FIELDS = %w[frame zone state respawn_timer home_zone breached
                     zone_left_at
                     last_damaged swap_was_down rearm_needed corpse_serial
-                    rng_draws respawn_rng_draws boss_1_defeats sessions
+                    rng_draws respawn_rng_draws loot_rng_draws boss_1_defeats sessions
                     level xp hitstop].freeze
+  # S2: the bag rides the digest as its own group (both seats agree on what
+  # you hold); item drops are field records like coin drops.
+  BAG_FIELDS = %w[slots used contents].freeze
   PACK_FIELDS = %w[banked provisions mark possessed.1].freeze
   CREATURE_FIELDS = %w[kind tile_x tile_y px py tween_left tween_total
                        reserved_x reserved_y facing_x facing_y hp alive
@@ -111,6 +114,10 @@ class StateDigestTest < Minitest::Test
     lobber.start_attack or flunk "staging: projectile attack refused"
     drive_until(w, 200, "projectile in flight") { w.projectiles.any? }
     assert w.impacts.any?, "staging: impact resolved before the projectile launched"
+    # S2: one item on the floor + one item in the bag (the roll is
+    # probabilistic; the RECORD shapes are what the sweep covers)
+    w.item_drops << { tile: [3, 3], id: :flask_sap, qty: 2, frames_left: 600, decay_frames: 600 }
+    w.bag.add!(:antidote, 1)
     w
   end
 
@@ -121,6 +128,7 @@ class StateDigestTest < Minitest::Test
     groups = snap.to_h
     assert_equal WORLD_FIELDS, groups.fetch("world").map(&:first)
     assert_equal PACK_FIELDS, groups.fetch("pack").map(&:first)
+    assert_equal BAG_FIELDS, groups.fetch("bag").map(&:first)
     assert_equal CREATURE_FIELDS, groups.fetch("pack.0").map(&:first)
     human_key = snap.map(&:first).find { |g| g.start_with?("human.") }
     assert_equal CREATURE_FIELDS, groups.fetch(human_key).map(&:first)
@@ -158,8 +166,8 @@ class StateDigestTest < Minitest::Test
       kind = seg.length == 1 ? seg[0] : "#{seg[0]}.N"
       reps[kind] ||= gi
     end
-    assert_equal %w[world pack pack.N human.N projectile.N impact.N drop.N load.N respawn.N
-                    totem.N].sort,
+    assert_equal %w[world pack bag pack.N human.N projectile.N impact.N drop.N load.N respawn.N
+                    totem.N item_drop.N].sort,
                  reps.keys.sort, "staging no longer covers every group kind"
     count = 0
     reps.each_value do |gi|
