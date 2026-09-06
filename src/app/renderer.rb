@@ -1098,6 +1098,21 @@ module App
       rx, ry = @display.fetch(:possess_halo_rx), @display.fetch(:possess_halo_ry)
       outer = Gosu::Color.new(@display.fetch(:possess_halo_alpha), *rgb)
       rim = Gosu::Color.new(@display.fetch(:possess_halo_rim_alpha), *rgb)
+      # Wall #4 (boss2_phases possessed_readable, 2026-09-06): the soft gold ellipse
+      # was tuned on the pilot's DARK floors and barely read on the TOWER's light
+      # stone. A 1px dark CONTOUR outside the gold rim (the ring-underdraw grammar,
+      # cf. draw_outlined_quad) makes the halo ground-independent: it reads on
+      # dark AND light floors. Drawn first, one pixel wider than every slice plus
+      # one row above and below the ellipse.
+      contour = Gosu::Color.new(@display.fetch(:possess_halo_contour_alpha), *@display.fetch(:possess_halo_contour_rgb))
+      (-ry..ry).each do |dy|
+        t = dy.to_f / (ry + 0.5)
+        hw = Math.sqrt([1.0 - t * t, 0.0].max) * rx
+        w = (hw * 2).round
+        next if w <= 0
+        Gosu.draw_rect((cx - hw).round - 1, (cy + dy).round, w + 2, 1, contour)
+        Gosu.draw_rect((cx - hw).round + 1, (cy + dy).round + (dy.negative? ? -1 : 1), [w - 2, 1].max, 1, contour) if dy.abs == ry
+      end
       (-ry..ry).each do |dy|
         t = dy.to_f / (ry + 0.5)
         hw = Math.sqrt([1.0 - t * t, 0.0].max) * rx
@@ -1113,12 +1128,17 @@ module App
       top = y - 7 - art_lift - bob
       fill = Gosu::Color.new(255, *rgb)
       edge = Gosu::Color.new(255, 40, 28, 12)
-      # downward chevron: 4 slices narrowing to the tip, 1px dark edge
+      # downward chevron: 4 slices narrowing to the tip, 1px dark edge, plus a
+      # dark row ABOVE the widest slice and a 2px-wider edge (wall #4: a drop gem
+      # on the tile behind the head - also a diamond - swallowed the marker; the
+      # heavier dark contour makes it read as a MARKER, not a gem).
+      Gosu.draw_rect((cx - 5).round - 2, top - 1, 14, 1, edge)
       [[10, 0], [8, 1], [6, 2], [4, 3], [2, 4]].each do |(w, k)|
-        Gosu.draw_rect((cx - w / 2.0).round - 1, top + k, w + 2, 1, edge)
+        Gosu.draw_rect((cx - w / 2.0).round - 2, top + k, w + 4, 1, edge)
         Gosu.draw_rect((cx - w / 2.0).round, top + k, w, 1, fill)
       end
-      Gosu.draw_rect((cx - 1).round, top + 5, 2, 1, edge)
+      Gosu.draw_rect((cx - 2).round, top + 5, 4, 1, edge)
+      Gosu.draw_rect((cx - 1).round, top + 6, 2, 1, edge)
     end
 
     # Overhang of the art frame above the body box: anchor_y - the 2px the

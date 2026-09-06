@@ -12,7 +12,14 @@ cerca LE (machine row). So a raia nomeada em SIM LANE pode tocar `src/game/**`.
 Raias escrevem SEUS receipts em `drafts/lanes/receipts/<lane>.md`; o integrador dobra aqui.
 
 ## Receipts (dobrados pelo integrador)
-RECEIPT: signage - OPEN lane-worker (fable) + scout + reviewer; dividas: renderer.rb 2124 -> extracao src/app/signage.rb (commit 1, byte-inerte) + regra do contorno de pressao (commit 2: so quando o corpo ESTA no anel: dist <= raio+1 e line_clear?) = brasa2 pressure_ring_reads (vermelha nas paredes #2/#3/#4); brief drafts/lanes/signage.md; worktree ../game-two-lane-sig; apresentacao pura
+RECEIPT: signage 7dcb601 READY (lane/signage @ c35640a, rebased + ff) commit 1 = App::Signage extracted from renderer.rb
+  2124 -> 1969 byte-inert (bodies textually identical, integrator gates md5 vs wall #4) · commit 2 = pressure outline only
+  when the body IS on the ring: Signage.pressure_outline? (role :pressuring AND Chebyshev <= pressure_outline_max_tiles 3 =
+  ring radius 2 + 1 [aggro.rb:108, threat.json:5] AND Signage.sight_open? - a PRESENTATION Bresenham, NOT the sim's 8-way
+  shot ray; integrator decision B in-thread after the lane proved the sim ray refuses 8 of the 16 ring slots; agreement
+  test 57,280 aligned pairs / 0 disagreements). Integrator validated: fence --base 193e148 rc 0 (6 paths = owns), suite
+  1534/0, canaries YES x3, no clock/rand. PATCH REQUEST applied: renderer.rb cap 2000 in line_caps_test. Team: lane-worker
+  (fable) + scout + reviewer (OK, no P1; P2s fixed c35640a). Rule 2: gates after wall #4 closes (window).
 RECEIPT: e3-presentation f880c7c READY (branch lane/e3-presentation, rebased + ff into junior/premium-build) ticket E3 4/4:
   b5 38 knobs escritos + 176 defaults removidos + teste de existencia · F-A3-1 safe_chip_y 138 · b3 prompt sse World#interact age
   na propria tile (rope_spot prompta; ao lado/totem nao) · b4 minimapa: aberta = ouro, trancada = cinza, MESMO predicado

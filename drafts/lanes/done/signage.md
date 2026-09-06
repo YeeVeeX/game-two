@@ -32,6 +32,8 @@ never:
   - docs/
   - AGENTS.md
 ---
+> DONE 2026-09-06 - delivered @ 7dcb601 (receipt c35640a), rebased + ff into junior/premium-build. Kept as record.
+
 # Raia `signage` — duas dividas nomeadas de apresentacao, DOIS commits separados
 
 Origem: receipt do E3 (`drafts/lanes/receipts/e3-presentation.md`: "renderer.rb 2099 -> 2124 (+25) - extraction

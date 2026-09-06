@@ -19,6 +19,16 @@ class LineCapsTest < Minitest::Test
                     "systems talk via the event bus or they don't ship"
   end
 
+  # 2026-09-06 (E3 + lane signage): renderer.rb reached 2124 with the PREMIUM
+  # passes; the signage block (interact prompt, way lock, exit arrows, pressure
+  # outline) was extracted to src/app/signage.rb (2124 -> 1970). The cap keeps
+  # the next presentation wave extracting instead of piling (Game::Loot pattern).
+  def test_renderer_growth_ceiling
+    assert_operator count("src/app/renderer.rb"), :<=, 2_000,
+                    "renderer.rb hit the growth ceiling - extract the next block " \
+                    "into a src/app/*.rb mixin (signage.rb precedent), do not raise the cap"
+  end
+
   def test_world_growth_ceiling
     assert_operator count("src/game/world.rb"), :<=, 1_800,
                     "world.rb hit the growth ceiling — extract the subsystem " \

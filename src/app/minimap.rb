@@ -79,10 +79,12 @@ module App
       s = scale_for(map)
       specs = App::TileVariants.specs(map, registry)
       pal = map.palette
-      floor = lift(pal[:floor] || [40, 36, 32], 28)
-      wall = pal[:wall] || [120, 120, 120]
-      water = lift(pal[:water] || [30, 60, 90], 28)
-      station = [200, 90, 220]
+      # fallbacks/station colours are display rows (landing review 2026-09-06:
+      # literals left beside the two new way colours) - display_knobs_test guards them
+      floor = lift(pal[:floor] || @display.fetch(:minimap_floor_fallback_rgb), 28)
+      wall = pal[:wall] || @display.fetch(:minimap_wall_fallback_rgb)
+      water = lift(pal[:water] || @display.fetch(:minimap_water_fallback_rgb), 28)
+      station = @display.fetch(:minimap_station_rgb)
       w = map.cols * s
       h = map.rows * s
       blob = String.new(capacity: w * h * 4)

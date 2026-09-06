@@ -117,6 +117,13 @@ module App
       return nil unless me && !me.dead?
       verb = Renderer.interact_verb(world.map, me.tile)
       return nil unless verb
+      # landing review 2026-09-06: a seal whose way is already breached DISPATCHES
+      # but does nothing (World#interact_seal returns false) - no prompt for it.
+      # The prompt promises "H acts here", not "H is routed here".
+      if verb == "seal"
+        station = world.map.station_at(*me.tile)
+        return nil if station && station[:opens] && world.respond_to?(:breached?) && world.breached?(world.zone_name, station[:opens])
+      end
       { verb: verb, key: (@bindings&.glyphs(:interact)&.first) || "H" }
     end
 
