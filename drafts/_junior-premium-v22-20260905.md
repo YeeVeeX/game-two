@@ -579,3 +579,5 @@ proof that loading the bag from the record does not alter the scene). Plan doc m
 one design decision (live Bag = source, record = projection) and the sweep-row change he will see.
 
 ### S1 landing gate, second half (18:5x): loot_loop NOT clean (no verdict) - recorded as is, not claimed
+
+### Correction (18:5x): `loot_loop` was RETIRED by Gabriel's E1.4 (census re-cut) - the landing plan (written before the merge) named a retired script. The S1 landing gate is `basement_pocket` (drop + pickup reel): gate_rc=0 manifest_rc=0, 8 captures byte-identical x2 @ 3a7f6fc. "loot_loop NOT clean" above = no such script, not a failure.

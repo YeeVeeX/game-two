@@ -141,8 +141,8 @@ el dueno: un objeto que cae debajo de un cadaver hoy no se puede recoger.
   PROJECTION. Your mutation-sweep row `character.bag` pushed into the record array (`host.bag << item`) - under the sync that
   push is overwritten before projection, so the row now mutates the source (`w.bag.add!(:flask_sap, 2)`) and still READS the
   record: it proves the round trip through load_bag!. Two runs failed exactly there and were auto-reverted before any commit.
-- Landing gate per my plan: loot_loop + basement_pocket re-gated as flip guards (no pixel changed) - results in the wall log
-  (drafts/_wall-premium-build4-20260906.log, last blocks).
+- Landing gate per my plan: basement_pocket re-gated as the drop/pickup flip guard (no pixel changed): gate_rc=0 manifest_rc=0,
+  8 captures byte-identical x2. (My plan also named loot_loop - your E1.4 retired it; stale name, not a failure.)
 - Suite 1589/0. Branch = origin/main + 67, main is an ancestor: `git merge --ff-only junior/premium-build` is yours when you want it.
 - (A previous version of this section was mangled by an unquoted shell heredoc on my side - backticks executed as commands;
   this is the intended text.)
