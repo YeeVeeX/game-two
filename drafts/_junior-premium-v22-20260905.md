@@ -329,3 +329,15 @@ up (`World#interact` on the drop's own tile), `run_until` 960, captures 923/945.
 `pickup_gleam_reads` both read frame 0923: gem + facet highlight; the blocker's "+1" numeral rises in the capture I
 looked at), **8 captures byte-identical x2**, manifest PASS on the double replay. Pin recorded (build-junior @ 282041c).
 Remaining red: `toll_pocket` (the whole fight fails to stage; bigger re-author, next session's E-ticket).
+
+### `toll_pocket` DIAGNOSED (measure only; re-author = next session's E-ticket) (13:45)
+basement_2 (12x8): pack spawns [3,5]/[4,5]/[5,5] with husk0 ADJACENT at [2,6] (d=1) + 4 husks (aggro 12 = whole map).
+1400 frames: ZERO telegraph / attack_hit / hostile movement (`hostiles_moved=0` start to end); the pack fires 16
+`attack_started` that hit nothing (possessed at [3,5]/[4,4]/[4,6], never facing [2,6]). The "damage" seen earlier
+(198 -> 74 -> 99) was the two possession swaps (480/580: lobber max 74, striker max 99), not hits. Whole bus in 1400 f:
+attack_started x16, zone_entered x2, possession_changed x2. Reading: authored on the pre-LDtk basement_2; today the husks
+behave like scoped guards (cf. guard_scope_test) whose scope the pack never enters, and the holds face the wrong way.
+Fix = step into the scope (or face husk0) + redo holds; `manifest_census toll_pocket` confirms in 1 s, gate in 5 min.
+Red since wall #2 (pre-S1-S3); E1.4 did not reach it. Recorded for the owner/next seat in
+`drafts/_junior-note-to-gabriel-20260906.md` §7. Lesson banked: the watchdog's 240 s bash threshold fires on every
+lane that runs `bundle exec rake` (3-4 min) - a false positive, not a hang (3 ruby processes = bundle > rake > loader).
