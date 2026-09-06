@@ -57,6 +57,23 @@ class SignageTest < Minitest::Test
     end
   end
 
+  # Wall #4 (brasa3_run aura_ring_reads): the aura square's alpha falls off
+  # with distance to the possessed; pure, so it is pinned here without Gosu.
+  def test_aura_alpha_falls_off_with_distance_and_every_knob_is_a_display_row
+    pct = ->(d) { App::Signage.aura_alpha_pct(d, near: 5, far: 12, far_pct: 0.5) }
+    assert_equal 1.0, pct.call(0)
+    assert_equal 1.0, pct.call(5), "full alpha up to `near`"
+    assert_in_delta 0.75, pct.call(8.5), 1e-9, "linear between near and far"
+    assert_equal 0.5, pct.call(12), "far_pct at `far`"
+    assert_equal 0.5, pct.call(40), "never below far_pct: far squares stay visible, secondary"
+    assert_equal 0.5, App::Signage.aura_alpha_pct(9, near: 12, far: 5, far_pct: 0.5), "degenerate far <= near -> far_pct"
+    display = Core::DataStore.new(File.expand_path("../../data", __dir__))["display"]
+    %i[aura_rgb aura_alpha_max aura_fill_alpha_max aura_line_px aura_contour_rgb aura_contour_alpha
+       aura_near_tiles aura_far_tiles aura_far_alpha_pct].each { |k| assert display.key?(k), "display.json lacks #{k}" }
+    assert_operator display[:aura_fill_alpha_max], :<, 64, "the fill stays translucent: the square never 'fills in' (gate row)"
+    assert_includes App::Renderer.private_instance_methods, :draw_aura, "draw_aura lives in Signage, private on the Renderer"
+  end
+
   def test_way_locked_by_requires_level_opens_at_the_level
     w = world("dungeon_1")
     locked = ways("dungeon_1").find { |t| t[:requires_level] }

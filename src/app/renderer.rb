@@ -1246,23 +1246,6 @@ module App
     # — "stand here and you cook". Distinct from the taunt pulse (rust,
     # expanding once) and the totem ring (green): steady, hot, sized to
     # the radius. Tick-driven: reads world.frame only.
-    def draw_aura(c, world)
-      aura = c.kit[:aura]
-      ts = world.map.tile_size
-      period = [aura[:period_frames], 1].max
-      phase = (world.frame % period).fdiv(period)
-      alpha = (@display.fetch(:aura_alpha_max) * (1.0 - phase * 0.7)).round
-      reach = aura[:radius_tiles] * ts + ts / 2
-      cx = c.tile[0] * ts + ts / 2
-      cy = c.tile[1] * ts + ts / 2
-      col = Gosu::Color.new(alpha, *@display.fetch(:aura_rgb))
-      t = 2
-      Gosu.draw_rect(cx - reach, cy - reach, reach * 2, t, col)
-      Gosu.draw_rect(cx - reach, cy + reach - t, reach * 2, t, col)
-      Gosu.draw_rect(cx - reach, cy - reach, t, reach * 2, col)
-      Gosu.draw_rect(cx + reach - t, cy - reach, t, reach * 2, col)
-    end
-
     def draw_blink_flash(c, x, y)
       total = c.kit.dig(:blink, :flash_frames) || 8
       k = total - c.instance_variable_get(:@blink_flash) # 0 → total

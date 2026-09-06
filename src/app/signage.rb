@@ -67,6 +67,18 @@ module App
 
     def self.chebyshev((ax, ay), (bx, by)) = [(bx - ax).abs, (by - ay).abs].max
 
+    # Aura square alpha by distance to the possessed (wall #4 brasa3_run
+    # `aura_ring_reads`: "dozens of oversized overlapping orange squares blanket
+    # the map like debug boxes"). 1.0 up to `near` tiles, linear down to
+    # `far_pct` at `far` tiles and beyond: the squares that can bite you next
+    # read first, the far ones stay visible but secondary. Pure.
+    def self.aura_alpha_pct(dist, near:, far:, far_pct:)
+      return far_pct if far <= near # degenerate data: no band to fade across -> the secondary alpha everywhere
+      return 1.0 if dist <= near
+      return far_pct if dist >= far
+      1.0 - (1.0 - far_pct) * (dist - near).fdiv(far - near)
+    end
+
     # The one decision for the hostile's hollow outline (pure, headless):
     # outline IFF the sim says the body is `:pressuring` (claimed a ring slot;
     # `World#pressure_role`, untouched) AND it is close enough to BE on the
@@ -154,6 +166,47 @@ module App
     # Pressuring stance (A2): a thin hollow outline — present, encircling,
     # not swinging. Distinct from the telegraph's FILLED swell and the taunt
     # underline. Outline = state (the glean-pip grammar).
+    # A hostile that burns the ground around itself WEARS its reach: a hollow
+    # ember-orange square at the aura's radius, breathing on the sim period,
+    # never travelling outward. Wall #4 (brasa3_run, 2026-09-06) re-cut the
+    # drawing, not the geometry: (1) a soft warm FILL inside that breathes with
+    # the outline - the ground inside must read as DANGEROUS (the gate row's
+    # words), it stays translucent (never "fills in"); (2) a 1px dark CONTOUR
+    # outside the orange line so overlapping squares read as burning ground,
+    # not wireframes; (3) a thicker line; (4) alpha falls off with distance to
+    # the possessed (Signage.aura_alpha_pct) so the near squares read first.
+    # Every number is a display row. Geometry unchanged: radius_tiles from the
+    # kit (combat.json), the sim's own Chebyshev square.
+    def draw_aura(c, world)
+      aura = c.kit[:aura]
+      ts = world.map.tile_size
+      period = [aura[:period_frames], 1].max
+      phase = (world.frame % period).fdiv(period)
+      me = world.possessed(@local_seat)
+      dist = me ? Signage.chebyshev(c.tile, me.tile) : @display.fetch(:aura_far_tiles)
+      pct = Signage.aura_alpha_pct(dist, near: @display.fetch(:aura_near_tiles), far: @display.fetch(:aura_far_tiles),
+                                         far_pct: @display.fetch(:aura_far_alpha_pct))
+      reach = aura[:radius_tiles] * ts + ts / 2
+      cx = c.tile[0] * ts + ts / 2
+      cy = c.tile[1] * ts + ts / 2
+      rgb = @display.fetch(:aura_rgb)
+      fill_a = (@display.fetch(:aura_fill_alpha_max) * (1.0 - phase * 0.5) * pct).round
+      Gosu.draw_rect(cx - reach, cy - reach, reach * 2, reach * 2, Gosu::Color.new(fill_a, *rgb)) if fill_a.positive?
+      t = @display.fetch(:aura_line_px)
+      ca = (@display.fetch(:aura_contour_alpha) * pct).round
+      contour = Gosu::Color.new(ca, *@display.fetch(:aura_contour_rgb))
+      Gosu.draw_rect(cx - reach - 1, cy - reach - 1, reach * 2 + 2, 1, contour)
+      Gosu.draw_rect(cx - reach - 1, cy + reach, reach * 2 + 2, 1, contour)
+      Gosu.draw_rect(cx - reach - 1, cy - reach - 1, 1, reach * 2 + 2, contour)
+      Gosu.draw_rect(cx + reach, cy - reach - 1, 1, reach * 2 + 2, contour)
+      alpha = (@display.fetch(:aura_alpha_max) * (1.0 - phase * 0.7) * pct).round
+      col = Gosu::Color.new(alpha, *rgb)
+      Gosu.draw_rect(cx - reach, cy - reach, reach * 2, t, col)
+      Gosu.draw_rect(cx - reach, cy + reach - t, reach * 2, t, col)
+      Gosu.draw_rect(cx - reach, cy - reach, t, reach * 2, col)
+      Gosu.draw_rect(cx + reach - t, cy - reach, t, reach * 2, col)
+    end
+
     def draw_pressure_outline(c, x, y, world)
       col = Gosu::Color.new(@pressure_alpha, Renderer::HUMAN_BODY.red, Renderer::HUMAN_BODY.green,
                             Renderer::HUMAN_BODY.blue)

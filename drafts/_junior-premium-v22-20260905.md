@@ -414,3 +414,15 @@ fallbacks -> `minimap_*_rgb` knobs. basement_pocket floors (4/4/4/1 vs single-ru
 - not mine to move. Answer 8 (T1 collision forecast) banked for the landing: world.rb attr block + interact hunks,
 save_state_test CLASSIFICATION rows, state_digest_test FACT_KEYS; world.rb 1798/1800 -> if T1's apply! bridge needs
 lines, I extract `interact*` to `src/game/interact.rb` (byte-inert, canaries prove) on his word.
+
+### Wall #4 live triage (11:05): `brasa3_run aura_ring_reads` = my drawing, not the map; fixed headless, gate owed
+Facts: ember_3 has 20 `ember_b` aura bearers among 39 hostiles (radius_tiles 2 = a 5x5 square each); 6-10 on camera per
+capture, up to 7 overlapping pairs at 0501. The density is the BRASA design and stays. The DRAWING failed the row's own
+words: a 2px orange line at alpha 150->45 with NOTHING inside - "the ground inside that square must read as dangerous"
+was never drawn, and thin orange on the red-brown floor beside the fire glows reads as wireframes ("debug boxes").
+Re-cut (presentation only, geometry untouched, every number a display row; `draw_aura` moved to Signage - renderer.rb
+1990 -> 1973): translucent warm FILL that breathes with the outline (`aura_fill_alpha_max` 26 - never "fills in"; pinned
+< 64 by test), 1px dark CONTOUR outside the line (overlaps read as burning ground, not wire), line 3px, and alpha FALLOFF
+by distance to the possessed (`Signage.aura_alpha_pct`: 1.0 to 5 tiles, linear to 0.5 at 12+; the squares that bite next
+read first, the far ones stay visible). Pure falloff pinned in signage_test. Rule 2 gates owed: brasa3_run (row) +
+brasa1_run/brasa2_run/aoe_specials (aura reels) - in the post-wall window, same batch as halo/spark/ring.
