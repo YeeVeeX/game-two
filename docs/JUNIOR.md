@@ -384,7 +384,9 @@ remover o worktree (o branch fica em origin como registro).
 grave o `.py` com o tool `write` e rode `python tmp/_patch_x.py`; o watchdog do pi
 alerta "bash aberto 240 s" em toda raia que roda `rake` (3–4 min) — é falso positivo
 (`control.needsAttentionAfterMs: 600000` no lançamento); `--files` na cerca não expande
-glob — o Git Bash expande antes.
+glob — o Git Bash expande antes. **Heredoc de shell com texto que tem backticks ou `$` → sempre `<<'EOF'` (quoted)**: sem aspas o bash executa os
+backticks como comandos (a §12 da nota pro Gabriel saiu mutilada assim, 18:28). **Antes de gatear pela lista de um
+plano, `ls harness/scripts/`**: nomes envelhecem (`loot_loop` foi aposentado pelo E1.4 e o plano ainda o citava).
 
 
 **Lei do banco (paga em 2026-09-06 16:31):** um poll que sai por TIMEOUT não é um DONE. Antes de bancar
