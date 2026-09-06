@@ -7,7 +7,9 @@ CUMPLIDO with two named debts — R-SO→B4 and R-T1→C3 rung unlocked).
 All ritual quarantines are LIFTED: the verdict doc is now readable on
 your seat, peers debrief freely, owed explanations deliverable.
 
-CLAIMED: none — **s134 closed: E0 BLOCKER fixed (boss rotation snapshot; crash reproduced live, canary byte-identical, both boss-reel gates PASS, fresh-eyes PASS + 2 MINORs landed), assets bible-bridge spoke HARVESTED; next ticket per the spark: E1 harness truth (`docs/sparkups/sparkup-v22-e0-e1-t1-20260905.md` §2), then T1.** Cycle state: `docs/CYCLE.md`. Law: `drafts/_v22-foundation-20260905.md`. Spec: `docs/superpowers/specs/2026-09-05-v22-one-body-cycle.md`. Restore tags unchanged: `restore/pre-mundo-vivo-20260904` (`cf9a6a6`) · `restore/post-mundo-vivo-20260905`.
+CLAIMED: E1 harness truth (critic persona, pins ledger, census manifests, ring->halo rows, netplay art, PREMIUM+boss rows) — Gabriel seat, s135. Spark: `docs/sparkups/sparkup-v22-e0-e1-t1-20260905.md` §2 (s135 spark-up text carries the nine-piece order).
+
+PREVIOUS: none — **s134 closed: E0 BLOCKER fixed (boss rotation snapshot; crash reproduced live, canary byte-identical, both boss-reel gates PASS, fresh-eyes PASS + 2 MINORs landed), assets bible-bridge spoke HARVESTED; next ticket per the spark: E1 harness truth (`docs/sparkups/sparkup-v22-e0-e1-t1-20260905.md` §2), then T1.** Cycle state: `docs/CYCLE.md`. Law: `drafts/_v22-foundation-20260905.md`. Spec: `docs/superpowers/specs/2026-09-05-v22-one-body-cycle.md`. Restore tags unchanged: `restore/pre-mundo-vivo-20260904` (`cf9a6a6`) · `restore/post-mundo-vivo-20260905`.
 
 ## 2026-09-06 session 134 — E0: the phased-boss BLOCKER dies — snapshot fix, physics-convicting tests, gates green; assets bible-bridge receipt banked (Gabriel seat, hub)
 
