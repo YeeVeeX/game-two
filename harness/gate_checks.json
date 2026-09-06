@@ -384,6 +384,10 @@
     {
       "id": "ally_callout_reads",
       "check": "When a FREE ally (a pack body you are NOT possessing - no gold halo, no chevron) acts on its own by drinking, dodge-rolling or starting a special, a short label bubble pops beside it naming the act AND that ally's own HUD row briefly pulses, so panel and world agree on who acted. Bubbles are brief: judge them on frames sampled at an ally act. If no free ally acts in this reel, pass with why='not exercised by this script'."
+    },
+    {
+      "id": "boss_bar_reads",
+      "check": "When a BOSS is on camera, a wide BOSS BAR is drawn top-center under the banner slot: its name above it in banner-cream with a dark halo, a dark-framed socket whose hot red-orange fill (with a bright top lip) shrinks as the boss loses hp, pale 1px NOTCHES marking the phase thresholds along the socket, and the phase PIPS in a row beneath it (one per phase, the current one filled solid, the rest hollow). The fill must agree with the fight - a boss at about half health reads about half full - and the bar must not collide with the zone banner above it, the HUD plate (top-left) or the minimap (top-right). If no boss is on camera, pass with why='not exercised by this script'."
     }
   ]
 }

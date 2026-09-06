@@ -72,6 +72,35 @@ class SceneStartTest < Minitest::Test
     assert_raises(ArgumentError) { Harness.apply_start(w, { zone: "nowhere" }) }
   end
 
+  # E1.9 (s135): `at` places the pack at a named walkable tile AFTER the zone
+  # jump, so a boss sentinel can stage the boss's OWN beats (nameplate, phase
+  # pips, boss bar, the phase-2 rotation E0 fixed) without crossing a zone
+  # that wipes the pack before the dais - measured live: ember_3 collapses at
+  # [20,16] on the way to [49,15] at the level cap.
+  def test_apply_start_with_at_places_the_pack_next_to_a_named_tile
+    w = world
+    Harness.apply_start(w, { zone: "ember_3", at: [46, 15] })
+    tiles = w.pack.members.map(&:tile)
+    assert_includes tiles, [46, 15], "a pack body stands on the named tile"
+    assert_equal w.pack.members.length, tiles.uniq.length, "no two bodies share a tile"
+    tiles.each do |(tx, ty)|
+      assert w.map.passable?(tx, ty), "body placed on an impassable tile #{[tx, ty].inspect}"
+      assert_operator [(tx - 46).abs, (ty - 15).abs].max, :<=, 1, "bodies stay adjacent to the named tile"
+    end
+  end
+
+  def test_apply_start_with_at_refuses_named_when_the_tile_has_no_room
+    w = world
+    err = assert_raises(ArgumentError) { Harness.apply_start(w, { zone: "ember_3", at: [0, 0] }) }
+    assert_match(/start\.at \[0, 0\].*passable/, err.message)
+  end
+
+  def test_apply_start_without_at_keeps_the_zone_spawn
+    w = world
+    Harness.apply_start(w, { zone: "ember_3" })
+    assert_equal w.map.pack_spawn.sort, w.pack.members.map(&:tile).sort
+  end
+
   # v16 (d): staging the burn beat — the Low Quay is stationless (owner
   # fork), so a duel scene cannot inscribe in-run; the start param carries
   # it (same body mutation the altar performs, harness plumbing only).

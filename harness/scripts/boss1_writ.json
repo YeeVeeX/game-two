@@ -1,0 +1,40 @@
+{
+  "scenario": "world",
+  "seed": 7,
+  "width": 960,
+  "height": 540,
+  "out_dir": "captures/boss1_writ",
+  "start": {
+    "zone": "low_quay",
+    "at": [
+      36,
+      18
+    ],
+    "progression": {
+      "level": 15,
+      "xp": 0
+    },
+    "dead": 2
+  },
+  "captures": [
+    5,
+    7,
+    45,
+    100,
+    150,
+    210,
+    211,
+    339,
+    379
+  ],
+  "run_until": 380,
+  "manifest": {
+    "zone_entered": 2,
+    "actor_died": 2,
+    "attack_hit": 6,
+    "challenger_engaged": 1,
+    "challenger_chant_started": 1,
+    "vessel_seized": 1,
+    "telegraph": 14
+  }
+}

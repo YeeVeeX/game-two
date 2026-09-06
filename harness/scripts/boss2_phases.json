@@ -1,0 +1,43 @@
+{
+  "scenario": "world",
+  "seed": 7,
+  "width": 960,
+  "height": 540,
+  "out_dir": "captures/boss2_phases",
+  "start": {
+    "zone": "dungeon_4",
+    "at": [
+      27,
+      13
+    ],
+    "progression": {
+      "level": 17,
+      "xp": 0
+    }
+  },
+  "hold": {
+    "attack": [
+      [
+        30,
+        100000
+      ]
+    ]
+  },
+  "captures": [
+    13,
+    112,
+    256,
+    267,
+    268,
+    282,
+    383,
+    407
+  ],
+  "run_until": 408,
+  "manifest": {
+    "zone_entered": 2,
+    "actor_died": 4,
+    "attack_hit": 23,
+    "telegraph": 8
+  }
+}

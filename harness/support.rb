@@ -54,6 +54,27 @@ module Harness
       world.instance_variable_get(:@banner_queue).clear
       world.start_in(zone.to_s)
     end
+    # E1.9 boss sentinels: place the pack at a NAMED walkable tile AFTER the
+    # zone jump. A boss reel otherwise has to cross the whole zone to reach
+    # the dais/vault, and the gauntlet wipes the pack first (measured:
+    # ember_3 collapses at [20,16] on the way to the [49,15] dais, at the
+    # level cap), so the boss's own beats — nameplate, phase pips, boss bar,
+    # the phase-2 rotation E0 fixed — could never be captured. Same walker
+    # teleport the netplay scene pokes with, applied before the first tick;
+    # a tile without room for the pack refuses NAMED. Harness plumbing only
+    # — no game code reads this.
+    if (at = start[:at])
+      spots = ([[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, -1], [1, -1], [-1, 1]]
+                 .map { |(dx, dy)| [at[0] + dx, at[1] + dy] })
+               .select { |(tx, ty)| world.map.passable?(tx, ty) }
+      needed = world.pack.members.length
+      if spots.length < needed
+        raise ArgumentError,
+              "start.at #{at.inspect} in #{world.zone_name}: only #{spots.length} passable " \
+              "tiles around it, pack needs #{needed}"
+      end
+      world.pack.members.each_with_index { |m, i| m.walker.teleport(*spots[i]) }
+    end
     # v16 (d): stage an inscribed vessel for burn-beat scenes — the same
     # body mutation the altar performs (stationless zones cannot inscribe
     # in-run). Applied AFTER the zone move: start_in rebinds bodies, and
