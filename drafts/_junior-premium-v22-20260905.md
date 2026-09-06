@@ -223,3 +223,18 @@ Classification: 2 real fixed (pack spark crimson + minimap per-map scale; exit a
 2 flips, 1 row reworded to the owner's v16 design (`wipe_reads`: veil + recap, no headline - the row demanded
 "large text" the owner removed), 1 named debt. The branch is VALIDATED at 3a0ef57; landing waits on T1 (S1) and the
 TWENTIETH verdict (S2+S3) per the owner's sequencing.
+
+### Multi-agent PROOF lane `a3-stalemate` (10:45-11:24) - the team works as designed
+Integrator (this seat) wrote the brief + BOARD grant (`8034192`), cut worktree `../game-two-lane-a3` on
+`lane/a3-stalemate`, launched `lane-worker` (**fable-5.1-thinking**, custom agent WITH the `subagent` tool). The lane:
+spawned a `scout` (default gpt-5.6-sol) to map the module, traced brasa2 headless, **contacted the supervisor** with
+a corrected reading of audit §4 (the lobber has NO target; the embers ping-pong on the row-6 wall; the brain-OFF
+canary only hides the same pocket) - integrator answered SCOPE CONFIRMED + 5 guardrails via `steer` without
+pausing it - built the rule (candidate (a), brain-ON only, `ally.stalemate_frames`/`stalemate_advance_tiles` as
+PROPOSALS), spawned a `reviewer` (fable) on its own diff (PASS WITH MINORS -> 1 MAJOR freeze-at-floor + 1 MINOR stale
+stall count fixed in `97ce289`), ran `lane_guard` before each of 3 commits (rc 0 x3), pushed, wrote the receipt.
+Integrator validation in the lane's worktree: fence `--base 8034192` rc 0 (4 paths = owns), suite **1510 runs / 0
+failures**, canaries OFF = ACTIVE x3 with ON md5s identical to audit §3 (the rule never fires in the canaries),
+`world.rb` 1798 untouched, no clock/rand, OFF path provably unreachable (`ally_config` returns nil when
+`enabled: false`; `@stall` only allocated behind it). Receipt folded into BOARD; `SIM LANE` back to NONE; audit §4
+corrected in place; candidates (c)/(d) named for the owner. Landing on `main`: owner's word only (A3 is OFF).

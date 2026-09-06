@@ -145,12 +145,19 @@ gaps: min=70 max=195 mediana=139
 
 Two `ember_a` (a9: 46, a13: 43) sit on their home tile from frame ~700 to the
 end: cadence leash → re-acquire the lobber ONE frame later → leash again, every
-~280 frames, hp frozen (65) — no damage either way. Mechanism: the lobber holds
-3 tiles and lines up its shot (rule 4), the ember never closes the gap (blocked
-path / pressure slot) and never disengages (target stays in aggro range). Not a
+~280 frames, hp frozen (65) — no damage either way. Mechanism (CORRECTED 2026-09-06 by lane `a3-stalemate`,
+receipt `drafts/lanes/receipts/a3-stalemate.md` §FINDING, headless probe frames 690-1400): the
+lobber @[8,11] has NO target (embers a9/a13 never provoked the pack, `prov=false`) => it is in the
+free-ally `follow` branch behind the idle possessed blocker @[8,13], never in `ally_engage`. The
+embers ping-pong [8,4]<->[8,5]: `chase_step`'s greedy slot step hits the row-6 wall, the flow
+fallback steps the ~15-tile detour, greedy succeeds again next tick; drift to [7,2] = Chebyshev 9 >
+`ember_a.aggro_tiles` 8 -> focus nil -> 90-frame linger -> `human_leashed` -> walk home -> re-enter
+range -> re-acquire (~280 f). Brain OFF hides the same wall-stick because the blocker ends @[11,9],
+inside the embers' range. (The original reading below - lobber in ranged hold - was wrong.) Not a
 crash, not a determinism break (byte-identical ×2), not present with the brain
-OFF: a positioning STALEMATE the brain creates. Two fix candidates, neither
-applied (they change the brain's behavior = owner's call):
+OFF: a positioning STALEMATE the brain creates. Fix candidates, none applied to `main`
+(they change behavior = owner's call). (a) is BUILT on branch `lane/a3-stalemate` @ 97ce289
+(brain-ON only, canaries YES x3, numbers = proposals); (c)/(d) are named in the receipt:
 
 - (a) **ally advances when its target cannot reach it**: if the focused human
   has not moved for N frames and is out of its own attack range, the ranged ally
@@ -158,6 +165,12 @@ applied (they change the brain's behavior = owner's call):
 - (b) **ember leash-and-forget**: a human that leashed with the same target still
   in range drops that target for `leash_forget_frames` (data), so it re-paths
   or goes home for good.
+- (c) **hostile `chase_step` tie-break vs flow** (`controllers.rb:599-605`): refuse the greedy slot
+  step when the flow field says the slot tile is farther than the current one. Runs with the brain
+  OFF -> canary law: owner's word + versioned rebank. THE real unblock of brasa2's pocket.
+- (d) **free ally with no target + hostile stuck within X tiles -> engage** (brain ON only; data
+  `ally.engage_stuck_frames/_tiles`). OFF path byte-identical. In brasa2 no shot line exists (row 6
+  is wall x=7..12), so (c) or player movement is what actually frees that room.
 
 ## 5. Recommendation (dev)
 
