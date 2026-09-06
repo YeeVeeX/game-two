@@ -341,3 +341,15 @@ Fix = step into the scope (or face husk0) + redo holds; `manifest_census toll_po
 Red since wall #2 (pre-S1-S3); E1.4 did not reach it. Recorded for the owner/next seat in
 `drafts/_junior-note-to-gabriel-20260906.md` §7. Lesson banked: the watchdog's 240 s bash threshold fires on every
 lane that runs `bundle exec rake` (3-4 min) - a false positive, not a hang (3 ruby processes = bundle > rake > loader).
+
+### v22 ticket E3 INTEGRATED (10:00-10:10) - lane e3-presentation -> d557f67
+Lane (fable + scout + reviewer) delivered 4/4 in the ordered sequence (b5 -> F-A3-1 -> b3 -> b4) + one REAL P1 its own
+reviewer caught (a bare `Renderer.new` handed `nil` display to ControlsOverlay -> NoMethodError on draw; fixed f880c7c with a
+failing-then-passing test). Integrator validation in the lane's worktree BEFORE reading its report: fence `--base 13a223c`
+rc 0 (16 paths = owns), suite 1519/0, canaries YES x3, no clock/rand. Rebased 6 commits onto 2620cb8, ff, then the
+integrator-only patches: d12 `minimap_reads` (gold = OPEN, cold grey = LOCKED - the old row said "gold dots for open
+ways/stations AND a magenta dot for stations"), `interact_prompt_reads` clause (rope prompts; beside/totem never),
+`renderer.rb:1580` comment (E5, last item on my side). Head d557f67: suite 1520/0, canaries YES x3, census 41/42.
+Rule 2 smoke with the window: `town_gates` PASS ("gold and grey way dots"), `ledger_loop` PASS ("H INTERACT bubble at the
+bank") - 6+6 captures byte-identical x2; pins recorded. The full re-gate of the 19+7+6 scripts the lane listed = wall #4
+(next). Debt named: renderer.rb 2099 -> 2124 (+25, b3 extraction; no formal cap).

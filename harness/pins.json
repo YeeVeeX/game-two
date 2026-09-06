@@ -14,5 +14,21 @@
     "date": "2026-09-06T12:40:40Z",
     "gate_rc": 0,
     "manifest_rc": 0
+  },
+  {
+    "script": "town_gates",
+    "tag": "build-junior",
+    "commit": "d557f67",
+    "date": "2026-09-06T13:10:23Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "ledger_loop",
+    "tag": "build-junior",
+    "commit": "d557f67",
+    "date": "2026-09-06T13:10:24Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
   }
 ]
