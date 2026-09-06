@@ -393,6 +393,10 @@ no MESMO teste — senão o log banca N/M como M/M e o worktree de referência s
 **E ler o VEREDITO, não só o fim:** bancar só com `gate_rc=0 manifest_rc=0` na linha `=== <script> ... ===` — um batch
 termina DONE com manifest vermelho (paga 17:25: `8e0c942` bancou um `manifest_rc=1` como "42/42").
 
+**Número bonito não é pior caso (paga 2026-09-06 18:51):** o primeiro teste do fio do bag deu 55 B — cheio com 2 ids
+empilhados (o `to_save` funde por id). O pior caso do fio é o de ids DISTINTOS: 16 ids = 462 B. Antes de bancar um número
+como evidência, pergunte "isto é o pior caso do que a lei protege?" e construa esse caso.
+
 ---
 
 ## 🇬🇧 How to run the game (Windows)
