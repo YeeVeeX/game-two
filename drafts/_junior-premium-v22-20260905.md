@@ -295,3 +295,13 @@ MUSGO" + script names `brasa*_run` / `tower*_run` = the OWNER's line (theme word
 the retired `varekka_duel` canary bank + history (`sim_identity_canary_test.rb`); "Kethral" = the predecessor
 PROJECT's name (history, not fiction). 33 runs green in the three files. E5 remaining after this: `renderer.rb:1549`
 comment (lane E3 owns the file) + the owner's line on `varekka` / MEDUSA-BRASA-MUSGO / script names.
+
+### Owner debt (s135) measured, fix READY-NOT-APPLIED: `floor3_run` BOSS 1 capture (12:55) - `tools/boss_probe.rb`
+Headless probe: BOSS 1 alive 1646 frames, ON CAMERA f764..f1646 (883 frames), `challenger_engaged` f152,
+`challenger_chant_started` f1462 -> CHANT on camera f1463..f1577 at 7 -> 6 tiles, `chant_interrupted` f1577, boss
+wounded (hp 91) from ~f1600, dead f1646. Today's captures [40..273, 2270, 4541, 6811] miss the whole window - that is
+why `challenger_tell_reads` never truly passed. The fix is ONE line in `harness/scripts/floor3_run.json` captures:
+add **1499** (mid-chant, 7 tiles; capture N = state after tick N) and optionally **1599** (post-interrupt, wounded,
+4 tiles). NOT applied: Gabriel's E1 re-pin sweep is running on `main` @ 5bca200 over floor3_run; changing its captures
+now would misalign the pin he is about to record (his own instruction). Apply + re-gate + re-pin right after he closes
+the sweep (one commit, one gate). `tools/boss_probe.rb <script> <kit>` is general (any boss kit, any script).
