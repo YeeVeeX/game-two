@@ -47,9 +47,14 @@ tactical during the battle" (→ ticket TS).
   as optional empty keys, his S2 hook = `party.host.bag <<` one line; council +
   fresh-eyes reviews landed — the fresh-eyes BLOCK found a real mid-veil
   round-trip hole, fixed + re-reviewed PASS; record
-  `drafts/_v22-t1-record-20260906.md`. **Junior's `junior/premium-build` merge
-  and S1 are UNBLOCKED.**) · T2a Party/Character/ZoneState extraction
-  (byte-inert; `Game::Party` exists — T2a GROWS it) · T2b ONE BODY field rules
+  `drafts/_v22-t1-record-20260906.md`. **Junior's `junior/premium-build` merge:
+  S1 is LANDED on his branch (`3a7f6fc`), but the branch also carries S2+S3, whose
+  landing is AFTER the TWENTIETH (owner's word s133) — his §13 names the three
+  honest ways (wait / peer amendment / dark-ship switch); the branch stays
+  ff-able and unlanded until one of them is spoken.**) · T2a Party/Character/ZoneState extraction
+  (byte-inert; `Game::Party` exists — T2a GROWS it; **runs only after his merge or
+  his `junior/e-tickets` cut lands — his `Game::Interact` extraction already
+  moved the lines T2a would carve**) · T2b ONE BODY field rules
   + coop scalars (THE model change; TWENTIETH clock starts; T1's interim mirror
   rule retires here — the record's level/xp at T2b landing is GROUND TRUTH) ·
   T2c wall (14 rows + 18 scripts) + HUD grammar + full re-pin · T2d optional
@@ -71,7 +76,13 @@ tactical during the battle" (→ ticket TS).
   seal-less DUNGEON 1, four ring rows → halo, `Renderer.build` gives the net
   gates art (partner halo's first capture), 11 new rows incl. the boss bar,
   three boss sentinels; wall 42 → 39 → **42**, rows 86 → **97**; the full
-  re-pin sweep is HANDED to the next session) · F1 floors (L11 CLOSED both
+  re-pin sweep is HANDED to the next session) · **E1c DONE s137** (the ten red
+  pins: 6 REPINNED — 4 with first-ever AFFIRMATIVE reads (challenge_reads ×2 =
+  the L16 row CLOSED, impact_fx on floor1_run, lobber_reach under its recalibrated
+  row) + Junior's basement_pocket/toll_pocket re-authors taken VERBATIM and
+  verified on main's sim; 4 CONVICTED-AND-ROUTED with pixel/data proof, zone8's
+  blue lines FIXED through the importer door; no sim/renderer code moved; the
+  pin ledger now stamps DIRTY-JUDGED paths; record `drafts/_v22-e1c-record-20260906.md`) · F1 floors (L11 CLOSED both
   peers) · F2 2× city + arena INERT (owner "confirm" on D1/D8 still pending) ·
   WB-T7 · L16 debts · **E2 next** (sim correctness), then E3–E5 — T1 (schema
   3) is now unblocked: E1's job was to frame every gate it will run.
@@ -108,18 +119,29 @@ S1–S3 sequencing, TS numbers, D-T1, L18/L19 (welcome, not gating).
 
 ## Named debts (foundation L16 + s133)
 
-T0 findings (pending harvest) · `world.rb` 1782/1800 on main, 1798 on
-Junior's branch (→ T2a) · `vat_economy`
-2 rows + `aoe_specials challenge_reads` re-author · WB-T7 · `basement_1` no
+T0 findings (pending harvest) · `world.rb` 1782/1800 on main, 1726 on
+Junior's branch after his `Game::Interact` extraction (→ T2a, AFTER his merge) ·
+`vat_economy` 2 rows re-author (the `aoe_specials challenge_reads` half of this
+debt CLOSED s137: two affirmative stagers) · WB-T7 · `basement_1` no
 zone-specific gate row · `varekka_duel`/`burn_duel` re-author · basement_3 ·
 `pool` · fiction kit nicknames in `tools/premium_art` comments + Junior's
 SYSTEMS proposal §1.2 — docs-only rename, his files (T0 finding) ·
-`rake pins` = **33 PINNED / 10 FAILED at the v22-e1 harvest** (T1 landing right
-after flips the 33 to STALE — sim paths moved; the ledger is honest, T2c owns
-the full re-pin; the ten
-reds are classed in the E1 record §Sweep: challenge_reads ×2 = the L16 debt, two
-census manifest stragglers, impact-fx/damage-bar family ×3, floor2 coral,
-controls-overlay smudge, lobber-chain, zone8 blue lines → **E1c**) ·
-record accretion / prune verb (T1 record §5) · `taunt_anchor` critic-stall
-payload diagnosis (3 stalls, same script) · uiux mocks rendered at S0 — a
-re-render at the chosen scale is owed by mail after AS.
+`rake pins` = **7 PINNED / 32 STALE / 4 FAILED after E1c (s137)** — the 32 STALE
+are T2c's full re-pin (T1 moved sim paths right after the v22-e1 sweep); the
+four FAILED each carry a routed conviction in the E1c record: basement_pocket
+(low-hp pulse tints the controls strip — Junior's `65f52e5` fixes it, lands with
+his merge), corpse_run (inherits floor1_run's affirmative impact read; ledger
+waits for T2c), floor2_run (**E4**: district_two wall (118,66,38) vs wall_inner
+(150,74,28) tints are one hue family — the coral contract needs a palette/texture
+decision), grass_fixture_walk (vessel label `player 2` in blocker rust reads
+~1.04–1.08:1 against the strip — Junior's colour surface: a lifted text variant).
+zone8_crossing's blue lines were pre-swap water decor in `dungeon_1`'s sidecar —
+removed through the importer door s137, re-pinned; its spark-on-pale-body contrast
+note goes to Junior's fx · **breach-beat coverage hole:** no wall script stages
+`seal_breached` (toll_pocket's SEALED half is affirmative; a basement_2 breach
+stager is owed; drop-under-corpse = an owner sim question, Junior's `_doc`) ·
+negative-control gate for the recalibrated fx/volley rows (`fx_enabled:false`,
+never pinned) ·
+record accretion / prune verb (T1 record §5) · `taunt_anchor` critic stalls
+DIAGNOSED s137 as transport-side, not payload-shaped (no fix owed) · uiux mocks
+rendered at S0 — a re-render at the chosen scale is owed by mail after AS.

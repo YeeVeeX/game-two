@@ -430,5 +430,69 @@
     "date": "2026-09-06T22:26:06Z",
     "gate_rc": 0,
     "manifest_rc": 0
+  },
+  {
+    "script": "lobber_reach",
+    "tag": "v22-e1c-e",
+    "commit": "3914f1e",
+    "date": "2026-09-06T23:11:06Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "zone8_crossing",
+    "tag": "v22-e1c-e",
+    "commit": "3914f1e",
+    "date": "2026-09-06T23:15:59Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "toll_pocket",
+    "tag": "v22-e1c-f",
+    "commit": "3914f1e",
+    "date": "2026-09-06T23:21:09Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "aoe_specials",
+    "tag": "v22-e1c-f",
+    "commit": "3914f1e",
+    "date": "2026-09-06T23:26:21Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "taunt_anchor",
+    "tag": "v22-e1c-f",
+    "commit": "3914f1e",
+    "date": "2026-09-06T23:29:57Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "floor1_run",
+    "tag": "v22-e1c-f",
+    "commit": "3914f1e",
+    "date": "2026-09-06T23:33:47Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "tower4_run",
+    "tag": "v22-e1c-f",
+    "commit": "3914f1e",
+    "date": "2026-09-06T23:38:04Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "taunt_anchor",
+    "tag": "v22-e1c-g",
+    "commit": "e7a5bf4",
+    "date": "2026-09-06T23:47:05Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
   }
 ]
