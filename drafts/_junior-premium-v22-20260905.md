@@ -275,3 +275,14 @@ orientation-free) OR by CHROMA (RGB distance >= 40 AND |spread| >= 20); orientat
 No pixel changed (art = law; every tower/brasa pin stays valid). Honesty row: BRASA passes the chroma channel by
 1.4-12 (lava + fire glows carry it in play); the lever, if the owner wants a stronger fallback, is the sidecar +
 importer, then re-gate brasa1..3. 8 identity rows x 17 zones = 374 assertions green.
+
+### v22 ticket E5 (partial, Junior's files) - no-lore renames, docs-only (12:40)
+Spec §5 E5 names `gen_premium_art.py:46` and `premium_art/humanoid.py` comments as "Junior's files - asked, never
+rewritten by the other seat". Done on the dev seat: 6 comment/docstring lines, lore names -> functional kit names
+(`Fio`->striker, `Aro`->blocker, `Pomo`->lobber). Proof it is docs-only: `python tools/gen_premium_art.py` re-run
+in place after the edit leaves `data/art/` UNTOUCHED (`git status --short data/art` empty; pack atlas md5s
+5f45ef79f80f / ca3e324da09d / b7b0269d2e15 before and after) - no regenerated art, no re-gate owed.
+`harness/vision_critic.py` "Threketh" is already gone (Gabriel's E1 persona rewrite). Left for later, by
+collision/ownership: `renderer.rb:1479` comment (lane E3 owns renderer.rb right now); `face_varekka!` test helper
+(test/game/challenger_test.rb + dread_test.rb: test-only names, either seat, one commit); rows "MEDUSA TOWER / BRASA /
+MUSGO" + script names `brasa*_run` / `tower*_run` = the OWNER's line (theme words vs fiction) - not touched.

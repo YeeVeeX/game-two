@@ -43,7 +43,7 @@ MANIFEST = ROOT / "data" / "art" / "manifest.json"
 
 # renderer KIT_BODY truths (the colors the gate learned) -> dominant materials
 KITS = {
-    # --- the pack (Fio / Aro / Pomo): ember orange / deep rust / pale amber
+    # --- the pack (striker / blocker / lobber): ember orange / deep rust / pale amber
     "striker": ("humanoid", humanoid.PACK_SKINS["striker"],
                 {"cloth": ramp((235, 120, 40)), "jacket_mat": ramp((70, 52, 60)),
                  "cloth2": ramp((235, 120, 40)), "pants": ramp((58, 44, 52)), "hair": ramp((60, 40, 30))}),

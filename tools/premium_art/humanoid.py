@@ -225,7 +225,7 @@ def head(cv, facing, P, T):
             cv.put(cx - 1, cy - 5, m, 3)
     elif style == "helmet":
         # iron helm (kits_distinct, 2026-09-05: at 32 px the HEAD is the read -
-        # two orange heads (Fio's hood, Aro's rust helm) read as one kind;
+        # two orange heads (the striker's hood, the blocker's rust helm) read as one kind;
         # the helm goes dark iron, the body keeps the rust plate = kit color)
         m = T.get("helmet_mat", "armor")
         cv.ellipse(cx, cy - 0.5, r + 0.5, r, m, 2)
@@ -383,7 +383,7 @@ def blade(cv, facing, P, T, st):
 
 
 def shield(cv, facing, P, T, st, before):
-    """Aro's round shield: rust rim, iron boss, engraved ring. Left arm.
+    """The blocker's round shield: rust rim, iron boss, engraved ring. Left arm.
     before=True draws the part that sits behind the body (up facing)."""
     top = P["torso_top"]
     if facing == "down":
@@ -635,13 +635,13 @@ def draw(cv, facing, anim, i, T):
 
 # ---- skins -------------------------------------------------------------------
 PACK_SKINS = {
-    # Fio - the blade: lean hooded runner, ember-orange hood + scarf, dark jacket
+    # striker - the blade: lean hooded runner, ember-orange hood + scarf, dark jacket
     "striker": dict(head="hood", hood_mat="cloth", torso="jacket_mat", jacket=True,
                     sleeve="jacket_mat", scarf=True, scarf_mat="cloth", weapon="blade",
                     gloves=True),
-    # Aro - the ring: broad, rust plate, helmet with crest, round shield
+    # blocker - the ring: broad, rust plate, helmet with crest, round shield
     "blocker": dict(head="helmet", helmet_mat="iron", torso="armor", plate=True, sleeve="cloth", weapon="shield"),
-    # Pomo - the sling: small, amber wraps, dark hair, satchel, bare arms
+    # lobber - the sling: small, amber wraps, dark hair, satchel, bare arms
     "lobber": dict(head="hair", torso="cloth", wraps=True, sleeve="skin", weapon="sling",
                    satchel=True),
 }
