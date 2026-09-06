@@ -255,6 +255,7 @@ module Game
       blocked = view.blocked_for(creature)
       if projectile?(creature)
         hold = cfg.fetch(:ranged_hold_tiles, 3)
+        stalled = stalemate?(creature, target, view, cfg)
         if dist < hold - 1 && !creature.moving?
           retreat_step(creature, target, view)
           return
@@ -268,6 +269,8 @@ module Game
         elsif !creature.moving?
           if dist > hold + 1
             chase_step(creature, target, view)
+          elsif stalled
+            advance_step(creature, target, view, floor: [hold - cfg.fetch(:stalemate_advance_tiles, 1), 2].max)
           else
             align_step(creature, target, view)
           end
@@ -293,6 +296,56 @@ module Game
       dx = target.tile[0] - creature.tile[0]
       dy = target.tile[1] - creature.tile[1]
       dx.zero? || dy.zero? || dx.abs == dy.abs
+    end
+
+    # Ranged-hold STALEMATE (audit drafts/_a3-ally-brain-audit-20260905.md
+    # §4, candidate (a)): TRUE once the focused human has stood on the SAME
+    # tile for `ally.stalemate_frames` consecutive ticks of this ally's
+    # ranged engagement while OUT of the ally's attack range. The count is
+    # controller memory keyed by the ally's name (stable across revives; one
+    # World = one controller), +1 per ally tick reaching the ranged branch:
+    # tick-driven, no clock/rand, derived from sim state (NOT a digest
+    # field: a second World fed the same ticks rebuilds it). A new target, a
+    # target step, or the target entering range resets it. Reached only
+    # behind `ally_config` (enabled): the brain-OFF path never allocates it.
+    def stalemate?(creature, target, view, cfg)
+      frames = cfg[:stalemate_frames]
+      return false unless frames
+      @stall ||= {}
+      entry = @stall[creature.name]
+      tile = target.tile
+      if entry.nil? || !entry[:target].equal?(target) || entry[:tile] != tile ||
+         in_attack_range?(creature, target, view)
+        entry = @stall[creature.name] = { target:, tile:, frames: 0 }
+      end
+      entry[:frames] += 1
+      entry[:frames] >= frames
+    end
+
+    # Close the gap by ONE step (fixed STEPS order = deterministic): the free
+    # neighbor that lowers Chebyshev distance, never under `floor` (hold -
+    # `ally.stalemate_advance_tiles`, min 2: hugging = retreat next tick);
+    # among equals prefer a tile that lines the shot up.
+    def advance_step(creature, target, view, floor:)
+      return false if creature.moving?
+      blocked = view.blocked_for(creature)
+      dist = chebyshev(creature.tile, target.tile)
+      best = nil
+      Game::FlowField::STEPS.each do |(dx, dy)|
+        to = [creature.tile[0] + dx, creature.tile[1] + dy]
+        next if blocked.include?(to) || !view.map.passable?(*to)
+        d = chebyshev(to, target.tile)
+        next if d >= dist || d < floor
+        ddx = target.tile[0] - to[0]
+        ddy = target.tile[1] - to[1]
+        lined = ddx.zero? || ddy.zero? || ddx.abs == ddy.abs ? 0 : 1
+        key = [d, lined]
+        best = [key, dx, dy] if best.nil? || (key <=> best[0]).negative?
+      end
+      return false unless best
+      _, dx, dy = best
+      creature.face([dx, dy])
+      creature.step(dx, dy, blocked:)
     end
 
     # One step that puts the body on a row/column/diagonal with the target

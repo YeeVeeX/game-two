@@ -22,7 +22,9 @@
     "dodge_telegraphs": true,
     "use_specials": true,
     "ranged_hold_tiles": 3,
-    "ring_min_adjacent": 1
+    "ring_min_adjacent": 1,
+    "stalemate_frames": 180,
+    "stalemate_advance_tiles": 1
   },
   "human": {
     "enabled": false,
