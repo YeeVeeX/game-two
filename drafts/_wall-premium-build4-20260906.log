@@ -284,3 +284,20 @@ GATE BATCH build4s1 DONE 18:31:21 (2 min)
 === loot_loop: no such script - skipped ===
 GATE BATCH build4s1b DONE 18:32:56 (0 min)
   loot_loop          SKIPPED (no script)
+
+## netplay gates @ ca4073b (owed by 4053df4: end veil + text to z 22/23): netplay_session:rc0 netplay_desync:rc0 netplay_conn_lost:rc0 
+### netplay_session
+GATE vision: PASS
+GATE checks: harness/net/gate_checks.json
+GATE determinism: 15 captures byte-identical across two runs
+GATE PASS
+### netplay_desync
+GATE vision: PASS
+GATE checks: harness/net/gate_checks.json
+GATE determinism: 4 captures byte-identical across two runs
+GATE PASS
+### netplay_conn_lost
+GATE vision: PASS
+GATE checks: harness/net/gate_checks.json
+GATE determinism: 4 captures byte-identical across two runs
+GATE PASS

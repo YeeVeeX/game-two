@@ -280701,3 +280701,249 @@ Perf p95 0.260ms (budget 16.6). Suite 524/2322 green.
   ],
   "verdict": "PASS"
 }
+
+=== 20260906-191120 captures\netplay_session_gate_a ===
+{
+  "checks": [
+    {
+      "id": "hosting_state_reads",
+      "pass": true,
+      "why": "frame_0015 is near-black with HOSTING - WAITING FOR PARTNER and PORT 43917 beneath, no world behind."
+    },
+    {
+      "id": "connecting_state_reads",
+      "pass": true,
+      "why": "frame_0080 shows CONNECTING... centered on a near-black screen with no world visible."
+    },
+    {
+      "id": "partner_ring_distinct",
+      "pass": true,
+      "why": "frame_0160 shows one gold halo with chevron and one cyan halo without chevron, clearly distinct."
+    },
+    {
+      "id": "partner_ring_moves",
+      "pass": true,
+      "why": "Between frame_0160 and frame_0300 both gold and cyan haloed bodies relocate to clearly different tiles."
+    },
+    {
+      "id": "link_slow_reads",
+      "pass": true,
+      "why": "LINK SLOW sits legibly beneath ZONE 1 in frame_0160 with clear spacing, no collision."
+    },
+    {
+      "id": "stall_overlay_reads",
+      "pass": true,
+      "why": "frame_0445 shows WAITING FOR PARTNER 733 ms top-center over a live world frame."
+    },
+    {
+      "id": "gate_wait_reads",
+      "pass": true,
+      "why": "frame_0535 shows WAITING AT GATE while the gold-haloed body stands beside the gold gate tile at right edge."
+    },
+    {
+      "id": "no_body_reads",
+      "pass": true,
+      "why": "frame_0660 shows NO BODY - WAITING with only the cyan partner alive and no bottom controls strip."
+    },
+    {
+      "id": "desync_screen_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "conn_lost_screen_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "netplay_text_legible",
+      "pass": true,
+      "why": "All overlay lines read cleanly against dark ground, unclipped and unoverlapped on menu-less frames."
+    },
+    {
+      "id": "partner_left_screen_reads",
+      "pass": true,
+      "why": "frame_0710 is a darkened full-screen PARTNER LEFT - SESSION ENDED with world ghosting through and no menu."
+    },
+    {
+      "id": "net_menu_panels_read",
+      "pass": true,
+      "why": "LINK and SESSION panels flank the menu with legible rows; TICKS advances 371 to 391 across frame_0600 and frame_0620."
+    },
+    {
+      "id": "hud_strip_intact",
+      "pass": true,
+      "why": "HUD plate and bottom controls strip render intact in frame_0160 through frame_0550 with overlays only adding text."
+    },
+    {
+      "id": "no_render_garbage",
+      "pass": true,
+      "why": "No tearing, missing map, out-of-wall entities, or corrupted output in any frame."
+    }
+  ],
+  "verdict": "PASS"
+}
+
+=== 20260906-191150 captures\netplay_desync_gate_a ===
+{
+  "checks": [
+    {
+      "id": "hosting_state_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "connecting_state_reads",
+      "pass": true,
+      "why": "frame_0004 is a near-black full screen reading CONNECTING with no world behind it."
+    },
+    {
+      "id": "partner_ring_distinct",
+      "pass": true,
+      "why": "frame_0030 shows one gold halo body with chevron and one cyan halo body without chevron."
+    },
+    {
+      "id": "partner_ring_moves",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "link_slow_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "stall_overlay_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "gate_wait_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "no_body_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "desync_screen_reads",
+      "pass": true,
+      "why": "frame_0090 reads DESYNC AT TICK 60 SESSION ENDED with a file path line and ghosted frozen world."
+    },
+    {
+      "id": "conn_lost_screen_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "netplay_text_legible",
+      "pass": true,
+      "why": "CONNECTING and DESYNC headline plus path are readable, unclipped, and not mangled by other UI."
+    },
+    {
+      "id": "partner_left_screen_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "net_menu_panels_read",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "hud_strip_intact",
+      "pass": true,
+      "why": "frame_0030 shows HUD plate, hp bars, LEVEL, chips, minimap and bottom controls strip intact."
+    },
+    {
+      "id": "no_render_garbage",
+      "pass": true,
+      "why": "No tearing, missing map, or corrupted output; markers and bodies sit inside walls."
+    }
+  ],
+  "verdict": "PASS"
+}
+
+=== 20260906-191225 captures\netplay_conn_lost_gate_a ===
+{
+  "checks": [
+    {
+      "id": "hosting_state_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "connecting_state_reads",
+      "pass": true,
+      "why": "frame_0004 is pure near-black with centered CONNECTING... and no world behind it."
+    },
+    {
+      "id": "partner_ring_distinct",
+      "pass": true,
+      "why": "frame_0040 shows one gold ground halo and one clearly cyan halo on stacked adjacent bodies."
+    },
+    {
+      "id": "partner_ring_moves",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "link_slow_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "stall_overlay_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "gate_wait_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "no_body_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "desync_screen_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "conn_lost_screen_reads",
+      "pass": true,
+      "why": "frame_0100 and frame_0140 read CONNECTION LOST SESSION ENDED over the frozen ghosted world."
+    },
+    {
+      "id": "netplay_text_legible",
+      "pass": true,
+      "why": "Connecting and connection-lost lines are high contrast, centered, unclipped, and not overlapped."
+    },
+    {
+      "id": "partner_left_screen_reads",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "net_menu_panels_read",
+      "pass": true,
+      "why": "not exercised by this script"
+    },
+    {
+      "id": "hud_strip_intact",
+      "pass": true,
+      "why": "frame_0040 shows intact HUD plate, minimap, zone banner and bottom controls strip."
+    },
+    {
+      "id": "no_render_garbage",
+      "pass": true,
+      "why": "Map, walls, props and entities all render cleanly with no tearing or corruption."
+    }
+  ],
+  "verdict": "PASS"
+}
