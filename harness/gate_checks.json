@@ -67,7 +67,7 @@
     },
     {
       "id": "specials_distinct",
-      "check": "When special frames are present, Blocker reads as a heavy ring shock, Lobber as delayed targeted tiles, and Striker as a linear DASH (a pale telegraph line of up to three tiles ahead of it, then its body displaced to the end of the line - a LINE, never a ring). The three effects must not look like one reused attack effect. If this replay has no special frames, pass with why='not exercised by this script'."
+      "check": "When special frames are present, Blocker reads as a heavy ring shock, Lobber as delayed targeted tiles, and Striker as a linear DASH (a pale telegraph line of up to three tiles ahead of it, then its body displaced to the end of the line - a LINE, never a ring). The three effects must not look like one reused attack effect. A special is announced by its own colour family (warm amber windup, pale-gold active tiles) and, where the HUD is shown, by the possessed body's special pip spending; a pack body's ORDINARY attack windup - flat, pale, translucent squares on its reach tiles, no ring, no pip spend - is NOT a special and must not be judged as one (if that is all a reel shows, this row is not exercised). If this replay has no special frames, pass with why='not exercised by this script'."
     },
     {
       "id": "volley_telegraph_distinct",

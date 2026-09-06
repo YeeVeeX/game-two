@@ -438,3 +438,14 @@ dash now; the comment was never updated and two rows were written on it. Fixed (
 LINE + DISPLACEMENT (short line where a wall/body stops it is correct; never expect a ring; row id `whirlwind_reads` kept as
 legacy, explained in the text); the renderer comment now says which era is which. No pixel changed; re-gate dash_strike_rip
 in the post-wall window (its third row, impact_fx_reads, = the bright-spark fix already on the branch).
+
+### Wall #4 live triage (11:16): `aim_hold specials_distinct` = critic MISREAD of the pack's ordinary windup; row disambiguated
+Sim fact: at capture 0235 the blocker is in WINDUP of an ORDINARY attack (`current_action :attack`, no arc);
+`special_started` never fires in aim_hold. Pixel: the "three flat dim grey slabs north of him" are the pack's ordinary
+windup tiles (`WINDUP` = white alpha 90 over the dark nest floor reads grey) - correct, functional, and NOT a special. The
+critic assumed "Blocker cast" and failed the row for the missing ring; by the row's own text it was "not exercised". A
+repeatable misread is an ambiguous row: `specials_distinct` now says how a special is recognised (warm amber windup /
+pale-gold active family + the HUD special pip spending) and that an ordinary windup (flat pale translucent reach tiles,
+no ring, no pip) must not be judged as one. No pixel changed. Observation, not a failure: the pack's ordinary windup is a
+flat slab; an outlined reach marker could read better - a later presentation pass, not this wall. With this, all 9
+failing rows of wall #4 so far have a named cause: 4 drawings fixed on the branch, 4 rows corrected, 1 flip-prone.
