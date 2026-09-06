@@ -319,3 +319,13 @@ is now TWO after Gabriel's E1.4 re-cut - neither a regression of mine (E1.4 did 
 - `basement_pocket` FAIL: `drop_picked_up=0(<1)` (4 deaths, 6 drops spawn, the pack never steps on one) -> one
   `hold` toward a drop tile, or the floor re-cut to observed. Same list.
 Use before every wall: `ruby tools/manifest_census.rb` (report, exit 0; vision rows are the wall's).
+
+### E-ticket (one per session): `basement_pocket` RE-AUTHORED - census 2 reds -> 1 (13:10)
+Why it was red: the fight ends late (husks die f767/f872/f888, drops at [9,4]/[10,5]/[9,5]), the possessed blocker
+stands at [10,6], and the three `interact` presses (620/720/760) fired BEFORE any drop existed -> `drop_picked_up=0`
+forever. Re-author (same fight, same first 900 frames): `up` 900-918 steps onto [10,5], `interact` 922 picks the drop
+up (`World#interact` on the drop's own tile), `run_until` 960, captures 923/945. Headless census: PASS
+(`zone_entered=4 actor_died=6 drop_spawned=6 drop_picked_up=2`). Gate with window: vision PASS (`drops_read_as_pickups`,
+`pickup_gleam_reads` both read frame 0923: gem + facet highlight; the blocker's "+1" numeral rises in the capture I
+looked at), **8 captures byte-identical x2**, manifest PASS on the double replay. Pin recorded (build-junior @ 282041c).
+Remaining red: `toll_pocket` (the whole fight fails to stage; bigger re-author, next session's E-ticket).
