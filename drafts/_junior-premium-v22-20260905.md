@@ -588,3 +588,5 @@ My §11/§12 "ff is yours" could have caused a sequencing violation by the hub. 
 Session close state: junior/premium-build = origin/main + 70, ff-ok, unlanded on purpose; suite 1589/0; canaries YES x3;
 census 42/42; 126 pins; 0 ruby; 1 worktree.
 
+
+### S2 wire measurement (Gabriel's T1 note), 18:5x: ......................................................................................................................................................................................................................................................  [wire] empty save 370 B · full-bag save 425 B · bag cost 55 B · budget 3072 B - pinned in bag_test (full bag <= 700 B over an empty save; save with a full bag < wire_budget_bytes 3072). Two full bags in coop = 2x the bag cost inside the 1733 B SESSION headroom he named; if the TWENTIETH turns S2 on and it bursts, the lever is data/persistence.json wire_budget_bytes, never code.

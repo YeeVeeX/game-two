@@ -178,6 +178,23 @@ class BagTest < Minitest::Test
     assert_equal [], Game::World.new(DATA, seed: 3).bag.to_save, "a fresh world starts with the empty record default"
   end
 
+  # Gabriel's T1 note for S2: "two full bags eat almost all of the SESSION line's 1733 B
+  # headroom - measure it in your ticket; if it bursts, wire_budget_bytes rises in data/,
+  # never in code". Measured here: one FULL bag's cost on the canonical save, and the save
+  # with a full bag must fit wire_budget_bytes (data/persistence.json) on its own.
+  def test_a_full_bag_costs_under_700_bytes_on_the_wire_and_the_save_fits_the_budget
+    empty = Game::World.new(DATA, seed: 5)
+    full = Game::World.new(DATA, seed: 5)
+    CATALOG.ids.cycle.first(400).each { |id| full.bag.add!(id, 99) }
+    assert_equal full.bag.slots, full.bag.used, "the bag is full (#{full.bag.used}/#{full.bag.slots})"
+    e = Game::SaveState.canonical_bytes(Game::SaveState.facts(empty)).bytesize
+    f = Game::SaveState.canonical_bytes(Game::SaveState.facts(full)).bytesize
+    budget = DATA["persistence"][:wire_budget_bytes]
+    assert_operator f - e, :<=, 700, "a full bag adds #{f - e} B to the canonical save (Gabriel's estimate ~600 B)"
+    assert_operator f, :<, budget, "a save with a full bag (#{f} B) must fit wire_budget_bytes #{budget} with room for the SESSION line"
+    puts "  [wire] empty save #{e} B · full-bag save #{f} B · bag cost #{f - e} B · budget #{budget} B"
+  end
+
   def test_loot_stream_is_its_own_counter
     w = Game::World.new(DATA, seed: 7)
     snap = w.digest_snapshot.to_h
