@@ -296185,3 +296185,85 @@ Perf p95 0.260ms (budget 16.6). Suite 524/2322 green.
   ],
   "verdict": "FAIL"
 }
+
+=== 20260906-135746 captures\netplay_session_gate_a ===
+{
+  "checks": [
+    {
+      "id": "hosting_state_reads",
+      "pass": true,
+      "why": "frame_0015 shows full-black HOSTING text with PORT 43917 beneath and no world behind."
+    },
+    {
+      "id": "connecting_state_reads",
+      "pass": true,
+      "why": "frame_0080 is a full-black screen reading CONNECTING with no world visible."
+    },
+    {
+      "id": "partner_ring_distinct",
+      "pass": true,
+      "why": "frame_0160 shows one gold-haloed body with chevron and one cyan-haloed body with none."
+    },
+    {
+      "id": "partner_ring_moves",
+      "pass": true,
+      "why": "between frame_0160 and frame_0300 both gold and cyan bodies occupy clearly different positions."
+    },
+    {
+      "id": "link_slow_reads",
+      "pass": true,
+      "why": "frame_0160 shows LINK SLOW legible below ZONE 1 with clean spacing and no overlap."
+    },
+    {
+      "id": "stall_overlay_reads",
+      "pass": true,
+      "why": "frame_0445 shows WAITING FOR PARTNER 733 ms top-center over a live world frame."
+    },
+    {
+      "id": "gate_wait_reads",
+      "pass": true,
+      "why": "frame_0535 shows WAITING AT GATE legibly while a body stands at the gold gate on the right edge."
+    },
+    {
+      "id": "no_body_reads",
+      "pass": true,
+      "why": "frame_0660 shows the banner with only the cyan partner alive and no bottom controls strip."
+    },
+    {
+      "id": "desync_screen_reads",
+      "pass": true,
+      "why": "not exercised by this script."
+    },
+    {
+      "id": "conn_lost_screen_reads",
+      "pass": true,
+      "why": "not exercised by this script."
+    },
+    {
+      "id": "netplay_text_legible",
+      "pass": true,
+      "why": "every overlay line reads with clear contrast, unclipped, and free of UI collisions on menu-less frames."
+    },
+    {
+      "id": "partner_left_screen_reads",
+      "pass": true,
+      "why": "frame_0710 shows a darkened full-screen PARTNER LEFT session-ended state with no menu overlapping."
+    },
+    {
+      "id": "net_menu_panels_read",
+      "pass": true,
+      "why": "LINK and SESSION panels flank the menu with TICKS advancing 371 to 466 across menu frames."
+    },
+    {
+      "id": "hud_strip_intact",
+      "pass": true,
+      "why": "mid-run frames like frame_0160 keep HUD plate and bottom controls strip fully intact under overlays."
+    },
+    {
+      "id": "no_render_garbage",
+      "pass": true,
+      "why": "no frame shows tearing, missing map, stray entities, or corrupted rendering."
+    }
+  ],
+  "verdict": "PASS"
+}

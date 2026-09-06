@@ -114,8 +114,10 @@ Junior's branch (→ T2a) · `vat_economy`
 zone-specific gate row · `varekka_duel`/`burn_duel` re-author · basement_3 ·
 `pool` · fiction kit nicknames in `tools/premium_art` comments + Junior's
 SYSTEMS proposal §1.2 — docs-only rename, his files (T0 finding) ·
-`rake pins` = **33 PINNED / 10 FAILED** (v22-e1 sweep, s136 harvest — the ten
-reds classed in the E1 record §Sweep: challenge_reads ×2 = the L16 debt, two
+`rake pins` = **33 PINNED / 10 FAILED at the v22-e1 harvest** (T1 landing right
+after flips the 33 to STALE — sim paths moved; the ledger is honest, T2c owns
+the full re-pin; the ten
+reds are classed in the E1 record §Sweep: challenge_reads ×2 = the L16 debt, two
 census manifest stragglers, impact-fx/damage-bar family ×3, floor2 coral,
 controls-overlay smudge, lobber-chain, zone8 blue lines → **E1c**) ·
 record accretion / prune verb (T1 record §5) · `taunt_anchor` critic-stall
