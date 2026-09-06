@@ -40,11 +40,20 @@ tactical during the battle" (→ ticket TS).
 - **T0** fresh-eyes review `restore/pre-mundo-vivo-20260904..HEAD` — 4 headless
   reviewers LAUNCHED s133 (`tmp/t0-review/`), findings →
   `drafts/_t0-review-20260905.md`.
-- **A — ONE BODY:** T1 schema 3 per-PLAYER character records + player file ·
-  T2a Party/Character/ZoneState extraction (byte-inert) · T2b ONE BODY field
-  rules + coop scalars (THE model change; TWENTIETH clock starts) · T2c wall
-  (14 rows + 18 scripts) + HUD grammar + full re-pin · T2d optional companion
-  brain (owner line only).
+- **A — ONE BODY:** **T1 DONE s136** (SCHEMA 3: `characters` keyed by PLAYER id
+  — `data/player.local.json` uuid on first boot, `bot-<seed>` for bots; the ONE
+  2→3 hop proven on a COPY of the owner's chain; HELLO carries `player_id`,
+  protocol v4, digest v4; Junior's `bag/equipment/attributes/bank_items` ride
+  as optional empty keys, his S2 hook = `party.host.bag <<` one line; council +
+  fresh-eyes reviews landed — the fresh-eyes BLOCK found a real mid-veil
+  round-trip hole, fixed + re-reviewed PASS; record
+  `drafts/_v22-t1-record-20260906.md`. **Junior's `junior/premium-build` merge
+  and S1 are UNBLOCKED.**) · T2a Party/Character/ZoneState extraction
+  (byte-inert; `Game::Party` exists — T2a GROWS it) · T2b ONE BODY field rules
+  + coop scalars (THE model change; TWENTIETH clock starts; T1's interim mirror
+  rule retires here — the record's level/xp at T2b landing is GROUND TRUTH) ·
+  T2c wall (14 rows + 18 scripts) + HUD grammar + full re-pin · T2d optional
+  companion brain (owner line only).
 - **B′ — TEMPLES:** T3′ (host-character home = the one NAMED coop interim).
 - **C — THE PRICE:** T4 fine + debt (pure math) · T5 insurance · T6 ledger card
   · **TS totem re-work**.
@@ -89,8 +98,9 @@ numbers welcome), the art charter (his Option-2 word honoured).
 
 Gabriel: FASE 7 city numbers ratified by L14 (D1 2×, D8 offset) — confirm (F2
 waits on it) · A3 companion brain (default OFF; Junior's audit is the evidence
-if he wants to look) · D-T1 legacy seed (one line; rec = seed once, keyed by
-player id) · fine/insurance/companion/totem NUMBERS (candidates land at their
+if he wants to look) · D-T1 legacy seed — IMPLEMENTED as the rec s136 (seed ONCE,
+keyed by player id, claimed by the first newcomer; unclaimed marker is `false`,
+not null — canonical vocabulary; one line reverses it) · fine/insurance/companion/totem NUMBERS (candidates land at their
 tickets; his word on each row) · AS scale (judged on rendered tours when the
 ticket runs) · audio-v12 ear-checks · worldsmith v2 grill · a third `extract
 game-two` (gamesmith core-loops, $) — his call. Junior: his line on the spec's
@@ -98,10 +108,16 @@ S1–S3 sequencing, TS numbers, D-T1, L18/L19 (welcome, not gating).
 
 ## Named debts (foundation L16 + s133)
 
-T0 findings (pending harvest) · `world.rb` 1776/1800 (→ T2a) · `vat_economy`
+T0 findings (pending harvest) · `world.rb` 1782/1800 on main, 1798 on
+Junior's branch (→ T2a) · `vat_economy`
 2 rows + `aoe_specials challenge_reads` re-author · WB-T7 · `basement_1` no
 zone-specific gate row · `varekka_duel`/`burn_duel` re-author · basement_3 ·
 `pool` · fiction kit nicknames in `tools/premium_art` comments + Junior's
 SYSTEMS proposal §1.2 — docs-only rename, his files (T0 finding) ·
-`rake pins` = 0 pins (a sweep populates it) · uiux mocks rendered at S0 — a
+`rake pins` = **33 PINNED / 10 FAILED** (v22-e1 sweep, s136 harvest — the ten
+reds classed in the E1 record §Sweep: challenge_reads ×2 = the L16 debt, two
+census manifest stragglers, impact-fx/damage-bar family ×3, floor2 coral,
+controls-overlay smudge, lobber-chain, zone8 blue lines → **E1c**) ·
+record accretion / prune verb (T1 record §5) · `taunt_anchor` critic-stall
+payload diagnosis (3 stalls, same script) · uiux mocks rendered at S0 — a
 re-render at the chosen scale is owed by mail after AS.
