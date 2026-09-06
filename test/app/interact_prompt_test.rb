@@ -66,8 +66,11 @@ class InteractPromptTest < Minitest::Test
     me.walker.teleport(*station("nest", "bank"))
     glyph = Core::BindingMap.load(DATA, key_table: App::KEY_TABLE, local: false).glyphs(:interact).first
     assert_equal({ verb: "bank", key: glyph }, r.interact_prompt_for(w))
-    bare = App::Renderer.new(display: DATA["display"])
+    bare = App::Renderer.new # no display: -> reads data/display.json (strict rows, b5)
     assert_equal({ verb: "bank", key: "H" }, bare.interact_prompt_for(w), "bindings-less construct falls back to H")
+    overlay = bare.instance_variable_get(:@controls_overlay)
+    assert_kind_of Integer, overlay.strip_alpha_now(w),
+                   "the bare construct hands the SAME resolved display to the overlay (strict knobs; reviewer P1)"
   end
 
   def test_prompt_respects_the_display_switch_and_a_dead_body

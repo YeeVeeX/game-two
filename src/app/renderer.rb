@@ -170,7 +170,7 @@ module App
       # through the LOCAL seat — default 1, so single-player output is
       # byte-identical by default.
       @local_seat = local_seat
-      @controls_overlay = ControlsOverlay.new(display:, strings:, bindings:, local_seat:)
+      @controls_overlay = ControlsOverlay.new(display: @display, strings:, bindings:, local_seat:)
       # PREMIUM v22 pass 3: impact particles (hit sparks, death bursts,
       # footstep dust) — bus-fed, frame-keyed, presentation-only.
       @fx = App::Fx.new(display: @display, kit_body: KIT_BODY,
@@ -1788,8 +1788,10 @@ module App
 
     # PREMIUM v22 pass 11 / E3 b3: the INTERACT PROMPT — a small bubble over
     # the possessed's head with the interact key glyph + the verb ("H
-    # INTERACT"), shown IFF `World#interact` would act on THIS tile (decision:
-    # interact_prompt_for). Screen space, above the vignette, under the HUD.
+    # INTERACT"), shown iff `World#interact` reaches the station/rope dispatch
+    # on THIS tile (decision: interact_prompt_for; guards like stagger and the
+    # drop/loot-first presses are the sim's, not mirrored). Screen space,
+    # above the vignette, under the HUD.
     def draw_interact_prompt(world)
       me = world.possessed(@local_seat)
       prompt = interact_prompt_for(world, me)
