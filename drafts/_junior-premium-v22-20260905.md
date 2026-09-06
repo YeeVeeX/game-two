@@ -353,3 +353,11 @@ ways/stations AND a magenta dot for stations"), `interact_prompt_reads` clause (
 Rule 2 smoke with the window: `town_gates` PASS ("gold and grey way dots"), `ledger_loop` PASS ("H INTERACT bubble at the
 bank") - 6+6 captures byte-identical x2; pins recorded. The full re-gate of the 19+7+6 scripts the lane listed = wall #4
 (next). Debt named: renderer.rb 2099 -> 2124 (+25, b3 extraction; no formal cap).
+
+### Wall #4 prep II: `tools/wall_triage.rb` (10:26) - the flip-vs-real call leaves one seat's memory
+Reads a live or banked wall log + the HISTORY of banked `drafts/_wall-*.log`; per failing vision row: NEW (re-gate first),
+FLIP-PRONE (failed an earlier sweep, PASSED its re-gate), DEBT (failed an earlier RE-GATE too), REPEAT; plus the per-row
+noise signature across scripts. Validated on wall #3 as "current" with #1/#2 as history: brasa2 `pressure_ring_reads` and
+`wipe_reads` come out as history-bearing, the basement rows as NEW - matching what I classified by hand that night.
+Live on wall #4 (4/42): `aim_hold specials_distinct` = NEW, row flipped 1x in history -> re-gate first. Noise signature so
+far: `kits_distinct` (3 flips), `wipe_reads` (3), then singletons. Never runs a replay; prints the `tmp/_regate.sh` line.
