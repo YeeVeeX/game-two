@@ -11,11 +11,20 @@
 # Usage:
 #   harness/run_wall.sh [tag]          # tag defaults to a timestamp
 #   SKIP_CRITIC=1 harness/run_wall.sh  # determinism halves only (NOT shippable)
+#
+# PIN PROVENANCE LAW (s136): a sweep pins the TREE IT JUDGED, not the tree the
+# docs drifted to. HEAD is read ONCE at start (SWEEP_HEAD) and passed to every
+# `pins.rb record` — docs-only commits landing mid-sweep no longer scatter one
+# sweep's pins across four commits (the v22-e1 sweep carried 332649b, d377688,
+# 105cdc4, 093579c, c267113, a41ca0c for ONE unchanged src tree). Source edits
+# mid-sweep are a different sin (they contaminate baselines) and stay forbidden.
 set -u -o pipefail
 export PATH="/c/Ruby34-x64/bin:$PATH"
 cd "$(dirname "$0")/.." || exit 1
 
 TAG="${1:-$(date +%Y%m%d_%H%M%S)}"
+SWEEP_HEAD="$(git rev-parse --short=7 HEAD)"
+echo "=== WALL SWEEP tag=$TAG head=$SWEEP_HEAD $(date +%H:%M:%S) ==="
 # The wall judges the DEFAULT checklist only. An exported CHECKS (e.g. a
 # netplay gate's harness/net/gate_checks.json left in the shell) would leak
 # into every `rake gate` below and poison the pin ledger (T0 d5) — drop it.
@@ -38,7 +47,7 @@ for script in harness/scripts/*.json; do
   echo "=== $s gate_rc=$gate_rc manifest_rc=$man_rc ===" | tee -a "$log"
   # Pin ledger (v22 prep): one row per script per sweep, written immediately so a
   # sweep killed midway keeps the pins it earned. `rake pins` reads it back.
-  ruby harness/pins.rb record --script "$s" --tag "$TAG" --gate-rc "$gate_rc" --manifest-rc "$man_rc" 2>&1 | tee -a "$log"
+  ruby harness/pins.rb record --script "$s" --tag "$TAG" --commit "$SWEEP_HEAD"     --gate-rc "$gate_rc" --manifest-rc "$man_rc" 2>&1 | tee -a "$log"
   if [ "$gate_rc" -ne 0 ] || [ "$man_rc" -ne 0 ]; then
     fails="$fails $s"
   fi
