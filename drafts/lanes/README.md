@@ -10,8 +10,10 @@ Desenho completo: `drafts/_multiagent-lanes-design-20260906.md`. Resumo operacio
   no `BOARD.md`, aplicado pelo integrador.
 - `src/game/**` exige o **SIM TOKEN** (linha no BOARD). Um dono por vez.
 - Ninguem alem do **validador**/**integrador** abre janela Gosu.
-- Handoff = `RECEIPT:` no BOARD. O integrador mergeia em ordem, regenera arte, roda a parede
-  1x por janela de integracao, empurra `main`.
+- Handoff = `RECEIPT:` no receipt DA RAIA (`drafts/lanes/receipts/<lane>.md`); o integrador dobra no
+  BOARD, mergeia em ordem, regenera arte, roda a parede 1x por janela de integracao, empurra `main`.
+- A cerca le brief + BOARD do ref `main` (trusted) e fecha renames pelos dois lados, exige o branch
+  da raia e o SIM TOKEN para `src/game/**`; falha FECHADA em erro/opcao desconhecida (rc 2).
 
 ## Lancar uma raia (Junior)
 ```

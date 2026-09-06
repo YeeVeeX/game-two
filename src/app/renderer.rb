@@ -1718,11 +1718,27 @@ module App
         k = [kx, ky].min
         ax = cxs + dx * k
         ay = cys + dy * k
-        # never under the HUD plate (top-left) or the minimap (top-right): slide below
+        # never under the HUD plate (top-left) or the minimap (top-right) - and
+        # never INTO the world: slide ALONG the edge (a mid-screen gold triangle
+        # read as a stray world marker - brasa2 wall #3)
         px, py, pw, ph = @display.fetch(:hud_plate_rect, [20, 8, 352, 108])
-        ay = py + ph + m if ax < px + pw + m && ay < py + ph + m
-        mx, my, mw, mh = @minimap.rect(vw)
-        ay = my + mh + m if @minimap.enabled? && ax > mx - m && ay < my + mh + m
+        if ax < px + pw + m && ay < py + ph + m
+          if ay <= m + 1
+            ax = px + pw + m       # top band: right of the plate, still on the top edge
+          else
+            ay = py + ph + m       # left band: below the plate, still on the left edge
+          end
+        end
+        if @minimap.enabled?
+          mx, my, mw, mh = @minimap.rect(vw)
+          if ax > mx - m && ay < my + mh + m
+            if ay <= m + 1
+              ax = mx - m - 8      # top band: left of the box, still on the top edge
+            else
+              ay = my + mh + m     # right band: below the box, still on the right edge
+            end
+          end
+        end
         len = Math.sqrt(dx * dx + dy * dy)
         ux = dx / len
         uy = dy / len

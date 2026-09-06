@@ -8,8 +8,9 @@ owns:
   - data/balance/vendors.json
   - test/game/vendor_test.rb
   - test/game/bank_storage_test.rb
-  - drafts/lanes/s6-vendor-bank.md
+  - drafts/lanes/receipts/s6-vendor-bank.md
 never:
+  - drafts/lanes/*.md
   - src/game/world.rb
   - src/game/creature.rb
   - src/net/protocol.rb
@@ -38,13 +39,15 @@ testes: comprar sem moeda recusa nomeado; vender material da `sell`; deposito re
    inteiras (data-driven, tick-driven, digest classificado, sem nomes de lore, fallback).
 2. Trabalhe SO no branch `lane/s6-vendor-bank` (crie a partir de `main`). Comite SO dentro de `owns`.
    Antes de cada commit: `ruby tools/lane_guard.rb s6-vendor-bank` (rc 0 = pode commitar).
-3. Precisa mudar um arquivo fora de `owns`? NAO toque. Escreva um PATCH REQUEST no
-   `drafts/lanes/BOARD.md` (arquivo, chave/linha, valor exato, por que). O integrador aplica.
+3. Precisa mudar um arquivo fora de `owns`? NAO toque. Escreva um PATCH REQUEST no SEU
+   receipt `drafts/lanes/receipts/s6-vendor-bank.md` (arquivo, chave/linha, valor exato, por que).
+   O integrador aplica e dobra no BOARD. Briefs e BOARD sao do integrador (a cerca recusa).
 4. Nunca abra janela Gosu (`src/main.rb`, `harness/replay_runner.rb`, `rake gate|capture|map`,
    `harness/run_wall.sh`). So a suite headless: `bundle exec rake`.
 5. Tocar `src/game/**` exige o SIM TOKEN no BOARD com o seu nome. Sem token: construa
    dados + modulo novo + teste proprio (padrao `Game::Loot`) e peca a fiacao por PATCH REQUEST.
 6. Subagentes filhos (foreground, gpt-5.6-sol, sem `model:`) servem pra sub-tarefas SUAS:
    `reviewer`/`delegate` pra revisar seu diff antes do receipt, `scout` pra reconhecer um modulo.
-7. Ao terminar: suite verde, `lane_guard` OK, `git push -u origin lane/s6-vendor-bank`, e UMA linha no
-   BOARD: `RECEIPT: s6-vendor-bank <sha> READY <resumo de 1 linha>` (+ os PATCH REQUESTS).
+7. Ao terminar: suite verde, `lane_guard` OK, `git push -u origin lane/s6-vendor-bank`, e o receipt em
+   `drafts/lanes/receipts/s6-vendor-bank.md`: `RECEIPT: s6-vendor-bank <sha> READY <resumo de 1 linha>` (+ PATCH REQUESTS).
+   A cerca le o brief e o BOARD do ref `main` (trusted), nao da tua arvore: mudar o proprio brief nao muda a cerca.

@@ -32,7 +32,16 @@ module App
       [view_w - w - 12, 12, w, h]
     end
 
-    def scale = @display.fetch(:minimap_scale, 2)
+    # px per tile: the base scale, RAISED for zones smaller than the box so a
+    # pocket (16x14) fills it and clustered dots separate (at 2 px/tile five
+    # adjacent husks + the pack read as one orange blob - basement wall #3).
+    # Capped by minimap_scale_max; per map, so the cached image matches.
+    def scale_for(map)
+      w, h = @display.fetch(:minimap_size, [128, 80])
+      base = @display.fetch(:minimap_scale, 2)
+      fit = [w / map.cols, h / map.rows].min
+      fit.clamp(base, @display.fetch(:minimap_scale_max, 4))
+    end
 
     # --- zone image -------------------------------------------------------------
     def zone_image(map, registry)
@@ -40,7 +49,7 @@ module App
     end
 
     def build_zone_image(map, registry)
-      s = scale
+      s = scale_for(map)
       specs = App::TileVariants.specs(map, registry)
       pal = map.palette
       floor = lift(pal[:floor] || [40, 36, 32], 28)
@@ -86,7 +95,7 @@ module App
       return unless img
       cam = world.camera(local_seat)
       bx, by, bw, bh = rect(cam.view_w)
-      s = scale
+      s = scale_for(map)
       me = world.possessed(local_seat)
       ctx, cty = me ? me.tile : map.pack_spawn.first
       # window origin in zone-image pixels (clamped; small zones center)
@@ -113,14 +122,14 @@ module App
       end
       world.humans.each do |h|
         next if h.dead?
-        dot.call(h, (h.kit[:boss] || h.kit[:seize]) ? [255, 60, 60] : [225, 70, 50], (h.kit[:boss] ? 4 : 3), h.kit[:boss])
+        dot.call(h, (h.kit[:boss] || h.kit[:seize]) ? [255, 60, 60] : [225, 70, 50], (h.kit[:boss] ? s + 2 : s + 1), h.kit[:boss])
       end
       world.pack.living.each do |m|
         next if m.equal?(me)
         col = @kit_body[m.kit_name]
-        dot.call(m, [col.red, col.green, col.blue], 3, true)
+        dot.call(m, [col.red, col.green, col.blue], s + 1, true)
       end
-      dot.call(me, [255, 220, 120], 4, true) if me
+      dot.call(me, [255, 220, 120], s + 2, true) if me
     end
 
     # Subimage of the zone image for the window; small zones (image smaller

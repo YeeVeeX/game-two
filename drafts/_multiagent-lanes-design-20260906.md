@@ -44,8 +44,10 @@ multiagente subagentes para ajudar eles."
 1. **Brief** por raia (`drafts/lanes/<raia>.md`, front matter YAML: lane, branch, owns, never,
    objective, DoD). A raia lê AGENTS.md → CYCLE.md → o brief, nessa ordem.
 2. **Cerca**: `tools/lane_guard.rb <raia>` recusa (rc 1) qualquer arquivo tocado fora de
-   `owns` ou dentro de `never`. A raia roda antes de cada commit; o integrador roda antes de
-   cada merge. Conflito de arquivo fica **impossível por construção**, não por confiança.
+   `owns` ou dentro de `never`, **lendo o brief e o BOARD do ref `main` (trusted)** — a raia não
+   pode alargar a própria cerca; briefs/BOARD são integrador-only; renames fecham pelos dois
+   lados; o branch tem de ser o da raia; `src/game/**` exige o SIM TOKEN; erro = rc 2 (fechado).
+   A raia roda antes de cada commit; o integrador roda antes de cada merge.
 3. **Handoff** = uma linha `RECEIPT:` em `drafts/lanes/BOARD.md` (raia · sha · estado · resumo)
    + os PATCH REQUESTS. O integrador lê o board, não o chat.
 4. **SIM TOKEN**: uma linha no board diz quem pode tocar `src/game/**` agora. Sem token, a

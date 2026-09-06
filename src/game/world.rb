@@ -486,9 +486,10 @@ module Game
         @bus.emit(:drop_picked_up, actor: source, amount: drop[:amount], carried: source.carried)
         return true
       end
-      # S2 (Game::Loot): coin, then the item; a FULL bag (false) falls through to
-      # the station under it (review 2026-09-06: never soft-lock a bank/altar)
-      return true if pick_up_item(source)
+      picked = pick_up_item(source) # S2/A4 (Game::Loot): true = took; false = refused -> station only
+      return true if picked
+      return refused_pickup_fallthrough(source) if picked == false
+
       # D1 recovery: settle-gated, full transfer, creation order on stacked
       # tiles (a settling container falls through — deterministic skip). A
       # drop on the tile won the press above: the D0 two-press rule extended.
@@ -503,18 +504,16 @@ module Game
         return true
       end
       station = map.station_at(*source.tile)
-      if station
-        case station[:type]
-        when "bank"  then @stations.bank(source)
-        when "altar" then @stations.altar(source)
-        when "vat"   then @stations.vat(source)
-        when "seal"  then interact_seal(source, station)
-        # totem: deliberate no-op — it pulses on its own clock, no
-        # interact verb (the L4 PRICED-activation flip would land here).
-        else false
-        end
-      else
-        interact_rope(source)
+      station ? interact_station(source, station) : interact_rope(source)
+    end
+
+    def interact_station(source, station)
+      case station[:type]
+      when "bank"  then @stations.bank(source)
+      when "altar" then @stations.altar(source)
+      when "vat"   then @stations.vat(source)
+      when "seal"  then interact_seal(source, station)
+      else false # totem: deliberate no-op (pulses on its own clock; the L4 flip would land here)
       end
     end
 

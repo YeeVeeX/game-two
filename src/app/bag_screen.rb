@@ -9,10 +9,6 @@ module App
   # App::Window (UI, not a sim verb — lockstep never sees it). Pure function
   # of (bag, catalog, strings); nothing here writes state.
   class BagScreen
-    COLS = 5
-    ROWS = 4
-    CELL = 36
-    GAP = 4
 
     def initialize(display:, strings:, icons:, bindings: nil)
       @display = display
@@ -24,11 +20,11 @@ module App
     def draw(world, view_w, view_h)
       bag = world.bag
       catalog = world.catalog
-      lay = @display.fetch(:bag_screen, {})
-      cols = lay.fetch(:cols, COLS)
-      rows = lay.fetch(:rows, ROWS)
-      cell = lay.fetch(:cell, CELL)
-      gap = lay.fetch(:gap, GAP)
+      lay = @display.fetch(:bag_screen) # strict: a missing row is a boot error, not a silent default
+      cols = lay.fetch(:cols)
+      rows = lay.fetch(:rows)
+      cell = lay.fetch(:cell)
+      gap = lay.fetch(:gap)
       gw = cols * (cell + gap) - gap
       pw = gw + 24 + 220
       ph = rows * (cell + gap) - gap + 78

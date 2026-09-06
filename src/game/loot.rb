@@ -43,6 +43,14 @@ module Game
       true
     end
 
+    # A REFUSED pickup (bag full, item stays) may fall through ONLY to a station
+    # under the body (the anti-soft-lock law) - never to a corpse load or a rope:
+    # the press meant "take", not "loot" / "cross" (review 2026-09-06 A4).
+    def refused_pickup_fallthrough(source)
+      station = map.station_at(*source.tile)
+      station ? interact_station(source, station) : false
+    end
+
     # S3: the first bag consumable whose use.cure names a status this body
     # carries - removes one, cures, emits item_used. false when none applies.
     def use_cure_item(source)

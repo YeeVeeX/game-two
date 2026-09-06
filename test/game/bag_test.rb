@@ -83,22 +83,38 @@ class BagTest < Minitest::Test
     assert_equal 1, w.item_drops.length
   end
 
-  def test_a_full_bag_on_a_station_tile_still_reaches_the_station
+  def test_a_full_bag_on_the_bank_tile_still_banks_but_never_loots_or_crosses
     w = Game::World.new(DATA, seed: 7)
-    w.start_in("camp")
+    w.start_in("nest")
     me = w.possessed(1)
-    st = w.map.stations.first
-    me.walker.teleport(*st[:at])
+    bank = w.map.stations.find { |s| s[:type] == "bank" }
+    me.walker.teleport(*bank[:at])
+    me.pick_up(7) # carrying value to bank
     w.bag.slots.times { w.bag.add!(:blade_iron) }
     w.item_drops << { tile: me.tile.dup, id: :antidote, qty: 1, frames_left: 600, decay_frames: 600 }
     fulls = []
+    banked = []
     w.bus.subscribe(:bag_full) { |e| fulls << e }
-    w.interact(me) # whatever the station does, the press must REACH it
+    w.bus.subscribe(:banked) { |e| banked << e }
+    before = w.pack.banked
+    w.interact(me)
     w.tick(Core::ScriptedInput.new(frames: {}))
     assert_equal 1, fulls.length, "the refusal is named"
     assert_equal 1, w.item_drops.length, "the item stays on the floor"
-    # the station saw the press: a bank/altar press is never swallowed by a full bag
-    # (the concrete effect depends on the station; the contract is the fall-through)
+    assert_equal 1, banked.length, "the press REACHED the bank (proved by its event)"
+    assert_equal before + 7, w.pack.banked, "and banked the carried value"
+    # off a station, a refused pickup does NOT fall through to a corpse load or a rope
+    w2 = Game::World.new(DATA, seed: 7)
+    w2.start_in("nest")
+    me2 = w2.possessed(1)
+    w2.bag.slots.times { w2.bag.add!(:blade_iron) }
+    w2.item_drops << { tile: me2.tile.dup, id: :antidote, qty: 1, frames_left: 600, decay_frames: 600 }
+    # inject through the field's own store (corpse_loads(zone) returns a fresh [] for an unseen zone)
+    loads = w2.instance_variable_get(:@field).instance_variable_get(:@corpse_loads)
+    (loads[w2.zone_name] ||= []) << { tile: me2.tile.dup, id: 999_001, amount: 5, settle_left: 0, settle_alpha: 1.0, term_left: 100, term: 100 }
+    assert_equal 1, w2.corpse_loads.length, "staging: the load is in the field"
+    refute w2.interact(me2), "refused pickup: press consumed, nothing else fires"
+    assert_equal 1, w2.corpse_loads.length, "the corpse load was NOT looted by a refused pickup"
   end
 
   def test_loot_stream_is_its_own_counter

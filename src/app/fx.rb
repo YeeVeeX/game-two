@@ -256,8 +256,16 @@ module App
       len = age < 4 ? 4 + age * 3 : (16 - (age - 4) * 1.6).round
       thick = age < 4 ? 3 : (age < 8 ? 2 : 1)
       a = (255 * (1.0 - t)).round
-      core = Gosu::Color.new(a, 255, 255, 240)
-      warm = Gosu::Color.new(a, 255, 200, 90)
+      # a PACK victim's spark is CRIMSON (the hurt-flash law: never white on
+      # your bodies - basement_pocket wall #3 read the pale star as a white
+      # flash); a hostile's spark stays warm white (the "hit landed" read)
+      if p[:pack]
+        core = Gosu::Color.new(a, *@display.fetch(:fx_spark_pack_core_rgb, [255, 120, 110]))
+        warm = Gosu::Color.new(a, *@display.fetch(:fx_spark_pack_rgb, [225, 45, 45]))
+      else
+        core = Gosu::Color.new(a, *@display.fetch(:fx_spark_core_rgb, [255, 255, 240]))
+        warm = Gosu::Color.new(a, *@display.fetch(:fx_spark_rgb, [255, 200, 90]))
+      end
       x, y = p[:x], p[:y]
       Gosu.draw_rect(x - len, y - thick / 2, len * 2, thick, warm, z)
       Gosu.draw_rect(x - thick / 2, y - len, thick, len * 2, warm, z)
