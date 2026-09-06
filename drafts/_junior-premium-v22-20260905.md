@@ -519,3 +519,16 @@ fx.rb stale "CRIMSON" comment + chip rgb 235,60,60 -> display row; impact_fx_rea
 signage_test range asserts (low_hp_band_* < 0.22/0.28, floors <= 1); petrify clause on hurt_flash_not_white. Then re-gate
 boss2_phases + world_loop + town_gates for the halo/banner/chip pixel changes (3 gates). Named for the netplay side (not
 wall-visible): partner halo contour + aura falloff keyed on @local_seat, ControlsOverlay now above the netplay end veil.
+
+### WALL #4 CLOSED (16:2x) -> `drafts/_wall-premium-build4-20260906.log`
+Sweep 44 scripts @ cbaa4a5: 16 gate fails, 1 manifest fail (toll_pocket, pre-existing). Close batch A: the signage
+extraction proved BYTE-INERT (ledger_loop + town_gates IDENTICAL(6) x2 at 4348ed9 vs the wall's captures). Close batch B
+@ 223c5c8, 25 gates: 21 PASS / 4 FAIL (brasa3 aura "lit, no bearer"; respawn_telegraph telegraph_reads at peak swell;
+sustain_run pale-lobber tint + dust sampling; wall_fixture_walk fixture minimap) -> answered in 38948f8 with the fixes
+review (aura at z -1 + scorched fill + bearer dot; halo contour closed ellipse; safe-chip backing z 19; fx chip rgb row;
+gate_batch NO-CAPTURES + REGATE grammar; wall_triage guards; 5 row clauses) -> re-gate 7: 5 PASS.
+Every --ref cell in batch B is DIFFERS(n/n) = the fixes touched every frame of every reel (halo contour on the possessed
+is in every frame) - expected, and the reason the extraction proof had to run at 4348ed9. Named debts left: zone banner
++ stamp lines at z 10 (inside the vignette band; every zone_banner row passed at HEAD; patch regex missed - next pass),
+toll_pocket re-author (E-ticket), brasa2 pressure_ring_reads now PASS. Worktrees wall6 + sig1 removed; pins + verdicts
+committed with this close.

@@ -1,0 +1,222 @@
+# BUILD phase wall #4 - worktree game-two-wall6 @ cbaa4a5 (S1-S3 + E3 + E4/E5 + blink_arrival/basement_pocket + fence v3), 2026-09-06 10:10 - 13:28 (44 scripts)
+# Close batch A (extraction proof, worktree game-two-sig1 @ 4348ed9 = lane signage commit 1 vs wall captures): ledger_loop + town_gates IDENTICAL(6) x2 = byte-inert.
+# Close batch B @ 223c5c8 (25 gates incl. every failed script + the fix reels, --ref = frames each fix touched): 21 PASS / 4 FAIL -> fixes 38948f8 -> re-gate 7: 5 PASS.
+# Sweep: 16 gate fails / 1 manifest fail (toll_pocket, pre-existing). 20 rows / 16 scripts: 7 drawings fixed on the branch, 7 rows corrected, 4 sampling/flip, 2 measured after (zone8 lines = not reproduced at HEAD; tower2 volley = PASS at HEAD). No sim change; canaries YES x3 at every commit.
+
+## sweep (filtered)
+=== WALL aim_hold 10:10:32 ===
+  [FAIL] specials_distinct: Blocker cast in frame_0235 draws three flat dim grey slabs north of him; nothing reads as a heavy ring shock.
+=== aim_hold gate_rc=1 manifest_rc=0 ===
+=== WALL aoe_specials 10:13:08 ===
+=== aoe_specials gate_rc=0 manifest_rc=0 ===
+=== WALL basement_pocket 10:19:30 ===
+=== basement_pocket gate_rc=0 manifest_rc=0 ===
+=== WALL blink_arrival 10:21:41 ===
+=== blink_arrival gate_rc=0 manifest_rc=0 ===
+=== WALL boss1_writ 10:24:13 ===
+  [FAIL] impact_fx_reads: Pack body takes hits with numerals in four frames but no 4-point star, chips or dust puffs appear.
+=== boss1_writ gate_rc=1 manifest_rc=0 ===
+=== WALL boss2_phases 10:27:30 ===
+  [FAIL] possessed_readable: No gold ground ellipse or gold chevron clearly reads on any body; pink gem above heads confuses the marker.
+=== boss2_phases gate_rc=1 manifest_rc=0 ===
+=== WALL boss4_phases 10:30:00 ===
+=== boss4_phases gate_rc=0 manifest_rc=0 ===
+=== WALL brasa1_run 10:32:21 ===
+=== brasa1_run gate_rc=0 manifest_rc=0 ===
+=== WALL brasa2_run 10:35:43 ===
+=== brasa2_run gate_rc=0 manifest_rc=0 ===
+=== WALL brasa3_run 10:45:31 ===
+  [FAIL] exit_signage_reads: Gold arrowheads sit inset near the left wall pointing up, not clamped to the edge; direction unreadable.
+  [FAIL] aura_ring_reads: Dozens of oversized overlapping orange squares blanket the map like debug boxes; inside reads no more dangerous than outside.
+=== brasa3_run gate_rc=1 manifest_rc=0 ===
+=== WALL corpse_run 10:49:25 ===
+=== corpse_run gate_rc=0 manifest_rc=0 ===
+=== WALL critic_reel 10:55:38 ===
+=== critic_reel gate_rc=0 manifest_rc=0 ===
+=== WALL dash_strike_rip 11:01:59 ===
+  [FAIL] specials_distinct: Striker pip spends at 0396 but its effect is a short line of pale tiles, no ring, and blocker effect unreadable.
+  [FAIL] whirlwind_reads: Striker special around 0396 shows two pale tiles to one side only, no ring around the body.
+  [FAIL] impact_fx_reads: Hit beats in 0260 and 0388 show numerals but no visible star, chips or dust puffs anywhere.
+=== dash_strike_rip gate_rc=1 manifest_rc=0 ===
+=== WALL district_hunt 11:05:15 ===
+  [FAIL] impact_fx_reads: Struck bodies in frame_1900 and frame_2400 show numerals but no visible hit star, chips or dust puffs.
+  [FAIL] low_hp_pulse_reads: Possessed sits at 54/198 in frame_2400 and frame_3219 yet no red edge vignette is visible.
+=== district_hunt gate_rc=1 manifest_rc=0 ===
+=== WALL floor1_run 11:09:51 ===
+  [FAIL] telegraph_reads: Frame 0700 shows only a faint pale-yellow square on tan bridge planks with no red edge; danger barely reads.
+=== floor1_run gate_rc=1 manifest_rc=0 ===
+=== WALL floor2_run 11:12:58 ===
+=== floor2_run gate_rc=0 manifest_rc=0 ===
+=== WALL floor3_run 11:17:16 ===
+=== floor3_run gate_rc=0 manifest_rc=0 ===
+=== WALL grass_fixture_walk 11:23:25 ===
+=== grass_fixture_walk gate_rc=0 manifest_rc=0 ===
+=== WALL ledger_loop 11:25:14 ===
+  [FAIL] impact_fx_reads: Struck pack body in 4943 shows only a red tint and numeral, no visible hit star or chips.
+  [FAIL] low_hp_pulse_reads: At 25/169 the red wash tints the whole frame including HUD and center, not just edges.
+=== ledger_loop gate_rc=1 manifest_rc=0 ===
+=== WALL level_gate 11:41:29 ===
+=== level_gate gate_rc=0 manifest_rc=0 ===
+=== WALL level_up_beat 11:43:42 ===
+=== level_up_beat gate_rc=0 manifest_rc=0 ===
+=== WALL lobber_reach 11:46:01 ===
+  [FAIL] impact_fx_reads: Frame 0900 shows a struck wounded human with numeral yet no hit star or chips anywhere.
+=== lobber_reach gate_rc=1 manifest_rc=0 ===
+=== WALL lobber_volley 11:50:53 ===
+=== lobber_volley gate_rc=0 manifest_rc=0 ===
+=== WALL menu_tour 11:59:07 ===
+  [FAIL] telegraph_reads: Human attack tile in 0470 is a flat grey square, no red edge or yellow core, reads like debris.
+  [FAIL] impact_fx_reads: Hit beat in 0470 shows rising 15 numerals over an empty tile with no star or chips anywhere.
+=== menu_tour gate_rc=1 manifest_rc=0 ===
+=== WALL mercy_floor 12:01:42 ===
+=== mercy_floor gate_rc=0 manifest_rc=0 ===
+=== WALL moving_square 12:03:56 ===
+=== moving_square gate_rc=0 manifest_rc=0 ===
+=== WALL multi_floor_descent 12:04:38 ===
+=== multi_floor_descent gate_rc=0 manifest_rc=0 ===
+=== WALL respawn_telegraph 12:10:59 ===
+  [FAIL] impact_fx_reads: Frame 1265 blocker mid hurt flash shows no spark or chips and walkers leave no dust.
+  [FAIL] damage_numbers_read: Human struck for 12 in 0534 wears no wounded head bar and pack damage tint is unseen.
+=== respawn_telegraph gate_rc=1 manifest_rc=0 ===
+=== WALL safe_boundary 12:14:24 ===
+=== safe_boundary gate_rc=0 manifest_rc=0 ===
+=== WALL specials_chain 12:16:26 ===
+=== specials_chain gate_rc=0 manifest_rc=0 ===
+=== WALL sustain_run 12:22:57 ===
+  [FAIL] actors_distinct: Under the red low hp wash the pale amber lobber and bone humans read as the same pale figure.
+  [FAIL] impact_fx_reads: Hit beat with rising 12 numeral shows no spark or chips at the struck tile.
+  [FAIL] low_hp_pulse_reads: At 2 of 74 hp the red wash tints the whole frame including HUD and center.
+=== sustain_run gate_rc=1 manifest_rc=0 ===
+=== WALL taunt_anchor 12:37:05 ===
+=== taunt_anchor gate_rc=0 manifest_rc=0 ===
+=== WALL threat_pull 12:42:51 ===
+=== threat_pull gate_rc=0 manifest_rc=0 ===
+=== WALL toll_pocket 12:48:30 ===
+=== toll_pocket gate_rc=0 manifest_rc=1 ===
+=== WALL totem_pulse 12:50:47 ===
+=== totem_pulse gate_rc=0 manifest_rc=0 ===
+=== WALL tower2_run 12:55:43 ===
+  [FAIL] lobber_reach_reads: At LEVEL 10 the clearest volley frame shows only two non-contiguous target tiles, never a four-tile chain.
+=== tower2_run gate_rc=1 manifest_rc=0 ===
+=== WALL tower3_run 12:59:20 ===
+  [FAIL] hurt_flash_not_white: In frame_0430 the possessed body flashes pale white while taking 12 damage, reading like a spawn effect.
+=== tower3_run gate_rc=1 manifest_rc=0 ===
+=== WALL tower4_run 13:02:14 ===
+=== tower4_run gate_rc=0 manifest_rc=0 ===
+=== WALL town_gates 13:06:16 ===
+=== town_gates gate_rc=0 manifest_rc=0 ===
+=== WALL vat_economy 13:09:19 ===
+=== vat_economy gate_rc=0 manifest_rc=0 ===
+=== WALL wall_fixture_walk 13:14:17 ===
+  [FAIL] minimap_reads: Radar draws the red interior walls as pale grey, not the zone wall color, and no clear gold way dot.
+=== wall_fixture_walk gate_rc=1 manifest_rc=0 ===
+=== WALL world_loop 13:16:12 ===
+=== world_loop gate_rc=0 manifest_rc=0 ===
+=== WALL zone8_crossing 13:18:55 ===
+  [FAIL] no_render_garbage: Frames 0570 and 1067 show stray thin blue lines drawn across walkable ground, reading as tearing.
+  [FAIL] impact_fx_reads: Hit beats in 0378 and 0413 show numerals and flash but no clear star or flying chips.
+=== zone8_crossing gate_rc=1 manifest_rc=0 ===
+=== WALL zone_catchup 13:22:58 ===
+=== zone_catchup gate_rc=0 manifest_rc=0 ===
+WALL SWEEP DONE 13:27:56 — 44 scripts, fails: aim_hold boss1_writ boss2_phases brasa3_run dash_strike_rip district_hunt floor1_run ledger_loop lobber_reach menu_tour respawn_telegraph sustain_run toll_pocket tower2_run tower3_run wall_fixture_walk zone8_cros
+WALL FAIL: aim_hold boss1_writ boss2_phases brasa3_run dash_strike_rip district_hunt floor1_run ledger_loop lobber_reach menu_tour respawn_telegraph sustain_run toll_pocket tower2_run tower3_run wall_fixture_walk zone8_crossing
+
+## close batch (A @ 4348ed9, B @ 223c5c8)
+### A) extraction proof @ 4348ed9 vs wall #4 captures
+=== GATE ledger_loop 13:28:36 ===
+PIN recorded: ledger_loop tag=sig1 commit=4348ed9 gate_rc=0 manifest_rc=0
+=== ledger_loop        gate_rc=0 manifest_rc=0 captures_vs_ref=IDENTICAL(6) ===
+=== GATE town_gates 13:36:15 ===
+PIN recorded: town_gates tag=sig1 commit=4348ed9 gate_rc=0 manifest_rc=0
+=== town_gates         gate_rc=0 manifest_rc=0 captures_vs_ref=IDENTICAL(6) ===
+GATE BATCH sig1 DONE 13:41:08 (12 min)
+### B) fixes + failed scripts @ 223c5c8
+=== GATE boss1_writ 13:41:09 ===
+PIN recorded: boss1_writ tag=build4fix commit=223c5c8 gate_rc=0 manifest_rc=0
+=== boss1_writ         gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(9/9) ===
+=== GATE dash_strike_rip 13:43:47 ===
+PIN recorded: dash_strike_rip tag=build4fix commit=223c5c8 gate_rc=0 manifest_rc=0
+=== dash_strike_rip    gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(8/8) ===
+=== GATE district_hunt 13:46:02 ===
+PIN recorded: district_hunt tag=build4fix commit=223c5c8 gate_rc=0 manifest_rc=0
+=== district_hunt      gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(7/7) ===
+=== GATE basement_pocket 13:53:25 ===
+PIN recorded: basement_pocket tag=build4fix commit=223c5c8 gate_rc=0 manifest_rc=0
+=== basement_pocket    gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(8/8) ===
+=== GATE boss2_phases 13:57:51 ===
+PIN recorded: boss2_phases tag=build4fix commit=223c5c8 gate_rc=0 manifest_rc=0
+=== boss2_phases       gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(8/8) ===
+=== GATE world_loop 14:03:56 ===
+PIN recorded: world_loop tag=build4fix commit=223c5c8 gate_rc=0 manifest_rc=0
+=== world_loop         gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(10/10) ===
+=== GATE brasa1_run 14:07:19 ===
+PIN recorded: brasa1_run tag=build4fix commit=223c5c8 gate_rc=0 manifest_rc=0
+=== brasa1_run         gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(10/10) ===
+=== GATE brasa2_run 14:10:24 ===
+PIN recorded: brasa2_run tag=build4fix commit=223c5c8 gate_rc=0 manifest_rc=0
+=== brasa2_run         gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(11/11) ===
+=== GATE brasa3_run 14:21:34 ===
+  [FAIL] aura_ring_reads: Huge overlapping orange squares show no bearer at center and their interiors read lit, not dangerous.
+=== brasa3_run         gate_rc=1 manifest_rc=0 captures_vs_ref=DIFFERS(11/11) ===
+=== GATE aoe_specials 14:25:04 ===
+PIN recorded: aoe_specials tag=build4fix commit=223c5c8 gate_rc=0 manifest_rc=0
+=== aoe_specials       gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(8/8) ===
+=== GATE aim_hold 14:31:29 ===
+PIN recorded: aim_hold tag=build4fix commit=223c5c8 gate_rc=0 manifest_rc=0
+=== aim_hold           gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(5/5) ===
+=== GATE floor1_run 14:33:30 ===
+PIN recorded: floor1_run tag=build4fix commit=223c5c8 gate_rc=0 manifest_rc=0
+=== floor1_run         gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(10/10) ===
+=== GATE ledger_loop 14:36:22 ===
+PIN recorded: ledger_loop tag=build4fix commit=223c5c8 gate_rc=0 manifest_rc=0
+=== ledger_loop        gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(6/6) ===
+=== GATE town_gates 14:42:17 ===
+PIN recorded: town_gates tag=build4fix commit=223c5c8 gate_rc=0 manifest_rc=0
+=== town_gates         gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(6/6) ===
+=== GATE lobber_reach 14:45:21 ===
+PIN recorded: lobber_reach tag=build4fix commit=223c5c8 gate_rc=0 manifest_rc=0
+=== lobber_reach       gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(7/7) ===
+=== GATE menu_tour 14:54:22 ===
+PIN recorded: menu_tour tag=build4fix commit=223c5c8 gate_rc=0 manifest_rc=0
+=== menu_tour          gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(8/8) ===
+=== GATE respawn_telegraph 14:57:24 ===
+  [FAIL] telegraph_reads: Frame 0534 shows a human inside a solid red 3x3 block with no yellow core; grammar broken.
+=== respawn_telegraph  gate_rc=1 manifest_rc=0 captures_vs_ref=DIFFERS(9/9) ===
+=== GATE sustain_run 15:01:01 ===
+  [FAIL] hurt_flash_not_white: In frame_18697 the struck lobber at 2 hp reads pale white-grey, not crimson.
+=== sustain_run        gate_rc=1 manifest_rc=0 captures_vs_ref=DIFFERS(10/10) ===
+=== GATE tower2_run 15:18:49 ===
+PIN recorded: tower2_run tag=build4fix commit=223c5c8 gate_rc=0 manifest_rc=0
+=== tower2_run         gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(8/8) ===
+=== GATE tower3_run 15:26:46 ===
+PIN recorded: tower3_run tag=build4fix commit=223c5c8 gate_rc=0 manifest_rc=0
+=== tower3_run         gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(11/11) ===
+=== GATE wall_fixture_walk 15:30:10 ===
+  [FAIL] impact_fx_reads: Pack bodies visibly walk across the room between frames yet no dust puffs trail behind any body.
+=== wall_fixture_walk  gate_rc=1 manifest_rc=0 captures_vs_ref=DIFFERS(5/5) ===
+=== GATE zone8_crossing 15:32:12 ===
+PIN recorded: zone8_crossing tag=build4fix commit=223c5c8 gate_rc=0 manifest_rc=0
+=== zone8_crossing     gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(10/10) ===
+=== GATE zone_catchup 15:37:18 ===
+PIN recorded: zone_catchup tag=build4fix commit=223c5c8 gate_rc=0 manifest_rc=0
+=== zone_catchup       gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(8/8) ===
+GATE BATCH build4fix DONE 15:39:57 (118 min)
+### DONE 15:39
+
+## re-gate @ 38948f8
+=== REGATE brasa3_run 15:45:43 ===
+PIN recorded: brasa3_run tag=build4re commit=38948f8 gate_rc=0 manifest_rc=0
+=== brasa3_run         gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(11/11,ref_only=0) ===
+=== REGATE boss2_phases 15:49:00 ===
+PIN recorded: boss2_phases tag=build4re commit=38948f8 gate_rc=0 manifest_rc=0
+=== boss2_phases       gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(8/8,ref_only=0) ===
+=== REGATE world_loop 15:51:29 ===
+PIN recorded: world_loop tag=build4re commit=38948f8 gate_rc=0 manifest_rc=0
+=== world_loop         gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(10/10,ref_only=0) ===
+=== REGATE town_gates 16:01:36 ===
+PIN recorded: town_gates tag=build4re commit=38948f8 gate_rc=0 manifest_rc=0
+=== town_gates         gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(6/6,ref_only=0) ===
+=== REGATE respawn_telegraph 16:03:54 ===
+PIN recorded: respawn_telegraph tag=build4re commit=38948f8 gate_rc=0 manifest_rc=0
+=== respawn_telegraph  gate_rc=0 manifest_rc=0 captures_vs_ref=DIFFERS(9/9,ref_only=0) ===
+=== REGATE sustain_run 16:06:48 ===

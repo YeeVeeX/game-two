@@ -1,3 +1,5 @@
+> CLOSED 16:2x 2026-09-06 - wall #4 banked in drafts/_wall-premium-build4-20260906.log; this note is history.
+
 # PAUSA 2026-09-06 11:45 — estado salvo (seat do Junior). Leia isto primeiro na volta.
 
 ## Onde está tudo
