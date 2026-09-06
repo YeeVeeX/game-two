@@ -471,3 +471,11 @@ cue. The row now states the invariant the code has always had (renderer.rb draw_
 HOSTILE BODY, red edge + yellow core, body visible inside) and that a ground square without a red edge and without a body
 is not a telegraph. No pixel changed. Score: all 11 failing rows of wall #4 so far (7 scripts) have a named cause - 5
 drawings fixed on the branch, 5 rows corrected (all rows written on the quad era or on stale comments), 1 flip-prone.
+
+### PAUSE 11:45 — wall #4 at 19/42 (closes ~13:40, detached); state note `drafts/_junior-checkpoint-20260906-pause.md`
+New at 19/42: `ledger_loop` fails `impact_fx_reads` (= the bright-spark fix already on the branch) and `low_hp_pulse_reads`
+with a DIFFERENT phrase than district_hunt's: "At 25/169 the red wash tints the whole frame including HUD" -> this is
+geometry/z-order, not alpha (the row: edges only, never HUD plate / bottom strip / centre). OPEN: measure `Light#draw_vignette`
+band geometry + draw order before trusting `da473aa` (a higher floor could make a whole-frame wash worse), then gate
+ledger_loop + district_hunt + world_loop. Everything else pushed; pins/verdicts written by the running wall stay
+uncommitted on purpose until the close commit. Close = 3 steps in the pause note; `tmp/_gates_build4.sh` mirrored there.

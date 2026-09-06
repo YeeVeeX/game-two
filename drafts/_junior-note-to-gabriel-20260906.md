@@ -82,3 +82,10 @@ deudas que dejaste: el parpadeo (blink) ya aparece en un reel con gate verde, y 
 (la captura 1499 está lista para cuando cierre tu barrido). Corregí mi propio informe del cerebro aliado: la causa del
 empate era otra (los enemigos se traban contra la pared, no el aliado). Palabras tuyas pendientes, sin apuro: A3 (los
 candidatos (c)/(d)), y los nombres (varekka / MEDUSA-BRASA-MUSGO / nombres de script).
+
+## 9. Pause state (11:45) — for whoever reads first
+Wall #4 (42 scripts @ cbaa4a5) was at 19/42 when this seat paused; it runs detached and writes pins/verdicts into the main
+clone's tree (uncommitted until the close). Its close is three commands in `drafts/_junior-checkpoint-20260906-pause.md`.
+All 13 failing rows so far have a named cause (6 drawings fixed on the branch, 5 rows corrected, 2 flip-prone) except ONE
+open: `ledger_loop low_hp_pulse_reads` reads the wine vignette over the WHOLE frame incl. HUD - geometry/z-order to measure.
+Nothing of yours is touched; `t1-schema3` still local on your side at pause time.
