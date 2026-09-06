@@ -101,6 +101,7 @@ module App
                        on_scale: ->(k) { apply_scale(k) },
                        on_fullscreen: ->(v) { self.fullscreen = v },
                        view_w: @view_width, view_h: @view_height)
+      @bag_codes = bindings.respond_to?(:codes) ? Array(bindings.codes[:bag]) : []
       @renderer = Renderer.build(data, display: display, strings:, bindings: bindings,
                                  local_seat: @session ? @session.seat : 1)
       @overruns = 0
@@ -222,6 +223,12 @@ module App
     end
 
     def button_down(id)
+      # S2: the bag key toggles the bag SCREEN (UI only - the sim, the
+      # protocol and the digest never see it; both seats keep their own).
+      if @world && @bag_codes.include?(id)
+        @renderer.bag_open = !@renderer.bag_open
+        return
+      end
       return super unless id == Gosu::KB_ESCAPE
       # J-6 (brief D2), Esc semantics changed ON PURPOSE: while playing,
       # Esc falls through to the :menu binding — QUIT is a menu row. Kept

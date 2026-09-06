@@ -11,5 +11,6 @@
   "sustain": ["U", "R"],
   "aim": ["LCtrl", "RCtrl"],
   "swap": ["Tab"],
-  "menu": ["Escape"]
+  "menu": ["Escape"],
+  "bag": ["I", "B"]
 }

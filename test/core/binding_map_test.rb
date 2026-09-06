@@ -14,7 +14,7 @@ class BindingMapTest < Minitest::Test
     "A" => 1, "D" => 2, "W" => 3, "S" => 4, "J" => 5, "K" => 6, "L" => 7,
     ";" => 8, "H" => 9, "Q" => 10, "E" => 11, "F" => 12, "Space" => 13,
     "Tab" => 14, "LShift" => 15, "Up" => 16, "Down" => 17, "Left" => 18,
-    "Right" => 19, "X" => 20, "U" => 21, "R" => 22, "LCtrl" => 23,
+    "Right" => 19, "X" => 20, "U" => 21, "R" => 22, "LCtrl" => 23, "I" => 26, "B" => 27, # S2: bag key
     "RCtrl" => 24, "Escape" => 25
   }.freeze
 
@@ -37,8 +37,9 @@ class BindingMapTest < Minitest::Test
     assert_equal %w[U R], map.glyphs(:sustain), "v18 decision 10: the sustain pair"
     assert_equal %w[LCtrl RCtrl], map.glyphs(:aim), "stationary aim (owner order 2026-08-20)"
     assert_equal %w[Escape], map.glyphs(:menu), "J-6 brief D2: the menu row"
-    assert_equal 13, map.actions.length,
-                 "seven combat actions + four directions + aim + menu"
+    assert_equal 14, map.actions.length,
+                 "seven combat actions + four directions + aim + menu + bag (S2, UI-only toggle)"
+    assert_equal %w[I B], map.glyphs(:bag), "S2: the bag screen key"
   end
 
   def test_codes_resolve_through_the_injected_table_only

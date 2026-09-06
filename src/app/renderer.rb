@@ -10,6 +10,7 @@ require "app/fx"
 require "app/light"
 require "app/minimap"
 require "app/item_icons"
+require "app/bag_screen"
 require "app/tile_variants"
 require "app/writ"
 require "app/zone_identity"
@@ -147,6 +148,7 @@ module App
       @tileset = tileset
       # S1: item icon sheet (App::ItemIcons) - HUD flask chip now, bag/drops next
       @item_icons = item_icons
+      @bag_open = false
       # MUNDO VIVO FASE 2: animated ambient layers (App::Ambience::Scene);
       # nil = none. display.json `ambience: false` is honored inside it.
       @ambience = ambience
@@ -176,6 +178,9 @@ module App
       # PREMIUM v22 pass 9: the radar (App::Minimap), top-right.
       @minimap = App::Minimap.new(display: @display, kit_body: KIT_BODY)
     end
+
+    # S2: the bag screen is a UI toggle owned by the window (never a sim verb)
+    attr_accessor :bag_open
 
     def draw(world)
       cam = world.camera(@local_seat)
@@ -232,6 +237,10 @@ module App
       draw_hud(world)
       draw_boss_bar(world)
       @minimap.draw(world, @local_seat)
+      if @bag_open && world.respond_to?(:bag)
+        @bag_screen ||= App::BagScreen.new(display: @display, strings: @strings, icons: @item_icons, bindings: @bindings)
+        @bag_screen.draw(world, cam.view_w, cam.view_h)
+      end
       draw_safe_chip(world)
       # Strip BEFORE edge pips (their bottom clamp lands inside the strip
       # band — an off-screen ally's pip must stay visible ON the strip) and
