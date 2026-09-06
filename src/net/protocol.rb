@@ -17,9 +17,10 @@ module Net
     class Fault < StandardError; end
     class Oversize < Fault; end
 
-    # v4 (v22 T1): HELLO gains `player_id` — a REQUIRED field, so a v3 seat
-    # meeting a v4 seat refuses NAMED on the version field (the v3 seat
-    # reads our HELLO fine and names "protocol version: ours 3 / theirs 4").
+    # v4 (v22 T1): HELLO gains `player_id` (HELLO_IDENTITY below — carried on
+    # every v4 HELLO, judged by Session, codec-optional so a v3 seat's HELLO
+    # still decodes here and BOTH seats name "protocol version: ours 4 /
+    # theirs 3").
     VERSION = 4
 
     # Bit i of an input mask = ACTIONS[i] held. PINNED — changing this

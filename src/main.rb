@@ -154,8 +154,9 @@ session, relaunch, saver =
       # grows one character record per player who ever joined (unseated
       # records stay), so the text names the count and the hand recovery.
       n = save_facts ? save_facts["characters"].length : 0
-      abort "#{refusal}\n  save carries #{n} character record(s); every player who ever joined keeps " \
-            "one (~350 bytes each) - remove unseated records by hand (a copy first) to host again"
+      per = n.positive? ? Game::SaveState.canonical_bytes(save_facts["characters"]).bytesize / n : 0
+      abort "#{refusal}\n  save carries #{n} character record(s) of ~#{per} bytes each; every player who " \
+            "ever joined keeps one - remove unseated records by hand (a copy first) to host again"
     end
     puts "hosting on port #{opts[:port]} (Esc cancels)"
     [Net::Session.host(port: opts[:port], config:, seed: App::Cli.new_seed, player_id:,
