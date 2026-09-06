@@ -194,6 +194,7 @@ combines the best about Tibia and New World."
       Junior ratifies (his floors). Owner word pending. **Junior's picks
       LANDED `195a01f`: nest −1 · slow_door −2 (−3 is the moss) · camp east
       door REMOVED** — F1 builds these unless the owner says otherwise.
+      **Owner "confirm" s133 → CLOSED (both peers).**
 - [ ] **L12 — Art lane (presentation, owner-directed).** Baseline = the
       owner's one-line read of `captures/clips/tour_20260905_head_3e2bfb6.mp4`
       (rendered from `3e2bfb6` = Junior's HUD commit) — PENDING. References,
@@ -201,7 +202,16 @@ combines the best about Tibia and New World."
       Option 2 engine dual-grid — brief §3.7; Junior's word, never decided
       against him). **Junior's word LANDED `195a01f`: Option 2 now, Option 1
       for borders/props later.** Assets seat commissioned (§Seats).
-- [ ] **L13 — Totem COEXISTENCE word.** Pending; no work item.
+      **BASELINE LANDED s133 (verbatim §RATIFICATION (3)) + owner word "A
+      now" (3b): the sealed visual bible in `game-two-lore` is the art
+      lane's LAW (forms/palette/light/composition); fiction stays out; the
+      lane is a REVAMP — scale ticket first, authorship off the generator,
+      tile grammar, then the v22 surfaces. Charter:
+      `drafts/_v22-art-lane-charter-20260905.md`.**
+- [x] **L13 — Totem: RE-WORK (owner word s133).** "pulse every 3 seconds and
+      heal more, like 30hp and scale by level/hp pool" → ticket TS (spec),
+      data-driven in `sustain.json`, one gated SIM piece, judged at the
+      TWENTIETH. Detail §RATIFICATION s133 (5).
 - [x] **L14 — Junior's ideas MERGED (owner: "merge Junior's ideas into the
       best product you can build").** From `drafts/_junior-mundo-vivo-plan-20260905.md`
       §8 and the FASE 7 city proposal: **D6 training yard** → becomes the
@@ -237,7 +247,10 @@ combines the best about Tibia and New World."
       in content) · **v25 = RIVALS** (PvP, trade, chat — "fight against each
       other, trade, chat" ride the server, where they are sane). Large-scale
       wars stay OUT until the server world exists and is measured. Whether
-      S1–S3 ride v22's back half stays a BOTH-SEATS line.
+      S1–S3 ride v22's back half stays a BOTH-SEATS line. **CLOSED s133 by
+      owner delegation ("as you both consider best") — YES: S1 after T1
+      (data-only), S2 + S3 after the TWENTIETH's verdict as v22's tail,
+      TWENTY-FIRST delta-triggered; detail §RATIFICATION s133 (1).**
 - [x] **L18 — ONE WORLD (v23): the persistent online server world.** Owner
       word s132 (verbatim): "decouple players, they should respawn on a
       temple or select their own place of respawn across the cities and
@@ -503,10 +516,101 @@ pivot replaced the grill's Q1–Q7 mid-session — Rule 5 re-plan).
   proceed to design the next session spark-up prompt ..."** → L18 (ONE
   WORLD = v23), L19 (TEMPLES), L20 (server-ready laws), L15 re-sequenced,
   L3 sub-row CLOSED per-character/per-player, L6 A1 REJECTED, T3 CANCELLED.
-- **OPEN — owner word owed (one line each; the next session asks them at
-  its start, never nags):** (1) **A3 companion-brain flip** (`ally.enabled`)
-  = its own gated piece in T2 under the canary law — process amendment,
-  council-backed. (2) **Tour baseline (L12)** — the one-line read of
-  `captures/clips/tour_20260905_head_3e2bfb6.mp4`. (3) **L11 floor picks**
-  (nest → −1, slow_door → −2 or −3, camp east door) — also Junior's. (4)
-  **L13 totem COEXISTENCE.**
+- **RATIFIED-G s133 (owner, hub chat, verbatim, in sequence; asked one at a
+  time per his s132 request):** (0) assets seat unblock — asked "Do I record
+  'retire `ring_expand_rect` (ring → halo)' as your word so the assets seat
+  can commit and push?" → **"yes"** (2026-09-05). Effect: the assets seat
+  applies the four `sha256_lf` pin pairs its `pin_drift.py` printed, commits
+  the 44 staged art-direction files, pushes detached (its pre-push gauntlet
+  ~3.5 h); carried to it by seat mail from this session. (1) **Gabriel's half
+  of the S1–S3 line (L15)** — asked yes / no / after the TWENTIETH → **"I
+  approve Junior's and your ideas as you both consider best"** (2026-09-05).
+  Effect: the BOTH-SEATS line is CLOSED as YES by delegation — S1–S3 ride
+  v22 (Junior's half `195a01f` + the owner's approval); the SEQUENCING is
+  the devs' call and the dev of record sets it here, Junior's line may amend
+  it (peer, not worker): **S1** (catalog + strings + icons; data only, no
+  sim) may land any time after T1 — it never touches the TWENTIETH's delta;
+  **S2 + S3** (SIM-class: bag + item drops + pickup; use-item + status
+  registry + burn DOT) start only AFTER the TWENTIETH's VERDICT, as v22's
+  tail, each its own gated piece with canary rebank + `loot_loop` re-author,
+  judged by a delta-triggered TWENTY-FIRST (ritual reform 2026-08-28: SIM
+  change accumulated ⇒ ritual owed). Why this order and not "inside the
+  TWENTIETH's delta": the TWENTIETH must answer L1's one question (did ONE
+  BODY + priced death + temples + growth work) — an item loop landing in the
+  same delta confounds "growth felt" (items ARE growth) with lane D's retune,
+  and S2's canary rebank cannot run inside the measurement freeze anyway.
+  Junior's P5 (bag 20) is S2's number unless a peer overrides; P2–P4 and
+  S4–S7 stay v24 THE REWARD. (2) **A3 companion-brain flip** — asked A (gated
+  piece in T2) / B (stays OFF), with the dev recommending A → **"not sure,
+  doesn't convince me"** (2026-09-05). Effect: **OPEN, default OFF** —
+  `threat.json ally.enabled` stays false through v22 unless a later owner
+  line lands; T2 carries the flip only as an OPTIONAL sub-piece behind an
+  evidence step (two scripted clips of one encounter, brain OFF vs ON, from
+  the flywheel clip tool — dev inspection, never fun evidence) that the
+  owner watches before any decision. The dev's argument was a brief; the
+  project's law is "judge builds, not briefs" — the owner applied it. Not
+  re-asked. (3) **Tour baseline (L12)** — he watched
+  `captures/clips/tour_20260905_head_3e2bfb6.mp4` in session → verbatim:
+  **"to be honest it looks so much better tan before, a lot. But still
+  doesn't meet modern quality expectations, still looks like a dated game
+  from the first generations. How to get an style closer to our vision? I
+  know many things would need to be revamped such as the size of each asset
+  or the zoom in of the camera to make things look bigger, plus many other
+  animations, maps, assets, I just don't understand why we aren't following
+  up our lore or whatever, what are we doing wrong that should be done
+  differently?
+  C:\Users\gabri\workspace\game-two-lore\drafts\visual-storyboard"**
+  (2026-09-05). Effect: L12 baseline LANDED; the pointer names the SEALED
+  visual bible (`game-two-lore/drafts/visual-storyboard/concept/
+  biblia-visual-v10-20260828.md`, "ley vigente", sealed by the owner
+  2026-08-28 "me parece bien, adelante") — a visual direction game-two's art
+  never received (dev diagnosis + the one question it raises: §RATIFICATION
+  s133 (3b), asked in session). (3b) **Art direction crosses the wall** —
+  dev diagnosis given in session (three causes: the NO-LORE wall also kept
+  the sealed visual bible out of game-two, so the assets seat derived a
+  second bible from Junior's sprites; every sprite is drawn by a Python
+  generator whose ceiling is first-generation by construction; scale —
+  960×540 logical, 32-px tiles, 30×17 tiles on screen, a 48-px character =
+  9% of screen height vs 13–18% in the modern pixel-ARPG class). Asked A
+  (art direction crosses, fiction stays out) / B (reopen lore in the game,
+  reverses the 2026-08-16 order) → **"A now"** (2026-09-05). Effect: the
+  sealed visual bible (`biblia-visual-v10-20260828.md|.png`, md5
+  `10e0d81ebbc650a48a8c82ce72a7b370`) is the art lane's LAW for forms,
+  palette, light and composition; the assets seat's 40-colour bible becomes
+  SUBORDINATE (derived from the sealed one, never beside it); the standing
+  NO-LORE order's TEXT is intact — no fiction name or story line enters
+  code/data/docs/screens (kits stay striker/blocker/lobber; ZONE N / BOSS 1
+  stay). The art charter (lane G) is re-scoped as a REVAMP anchored to the
+  sealed bible: a SCALE ticket first (logical resolution + tile px + frame
+  size decided once from the storyboard's proportions, judged by both peers
+  on a scratch tour, presentation-only), then authorship off the generator
+  (Bedrock concept → Aseprite at native size → atlas via the assets seat's
+  pipeline), then tile grammar (texture, wall depth, baked shadow; the grid
+  order rides here), then one-body / death / temple surfaces. Runs parallel
+  to lanes A–D; never blocks the TWENTIETH; one full wall re-pin per landed
+  atlas batch. (4) **L11 floor picks** — asked confirm / override of
+  Junior's landed picks (nest −1 · slow_door −2 · camp east door removed) →
+  **"confirm"** (2026-09-05). Effect: L11 CLOSED by both peers; F1 builds
+  these numbers through the LDtk → importer path; each fixed row leaves
+  `authoring/world_graph_allowlist.json`. (5) **L13 totem** — asked keep free
+  / re-price / retire / later (dev rec: keep free through v22) → **"re-work,
+  15 seconds its too much, I would make it pulse every 3 seconds and heal
+  more, like 30hp and scale by level/hp pool"** (2026-09-05). Effect: L13 =
+  RE-WORK, an owner design word that OVERRIDES the dev rec (recorded, not
+  re-litigated). SIM-class → its own gated piece in the spec (ticket TS,
+  lane C's sustain economy): `data/balance/sustain.json` gains the cadence
+  (3 s = 180 ticks at the 60-tick second; today 900) and a heal that scales
+  with the character's hp pool (shape candidate: a percentage of max hp with
+  a floor near 30 hp at today's mid-level pool — numbers via
+  `tools/pacing_table.rb`, CANDIDATES until his word is on the row); Rule 2
+  row for the pulse cue; existing totem-vs-potions TELEMETRY re-read at the
+  TWENTIETH. Junior built the totem — his line on the numbers welcome, not
+  gating.
+- **OPEN after s133 (never nagged; a later owner line lands here verbatim):**
+  (1) **A3 companion-brain flip** — "not sure, doesn't convince me" → default
+  OFF; evidence step (two clips) precedes any re-ask, owner-initiated. All
+  other s132 OPEN items CLOSED s133: S1–S3 half (delegated, YES), tour
+  baseline (landed) + art direction crossing ("A now"), L11 ("confirm"), L13
+  ("re-work" + numbers). Still owner-pending elsewhere (CYCLE.md): FASE 7
+  city numbers (D1 2×, D8 offset) confirm · audio-v12 ear-checks · worldsmith
+  v2 grill · a third gamesmith `extract` ($).
