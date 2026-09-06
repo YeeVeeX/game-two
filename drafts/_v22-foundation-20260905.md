@@ -605,7 +605,17 @@ pivot replaced the grill's Q1–Q7 mid-session — Rule 5 re-plan).
   `tools/pacing_table.rb`, CANDIDATES until his word is on the row); Rule 2
   row for the pulse cue; existing totem-vs-potions TELEMETRY re-read at the
   TWENTIETH. Junior built the totem — his line on the numbers welcome, not
-  gating.
+  gating. (5b) **Totem refinement, same word** → **"I would also augment the
+  radio of the healing wave of the totem by 2 tiles, maybe 30hp base is too
+  much healing since it will heal more often, 15hp is good and scale with hp
+  pool of the player or as you recommend, the idea is that the totems are a
+  bit more useful are tactical during the battle"** (2026-09-05). Effect:
+  ticket TS numbers = radius 2 → 4 tiles (Chebyshev, today's measure),
+  cadence 180 ticks, heal = max(`heal_min` 15, `max_hp` × `heal_pct_max_hp`
+  / 100) Integer with `heal_pct_max_hp` ≈ 5 as the dev's recommended shape
+  (15 hp at today's ~300 mid-level pool, scales with the character); design
+  intent recorded: a POSITION you hold in a fight, not a free heal — the
+  pacing table + TWENTIETH read it against potions.
 - **OPEN after s133 (never nagged; a later owner line lands here verbatim):**
   (1) **A3 companion-brain flip** — "not sure, doesn't convince me" → default
   OFF; evidence step (two clips) precedes any re-ask, owner-initiated. All
