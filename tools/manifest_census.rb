@@ -19,6 +19,8 @@ require "json"
 require_relative "../test/support/headless_script"
 
 ROOT = File.expand_path("..", __dir__)
+md5_mode = ARGV.delete("--md5") # DARK-SHIP proof: print the md5 of the EVENT stream per script (compare across trees)
+require "digest" if md5_mode
 names = ARGV.empty? ? Dir[File.join(ROOT, "harness/scripts/*.json")].map { |f| File.basename(f, ".json") }.sort : ARGV
 fails = []
 not_judged = []
@@ -41,7 +43,12 @@ names.each do |name|
     world = Game::World.new(data, seed: raw.fetch(:seed, 0))
     Harness.apply_start(world, raw[:start])
     counts = Hash.new(0)
-    Harness::EventLog.attach(world) { |l| counts[l[/\AEVENT (\w+) frame=/, 1]] += 1 if l.start_with?("EVENT ") }
+    stream = md5_mode ? Digest::MD5.new : nil
+    Harness::EventLog.attach(world) do |l|
+      counts[l[/\AEVENT (\w+) frame=/, 1]] += 1 if l.start_with?("EVENT ")
+      stream << l << "
+" if stream
+    end
     input = Core::ScriptedInput.new(frames: Harness.expand_script(raw))
     raw.fetch(:run_until).times do
       input.update(world.frame)
@@ -49,6 +56,10 @@ names.each do |name|
     end
     red = manifest.reject { |ev, min| counts[ev.to_s] * 2 >= min }
     cells = manifest.map { |ev, min| "#{ev}=#{counts[ev.to_s] * 2}#{red.key?(ev) ? "(<#{min})" : ""}" }.join(" ")
+    if md5_mode
+      puts "#{name.ljust(22)} #{stream.hexdigest}"
+      next
+    end
     if red.empty?
       puts "#{name.ljust(22)} PASS   #{cells}"
     else
