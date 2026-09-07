@@ -21,6 +21,13 @@ class StatusTest < Minitest::Test
     ds
   end
 
+  # DARK-SHIP: cures from the bag act only while items are on (economy.json) - opt in likewise.
+  def data_items_on
+    ds = Core::DataStore.new(File.expand_path("../../data", __dir__))
+    ds["balance/economy"][:item_drops_enabled] = true
+    ds
+  end
+
   def test_registry_declares_every_status_with_a_tint_and_burn_has_dot_numbers
     st = DATA["balance/status"]
     %i[poison burn stone seized chill].each do |k|
@@ -56,6 +63,7 @@ class StatusTest < Minitest::Test
   end
 
   def test_sustain_uses_a_cure_from_the_bag_before_the_flask
+    @world = Game::World.new(data_items_on, seed: 7) # DARK-SHIP: this test opts items in
     w = world
     w.start_in("camp")
     body = w.possessed(1)
@@ -97,7 +105,6 @@ class StatusTest < Minitest::Test
     assert_equal b[:ticks], body.burn_ticks, "DOT armed from status.json"
     assert_operator body.hp, :<, hp0, "the instant field tick landed"
   end
-end
 
   def test_dark_ship_burn_off_means_the_aura_ticks_but_never_ignites
     refute DATA["balance/status"][:burn][:enabled], "status.json ships burn.enabled false (dark-ship)"
@@ -106,7 +113,7 @@ end
     hp0 = body.hp
     bearer = w.humans.find { |h| h.kit[:aura] }
     if bearer
-      body.walker.teleport(*bearer.tile) if body.respond_to?(:walker)
+      body.walker.teleport(bearer.tile[0] + 1, bearer.tile[1]) # beside the bearer, like the ON test
       90.times { w.tick(Core::ScriptedInput.new(frames: {})) }
       refute body.burning?, "OFF: the aura's instant tick may land, the DOT never ignites"
     else
@@ -114,3 +121,4 @@ end
     end
     assert_operator body.hp, :<=, hp0
   end
+end

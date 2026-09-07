@@ -55,3 +55,10 @@ world_loop             f023e3dd6d5f20e3fb5d090ef0c5bdb8
 zone8_crossing         f63ad045db7938494686fc11a9406c41
 zone_catchup           3bafdc1a27a4279b45a11a4a1d9403c1
 ```
+
+## Review (fresh eyes, drafts/_review-darkship-freshEyes-20260906.md) - MERGEABLE (dark) WITH MINORS; every finding landed
+- MAJOR: the burn-OFF test had landed OUTSIDE the class `end` (dead, 0 runs) -> moved inside; `-n` = 1 run / 3 assertions.
+- `use_cure_item` now gated on `items_enabled?` (a bag loaded from a save written ON, then flipped OFF, must not act while OFF); the cure test opts items in on a fresh store.
+- Method note: main's md5s came from a detached worktree of origin/main (the seat-lease debt Gabriel named in s138 applies here too; the reviewer reproduced 4/4 spot-checked md5s on the branch side).
+- world.rb is 1728 lines (prose-number law).
+- Residual of the stream proof, named: events outside the curated EventLog list (item_dropped, aura_burn, ...) and digest-only leaves (bag group, loot_rng_draws) are not covered by the md5; mixed-tree coop is REFUSED at HELLO by the data fingerprint (intended). Branch pins for HUD reels go STALE without the BAG chip (not a main regression).

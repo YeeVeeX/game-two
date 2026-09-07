@@ -484,7 +484,7 @@ module Game
       return false if source.dead? || source.staggered? || source.attack_state != :idle
       station = map.station_at(*source.tile)
       # S3: off the bank, a CURE from the bag for a status you carry comes first
-      return true if (station.nil? || station[:type] != "bank") && use_cure_item(source)
+      return true if items_enabled? && (station.nil? || station[:type] != "bank") && use_cure_item(source) # DARK-SHIP: a loaded bag must not act while OFF
       @stations.sustain(source, station:)
     end
 
