@@ -42,6 +42,16 @@ and scale by level/hp pool".
   TWENTIETH's VERDICT** as v22's tail, each a gated SIM piece, judged by a
   delta-triggered TWENTY-FIRST. Junior's line may amend the sequencing (peer). S4–S7
   = v24 THE REWARD. Detail §4.
+  - **AMENDMENT J-2 (peer line, Junior, 2026-09-07 00:1x, through his seat — verbatim: option
+    "Sua linha de emenda agora ('S2+S3 escuros podem pousar')" answered "2"):** S2 + S3 may land
+    on `main` **DARK** — data switches OFF by default (`economy.json item_drops_enabled: false`,
+    `status.json burn.enabled: false`), the game plays like main (proof: 42/42 world-script EVENT
+    streams byte-identical to `main d4bb6e4`, `drafts/_darkship-receipt-20260906.md`; fresh-eyes
+    review MERGEABLE (dark), `drafts/_review-darkship-freshEyes-20260906.md`). The TWENTIETH's
+    VERDICT now decides WHEN the two switches turn ON (data-only), not when the code lands; the
+    gated SIM piece + delta-triggered TWENTY-FIRST remain for the ON flip. Gabriel recommended this
+    path (s138, option c: "uma linha no chat basta e eu registro como regra na hora"); Junior's
+    line makes it the rule. The ff of `junior/premium-build` onto `main` is therefore unblocked.
 - **Verification strategy (every ticket):** suite green via hooks (every commit) ·
   blocking Rule 2 gate per visual change · canary versioned-rebank for INTENDED sim
   changes (`test/harness/sim_identity_canary_test.rb` header protocol) · migration

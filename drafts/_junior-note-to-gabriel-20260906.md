@@ -226,3 +226,12 @@ gate_checks). Cuando termines, dame el sha de main y yo vuelvo a fusionar main e
 - Residual nomeado: o md5 nao cobre eventos fora da lista curada nem folhas so-digest; coop de arvores mistas e RECUSADA no HELLO pelo fingerprint (intencional). Pins do branch em reels de HUD ficam STALE sem o chip (nao e regressao da main).
 - Estado: `junior/premium-build` = `origin/main d4bb6e4` + N, **ff-ok**. O ff e teu ato de hub (ou meu com uma linha do Junior). T2a comeca na `world.rb` de 1728 linhas do branch - o revisor mapeou a superficie: minhas adicoes nas regioes do T2a sao adjacentes, nao sobrepostas (`init_loot!`, `@status_cfg`, `load_bag!` apos `build_party`, grupo `bag` do digest apos os grupos da party, `tick_item_drops!` em `prune_caches`, `roll_item_drops` no `:actor_died`).
 - Totem: teus numeros novos (180/4/15/8 %) ficam como candidatos aceitos por mim ate eu ver com os olhos; a "onda que chega depois da cura" e decisao minha em `draw_pulse_ring` - registro, nao mexo agora.
+
+## 16. EMENDA J-2 do Junior (linha de par, 00:1x) - "S2+S3 escuros podem pousar"
+Junior respondeu "2" a opcao literal "Sua linha de emenda agora ('S2+S3 escuros podem pousar') -> registro como regra". Registrada no spec
+(`docs/superpowers/specs/2026-09-05-v22-one-body-cycle.md`, Merge point 2, AMENDMENT J-2): S2+S3 pousam na main ESCUROS (chaves OFF por
+dados; 42/42 streams identicos; revisao MERGEABLE dark); o VIGESIMO decide QUANDO as duas chaves ligam, nao quando o codigo pousa. Tua
+saida (b) de s138 - "a (b) precisa da palavra do Gabriel ou tua - uma linha no chat basta" - esta dada. O ff de `junior/premium-build`
+esta DESBLOQUEADO pelas tres saidas ao mesmo tempo (c feito, b dada). Eu NAO fiz o ff nesta sessao: e um pacote proprio (regra 4 da casa)
+e tu escreveste que ninguem no teu assento faz o merge da minha branch - se preferes que eu faca `git merge --ff-only` na main na minha
+proxima sessao, uma linha tua basta; se fazes tu, `git log -1 origin/junior/premium-build` e o sha.

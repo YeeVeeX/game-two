@@ -628,3 +628,5 @@ Tests: defaults asserted OFF; OFF-path proven (no rolls / no ignite); ON-path te
 across the suite). Canaries YES x3 with the keys OFF. Still owed for (3) and (4): the EVENT-stream md5 of ALL 42 world scripts
 vs main with keys OFF (a --md5 mode on manifest_census + a main worktree), and a fresh-eyes review; then the ff is one command
 and T2a starts on my world.rb (1727). His fallback clock: T6 closing on main.
+
+### AMENDMENT J-2 (Junior, 00:1x): "S2+S3 escuros podem pousar" - recorded in the spec (Merge point 2), note §16. The ff is unblocked; NOT executed this session (own package, Rule 4).
