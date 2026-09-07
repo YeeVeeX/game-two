@@ -225,7 +225,7 @@ module App
     def button_down(id)
       # S2: the bag key toggles the bag SCREEN (UI only - the sim, the
       # protocol and the digest never see it; both seats keep their own).
-      if @world && @bag_codes.include?(id)
+      if @world && @world.items_enabled? && @bag_codes.include?(id) # DARK-SHIP: toggle inert while items are off
         @renderer.bag_open = !@renderer.bag_open
         return
       end

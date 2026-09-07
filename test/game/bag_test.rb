@@ -13,6 +13,26 @@ class BagTest < Minitest::Test
 
   def bag(slots: 3) = Game::Bag.new(catalog: CATALOG, slots:)
 
+  # DARK-SHIP: item drops are OFF by default (economy.json). Tests that exercise the
+  # drop/pickup path opt in on a FRESH store, so the flag never leaks into other tests.
+  def data_items_on
+    ds = Core::DataStore.new(File.expand_path("../../data", __dir__))
+    ds["balance/economy"][:item_drops_enabled] = true
+    ds
+  end
+
+  def test_dark_ship_defaults_off_and_off_means_no_item_drops_no_chip_no_toggle
+    refute DATA["balance/economy"][:item_drops_enabled], "economy.json ships item_drops_enabled false (dark-ship)"
+    refute DATA["balance/status"][:burn][:enabled], "status.json ships burn.enabled false (dark-ship)"
+    w = Game::World.new(DATA, seed: 7)
+    refute w.items_enabled?
+    victim = w.humans.first
+    w.roll_item_drops(victim)
+    assert_equal 0, (w.respond_to?(:item_drops) ? w.item_drops.length : 0), "OFF: no item drop rolls, whoever dies"
+    assert w.bag.empty? && w.bag.to_save == [], "OFF: the bag exists (digest group + record key), stays empty"
+    assert Game::World.new(data_items_on, seed: 7).items_enabled?, "a fresh store with the flag on opts in"
+  end
+
   def test_stacks_fill_then_open_slots_and_report_overflow
     b = bag(slots: 2)
     assert_equal 0, b.add!(:flask_sap, 7)          # stack 10: one slot, 7/10
@@ -62,7 +82,7 @@ class BagTest < Minitest::Test
   end
 
   def test_world_rolls_items_on_a_hostile_death_and_interact_picks_them_up
-    w = Game::World.new(DATA, seed: 7)
+    w = Game::World.new(data_items_on, seed: 7)
     w.start_in("district")
     assert_equal 0, w.bag.used
     h = w.humans.reject(&:dead?).first
@@ -85,7 +105,7 @@ class BagTest < Minitest::Test
   end
 
   def test_a_full_bag_on_the_bank_tile_still_banks_but_never_loots_or_crosses
-    w = Game::World.new(DATA, seed: 7)
+    w = Game::World.new(data_items_on, seed: 7)
     w.start_in("nest")
     me = w.possessed(1)
     bank = w.map.stations.find { |s| s[:type] == "bank" }
@@ -105,7 +125,7 @@ class BagTest < Minitest::Test
     assert_equal 1, banked.length, "the press REACHED the bank (proved by its event)"
     assert_equal before + 7, w.pack.banked, "and banked the carried value"
     # off a station, a refused pickup does NOT fall through to a corpse load or a rope
-    w2 = Game::World.new(DATA, seed: 7)
+    w2 = Game::World.new(data_items_on, seed: 7)
     w2.start_in("nest")
     me2 = w2.possessed(1)
     w2.bag.slots.times { w2.bag.add!(:blade_iron) }

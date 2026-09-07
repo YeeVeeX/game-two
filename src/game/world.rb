@@ -1000,7 +1000,8 @@ module Game
           next if [(fx - bx).abs, (fy - by).abs].max > aura[:radius_tiles]
           next unless foe.burn!(leveled_damage(bearer, aura), by: bearer) # S3: + ignites the burn DOT
           b = @status_cfg[:burn]
-          foe.ignite!(ticks: b[:ticks], dmg_per: b[:dmg_per], interval_frames: b[:interval_frames], by: bearer) if b
+          # DARK-SHIP: status.json burn.enabled false = no DOT (the instant aura tick above stays = main's behaviour)
+          foe.ignite!(ticks: b[:ticks], dmg_per: b[:dmg_per], interval_frames: b[:interval_frames], by: bearer) if b && b.fetch(:enabled)
           @bus.emit(:aura_burn, attacker: bearer, victim: foe)
         end
       end

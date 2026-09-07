@@ -13,6 +13,14 @@ class StatusTest < Minitest::Test
   def idle = @idle ||= Core::ScriptedInput.new(frames: {})
   def world = @world ||= Game::World.new(DATA, seed: 7)
 
+  # DARK-SHIP: burn.enabled is false by default (status.json). Aura -> DOT tests opt in
+  # on a FRESH store (no leak across the suite).
+  def data_burn_on
+    ds = Core::DataStore.new(File.expand_path("../../data", __dir__))
+    ds["balance/status"][:burn][:enabled] = true
+    ds
+  end
+
   def test_registry_declares_every_status_with_a_tint_and_burn_has_dot_numbers
     st = DATA["balance/status"]
     %i[poison burn stone seized chill].each do |k|
@@ -74,6 +82,7 @@ class StatusTest < Minitest::Test
   end
 
   def test_the_aura_ignites_the_body_it_burns
+    @world = Game::World.new(data_burn_on, seed: 7) # DARK-SHIP: this test opts the DOT in
     w = world
     w.start_in("ember_1")
     bearer = w.humans.find { |h| h.kit[:aura] } or skip "no aura bearer in ember_1"
@@ -89,3 +98,19 @@ class StatusTest < Minitest::Test
     assert_operator body.hp, :<, hp0, "the instant field tick landed"
   end
 end
+
+  def test_dark_ship_burn_off_means_the_aura_ticks_but_never_ignites
+    refute DATA["balance/status"][:burn][:enabled], "status.json ships burn.enabled false (dark-ship)"
+    w = Game::World.new(DATA, seed: 7)
+    body = w.pack.members.first
+    hp0 = body.hp
+    bearer = w.humans.find { |h| h.kit[:aura] }
+    if bearer
+      body.walker.teleport(*bearer.tile) if body.respond_to?(:walker)
+      90.times { w.tick(Core::ScriptedInput.new(frames: {})) }
+      refute body.burning?, "OFF: the aura's instant tick may land, the DOT never ignites"
+    else
+      refute body.burning?, "no aura bearer in this zone: trivially no DOT"
+    end
+    assert_operator body.hp, :<=, hp0
+  end

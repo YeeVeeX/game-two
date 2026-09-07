@@ -1,9 +1,13 @@
 {
-  "_doc": "S3 status registry - SIM numbers only (presentation tints/icons live in display.json). burn = a DOT (ticks x dmg_per every interval_frames) that the aura IGNITES in ADDITION to its instant field tick (standing in the fire hurts now AND later - a balance choice named for the owner at the numbers tickets).",
+  "_doc": [
+    "S3 status registry - SIM numbers only (presentation tints/icons live in display.json). burn = a DOT (ticks x dmg_per every interval_frames) that the aura IGNITES in ADDITION to its instant field tick (standing in the fire hurts now AND later - a balance choice named for the owner at the numbers tickets).",
+    "DARK-SHIP 2026-09-06 (Gabriel s138, option c): `burn.enabled` false = the aura's burn DOT is OFF and the game plays like main; the TWENTIETH turns it on. Data only - no code default. `chill.step_frames_pct` (a Float with no reader) removed: the schema-3 canonical-leaf law refuses Floats."
+  ],
   "poison": {
     "dot": true
   },
   "burn": {
+    "enabled": false,
     "dot": true,
     "ticks": 6,
     "dmg_per": 3,
@@ -16,7 +20,6 @@
     "dot": false
   },
   "chill": {
-    "dot": false,
-    "step_frames_pct": 0.3
+    "dot": false
   }
 }

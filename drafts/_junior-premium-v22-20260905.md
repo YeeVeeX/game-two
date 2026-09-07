@@ -616,3 +616,15 @@ wine stays the bleed; then re-gate corpse_run + district_hunt + sustain_run (+ w
 ### Wall #5 (21:14) harvest items: lobber_volley gradient_depth_reads = NOT EXERCISED by this reel (probe: pack stays on the west trail x~11-13, nearest hostile >= 15 tiles in the deep captures) -> scope/not-exercised clause, not a bug. specials_chain volley_telegraph_distinct = volley orange brackets vs hostile red/yellow telegraph "too close" -> zoom at harvest (shape brackets vs solid square; maybe cooler orange). specials_chain whirlwind_reads = MY row overstated: the dash SLIDES 3 tiles at 6 f/tile (18 f), a capture 4 f into active shows the body on the first tile -> reword "body slides along the line over frames_per_tile per tile; a mid-slide capture shows it part-way".
 
 ### WALL #5 CLOSED (22:xx) -> drafts/_wall-premium-build5-20260906.log: 44 scripts @ a9d8dd1, 4 gate fails / 5 rows / 0 manifest fails, all causes measured live; harvest fix = bright red pulse rim + 2 row clauses (8ef5567); re-gate 6 @ 8ef5567 = 6/6 PASS. Bank law read on the verdict lines.
+
+### DARK-SHIP (Gabriel s138, option c - his recommendation "pela tua mao na tua branch") - part 1, 23:2x
+The deadlock he named: my branch waits for the TWENTIETH, the TWENTIETH waits for T2a..T8, T2a waits for my branch (Game::Interact
+already moved the lines T2a would cut). His conditions, taken as the ticket: (1) no Float leaf -> `chill.step_frames_pct 0.3`
+had NO reader (dead data) -> removed; items.json (4 item mods) + drops.json (33 probabilities) floats are NOT record leaves (only
+id+qty enter the save) -> named as a v24 permille ticket if S4 reads mods. (2) switches, data-only, OFF by default:
+`economy.json item_drops_enabled: false` (no item-drop rolls, no BAG chip, bag toggle inert; the Bag object + its digest group +
+the record key `bag []` stay) and `status.json burn.enabled: false` (no DOT; the instant aura tick = main's behaviour stays).
+Tests: defaults asserted OFF; OFF-path proven (no rolls / no ignite); ON-path tests opt in on a FRESH DataStore (no flag leak
+across the suite). Canaries YES x3 with the keys OFF. Still owed for (3) and (4): the EVENT-stream md5 of ALL 42 world scripts
+vs main with keys OFF (a --md5 mode on manifest_census + a main worktree), and a fresh-eyes review; then the ff is one command
+and T2a starts on my world.rb (1727). His fallback clock: T6 closing on main.

@@ -17,6 +17,11 @@ module Game
     # (T1 `bag` key, canonical [{id, qty}]) - churn law inside from_save
     # (unknown id / overflow -> dropped with a `save:` line). An empty record
     # keeps the fresh bag (fresh worlds and the canaries are untouched).
+    # DARK-SHIP switch (Gabriel s138, option c): item drops, the BAG chip and the bag
+    # screen exist only when economy.json `item_drops_enabled` is true. The bag object
+    # itself always exists (its digest group is unconditional; the record key too).
+    def items_enabled? = @economy.fetch(:item_drops_enabled)
+
     def load_bag!(record)
       return if record.nil? || record.empty?
       @bag = Game::Bag.from_save(record, catalog: @catalog, slots: @economy.fetch(:bag_slots))
@@ -31,6 +36,7 @@ module Game
 
     # Hostiles only; the field owns the records (per zone, digested).
     def roll_item_drops(actor)
+      return unless items_enabled? # DARK-SHIP: economy.json item_drops_enabled (false = plays like main)
       return unless actor.faction == :human
       @field.spawn_item_drops(actor, zone: @zone_name, table: @drop_tables[actor.kit_name],
                               rng: @loot_rng, decay: @economy.fetch(:item_drop_frames))
