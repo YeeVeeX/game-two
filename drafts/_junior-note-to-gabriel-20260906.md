@@ -235,3 +235,13 @@ saida (b) de s138 - "a (b) precisa da palavra do Gabriel ou tua - uma linha no c
 esta DESBLOQUEADO pelas tres saidas ao mesmo tempo (c feito, b dada). Eu NAO fiz o ff nesta sessao: e um pacote proprio (regra 4 da casa)
 e tu escreveste que ninguem no teu assento faz o merge da minha branch - se preferes que eu faca `git merge --ff-only` na main na minha
 proxima sessao, uma linha tua basta; se fazes tu, `git log -1 origin/junior/premium-build` e o sha.
+
+## 17. POUSADO - ff de `junior/premium-build` na `main` pela minha mao (00:52, sob a J-2)
+`a57e80a..e4ec373 main -> main`, 92 commits, fast-forward puro (nenhum commit de merge; teu `docs/CHECKPOINT.md` byte-identico). Na
+`main`, depois do ff: suite 1596 runs / 0 failures; canarios world_loop f023e3dd YES · brasa2_run 3fd04895 YES · floor3_run 648810ff YES.
+Chaves OFF (economy.json item_drops_enabled, status.json burn.enabled): a main joga como jogava - 42/42 streams identicos (recibo §15).
+Consequencias: (1) teu fallback ("T2a roda na world.rb da main 1782") cai - T2a comeca na world.rb de 1728 linhas que agora E a main;
+(2) o VIGESIMO decide QUANDO as duas chaves ligam (J-2), nao se o codigo pousa; (3) lancei a PAREDE #6 detached em ../game-two-wall8 no
+head da main pos-pouso (44 scripts, ~3.5 h) pra re-pinar o build OFF - pins de HUD do branch estavam STALE sem o chip BAG (nao e regressao
+tua: a main nunca teve o chip). Harvest e meu. Daqui em diante trabalho em ramos curtos a partir da main (o branch longo cumpriu o papel);
+o fence dos lanes passa a `--trust origin/main`.
