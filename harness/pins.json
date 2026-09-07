@@ -1006,5 +1006,53 @@
     "date": "2026-09-06T21:31:21Z",
     "gate_rc": 0,
     "manifest_rc": 0
+  },
+  {
+    "script": "corpse_run",
+    "tag": "build5re",
+    "commit": "8ef5567",
+    "date": "2026-09-07T01:31:29Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "district_hunt",
+    "tag": "build5re",
+    "commit": "8ef5567",
+    "date": "2026-09-07T01:36:08Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "sustain_run",
+    "tag": "build5re",
+    "commit": "8ef5567",
+    "date": "2026-09-07T01:49:40Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "world_loop",
+    "tag": "build5re",
+    "commit": "8ef5567",
+    "date": "2026-09-07T01:57:21Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "lobber_volley",
+    "tag": "build5re",
+    "commit": "8ef5567",
+    "date": "2026-09-07T02:02:43Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
+  },
+  {
+    "script": "specials_chain",
+    "tag": "build5re",
+    "commit": "8ef5567",
+    "date": "2026-09-07T02:05:50Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
   }
 ]

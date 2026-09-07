@@ -1,0 +1,122 @@
+# BUILD phase wall #5 - worktree game-two-wall7 @ a9d8dd1 (= origin/main f609c31 + 80: T1 merged, S1 landed, Interact/Signage extracted, every wall-#4 presentation fix), 2026-09-06 19:18 - 22:20 (44 scripts)
+# Sweep: 4 gate fails / 5 rows, 0 manifest fails. Causes measured live (sim probe + wall-capture pixel): corpse_run + district_hunt low_hp_pulse_reads = wine bleed present (alpha 143 / ~100, edges R~2x G,B) but reads DARK not RED on dark floors -> 2px bright red rim; lobber_volley gradient_depth_reads = reel never leaves the mouth trail -> not-exercised clause; specials_chain whirlwind_reads = my row overstated the landing (dash slides 18 f) -> reword; specials_chain volley_telegraph_distinct = brackets vs hostile telegraph 'too close' -> row unchanged, re-gated.
+# Re-gate @ 8ef5567 (6: the 4 fails + sustain_run + world_loop as pulse controls): 6/6 PASS.
+
+## sweep (filtered)
+=== WALL SWEEP tag=build5 head=a9d8dd1 19:18:54 ===
+=== WALL aim_hold 19:18:54 ===
+=== aim_hold gate_rc=0 manifest_rc=0 ===
+=== WALL aoe_specials 19:21:02 ===
+=== aoe_specials gate_rc=0 manifest_rc=0 ===
+=== WALL basement_pocket 19:23:57 ===
+=== basement_pocket gate_rc=0 manifest_rc=0 ===
+=== WALL blink_arrival 19:26:10 ===
+=== blink_arrival gate_rc=0 manifest_rc=0 ===
+=== WALL boss1_writ 19:28:54 ===
+=== boss1_writ gate_rc=0 manifest_rc=0 ===
+=== WALL boss2_phases 19:31:15 ===
+=== boss2_phases gate_rc=0 manifest_rc=0 ===
+=== WALL boss4_phases 19:33:08 ===
+=== boss4_phases gate_rc=0 manifest_rc=0 ===
+=== WALL brasa1_run 19:36:20 ===
+=== brasa1_run gate_rc=0 manifest_rc=0 ===
+=== WALL brasa2_run 19:39:29 ===
+=== brasa2_run gate_rc=0 manifest_rc=0 ===
+=== WALL brasa3_run 19:50:01 ===
+=== brasa3_run gate_rc=0 manifest_rc=0 ===
+=== WALL corpse_run 19:53:37 ===
+  [FAIL] low_hp_pulse_reads: frame_3062 shows the lobber at 2/74 yet no red edge vignette is visible.
+=== corpse_run gate_rc=1 manifest_rc=0 ===
+=== WALL critic_reel 19:59:38 ===
+=== critic_reel gate_rc=0 manifest_rc=0 ===
+=== WALL dash_strike_rip 20:02:08 ===
+=== dash_strike_rip gate_rc=0 manifest_rc=0 ===
+=== WALL district_hunt 20:05:30 ===
+  [FAIL] low_hp_pulse_reads: At 54/198 in frame_2400 and frame_3219 no red edge vignette is clearly visible.
+=== district_hunt gate_rc=1 manifest_rc=0 ===
+=== WALL floor1_run 20:10:27 ===
+=== floor1_run gate_rc=0 manifest_rc=0 ===
+=== WALL floor2_run 20:13:10 ===
+=== floor2_run gate_rc=0 manifest_rc=0 ===
+=== WALL floor3_run 20:23:35 ===
+=== floor3_run gate_rc=0 manifest_rc=0 ===
+=== WALL grass_fixture_walk 20:32:48 ===
+=== grass_fixture_walk gate_rc=0 manifest_rc=0 ===
+=== WALL ledger_loop 20:34:30 ===
+=== ledger_loop gate_rc=0 manifest_rc=0 ===
+=== WALL level_gate 20:40:01 ===
+=== level_gate gate_rc=0 manifest_rc=0 ===
+=== WALL level_up_beat 20:42:25 ===
+=== level_up_beat gate_rc=0 manifest_rc=0 ===
+=== WALL lobber_reach 20:45:14 ===
+=== lobber_reach gate_rc=0 manifest_rc=0 ===
+=== WALL lobber_volley 20:49:19 ===
+  [FAIL] gradient_depth_reads: Arrival frame has a human up the corridor while the deep bridge frame shows zero hostiles; no arena groups read.
+=== lobber_volley gate_rc=1 manifest_rc=0 ===
+=== WALL menu_tour 20:54:37 ===
+=== menu_tour gate_rc=0 manifest_rc=0 ===
+=== WALL mercy_floor 20:57:00 ===
+=== mercy_floor gate_rc=0 manifest_rc=0 ===
+=== WALL moving_square 20:59:05 ===
+=== moving_square gate_rc=0 manifest_rc=0 ===
+=== WALL multi_floor_descent 20:59:54 ===
+=== multi_floor_descent gate_rc=0 manifest_rc=0 ===
+=== WALL respawn_telegraph 21:04:09 ===
+=== respawn_telegraph gate_rc=0 manifest_rc=0 ===
+=== WALL safe_boundary 21:07:29 ===
+=== safe_boundary gate_rc=0 manifest_rc=0 ===
+=== WALL specials_chain 21:10:10 ===
+  [FAIL] volley_telegraph_distinct: Amber orange-rimmed brackets at 0585 look like the human yellow-core orange-rim square at 0547; too close.
+  [FAIL] whirlwind_reads: Line of three shows at 0652 but at 0656 the striker sits on the first tile, far-end landing never shown.
+=== specials_chain gate_rc=1 manifest_rc=0 ===
+=== WALL sustain_run 21:14:22 ===
+=== sustain_run gate_rc=0 manifest_rc=0 ===
+=== WALL taunt_anchor 21:28:43 ===
+=== taunt_anchor gate_rc=0 manifest_rc=0 ===
+=== WALL threat_pull 21:32:09 ===
+=== threat_pull gate_rc=0 manifest_rc=0 ===
+=== WALL toll_pocket 21:37:17 ===
+=== toll_pocket gate_rc=0 manifest_rc=0 ===
+=== WALL totem_pulse 21:39:49 ===
+=== totem_pulse gate_rc=0 manifest_rc=0 ===
+=== WALL tower2_run 21:44:10 ===
+=== tower2_run gate_rc=0 manifest_rc=0 ===
+=== WALL tower3_run 21:47:08 ===
+=== tower3_run gate_rc=0 manifest_rc=0 ===
+=== WALL tower4_run 21:50:55 ===
+=== tower4_run gate_rc=0 manifest_rc=0 ===
+=== WALL town_gates 22:00:22 ===
+=== town_gates gate_rc=0 manifest_rc=0 ===
+=== WALL vat_economy 22:03:08 ===
+=== vat_economy gate_rc=0 manifest_rc=0 ===
+=== WALL wall_fixture_walk 22:07:58 ===
+=== wall_fixture_walk gate_rc=0 manifest_rc=0 ===
+=== WALL world_loop 22:09:43 ===
+=== world_loop gate_rc=0 manifest_rc=0 ===
+=== WALL zone8_crossing 22:12:43 ===
+=== zone8_crossing gate_rc=0 manifest_rc=0 ===
+=== WALL zone_catchup 22:17:16 ===
+=== zone_catchup gate_rc=0 manifest_rc=0 ===
+WALL SWEEP DONE 22:19:53 — 44 scripts, fails: corpse_run district_hunt lobber_volley specials_chain
+WALL FAIL: corpse_run district_hunt lobber_volley specials_chain
+
+## re-gate @ 8ef5567
+=== REGATE corpse_run 22:24:57 ===
+PIN recorded: corpse_run tag=build5re commit=8ef5567 gate_rc=0 manifest_rc=0
+=== corpse_run         gate_rc=0 manifest_rc=0 captures_vs_ref=- ===
+=== REGATE district_hunt 22:31:30 ===
+PIN recorded: district_hunt tag=build5re commit=8ef5567 gate_rc=0 manifest_rc=0
+=== district_hunt      gate_rc=0 manifest_rc=0 captures_vs_ref=- ===
+=== REGATE sustain_run 22:36:08 ===
+PIN recorded: sustain_run tag=build5re commit=8ef5567 gate_rc=0 manifest_rc=0
+=== sustain_run        gate_rc=0 manifest_rc=0 captures_vs_ref=- ===
+=== REGATE world_loop 22:49:40 ===
+PIN recorded: world_loop tag=build5re commit=8ef5567 gate_rc=0 manifest_rc=0
+=== world_loop         gate_rc=0 manifest_rc=0 captures_vs_ref=- ===
+=== REGATE lobber_volley 22:57:21 ===
+PIN recorded: lobber_volley tag=build5re commit=8ef5567 gate_rc=0 manifest_rc=0
+=== lobber_volley      gate_rc=0 manifest_rc=0 captures_vs_ref=- ===
+=== REGATE specials_chain 23:02:43 ===
+PIN recorded: specials_chain tag=build5re commit=8ef5567 gate_rc=0 manifest_rc=0
+=== specials_chain     gate_rc=0 manifest_rc=0 captures_vs_ref=- ===
+GATE BATCH build5re DONE 23:05:50 (40 min)
