@@ -165,9 +165,12 @@ note goes to Junior's fx · **breach-beat coverage hole:** no wall script stages
 `seal_breached` (toll_pocket's SEALED half is affirmative; a basement_2 breach
 stager is owed; drop-under-corpse = an owner sim question, Junior's `_doc`) ·
 negative-control gate for the recalibrated fx/volley rows (`fx_enabled:false`,
-never pinned) · **totem_pulse motion critique** (review s138: heartbeat-vs-flicker is a MOTION
-claim — one `harness/make_clip.sh harness/scripts/totem_pulse.json` + `self_eval.py` pass,
-OWED before the TWENTIETH; arithmetic says 22 % duty at 0.33 Hz) · **T2c's re-pin lands
+never pinned) · **totem_pulse motion critique DONE s138** (`drafts/_self-eval/clip_totem_pulse_20260906-195942_critique.md`:
+"Heartbeat vs flicker: HEARTBEAT — passes", t-cited; its two other findings verified per the
+sampling-artifact law — numeral-before-ring is the wave's first 6 frames inside the fixture
+tile (Junior's LOOK, routed as candidates: ring born at a visible radius / numeral on ring
+contact / idle glow between beats), "heal at full hp" a false positive (HUD bar of the
+possessed, heals landed on wounded companions) — TS record §10) · **T2c's re-pin lands
 BEFORE the TWENTIETH** (the 38 STALE district reels now carry a sim-visible totem change —
 5× pulses, radius 4, possible heals — nobody has judged) · **seat-lease vs fresh-eyes
 reviewers** (pi-setup follow-up: a worktree reviewer cannot run tests while the LIVE seat is
