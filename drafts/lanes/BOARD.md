@@ -4,7 +4,7 @@
 SIM TOKEN: Gabriel (T1 schema 3 / player record) - next: s4-equipment (v24)
 SIM LANE: NONE
 (a3-stalemate teve a concessao de 10:45 a 11:24 em 2026-09-06, so `controllers.rb`, so no branch `lane/a3-stalemate`;
-entregou e devolveu. Ref confiavel da cerca enquanto os briefs nao estao em `main` = `junior/premium-build`.)
+entregou e devolveu. Ref confiavel da cerca = `origin/main` (briefs pousados na main em 2026-09-07, ff 72a3ae6).)
 INTEGRADOR: dev seat (Junior's session)
 
 Duas linhas: `SIM TOKEN: <quem, humano> ...` = atribuicao (prosa); `SIM LANE: <lane|NONE>` = a linha que a

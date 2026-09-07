@@ -336,8 +336,10 @@ branch próprios) que constroem em paralelo sem colidir. Provado hoje em 3 raias
 
 **A cerca** (`tools/lane_guard.rb`, v3; testes em `test/tools/lane_guard_test.rb`):
 - Lê o brief `drafts/lanes/<raia>.md` e o `drafts/lanes/BOARD.md` de um **ref
-  confiável** (`--trust <ref>`; enquanto os briefs não estão em `main`, use
-  `--trust junior/premium-build`) — a raia não consegue alargar o próprio `owns`.
+  confiável** (`--trust <ref>`, default `main`; desde o pouso de 2026-09-07 os briefs
+  estão na `main` — use `--trust origin/main` depois de `git fetch`; o branch longo
+  `junior/premium-build` cumpriu o papel e daqui em diante o trabalho sai em ramos
+  curtos a partir da `main`) — a raia não consegue alargar o próprio `owns`.
 - `owns` = o que a raia pode commitar; `never` = o que ela nem toca; tudo em
   `drafts/lanes/` (menos `receipts/`) é POLICY = só do integrador; renames fecham
   pelos dois lados; branch tem de ser `lane/<raia>`; `src/game/**` exige a linha
