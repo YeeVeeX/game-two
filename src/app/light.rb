@@ -127,6 +127,18 @@ module App
         a = (@display.fetch(:low_hp_alpha) * (af + (1.0 - af) * depth) * (bf + (1.0 - bf) * breath)).round
         draw_vignette(view_w, view_h, a, rgb: @display.fetch(:low_hp_rgb),
                       bw_pct: @display.fetch(:low_hp_band_w_pct), bh_pct: @display.fetch(:low_hp_band_h_pct))
+        # Wall #5 (corpse_run + district_hunt low_hp_pulse_reads): on DARK floors the wine
+        # bleed reads as "darker edges", not "red edges" (pixel-measured: edges (53,24,26),
+        # R ~2x G,B, still judged "no red"). A thin BRIGHT saturated red RIM at the very
+        # edge says RED on any floor; alpha rides the pulse. Display rows.
+        rp = @display.fetch(:low_hp_rim_px)
+        if rp.positive?
+          rim = Gosu::Color.new([a, 255].min, *@display.fetch(:low_hp_rim_rgb))
+          Gosu.draw_rect(0, 0, view_w, rp, rim, 17)
+          Gosu.draw_rect(0, view_h - rp, view_w, rp, rim, 17)
+          Gosu.draw_rect(0, 0, rp, view_h, rim, 17)
+          Gosu.draw_rect(view_w - rp, 0, rp, view_h, rim, 17)
+        end
       end
       safe = map.respond_to?(:safe?) ? map.safe? : false
       hub = map.respond_to?(:hub?) ? map.hub? : false

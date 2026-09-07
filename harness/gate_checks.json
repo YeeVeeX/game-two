@@ -151,7 +151,7 @@
     },
     {
       "id": "gradient_depth_reads",
-      "check": "ZONE 2's threat grows AWAY from the descent mouth (the south-west landing pocket): frames taken deep in the floor (across bridges, the east half, or the far north) show more hostile presence than frames at the mouth landing, which reads as a calm arrival pocket (no hostiles adjacent on arrival). Hostiles cluster in ARENA GROUPS (camp/grove pockets) with watchers along the trails - grouped occupation, not an even smear. If the script does not include both mouth-landing and deep-floor frames for comparison, pass with why='not exercised by this script'."
+      "check": "ZONE 2's threat grows AWAY from the descent mouth (the south-west landing pocket): frames taken deep in the floor (across bridges, the east half, or the far north) show more hostile presence than frames at the mouth landing, which reads as a calm arrival pocket (no hostiles adjacent on arrival). Hostiles cluster in ARENA GROUPS (camp/grove pockets) with watchers along the trails - grouped occupation, not an even smear (a reel that never leaves the mouth trail - no capture across a bridge, in the east half or the far north - does not exercise this row: pass with why='not exercised by this script'). If the script does not include both mouth-landing and deep-floor frames for comparison, pass with why='not exercised by this script'."
     },
     {
       "id": "god_mark_reads",
@@ -195,7 +195,7 @@
     },
     {
       "id": "whirlwind_reads",
-      "check": "The striker's special is a linear DASH, not a whirlwind (the row id is legacy; kit: arc dash, max_tiles 3, windup 6, active 1). When striker special frames are present: in the WINDUP frame a pale telegraph line of up to three tiles runs from the striker in its facing direction (shorter where a wall or a body stops it - a short line is correct); in the ACTIVE/RECOVERY frames the striker's body has MOVED to the far end of that line, and any body that stood on the line reacts in the same frame (hurt flash, numeral) OR is visibly gone across the reel (alive before, corpse/absent after = the dash landed). The read is LINE + DISPLACEMENT; never expect a ring around the striker. If no striker special is exercised in this script, pass with why='not exercised by this script'."
+      "check": "The striker's special is a linear DASH, not a whirlwind (the row id is legacy; kit: arc dash, max_tiles 3, windup 6, active 1). When striker special frames are present: in the WINDUP frame a pale telegraph line of up to three tiles runs from the striker in its facing direction (shorter where a wall or a body stops it - a short line is correct); in the ACTIVE/RECOVERY frames the striker's body SLIDES along that line (frames_per_tile 6 per tile, so ~18 frames for three; a capture mid-slide shows it part-way along the line - that is correct, not a missing landing), and any body that stood on the line reacts in the same frame (hurt flash, numeral) OR is visibly gone across the reel (alive before, corpse/absent after = the dash landed). The read is LINE + DISPLACEMENT; never expect a ring around the striker. If no striker special is exercised in this script, pass with why='not exercised by this script'."
     },
     {
       "id": "challenge_reads",
