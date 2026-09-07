@@ -502,5 +502,13 @@
     "date": "2026-09-07T01:00:14Z",
     "gate_rc": 0,
     "manifest_rc": 0
+  },
+  {
+    "script": "totem_pulse",
+    "tag": "v22-ts-r2",
+    "commit": "a5b2b79",
+    "date": "2026-09-07T01:50:22Z",
+    "gate_rc": 0,
+    "manifest_rc": 0
   }
 ]

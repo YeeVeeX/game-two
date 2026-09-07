@@ -304631,3 +304631,495 @@ Perf p95 0.260ms (budget 16.6). Suite 524/2322 green.
   ],
   "verdict": "PASS"
 }
+
+=== 20260906-195021 captures\totem_pulse_gate_a ===
+{
+  "checks": [
+    {
+      "id": "actors_distinct",
+      "pass": true,
+      "why": "Bone-pale humans and warm orange pack bodies read apart from each other and the dark floor in shared frames."
+    },
+    {
+      "id": "kits_distinct",
+      "pass": true,
+      "why": "Frame 0220 shows ember orange and deep rust bodies reading as clearly different kits."
+    },
+    {
+      "id": "possessed_readable",
+      "pass": true,
+      "why": "Exactly one body carries the gold ground halo and overhead chevron; others carry neither."
+    },
+    {
+      "id": "possession_ring_moves",
+      "pass": true,
+      "why": "Halo appears to stay on one vessel; no clear swap across two creatures - not exercised by this script."
+    },
+    {
+      "id": "facing_readable",
+      "pass": true,
+      "why": "Sprites show back-of-head versus face and weapon side; bodies never read as directionless blobs."
+    },
+    {
+      "id": "projectile_visible",
+      "pass": true,
+      "why": "No shot in flight captured; not exercised by this script."
+    },
+    {
+      "id": "telegraph_reads",
+      "pass": true,
+      "why": "No clear red-edge yellow-core telegraph frame present; not exercised by this script."
+    },
+    {
+      "id": "hurt_flash_not_white",
+      "pass": true,
+      "why": "No pack body caught mid damage flash; not exercised."
+    },
+    {
+      "id": "corpses_persist",
+      "pass": true,
+      "why": "Frames 1920 and 2174 show a pale remnant fringe beside the magenta drop on the death tile."
+    },
+    {
+      "id": "hud_three_bars",
+      "pass": true,
+      "why": "Dark panel with three portrait rows, gold-framed possessed bar carrying 198/198 numeral, fills track the fight."
+    },
+    {
+      "id": "zones_distinct",
+      "pass": true,
+      "why": "Only ZONE 2 district frames appear, no nest frames; not exercised by this script."
+    },
+    {
+      "id": "floor1_two_halves_read",
+      "pass": true,
+      "why": "East half carries the dense green moss belt while the west reads sparser warm dark ground."
+    },
+    {
+      "id": "floor1_chasm_reads",
+      "pass": true,
+      "why": "Navy flood band with shore rim and ripple streaks reads deep; no body ever stands in it."
+    },
+    {
+      "id": "floor1_bridge_reads",
+      "pass": true,
+      "why": "Warm tan plank band spans the void edge to edge with water on both sides of mid-bridge bodies."
+    },
+    {
+      "id": "no_render_garbage",
+      "pass": true,
+      "why": "No tearing, missing map, or entities outside walls in any frame."
+    },
+    {
+      "id": "wipe_reads",
+      "pass": true,
+      "why": "No wipe occurs; not exercised."
+    },
+    {
+      "id": "specials_distinct",
+      "pass": true,
+      "why": "No pack special effect frames present; not exercised by this script."
+    },
+    {
+      "id": "volley_telegraph_distinct",
+      "pass": true,
+      "why": "No volley target tiles present; not exercised by this script."
+    },
+    {
+      "id": "mark_glyph_readable",
+      "pass": true,
+      "why": "No pack mark reticle present; not exercised by this script."
+    },
+    {
+      "id": "special_pips_track",
+      "pass": true,
+      "why": "All three HUD rows carry stable pips; no special cast so tracking not exercised."
+    },
+    {
+      "id": "drops_read_as_pickups",
+      "pass": true,
+      "why": "Magenta and rose diamonds with facet highlights and sparkle read as gems distinct from other markers."
+    },
+    {
+      "id": "carried_count_reads",
+      "pass": true,
+      "why": "No carried numeral shown and the bar layout stays stable; not exercised by this script."
+    },
+    {
+      "id": "bank_station_reads",
+      "pass": true,
+      "why": "Nest bank station never appears; not exercised by this script."
+    },
+    {
+      "id": "taunt_underline_reads",
+      "pass": true,
+      "why": "No taunt pulse or underlined human visible; not exercised by this script."
+    },
+    {
+      "id": "taunt_pulse_reads",
+      "pass": true,
+      "why": "No taunt cast frame present; not exercised by this script."
+    },
+    {
+      "id": "taunt_convergence_reads",
+      "pass": true,
+      "why": "No mid-taunt frame with taunted humans exists; not exercised by this script."
+    },
+    {
+      "id": "corpse_load_reads",
+      "pass": true,
+      "why": "No hollow magenta corpse pip appears; not exercised by this script."
+    },
+    {
+      "id": "corpse_states_distinct",
+      "pass": true,
+      "why": "Fewer than two corpse states shown; not exercised by this script."
+    },
+    {
+      "id": "corpse_run_reads",
+      "pass": true,
+      "why": "No wipe and return sequence occurs; not exercised by this script."
+    },
+    {
+      "id": "ledger_beat_reads",
+      "pass": true,
+      "why": "No tally panel appears in these frames; not exercised by this script."
+    },
+    {
+      "id": "ledger_negative_reads",
+      "pass": true,
+      "why": "No tally with a loss line appears; not exercised by this script."
+    },
+    {
+      "id": "wipe_recap_reads",
+      "pass": true,
+      "why": "No wipe with a live tally appears; not exercised by this script."
+    },
+    {
+      "id": "bank_tally_reads",
+      "pass": true,
+      "why": "No banking tally appears; not exercised by this script."
+    },
+    {
+      "id": "ledger_prominence",
+      "pass": true,
+      "why": "No tally appears in these frames; not exercised by this script."
+    },
+    {
+      "id": "pressure_ring_reads",
+      "pass": true,
+      "why": "No frame shows pressuring humans distinct from engaged ones; not exercised by this script."
+    },
+    {
+      "id": "zone_catchup_reads",
+      "pass": true,
+      "why": "The reel never re-enters a zone with displaced humans; not exercised by this script."
+    },
+    {
+      "id": "leash_walkback_reads",
+      "pass": true,
+      "why": "No human is clearly captured mid walkback; not exercised by this script."
+    },
+    {
+      "id": "gradient_depth_reads",
+      "pass": true,
+      "why": "No clear mouth-landing versus deep-floor density comparison staged; not exercised by this script."
+    },
+    {
+      "id": "god_mark_reads",
+      "pass": true,
+      "why": "No god-marked body appears; not exercised by this script."
+    },
+    {
+      "id": "fixtures_distinct_read",
+      "pass": true,
+      "why": "Fewer than two nest fixtures appear; not exercised by this script."
+    },
+    {
+      "id": "tribute_beat_reads",
+      "pass": true,
+      "why": "No tribute at the vat occurs; not exercised by this script."
+    },
+    {
+      "id": "judgment_reads",
+      "pass": true,
+      "why": "No wipe occurs; not exercised by this script."
+    },
+    {
+      "id": "retarget_cue_reads",
+      "pass": true,
+      "why": "No clear retarget cue block captured; not exercised by this script."
+    },
+    {
+      "id": "edge_pip_reads",
+      "pass": true,
+      "why": "No frame stages an unambiguous off-screen ally; not exercised by this script."
+    },
+    {
+      "id": "deep_drop_band_reads",
+      "pass": true,
+      "why": "No ember gold drop appears, only magenta family gems; not exercised by this script."
+    },
+    {
+      "id": "seal_breach_reads",
+      "pass": true,
+      "why": "No seal or breach frame present; not exercised by this script."
+    },
+    {
+      "id": "flora_variants_read",
+      "pass": true,
+      "why": "No ZONE 6 grass fixture frame present; not exercised by this script."
+    },
+    {
+      "id": "new_ground_reads",
+      "pass": true,
+      "why": "No HUB 1 or ZONE 3 banner frame appears; not exercised by this script."
+    },
+    {
+      "id": "whirlwind_reads",
+      "pass": true,
+      "why": "No striker special active frame present; not exercised by this script."
+    },
+    {
+      "id": "challenge_reads",
+      "pass": true,
+      "why": "No blocker challenge pulse appears; not exercised by this script."
+    },
+    {
+      "id": "controls_overlay_reads",
+      "pass": true,
+      "why": "Bottom strip pairs bright key glyphs with quieter action labels, legible and subdued relative to the HUD."
+    },
+    {
+      "id": "respawn_telegraph_reads",
+      "pass": true,
+      "why": "No pale green-white respawn tell appears; the bridge green fixture is the totem station."
+    },
+    {
+      "id": "dungeon_1_abyss_reads",
+      "pass": true,
+      "why": "No DUNGEON 1 frame present; not exercised by this script."
+    },
+    {
+      "id": "challenger_tell_reads",
+      "pass": true,
+      "why": "No chant frame or nameplated boss present; not exercised by this script."
+    },
+    {
+      "id": "seizure_reads",
+      "pass": true,
+      "why": "No seized vessel or challenger stamp appears; not exercised by this script."
+    },
+    {
+      "id": "zone_identity_reads",
+      "pass": true,
+      "why": "Every frame stays in ZONE 2; not exercised by this script."
+    },
+    {
+      "id": "stamp_delivery_reads",
+      "pass": true,
+      "why": "No event stamp lands in these frames; not exercised by this script."
+    },
+    {
+      "id": "kill_pop_reads",
+      "pass": true,
+      "why": "No death lands on camera at a capture beat; not exercised by this script."
+    },
+    {
+      "id": "writ_frame_reads",
+      "pass": true,
+      "why": "No chant frame present; not exercised by this script."
+    },
+    {
+      "id": "provisions_counter_reads",
+      "pass": true,
+      "why": "Every strip frame shows the U/R potion pair and POTION 0 at the right edge."
+    },
+    {
+      "id": "sustain_success_cue_reads",
+      "pass": true,
+      "why": "No potion buy or use occurs; not exercised by this script."
+    },
+    {
+      "id": "sustain_refusal_cue_reads",
+      "pass": true,
+      "why": "No sustain refusal staged; not exercised by this script."
+    },
+    {
+      "id": "burst_legibility_budget",
+      "pass": true,
+      "why": "No pack burst or AoE frame present; not exercised by this script."
+    },
+    {
+      "id": "hud_level_strip_reads",
+      "pass": true,
+      "why": "LEVEL 5 label with thin gold ticked bar plus COINS and POTION chips read in every HUD frame."
+    },
+    {
+      "id": "level_up_beat_reads",
+      "pass": true,
+      "why": "No capture pair straddles a level-up; not exercised by this script."
+    },
+    {
+      "id": "lobber_reach_reads",
+      "pass": true,
+      "why": "No lobber volley bracket chain appears; not exercised by this script."
+    },
+    {
+      "id": "level_gate_reads",
+      "pass": true,
+      "why": "No LEVEL N REQUIRED line appears; not exercised by this script."
+    },
+    {
+      "id": "menu_reads",
+      "pass": true,
+      "why": "No menu panel appears; not exercised by this script."
+    },
+    {
+      "id": "menu_stats_reads",
+      "pass": true,
+      "why": "No STATS panel appears; not exercised by this script."
+    },
+    {
+      "id": "menu_world_ticks",
+      "pass": true,
+      "why": "Fewer than two menu-open frames exist; not exercised by this script."
+    },
+    {
+      "id": "menu_settings_reads",
+      "pass": true,
+      "why": "No SETTINGS panel appears; not exercised by this script."
+    },
+    {
+      "id": "safe_boundary_reads",
+      "pass": true,
+      "why": "No safe hub or safety-differing door appears; not exercised by this script."
+    },
+    {
+      "id": "totem_pulse_reads",
+      "pass": true,
+      "why": "Green ring wave grows and fades across frame pairs while wounded bodies show rising green +15 numerals."
+    },
+    {
+      "id": "wall_class_reads",
+      "pass": true,
+      "why": "No TEST 2 fixture zone appears; not exercised by this script."
+    },
+    {
+      "id": "floor2_channel_reads",
+      "pass": true,
+      "why": "No ZONE 3 channel frame present; not exercised by this script."
+    },
+    {
+      "id": "floor2_fauna_reads",
+      "pass": true,
+      "why": "No ZONE 3 combat frame present; not exercised by this script."
+    },
+    {
+      "id": "floor2_plain_reads",
+      "pass": true,
+      "why": "No ZONE 3 open ground frame present; not exercised by this script."
+    },
+    {
+      "id": "moss_fauna_reads",
+      "pass": true,
+      "why": "No ZONE 5 combat frame present; not exercised by this script."
+    },
+    {
+      "id": "floor3_boss_march_reads",
+      "pass": true,
+      "why": "No nameplated boss or stamp frame present; not exercised by this script."
+    },
+    {
+      "id": "moss_vault_reads",
+      "pass": true,
+      "why": "No ZONE 5 frame present; not exercised by this script."
+    },
+    {
+      "id": "tower_floor_reads",
+      "pass": true,
+      "why": "No tower floor frame present; not exercised by this script."
+    },
+    {
+      "id": "brasa_reads_as_fire",
+      "pass": true,
+      "why": "No BRASA frame present; not exercised by this script."
+    },
+    {
+      "id": "ground_telegraphs_read",
+      "pass": true,
+      "why": "No charge or beam windup frame present; not exercised by this script."
+    },
+    {
+      "id": "boss_phase_pips_read",
+      "pass": true,
+      "why": "No nameplated phased boss present; not exercised by this script."
+    },
+    {
+      "id": "exit_signage_reads",
+      "pass": true,
+      "why": "Gold arrowhead triangles clamp to the top and left viewport edges pointing at off-screen ways."
+    },
+    {
+      "id": "minimap_reads",
+      "pass": true,
+      "why": "Framed radar sits top-right in every HUD frame with red hostile dots and layout matching the canyon."
+    },
+    {
+      "id": "impact_fx_reads",
+      "pass": true,
+      "why": "No frame lands within a hit or death beat and no fresh-step frame confirmed; not exercised."
+    },
+    {
+      "id": "damage_numbers_read",
+      "pass": true,
+      "why": "Green +15 and +12 gain numerals rise above healed bodies, tinted apart from damage families."
+    },
+    {
+      "id": "screen_light_reads",
+      "pass": true,
+      "why": "A soft continuous edge vignette frames every shot without hiding floor, bodies or drops."
+    },
+    {
+      "id": "pickup_gleam_reads",
+      "pass": true,
+      "why": "Ground gems carry facet highlights and a corner twinkle reads on the rose gem in 2174."
+    },
+    {
+      "id": "low_hp_pulse_reads",
+      "pass": true,
+      "why": "Possessed hp never drops below a third of max; not exercised by this script."
+    },
+    {
+      "id": "interact_prompt_reads",
+      "pass": true,
+      "why": "A dark H INTERACT bubble sits above the possessed at the bridge station and reads clearly."
+    },
+    {
+      "id": "petrify_telegraph_reads",
+      "pass": true,
+      "why": "No petrify windup on camera; not exercised by this script."
+    },
+    {
+      "id": "aura_ring_reads",
+      "pass": true,
+      "why": "No aura-bearing hostile on camera; not exercised by this script."
+    },
+    {
+      "id": "blink_flash_reads",
+      "pass": true,
+      "why": "No blink occurs in this reel; not exercised by this script."
+    },
+    {
+      "id": "ally_callout_reads",
+      "pass": true,
+      "why": "No free ally act captured; not exercised by this script."
+    },
+    {
+      "id": "boss_bar_reads",
+      "pass": true,
+      "why": "No boss on camera; not exercised by this script."
+    }
+  ],
+  "verdict": "PASS"
+}
