@@ -135,8 +135,8 @@
     ],
     "special": [
       [
-        1157,
-        1157
+        940,
+        940
       ],
       [
         1275,
@@ -162,7 +162,10 @@
   },
   "captures": [
     14,
-    1173,
+    958,
+    964,
+    985,
+    1020,
     1189,
     1282,
     1284,
@@ -174,5 +177,8 @@
   "manifest": {
     "special_started": 2,
     "taunted": 1
-  }
+  },
+  "_doc": [
+    "re-cut 2026-09-06 (E1c piece 3, Gabriel seat; challenge_reads red at the v22-e1 sweep): the blocker's challenge fired at f1157 with the nearest living human 14 tiles away and off camera (taunted victims=0 - the pulse hit an empty room, the pack had killed everything nearby by f1062). Headless probe (tmp/e1c/probe_challenge.rb): at f940 rusher_hater24 stands at Chebyshev 4 on camera, so the cast moved to f940 -> pulse f952 victims=1, the hater carries the rust underline and turns on the blocker until the striker kills it at f1030. Captures re-cut to the observed windows: 958 + 964 (the ring at ~30% then ~60% expansion - a PAIR so the square reads as an expanding effect around the caster, the second enclosing the taunted hater; the first v22-e1c gate saw only 964 and answered 'not exercised' on every taunt row while kits_distinct cited the same frame), 985 (underline + turned facing), 1020 (converging, hp 5); 1173 dropped (no cast there any more). Side effect: the striker's f1275 special now FIRES (special_started attacker=striker) - the exhaust window no longer swallows it."
+  ]
 }

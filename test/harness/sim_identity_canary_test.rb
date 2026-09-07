@@ -12,7 +12,24 @@ require_relative "../support/headless_script"
 # change's first effect) + the outgoing bank preserved below as
 # immutable history.
 #
-# ACTIVE bank (2026-08-30, v20 T7 — floor-3 MEDUSA LOWER retheme,
+# ACTIVE bank (2026-09-06, v22 TS — TOTEM RE-WORK, RATIFIED sim change:
+# owner word s133 verbatim "re-work, 15 seconds its too much, I would make
+# it pulse every 3 seconds … augment the radio of the healing wave of the
+# totem by 2 tiles … 15hp is good and scale with hp pool of the player"
+# (drafts/_v22-foundation-20260905.md §RATIFICATION s133 (5)/(5b); spec
+# §3 TS). data/balance/sustain.json totem: cadence_ticks 900 → 180,
+# radius 2 → 4, heal_amount 10 → max(heal_min 15, max_hp × heal_pct_max_hp
+# 5 / 100). Stream-diff audit (drafts/_v22-ts-record-20260906.md §6):
+# world_loop's district leg (frames 300..869, 569 ticks) never reached the
+# old 900-tick cadence and now pulses THREE times — the ONLY divergence is
+# three inserted `EVENT totem_pulse frame=482|670|850 at=[26, 55] healed=0
+# range=4` lines (prefix identity through line 12 / frame 482; nobody in
+# the ring, so no hp moved and no downstream line re-sequenced; 42 → 45
+# lines). floor3_run + brasa2_run never enter district / ZONE 2 (the only
+# totem) → byte-UNCHANGED (asserted). Outgoing hashes preserved below
+# (F67_HISTORY).
+#
+# F67 bank (2026-08-30 → 2026-09-05, v20 T7 — floor-3 MEDUSA LOWER retheme,
 # RATIFIED map change: foundation L3 + spec §SECOND WAVE, owner-approved
 # spark): low_quay is re-authored 52x52 through the importer door, and
 # the two boss scripts' choreographies died with the old geometry BY
@@ -126,8 +143,20 @@ class SimIdentityCanaryTest < Minitest::Test
   # sentinel (brasa2_run) join the ACTIVE bank as the first sim-identity
   # sentinels of the new zones; the tower/other BRASA sentinels join as
   # their tuner routes stabilize.
-  ACTIVE = {
+  # F67_HISTORY (IMMUTABLE — the FASE 6.7 bank as it stood until v22 TS,
+  # 2026-09-06): world_loop's stream under the 900-tick / radius-2 / flat-10
+  # totem. floor3_run + brasa2_run carry over into ACTIVE byte-identical.
+  F67_HISTORY = {
     "world_loop" => "e0b1f38f0f6a5e3910a45a48f0f7bd3e",
+    "floor3_run" => "648810ff4faa2123aae7c7d736a5d9df",
+    "brasa2_run" => "3fd04895ccd8dd053f784de7223a1697"
+  }.freeze
+
+  # v22 TS (2026-09-06): world_loop rebanked under the 180-tick / radius-4
+  # / max(15, 5%) totem (three inserted healed=0 pulse lines, nothing else
+  # moved — file header); the other two unchanged.
+  ACTIVE = {
+    "world_loop" => "f023e3dd6d5f20e3fb5d090ef0c5bdb8",
     "floor3_run" => "648810ff4faa2123aae7c7d736a5d9df",
     "brasa2_run" => "3fd04895ccd8dd053f784de7223a1697"
   }.freeze

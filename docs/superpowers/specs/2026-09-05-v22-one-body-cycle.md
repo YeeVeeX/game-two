@@ -490,7 +490,8 @@ named follow-up in the same commit message — never half-done on `main`.
   scales with the character's hp pool: `heal = max(heal_min, max_hp × heal_pct_max_hp /
   100)` (Integer) with `heal_min 15` (owner: "15hp is good and scale with hp pool of
   the player") and `heal_pct_max_hp` ≈ 5 as the dev's recommended shape (≈ 15 hp at
-  today's ~300 mid-level pool); numbers via `tools/pacing_table.rb` against the potion
+  today's ~300 mid-level pool); numbers via `tools/totem_table.rb` (standing script, s138 —
+  `pacing_table.rb` is the XP-curve tool and cannot produce this table) against the potion
   economy (`economy.json provision_heal 30 / provision_cost 5`) and the totem-vs-potions
   telemetry, CANDIDATES until his word is on the row; Junior's line welcome (his
   totem). Design intent (owner): "totems are a bit more useful and tactical during the

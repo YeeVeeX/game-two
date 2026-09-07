@@ -267,32 +267,35 @@
     ],
     "special": [
       [
-        868,
-        868
+        470,
+        470
       ]
     ],
     "swap": [
       [
-        980,
-        980
+        600,
+        600
       ]
     ]
   },
   "captures": [
     29,
-    882,
-    890,
-    915,
-    923,
-    939,
-    978,
-    982,
-    1363,
+    488,
+    492,
+    500,
+    530,
+    604,
+    700,
+    1100,
+    1180,
     1367
   ],
   "run_until": 1372,
   "manifest": {
     "special_started": 1,
     "taunted": 1
-  }
+  },
+  "_doc": [
+    "re-cut 2026-09-06 (E1c piece 3, Gabriel seat; challenge_reads red at the v22-e1 sweep): the cast at f868 found no human within 9 tiles (nearest Chebyshev 16, victims=0) - the three rushers it was meant to anchor had died at f545/615/650. Headless probe (tmp/e1c/probe_challenge.rb): cast at f470 (between the right taps 458/478) -> pulse f482 victims=3 (rusher2 cheb 1, rusher0 cheb 2, rusher16 cheb 7, all on camera; the ring shock knocks 0/2 back to cheb 3 at hp 20). Swap moved 980 -> 600 so the ANCHOR beat exists: at f600 rusher16 (hp 5, taunted by the blocker) stands beside the now-AI blocker at [14,12], which finishes it at f608 (killer=blocker). Captures: 488/492/500 (pulse ~30%/50%/90% - the ring passing through, then enclosing, the two knocked-back rushers; the 496/500-only cut read affirmative once and 'not exercised' once on byte-identical frames - a late, faint square (alpha ~100-128, 400+ px) is a coin flip for the judge, an early bright pair is not), 530 (underlines through the fight), 604 (post-swap: halo on the lobber, taunted human on the blocker), 700, 1100/1180 (rusher_hater24 hates the lobber at f1004, the AI blocker kills it at f1182), 1367. The old blocker-choreographed taps after f600 now drive the lobber; probed: no dead input, second fight still resolves (fight_resolved f1362)."
+  ]
 }

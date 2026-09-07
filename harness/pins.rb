@@ -59,6 +59,12 @@ module Harness
     DEFAULT_SCRIPTS = File.expand_path("scripts", __dir__)
     DEFAULT_CHECKS = "harness/gate_checks.json"
     RENDER_PATHS = %w[src/app src/game data].freeze
+    # What a gate JUDGES: the script + checklist + scope it read and the render/sim
+    # tree it drew. A pin recorded while any of these carry uncommitted edits
+    # names them (`dirty`), so `commit` can never silently claim a tree that
+    # did not hold the judged content (E1c review B2, s137: eight single re-gates
+    # ran gate-then-commit and pinned the PARENT commit of the edits they judged).
+    JUDGED_PATHS = %w[harness/scripts harness/gate_checks.json harness/gate_scope.json src data].freeze
     REQUIRED = %w[script tag commit date gate_rc manifest_rc].freeze
 
     class Refusal < StandardError; end
@@ -90,7 +96,7 @@ module Harness
         raise Refusal, "pins record: --#{name} must be an integer (got #{v.inspect})" unless v.to_s.match?(/\A\d+\z/)
       end
       rows = File.exist?(path) ? load(path) : []
-      rows << {
+      row = {
         "script" => File.basename(script, ".json"),
         "tag" => tag,
         "commit" => commit || head_commit,
@@ -98,6 +104,9 @@ module Harness
         "gate_rc" => Integer(gate_rc),
         "manifest_rc" => Integer(manifest_rc)
       }
+      dirty = dirty_judged_paths
+      row["dirty"] = dirty unless dirty.empty?
+      rows << row
       File.write(path, JSON.pretty_generate(rows) + "\n")
       rows.last
     end
@@ -106,6 +115,13 @@ module Harness
       IO.popen(["git", *args], err: File::NULL, &:read).to_s
     rescue SystemCallError
       ""
+    end
+
+    # Uncommitted (staged, unstaged or untracked) files under JUDGED_PATHS in the
+    # tree the gate ran in — the cwd's repo, exactly like head_commit.
+    def self.dirty_judged_paths
+      out = git("status", "--porcelain", "--", *JUDGED_PATHS)
+      out.split("\n").map { |l| l[3..].to_s.strip.sub(/\A.* -> /, "") }.reject(&:empty?).uniq.sort
     end
 
     def self.head_commit
@@ -157,6 +173,7 @@ module Harness
           when :pinned then "current"
           when :stale then "#{drift.size} render/sim commit(s) since, newest #{drift.first}"
           end
+        detail += " DIRTY-JUDGED: #{pin['dirty'].join(',')}" if pin["dirty"].is_a?(Array) && !pin["dirty"].empty?
         lines << format("%-9s %-24s %s %s %s", state.to_s.upcase, s, pin["commit"], pin["date"][0, 10], detail)
       end
       orphans = latest.keys - scripts
@@ -184,7 +201,8 @@ module Harness
                      gate_rc: opts[:gate_rc], manifest_rc: opts[:manifest_rc],
                      commit: opts[:commit], date: opts[:date])
         puts "PIN recorded: #{row['script']} tag=#{row['tag']} commit=#{row['commit']} " \
-             "gate_rc=#{row['gate_rc']} manifest_rc=#{row['manifest_rc']}"
+             "gate_rc=#{row['gate_rc']} manifest_rc=#{row['manifest_rc']}" \
+             "#{row['dirty'] ? " DIRTY-JUDGED: #{row['dirty'].join(',')} (uncommitted at gate time - the commit above did not hold them)" : ''}"
       when "report"
         puts report(path: opts[:pins] || DEFAULT_PATH, scripts_dir: opts[:scripts] || DEFAULT_SCRIPTS)
       else

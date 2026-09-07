@@ -47,16 +47,31 @@ tactical during the battle" (→ ticket TS).
   as optional empty keys, his S2 hook = `party.host.bag <<` one line; council +
   fresh-eyes reviews landed — the fresh-eyes BLOCK found a real mid-veil
   round-trip hole, fixed + re-reviewed PASS; record
-  `drafts/_v22-t1-record-20260906.md`. **Junior's `junior/premium-build` merge
-  and S1 are UNBLOCKED.**) · T2a Party/Character/ZoneState extraction
-  (byte-inert; `Game::Party` exists — T2a GROWS it) · T2b ONE BODY field rules
+  `drafts/_v22-t1-record-20260906.md`. **Junior's `junior/premium-build` merge:
+  S1 is LANDED on his branch (`3a7f6fc`), but the branch also carries S2+S3, whose
+  landing is AFTER the TWENTIETH (owner's word s133) — his §13 names the three
+  honest ways (wait / peer amendment / dark-ship switch); the branch stays
+  ff-able and unlanded until one of them is spoken.** s138: the branch is no longer
+  ff-able (main moved past his last merge `48b6a9b`; merge-base `f609c31`) and the wait is
+  CIRCULAR — see Owner-pending "the T2a deadlock".) · T2a Party/Character/ZoneState extraction
+  (byte-inert; `Game::Party` exists — T2a GROWS it; **runs only after his merge or
+  his `junior/e-tickets` cut lands — his `Game::Interact` extraction already
+  moved the lines T2a would carve**; if neither has landed at s139's orient, the next
+  collision-free owner-adjacent piece is T4 "the fine" pure math) · T2b ONE BODY field rules
   + coop scalars (THE model change; TWENTIETH clock starts; T1's interim mirror
   rule retires here — the record's level/xp at T2b landing is GROUND TRUTH) ·
   T2c wall (14 rows + 18 scripts) + HUD grammar + full re-pin · T2d optional
   companion brain (owner line only).
 - **B′ — TEMPLES:** T3′ (host-character home = the one NAMED coop interim).
 - **C — THE PRICE:** T4 fine + debt (pure math) · T5 insurance · T6 ledger card
-  · **TS totem re-work**.
+  · **TS totem re-work DONE s138** (owner word s133 implemented as CANDIDATE rows:
+  `cadence_ticks 180` · `radius 4` · `heal_min 15` · `heal_pct_max_hp 8` — heal =
+  max(15, 8 % of the healed body's OWN max_hp), Integer; `Stations` reads the four
+  rows strictly; canary rebanked for world_loop (three inserted idle-pulse lines,
+  nothing else moved), totem_pulse reel re-cut + row recalibrated + gated
+  AFFIRMATIVE + PINNED (`8a60d76`, re-pinned after the review landings — record §8), district soak PASS; record
+  `drafts/_v22-ts-record-20260906.md`; ran BEFORE T2a because T2a is deadlocked —
+  record §0/§1).
 - **D — POWER TO STAND ALONE:** T7 form swap + growth retune · T8 abilities
   (may slip).
 - **T9** TWENTIETH declaration (delta = A + B′ + C + TS + D).
@@ -71,7 +86,13 @@ tactical during the battle" (→ ticket TS).
   seal-less DUNGEON 1, four ring rows → halo, `Renderer.build` gives the net
   gates art (partner halo's first capture), 11 new rows incl. the boss bar,
   three boss sentinels; wall 42 → 39 → **42**, rows 86 → **97**; the full
-  re-pin sweep is HANDED to the next session) · F1 floors (L11 CLOSED both
+  re-pin sweep is HANDED to the next session) · **E1c DONE s137** (the ten red
+  pins: 6 REPINNED — 4 with first-ever AFFIRMATIVE reads (challenge_reads ×2 =
+  the L16 row CLOSED, impact_fx on floor1_run, lobber_reach under its recalibrated
+  row) + Junior's basement_pocket/toll_pocket re-authors taken VERBATIM and
+  verified on main's sim; 4 CONVICTED-AND-ROUTED with pixel/data proof, zone8's
+  blue lines FIXED through the importer door; no sim/renderer code moved; the
+  pin ledger now stamps DIRTY-JUDGED paths; record `drafts/_v22-e1c-record-20260906.md`) · F1 floors (L11 CLOSED both
   peers) · F2 2× city + arena INERT (owner "confirm" on D1/D8 still pending) ·
   WB-T7 · L16 debts · **E2 next** (sim correctness), then E3–E5 — T1 (schema
   3) is now unblocked: E1's job was to frame every gate it will run.
@@ -100,26 +121,57 @@ Gabriel: FASE 7 city numbers ratified by L14 (D1 2×, D8 offset) — confirm (F2
 waits on it) · A3 companion brain (default OFF; Junior's audit is the evidence
 if he wants to look) · D-T1 legacy seed — IMPLEMENTED as the rec s136 (seed ONCE,
 keyed by player id, claimed by the first newcomer; unclaimed marker is `false`,
-not null — canonical vocabulary; one line reverses it) · fine/insurance/companion/totem NUMBERS (candidates land at their
-tickets; his word on each row) · AS scale (judged on rendered tours when the
+not null — canonical vocabulary; one line reverses it) · fine/insurance/companion NUMBERS (candidates land at their
+tickets; his word on each row) · **TS rows** (`cadence_ticks 180` / `radius 4` / `heal_min 15` /
+`heal_pct_max_hp 8` live on main as CANDIDATES — `ruby tools/totem_table.rb`: at pct 8 the
+live L13 blocker heals 22/pulse (28 at cap, under his "30 is too much"), striker/lobber stay on
+the 15 floor at every level; pct 5 (the spec's ≈ 5) would be a flat 15 for every body until
+blocker L18; his word closes them, one data line changes them) · **the T2a deadlock** (Junior's
+branch waits for the TWENTIETH, the TWENTIETH waits for T2a, T2a waits for his branch — dev rec:
+Junior dark-ships S2+S3 behind data switches on his branch, canaries YES ×3 with the switches
+OFF + deterministic digest across seats + no Float in balance data (his `status.json`
+`step_frames_pct 0.3`), then the ff; a peer amendment of the S2+S3 sequencing is the other way —
+one line in the hub chat, recorded here the moment it lands; **fallback, stated once:** if his
+dark-ship + canary receipt is not on his branch when T6 closes on main, T2a runs on MAIN's
+world.rb and his merge takes the rebase) · AS scale (judged on rendered tours when the
 ticket runs) · audio-v12 ear-checks · worldsmith v2 grill · a third `extract
 game-two` (gamesmith core-loops, $) — his call. Junior: his line on the spec's
-S1–S3 sequencing, TS numbers, D-T1, L18/L19 (welcome, not gating).
+S1–S3 sequencing (the deadlock above — his §13 named the three ways; the dark-ship is the
+recommendation), TS numbers (his totem), D-T1, L18/L19 (welcome, not gating).
 
 ## Named debts (foundation L16 + s133)
 
-T0 findings (pending harvest) · `world.rb` 1782/1800 on main, 1798 on
-Junior's branch (→ T2a) · `vat_economy`
-2 rows + `aoe_specials challenge_reads` re-author · WB-T7 · `basement_1` no
+T0 findings (pending harvest) · `world.rb` 1782/1800 on main, 1726 on
+Junior's branch after his `Game::Interact` extraction (→ T2a, AFTER his merge) ·
+`vat_economy` 2 rows re-author (the `aoe_specials challenge_reads` half of this
+debt CLOSED s137: two affirmative stagers) · WB-T7 · `basement_1` no
 zone-specific gate row · `varekka_duel`/`burn_duel` re-author · basement_3 ·
 `pool` · fiction kit nicknames in `tools/premium_art` comments + Junior's
 SYSTEMS proposal §1.2 — docs-only rename, his files (T0 finding) ·
-`rake pins` = **33 PINNED / 10 FAILED at the v22-e1 harvest** (T1 landing right
-after flips the 33 to STALE — sim paths moved; the ledger is honest, T2c owns
-the full re-pin; the ten
-reds are classed in the E1 record §Sweep: challenge_reads ×2 = the L16 debt, two
-census manifest stragglers, impact-fx/damage-bar family ×3, floor2 coral,
-controls-overlay smudge, lobber-chain, zone8 blue lines → **E1c**) ·
-record accretion / prune verb (T1 record §5) · `taunt_anchor` critic-stall
-payload diagnosis (3 stalls, same script) · uiux mocks rendered at S0 — a
-re-render at the chosen scale is owed by mail after AS.
+`rake pins` = **1 PINNED / 38 STALE / 4 FAILED after TS (s138)** — totem_pulse is the
+one current pin (`8a60d76`); the STALE set grew from 32 to 38 because TS's `data/`
+commit flips every earlier pin by the ledger's path rule (expected, not re-gated: T2c's
+full re-pin owns them; T1 had already moved sim paths right after the v22-e1 sweep); the
+four FAILED each carry a routed conviction in the E1c record: basement_pocket
+(low-hp pulse tints the controls strip — Junior's `65f52e5` fixes it, lands with
+his merge), corpse_run (inherits floor1_run's affirmative impact read; ledger
+waits for T2c), floor2_run (**E4**: district_two wall (118,66,38) vs wall_inner
+(150,74,28) tints are one hue family — the coral contract needs a palette/texture
+decision), grass_fixture_walk (vessel label `player 2` in blocker rust reads
+~1.04–1.08:1 against the strip — Junior's colour surface: a lifted text variant).
+zone8_crossing's blue lines were pre-swap water decor in `dungeon_1`'s sidecar —
+removed through the importer door s137, re-pinned; its spark-on-pale-body contrast
+note goes to Junior's fx · **breach-beat coverage hole:** no wall script stages
+`seal_breached` (toll_pocket's SEALED half is affirmative; a basement_2 breach
+stager is owed; drop-under-corpse = an owner sim question, Junior's `_doc`) ·
+negative-control gate for the recalibrated fx/volley rows (`fx_enabled:false`,
+never pinned) · **totem_pulse motion critique** (review s138: heartbeat-vs-flicker is a MOTION
+claim — one `harness/make_clip.sh harness/scripts/totem_pulse.json` + `self_eval.py` pass,
+OWED before the TWENTIETH; arithmetic says 22 % duty at 0.33 Hz) · **T2c's re-pin lands
+BEFORE the TWENTIETH** (the 38 STALE district reels now carry a sim-visible totem change —
+5× pulses, radius 4, possible heals — nobody has judged) · **seat-lease vs fresh-eyes
+reviewers** (pi-setup follow-up: a worktree reviewer cannot run tests while the LIVE seat is
+held — read-only exemption for `tmp/**/wt`, or reviews in a seat-free window) ·
+record accretion / prune verb (T1 record §5) · `taunt_anchor` critic stalls
+DIAGNOSED s137 as transport-side, not payload-shaped (no fix owed) · uiux mocks
+rendered at S0 — a re-render at the chosen scale is owed by mail after AS.

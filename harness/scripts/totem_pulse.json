@@ -1,4 +1,5 @@
 {
+  "_doc": "v20 T4 totem reel, captures RE-CUT for v22 TS (s138; inputs byte-identical to the tuner's cut - only captures/manifest moved, probed headless with tmp/ts/probe_manifest.rb + probe_ring.rb). Under the 180-tick cadence (3 s; a still shows one beat, the ring lives 40 frames of every 180) the reel pulses 25x per run (was 5); heals land 2162-3062 while the pack stands in the radius-4 reach after the guardian falls at f2057 (the possessed blocker at Chebyshev 3 heals +15 per beat 2162/2342/2522 and clamps at 2702; striker/lobber at Chebyshev 5 stay unhealed until they step in at 2882). The ring is a WAVE that expands from the fixture to the four-tile reach over its 40 frames, so at +12 it is ~1.1 tiles out and the healed body at Chebyshev 3 stands OUTSIDE the drawn ring; at +36 (~3.5 tiles out, 112 px) the ring encloses it. Captures: 0 spawn, 220 trail, 1920 bridge approach, pulse 2162 as a TRIPLE 2174/2190/2198 (+12/+28/+36: ring 2.2 -> 5.4 -> 7.0 tiles wide, blocker +15 numeral bright -> fading, two bodies farther than the reach unhealed), pulse 2882 pair 2894/2910 (striker +15 and lobber +12 numerals), 3074 (pulse 3062, striker +9 clamp), idle pair 4514/4530 (pulse 4502, everyone full, healed=0 - the beat continues), 4581 final. Manifest = observed x2 (double replay): totem_pulse 25/run, fight_resolved 5/run, attack_hit 21/run (tuner's half rule kept).",
   "scenario": "world",
   "seed": 7,
   "width": 960,
@@ -306,16 +307,18 @@
     0,
     220,
     1920,
-    2440,
-    3614,
-    3626,
-    3662,
+    2174,
+    2190,
+    2198,
+    2894,
+    2910,
+    3074,
     4514,
-    4526,
+    4530,
     4581
   ],
   "manifest": {
-    "totem_pulse": 10,
+    "totem_pulse": 50,
     "fight_resolved": 10,
     "attack_hit": 20
   }
