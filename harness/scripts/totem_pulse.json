@@ -1,4 +1,5 @@
 {
+  "_doc": "v20 T4 totem reel, captures RE-CUT for v22 TS (s138; inputs byte-identical to the tuner's cut - only captures/manifest moved, probed headless with tmp/ts/probe_manifest.rb). Under the 180-tick cadence the reel pulses 25x per run (was 5); heals land 2162-3062 while the pack stands in the radius-4 ring after the guardian falls at f2057 (the possessed blocker at Chebyshev 3 heals +15 per beat 2162/2342/2522 and clamps at 2702; striker/lobber at Chebyshev 5 stay unhealed until they step in at 2882). Captures: 0 spawn, 220 trail, 1920 bridge approach, PAIRS inside pulses at +12/+28 (ring 30% -> 70% of its 4-tile reach = expansion reads across the pair): 2174/2190 (pulse 2162, blocker +15 numeral, two bodies just OUTSIDE the ring), 2894/2910 (pulse 2882, striker +15 and lobber +12 numerals), 3074 (pulse 3062, striker +9 clamp), 4514/4530 (idle pulse 4502, everyone full, healed=0 - the heartbeat continues), 4581 final. Manifest = observed x2 (double replay): totem_pulse 25/run, fight_resolved 5/run, attack_hit 21/run (tuner's half rule kept).",
   "scenario": "world",
   "seed": 7,
   "width": 960,
@@ -306,16 +307,17 @@
     0,
     220,
     1920,
-    2440,
-    3614,
-    3626,
-    3662,
+    2174,
+    2190,
+    2894,
+    2910,
+    3074,
     4514,
-    4526,
+    4530,
     4581
   ],
   "manifest": {
-    "totem_pulse": 10,
+    "totem_pulse": 50,
     "fight_resolved": 10,
     "attack_hit": 20
   }
