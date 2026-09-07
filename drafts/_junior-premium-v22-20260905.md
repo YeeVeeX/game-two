@@ -630,3 +630,6 @@ vs main with keys OFF (a --md5 mode on manifest_census + a main worktree), and a
 and T2a starts on my world.rb (1727). His fallback clock: T6 closing on main.
 
 ### AMENDMENT J-2 (Junior, 00:1x): "S2+S3 escuros podem pousar" - recorded in the spec (Merge point 2), note §16. The ff is unblocked; NOT executed this session (own package, Rule 4).
+
+### WALL #6 (main6 @ 72a3ae6, re-pin of the landed OFF build) - live triage
+- 01:04 (5/44) `boss1_writ` `damage_numbers_read` (Gabriel's E1.8 row): critic says "hp 265 to 249 by frame 0070 yet no numeral" - frame 0070 is NOT a capture of this reel (captures 5,7,45,100,150,210,211,339,379) and 265/249 are not consecutive sim values (tmp/_hp_probe.rb: possessed blocker loses hp at 95 -20, 125 -5, 155 -5, 185 -5, 205 -10, 210 -10, ... = poison ticks every 30 f + hits). The wall's own captures show the numerals: 0100 = red "20" above the possessed, 0210 = "5" + "10" stacked (tmp/b1w_100_150_210.png). REPEAT flip (build4 fail -> build4fix pass -> build5 pass -> main6 fail): critic reading, not a drawing defect; sampling is on the beat. Re-gate at harvest. Also: my earlier "census literal newline fixed" patch matched nothing (the Python source already held a real newline) - fixed for real this time, md5 world_loop still f023e3dd.
