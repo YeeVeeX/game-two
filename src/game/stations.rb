@@ -122,8 +122,10 @@ module Game
     # untouched (vat monopoly law). Per body: heal = max(heal_min,
     # max_hp * heal_pct_max_hp / 100) with INTEGER division only — hp is
     # a digest + save byte law, no Float ever touches it (schema 3
-    # canonical-leaf law refuses Floats NAMED). Under ONE BODY (T2b) the
-    # body's max_hp IS the character's pool (L20 (4)).
+    # canonical-leaf law refuses Floats NAMED). L20 (4) says the pulse reads
+    # `Character#max_hp` through the reader — TS landed BEFORE T2b, so it
+    # reads the healed Creature's max_hp; under ONE BODY that body's pool
+    # IS the character's pool (T2b checklist: re-point or assert equality).
     # The pulse fires on cadence REGARDLESS of range occupancy (healed may
     # be 0) — the visible idle pulse is the totem's discoverability, T3's
     # always-on lesson applied to territory. Emits :totem_pulse (World
@@ -172,8 +174,12 @@ module Game
     private
 
     # v22 TS strict totem config (Rule 3 + the no-silent-default law):
-    # exactly TOTEM_KEYS, every value a positive Integer (pct may be 0 =
-    # flat heal_min). A missing key, an unknown key (the retired
+    # exactly TOTEM_KEYS, every value a positive Integer. The CLASS accepts
+    # heal_pct_max_hp 0 (a flat heal_min totem is a lawful shape); the
+    # GAME's suite convicts any pct under which no pool in the game ever
+    # beats the floor (totem_test "scale-with-pool row is dead") — the
+    # owner asked for scaling, so dead scaling is a red test, not a
+    # refusal here. A missing key, an unknown key (the retired
     # `heal_amount` included) or a non-Integer refuses NAMED at boot —
     # never a nil that heals for 0 or a Float that poisons the digest.
     def totem_config!(sustain_cfg)

@@ -11,6 +11,15 @@
 # Captures: spawn, trail, guardian fight, both pulse rings (mid
 # expansion), post-heal dwell, final. Manifest wants = double-replay
 # minimums (min law) set from the cut's actual counts.
+#
+# v22 TS (s138): the totem now reads data/balance/sustain.json as cadence
+# 180 / radius 4 / heal max(heal_min, pct of the body's own max_hp) — the
+# "radius-2 field" and "~f900" above describe the v20 cut's world. The
+# shipped script's captures/manifest were RE-CUT by headless probe
+# (tmp/ts/probe_manifest.rb + probe_ring.rb, record
+# drafts/_v22-ts-record-20260906.md §7) with the tuner's INPUT stream kept
+# byte-identical. Re-running this tuner regenerates the whole script
+# (inputs included) and owes a fresh gate + pin.
 $LOAD_PATH.unshift File.expand_path("../src", __dir__)
 $LOAD_PATH.unshift File.expand_path("../test", __dir__)
 require "json"

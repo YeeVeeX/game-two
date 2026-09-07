@@ -108,7 +108,10 @@ class TotemTest < Minitest::Test
     settle!
     hurt_hp = body.hp
     heal = expected_heal(body.max_hp)
-    assert_equal CFG[:heal_min], heal, "a level-1 pool (#{body.max_hp}) heals the floor, not the pct"
+    smallest = world.pack.living.min_by(&:max_hp)
+    assert_equal CFG[:heal_min], expected_heal(smallest.max_hp),
+                 "the smallest level-1 pool (#{smallest.max_hp}) must sit on the heal_min floor — " \
+                 "pct #{CFG[:heal_pct_max_hp]} would out-heal the floor on a starting body"
     assert_operator hurt_hp + heal, :<, body.max_hp, "staging: the deep wound must not clamp"
     pulses
     hits_on_pack
@@ -154,8 +157,13 @@ class TotemTest < Minitest::Test
     settle!
     big_hurt = big.hp
     small_hurt = small.hp
+    pulses
+    hits_on_pack
     CFG[:cadence_ticks].times { world.tick(Core::NullInput.new) }
     world.bus.process
+    assert_empty hits_on_pack, "staging: a human hit the pack during the cadence — re-stage"
+    assert_equal 1, pulses.length, "exactly one pulse in one cadence"
+    assert_equal 2, pulses.first[:healed], "both wounded bodies stood in range"
     assert_equal big_hurt + expected_heal(big.max_hp), big.hp,
                  "the large pool (#{big.max_hp}) heals its pct share"
     assert_equal small_hurt + expected_heal(small.max_hp), small.hp,

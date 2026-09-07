@@ -1,9 +1,9 @@
 {
-  "_doc": "v22 TS (owner word s133, foundation RATIFICATION (5)/(5b); spec TS): the totem pulses every 3 s (180 ticks at the 60-tick second; was 900), reaches 4 Chebyshev tiles (was 2), and heals each living pack body in range by max(heal_min, max_hp * heal_pct_max_hp / 100) as an Integer of ITS OWN max_hp pool (was a flat heal_amount 10). Stations#initialize reads exactly these four keys strictly: a missing or unknown key (heal_amount included) refuses NAMED at boot. Rows are CANDIDATES until the owner's word closes them (record drafts/_v22-ts-record-20260906.md section 3).",
+  "_doc": "v22 TS (owner word s133, foundation RATIFICATION (5)/(5b); spec TS): the totem pulses every 3 s (180 ticks at the 60-tick second; was 900), reaches 4 Chebyshev tiles (was 2), and heals each living pack body in range by max(heal_min, max_hp * heal_pct_max_hp / 100) as an Integer of ITS OWN max_hp pool (was a flat heal_amount 10). Stations#initialize reads exactly these four keys strictly: a missing or unknown key (heal_amount included) refuses NAMED at boot. Rows are CANDIDATES until the owner's word closes them (record drafts/_v22-ts-record-20260906.md section 3; table = ruby tools/totem_table.rb). heal_pct_max_hp 8 = the fresh-eyes reviewer's pick adopted s138: the smallest pct FELT on the live L13 blocker (275 -> 22 per pulse) while under the owner's '30 is too much' at cap (352 -> 28); pools under 188 (striker/lobber at every level) stay on the 15 floor.",
   "totem": {
     "cadence_ticks": 180,
     "radius": 4,
     "heal_min": 15,
-    "heal_pct_max_hp": 5
+    "heal_pct_max_hp": 8
   }
 }
